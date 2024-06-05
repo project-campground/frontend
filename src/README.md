@@ -1,5 +1,5 @@
+> ⚠️ NOTE: <br/> `../lang/ru-RU.json` is a temp file for development tests. This should be removed from the project before integrating with Crowdin.
 # Campground Guide to i18n
-<hr/>
 
 - Up for discussion but good practice is only adding the language to `./supportedLocales.json` when it has been completed.
 - Languages should be connected to a "region" for example:
@@ -16,8 +16,6 @@ TODO:
 
   - [ ] We need a locale switcher (should only load the locales in `supportedLocales.json`
   - [ ] When using default locale (en-US), the path should be `/`, not `/en-US`
-
-<hr/>
 
 # Tech Used:
 - [Next-Intl](https://next-intl-docs.vercel.app/docs/getting-started/app-router/with-i18n-routing)

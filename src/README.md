@@ -10,12 +10,12 @@
 - If we decide to use Crowdin, the top 30 languages will be auto-populated in `../lang`
 - Once a language is ready to be supported on Campground, the PR must be merged, and added to the `supportedLocales.json`
 
-With this one json file, everything else is handled! :)
+With this one JSON file, everything else is handled! :)
 
 TODO:
 
-- [] We need a locale switcher (should only load the locales in `supportedLocales.json`
-- [] When using default locale (en-US), the path should be `/`, not `/en-US`
+  - [ ] We need a locale switcher (should only load the locales in `supportedLocales.json`
+  - [ ] When using default locale (en-US), the path should be `/`, not `/en-US`
 
 <hr/>
 

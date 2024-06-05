@@ -23,7 +23,7 @@ function Home() {
             </div>
             <div id='main'>
                 <Image src={wordmark} alt=""/>
-                <h1><span className='green'>100%</span> open-source texting.</h1>
+                <h1><span className='green'>100%</span> open-source federated texting.</h1>
                 An open-source texting application for you and your community.
                 <br /><br />
                 <button className='btn-primary'>Sign up</button><button className='btn-primary'>Login</button>

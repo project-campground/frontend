@@ -24,6 +24,7 @@
     "@tiptap/starter-kit": "^2.4.0",
     "dayjs": "^1.11.11",
     "next": "14.2.3",
+    "next-intl": "^3.14.1",
     "react": "^18",
     "react-dom": "^18"
   },

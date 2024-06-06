@@ -13,6 +13,8 @@ import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import { Inter } from "next/font/google";
+import {getMessages} from "next-intl/server";
+import {NextIntlClientProvider} from "next-intl";
 
 export const metadata = {
   title: {
@@ -40,13 +42,17 @@ const theme = createTheme({
   },
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params: { locale }
 }: {
   children: React.ReactNode;
+  params: { locale: string }
 }) {
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={inter.className}>
+    <html lang={locale} className={inter.className}>
       <head>
         <ColorSchemeScript />
       </head>
@@ -54,7 +60,9 @@ export default function RootLayout({
         <MantineProvider>
           <ModalsProvider>
             <Notifications />
-            {children}
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
           </ModalsProvider>
         </MantineProvider>
       </body>

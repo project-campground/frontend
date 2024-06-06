@@ -24,6 +24,7 @@
     "@tiptap/starter-kit": "^2.4.0",
     "dayjs": "^1.11.11",
     "next": "14.2.3",
+    "next-intl": "^3.14.1",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -37,5 +38,8 @@
     "postcss-preset-mantine": "^1.15.0",
     "postcss-simple-vars": "^7.0.1",
     "typescript": "^5"
+  },
+  "eslintConfig": {
+    "extends": "next/core-web-vitals"
   }
 }

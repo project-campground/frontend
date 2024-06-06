@@ -13,8 +13,8 @@ import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import { Inter } from "next/font/google";
-import {getMessages} from "next-intl/server";
-import {NextIntlClientProvider} from "next-intl";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata = {
   title: {
@@ -57,7 +57,7 @@ export default async function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>
+        <MantineProvider theme={theme} defaultColorScheme={"auto"}>
           <ModalsProvider>
             <Notifications />
             <NextIntlClientProvider messages={messages}>

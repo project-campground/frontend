@@ -1,0 +1,48 @@
+@import url("./base.css");
+
+:root {
+  margin: 10px;
+}
+:root,
+div {
+  background-color: var(--backgroundColor);
+  color: var(--textColor);
+}
+.green {
+  color: #05f07f;
+}
+#main {
+  text-align: center;
+  margin: 100px;
+}
+#bar {
+  text-align: left;
+  border-bottom: 1px solid #262626;
+  padding-top: 15px;
+}
+.actions > .action {
+  position: relative;
+  bottom: 17px;
+  margin: 20px;
+  background: transparent;
+  color: var(--textColor);
+  border: none;
+  transition: ease all 0.3s;
+}
+.actions > .action:hover {
+  background-color: #262626;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.actions {
+  margin: 50px;
+}
+.btn-primary {
+    background-color:#ff5b25;
+    color:var(--textColor);
+    border:0.3px solid #ff875d;
+    border-radius:15px;
+    padding:10px 50px;
+    margin:15px;
+}

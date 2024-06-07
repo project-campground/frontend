@@ -14,8 +14,8 @@ With this one JSON file, everything else is handled! :)
 
 TODO:
 
-  - [ ] We need a locale switcher (should only load the locales in `supportedLocales.json`
-  - [ ] When using default locale (en-US), the path should be `/`, not `/en-US`
+  - [x] We need a locale switcher (should only load the locales in `supportedLocales.json`
+  - [x] When using default locale (en-US), the path should be `/`, not `/en-US`
 
 # Tech Used:
 - [Next-Intl](https://next-intl-docs.vercel.app/docs/getting-started/app-router/with-i18n-routing)

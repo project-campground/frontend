@@ -1,5 +1,6 @@
 {
-  "Home": {
-    "title": "Home page!"
+  "home": {
+    "title": "Hangout without hassle",
+    "description": "Campground is a place for you and your friends to hang out, chat, and have fun without any hassle!"
   }
 }

@@ -54,6 +54,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={inter.className}>
       <head>
+        <title>Campground</title>
         <ColorSchemeScript />
       </head>
       <body>

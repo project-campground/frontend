@@ -93,7 +93,7 @@ The social networking protocol created for Bluesky
 - [Signal Protocol](https://signal.org/docs/) - Direct Message E2EE
 The protocol that Signal uses for communication between users directly.
 
-- [Weblate](https://weblate.org/en-gb/) - Translations
+- [Crowdin](https://crowdin.com/) - Translations
 An open-source software that makes it easier for translators to contribute without requiring them to have technical knowledge and also making it easier to collaborate.
 
 ## Design System

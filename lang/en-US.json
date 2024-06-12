@@ -1,6 +1,15 @@
 {
+  "globalNav": {
+    "download": "Download",
+    "blog": "Blog",
+    "support": "Support",
+    "register": "Sign up",
+    "login": "Log in"
+  },
   "home": {
     "title": "Hangout without hassle",
-    "description": "Campground is a place for you and your friends to hang out, chat, and have fun without any hassle!"
+    "description": "Campground is a place for you and your friends to hang out, <br /> chat, and have fun without any hassle!",
+    "download": "Download Campground",
+    "open": "Open Campground"
   }
 }

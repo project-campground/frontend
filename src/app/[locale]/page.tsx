@@ -1,6 +1,6 @@
 "use client";
 
-import HomePage from "@/components/pages/home";
+import HomePage from "@/components/_core/home";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 

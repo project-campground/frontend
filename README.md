@@ -68,32 +68,41 @@ A feature most similar to “server discovery” on Discord and Guilded. A simpl
 
 ## Technology Stack
 - [Golang](https://go.dev/) - Backend Library
+
 An open-source programming language backed by Google.
 
 - [Next.JS](https://nextjs.org/) for [React](https://react.dev/) - Frontend Core Library
+
 A React-based framework for building web applications.
 Our app is bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 - [Mantine](https://mantine.dev/) for [React](https://react.dev/) - Frontend Components Library
+
 A library of components that we can customise and implement within Next.JS.
 
 - [React Native](https://reactnative.dev/) - Mobile Frontend
+
 A framework that allows us to create native Android and iOS apps using React code.
 
 - [SurrealDB](https://surrealdb.com/) - Database
+
 A multi-model database system that allows a SQL-based language to be used
 
 - [SeaweedFS](https://github.com/seaweedfs/seaweedfs) - File Server
+
 A fast distributed storage system for blobs, objects, files, and data lake with an O(1) disk seek.
 
 - [AT Protocol](https://atproto.com/) - Guild Social APIs
+
 The social networking protocol created for Bluesky
 
 - [Signal Protocol](https://signal.org/docs/) - Direct Message E2EE
+
 The protocol that Signal uses for communication between users directly.
 
 - [Crowdin](https://crowdin.com/) - Translations
+
 An open-source software that makes it easier for translators to contribute without requiring them to have technical knowledge and also making it easier to collaborate.
 
 ## Design System
@@ -190,9 +199,13 @@ The biggest pitfalls of other similar apps surround these pillars, which once we
 - Pushing advertisements where they did not exist prior
 
 We don't plan to ever go public nor corporate.
+
 We don't believe in changing terms on people, and we don't believe in beating around the bush.
+
 What you see is what you get, and it will always be that way.
+
 The moment this is ever removed from our motto, we don't deserve any user base. Period.
+
 
 ## Dependency Management
 When given the choice between losing support of deprecated systems or holding back the advancement of alternative or newer systems, we will choose the latter. For example, if support for Windows 7 ends on a dependency, but the update also enables better Linux support, we would opt to end Windows 7 support.

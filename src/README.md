@@ -17,5 +17,10 @@ TODO:
   - [x] We need a locale switcher (should only load the locales in `supportedLocales.json`
   - [x] When using default locale (en-US), the path should be `/`, not `/en-US`
 
+# Useful Info:
+- Including HTML Tags in translations:
+  - [Normal HTML Tags w/ Chunks](https://next-intl-docs.vercel.app/docs/usage/messages#rich-text-self-closing)
+  - [Self-Closing Tags](https://next-intl-docs.vercel.app/docs/usage/messages#rich-text-self-closing)
+
 # Tech Used:
 - [Next-Intl](https://next-intl-docs.vercel.app/docs/getting-started/app-router/with-i18n-routing)

@@ -22,7 +22,9 @@ class HomeMain extends React.Component<Props, { mounted: boolean }> {
 			<div style={{ marginLeft: "16px" }}>
 			<Title>{translate("home.title")}</Title>
 			<Text ta="left" mt={15}>
-			{translate("home.description")}
+				{translate.rich("home.description", {
+					br: () => <br />
+				})}
 			</Text>
 			<Group gap={5}>
 				<Button mt={25} disabled>

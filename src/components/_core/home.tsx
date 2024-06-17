@@ -3,34 +3,41 @@
 import React from "react";
 import styles from "./css/_main.module.scss";
 
-import Navbar from "../navbar";
+import Navbar from "../navbar/navbar";
 import HomeMain from "./home-main";
 
-type Props = {
-  translate: any;
-  pathname: any;
-  locale: any;
+interface IProps {
+  commonProps?: any;
 };
 
-class HomePage extends React.Component<Props, { mounted: boolean }> {
-  constructor(props: Props) {
+interface IState {
+  mainView?: string;
+};
+
+class HomePage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
+
+    this.state = {
+      mainView: 'home'
+    };
   }
 
   render() {
+    let renderComp:any = '';
+
+    switch(this.state.mainView) {
+      case 'home':
+        renderComp = (<HomeMain
+          commonProps={this.props.commonProps}
+          styles={styles}
+        />);
+    }
+
     return (
       <div id={styles.root} className={styles.homepage}>
-        <Navbar
-          translate={this.props.translate}
-          pathname={this.props.pathname}
-          locale={this.props.locale}
-        />
-        <HomeMain
-          translate={this.props.translate}
-          pathname={this.props.pathname}
-          locale={this.props.locale}
-          styles={styles}
-        />
+        <Navbar commonProps={this.props.commonProps} />
+        {renderComp}
       </div>
     );
   }

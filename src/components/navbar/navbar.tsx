@@ -27,7 +27,7 @@ import { IconChevronDown, IconSun, IconMoon } from '@tabler/icons-react';
 import classes from "./navbar.module.scss";
 
 const Navbar = (props: any) => {
-    const { translate, pathname, locale } = props;
+    const { translate, pathname, locale } = props.commonProps;
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const theme = useMantineTheme();
@@ -36,15 +36,7 @@ const Navbar = (props: any) => {
     const isLight = (computedColorScheme === 'light');
 
     const logo = "/logo.svg";
-    /*
-    "globalNav": {
-        "download": "Download",
-        "blog": "Blog",
-        "support": "Support",
-        "register": "Sign up",
-        "login": "Log in"
-    },
-    */
+    
     return (
         <Box pb={120}>
             <header className={classes.header}>

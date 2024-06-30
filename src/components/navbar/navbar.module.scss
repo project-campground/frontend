@@ -1,6 +1,10 @@
 @function calcRem($size) {
   $remSize: $size / 16px;
-  @return #{$remSize}calcRem;
+  @return #{$remSize}rem;
+}
+
+.language {
+  width: calcRem(120px);
 }
 
 .header {

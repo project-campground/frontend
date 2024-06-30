@@ -31,10 +31,11 @@ export default function Lang({ data, defaultValue, pathname, translate }: Props)
 		return translate('languages.' + lang);
 	});
 
-	function onSelectChange(event:any, translatedData:any) {
-		const index = translatedData.findIndex((el:any) => { return el == event });
+	function onSelectChange(event:any, translatedData:any, data:any, current:any) {
+		let index = translatedData.findIndex((el:any) => { return el == event });
+		if(index < 0) index = data.findIndex((el:any) => { return el == current });
 		const nextLocale = data[index];
-		
+
 		let url = '';
 		let splitted = pathname.split('/');
 		if(splitted.length > 1) {
@@ -55,7 +56,7 @@ export default function Lang({ data, defaultValue, pathname, translate }: Props)
 			<Select
 				defaultValue={translatedData[data.findIndex((el:any) => { return el == defaultValue })]}
 				disabled={isPending}
-				onChange={(e) => onSelectChange(e, translatedData)}
+				onChange={(e) => onSelectChange(e, translatedData, data, defaultValue)}
 				data={translatedData}
 			/>
 		</div>

@@ -1,5 +1,15 @@
 {
+  "globalNav": {
+    "download": "İndir",
+    "blog": "Blog",
+    "support": "Destek",
+    "register": "Kayıt Ol",
+    "login": "Giriş Yap"
+  },
   "home": {
-    "title": "Home page!"
+    "title": "Ateşin etrafında toplanın",
+    "description": "Campground, hiçbir rahatsızlık olmadan sen ve arkadaşlarınla takılman, <br></br> sohbet etmen ve eğlenmen için bir yerdir!",
+    "download": "Campground'u indir",
+    "open": "Campground'u Aç"
   }
 }

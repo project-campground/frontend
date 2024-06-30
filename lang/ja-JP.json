@@ -1,5 +1,15 @@
 {
+  "globalNav": {
+    "download": "Download",
+    "blog": "Blog",
+    "support": "Support",
+    "register": "Sign up",
+    "login": "Log in"
+  },
   "home": {
-    "title": "Home page!"
+    "title": "Gather around the fire",
+    "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
+    "download": "Download Campground",
+    "open": "Open Campground"
   }
 }

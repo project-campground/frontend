@@ -1,5 +1,15 @@
 {
+  "globalNav": {
+    "download": "Загрузить",
+    "blog": "Блог",
+    "support": "Поддержка",
+    "register": "Зарегистрироваться",
+    "login": "Войти"
+  },
   "home": {
-    "title": "Home page!"
+    "title": "Собраться вокруг костра",
+    "description": "Campground - это площадка, где вы и ваши друзья можете тусоваться, <br></br> общаться и веселиться без каких-либо хлопот!",
+    "download": "Загрузить Campground",
+    "open": "Открыть Campground"
   }
 }

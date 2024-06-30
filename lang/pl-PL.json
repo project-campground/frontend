@@ -1,5 +1,15 @@
 {
+  "globalNav": {
+    "download": "Pobierz",
+    "blog": "Blog",
+    "support": "Pomoc",
+    "register": "Rejestracja",
+    "login": "Zaloguj się"
+  },
   "home": {
-    "title": "Home page!"
+    "title": "Zbierz się wokół ognia",
+    "description": "Campground jest miejscem dla Ciebie i twoich przyjaciół gdzie możecie spędzać razem czas, <br></br> chatować i bawić się bez kłopotów!",
+    "download": "Pobierz Campground",
+    "open": "Otwórz Campground"
   }
 }

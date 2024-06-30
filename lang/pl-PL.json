@@ -1,15 +1,15 @@
 {
   "globalNav": {
-    "download": "Download",
+    "download": "Pobierz",
     "blog": "Blog",
-    "support": "Support",
-    "register": "Sign up",
-    "login": "Log in"
+    "support": "Pomoc",
+    "register": "Rejestracja",
+    "login": "Zaloguj się"
   },
   "home": {
-    "title": "Gather around the fire",
-    "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
-    "download": "Download Campground",
-    "open": "Open Campground"
+    "title": "Zbierz się wokół ognia",
+    "description": "Campground jest miejscem dla Ciebie i twoich przyjaciół gdzie możecie spędzać razem czas, <br></br> chatować i bawić się bez kłopotów!",
+    "download": "Pobierz Campground",
+    "open": "Otwórz Campground"
   }
 }

@@ -4,12 +4,45 @@
     "blog": "Blog",
     "support": "Pomoc",
     "register": "Rejestracja",
-    "login": "Zaloguj się"
+    "login": "Zaloguj się",
+    "themeToggle": "Toggle color scheme"
   },
   "home": {
     "title": "Zbierz się wokół ognia",
     "description": "Campground jest miejscem dla Ciebie i twoich przyjaciół gdzie możecie spędzać razem czas, <br></br> chatować i bawić się bez kłopotów!",
     "download": "Pobierz Campground",
     "open": "Otwórz Campground"
+  },
+  "languages": {
+    "af-ZA": "Afrikaans",
+    "ar-SA": "Arabic",
+    "ca-ES": "Catalan",
+    "cs-CZ": "Czech",
+    "da-DK": "Danish",
+    "de-DE": "German",
+    "el-GR": "Greek",
+    "fi-FI": "Finnish",
+    "fr-FR": "French",
+    "en-US": "English (US)",
+    "es-ES": "Spanish",
+    "he-IL": "Hebrew",
+    "hu-HU": "Hungarian",
+    "it-IT": "Italian",
+    "ja-JP": "Japanese",
+    "ko-KR": "Korean",
+    "nl-NL": "Dutch",
+    "no-NO": "Norwegian",
+    "pl-PL": "Polish",
+    "pt-BR": "Portuguese (Brazil)",
+    "pt-PT": "Portuguese (Portugal)",
+    "ro-RO": "Romanian",
+    "ru-RU": "Russian",
+    "sr-SP": "Serbian",
+    "sv-SE": "Swedish",
+    "tr-TR": "Turkish",
+    "uk-UA": "Ukrainian",
+    "vi-VN": "Vietnamese",
+    "zh-CN": "Simplified Chinese (China)",
+    "zh-TW": "Simplified Chinese (Taiwan)"
   }
 }

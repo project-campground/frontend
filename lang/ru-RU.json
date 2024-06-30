@@ -1,15 +1,15 @@
 {
   "globalNav": {
-    "download": "Download",
-    "blog": "Blog",
-    "support": "Support",
-    "register": "Sign up",
-    "login": "Log in"
+    "download": "Загрузить",
+    "blog": "Блог",
+    "support": "Поддержка",
+    "register": "Зарегистрироваться",
+    "login": "Войти"
   },
   "home": {
-    "title": "Gather around the fire",
-    "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
-    "download": "Download Campground",
-    "open": "Open Campground"
+    "title": "Собраться вокруг костра",
+    "description": "Campground - это площадка, где вы и ваши друзья можете тусоваться, <br></br> общаться и веселиться без каких-либо хлопот!",
+    "download": "Загрузить Campground",
+    "open": "Открыть Campground"
   }
 }

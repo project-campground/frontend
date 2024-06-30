@@ -1,15 +1,15 @@
 {
   "globalNav": {
-    "download": "Download",
+    "download": "İndir",
     "blog": "Blog",
-    "support": "Support",
-    "register": "Sign up",
-    "login": "Log in"
+    "support": "Destek",
+    "register": "Kayıt Ol",
+    "login": "Giriş Yap"
   },
   "home": {
-    "title": "Gather around the fire",
-    "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
-    "download": "Download Campground",
-    "open": "Open Campground"
+    "title": "Ateşin etrafında toplanın",
+    "description": "Campground, hiçbir rahatsızlık olmadan sen ve arkadaşlarınla takılman, <br></br> sohbet etmen ve eğlenmen için bir yerdir!",
+    "download": "Campground'u indir",
+    "open": "Campground'u Aç"
   }
 }

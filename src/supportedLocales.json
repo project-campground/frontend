@@ -1,1 +1,35 @@
-[ "en-US" ]
+[
+	"en-US",
+	"es-ES",
+	"pt-BR",
+	"pt-PT",
+	"fr-FR",
+	"it-IT",
+	"de-DE",
+	"nl-NL",
+	"da-DK",
+
+	"ru-RU",
+	"uk-UA",
+	"cs-CZ",
+	"ro-RO",
+	"sr-SP",
+	"sv-SE",
+	"tr-TR",
+	"fi-FI",
+
+	"ja-JP",
+	"ko-KR",
+	"zh-CN",
+	"zh-TW",
+	"vi-VN",
+
+	"af-ZA",
+	"ar-SA",
+	"ca-ES",
+	"el-GR",
+	"he-IL",
+	"hu-HU",
+	"no-NO",
+	"pl-PL"
+]

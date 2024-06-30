@@ -3,20 +3,22 @@
 import React from "react";
 import { Button, Text, Title, Group, Image } from "@mantine/core";
 
-type Props = {
-  translate: any;
-  pathname: any;
-  locale: any;
-  styles: any;
+interface IProps {
+  commonProps?: any;
+  styles?: any;
 };
 
-class HomeMain extends React.Component<Props, { mounted: boolean }> {
-  constructor(props: Props) {
+interface IState {
+};
+
+class HomeMain extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
   }
 
   render() {
-    const { translate, pathname, locale, styles } = this.props;
+    const { translate, pathname, locale } = this.props.commonProps;
+	const { styles } = this.props;
     return (
 		<div className={styles.mainpage}>
 			<div style={{ marginLeft: "16px" }}>

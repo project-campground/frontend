@@ -5,15 +5,13 @@ import { useTranslations, useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 
 export default function Home() {
-  const translate = useTranslations();
-  const pathname = usePathname();
-  const locale = useLocale();
+  const commonProps = {
+    translate: useTranslations(),
+    pathname: usePathname(),
+    locale: useLocale()
+  };
   
   return (
-    <HomePage
-      translate={translate}
-      pathname={pathname}
-      locale={locale}
-    />
+    <HomePage commonProps={commonProps} />
   );
 };

@@ -1,10 +1,32 @@
+@function calcRem($size) {
+	$remSize: $size / 16px;
+	@return #{$remSize}rem;
+}
+
 #root {
 	display: block;
-	margin: 0 auto;
-	max-width: 1200px;
 
 	.mainpage {
 		display: block;
+		margin: 0 auto;
+		max-width: 1200px;
+	}
+
+	.chatpage {
+		display: block;
+		margin: 0;
+	}
+
+	.serverslist {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	.mainchat {
+		margin-left: calcRem(80px);
+		padding: 12px;
 	}
 }
 

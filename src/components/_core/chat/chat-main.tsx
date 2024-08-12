@@ -3,7 +3,8 @@
 import React from "react";
 import { Button, Text, Title, Group, Image } from "@mantine/core";
 import { Servers } from "./sidebar";
-
+import { Channels } from "./channelbar";
+import { Rightbar } from "./rightbar";
 import {
 	IconHome2,
 	IconGauge,
@@ -15,6 +16,7 @@ import {
 	IconLogout,
 	IconSwitchHorizontal,
 } from '@tabler/icons-react';
+import { Topbar } from "./topbar";
 
 interface IProps {
   commonProps?: any;
@@ -35,12 +37,30 @@ class ChatMain extends React.Component<IProps, IState> {
 
 		const mockdata:Array<any> = [
 			{ icon: IconHome2, label: 'Home' },
-			{ icon: IconGauge, label: 'Dashboard' },
-			{ icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-			{ icon: IconCalendarStats, label: 'Releases' },
-			{ icon: IconUser, label: 'Account' },
-			{ icon: IconFingerprint, label: 'Security' },
-			{ icon: IconSettings, label: 'Settings' },
+			{ icon: IconGauge, label: 'Programming Space' },
+			{ icon: IconDeviceDesktopAnalytics, label: 'Programming Space' },
+			{ icon: IconCalendarStats, label: 'Programming Space' },
+			{ icon: IconUser, label: 'Programming Space' },
+			{ icon: IconFingerprint, label: 'Programming Space' },
+			{ icon: IconSettings, label: 'Programming Space' },
+		];
+		const mockdata2:Array<any> = [
+			{ label: 'Welcome' },
+			{ label: 'Rules' },
+			{ label: 'News' },
+			{ label: 'General Chat' },
+			{ label: 'Off-topic' },
+			{ label: 'General Forums' },
+			{ label: 'Settings' },
+		];
+		const mockdata3:Array<any> = [
+			{ icon: IconHome2, label: 'PrettyGoodName' },
+			{ icon: IconGauge, label: 'Username' },
+			{ icon: IconDeviceDesktopAnalytics, label: 'Username' },
+			{ icon: IconCalendarStats, label: 'Username' },
+			{ icon: IconUser, label: 'Username' },
+			{ icon: IconFingerprint, label: 'Username' },
+			{ icon: IconSettings, label: 'Username' },
 		];
 		
 		return (
@@ -48,13 +68,14 @@ class ChatMain extends React.Component<IProps, IState> {
 				<div className={styles.serverslist}>
 					<Servers servers={mockdata} />
 				</div>
+				<div className={styles.channelslist}>
+					<Channels channels={mockdata2} />
+				</div>
+				<Topbar
+					title={translate("home.title")}
+					subtitle={translate.rich("home.description", { br: () => '' })}
+				/>
 				<div className={styles.mainchat}>
-					<Title>{translate("home.title")}</Title>
-					<Text ta="left" mt={15}>
-						{translate.rich("home.description", {
-							br: () => <br />
-						})}
-					</Text>
 					<Group gap={5}>
 						<Button mt={25} disabled>
 						{translate("home.download")}
@@ -63,6 +84,9 @@ class ChatMain extends React.Component<IProps, IState> {
 						{translate("home.open")}
 						</Button>
 					</Group>
+				</div>
+				<div className={styles.rightbar}>
+					<Rightbar items={mockdata3} />
 				</div>
 			</div>
 		);

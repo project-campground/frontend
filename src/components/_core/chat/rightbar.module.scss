@@ -3,20 +3,20 @@
 	@return #{$remSize}rem;
 }
 
-.navbar {
+.rightbar {
 	display: flex;
 	flex-direction: column;
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 0;
+	right: 0;
 
-	width: var(--server-nav-width);
+	width: var(--rightbar-nav-width);
 	padding: var(--mantine-spacing-md);
 	background-color: light-dark(var(--mantine-color-gray-3), var(--server-nav-dark));
 }
 
-.navbarMain {
+.rightbarMain {
 	flex: 1;
 	/* margin-top: calcRem(50px); */
 }

@@ -54,11 +54,12 @@ export function Servers(props:NavbarLinks) {
 					{links}
 				</Stack>
 			</div>
-
+			{/*
 			<Stack justify="center" gap={0}>
 				<NavbarLink icon={IconSwitchHorizontal} label="Change account" />
 				<NavbarLink icon={IconLogout} label="Logout" />
 			</Stack>
+			*/}
 		</nav>
 	);
 }

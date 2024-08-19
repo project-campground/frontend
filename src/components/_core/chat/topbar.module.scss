@@ -1,0 +1,33 @@
+@function calcRem($size) {
+	$remSize: $size / 16px;
+	@return #{$remSize}rem;
+}
+
+.topbar {
+	display: flex;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	height: var(--topbar-base-height);
+	width: var(--mainchat-base-width);
+	padding: 10px 16px;
+	background-color: light-dark(var(--mantine-color-gray-3), var(--server-nav-dark));
+}
+
+/*
+.topbarMain {
+}
+*/
+
+.title {
+	float: left;
+	color: #727194;
+	font-weight: bold;
+	margin-right: 20px;
+}
+
+.subtitle {
+	color: #727194;
+	font-size: 16px;
+	padding: 1px 0;
+}

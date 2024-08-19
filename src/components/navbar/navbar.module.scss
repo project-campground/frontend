@@ -2,7 +2,6 @@
   $remSize: $size / 16px;
   @return #{$remSize}rem;
 }
-
 .language {
   width: calcRem(225px);
 }

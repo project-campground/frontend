@@ -1,0 +1,49 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+:root {
+	--server-nav-dark: #0A0910;
+	--server-nav-width: 5vw;
+	--server-icon-width: 100%;
+	--channel-nav-dark: #13121D;
+	--channel-nav-width: 21vw;
+	--mainchat-base-width: 55vw;
+	--mainchat-base-dark: #181725;
+	--topbar-base-height: 50px;
+	--rightbar-nav-width: 19vw;
+}  

@@ -3,8 +3,8 @@
 import React from "react";
 import styles from "./css/_main.module.scss";
 
-import Navbar from "../navbar/navbar";
 import HomeMain from "./home-main";
+import ChatMain from "./chat/chat-main";
 
 interface IProps {
   commonProps?: any;
@@ -23,6 +23,10 @@ class HomePage extends React.Component<IProps, IState> {
     };
   }
 
+  changeView(_this:any, view:string) {
+    _this.setState({mainView: view});
+  }
+
   render() {
     let renderComp:any = '';
 
@@ -31,12 +35,19 @@ class HomePage extends React.Component<IProps, IState> {
         renderComp = (<HomeMain
           commonProps={this.props.commonProps}
           styles={styles}
+          homeComp={this}
         />);
+        break;
+      case 'chat':
+        renderComp = (<ChatMain
+          commonProps={this.props.commonProps}
+          styles={styles}
+        />);
+        break;
     }
 
     return (
       <div id={styles.root} className={styles.homepage}>
-        <Navbar commonProps={this.props.commonProps} />
         {renderComp}
       </div>
     );

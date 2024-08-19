@@ -5,6 +5,7 @@ import { useParams, useRouter, usePathname } from 'next/navigation';
 import { ChangeEvent, ReactNode, useTransition, useState } from 'react';
 import { Select } from '@mantine/core';
 import classes from "./navbar.module.scss";
+import '@mantine/core/styles.css';
 
 type Props = {
 	data: any;

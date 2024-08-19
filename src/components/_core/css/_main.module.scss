@@ -1,10 +1,57 @@
+@function calcRem($size) {
+	$remSize: $size / 16px;
+	@return #{$remSize}rem;
+}
+
+#root:has(.chatpage) {
+	background-color: light-dark(var(--mantine-color-gray-3), var(--server-nav-dark));
+}
+
 #root {
 	display: block;
-	margin: 0 auto;
-	max-width: 1200px;
 
 	.mainpage {
 		display: block;
+		margin: 0 auto;
+		max-width: 1200px;
+	}
+
+	.chatpage {
+		display: block;
+		border-radius: 40px;
+		margin: 0;
+		background: var(--mainchat-base-dark);
+		width: calc(100vw - var(--server-nav-width) - var(--channel-nav-width) - var(--rightbar-nav-width));
+		margin-left: calc(var(--server-nav-width) + var(--channel-nav-width));
+		margin-right: var(--rightbar-nav-width);
+		height: calc(100vh - var(--topbar-base-height));
+	}
+
+	.serverslist {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	.channelslist {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	.rightbar {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+	}
+
+
+	.mainchat {
+		margin-top: 50px;
+		padding: 6px 12px;
 	}
 }
 

@@ -1,0 +1,44 @@
+@function calcRem($size) {
+	$remSize: $size / 16px;
+	@return #{$remSize}rem;
+}
+
+.rightbar {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+
+	width: var(--rightbar-nav-width);
+	padding: var(--mantine-spacing-md);
+	background-color: light-dark(var(--mantine-color-gray-3), var(--server-nav-dark));
+}
+
+.rightbarMain {
+	flex: 1;
+	/* margin-top: calcRem(50px); */
+}
+
+.link {
+	width: calcRem(50px);
+	height: calcRem(50px);
+	border-radius: var(--mantine-radius-md);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--mantine-color-white);
+
+	&:hover {
+		background-color: var(--mantine-color-blue-7);
+	}
+
+	&[data-active] {
+		&, &:hover {
+			box-shadow: var(--mantine-shadow-sm);
+			background-color: var(--mantine-color-white);
+			color: var(--mantine-color-blue-6);
+		}
+	}
+}

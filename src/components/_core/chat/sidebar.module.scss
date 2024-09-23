@@ -22,6 +22,7 @@
 }
 
 .link {
+	margin: 10px 0;
 	width: calcRem(50px);
 	height: calcRem(50px);
 	border-radius: var(--mantine-radius-md);
@@ -31,13 +32,17 @@
 	color: var(--mantine-color-white);
 
 	&:hover {
-		background-color: var(--mantine-color-blue-7);
+		/* background-color: var(--mantine-color-blue-7); */
+	}
+
+	img, svg {
+		transition-duration: 0.15s;
 	}
 
 	&[data-active] {
 		&, &:hover {
 			box-shadow: var(--mantine-shadow-sm);
-			background-color: var(--mantine-color-white);
+			/* background-color: var(--mantine-color-white); */
 			color: var(--mantine-color-blue-6);
 		}
 	}

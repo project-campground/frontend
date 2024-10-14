@@ -12,13 +12,73 @@
 	left: var(--server-nav-width);
 
 	width: var(--channel-nav-width);
-	padding: var(--mantine-spacing-md) 1vw;
 	background-color: light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark));
 }
 
 .chanbarMain {
+	padding: var(--mantine-spacing-md) 1vw;
 	flex: 1;
 	/* margin-top: calcRem(50px); */
+}
+
+.chanbarImg, .chanbarImg *:not(span) {
+	min-height: 90px;
+	height: calc(18vh);
+
+}
+
+.chanbarImg {
+	position: relative;
+	overflow: hidden;
+
+	img {
+		object-fit: cover;
+		object-position: top;
+	}
+}
+
+.chanbarName {
+	display: flex;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(to top, light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark)) 5%, transparent 125%) !important;
+	background-size: cover;
+}
+
+.chanbarClickable {
+	cursor: pointer;
+	display: flex;
+	flex-grow: 1;
+	align-self: flex-end;
+
+	position: absolute;
+	bottom: 15px;
+
+	width: 100%;
+	height: calc(4.5vh) !important;
+	min-height: 23px !important;
+
+	span {
+		align-self: flex-end;
+		padding: 0 0 5px 20px;
+
+		color: white;
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	::after {
+		display: inline-block;
+		position: absolute;
+		right: 10px;
+		bottom: 0;
+
+		transform: rotate(90deg) scaleX(0.55);
+		content: "\25b6";
+	}
 }
 
 .link {

@@ -45,7 +45,6 @@ class ChatMain extends React.Component<IProps, IState> {
 			{ icon: IconSettings, label: 'Programming Space' },
 		];
 		const mockdata2:Array<any> = [
-			{ label: 'Welcome' },
 			{ label: 'Rules' },
 			{ label: 'News' },
 			{ label: 'General Chat' },
@@ -62,14 +61,16 @@ class ChatMain extends React.Component<IProps, IState> {
 			{ icon: IconFingerprint, label: 'Username' },
 			{ icon: IconSettings, label: 'Username' },
 		];
-		
+		const mockguild = 'Programming Space';
+		const mockbanner = '/sample_banner.jpg';
+
 		return (
 			<div className={styles.chatpage}>
 				<div className={styles.serverslist}>
 					<Servers servers={mockdata} />
 				</div>
 				<div className={styles.channelslist}>
-					<Channels channels={mockdata2} />
+					<Channels guildname={mockguild} guildbanner={mockbanner} channels={mockdata2} />
 				</div>
 				<Topbar
 					title={translate("home.title")}

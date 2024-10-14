@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Center, Tooltip, UnstyledButton, Stack, Text, rem } from '@mantine/core';
+import { Center, Tooltip, UnstyledButton, Stack, Image, Text, rem } from '@mantine/core';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './chanbar.module.scss';
 
@@ -10,7 +10,9 @@ interface ChanbarLinkProps {
 }
 
 interface ChanbarLinks {
-	channels:Array<any>;
+	guildname: string;
+	guildbanner: string;
+	channels: Array<any>;
 }
 
 function ChanbarLink({ label, active, onClick }: ChanbarLinkProps) {
@@ -37,6 +39,14 @@ export function Channels(props:ChanbarLinks) {
 
 	return (
 		<nav className={classes.chanbar}>
+			<div className={classes.chanbarImg}>
+				<Image radius={'30px 30px 0 0'} src={props.guildbanner} alt={props.guildname} />
+				<div className={classes.chanbarName}>
+					<div className={classes.chanbarClickable}>
+						<span>{props.guildname}</span>
+					</div>
+				</div>
+			</div>
 			<div className={classes.chanbarMain}>
 				<Stack justify="center" gap={0}>
 					{links}

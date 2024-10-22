@@ -37,7 +37,7 @@ class ChatMain extends React.Component<IProps, IState> {
 
 		const mockdata:Array<any> = [
 			{ img: '/dm_icon.png', label: 'Home' },
-			{ icon: IconGauge, label: 'Programming Space' },
+			{ img: '/sample_servericon.png', label: 'Programming Space' },
 			{ icon: IconDeviceDesktopAnalytics, label: 'Programming Space' },
 			{ icon: IconCalendarStats, label: 'Programming Space' },
 			{ icon: IconUser, label: 'Programming Space' },

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Center, Tooltip, UnstyledButton, Stack, Image, Text, rem } from '@mantine/core';
+import { Center, Tooltip, UnstyledButton, Stack, Image, Text, rem, Drawer, Button } from '@mantine/core';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './chanbar.module.scss';
+import { useDisclosure } from '@mantine/hooks';
 
 interface ChanbarLinkProps {
 	label: string;
@@ -27,6 +28,8 @@ function ChanbarLink({ label, active, onClick }: ChanbarLinkProps) {
 
 export function Channels(props:ChanbarLinks) {
 	const [active, setActive] = useState(2);
+	const [opened, { open, close }] = useDisclosure(false);
+
 
 	const links = props.channels.map((link, index) => (
 		<ChanbarLink
@@ -46,6 +49,21 @@ export function Channels(props:ChanbarLinks) {
 						<span>{props.guildname}</span>
 					</div>
 				</div>
+			</div>
+			<div className={classes.separator} />
+			<div className={classes.groupMain}>
+				<div className={classes.groupIcon}>
+					<Image radius={'15px'} src={'/sample_servericon.png'} alt={props.guildname} />
+				</div>
+				<div className={classes.groupLeft}>
+					<div className={classes.groupName}>
+						<Text>{props.guildname}</Text>
+					</div>
+					<div className={classes.groupDesc}>
+						<Text>Campground is a place for you and your friends to hang out, chat, and have fun without any hassle!</Text>
+					</div>
+				</div>
+				<div className={classes.groupRight}>...</div>
 			</div>
 			<div className={classes.chanbarMain}>
 				<Stack justify="center" gap={0}>

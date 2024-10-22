@@ -3,6 +3,12 @@
 	@return #{$remSize}rem;
 }
 
+.chanbar, .chanbar * {
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .chanbar {
 	display: flex;
 	flex-direction: column;
@@ -65,7 +71,7 @@
 		align-self: flex-end;
 		padding: 0 0 5px 20px;
 
-		color: white;
+		color: var(--font-reg-dark);
 		font-size: 24px;
 		font-weight: bold;
 	}
@@ -101,4 +107,78 @@
 			color: var(--mantine-color-blue-6);
 		}
 	}
+}
+
+.separator {
+	border: 1px solid #252234;
+	margin: 10px 0 10px 0;
+}
+
+.groupIcon, .groupLeft, .groupRight {
+	height: 88px;
+	padding: 20px 0;
+}
+
+.groupMain {
+	cursor: pointer;
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: hidden;
+	height: 88px;
+}
+
+.groupIcon {
+	margin-left: 18px;
+	width: 48px !important;
+	flex-basis: 48px;
+	vertical-align: middle;
+}
+
+.groupLeft {
+	display: flex;
+	flex-basis: 260px !important;
+	width: 260px !important;
+	flex-wrap: wrap;
+	align-content: center;
+}
+
+.groupName {
+	margin-left: 15px;
+	flex-basis: 260px;
+	height: 24px;
+
+	p {
+		color: var(--font-reg-dark);
+		font-weight: 700 !important;
+		font-size: 16px;
+	}
+}
+
+.groupDesc {
+	margin-left: 15px;
+	flex-basis: 230px;
+	width: 200px;
+
+	p {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		color: var(--font-sub-dark);
+		font-weight: 500 !important;
+		font-size: 16px;
+	}
+}
+
+.groupRight {
+    display: inline-block;
+	flex-basis: 50px;
+	width: 50px;
+	padding: 32px 0;
+
+	text-align: right;
+	color: var(--font-sub-dark);
+	font-weight: 900 !important;
+	font-size: 36px;
+	line-height: 0;
 }

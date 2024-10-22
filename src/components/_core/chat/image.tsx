@@ -29,33 +29,41 @@ export default function SidebarImage({ img, icon: Icon, label, active, onClick, 
 
 	return (
 		<div>
-			<Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-					<UnstyledButton
-						onClick={onClick}
-						className={classes.link}
-						data-active={active}
-						style={{
-							width: rem(pxsz),
-							height: rem(pxsz),
-							padding: (isIco ? rem(pxsz / 4) : 0),
-							background: (isIco ? 'rgb(75, 75, 75)' : 'transparent'),
-							borderRadius: (isIco ? radius : 0),
-							transitionDuration: '0.15s',
-						}}
-						onMouseEnter={() => OnHover(setHovered)}
-						onMouseLeave={() => OnLeave(setHovered)}
-					>
-						{isIco && Icon !== undefined && (
-							<Icon style={{ width: rem(pxsz / 2), height: rem(pxsz / 2) }} stroke={1.5} />
-						)}
-						{!NullOrUndef(img) && (
-							<Image
-								radius={radius}
-								src={img}
-								alt={label}
-							/>
-						)}
-					</UnstyledButton>
+			<Tooltip
+				label={label}
+				className={classes.serverTooltip}
+				position="right"
+				transitionProps={{ transition: 'fade', duration: 150 }}
+				withArrow
+				arrowOffset={0}
+				arrowSize={10}
+			>
+				<UnstyledButton
+					onClick={onClick}
+					className={classes.link}
+					data-active={active}
+					style={{
+						width: rem(pxsz),
+						height: rem(pxsz),
+						padding: (isIco ? rem(pxsz / 4) : 0),
+						background: (isIco ? 'rgb(75, 75, 75)' : 'transparent'),
+						borderRadius: (isIco ? radius : 0),
+						transitionDuration: '0.15s',
+					}}
+					onMouseEnter={() => OnHover(setHovered)}
+					onMouseLeave={() => OnLeave(setHovered)}
+				>
+					{isIco && Icon !== undefined && (
+						<Icon style={{ width: rem(pxsz / 2), height: rem(pxsz / 2) }} stroke={1.5} />
+					)}
+					{!NullOrUndef(img) && (
+						<Image
+							radius={radius}
+							src={img}
+							alt={label}
+						/>
+					)}
+				</UnstyledButton>
 			</Tooltip>
 			{index === 0 && (
 				<Divider

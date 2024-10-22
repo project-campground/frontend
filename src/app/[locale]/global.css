@@ -40,10 +40,14 @@ img {
 	--server-nav-dark: #0A0910;
 	--server-nav-width: 94px;
 	--server-icon-width: 100%;
+	--server-tooltip-bg-dark: #0A0910;
+	--server-tooltip-clr-dark: #FFFFFF;
 	--channel-nav-dark: #13121D;
 	--channel-nav-width: 21vw;
 	--mainchat-base-width: 55vw;
 	--mainchat-base-dark: #181725;
 	--topbar-base-height: 50px;
 	--rightbar-nav-width: 19vw;
+  --font-reg-dark: #DCD7EF;
+  --font-sub-dark: #727194;
 }  

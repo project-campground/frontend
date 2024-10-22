@@ -47,3 +47,15 @@
 		}
 	}
 }
+
+.serverTooltip {
+	border: 1px solid white;
+	margin-left: 10px;
+	background-color: var(--server-tooltip-bg-dark);
+	color: var(--server-tooltip-clr-dark);
+
+	div {
+		border: 1px solid white;
+		z-index: -1;
+	}
+}

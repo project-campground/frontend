@@ -1,115 +1,111 @@
 {
-  "globalNav": {
-    "download": "Download",
-    "blog": "Blog",
-    "support": "Support",
-    "register": "Sign up",
-    "login": "Log in",
-    "themeToggle": "Toggle color scheme"
-  },
-  "home": {
-    "title": "Gather around the fire",
-    "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
-    "download": "Download Campground",
-    "open": "Open Campground"
-  },
-  "languages": {
-    "af-ZA": "Afrikaans",
-    "ar-SA": "Arabic",
-    "ca-ES": "Catalan",
-    "cs-CZ": "Czech",
-    "da-DK": "Danish",
-    "de-DE": "German",
-    "el-GR": "Greek",
-    "fi-FI": "Finnish",
-    "fr-FR": "French",
-    "en-US": "English (US)",
-    "es-ES": "Spanish",
-    "he-IL": "Hebrew",
-    "hu-HU": "Hungarian",
-    "it-IT": "Italian",
-    "ja-JP": "Japanese",
-    "ko-KR": "Korean",
-    "nl-NL": "Dutch",
-    "no-NO": "Norwegian",
-    "pl-PL": "Polish",
-    "pt-BR": "Portuguese (Brazil)",
-    "pt-PT": "Portuguese (Portugal)",
-    "ro-RO": "Romanian",
-    "ru-RU": "Russian",
-    "sr-SP": "Serbian",
-    "sv-SE": "Swedish",
-    "tr-TR": "Turkish",
-    "uk-UA": "Ukrainian",
-    "vi-VN": "Vietnamese",
-    "zh-CN": "Simplified Chinese (China)",
-    "zh-TW": "Simplified Chinese (Taiwan)"
-  },
-  "client": {
-    "common": {
-      "yes": "Yes",
-      "no": "No",
-      "cancel": "Cancel",
-      "retry": "Retry",
-      "abort": "Abort",
-      "ok": "OK",
-      "delete": "Delete",
-      "remove": "Remove"
+    "globalNav": {
+        "download": "Download",
+        "blog": "Blog",
+        "support": "Support",
+        "register": "Sign up",
+        "login": "Log in",
+        "themeToggle": "Toggle color scheme"
     },
-    "login": {
-      "identity": "Identity",
-      "password": "Password",
-      "loginButton": "Log in",
-      "resetPassword": "Reset password",
-      "errors": {
-        "connectionFailed": "Login failed due to network connection problems.",
-        "incorrectCredentials": "The identity or password provided is incorrect.",
-        "passwordResetDisabled": "The administrator had disabled password reset functionality. Contact them on %s to ask for a new password.",
-        "identityDisabled": "Your identity was disabled.",
-        "identityDisabledWithReason": "Your identity was disabled. Reason: %s",
-        "identityBanned": "Your identity was banned.",
-        "identityBannedWithReason": "Your identity was banned. Reason: %s",
-        "identityTempBannedWithReason": "Your identity was banned till %s. Reason: %s"
-      }
+    "home": {
+        "title": "Gather around the fire",
+        "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
+        "download": "Download Campground",
+        "open": "Open Campground"
     },
-    "profileView": {
-      "avatar": "Avatar",
-      "status": "Status",
+    "languages": {
+        "af-ZA": "Afrikaans",
+        "ar-SA": "Arabic",
+        "ca-ES": "Catalan",
+        "cs-CZ": "Czech",
+        "da-DK": "Danish",
+        "de-DE": "German",
+        "el-GR": "Greek",
+        "fi-FI": "Finnish",
+        "fr-FR": "French",
+        "en-US": "English (US)",
+        "es-ES": "Spanish",
+        "he-IL": "Hebrew",
+        "hu-HU": "Hungarian",
+        "it-IT": "Italian",
+        "ja-JP": "Japanese",
+        "ko-KR": "Korean",
+        "nl-NL": "Dutch",
+        "no-NO": "Norwegian",
+        "pl-PL": "Polish",
+        "pt-BR": "Portuguese (Brazil)",
+        "pt-PT": "Portuguese (Portugal)",
+        "ro-RO": "Romanian",
+        "ru-RU": "Russian",
+        "sr-SP": "Serbian",
+        "sv-SE": "Swedish",
+        "tr-TR": "Turkish",
+        "uk-UA": "Ukrainian",
+        "vi-VN": "Vietnamese",
+        "zh-CN": "Simplified Chinese (China)",
+        "zh-TW": "Simplified Chinese (Taiwan)"
     },
-    "settingsView": {
-      "title": "Manage profile",
-
-      "common": {
-        "title": "Common",
-
-        "changePassword": "Change password",
-        "changeDName": "Change display name"
-        "removeAvatar": "Remove avatar",
-        "uploadAvatar": "Upload new avatar",
-      },
-      "connections": {
-        "title": "Connections",
-        "description": "Manage social media connections for this identity",
-        
-        "add": "Add connection",
-
-        "label": "Connection label",
-        "content": "Content",
-      },
-    },
-    "presence": {
-      "offline": "Offline",
-      "invisible": "Invisible",
-      "away": "Away",
-      "dnd": "Do Not Disturb",
-      "online": "Online"
-    },
-    "activityPresence": {
-      "game": "Playing %s",
-      "listening": "Listening to %s",
-      "streaming": "Streaming %s",
-      "streamingDesktop": "Sharing their screen",
-      "streamingDetailed": "Streaming %s on %s"
+    "client": {
+        "common": {
+            "yes": "Yes",
+            "no": "No",
+            "cancel": "Cancel",
+            "retry": "Retry",
+            "abort": "Abort",
+            "ok": "OK",
+            "delete": "Delete",
+            "remove": "Remove"
+        },
+        "login": {
+            "identity": "Identity",
+            "password": "Password",
+            "loginButton": "Log in",
+            "resetPassword": "Reset password",
+            "errors": {
+                "connectionFailed": "Login failed due to network connection problems.",
+                "incorrectCredentials": "The identity or password provided is incorrect.",
+                "passwordResetDisabled": "The administrator had disabled password reset functionality. Contact them on %s to ask for a new password.",
+                "identityDisabled": "Your identity was disabled.",
+                "identityDisabledWithReason": "Your identity was disabled. Reason: %s",
+                "identityBanned": "Your identity was banned.",
+                "identityBannedWithReason": "Your identity was banned. Reason: %s",
+                "identityTempBannedWithReason": "Your identity was banned till %s. Reason: %s"
+            }
+        },
+        "profileView": {
+            "avatar": "Avatar",
+            "status": "Status"
+        },
+        "settingsView": {
+            "title": "Manage profile",
+            "common": {
+                "title": "Common",
+                "changePassword": "Change password",
+                "changeDName": "Change display name",
+                "removeAvatar": "Remove avatar",
+                "uploadAvatar": "Upload new avatar"
+            },
+            "connections": {
+                "title": "Connections",
+                "description": "Manage social media connections for this identity",
+                "add": "Add connection",
+                "label": "Connection label",
+                "content": "Content"
+            }
+        },
+        "presence": {
+            "offline": "Offline",
+            "invisible": "Invisible",
+            "away": "Away",
+            "dnd": "Do Not Disturb",
+            "online": "Online"
+        },
+        "activityPresence": {
+            "game": "Playing %s",
+            "listening": "Listening to %s",
+            "streaming": "Streaming %s",
+            "streamingDesktop": "Sharing their screen",
+            "streamingDetailed": "Streaming %s on %s"
+        }
     }
-  }
 }

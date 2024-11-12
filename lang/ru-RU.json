@@ -1,48 +1,112 @@
 {
-  "globalNav": {
-    "download": "Загрузить",
-    "blog": "Блог",
-    "support": "Поддержка",
-    "register": "Зарегистрироваться",
-    "login": "Войти",
-    "themeToggle": "Переключить цветовую схему"
-  },
-  "home": {
-    "title": "Собраться вокруг костра",
-    "description": "Campground - это площадка, где вы и ваши друзья можете тусоваться, <br></br> общаться и веселиться без каких-либо хлопот!",
-    "download": "Загрузить Campground",
-    "open": "Открыть Campground"
-  },
-  "languages": {
-    "af-ZA": "Afrikaans",
-    "ar-SA": "العربية",
-    "ca-ES": "Català",
-    "cs-CZ": "Čeština",
-    "da-DK": "Dansk",
-    "de-DE": "Deutsch",
-    "el-GR": "Ελληνικά",
-    "fi-FI": "Suomi",
-    "fr-FR": "Français",
-    "en-US": "English (United States)",
-    "es-ES": "Español",
-    "he-IL": "עברית",
-    "hu-HU": "Magyar",
-    "it-IT": "Italiano",
-    "ja-JP": "日本語‫",
-    "ko-KR": "한국어‫",
-    "nl-NL": "Nederlands",
-    "no-NO": "Norsk",
-    "pl-PL": "Polski",
-    "pt-BR": "Português do Brasil",
-    "pt-PT": "Português",
-    "ro-RO": "Română",
-    "ru-RU": "Русский",
-    "sr-SP": "Српски",
-    "sv-SE": "Svenska",
-    "tr-TR": "Türkçe",
-    "uk-UA": "Українська",
-    "vi-VN": "Tiếng Việt",
-    "zh-CN": "中文(简体)",
-    "zh-TW": "中文(繁體)"
-  }
+    "globalNav": {
+        "download": "Загрузить",
+        "blog": "Блог",
+        "support": "Поддержка",
+        "register": "Зарегистрироваться",
+        "login": "Войти",
+        "themeToggle": "Переключить цветовую схему"
+    },
+    "home": {
+        "title": "Собраться вокруг костра",
+        "description": "Campground - это площадка, где вы и ваши друзья можете тусоваться, <br></br> общаться и веселиться без каких-либо хлопот!",
+        "download": "Загрузить Campground",
+        "open": "Открыть Campground"
+    },
+    "languages": {
+        "af-ZA": "Afrikaans",
+        "ar-SA": "العربية",
+        "ca-ES": "Català",
+        "cs-CZ": "Čeština",
+        "da-DK": "Dansk",
+        "de-DE": "Deutsch",
+        "el-GR": "Ελληνικά",
+        "fi-FI": "Suomi",
+        "fr-FR": "Français",
+        "en-US": "English (United States)",
+        "es-ES": "Español",
+        "he-IL": "עברית",
+        "hu-HU": "Magyar",
+        "it-IT": "Italiano",
+        "ja-JP": "日本語‫",
+        "ko-KR": "한국어‫",
+        "nl-NL": "Nederlands",
+        "no-NO": "Norsk",
+        "pl-PL": "Polski",
+        "pt-BR": "Português do Brasil",
+        "pt-PT": "Português",
+        "ro-RO": "Română",
+        "ru-RU": "Русский",
+        "sr-SP": "Српски",
+        "sv-SE": "Svenska",
+        "tr-TR": "Türkçe",
+        "uk-UA": "Українська",
+        "vi-VN": "Tiếng Việt",
+        "zh-CN": "中文(简体)",
+        "zh-TW": "中文(繁體)"
+    },
+    "client": {
+        "common": {
+            "yes": "Да",
+            "no": "Нет",
+            "cancel": "Отмена",
+            "retry": "Повтор",
+            "abort": "Прервать",
+            "ok": "OK",
+            "delete": "Удалить",
+            "remove": "Удалить"
+        },
+        "login": {
+            "handle": "Идентификатор",
+            "password": "Пароль",
+            "loginButton": "Войти",
+            "resetPassword": "Сбросить пароль",
+            "reactivateUserHandle": "Активировать идентификатор",
+            "errors": {
+                "connectionFailed": "Не удалось войти из-за проблем с сетевым подключением.",
+                "incorrectCredentials": "Неправильный идентификатор или пароль.",
+                "passwordResetDisabled": "Администратор отключил возможность сброса пароля. Обратитесь за новым паролем через %s.",
+                "handleDisabled": "Ваш идентификатор был отключен. Вы можете включить его, нажав кнопку «Активировать идентификатор».",
+                "handleDisabledWithReason": "Ваш идентификатор был отключен администратором. Причина: %s",
+                "handleBanned": "Ваш идентификатор был заблокирован.",
+                "handleBannedWithReason": "Ваш идентификатор был заблокирован. Причина: %s",
+                "handleTempBannedWithReason": "Ваш идентификатор был заблокирован до %s. Причина: %s"
+            }
+        },
+        "profileView": {
+            "avatar": "Аватар",
+            "status": "Статус"
+        },
+        "settingsView": {
+            "title": "Управление профилем",
+            "common": {
+                "title": "Общее",
+                "changePassword": "Сменить пароль",
+                "changeDName": "Изменить отображаемое имя",
+                "removeAvatar": "Удалить аватар",
+                "uploadAvatar": "Загрузить новый аватар"
+            },
+            "connections": {
+                "title": "Интеграции",
+                "description": "Управление интеграциями с социальными сетями",
+                "add": "Добавить интеграцию",
+                "label": "Название интеграции",
+                "content": "Значение"
+            }
+        },
+        "presence": {
+            "offline": "Не в сети",
+            "invisible": "Невидимый",
+            "away": "Нет на месте",
+            "dnd": "Не беспокоить",
+            "online": "В сети"
+        },
+        "activityPresence": {
+            "game": "Играет в %s",
+            "listening": "Слушает %s",
+            "streaming": "Транслирует %s",
+            "streamingDesktop": "Демонстрирует свой экран",
+            "streamingDetailed": "Транслирует %s на %s"
+        }
+    }
 }

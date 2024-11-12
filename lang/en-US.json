@@ -61,7 +61,7 @@
             "password": "Password",
             "loginButton": "Log in",
             "resetPassword": "Reset password",
-            "reactivateUserHandle": "Activate handle"
+            "reactivateUserHandle": "Activate handle",
             "errors": {
                 "connectionFailed": "Login failed due to network connection problems.",
                 "incorrectCredentials": "The handle or password provided is incorrect.",

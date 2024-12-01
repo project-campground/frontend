@@ -125,6 +125,8 @@
 	flex-wrap: nowrap;
 	overflow-x: hidden;
 	height: 88px;
+	box-shadow: -3px 4px 10px -2px black;
+	margin-bottom: 20px;
 }
 
 .groupIcon {
@@ -177,8 +179,39 @@
 	padding: 32px 0;
 
 	text-align: right;
-	color: var(--font-sub-dark);
+	color: var(--group-ellipse-dark);
 	font-weight: 900 !important;
 	font-size: 36px;
+	line-height: 0;
+}
+
+.groupSubSection {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	padding: 0 43px;
+	color: var(--font-sub-dark);
+	font-weight: 700;
+	margin-bottom: 14px;
+
+	img {
+		flex-basis: 1;
+		vertical-align: middle;
+		width: 18px;
+		height: 18px;
+		margin-right: 14px;
+		filter: light-dark(invert(100%), invert(0%));
+	}
+}
+
+.groupSeparator {
+    display: block;
+	padding: 0;
+	margin: 30px auto 0;
+
+	text-align: center;
+	color: var(--group-ellipse2-dark);
+	font-weight: 900 !important;
+	font-size: 50px;
 	line-height: 0;
 }

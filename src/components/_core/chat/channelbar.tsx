@@ -3,6 +3,8 @@ import { Center, Tooltip, UnstyledButton, Stack, Image, Text, rem, Drawer, Butto
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './chanbar.module.scss';
 import { useDisclosure } from '@mantine/hooks';
+import { ServerActions } from './serveractions';
+import { GroupSection } from './groupsection';
 
 interface ChanbarLinkProps {
 	label: string;
@@ -42,29 +44,18 @@ export function Channels(props:ChanbarLinks) {
 
 	return (
 		<nav className={classes.chanbar}>
-			<div className={classes.chanbarImg}>
-				<Image radius={'30px 30px 0 0'} src={props.guildbanner} alt={props.guildname} />
-				<div className={classes.chanbarName}>
-					<div className={classes.chanbarClickable}>
-						<span>{props.guildname}</span>
-					</div>
-				</div>
-			</div>
+			<ServerActions
+				guildname={props.guildname}
+				guildbanner={props.guildbanner}
+			/>
 			<div className={classes.separator} />
-			<div className={classes.groupMain}>
-				<div className={classes.groupIcon}>
-					<Image radius={'15px'} src={'/sample_servericon.png'} alt={props.guildname} />
-				</div>
-				<div className={classes.groupLeft}>
-					<div className={classes.groupName}>
-						<Text>{props.guildname}</Text>
-					</div>
-					<div className={classes.groupDesc}>
-						<Text>Campground is a place for you and your friends to hang out, chat, and have fun without any hassle!</Text>
-					</div>
-				</div>
-				<div className={classes.groupRight}>...</div>
-			</div>
+			<GroupSection
+				guildname={props.guildname}
+				setGroup={() => { return; }}
+				groupImg={'/sample_servericon.png'}
+				groupName={'Home Group'}
+				groupDesc={'Generic group description'}
+			/>
 			<div className={classes.chanbarMain}>
 				<Stack justify="center" gap={0}>
 					{links}

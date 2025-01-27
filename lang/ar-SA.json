@@ -1,48 +1,112 @@
 {
-  "globalNav": {
-    "download": "تنزيل",
-    "blog": "المدونة",
-    "support": "دعم",
-    "register": "إنشاء حساب",
-    "login": "تسجيل الدخول",
-    "themeToggle": "تبديل تخطيط الألوان"
-  },
-  "home": {
-    "title": "تجمع حول النار",
-    "description": "يعد المخيم مكانا لك ولأصدقائك للتسكع<br></br> والدردشة والاستمتاع دون أي متاعب!",
-    "download": "تنزيل المخيم",
-    "open": "فتح المخيم"
-  },
-  "languages": {
-    "af-ZA": "الأفريقية",
-    "ar-SA": "العربية",
-    "ca-ES": "الكتالانية",
-    "cs-CZ": "التشيكية",
-    "da-DK": "الدانماركية",
-    "de-DE": "الألمانية",
-    "el-GR": "اليونانية",
-    "fi-FI": "الفنلندية",
-    "fr-FR": "الفرنسية",
-    "en-US": "الإنجليزية (الولايات المتحدة)",
-    "es-ES": "الإسبانية",
-    "he-IL": "العبرية",
-    "hu-HU": "الهنغارية",
-    "it-IT": "الإيطالية",
-    "ja-JP": "اليابانية",
-    "ko-KR": "الكورية",
-    "nl-NL": "الهولندية",
-    "no-NO": "النرويجية",
-    "pl-PL": "البولندية",
-    "pt-BR": "البرتغالية (البرازيل)",
-    "pt-PT": "البرتغالية (البرتغال)",
-    "ro-RO": "الرومانية",
-    "ru-RU": "الروسية",
-    "sr-SP": "الصربية",
-    "sv-SE": "السويدية",
-    "tr-TR": "التركية",
-    "uk-UA": "الاوكرانية",
-    "vi-VN": "الفيتنامية",
-    "zh-CN": "الصينية المبسطة (الصين)",
-    "zh-TW": "الصينية المبسطة (تايوان)"
-  }
+    "globalNav": {
+        "download": "تنزيل",
+        "blog": "المدونة",
+        "support": "دعم",
+        "register": "إنشاء حساب",
+        "login": "تسجيل الدخول",
+        "themeToggle": "تبديل تخطيط الألوان"
+    },
+    "home": {
+        "title": "تجمع حول النار",
+        "description": "يعد المخيم مكانا لك ولأصدقائك للتسكع<br></br> والدردشة والاستمتاع دون أي متاعب!",
+        "download": "تنزيل المخيم",
+        "open": "فتح المخيم"
+    },
+    "languages": {
+        "af-ZA": "الأفريقية",
+        "ar-SA": "العربية",
+        "ca-ES": "الكتالانية",
+        "cs-CZ": "التشيكية",
+        "da-DK": "الدانماركية",
+        "de-DE": "الألمانية",
+        "el-GR": "اليونانية",
+        "fi-FI": "الفنلندية",
+        "fr-FR": "الفرنسية",
+        "en-US": "الإنجليزية (الولايات المتحدة)",
+        "es-ES": "الإسبانية",
+        "he-IL": "العبرية",
+        "hu-HU": "الهنغارية",
+        "it-IT": "الإيطالية",
+        "ja-JP": "اليابانية",
+        "ko-KR": "الكورية",
+        "nl-NL": "الهولندية",
+        "no-NO": "النرويجية",
+        "pl-PL": "البولندية",
+        "pt-BR": "البرتغالية (البرازيل)",
+        "pt-PT": "البرتغالية (البرتغال)",
+        "ro-RO": "الرومانية",
+        "ru-RU": "الروسية",
+        "sr-SP": "الصربية",
+        "sv-SE": "السويدية",
+        "tr-TR": "التركية",
+        "uk-UA": "الاوكرانية",
+        "vi-VN": "الفيتنامية",
+        "zh-CN": "الصينية المبسطة (الصين)",
+        "zh-TW": "الصينية المبسطة (تايوان)"
+    },
+    "client": {
+        "common": {
+            "yes": "Yes",
+            "no": "No",
+            "cancel": "Cancel",
+            "retry": "Retry",
+            "abort": "Abort",
+            "ok": "OK",
+            "delete": "Delete",
+            "remove": "Remove"
+        },
+        "login": {
+            "handle": "Handle",
+            "password": "Password",
+            "loginButton": "Log in",
+            "resetPassword": "Reset password",
+            "reactivateUserHandle": "Activate handle",
+            "errors": {
+                "connectionFailed": "Login failed due to network connection problems.",
+                "incorrectCredentials": "The handle or password provided is incorrect.",
+                "passwordResetDisabled": "The administrator had disabled password reset functionality. Contact them on %s to ask for a new password.",
+                "handleDisabled": "Your handle was disabled. You can enable it by clicking 'Activate handle' button.",
+                "handleDisabledWithReason": "Your handle was disabled by administrator. Reason: %s",
+                "handleBanned": "Your handle was banned.",
+                "handleBannedWithReason": "Your handle was banned. Reason: %s",
+                "handleTempBannedWithReason": "Your handle was banned till %s. Reason: %s"
+            }
+        },
+        "profileView": {
+            "avatar": "Avatar",
+            "status": "Status"
+        },
+        "settingsView": {
+            "title": "Manage profile",
+            "common": {
+                "title": "Common",
+                "changePassword": "Change password",
+                "changeDName": "Change display name",
+                "removeAvatar": "Remove avatar",
+                "uploadAvatar": "Upload new avatar"
+            },
+            "connections": {
+                "title": "Connections",
+                "description": "Manage social media connections",
+                "add": "Add connection",
+                "label": "Connection label",
+                "content": "Content"
+            }
+        },
+        "presence": {
+            "offline": "Offline",
+            "invisible": "Invisible",
+            "away": "Away",
+            "dnd": "Do Not Disturb",
+            "online": "Online"
+        },
+        "activityPresence": {
+            "game": "Playing %s",
+            "listening": "Listening to %s",
+            "streaming": "Streaming %s",
+            "streamingDesktop": "Sharing their screen",
+            "streamingDetailed": "Streaming %s on %s"
+        }
+    }
 }

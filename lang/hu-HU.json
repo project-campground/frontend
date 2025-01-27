@@ -1,10 +1,10 @@
 {
     "globalNav": {
-        "download": "Download",
+        "download": "Letöltés",
         "blog": "Blog",
-        "support": "Support",
-        "register": "Sign up",
-        "login": "Log in",
+        "support": "Támogatás",
+        "register": "Regisztráció",
+        "login": "Bejelentkezés",
         "themeToggle": "Toggle color scheme"
     },
     "home": {
@@ -20,13 +20,13 @@
         "cs-CZ": "Czech",
         "da-DK": "Danish",
         "de-DE": "German",
-        "el-GR": "Greek",
-        "fi-FI": "Finnish",
-        "fr-FR": "French",
-        "en-US": "English (US)",
-        "es-ES": "Spanish",
-        "he-IL": "Hebrew",
-        "hu-HU": "Hungarian",
+        "el-GR": "Görög",
+        "fi-FI": "Finn",
+        "fr-FR": "Francia",
+        "en-US": "Angol (US)",
+        "es-ES": "Spanyol",
+        "he-IL": "Héber",
+        "hu-HU": "Magyar",
         "it-IT": "Italian",
         "ja-JP": "Japanese",
         "ko-KR": "Korean",
@@ -47,18 +47,18 @@
     },
     "client": {
         "common": {
-            "yes": "Yes",
-            "no": "No",
-            "cancel": "Cancel",
-            "retry": "Retry",
-            "abort": "Abort",
+            "yes": "Igen",
+            "no": "Nem",
+            "cancel": "Mégse",
+            "retry": "Újra",
+            "abort": "Elvetés",
             "ok": "OK",
-            "delete": "Delete",
-            "remove": "Remove"
+            "delete": "Törlés",
+            "remove": "Eltávolítás"
         },
         "login": {
             "handle": "Handle",
-            "password": "Password",
+            "password": "Jelszó",
             "loginButton": "Log in",
             "resetPassword": "Reset password",
             "reactivateUserHandle": "Activate handle",
@@ -91,21 +91,21 @@
                 "description": "Manage social media connections",
                 "add": "Add connection",
                 "label": "Connection label",
-                "content": "Content"
+                "content": "Tartalom"
             }
         },
         "presence": {
             "offline": "Offline",
-            "invisible": "Invisible",
-            "away": "Away",
-            "dnd": "Do Not Disturb",
-            "online": "Online"
+            "invisible": "Láthatatlan",
+            "away": "Tétlen",
+            "dnd": "Elfoglalt",
+            "online": "Elérhető"
         },
         "activityPresence": {
-            "game": "Playing %s",
-            "listening": "Listening to %s",
+            "game": "Ezzel játszik %s",
+            "listening": "Ezt hallgatja %s",
             "streaming": "Streaming %s",
-            "streamingDesktop": "Sharing their screen",
+            "streamingDesktop": "Megosztja a képernyőjét",
             "streamingDetailed": "Streaming %s on %s"
         }
     }

@@ -45,12 +45,10 @@ class ChatMain extends React.Component<IProps, IState> {
 			{ icon: IconSettings, label: 'Programming Space' },
 		];
 		const mockdata2:Array<any> = [
-			{ label: 'Rules' },
-			{ label: 'News' },
-			{ label: 'General Chat' },
-			{ label: 'Off-topic' },
-			{ label: 'General Forums' },
-			{ label: 'Settings' },
+			{ icon: '/rules.png', label: 'Rules' },
+			{ icon: '/announcements.png', label: 'News' },
+			{ icon: '/rules.png', label: 'General Chat' },
+			{ icon: '/rules.png', label: 'General Forums' },
 		];
 		const mockdata3:Array<any> = [
 			{ icon: IconHome2, label: 'PrettyGoodName' },

@@ -42,12 +42,20 @@ img {
 	--server-icon-width: 100%;
 	--server-tooltip-bg-dark: #0A0910;
 	--server-tooltip-clr-dark: #FFFFFF;
+
 	--channel-nav-dark: #13121D;
 	--channel-nav-width: 21vw;
+	--channel-active-dark: #1E1D28;
+  --channel-active-border-radius: 5px;
+	--channel-hover-dark: #1A1924;
+
 	--mainchat-base-width: 55vw;
 	--mainchat-base-dark: #181725;
+
 	--topbar-base-height: 50px;
 	--rightbar-nav-width: 19vw;
+
+  --font-highlight-dark: #E0DBF3;
   --font-reg-dark: #DCD7EF;
   --font-sub-dark: #727194;
   --group-ellipse-dark: #4F4E69;

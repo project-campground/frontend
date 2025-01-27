@@ -7,6 +7,7 @@ import { ServerActions } from './serveractions';
 import { GroupSection } from './groupsection';
 
 interface ChanbarLinkProps {
+	icon: string;
 	label: string;
 	active?: boolean;
 	onClick?(): void;
@@ -18,12 +19,11 @@ interface ChanbarLinks {
 	channels: Array<any>;
 }
 
-function ChanbarLink({ label, active, onClick }: ChanbarLinkProps) {
+function ChanbarLink({ icon, label, active, onClick }: ChanbarLinkProps) {
 	return (
 		<UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined} style={{ width: '100%' }}>
-			<Text style={{ display: 'block', width: '100%', height: rem(20), textAlign: 'left', padding: '0 10px' }}>
-				{label}
-			</Text>
+			<Image src={icon} alt={label} />
+			<Text>{label}</Text>
 		</UnstyledButton>
 	);
 }
@@ -57,7 +57,7 @@ export function Channels(props:ChanbarLinks) {
 				groupDesc={'Generic group description'}
 			/>
 			<div className={classes.chanbarMain}>
-				<Stack justify="center" gap={0}>
+				<Stack justify="center" gap={12}>
 					{links}
 				</Stack>
 			</div>

@@ -5,6 +5,7 @@ import classes from './chanbar.module.scss';
 import { useDisclosure } from '@mantine/hooks';
 import { ServerActions } from './serveractions';
 import { GroupSection } from './groupsection';
+import { UserPanel } from './userpanel';
 
 interface ChanbarLinkProps {
 	icon: string;
@@ -48,7 +49,7 @@ export function Channels(props:ChanbarLinks) {
 				guildname={props.guildname}
 				guildbanner={props.guildbanner}
 			/>
-			<div className={classes.separator} />
+			<div className={classes.separator}><div /></div>
 			<GroupSection
 				guildname={props.guildname}
 				setGroup={() => { return; }}
@@ -61,6 +62,16 @@ export function Channels(props:ChanbarLinks) {
 					{links}
 				</Stack>
 			</div>
+			<UserPanel
+				smallname={'R.A.G'}
+				avataricon={'/sample_servericon.png'}
+				presence={'/sample_servericon.png'}
+				presenceStatus={'Do Not Disturb'}
+				username={'randomanimegamer@someurl.url'}
+				status={'test status'}
+				bgtop={''}
+				bgbottom={''}
+			/>
 		</nav>
 	);
 }

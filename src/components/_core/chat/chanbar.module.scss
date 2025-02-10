@@ -18,13 +18,14 @@
 	left: var(--server-nav-width);
 
 	width: var(--channel-nav-width);
-	background-color: light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark));
+	background-color: light-dark(var(--mantine-color-gray-3), var(--server-nav-dark));
 }
 
 .chanbarMain {
 	padding: var(--mantine-spacing-md) 1vw;
 	flex: 1;
 	/* margin-top: calcRem(50px); */
+	background-color: light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark));
 }
 
 .chanbarImg, .chanbarImg *:not(span) {
@@ -135,13 +136,21 @@
 }
 
 .separator {
-	border: 1px solid #252234;
-	margin: 10px 0 10px 0;
+	background-color: light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark));
+
+	div {
+		border: 1px solid #252234;
+		margin: 10px 0 10px 0;
+	}
 }
 
 .groupIcon, .groupLeft, .groupRight {
 	height: 88px;
 	padding: 20px 0;
+}
+
+.groupCore {
+	background-color: light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark));
 }
 
 .groupMain {
@@ -240,4 +249,56 @@
 	font-weight: 900 !important;
 	font-size: 50px;
 	line-height: 0;
+}
+.userPanelCore {
+	border-radius: 0 0 0 30px;
+	background-color: light-dark(var(--mantine-color-gray-3), var(--channel-nav-dark));
+	
+	.userPanel {
+		display: flex;
+		align-items: center;
+
+		margin: 0 20px 20px;
+		border-radius: 20px;
+
+		.avatarIcon {
+			display: inline-block;
+			width: 50px;
+			margin-right: 15px;
+		}
+		.middleSection {
+			width: 65%;
+			p {
+				font-size: 18px;
+				color: var(--font-sub-dark);
+			}
+			.smallName p {
+				font-weight: 700;
+				line-height: 1;
+			}
+			.presenceStatus {
+				::before {
+					display: inline-block;
+					margin: 0 5px -4px 0;
+					border-radius: 7px;
+					width: 20px;
+					height: 20px;
+		
+					background-color: #AA0000;
+					content: ' ';
+				}
+			}
+		}
+		
+		.rightSection {
+			width: 50px;
+			margin-top: -25px;
+		
+			text-align: right;
+			color: var(--group-ellipse-dark);
+			font-weight: 900 !important;
+			font-size: 36px;
+			line-height: 1;
+		}
+	}
 }

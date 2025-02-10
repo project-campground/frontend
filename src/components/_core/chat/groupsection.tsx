@@ -14,7 +14,7 @@ export function GroupSection(props:GroupSectionProps) {
 	const [opened, setOpen] = useState(false);
 
 	return (
-		<div>
+		<div className={classes.groupCore}>
 			<div className={classes.groupMain}>
 				<div className={classes.groupIcon}>
 					<Image radius={'18px'} src={'/sample_servericon.png'} alt={props.guildname} />

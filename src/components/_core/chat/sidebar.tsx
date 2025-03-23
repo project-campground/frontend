@@ -30,6 +30,7 @@ function NavbarLink({ img, icon: Icon, label, active, index, onClick }: NavbarLi
 		active={active}
 		onClick={onClick}
 		index={index}
+		pxsz={50}
 	/>);
 }
 
@@ -39,7 +40,7 @@ export function Servers(props:NavbarLinks) {
 	const links = props.servers.map((link, index) => (
 		<NavbarLink
 			{...link}
-			key={link.label}
+			key={link.label + ' Server'}
 			index={index}
 			active={index === active}
 			onClick={() => setActive(index)}

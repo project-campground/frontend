@@ -9,6 +9,7 @@ interface IProps {
 	active?: boolean;
 	onClick: any;
 	index: number;
+	pxsz: number;
 };
 
 interface IState {
@@ -19,13 +20,11 @@ function NullOrUndef(data:any) { return (data === null || data === undefined || 
 function OnHover(setHovered:any) { setHovered(true); }
 function OnLeave(setHovered:any) { setHovered(false); }
 
-export default function SidebarImage({ img, icon: Icon, label, active, onClick, index }: IProps, { radius }: IState) {
+export default function SidebarImage({ img, icon: Icon, label, active, onClick, index, pxsz }: IProps, { radius }: IState) {
 	const [hovered, setHovered] = useState(false);
 	radius = (active || hovered) ? 15 : 30;
 
 	let isIco = !NullOrUndef(Icon);
-	
-	let pxsz = 50;
 
 	return (
 		<div>

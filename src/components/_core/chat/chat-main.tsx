@@ -82,6 +82,8 @@ class ChatMain extends React.Component<IProps, IState> {
 			{ id: 9, img: '/sample_servericon.png', label: 'Cactus', roles: [11,14] },
 			{ id: 10, img: '/sample_servericon.png', label: 'Brunch', roles: [13,14] },
 			{ id: 11, img: '/sample_servericon.png', label: 'sojjlet', roles: [14] },
+			{ id: 11, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMdM9MEQ0ExL1PmInT3U5I8v63YXBEdoIT0Q&s', label: 'Chat GPT', roles: [14] },
+			{ id: 11, img: '/sample_servericon.png', label: 'notisa', roles: [14] },
 		];
 		const mockguild = 'Programming Space';
 		const mockbanner = '/sample_banner.jpg';

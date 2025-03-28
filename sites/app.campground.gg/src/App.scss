@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+// TODO: Add variables here.
+:root[data-mantine-color-scheme='light'] {
+  
+}
+
+:root[data-mantine-color-scheme='dark'] {
+
+}
+
+* {
+  font-family: "Quicksand", sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+}

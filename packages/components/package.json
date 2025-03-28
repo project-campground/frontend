@@ -1,0 +1,14 @@
+{
+  "name": "components",
+  "version": "1.0.0",
+  "description": "Campground components that are shared between all of Campground's websites.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "campground"
+  ],
+  "author": "Team Campground",
+  "license": "AGPL-3.0-or-later"
+}

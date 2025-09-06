@@ -5,6 +5,7 @@ export type Props = {
     children: ReactNode[] | ReactNode;
     href: string;
     active?: boolean;
+    icon?: ReactNode;
 };
 
 export default class IndexNavbarItem extends React.Component<Props> {

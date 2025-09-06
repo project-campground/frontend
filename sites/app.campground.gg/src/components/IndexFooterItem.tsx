@@ -1,9 +1,10 @@
-import { Container, Group, NavLink, Text } from "@mantine/core";
+import { Group, Text, UnstyledButton } from "@mantine/core";
 import React, { ReactNode } from "react";
 
 export type Props = {
     children: ReactNode[] | ReactNode;
     icon?: ReactNode;
+    href?: string;
 };
 
 export default class IndexFooterItem extends React.Component<Props> {
@@ -11,19 +12,17 @@ export default class IndexFooterItem extends React.Component<Props> {
         super(props);
     }
     render(): React.ReactNode {
-        const { icon, children } = this.props;
+        const { icon, href, children } = this.props;
 
         return (
-            <NavLink className="IndexFooterItem container">
+            <UnstyledButton component="a" className="IndexFooterItem container" href={href}>
                 <Group gap="xs">
-                    {icon && <Container>
-                        {icon}
-                    </Container>}
+                    {icon}
                     <Text>
                         {children}
                     </Text>
                 </Group>
-            </NavLink>
+            </UnstyledButton>
         );
     }
 }

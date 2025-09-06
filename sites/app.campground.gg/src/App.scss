@@ -1,3 +1,4 @@
+@use "css/index.scss";
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
 // TODO: Add variables here.
@@ -8,6 +9,7 @@
 :root[data-mantine-color-scheme='dark'] {
 
 }
+
 
 * {
   font-family: "Quicksand", sans-serif;

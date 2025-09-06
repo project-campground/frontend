@@ -1,0 +1,42 @@
+@use "./functions.scss" as *;
+
+.landing-side-padding {
+    @include padding-horizontal(64px);
+}
+.landing-extreme-top {
+    padding-top: 64px;
+}
+
+.IndexNavbar.container {
+    @include padding-vertical(8px);
+}
+.IndexNavbar.spacing {
+    flex: 1;
+}
+.IndexFooter.container {
+    padding-top: 24px;
+}
+.BrandLogo.img {
+    width: 56px;
+    height: 56px;
+    &.xs {
+        width: 24px;
+        height: 24px;
+    }
+    &.sm {
+        width: 36px;
+        height: 36px;
+    }
+    &.md {
+        width: 48px;
+        height: 48px;
+    }
+    &.lg {
+        width: 56px;
+        height: 56px;
+    }
+    &.xl {
+        width: 64px;
+        height: 64px;
+    }
+}

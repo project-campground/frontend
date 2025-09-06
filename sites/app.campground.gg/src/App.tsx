@@ -12,14 +12,14 @@ import '@mantine/code-highlight/styles.css';
 import '@mantine/tiptap/styles.css';
 import '@mantine/dropzone/styles.css';
 import { IntlProvider } from './i18n';
-import { FormattedMessage } from 'react-intl';
 import { SessionProvider } from './session';
+import Index from './routes/Index';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <FormattedMessage id="home.download" />,
+      element: <Index />
     },
   ]);
 

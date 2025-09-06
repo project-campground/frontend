@@ -5,11 +5,17 @@
         "support": "Support",
         "register": "Sign up",
         "login": "Log in",
-        "themeToggle": "Toggle color scheme"
+        "themeToggle": "Toggle color scheme",
+        "api": "API",
+        "docs": "Docs"
+    },
+    "landing": {
+        "home": "Home",
+        "about": "About"
     },
     "home": {
         "title": "Gather around the fire",
-        "description": "Campground is a place for you and your friends to hang out, <br></br> chat, and have fun without any hassle!",
+        "description": "Campground is a place for you and your friends to hang out, chat, and have fun without any hassle!",
         "download": "Download Campground",
         "open": "Open Campground"
     },

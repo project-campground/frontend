@@ -14,21 +14,33 @@ export default class IndexNavbar extends React.Component<Props> {
     }
     render() {
         return (
-            <Group component="nav" className="IndexNavbar container landing-side-padding">
-                <BrandLogo size="lg" />
-                <div className="IndexNavbar spacing" />
-                <Group className="IndexNavbar menu">
+            <Group component="nav" className="IndexNavbar container landing-side-padding-nav">
+                <Group className="IndexNavbar menu center" gap={0}>
                     <IndexNavbarItem href="/">
-                        <FormattedMessage id="landing.home" />
+                        <BrandLogo includeText />
                     </IndexNavbarItem>
                     <IndexNavbarItem href="/about">
                         <FormattedMessage id="landing.about" />
                     </IndexNavbarItem>
-                    <IndexNavbarItem href="/blog">
-                        <FormattedMessage id="globalNav.blog" />
+                    <IndexNavbarItem href="/features">
+                        <FormattedMessage id="landing.features" />
                     </IndexNavbarItem>
-                    <IndexNavbarItem href="/login">
-                        <FormattedMessage id="globalNav.login" />
+                    <IndexNavbarItem href="/blog">
+                        <FormattedMessage id="global.blog" />
+                    </IndexNavbarItem>
+                    <IndexNavbarItem href="/docs">
+                        <FormattedMessage id="global.docs" />
+                    </IndexNavbarItem>
+                    <IndexNavbarItem href="/api">
+                        <FormattedMessage id="global.api" />
+                    </IndexNavbarItem>
+                </Group>
+                <Group className="IndexNavbar menu" gap={0}>
+                    <IndexNavbarItem href="/download">
+                        <FormattedMessage id="global.download" />
+                    </IndexNavbarItem>
+                    <IndexNavbarItem href="/login" variant="gradient">
+                        <FormattedMessage id="global.login" />
                     </IndexNavbarItem>
                 </Group>
             </Group>

@@ -1,10 +1,10 @@
 {
-    "globalNav": {
+    "global": {
         "download": "Download",
         "blog": "Blog",
         "support": "Support",
         "register": "Sign up",
-        "login": "Log in",
+        "login": "Sign in",
         "themeToggle": "Toggle color scheme"
     },
     "home": {
@@ -59,7 +59,7 @@
         "login": {
             "handle": "Handle",
             "password": "Password",
-            "loginButton": "Log in",
+            "signinButton": "Sign in",
             "resetPassword": "Reset password",
             "reactivateUserHandle": "Activate handle",
             "errors": {

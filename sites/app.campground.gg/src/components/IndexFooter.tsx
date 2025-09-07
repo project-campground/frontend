@@ -17,25 +17,33 @@ export default class IndexFooter extends React.Component<Props> {
         return (
             <Stack className="IndexFooter container landing-side-padding">
                 <BrandLogo includeText size="xl" />
-                <SimpleGrid className="IndexNavbar menu" cols={5} spacing="xl">
-                    <IndexFooterSection header="Socials">
+                <SimpleGrid className="IndexNavbar menu" cols={4} spacing="xl">
+                    <IndexFooterSection header="global.socialMedia">
                         <IndexFooterItem icon={<IconBrandGithub />} href="https://github.com/Project-Campground">GitHub</IndexFooterItem>
-                        <IndexFooterItem icon={<IconBrandBluesky />} href="bsky.app/profile/campground.gg">Bluesky</IndexFooterItem>
+                        <IndexFooterItem icon={<IconBrandBluesky />} href="https://bsky.app/profile/campground.gg">Bluesky</IndexFooterItem>
                         <IndexFooterItem icon={<IconBrandDiscord />} href="https://discord.com/invite/jasJ97UXDM">Discord</IndexFooterItem>
                         <IndexFooterItem icon={<IconBrandX />} href="https://x.com/teamcampground">X/Twitter</IndexFooterItem>
                     </IndexFooterSection>
-                    <IndexFooterSection header="Resources">
+                    <IndexFooterSection header="global.resources">
                         <IndexFooterItem href="/blog">
-                            <FormattedMessage id="globalNav.blog" />
+                            <FormattedMessage id="global.blog" />
                         </IndexFooterItem>
                         <IndexFooterItem href="/docs">
-                            <FormattedMessage id="globalNav.docs" />
+                            <FormattedMessage id="global.docs" />
                         </IndexFooterItem>
                         <IndexFooterItem href="/api">
-                            <FormattedMessage id="globalNav.api" />
+                            <FormattedMessage id="global.api" />
                         </IndexFooterItem>
                         <IndexFooterItem href="/support">
-                            <FormattedMessage id="globalNav.support" />
+                            <FormattedMessage id="global.support" />
+                        </IndexFooterItem>
+                    </IndexFooterSection>
+                    <IndexFooterSection header="global.discover">
+                        <IndexFooterItem href="/discover/camps">
+                            <FormattedMessage id="global.camps" />
+                        </IndexFooterItem>
+                        <IndexFooterItem href="/discover/instances">
+                            <FormattedMessage id="global.instances" />
                         </IndexFooterItem>
                     </IndexFooterSection>
                 </SimpleGrid>

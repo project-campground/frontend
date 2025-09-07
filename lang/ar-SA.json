@@ -1,5 +1,5 @@
 {
-    "globalNav": {
+    "global": {
         "download": "تنزيل",
         "blog": "المدونة",
         "support": "دعم",
@@ -59,7 +59,7 @@
         "login": {
             "handle": "Handle",
             "password": "Password",
-            "loginButton": "Log in",
+            "signinButton": "Sign in",
             "resetPassword": "Reset password",
             "reactivateUserHandle": "Activate handle",
             "errors": {

@@ -1,4 +1,4 @@
-import { UnstyledButton } from "@mantine/core";
+import { Button, ButtonVariant } from "@mantine/core";
 import React, { ReactNode } from "react";
 
 export type Props = {
@@ -6,6 +6,7 @@ export type Props = {
     href: string;
     active?: boolean;
     icon?: ReactNode;
+    variant?: ButtonVariant;
 };
 
 export default class IndexNavbarItem extends React.Component<Props> {
@@ -13,11 +14,11 @@ export default class IndexNavbarItem extends React.Component<Props> {
         super(props);
     }
     render(): React.ReactNode {
-        const { children, href } = this.props;
+        const { variant, children, href } = this.props;
         return (
-            <UnstyledButton component="a" href={href} className="IndexNavbarItem container">
+            <Button component="a" size="md" href={href} variant={variant ?? "transparent"} color="default" className="IndexNavbarItem container">
                 { children }
-            </UnstyledButton>
+            </Button>
         );
     }
 }

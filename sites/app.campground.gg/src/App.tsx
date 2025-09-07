@@ -14,6 +14,7 @@ import '@mantine/dropzone/styles.css';
 import { IntlProvider } from './i18n';
 import { SessionProvider } from './session';
 import Index from './routes/Index';
+import theme from './theme';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,7 +27,7 @@ function App() {
   return (
     <>
       <ColorSchemeScript />
-      <MantineProvider>
+      <MantineProvider forceColorScheme="dark" theme={theme}>
         <SessionProvider>
           <IntlProvider>
             <RouterProvider router={router} />

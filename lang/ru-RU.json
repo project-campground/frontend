@@ -1,5 +1,5 @@
 {
-    "globalNav": {
+    "global": {
         "download": "Загрузить",
         "blog": "Блог",
         "support": "Поддержка",
@@ -59,7 +59,7 @@
         "login": {
             "handle": "Идентификатор",
             "password": "Пароль",
-            "loginButton": "Войти",
+            "signinButton": "Войти",
             "resetPassword": "Сбросить пароль",
             "reactivateUserHandle": "Активировать идентификатор",
             "errors": {

@@ -1,21 +1,36 @@
 {
-    "globalNav": {
-        "download": "Download",
-        "blog": "Blog",
-        "support": "Support",
+    "global": {
+        "login": "Sign in",
         "register": "Sign up",
-        "login": "Log in",
+        "support": "Support",
+        "download": "Download",
         "themeToggle": "Toggle color scheme",
         "api": "API",
-        "docs": "Docs"
+        "docs": "Docs",
+        "blog": "Blog",
+        "discover": "Discover",
+        "camps": "Camps",
+        "instances": "Instances",
+        "socialMedia": "Social media",
+        "resources": "Resources",
+        "openBrowser": "Open in Browser"
     },
     "landing": {
         "home": "Home",
-        "about": "About"
+        "about": "About",
+        "features": "Features",
+        "download": {
+            "win": "Download for Windows",
+            "osx": "Download for OSX",
+            "linux": "Download for Linux",
+            "debian": "Download for Debian",
+            "android": "Download for Android",
+            "ios": "Download for iOS"
+        }
     },
     "home": {
         "title": "Gather around the fire",
-        "description": "Campground is a place for you and your friends to hang out, chat, and have fun without any hassle!",
+        "description": "Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!",
         "download": "Download Campground",
         "open": "Open Campground"
     },
@@ -65,7 +80,7 @@
         "login": {
             "handle": "Handle",
             "password": "Password",
-            "loginButton": "Log in",
+            "signinButton": "Sign in",
             "resetPassword": "Reset password",
             "reactivateUserHandle": "Activate handle",
             "errors": {

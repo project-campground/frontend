@@ -1,5 +1,5 @@
 {
-    "globalNav": {
+    "global": {
         "download": "Letöltés",
         "blog": "Blog",
         "support": "Támogatás",
@@ -59,7 +59,7 @@
         "login": {
             "handle": "Handle",
             "password": "Jelszó",
-            "loginButton": "Log in",
+            "signinButton": "Sign in",
             "resetPassword": "Reset password",
             "reactivateUserHandle": "Activate handle",
             "errors": {

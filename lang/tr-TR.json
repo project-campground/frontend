@@ -1,5 +1,5 @@
 {
-    "globalNav": {
+    "global": {
         "download": "İndir",
         "blog": "Blog",
         "support": "Destek",
@@ -59,7 +59,7 @@
         "login": {
             "handle": "Handle",
             "password": "Password",
-            "loginButton": "Log in",
+            "signinButton": "Sign in",
             "resetPassword": "Reset password",
             "reactivateUserHandle": "Activate handle",
             "errors": {

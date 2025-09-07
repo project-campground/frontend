@@ -1,42 +1,67 @@
 @use "./functions.scss" as *;
 
-.landing-side-padding {
-    @include padding-horizontal(64px);
-}
-.landing-extreme-top {
-    padding-top: 64px;
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Quicksand";
 }
 
-.IndexNavbar.container {
-    @include padding-vertical(8px);
+.landing-side-padding {
+    @include padding-horizontal(256px);
 }
-.IndexNavbar.spacing {
-    flex: 1;
+.landing-side-padding-nav {
+    @include padding-horizontal(256px - 24.75px);
 }
+.landing-extreme-top {
+    padding-top: 128px + 64px;
+}
+
+.IndexNavbar {
+    &.container {
+        @include padding-vertical(8px);
+    }
+    &.menu.center {
+        flex: 1;
+        align-items: center;
+    }
+    &.spacing {
+        flex: 1;
+    }
+}
+
 .IndexFooter.container {
     padding-top: 24px;
+    padding-bottom: 48px;
 }
+
 .BrandLogo.img {
     width: 56px;
     height: 56px;
     &.xs {
-        width: 24px;
-        height: 24px;
-    }
-    &.sm {
         width: 36px;
         height: 36px;
     }
-    &.md {
+    &.sm {
         width: 48px;
         height: 48px;
     }
-    &.lg {
+    &.md {
         width: 56px;
         height: 56px;
     }
-    &.xl {
+    &.lg {
         width: 64px;
         height: 64px;
+    }
+    &.xl {
+        width: 96px;
+        height: 96px;
+    }
+}
+
+.IndexPage {
+    &.top {
+        height: 1080px - 72px;
+    }
+    &.top-motto-text {
+        margin-bottom: 24px;
     }
 }

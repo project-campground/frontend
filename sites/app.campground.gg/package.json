@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/nunito-sans": "^5.2.6",
+    "@fontsource/quicksand": "^5.2.9",
     "@mantine/code-highlight": "^7.17.3",
     "@mantine/core": "^7.17.3",
     "@mantine/dates": "^7.17.3",
@@ -19,6 +23,7 @@
     "@mantine/modals": "^7.17.3",
     "@mantine/notifications": "^7.17.3",
     "@mantine/tiptap": "^7.17.3",
+    "@mui/joy": "^5.0.0-beta.52",
     "@tabler/icons-react": "^3.34.1",
     "@tiptap/extension-link": "^2.11.5",
     "@tiptap/pm": "^2.11.5",

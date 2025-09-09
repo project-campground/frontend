@@ -1,10 +1,10 @@
 import React from "react";
 import BrandLogo from "./BrandLogo";
 import IndexFooterItem from "./IndexFooterItem";
-import { SimpleGrid, Stack } from "@mantine/core";
 import IndexFooterSection from "./IndexFooterSection";
 import { FormattedMessage } from "react-intl";
 import { IconBrandBluesky, IconBrandDiscord, IconBrandGithub, IconBrandX } from "@tabler/icons-react";
+import { Grid, Stack } from "@mui/joy";
 
 export type Props = {
 };
@@ -15,9 +15,9 @@ export default class IndexFooter extends React.Component<Props> {
     }
     render() {
         return (
-            <Stack className="IndexFooter container landing-side-padding">
+            <Stack direction="column" className="IndexFooter container landing-side-padding">
                 <BrandLogo includeText size="xl" />
-                <SimpleGrid className="IndexNavbar menu" cols={4} spacing="xl">
+                <Grid container className="IndexNavbar menu" spacing={8}>
                     <IndexFooterSection header="global.socialMedia">
                         <IndexFooterItem icon={<IconBrandGithub />} href="https://github.com/Project-Campground">GitHub</IndexFooterItem>
                         <IndexFooterItem icon={<IconBrandBluesky />} href="https://bsky.app/profile/campground.gg">Bluesky</IndexFooterItem>
@@ -46,7 +46,31 @@ export default class IndexFooter extends React.Component<Props> {
                             <FormattedMessage id="global.instances" />
                         </IndexFooterItem>
                     </IndexFooterSection>
-                </SimpleGrid>
+                    <IndexFooterSection header="global.discover">
+                        <IndexFooterItem href="/discover/camps">
+                            <FormattedMessage id="global.camps" />
+                        </IndexFooterItem>
+                        <IndexFooterItem href="/discover/instances">
+                            <FormattedMessage id="global.instances" />
+                        </IndexFooterItem>
+                    </IndexFooterSection>
+                    <IndexFooterSection header="global.discover">
+                        <IndexFooterItem href="/discover/camps">
+                            <FormattedMessage id="global.camps" />
+                        </IndexFooterItem>
+                        <IndexFooterItem href="/discover/instances">
+                            <FormattedMessage id="global.instances" />
+                        </IndexFooterItem>
+                    </IndexFooterSection>
+                    <IndexFooterSection header="global.discover">
+                        <IndexFooterItem href="/discover/camps">
+                            <FormattedMessage id="global.camps" />
+                        </IndexFooterItem>
+                        <IndexFooterItem href="/discover/instances">
+                            <FormattedMessage id="global.instances" />
+                        </IndexFooterItem>
+                    </IndexFooterSection>
+                </Grid>
             </Stack>
         );
     }

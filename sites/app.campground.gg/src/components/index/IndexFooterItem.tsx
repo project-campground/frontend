@@ -1,4 +1,4 @@
-import { Group, Text, UnstyledButton } from "@mantine/core";
+import { Link } from "@mui/joy";
 import React, { ReactNode } from "react";
 
 export type Props = {
@@ -15,14 +15,9 @@ export default class IndexFooterItem extends React.Component<Props> {
         const { icon, href, children } = this.props;
 
         return (
-            <UnstyledButton component="a" className="IndexFooterItem container" href={href}>
-                <Group gap="xs">
-                    {icon}
-                    <Text>
-                        {children}
-                    </Text>
-                </Group>
-            </UnstyledButton>
+            <Link component="a" startDecorator={icon} color="neutral" className="IndexFooterItem container" href={href}>
+                {children}
+            </Link>
         );
     }
 }

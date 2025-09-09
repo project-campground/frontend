@@ -1,8 +1,9 @@
 import React from "react";
 import BrandLogo from "./BrandLogo";
 import IndexNavbarItem from "./IndexNavbarItem";
-import { Group } from "@mantine/core";
 import { FormattedMessage } from "react-intl";
+import { Link, Stack } from "@mui/joy";
+import IndexNavbarPrimary from "./IndexNavbarPrimary";
 
 export type Props = {
     page: string;
@@ -14,11 +15,11 @@ export default class IndexNavbar extends React.Component<Props> {
     }
     render() {
         return (
-            <Group component="nav" className="IndexNavbar container landing-side-padding-nav">
-                <Group className="IndexNavbar menu center" gap={0}>
-                    <IndexNavbarItem href="/">
-                        <BrandLogo includeText />
-                    </IndexNavbarItem>
+            <Stack direction="row" component="nav" className="IndexNavbar container landing-side-padding-nav">
+                <Stack direction="row" className="IndexNavbar menu" alignItems="center" flex={1} gap={0}>
+                    <Link component="a" href="/" color="neutral" className="IndexNavbarItem container" sx={{ px: 2, py: 0.5 }}>
+                        <BrandLogo includeText /> 
+                    </Link>
                     <IndexNavbarItem href="/about">
                         <FormattedMessage id="landing.about" />
                     </IndexNavbarItem>
@@ -34,16 +35,16 @@ export default class IndexNavbar extends React.Component<Props> {
                     <IndexNavbarItem href="/api">
                         <FormattedMessage id="global.api" />
                     </IndexNavbarItem>
-                </Group>
-                <Group className="IndexNavbar menu" gap={0}>
+                </Stack>
+                <Stack direction="row" className="IndexNavbar menu" alignItems="center" gap={0}>
                     <IndexNavbarItem href="/download">
                         <FormattedMessage id="global.download" />
                     </IndexNavbarItem>
-                    <IndexNavbarItem href="/login" variant="gradient">
+                    <IndexNavbarPrimary href="/login">
                         <FormattedMessage id="global.login" />
-                    </IndexNavbarItem>
-                </Group>
-            </Group>
+                    </IndexNavbarPrimary>
+                </Stack>
+            </Stack>
         );
     }
 }

@@ -1,4 +1,4 @@
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+// import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,7 +23,9 @@ import '@mantine/dropzone/styles.css';
 import { IntlProvider } from './i18n';
 import { SessionProvider } from './session';
 import Index from './routes/Index';
-import theme from './theme';
+import { CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
+import InitColorSchemeScript from '@mui/joy/InitColorSchemeScript';
+import theme from "./theme";
 
 
 function App() {
@@ -36,14 +38,17 @@ function App() {
 
   return (
     <>
-      <ColorSchemeScript />
-      <MantineProvider forceColorScheme="dark" theme={theme}>
-        <SessionProvider>
-          <IntlProvider>
-            <RouterProvider router={router} />
-          </IntlProvider>
-        </SessionProvider>
-      </MantineProvider>
+      <InitColorSchemeScript defaultMode="dark" />
+      <StyledEngineProvider injectFirst>
+        <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
+          <CssBaseline />
+          <SessionProvider>
+            <IntlProvider>
+              <RouterProvider router={router} />
+            </IntlProvider>
+          </SessionProvider>
+        </CssVarsProvider>
+      </StyledEngineProvider>
     </>
   )
 }

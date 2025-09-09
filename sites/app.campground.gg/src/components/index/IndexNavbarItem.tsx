@@ -1,4 +1,4 @@
-import { Button, ButtonVariant } from "@mantine/core";
+import { Button, ColorPaletteProp, VariantProp } from "@mui/joy";
 import React, { ReactNode } from "react";
 
 export type Props = {
@@ -6,7 +6,8 @@ export type Props = {
     href: string;
     active?: boolean;
     icon?: ReactNode;
-    variant?: ButtonVariant;
+    variant?: VariantProp;
+    color?: ColorPaletteProp;
 };
 
 export default class IndexNavbarItem extends React.Component<Props> {
@@ -14,9 +15,9 @@ export default class IndexNavbarItem extends React.Component<Props> {
         super(props);
     }
     render(): React.ReactNode {
-        const { variant, children, href } = this.props;
+        const { variant, color, children, href } = this.props;
         return (
-            <Button component="a" size="md" href={href} variant={variant ?? "transparent"} color="default" className="IndexNavbarItem container">
+            <Button component="a" size="md" href={href} variant={variant ?? "plain"} color={color ?? "neutral"} className="IndexNavbarItem container">
                 { children }
             </Button>
         );

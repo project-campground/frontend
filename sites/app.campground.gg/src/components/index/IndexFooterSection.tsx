@@ -1,4 +1,4 @@
-import { Stack, Text } from "@mantine/core";
+import { Grid, Stack, Typography } from "@mui/joy";
 import React, { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -15,14 +15,14 @@ export default class IndexFooterSection extends React.Component<Props> {
         const { header, children } = this.props;
 
         return (
-            <Stack gap="sm">
-                <Text fw={900}>
+            <Grid gap={0.5}>
+                <Typography level="title-md">
                     <FormattedMessage id={header} />
-                </Text>
-                <Stack gap="xs">
+                </Typography>
+                <Stack direction="column" gap={0.5}>
                     {children}
                 </Stack>
-            </Stack>
+            </Grid>
         );
     }
 }

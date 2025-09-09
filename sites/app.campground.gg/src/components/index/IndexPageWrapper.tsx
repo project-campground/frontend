@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import IndexNavbar from "./IndexNavbar";
-import { Flex } from "@mantine/core";
 import IndexFooter from "./IndexFooter";
+import { Stack } from "@mui/joy";
 
 type Props = {
     children: ReactNode[] | ReactNode;
@@ -16,15 +16,15 @@ export default class IndexPageWrapper extends React.Component<Props> {
         const { children } = this.props;
 
         return (
-            <Flex component="main" direction="column" className="IndexPageWrapper container">
+            <Stack component="main" direction="column" className="IndexPageWrapper container" sx={{ overflow: "hidden", height: "100%" }}>
                 <IndexNavbar page="home" />
-                <Flex direction="column" className="IndexPageWrapper body">
-                    <Flex className="IndexPageWrapper content" component="article" direction="column">
+                <Stack direction="column" className="IndexPageWrapper body" overflow={{ overflow: "auto" }}>
+                    <Stack className="IndexPageWrapper content" component="article" direction="column">
                         {children}
-                    </Flex>
+                    </Stack>
                     <IndexFooter />
-                </Flex>
-            </Flex>
+                </Stack>
+            </Stack>
         );
     }
 }

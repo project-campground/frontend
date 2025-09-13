@@ -3,7 +3,7 @@ import BrandLogo from "./BrandLogo";
 import IndexFooterItem from "./IndexFooterItem";
 import IndexFooterSection from "./IndexFooterSection";
 import { FormattedMessage } from "react-intl";
-import { IconBrandBluesky, IconBrandDiscord, IconBrandGithub, IconBrandX } from "@tabler/icons-react";
+import { IconAffiliateFilled, IconBrandBluesky, IconBrandDiscord, IconBrandGithub, IconBrandX, IconCamper, IconCampfireFilled, IconChristmasTreeFilled, IconUsersGroup } from "@tabler/icons-react";
 import { Grid, Stack } from "@mui/joy";
 
 export type Props = {
@@ -15,9 +15,9 @@ export default class IndexFooter extends React.Component<Props> {
     }
     render() {
         return (
-            <Stack direction="column" className="IndexFooter container landing-side-padding">
+            <Stack direction="column" className="IndexFooter container landing-side-padding" gap={2.5}>
                 <BrandLogo includeText size="xl" />
-                <Grid container className="IndexNavbar menu" spacing={8}>
+                <Grid container sx={{ display: "grid", gridTemplateColumns: `1fr 1fr 1fr 1fr`}} className="IndexNavbar menu" spacing={8}>
                     <IndexFooterSection header="global.socialMedia">
                         <IndexFooterItem icon={<IconBrandGithub />} href="https://github.com/Project-Campground">GitHub</IndexFooterItem>
                         <IndexFooterItem icon={<IconBrandBluesky />} href="https://bsky.app/profile/campground.gg">Bluesky</IndexFooterItem>
@@ -38,36 +38,23 @@ export default class IndexFooter extends React.Component<Props> {
                             <FormattedMessage id="global.support" />
                         </IndexFooterItem>
                     </IndexFooterSection>
-                    <IndexFooterSection header="global.discover">
-                        <IndexFooterItem href="/discover/camps">
-                            <FormattedMessage id="global.camps" />
+                    <IndexFooterSection header="global.brand">
+                        <IndexFooterItem href="/brandkit" icon={<IconAffiliateFilled />}>
+                            <FormattedMessage id="landing.brandkit" />
                         </IndexFooterItem>
-                        <IndexFooterItem href="/discover/instances">
-                            <FormattedMessage id="global.instances" />
-                        </IndexFooterItem>
-                    </IndexFooterSection>
-                    <IndexFooterSection header="global.discover">
-                        <IndexFooterItem href="/discover/camps">
-                            <FormattedMessage id="global.camps" />
-                        </IndexFooterItem>
-                        <IndexFooterItem href="/discover/instances">
-                            <FormattedMessage id="global.instances" />
+                        <IndexFooterItem href="/team" icon={<IconUsersGroup />}>
+                            <FormattedMessage id="landing.team" />
                         </IndexFooterItem>
                     </IndexFooterSection>
                     <IndexFooterSection header="global.discover">
-                        <IndexFooterItem href="/discover/camps">
-                            <FormattedMessage id="global.camps" />
-                        </IndexFooterItem>
-                        <IndexFooterItem href="/discover/instances">
+                        <IndexFooterItem href="/discover/instances" icon={<IconChristmasTreeFilled />}>
                             <FormattedMessage id="global.instances" />
                         </IndexFooterItem>
-                    </IndexFooterSection>
-                    <IndexFooterSection header="global.discover">
-                        <IndexFooterItem href="/discover/camps">
-                            <FormattedMessage id="global.camps" />
+                        <IndexFooterItem href="/discover/campsites" icon={<IconCampfireFilled />}>
+                            <FormattedMessage id="global.campsites" />
                         </IndexFooterItem>
-                        <IndexFooterItem href="/discover/instances">
-                            <FormattedMessage id="global.instances" />
+                        <IndexFooterItem href="/discover/campers" icon={<IconCamper />}>
+                            <FormattedMessage id="global.campers" />
                         </IndexFooterItem>
                     </IndexFooterSection>
                 </Grid>

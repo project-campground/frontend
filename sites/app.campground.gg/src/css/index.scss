@@ -1,10 +1,12 @@
 @use "./functions.scss" as *;
 
+$landingSidePadding: 256px;
+
 .landing-side-padding {
-    @include padding-horizontal(256px);
+    @include padding-horizontal($landingSidePadding);
 }
 .landing-side-padding-nav {
-    @include padding-horizontal(256px - 24.75px);
+    @include padding-horizontal($landingSidePadding - 24.75px);
 }
 .landing-extreme-top {
     padding-top: 128px + 64px;
@@ -31,6 +33,7 @@
 .BrandLogo.img {
     width: 56px;
     height: 56px;
+    user-select: none;
     &.xs {
         width: 36px;
         height: 36px;
@@ -60,4 +63,8 @@
     &.top-motto-text {
         margin-bottom: 24px;
     }
+}
+
+.FeatureCard.img {
+    border-radius: 8px;
 }

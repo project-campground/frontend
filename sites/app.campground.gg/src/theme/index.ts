@@ -21,6 +21,7 @@ declare module "@mui/joy/styles" {
     // Add new palette ranges
     interface PaletteRangeOverrides {
         950: true;
+        ["t-700"]: true;
     }
     // Add new colours
     interface PaletteOptions {

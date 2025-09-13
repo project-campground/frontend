@@ -16,7 +16,7 @@ export default class IndexNavbarPrimary extends React.Component<Props> {
     render(): React.ReactNode {
         const { children, href } = this.props;
         return (
-            <Link underline="none" href={href}>
+            <Link underline="none" href={href} tabIndex={-1}>
                 <PrimaryButton size="md" className="IndexNavbarItem container">
                     { children }
                 </PrimaryButton>

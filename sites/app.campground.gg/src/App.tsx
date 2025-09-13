@@ -26,6 +26,9 @@ import Index from './routes/Index';
 import { CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import InitColorSchemeScript from '@mui/joy/InitColorSchemeScript';
 import theme from "./theme";
+import Downloads from "./routes/Downloads";
+import Soon from "./routes/Soon";
+import Features from "./routes/Features";
 
 
 function App() {
@@ -33,6 +36,26 @@ function App() {
     {
       path: "/",
       element: <Index />
+    },
+    {
+      path: "/downloads",
+      element: <Downloads />
+    },
+    {
+      path: "/blog",
+      element: <Soon />
+    },
+    {
+      path: "/docs/features",
+      element: <Features />
+    },
+    {
+      path: "/docs",
+      element: <Soon />
+    },
+    {
+      path: "/docs/api",
+      element: <Soon />
     },
   ]);
 

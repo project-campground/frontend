@@ -1,4 +1,4 @@
-import { Link, Stack, Typography } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
 import { DefaultTypographySystem } from "@mui/joy/styles/types";
 
 export type Props = {
@@ -18,13 +18,11 @@ export default function BrandLogo({ size, includeText }: Props) {
     const fz = sizeToFz[size ?? "md"];
 
     return (
-        <Link component="a" className={`BrandLogo container ${size ?? "md"}`} href="/">
-            <Stack direction="row" alignItems="center" gap={1}>
-                <img className={`BrandLogo img ${size ?? "md"}`} src="/logo.svg" />
-                {includeText && <Typography level={fz}>
-                    Campground
-                </Typography>}
-            </Stack>
-        </Link>
+        <Stack direction="row" alignItems="center" gap={1} className={`BrandLogo container ${size ?? "md"}`}>
+            <img className={`BrandLogo img ${size ?? "md"}`} src="/logo.svg" />
+            {includeText && <Typography level={fz} textColor="primary.500">
+                Campground
+            </Typography>}
+        </Stack>
     )
 }

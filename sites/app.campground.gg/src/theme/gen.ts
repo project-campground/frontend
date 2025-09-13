@@ -12,6 +12,7 @@ export const generateColorScheme = (typicalColour: string, background: string, c
     800: mixHexColors(typicalColour, background, 0.6),
     700: mixHexColors(typicalColour, background, 0.4),
     600: mixHexColors(typicalColour, background, 0.2),
+    "t-700": `${typicalColour}cc`,
     500: typicalColour,
     400: mixHexColors(typicalColour, counter, 0.2),
     300: mixHexColors(typicalColour, counter, 0.4),

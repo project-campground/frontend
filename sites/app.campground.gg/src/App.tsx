@@ -22,13 +22,13 @@ import '@mantine/tiptap/styles.css';
 import '@mantine/dropzone/styles.css';
 import { IntlProvider } from './i18n';
 import { SessionProvider } from './session';
-import Index from './routes/Index';
+import LandingIndex from './routes/landing/LandingIndex';
 import { CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import InitColorSchemeScript from '@mui/joy/InitColorSchemeScript';
 import theme from "./theme";
-import Downloads from "./routes/Downloads";
+import Downloads from "./routes/landing/Downloads";
 import Soon from "./routes/Soon";
-import Features from "./routes/Features";
+import Features from "./routes/landing/Features";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import NotFound from "./routes/NotFound";
@@ -43,7 +43,7 @@ function App() {
     },
     {
       path: "/",
-      element: <Index />
+      element: <LandingIndex />
     },
     {
       path: "/downloads",

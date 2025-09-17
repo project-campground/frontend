@@ -1,23 +1,23 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import IndexPageWrapper from "../components/index/IndexPageWrapper";
+import LandingPageWrapper from "../../components/index/LandingPageWrapper";
 // import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconBrandDebian, IconCamper, IconCampfire, IconCheckbox, IconLock, IconPalette, IconServer } from "@tabler/icons-react";
 import { Box, Button, Grid, Link, Sheet, Stack, Typography } from "@mui/joy";
-import PrimaryButton from "../components/PrimaryButton";
-import IndexSection from "../components/index/IndexSection";
+import PrimaryButton from "../../components/PrimaryButton";
+import LandingSection from "../../components/index/LandingSection";
 
 export type Props = {
 
 };
 
-export default class Index extends React.Component<Props> {
+export default class LandingIndex extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
     render() {
         return (
-            <IndexPageWrapper>
+            <LandingPageWrapper>
                 {/* Top motto of the Index */}
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5 }} spacing="xl" className="IndexPage top landing-side-padding landing-extreme-top">
                     <Grid gridColumn={1}>
@@ -53,13 +53,13 @@ export default class Index extends React.Component<Props> {
                 {/* Features in the Index */}
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr" }} columnGap={5} spacing="xl" className="IndexPage feature-grid landing-side-padding">
                     <Box gridColumn={2} gridRow="1 / 6">
-                        <Box sx={{ position: "sticky", top: 120 }}>
+                        <Box sx={{ position: "sticky", top: 120, zIndex: 8 }}>
                             <Sheet>
                                 Example content
                             </Sheet>
                         </Box>
                     </Box>
-                    <IndexSection
+                    <LandingSection
                         subtitle="home.campfires.subtitle"
                         icon={<IconCampfire />}
                         title="home.campfires.title"
@@ -67,7 +67,7 @@ export default class Index extends React.Component<Props> {
                         learnMore="home.campfires.learnMore"
                         learnMoreHref="/docs/features/campfires"
                     />
-                    <IndexSection
+                    <LandingSection
                         subtitle="home.selfHost.subtitle"
                         icon={<IconServer />}
                         title="home.selfHost.title"
@@ -75,7 +75,7 @@ export default class Index extends React.Component<Props> {
                         learnMore="home.selfHost.learnMore"
                         learnMoreHref="/docs/features/instances"
                     />
-                    <IndexSection
+                    <LandingSection
                         subtitle="home.encryption.subtitle"
                         icon={<IconLock />}
                         title="home.encryption.title"
@@ -83,7 +83,7 @@ export default class Index extends React.Component<Props> {
                         learnMore="home.encryption.learnMore"
                         learnMoreHref="/docs/features/encryption"
                     />
-                    <IndexSection
+                    <LandingSection
                         subtitle="home.profiles.subtitle"
                         icon={<IconCamper />}
                         title="home.profiles.title"
@@ -91,7 +91,7 @@ export default class Index extends React.Component<Props> {
                         learnMore="home.profiles.learnMore"
                         learnMoreHref="/docs/features/profiles"
                     />
-                    <IndexSection
+                    <LandingSection
                         subtitle="home.lists.subtitle"
                         icon={<IconCheckbox />}
                         title="home.lists.title"
@@ -99,7 +99,7 @@ export default class Index extends React.Component<Props> {
                         learnMore="home.lists.learnMore"
                         learnMoreHref="/docs/features/list-tents"
                     />
-                    <IndexSection
+                    <LandingSection
                         subtitle="home.themes.subtitle"
                         icon={<IconPalette />}
                         title="home.themes.title"
@@ -109,7 +109,7 @@ export default class Index extends React.Component<Props> {
                     />
                 </Grid>
                 <IndexBottomSection />
-            </IndexPageWrapper>
+            </LandingPageWrapper>
         );
     }
 }
@@ -129,16 +129,17 @@ class IndexBottomSection extends React.Component {
                 sx={{
                     background: "transparent",
                     px: 20,
-                    py: 20,
+                    py: 25,
+                    overflow: "hidden"
                 }}
             >
                 <Sheet
                     sx={(theme) => ({
                         background: `linear-gradient(90deg, ${theme.vars.palette.primary[500]}, ${theme.vars.palette.secondary[500]})`,
                         position: "absolute",
-                        top: 0,
+                        top: 25,
                         left: -10,
-                        bottom: 0,
+                        bottom: 25,
                         right: -10,
                         rotate: "1.5deg",
                         "::before": {

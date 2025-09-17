@@ -1,11 +1,11 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import IndexPageWrapper from "../components/index/IndexPageWrapper";
+import LandingPageWrapper from "../../components/index/LandingPageWrapper";
 // import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconBrandAndroid, IconBrandApple, IconBrandDebian, IconBrandGooglePlay, IconBrandWindows, IconDownload, IconFeather } from "@tabler/icons-react";
 import { Grid, Link, Option, Select, Stack, Typography } from "@mui/joy";
-import PrimaryButton from "../components/PrimaryButton";
-import DownloadCard from "../components/index/DownloadCard";
+import PrimaryButton from "../../components/PrimaryButton";
+import DownloadCard from "../../components/index/DownloadCard";
 
 export type Props = {
 
@@ -17,7 +17,7 @@ export default class Downloads extends React.Component<Props> {
     }
     render() {
         return (
-            <IndexPageWrapper>
+            <LandingPageWrapper>
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5 }} spacing="xl" className="IndexPage top landing-side-padding landing-extreme-top">
                     <Grid gridColumn={1}>
                         <Stack direction="column" className="IndexPage top-motto" gap={1}>
@@ -151,7 +151,7 @@ export default class Downloads extends React.Component<Props> {
                     </Grid>
                     <Grid gridColumn={2}></Grid>
                 </Grid>
-            </IndexPageWrapper>
+            </LandingPageWrapper>
         );
     }
 }

@@ -13,7 +13,7 @@ type Props = {
     learnMoreHref: string;
 };
 
-export default class IndexSection extends React.Component<Props> {
+export default class LandingSection extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }

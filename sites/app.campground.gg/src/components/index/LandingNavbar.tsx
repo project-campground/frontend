@@ -1,15 +1,15 @@
 import React from "react";
 import BrandLogo from "../BrandLogo";
-import IndexNavbarItem from "./IndexNavbarItem";
+import LandingNavbarItem from "./LandingNavbarItem";
 import { FormattedMessage } from "react-intl";
 import { Box, Link, Stack } from "@mui/joy";
-import IndexNavbarPrimary from "./IndexNavbarPrimary";
+import LandingNavbarPrimary from "./LandingNavbarPrimary";
 
 export type Props = {
     page: string;
 };
 
-export default class IndexNavbar extends React.Component<Props> {
+export default class LandingNavbar extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -21,26 +21,26 @@ export default class IndexNavbar extends React.Component<Props> {
                         <Link component="a" href="/" color="neutral" className="IndexNavbarItem container" underline="none" sx={{ px: 2, py: 0.5 }}>
                             <BrandLogo includeText />
                         </Link>
-                        <IndexNavbarItem href="/docs/features">
+                        <LandingNavbarItem href="/docs/features">
                             <FormattedMessage id="landing.features" />
-                        </IndexNavbarItem>
-                        <IndexNavbarItem href="/blog">
+                        </LandingNavbarItem>
+                        <LandingNavbarItem href="/blog">
                             <FormattedMessage id="global.blog" />
-                        </IndexNavbarItem>
-                        <IndexNavbarItem href="/docs">
+                        </LandingNavbarItem>
+                        <LandingNavbarItem href="/docs">
                             <FormattedMessage id="global.docs" />
-                        </IndexNavbarItem>
-                        <IndexNavbarItem href="/docs/api">
+                        </LandingNavbarItem>
+                        <LandingNavbarItem href="/docs/api">
                             <FormattedMessage id="global.api" />
-                        </IndexNavbarItem>
+                        </LandingNavbarItem>
                     </Stack>
                     <Stack direction="row" className="IndexNavbar menu" alignItems="center" gap={0}>
-                        <IndexNavbarItem href="/downloads">
+                        <LandingNavbarItem href="/downloads">
                             <FormattedMessage id="global.download" />
-                        </IndexNavbarItem>
-                        <IndexNavbarPrimary href="/login">
+                        </LandingNavbarItem>
+                        <LandingNavbarPrimary href="/login">
                             <FormattedMessage id="form.login" />
-                        </IndexNavbarPrimary>
+                        </LandingNavbarPrimary>
                     </Stack>
                 </Stack>
             </Box>

@@ -7,7 +7,7 @@ export type Props = {
     children?: ReactNode[];
 };
 
-export default class IndexFooterSection extends React.Component<Props> {
+export default class LandingFooterSection extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }

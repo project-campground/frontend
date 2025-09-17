@@ -1,10 +1,10 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import IndexPageWrapper from "../components/index/IndexPageWrapper";
+import LandingPageWrapper from "../../components/index/LandingPageWrapper";
 // import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconCalendarFilled, IconCampfireFilled, IconCheckbox, IconFileTextFilled, IconLockFilled, IconServer } from "@tabler/icons-react";
 import { Box, Grid, Stack, Typography } from "@mui/joy"
-import FeatureCard from "../components/index/FeatureCard";
+import FeatureCard from "../../components/index/FeatureCard";
 
 export type Props = {
 
@@ -16,7 +16,7 @@ export default class Features extends React.Component<Props> {
     }
     render() {
         return (
-            <IndexPageWrapper>
+            <LandingPageWrapper>
                 <Box className="IndexPage content landing-side-padding landing-extreme-top" sx={{ mb: 15 }}>
                     <Stack direction="column" className="IndexPage top-motto" gap={1} alignItems="center">
                         <Typography className="IndexPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
@@ -76,7 +76,7 @@ export default class Features extends React.Component<Props> {
                         color="secondary"
                     />
                 </Grid>
-            </IndexPageWrapper>
+            </LandingPageWrapper>
         );
     }
 }

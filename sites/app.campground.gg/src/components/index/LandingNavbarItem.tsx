@@ -10,7 +10,7 @@ export type Props = {
     color?: ColorPaletteProp;
 };
 
-export default class IndexNavbarItem extends React.Component<Props> {
+export default class LandingNavbarItem extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }

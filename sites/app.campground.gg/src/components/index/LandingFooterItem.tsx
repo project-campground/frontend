@@ -7,7 +7,7 @@ export type Props = {
     href?: string;
 };
 
-export default class IndexFooterItem extends React.Component<Props> {
+export default class LandingFooterItem extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }

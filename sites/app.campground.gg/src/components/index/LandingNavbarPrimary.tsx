@@ -9,7 +9,7 @@ export type Props = {
     icon?: ReactNode;
 };
 
-export default class IndexNavbarPrimary extends React.Component<Props> {
+export default class LandingNavbarPrimary extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }

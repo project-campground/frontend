@@ -1,13 +1,13 @@
 import React, { ReactNode } from "react";
-import IndexFooter from "./IndexFooter";
+import LandingFooter from "./LandingFooter";
 import { Stack } from "@mui/joy";
-import IndexBareboneWrapper from "./IndexBareboneWrapper";
+import LandingBareboneWrapper from "./LandingBareboneWrapper";
 
 type Props = {
     children: ReactNode[] | ReactNode;
 };
 
-export default class IndexPageWrapper extends React.Component<Props> {
+export default class LandingPageWrapper extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -16,12 +16,12 @@ export default class IndexPageWrapper extends React.Component<Props> {
         const { children } = this.props;
 
         return (
-            <IndexBareboneWrapper>
+            <LandingBareboneWrapper>
                 <Stack className="IndexPageWrapper content" component="article" direction="column" sx={{ width: "100%" }}>
                     {children}
                 </Stack>
-                <IndexFooter />
-            </IndexBareboneWrapper>
+                <LandingFooter />
+            </LandingBareboneWrapper>
         );
     }
 }

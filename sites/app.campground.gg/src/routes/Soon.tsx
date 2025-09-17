@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import IndexPageWrapper from "../components/index/IndexPageWrapper";
+import LandingPageWrapper from "../components/index/LandingPageWrapper";
 // import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { Link, Stack, Typography } from "@mui/joy";
 import { IconDoorExit, IconMoodSadFilled } from "@tabler/icons-react";
@@ -16,7 +16,7 @@ export default class Soon extends React.Component<Props> {
     }
     render() {
         return (
-            <IndexPageWrapper>
+            <LandingPageWrapper>
                 <Stack alignItems="center" className="IndexPage top landing-side-padding landing-extreme-top" gap={1}>
                     <Typography className="IndexPage top-motto-header" level="h1" color="info" fontSize={48} fontWeight={700}>
                         <IconMoodSadFilled size={128} />
@@ -33,7 +33,7 @@ export default class Soon extends React.Component<Props> {
                         </PrimaryButton>
                     </Link>
                 </Stack>
-            </IndexPageWrapper>
+            </LandingPageWrapper>
         );
     }
 }

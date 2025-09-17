@@ -1,5 +1,5 @@
 import React from "react";
-import BrandLogo from "./BrandLogo";
+import BrandLogo from "../BrandLogo";
 import IndexFooterItem from "./IndexFooterItem";
 import IndexFooterSection from "./IndexFooterSection";
 import { FormattedMessage } from "react-intl";

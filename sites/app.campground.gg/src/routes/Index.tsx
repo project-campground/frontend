@@ -65,7 +65,7 @@ export default class Index extends React.Component<Props> {
                         title="home.campfires.title"
                         description="home.campfires.description"
                         learnMore="home.campfires.learnMore"
-                        learnMoreHref="/"
+                        learnMoreHref="/docs/features/campfires"
                     />
                     <IndexSection
                         subtitle="home.selfHost.subtitle"
@@ -73,7 +73,7 @@ export default class Index extends React.Component<Props> {
                         title="home.selfHost.title"
                         description="home.selfHost.description"
                         learnMore="home.selfHost.learnMore"
-                        learnMoreHref="/"
+                        learnMoreHref="/docs/features/instances"
                     />
                     <IndexSection
                         subtitle="home.encryption.subtitle"
@@ -81,7 +81,7 @@ export default class Index extends React.Component<Props> {
                         title="home.encryption.title"
                         description="home.encryption.description"
                         learnMore="home.encryption.learnMore"
-                        learnMoreHref="/"
+                        learnMoreHref="/docs/features/encryption"
                     />
                     <IndexSection
                         subtitle="home.profiles.subtitle"
@@ -89,7 +89,7 @@ export default class Index extends React.Component<Props> {
                         title="home.profiles.title"
                         description="home.profiles.description"
                         learnMore="home.profiles.learnMore"
-                        learnMoreHref="/"
+                        learnMoreHref="/docs/features/profiles"
                     />
                     <IndexSection
                         subtitle="home.lists.subtitle"
@@ -97,7 +97,7 @@ export default class Index extends React.Component<Props> {
                         title="home.lists.title"
                         description="home.lists.description"
                         learnMore="home.lists.learnMore"
-                        learnMoreHref="/"
+                        learnMoreHref="/docs/features/list-tents"
                     />
                     <IndexSection
                         subtitle="home.themes.subtitle"
@@ -105,7 +105,7 @@ export default class Index extends React.Component<Props> {
                         title="home.themes.title"
                         description="home.themes.description"
                         learnMore="home.themes.learnMore"
-                        learnMoreHref="/"
+                        learnMoreHref="/docs/features/themes"
                     />
                 </Grid>
                 <IndexBottomSection />

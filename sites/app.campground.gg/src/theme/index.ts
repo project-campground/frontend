@@ -21,7 +21,8 @@ declare module "@mui/joy/styles" {
     // Add new palette ranges
     interface PaletteRangeOverrides {
         950: true;
-        ["t-700"]: true;
+        ["t-950"]: true;
+        ["t-500"]: true;
     }
     // Add new colours
     interface PaletteOptions {
@@ -29,6 +30,7 @@ declare module "@mui/joy/styles" {
     }
     // Add new backgrounds
     interface PaletteBackgroundOverrides {
+        transparent: true;
         // level0: true;
         level4: true;
         level5: true;

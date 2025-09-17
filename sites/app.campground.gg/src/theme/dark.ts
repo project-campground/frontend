@@ -6,6 +6,7 @@ const darkest = "#040409", lightest = "#f5f3ff";
 const darkColorScheme: ColorSystemOptions = {
     palette: {
         neutral: {
+            "t-950": `${darkest}cc`,
             950: darkest,
             900: "#0e0b16",
             800: "#151121",
@@ -31,6 +32,7 @@ const darkColorScheme: ColorSystemOptions = {
         success: generateColorScheme("#2bfa5e", darkest, lightest),
         info: generateColorScheme("#6026ff", darkest, lightest),
         background: {
+            transparent: "#040409dd",
             popup: "#000000",
             body: "#040409",
             //backdrop: "#040409",

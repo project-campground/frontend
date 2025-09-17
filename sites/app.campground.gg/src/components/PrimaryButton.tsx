@@ -1,8 +1,8 @@
 import { Button, styled } from "@mui/joy";
 
-const PrimaryButton = styled(Button)(({ theme }) => ({
-    background: `linear-gradient(30deg, ${theme.vars.palette.primary[500]}, ${theme.vars.palette.secondary[500]})`,
-    boxShadow: `0 0 5px ${theme.vars.palette.primary[500]}`,
+const PrimaryButton = styled(Button)(({ disabled, theme }) => ({
+    background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[300]}, ${theme.vars.palette.neutral[500]})` : `linear-gradient(30deg, ${theme.vars.palette.primary[500]}, ${theme.vars.palette.secondary[500]})`,
+    boxShadow: disabled ? `0 0 5px ${theme.vars.palette.neutral[400]}` : `0 0 5px ${theme.vars.palette.primary[500]}`,
     "::after": {
         content: '""',
         zIndex: 1,

@@ -29,10 +29,18 @@ import theme from "./theme";
 import Downloads from "./routes/Downloads";
 import Soon from "./routes/Soon";
 import Features from "./routes/Features";
+import Login from "./routes/Login";
+import Register from "./routes/Register";
+import NotFound from "./routes/NotFound";
+import ResetPassword from "./routes/ResetPassword";
 
 
 function App() {
   const router = createBrowserRouter([
+    {
+      path: "*",
+      element: <NotFound />
+    },
     {
       path: "/",
       element: <Index />
@@ -40,6 +48,18 @@ function App() {
     {
       path: "/downloads",
       element: <Downloads />
+    },
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      path: "/register",
+      element: <Register />
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPassword />
     },
     {
       path: "/blog",

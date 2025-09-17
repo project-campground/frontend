@@ -1,7 +1,5 @@
 {
     "global": {
-        "login": "Sign in",
-        "register": "Sign up",
         "support": "Support",
         "download": "Download",
         "themeToggle": "Toggle color scheme",
@@ -16,9 +14,32 @@
         "resources": "Resources",
         "openBrowser": "Open in Browser"
     },
-    "underConstruction": {
-        "title": "Under construction",
-        "description": "Sorry, this section is still under construction. Come back later!",
+    "info": {
+        "username": "Username",
+        "tagline": "Tag",
+        "taglineOrEmail": "Tag or Email",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm password"
+    },
+    "form": {
+        "login": "Sign in",
+        "register": "Sign up",
+        "noAccount": "Don't have an account? Register",
+        "hasAccount": "Already have an account? Login",
+        "resetPasswordTitle": "Reset password",
+        "resetPassword": "Forgot your password? Change it",
+        "submit": "Submit"
+    },
+    "placeholder": {
+        "underConstruction": {
+            "title": "Under Construction",
+            "description": "Sorry, this section is still under construction. Come back later!"
+        },
+        "notFound": {
+            "title": "404 Not Found",
+            "description": "This page could not be found."
+        },
         "goBackToHome": "Go back to home page"
     },
     "landing": {

@@ -1,4 +1,3 @@
-// import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -14,12 +13,6 @@ import "@fontsource/quicksand/400.css";
 import "@fontsource/quicksand/500.css";
 import "@fontsource/quicksand/700.css";
 import './App.scss'
-import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/code-highlight/styles.css';
-import '@mantine/tiptap/styles.css';
-import '@mantine/dropzone/styles.css';
 import { IntlProvider } from './i18n';
 import { SessionProvider } from './session';
 import LandingIndex from './routes/landing/LandingIndex';

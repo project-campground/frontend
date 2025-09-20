@@ -26,9 +26,9 @@ export default function LandingStickyEncryption() {
                 <LandingStickyEncryptedMessage username="Joe" color="success" />
                 <LandingStickyEncryptedMessage username="Sarah" color="primary" sx={{ left: 30 }} />
                 <LandingStickyEncryptedMessage username="Lee" color="danger" sx={{ left: 60 }} />
-                <LandingStickyEncryptedMessage username="William" color="warning" sx={{ left: 30 }} />
+                <LandingStickyEncryptedMessage username="William" color="info" sx={{ left: 30 }} />
             </Stack>
-            <Alert variant="soft" color="neutral" startDecorator={<IconLockFilled />}>
+            <Alert variant="soft" color="info" startDecorator={<IconLockFilled />}>
                 Chat is protected with encryption
             </Alert>
         </Stack>

@@ -1,5 +1,4 @@
 import React, { FormEvent } from "react";
-// import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import SigninWrapper from "../components/signin/SigninWrapper";
 import { FormattedMessage } from "react-intl";
 import Form from "../components/form/Form";

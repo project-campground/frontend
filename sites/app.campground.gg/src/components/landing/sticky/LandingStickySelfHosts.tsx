@@ -6,7 +6,7 @@ import { floatingAnimation } from "./animations";
 export default function LandingStickySelfHosts() {
     return (
         <Box>
-            <LandingStickySelfHost name={"John's instance"} color="danger" sx={{ animationDelay: "0.4s", opacity: 0.5 }} />
+            <LandingStickySelfHost name={"John's instance"} color="info" sx={{ animationDelay: "0.4s", opacity: 0.5 }} />
             <LandingStickySelfHost name={"My own instance"} color="primary" sx={{ top: 100, left: 100 }} />
         </Box>
     );

@@ -54,6 +54,17 @@ declare module "@mui/joy/styles/types/colorSystem" {
 }
 
 const theme = extendTheme({
+    cssVarPrefix: ``,
+    variants: {
+        soft: {
+            info: {
+                
+            },
+            secondary: {
+
+            }
+        },
+    },
     fontFamily: {
         body: bodyFontFamily,
         display: displayFontFamily

@@ -1,7 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import LandingPageWrapper from "../../components/landing/LandingPageWrapper";
-// import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconBrandAndroid, IconBrandApple, IconBrandDebian, IconBrandGooglePlay, IconBrandWindows, IconDownload, IconFeather } from "@tabler/icons-react";
 import { Grid, Link, Option, Select, Stack, Typography } from "@mui/joy";
 import PrimaryButton from "../../components/PrimaryButton";

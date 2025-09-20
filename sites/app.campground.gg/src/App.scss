@@ -4,7 +4,21 @@ html, body, #root {
   width: 100%;
   scroll-behavior: smooth;
   height: 100%;
-  overflow: scroll;
+}
+html, body {
+  overflow: hidden;
+}
+#root {
+  overflow-y: scroll;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 }
 
 * {

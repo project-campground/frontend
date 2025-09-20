@@ -29,7 +29,7 @@ export default class SigninWrapper extends React.Component<Props> {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        background: `linear-gradient(to bottom, ${theme.vars.palette.info[950]}, ${theme.vars.palette.info[300]})`,
+                        background: `linear-gradient(to bottom, ${theme.vars.palette.info[950]} 0%, ${theme.vars.palette.info[850]} 25%, ${theme.vars.palette.info[700]} 50%, ${theme.vars.palette.info[300]} 100%)`,
                         overflow: "hidden",
                         zIndex: -1,
                     })}>

@@ -1,10 +1,10 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import LandingPageWrapper from "../../components/index/LandingPageWrapper";
+import LandingPageWrapper from "../../components/landing/LandingPageWrapper";
 // import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconCalendarFilled, IconCampfireFilled, IconCheckbox, IconFileTextFilled, IconLockFilled, IconServer } from "@tabler/icons-react";
 import { Box, Grid, Stack, Typography } from "@mui/joy"
-import FeatureCard from "../../components/index/FeatureCard";
+import FeatureCard from "../../components/landing/FeatureCard";
 
 export type Props = {
 
@@ -17,17 +17,17 @@ export default class Features extends React.Component<Props> {
     render() {
         return (
             <LandingPageWrapper>
-                <Box className="IndexPage content landing-side-padding landing-extreme-top" sx={{ mb: 15 }}>
-                    <Stack direction="column" className="IndexPage top-motto" gap={1} alignItems="center">
-                        <Typography className="IndexPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
+                <Box className="LandingPage content landing-side-padding landing-extreme-top" sx={{ mb: 15 }}>
+                    <Stack direction="column" className="LandingPage top-motto" gap={1} alignItems="center">
+                        <Typography className="LandingPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
                             <FormattedMessage id="features.title" />
                         </Typography>
-                        <Typography className="IndexPage top-motto-subtext" level="body-lg" textAlign="justify">
+                        <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
                             <FormattedMessage id="features.description" />
                         </Typography>
                     </Stack>
                 </Box>
-                <Grid container sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, mb: 10 }} spacing="xl" className="IndexPage content landing-side-padding">
+                <Grid container sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, mb: 10 }} spacing="xl" className="LandingPage content landing-side-padding">
                     <FeatureCard
                         title="features.campfires.title"
                         description="features.campfires.description"

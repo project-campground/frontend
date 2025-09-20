@@ -17,7 +17,7 @@ export default class LandingPageWrapper extends React.Component<Props> {
 
         return (
             <LandingBareboneWrapper>
-                <Stack className="IndexPageWrapper content" component="article" direction="column" sx={{ width: "100%" }}>
+                <Stack className="LandingPageWrapper content" component="article" direction="column" sx={{ width: "100%" }}>
                     {children}
                 </Stack>
                 <LandingFooter />

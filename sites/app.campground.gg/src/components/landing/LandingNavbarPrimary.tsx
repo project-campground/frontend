@@ -17,7 +17,7 @@ export default class LandingNavbarPrimary extends React.Component<Props> {
         const { children, href } = this.props;
         return (
             <Link underline="none" href={href} tabIndex={-1}>
-                <PrimaryButton size="md" className="IndexNavbarItem container">
+                <PrimaryButton size="md" className="LandingNavbarItem container">
                     { children }
                 </PrimaryButton>
             </Link>

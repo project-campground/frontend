@@ -15,7 +15,7 @@ export default class LandingFooterItem extends React.Component<Props> {
         const { icon, href, children } = this.props;
 
         return (
-            <Link component="a" startDecorator={icon} color="neutral" className="IndexFooterItem container" href={href}>
+            <Link component="a" startDecorator={icon} color="neutral" className="LandingFooterItem container" href={href}>
                 {children}
             </Link>
         );

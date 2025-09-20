@@ -23,8 +23,8 @@ export default class LandingSection extends React.Component<Props> {
         const { id, subtitle, title, description, learnMore, learnMoreHref, icon } = this.props;
 
         return (
-            <Grid id={id} gridColumn={1} className="IndexSection container" sx={{ height: 500, marginBottom: 25, }}>
-                <Stack direction="column" className="IndexSection wrapper" gap={1} alignItems="start">
+            <Grid id={id} gridColumn={1} className="LandingSection container" sx={{ height: 500, marginBottom: 25, }}>
+                <Stack direction="column" className="LandingSection wrapper" gap={1} alignItems="start">
                     <Stack direction="row" gap={1} alignItems="center">
                         <Typography level="title-sm" textColor="neutral.300">
                             {icon}

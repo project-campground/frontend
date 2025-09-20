@@ -1,18 +1,18 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import LandingPageWrapper from "../../components/index/LandingPageWrapper";
+import LandingPageWrapper from "../../components/landing/LandingPageWrapper";
 // import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconBrandDebian, IconCamper, IconCampfire, IconCheckbox, IconLock, IconPalette, IconServer } from "@tabler/icons-react";
 import { Box, Button, Grid, Link, Sheet, Stack, Typography } from "@mui/joy";
 import PrimaryButton from "../../components/PrimaryButton";
-import LandingSection from "../../components/index/LandingSection";
+import LandingSection from "../../components/landing/LandingSection";
 import ObservabilityDisplay from "../../components/ObservabilityDisplay";
-import LandingStickyCampfires from "../../components/index/sticky/LandingStickyCampfire";
-import LandingStickySelfHosts from "../../components/index/sticky/LandingStickySelfHosts";
-import LandingStickyEncryption from "../../components/index/sticky/LandingStickyEncryption";
-import LandingStickyProfile from "../../components/index/sticky/LandingStickyProfile";
-import LandingStickyLists from "../../components/index/sticky/LandingStickyLists";
-import LandingStickyThemes from "../../components/index/sticky/LandingStickyThemes";
+import LandingStickyCampfires from "../../components/landing/sticky/LandingStickyCampfire";
+import LandingStickySelfHosts from "../../components/landing/sticky/LandingStickySelfHosts";
+import LandingStickyEncryption from "../../components/landing/sticky/LandingStickyEncryption";
+import LandingStickyProfile from "../../components/landing/sticky/LandingStickyProfile";
+import LandingStickyLists from "../../components/landing/sticky/LandingStickyLists";
+import LandingStickyThemes from "../../components/landing/sticky/LandingStickyThemes";
 
 export type Props = {
 
@@ -26,23 +26,23 @@ export default class LandingIndex extends React.Component<Props> {
         return (
             <LandingPageWrapper>
                 {/* Top motto of the Index */}
-                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5 }} spacing="xl" className="IndexPage top landing-side-padding landing-extreme-top">
+                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5 }} spacing="xl" className="LandingPage top landing-side-padding landing-extreme-top">
                     <Grid gridColumn={1}>
-                        <Stack direction="column" className="IndexPage top-motto" gap={1}>
-                            <Grid container columns={{ xs: 1 }} gap={1} className="IndexPage top-motto-text">
+                        <Stack direction="column" className="LandingPage top-motto" gap={1}>
+                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage top-motto-text">
                                 <Grid>
-                                    <Typography className="IndexPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
+                                    <Typography className="LandingPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
                                         <FormattedMessage id="home.title" />
                                     </Typography>
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
-                                    <Typography className="IndexPage top-motto-subtext" level="body-lg" textAlign="justify">
+                                    <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
                                         <FormattedMessage id="home.description" />
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Stack direction="column" gap={1.5}>
-                                <Stack direction="row" className="IndexPage top-motto-buttons" gap={1}>
+                                <Stack direction="row" className="LandingPage top-motto-buttons" gap={1}>
                                     <Link underline="none" href="/download" tabIndex={-1}>
                                         <PrimaryButton size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
                                             <FormattedMessage id="landing.download.debian" />
@@ -58,7 +58,7 @@ export default class LandingIndex extends React.Component<Props> {
                     </Grid>
                 </Grid>
                 {/* Features in the Index */}
-                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr" }} columnGap={5} spacing="xl" className="IndexPage feature-grid landing-side-padding">
+                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr" }} columnGap={5} spacing="xl" className="LandingPage feature-grid landing-side-padding">
                     <LandingSection
                         id="campfires"
                         subtitle="home.campfires.subtitle"
@@ -126,13 +126,13 @@ export default class LandingIndex extends React.Component<Props> {
                         </Box>
                     </Box>
                 </Grid>
-                <IndexBottomSection />
+                <LandingBottomSection />
             </LandingPageWrapper>
         );
     }
 }
 
-class IndexBottomSection extends React.Component {
+class LandingBottomSection extends React.Component {
     constructor(props: {}) {
         super(props);
     }
@@ -141,7 +141,7 @@ class IndexBottomSection extends React.Component {
         return (
             <Sheet
                 invertedColors
-                className="IndexBottomSection container landing-side-padding"
+                className="LandingBottomSection container landing-side-padding"
                 color="primary"
                 variant="solid"
                 sx={{
@@ -183,7 +183,7 @@ class IndexBottomSection extends React.Component {
                             <FormattedMessage id="home.bottom.description" />
                         </Typography>
                     </Stack>
-                    <Stack direction="row" className="IndexBottomSection buttons" gap={1}>
+                    <Stack direction="row" className="LandingBottomSection buttons" gap={1}>
                         <Link underline="none" href="/download">
                             <Button size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
                                 <FormattedMessage id="landing.download.debian" />

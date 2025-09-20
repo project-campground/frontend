@@ -17,7 +17,7 @@ export default class LandingNavbarItem extends React.Component<Props> {
     render(): React.ReactNode {
         const { variant, color, children, href } = this.props;
         return (
-            <Button component="a" size="md" href={href} variant={variant ?? "plain"} color={color ?? "neutral"} className="IndexNavbarItem container">
+            <Button component="a" size="md" href={href} variant={variant ?? "plain"} color={color ?? "neutral"} className="LandingNavbarItem container">
                 { children }
             </Button>
         );

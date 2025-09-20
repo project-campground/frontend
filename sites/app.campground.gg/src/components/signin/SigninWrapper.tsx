@@ -20,7 +20,7 @@ export default class SigninWrapper extends React.Component<Props> {
         const { header, sx, bodySx, children } = this.props;
 
         return (
-            <Stack component="main" direction="column" className="IndexBareboneWrapper container" sx={{ height: "100%", ...sx }}>
+            <Stack component="main" direction="column" className="LandingBareboneWrapper container" sx={{ height: "100%", ...sx }}>
                 <SigninNavbar page="home" />
                 <Stack direction="column" className="SigninWrapper body" sx={{ overflow: "hidden", height: "100%", flex: 1, width: "100%", ...bodySx }}>
                     <Box className="SigninPage background" sx={(theme) => ({

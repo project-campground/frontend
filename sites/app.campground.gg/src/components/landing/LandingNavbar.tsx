@@ -16,9 +16,9 @@ export default class LandingNavbar extends React.Component<Props> {
     render() {
         return (
             <Box sx={(theme) => ({ position: "sticky", top: 0, zIndex: 20, backgroundColor: theme.vars.palette.background.transparent })}>
-                <Stack direction="row" component="nav" className="IndexNavbar container landing-side-padding-nav">
-                    <Stack direction="row" className="IndexNavbar menu" alignItems="center" flex={1} gap={0}>
-                        <Link component="a" href="/" color="neutral" className="IndexNavbarItem container" underline="none" sx={{ px: 2, py: 0.5 }}>
+                <Stack direction="row" component="nav" className="LandingNavbar container landing-side-padding-nav">
+                    <Stack direction="row" className="LandingNavbar menu" alignItems="center" flex={1} gap={0}>
+                        <Link component="a" href="/" color="neutral" className="LandingNavbarItem container" underline="none" sx={{ px: 2, py: 0.5 }}>
                             <BrandLogo includeText />
                         </Link>
                         <LandingNavbarItem href="/docs/features">
@@ -34,7 +34,7 @@ export default class LandingNavbar extends React.Component<Props> {
                             <FormattedMessage id="global.api" />
                         </LandingNavbarItem>
                     </Stack>
-                    <Stack direction="row" className="IndexNavbar menu" alignItems="center" gap={0}>
+                    <Stack direction="row" className="LandingNavbar menu" alignItems="center" gap={0}>
                         <LandingNavbarItem href="/downloads">
                             <FormattedMessage id="global.download" />
                         </LandingNavbarItem>

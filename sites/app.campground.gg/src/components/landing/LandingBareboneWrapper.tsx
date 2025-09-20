@@ -18,9 +18,9 @@ export default class LandingBareboneWrapper extends React.Component<Props> {
         const { sx, bodySx, children } = this.props;
 
         return (
-            <Stack component="main" direction="column" className="IndexBareboneWrapper container" sx={{ scrollBehavior: "smooth", width: "100%", minHeight: "100%", ...sx }}>
+            <Stack component="main" direction="column" className="LandingBareboneWrapper container" sx={{ scrollBehavior: "smooth", width: "100%", minHeight: "100%", ...sx }}>
                 <LandingNavbar page="home" />
-                <Stack direction="column" className="IndexBareboneWrapper body" sx={{ minHeight: "100%", flex: 1, width: "100%", ...bodySx }}>
+                <Stack direction="column" className="LandingBareboneWrapper body" sx={{ minHeight: "100%", flex: 1, width: "100%", ...bodySx }}>
                     {children}
                 </Stack>
             </Stack>

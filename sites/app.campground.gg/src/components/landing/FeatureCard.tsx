@@ -38,7 +38,7 @@ export default function FeatureCard({ title, description, icon, href, imgSrc, co
                 })}
             >
                 <CardOverflow sx={{ zIndex: 2, px: 4, py: 2 }}>
-                    <AspectRatio ratio={3}>
+                    <AspectRatio ratio={3} sx={(theme) => ({ borderRadius: theme.vars.radius.md })}>
                         <img src={imgSrc} className="FeatureCard img" />
                     </AspectRatio>
                 </CardOverflow>

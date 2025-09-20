@@ -16,7 +16,7 @@ export default class LandingNavbar extends React.Component<Props> {
     render() {
         return (
             <Box sx={(theme) => ({ position: "sticky", top: 0, zIndex: 20, backgroundColor: theme.vars.palette.background.transparent })}>
-                <Stack direction="row" component="nav" className="LandingNavbar container landing-side-padding-nav">
+                <Stack direction="row" component="nav" className="LandingNavbar container landing-side-padding-nav" sx={{ py: 1 }}>
                     <Stack direction="row" className="LandingNavbar menu" alignItems="center" flex={1} gap={0}>
                         <Link component="a" href="/" color="neutral" className="LandingNavbarItem container" underline="none" sx={{ px: 2, py: 0.5 }}>
                             <BrandLogo includeText />

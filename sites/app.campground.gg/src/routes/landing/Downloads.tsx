@@ -17,23 +17,23 @@ export default class Downloads extends React.Component<Props> {
     render() {
         return (
             <LandingPageWrapper>
-                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5 }} spacing="xl" className="LandingPage top landing-side-padding landing-extreme-top">
+                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5, height: `calc(100vh - 72px)`, pt: 24 }} spacing="xl" className="LandingPage top landing-side-padding">
                     <Grid gridColumn={1}>
                         <Stack direction="column" className="LandingPage top-motto" gap={1}>
-                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage top-motto-text">
+                            <Grid container sx={{ mb: 3 }} columns={{ xs: 1 }} gap={1} className="LandingPage motto-text">
                                 <Grid>
-                                    <Typography className="LandingPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
+                                    <Typography className="LandingPage motto-header" level="h1" fontSize={64} fontWeight={700}>
                                         <FormattedMessage id="downloads.title" />
                                     </Typography>
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
-                                    <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
+                                    <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
                                         <FormattedMessage id="downloads.description" />
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Stack direction="column" gap={1}>
-                                <Stack direction="row" className="LandingPage top-motto-buttons" gap={1}>
+                                <Stack direction="row" className="LandingPage motto-buttons" gap={1}>
                                     <Link underline="none" href="/download">
                                         <PrimaryButton size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
                                             <FormattedMessage id="landing.download.debian" />
@@ -48,17 +48,17 @@ export default class Downloads extends React.Component<Props> {
                     </Grid>
                     <Grid gridColumn={2}></Grid>
                 </Grid>
-                <Grid container sx={{ mb: 16, display: "grid", gridTemplateColumns: "5fr 4fr", gap: [0, 30] }} spacing="xl" className="LandingPage content landing-side-padding landing-extreme-top">
+                <Grid container sx={{ mb: 16, display: "grid", gridTemplateColumns: "5fr 4fr", gap: [0, 30], pt: 24 }} spacing="xl" className="LandingPage content landing-side-padding">
                     <Grid gridColumn={1} id="desktop">
                         <Stack direction="column" className="LandingPage mid-motto" gap={1} my={20}>
-                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage top-motto-text">
+                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage motto-text">
                                 <Grid>
-                                    <Typography className="LandingPage top-motto-header" level="h1" fontSize={48} fontWeight={700}>
+                                    <Typography className="LandingPage motto-header" level="h1" fontSize={48} fontWeight={700}>
                                         <FormattedMessage id="downloads.desktop" />
                                     </Typography>
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
-                                    <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
+                                    <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
                                         <FormattedMessage id="downloads.desktopDescription" />
                                     </Typography>
                                 </Grid>
@@ -111,14 +111,14 @@ export default class Downloads extends React.Component<Props> {
                     <Grid gridColumn={2}></Grid>
                     <Grid gridColumn={1} id="mobile">
                         <Stack direction="column" className="LandingPage mid-motto" gap={1} my={20}>
-                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage top-motto-text">
+                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage motto-text">
                                 <Grid>
-                                    <Typography className="LandingPage top-motto-header" level="h1" fontSize={48} fontWeight={700}>
+                                    <Typography className="LandingPage motto-header" level="h1" fontSize={48} fontWeight={700}>
                                         <FormattedMessage id="downloads.mobile" />
                                     </Typography>
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
-                                    <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
+                                    <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
                                         <FormattedMessage id="downloads.mobileDescription" />
                                     </Typography>
                                 </Grid>

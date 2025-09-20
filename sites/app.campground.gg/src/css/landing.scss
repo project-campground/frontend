@@ -8,27 +8,6 @@ $landingSidePadding: 256px;
 .landing-side-padding-nav {
     @include padding-horizontal($landingSidePadding - 24.75px);
 }
-.landing-extreme-top {
-    padding-top: 128px + 64px;
-}
-
-.LandingNavbar {
-    &.container {
-        @include padding-vertical(8px);
-    }
-    &.menu.center {
-        flex: 1;
-        align-items: center;
-    }
-    &.spacing {
-        flex: 1;
-    }
-}
-
-.LandingFooter.container {
-    padding-top: 24px;
-    padding-bottom: 48px;
-}
 
 .BrandLogo.img {
     width: 56px;
@@ -54,17 +33,4 @@ $landingSidePadding: 256px;
         width: 96px;
         height: 96px;
     }
-}
-
-.LandingPage {
-    &.top {
-        height: 1080px - 72px;
-    }
-    &.top-motto-text {
-        margin-bottom: 24px;
-    }
-}
-
-.FeatureCard.img {
-    border-radius: 8px;
 }

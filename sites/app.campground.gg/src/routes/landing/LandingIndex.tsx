@@ -25,23 +25,23 @@ export default class LandingIndex extends React.Component<Props> {
         return (
             <LandingPageWrapper>
                 {/* Top motto of the Index */}
-                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5 }} spacing="xl" className="LandingPage top landing-side-padding landing-extreme-top">
+                <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5, height: `calc(100vh - 72px)`, pt: 24 }} spacing="xl" className="LandingPage top landing-side-padding">
                     <Grid gridColumn={1}>
-                        <Stack direction="column" className="LandingPage top-motto" gap={1}>
-                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage top-motto-text">
+                        <Stack direction="column" className="LandingPage top-motto motto" gap={1}>
+                            <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage motto-text">
                                 <Grid>
-                                    <Typography className="LandingPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
+                                    <Typography className="LandingPage motto-header" level="h1" fontSize={64} fontWeight={700}>
                                         <FormattedMessage id="home.title" />
                                     </Typography>
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
-                                    <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
+                                    <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
                                         <FormattedMessage id="home.description" />
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Stack direction="column" gap={1.5}>
-                                <Stack direction="row" className="LandingPage top-motto-buttons" gap={1}>
+                                <Stack direction="row" className="LandingPage motto-buttons" gap={1}>
                                     <Link underline="none" href="/download" tabIndex={-1}>
                                         <PrimaryButton size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
                                             <FormattedMessage id="landing.download.debian" />

@@ -16,12 +16,12 @@ export default class Features extends React.Component<Props> {
     render() {
         return (
             <LandingPageWrapper>
-                <Box className="LandingPage content landing-side-padding landing-extreme-top" sx={{ mb: 15 }}>
+                <Box className="LandingPage content landing-side-padding" sx={{ mb: 15, pt: 24, }}>
                     <Stack direction="column" className="LandingPage top-motto" gap={1} alignItems="center">
-                        <Typography className="LandingPage top-motto-header" level="h1" fontSize={64} fontWeight={700}>
+                        <Typography className="LandingPage motto-header" level="h1" fontSize={64} fontWeight={700}>
                             <FormattedMessage id="features.title" />
                         </Typography>
-                        <Typography className="LandingPage top-motto-subtext" level="body-lg" textAlign="justify">
+                        <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
                             <FormattedMessage id="features.description" />
                         </Typography>
                     </Stack>

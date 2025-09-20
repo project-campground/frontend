@@ -6,6 +6,13 @@ import { IconBrandDebian, IconCamper, IconCampfire, IconCheckbox, IconLock, Icon
 import { Box, Button, Grid, Link, Sheet, Stack, Typography } from "@mui/joy";
 import PrimaryButton from "../../components/PrimaryButton";
 import LandingSection from "../../components/index/LandingSection";
+import ObservabilityDisplay from "../../components/ObservabilityDisplay";
+import LandingStickyCampfires from "../../components/index/sticky/LandingStickyCampfire";
+import LandingStickySelfHosts from "../../components/index/sticky/LandingStickySelfHosts";
+import LandingStickyEncryption from "../../components/index/sticky/LandingStickyEncryption";
+import LandingStickyProfile from "../../components/index/sticky/LandingStickyProfile";
+import LandingStickyLists from "../../components/index/sticky/LandingStickyLists";
+import LandingStickyThemes from "../../components/index/sticky/LandingStickyThemes";
 
 export type Props = {
 
@@ -52,14 +59,8 @@ export default class LandingIndex extends React.Component<Props> {
                 </Grid>
                 {/* Features in the Index */}
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr" }} columnGap={5} spacing="xl" className="IndexPage feature-grid landing-side-padding">
-                    <Box gridColumn={2} gridRow="1 / 6">
-                        <Box sx={{ position: "sticky", top: 120, zIndex: 8 }}>
-                            <Sheet>
-                                Example content
-                            </Sheet>
-                        </Box>
-                    </Box>
                     <LandingSection
+                        id="campfires"
                         subtitle="home.campfires.subtitle"
                         icon={<IconCampfire />}
                         title="home.campfires.title"
@@ -68,6 +69,7 @@ export default class LandingIndex extends React.Component<Props> {
                         learnMoreHref="/docs/features/campfires"
                     />
                     <LandingSection
+                        id="selfHost"
                         subtitle="home.selfHost.subtitle"
                         icon={<IconServer />}
                         title="home.selfHost.title"
@@ -76,6 +78,7 @@ export default class LandingIndex extends React.Component<Props> {
                         learnMoreHref="/docs/features/instances"
                     />
                     <LandingSection
+                        id="encryption"
                         subtitle="home.encryption.subtitle"
                         icon={<IconLock />}
                         title="home.encryption.title"
@@ -84,6 +87,7 @@ export default class LandingIndex extends React.Component<Props> {
                         learnMoreHref="/docs/features/encryption"
                     />
                     <LandingSection
+                        id="profiles"
                         subtitle="home.profiles.subtitle"
                         icon={<IconCamper />}
                         title="home.profiles.title"
@@ -92,6 +96,7 @@ export default class LandingIndex extends React.Component<Props> {
                         learnMoreHref="/docs/features/profiles"
                     />
                     <LandingSection
+                        id="lists"
                         subtitle="home.lists.subtitle"
                         icon={<IconCheckbox />}
                         title="home.lists.title"
@@ -100,6 +105,7 @@ export default class LandingIndex extends React.Component<Props> {
                         learnMoreHref="/docs/features/list-tents"
                     />
                     <LandingSection
+                        id="themes"
                         subtitle="home.themes.subtitle"
                         icon={<IconPalette />}
                         title="home.themes.title"
@@ -107,6 +113,18 @@ export default class LandingIndex extends React.Component<Props> {
                         learnMore="home.themes.learnMore"
                         learnMoreHref="/docs/features/themes"
                     />
+                    <Box gridColumn={2} gridRow="1 / 6">
+                        <Box sx={{ userSelect: "none", position: "sticky", top: 120, zIndex: 8 }}>
+                            <ObservabilityDisplay observeQuery="#campfires" threshold={1}>
+                                {{ elementId: "campfires", node: <LandingStickyCampfires /> }}
+                                {{ elementId: "selfHost", node: <LandingStickySelfHosts /> }}
+                                {{ elementId: "encryption", node: <LandingStickyEncryption /> }}
+                                {{ elementId: "profiles", node: <LandingStickyProfile /> }}
+                                {{ elementId: "lists", node: <LandingStickyLists /> }}
+                                {{ elementId: "themes", node: <LandingStickyThemes /> }}
+                            </ObservabilityDisplay>
+                        </Box>
+                    </Box>
                 </Grid>
                 <IndexBottomSection />
             </LandingPageWrapper>

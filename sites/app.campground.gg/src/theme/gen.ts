@@ -7,8 +7,10 @@ import { PaletteOptions } from "@mui/joy/styles/types";
 import { greyscaleHexColor, mixHexColors } from "./color";
 
 export const generateColorScheme = (typicalColour: string, background: string, counter: string): Partial<PaletteOptions["primary" | "neutral" | "success" | "danger"]> => ({
+    1000: mixHexColors(typicalColour, background, 0.95),
     950: mixHexColors(typicalColour, background, 0.88),
     900: mixHexColors(typicalColour, background, 0.8),
+    850: mixHexColors(typicalColour, background, 0.7),
     800: mixHexColors(typicalColour, background, 0.6),
     700: mixHexColors(typicalColour, background, 0.4),
     600: mixHexColors(typicalColour, background, 0.2),

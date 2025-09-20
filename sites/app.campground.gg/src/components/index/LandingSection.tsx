@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import PrimaryButton from "../PrimaryButton";
 
 type Props = {
+    id: string;
     subtitle: string;
     title: string;
     description: string;
@@ -19,10 +20,10 @@ export default class LandingSection extends React.Component<Props> {
     }
 
     render() {
-        const { subtitle, title, description, learnMore, learnMoreHref, icon } = this.props;
+        const { id, subtitle, title, description, learnMore, learnMoreHref, icon } = this.props;
 
         return (
-            <Grid gridColumn={1} className="IndexSection container" sx={{ height: 800 }}>
+            <Grid id={id} gridColumn={1} className="IndexSection container" sx={{ height: 500, marginBottom: 25, }}>
                 <Stack direction="column" className="IndexSection wrapper" gap={1} alignItems="start">
                     <Stack direction="row" gap={1} alignItems="center">
                         <Typography level="title-sm" textColor="neutral.300">

@@ -20,7 +20,9 @@ declare module "@mui/joy/styles" {
     }
     // Add new palette ranges
     interface PaletteRangeOverrides {
+        1000: true;
         950: true;
+        850: true;
         ["t-950"]: true;
         ["t-500"]: true;
     }
@@ -69,18 +71,6 @@ const theme = extendTheme({
             },
         }
     }
-    // primaryColor: "orange",
-    // colors: {
-    //     pink: ["#ff2661", "#ff2661", "#ff2661", "#ff2661", "#ff2661", "#ff2661", "#ff2661", "#ff2661", "#ff2661", "#ff2661", ],
-    //     red: ["#ff402b", "#ff402b", "#ff402b", "#ff402b", "#ff402b", "#ff402b", "#ff402b", "#ff402b", "#ff402b", "#ff402b", ],
-    //     orange: ["#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26", "#ff5a26"],
-    //     green: ["#20eb53", "#20eb53", "#20eb53", "#20eb53", "#20eb53", "#20eb53", "#20eb53", "#20eb53", "#20eb53", "#20eb53", ],
-    // },
-    // defaultGradient: {
-    //     from: "orange",
-    //     to: "pink",
-    //     deg: 60
-    // }
 });
 
 export default theme;

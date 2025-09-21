@@ -27,7 +27,7 @@ export default class LandingIndex extends React.Component<Props> {
                 {/* Top motto of the Index */}
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5, height: `calc(100vh - 72px)`, pt: 24 }} spacing="xl" className="LandingPage top landing-side-padding">
                     <Grid gridColumn={1}>
-                        <Stack direction="column" className="LandingPage top-motto motto" gap={1}>
+                        <Stack direction="column" className="LandingPage top-motto motto" gap={3}>
                             <Grid container columns={{ xs: 1 }} gap={1} className="LandingPage motto-text">
                                 <Grid>
                                     <Typography className="LandingPage motto-header" level="h1" fontSize={64} fontWeight={700}>

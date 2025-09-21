@@ -28,7 +28,7 @@ export default class Soon extends React.Component<Props> {
                     </Typography>
                     <Link underline="none" href="/" sx={{ mt: 2 }}>
                         <PrimaryButton startDecorator={<IconDoorExit />}>
-                            <FormattedMessage id="underConstruction.goBackToHome" />
+                            <FormattedMessage id="placeholder.goBackToHome" />
                         </PrimaryButton>
                     </Link>
                 </Stack>

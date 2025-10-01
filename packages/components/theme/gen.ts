@@ -3,7 +3,7 @@
 // Not exactly a proprietary code
 // Could rewrite in-case it's not in Campground's interest
 
-import { PaletteOptions } from "@mui/joy/styles/types";
+import type { PaletteOptions } from "@mui/joy/styles/types";
 import { greyscaleHexColor, mixHexColors } from "./color";
 
 export const generateColorScheme = (typicalColour: string, background: string, counter: string): Partial<PaletteOptions["primary" | "neutral" | "success" | "danger"]> => ({

@@ -1,4 +1,4 @@
-import { ColorSystemOptions } from "@mui/joy/styles/extendTheme";
+import type { ColorSystemOptions } from "@mui/joy/styles/extendTheme";
 import { generateColorScheme } from "./gen";
 
 const darkest = "#040409", lightest = "#f5f3ff";
@@ -28,6 +28,13 @@ const lightColorScheme: ColorSystemOptions = {
             secondary: shades[100],
             tertiary: shades[200],
             icon: shades[300],
+            "code-keyword": "#fe603f",
+            "code-string": "#ff538b",
+            "code-number": "#c998f9",
+            "code-template": "#ea16b0",
+            "code-class": "#74a6f8",
+            "code-function": "#ffb95e",
+            "code-attribute": "#bcec6a",
         },
         primary: generateColorScheme("#ff5a26", lightest, darkest),
         secondary: generateColorScheme("#ff2661", lightest, darkest),

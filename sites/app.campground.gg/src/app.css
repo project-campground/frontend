@@ -1,0 +1,71 @@
+@import "@fontsource/nunito-sans/500.css";
+@import "@fontsource/nunito-sans/500-italic.css";
+@import "@fontsource/nunito-sans/700.css";
+@import "@fontsource/nunito-sans/700-italic.css";
+@import "@fontsource/nunito-sans/900.css";
+@import "@fontsource/nunito-sans/900-italic.css";
+@import "@fontsource/quicksand/400.css";
+@import "@fontsource/quicksand/500.css";
+@import "@fontsource/quicksand/700.css";
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+::selection {
+    background-color: var(--palette-primary-t-500);
+    color: var(--palette-primary-100)
+}
+
+.svg-primary {
+    stroke: var(--palette-text-primary);
+}
+
+.svg-secondary {
+    stroke: var(--palette-text-secondary);
+}
+
+.svg-tertiary {
+    stroke: var(--palette-text-tertiary);
+}
+
+.svg-neutral-50 {
+    stroke: var(--palette-neutral-50);
+}
+
+.svg-neutral-100 {
+    stroke: var(--palette-neutral-100);
+}
+
+.svg-neutral-200 {
+    stroke: var(--palette-neutral-200);
+}
+
+.svg-neutral-300 {
+    stroke: var(--palette-neutral-300);
+}
+
+.svg-neutral-400 {
+    stroke: var(--palette-neutral-400);
+}
+
+.svg-neutral-500 {
+    stroke: var(--palette-neutral-500);
+}
+
+.svg-neutral-600 {
+    stroke: var(--palette-neutral-600);
+}
+
+.stroke-3 {
+    stroke-width: 3px;
+}
+
+.stroke-4 {
+    stroke-width: 3px;
+}
+
+.stroke-5 {
+    stroke-width: 3px;
+}

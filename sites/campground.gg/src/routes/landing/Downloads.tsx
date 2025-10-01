@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import LandingPageWrapper from "../../components/landing/LandingPageWrapper";
 import { IconBrandAndroid, IconBrandApple, IconBrandDebian, IconBrandGooglePlay, IconBrandWindows, IconDownload, IconFeather } from "@tabler/icons-react";
 import { Grid, Link, Option, Select, Stack, Typography } from "@mui/joy";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "components/PrimaryButton";
 import DownloadCard from "../../components/landing/DownloadCard";
 
 export type Props = {
@@ -35,7 +35,7 @@ export default class Downloads extends React.Component<Props> {
                             <Stack direction="column" gap={1}>
                                 <Stack direction="row" className="LandingPage motto-buttons" gap={1}>
                                     <Link underline="none" href="/download">
-                                        <PrimaryButton size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
+                                        <PrimaryButton component="button" size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
                                             <FormattedMessage id="landing.download.debian" />
                                         </PrimaryButton>
                                     </Link>

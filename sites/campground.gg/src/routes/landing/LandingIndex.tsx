@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import LandingPageWrapper from "../../components/landing/LandingPageWrapper";
 import { IconBrandDebian, IconCamper, IconCampfire, IconCheckbox, IconLock, IconPalette, IconServer } from "@tabler/icons-react";
 import { Box, Button, Grid, Link, Sheet, Stack, Typography } from "@mui/joy";
-import PrimaryButton from "../../components/PrimaryButton";
+import PrimaryButton from "components/PrimaryButton";
 import LandingSection from "../../components/landing/LandingSection";
 import ObservabilityDisplay from "../../components/ObservabilityDisplay";
 import LandingStickyCampfires from "../../components/landing/sticky/LandingStickyCampfire";
@@ -43,7 +43,7 @@ export default class LandingIndex extends React.Component<Props> {
                             <Stack direction="column" gap={1.5}>
                                 <Stack direction="row" className="LandingPage motto-buttons" gap={1}>
                                     <Link underline="none" href="/download" tabIndex={-1}>
-                                        <PrimaryButton size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
+                                        <PrimaryButton component="button" size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
                                             <FormattedMessage id="landing.download.debian" />
                                         </PrimaryButton>
                                     </Link>

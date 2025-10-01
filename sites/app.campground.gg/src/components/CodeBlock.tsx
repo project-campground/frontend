@@ -1,4 +1,4 @@
-import { Box, Chip, IconButton, styled } from "@mui/joy";
+import { Chip, IconButton, Stack, styled, Typography } from "@mui/joy";
 import hljs, { type Language } from "highlight.js";
 import React from "react";
 import { IconCopy } from "@tabler/icons-react";
@@ -7,6 +7,10 @@ import type { HighlightNode, HighlightToken } from "types/highlight";
 type Props = {
     children: string;
     language?: string | undefined | null;
+    startingLine?: number | undefined | null;
+    languageName?: string | undefined | null;
+    description?: string | undefined | null;
+    highlightLines?: number[] | undefined | null;
 }
 
 // Code wrapping
@@ -17,12 +21,10 @@ const CodeContainer = styled("div", {
     position: "relative",
     backgroundColor: theme.vars.palette.background.body,
     color: theme.vars.palette.text.tertiary,
-    padding: `6px 12px`,
     borderRadius: theme.vars.radius.md,
     display: "flex",
     flexDirection: "column",
-    gap: 8,
-    margin: "4px 0",
+    margin: "8px 0",
     "> .code-icon-button": {
         opacity: 0,
         transition: "opacity 0.5s",
@@ -35,27 +37,69 @@ const CodeContainer = styled("div", {
     },
     "*.token.string": {
         color: theme.vars.palette.text["code-string"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-string"],
+        }
     },
     "*.token.comment": {
-        color: theme.vars.palette.neutral[400]
+        color: theme.vars.palette.neutral[400],
     },
     "*.token.title.function": {
-        color: theme.vars.palette.text["code-function"]
+        color: theme.vars.palette.text["code-function"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-function"],
+        }
     },
     "*.token.title.class": {
-        color: theme.vars.palette.text["code-class"]
+        color: theme.vars.palette.text["code-class"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-class"],
+        }
     },
     "*.token.number": {
-        color: theme.vars.palette.text["code-number"]
+        color: theme.vars.palette.text["code-number"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-number"],
+        }
     },
     "*.token.attr": {
-        color: theme.vars.palette.text["code-attribute"]
+        color: theme.vars.palette.text["code-attribute"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-attribute"],
+        }
     },
     "*.token.subst": {
-        color: theme.vars.palette.text["code-template"]
+        color: theme.vars.palette.text["code-template"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-template"],
+        }
     },
     "*.token.keyword, *.token.built_in, *.token.tag, *.token.name, *.token.variable.language": {
-        color: theme.vars.palette.text["code-keyword"]
+        color: theme.vars.palette.text["code-keyword"],
+        "::selection": {
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.text["code-keyword"],
+        }
+    },
+    "*.token.addition": {
+        color: theme.vars.palette.success[500],
+        "::selection": {
+            color: theme.vars.palette.success[950],
+            backgroundColor: theme.vars.palette.success[500],
+        }
+    },
+    "*.token.deletion": {
+        color: theme.vars.palette.danger[500],
+        "::selection": {
+            color: theme.vars.palette.danger[950],
+            backgroundColor: theme.vars.palette.danger[500],
+        }
     },
 }));
 const CodePre = styled("pre", {
@@ -70,17 +114,20 @@ const CodeGrid = styled("code", {
 })(() => ({
     display: "grid",
     gridTemplateColumns: "auto 1fr",
-    gap: "0px 16px",
+    overflowX: "auto",
 }));
 
 // Code additional content
 const CodeHeader = styled("header", {
     name: "CodeHeader",
     slot: "header",
-})(() => ({
+})(({ theme }) => ({
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     userSelect: "none",
+    gap: 4,
+    borderBottom: `solid 1px ${theme.vars.palette.neutral[800]}`,
+    padding: "8px 8px",
 }));
 const CodeLanguage = styled(Chip, {
     name: "CodeLanguage",
@@ -99,10 +146,25 @@ const CodeLineNumber = styled("div", {
 })(({ theme }) => ({
     color: theme.vars.palette.neutral[400],
     userSelect: "none",
+    textAlign: "center",
+    padding: `0 12px`,
+    borderRight: `solid 1px ${theme.vars.palette.neutral[800]}`,
+    borderLeft: `solid 2px transparent`,
+    "&.highlighted": {
+        color: theme.vars.palette.info[100],
+        borderLeft: `solid 2px ${theme.vars.palette.info[500]}`,
+        backgroundColor: theme.vars.palette.info[900],
+    },
 }));
 const CodeLine = styled("div", {
     name: "CodeLine",
-})();
+})(({ theme }) => ({
+    paddingLeft: 16,
+    paddingRight: 16,
+    "&.highlighted": {
+        backgroundColor: theme.vars.palette.info[900],
+    },
+}));
 
 const splitTokensWithScope = (value: string | HighlightToken, scope: string): Array<0 | { scope: string; text: string; }> => 
     typeof value === "string"
@@ -206,6 +268,10 @@ export default class CodeBlock extends React.Component<Props> {
         const languageDisplayName = linefied.language?.name ?? "none";
         const noLanguage = CodeBlock.nonHighlightedLanguages.includes(languageDisplayName);
         const iconButtonMargin = Number(!noLanguage) * 5 + 3;
+        const startingLine = this.props.startingLine ?? 1;
+
+        // Additional metadata
+        const { description, highlightLines, languageName: overrideLanguageDisplayName } = this.props;
 
         return (
             <CodeContainer>
@@ -213,26 +279,36 @@ export default class CodeBlock extends React.Component<Props> {
                     <IconCopy />
                 </IconButton>
                 {
-                    noLanguage
+                    noLanguage && !overrideLanguageDisplayName
                     ? null
                     : <CodeHeader>
-                        <Box flex={1}>
-                            <CodeLanguage>{languageDisplayName}</CodeLanguage>
-                        </Box>
+                        <Stack flex={1}>
+                            <CodeLanguage>{overrideLanguageDisplayName?.substring(0, 64) ?? languageDisplayName}</CodeLanguage>
+                        </Stack>
+                        {description &&
+                            <Stack>
+                                <Typography level="title-md" textColor="text.tertiary">
+                                    {description}
+                                </Typography>
+                            </Stack>
+                        }
                     </CodeHeader>
                 }
                 <CodePre>
                     <CodeGrid>
-                        {linefied.tokens.map((x, i) =>
-                            <>
-                                <CodeLineNumber key={`num-${i}`}>
-                                    {i + 1}
-                                </CodeLineNumber>
-                                <CodeLine key={i}>
-                                    {x}
-                                </CodeLine>
-                            </>
-                        )}
+                        {linefied.tokens.map((x, i) => {
+                            const commonClassNames = highlightLines?.includes(i) ? `highlighted` : ``;
+                            return (
+                                <>
+                                    <CodeLineNumber className={commonClassNames} key={`num-${i}`}>
+                                        {i + startingLine}
+                                    </CodeLineNumber>
+                                    <CodeLine className={commonClassNames} key={i}>
+                                        {x}
+                                    </CodeLine>
+                                </>
+                            );
+                        })}
                     </CodeGrid>
                 </CodePre>
             </CodeContainer>

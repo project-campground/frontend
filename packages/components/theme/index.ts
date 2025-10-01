@@ -12,7 +12,7 @@ const theme = extendTheme({
             backgroundColor: `var(--palette-background-body)`,
             color: `var(--palette-primary-300)`,
             fontFamily: `var(--fontFamily-code)`,
-            display: "inline-block",
+            display: "inline",
         }
     },
     fontFamily: {

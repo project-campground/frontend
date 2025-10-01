@@ -3,6 +3,7 @@ import remarkGfm from "remark-gfm";
 import CodeBlock from "./CodeBlock";
 import type { Element, Text } from "hast";
 import InlineCode from "./InlineCode";
+import { Box, Checkbox, styled } from "@mui/joy";
 
 type Props = {
     children: string;
@@ -23,6 +24,17 @@ function parseMeta(raw: string) {
         return null;
     }
 }
+
+const TableWrapper = styled(Box, {
+    name: "Table"
+})(({ theme }) => ({
+    border: `solid 1px ${theme.vars.palette.neutral[500]}`,
+    overflowX: "auto",
+    borderRadius: theme.vars.radius.md,
+    width: "min-content",
+    maxWidth: "100%",
+    margin: "8px 0",
+}))
 
 const markdownComponents: Components = {
     pre({ node }) {
@@ -46,7 +58,13 @@ const markdownComponents: Components = {
         console.log("Parsed meta", metaParsed);
 
         return (
-            <CodeBlock language={lang}>
+            <CodeBlock
+                language={lang}
+                startingLine={typeof metaParsed?.start === "number" ? metaParsed!.start : null}
+                languageName={typeof metaParsed?.languageName === "string" ? metaParsed.languageName : null}
+                description={typeof metaParsed?.fileName === "string" ? metaParsed.fileName : null}
+                highlightLines={Array.isArray(metaParsed?.highlight) && (metaParsed!.highlight as any[]).every((x) => typeof x === "number") ? metaParsed!.highlight : null}
+            >
                 {text}
             </CodeBlock>
         );
@@ -64,6 +82,16 @@ const markdownComponents: Components = {
                 {String(text)}
             </InlineCode>
         );
+    },
+    table({ children }) {
+        return (
+            <TableWrapper>
+                {children}
+            </TableWrapper>
+        )
+    },
+    input({ checked }) {
+        return <Checkbox checked={checked} variant="soft" color={checked ? "success" : "danger"}></Checkbox>
     }
 };
 

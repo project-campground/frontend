@@ -55,6 +55,11 @@ export const examplePosts: Post[] = [
 | a | aa | ab |
 | b | ba | bb |
 
+|   | a  | b  | c                  |  d                | e                                                         |
+|---|----|----|--------------------|-------------------|-----------------------------------------------------------|
+| a | aa | ab | aaaaaaaaaaaaaaaaaa | aaaaaaaaaaaaaaaaa | aaaaaaaaaa \`aaaaaaaaaaaaaaa\`aaaaaaaaaaaaaaaaaaaaaaaaaaa |
+| b | ba | bb |                    |                   |                                                           |
+
 > Example quote
 > \`\`\`
 > Hello
@@ -92,8 +97,21 @@ aaaa
 bbb
 \`\`\`
 
-\`\`\`js {"start": 2, "languageName": "Example name"}
+\`\`\`js {"start": 4, "fileName": "example.ts", "languageName": "Example name", "highlight": [2]}
 With proper meta now
+Notice the starting line is 4
+And this one is marked
+And this one is not
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+\`\`\`
+
+\`\`\`diff
++ example
+- example
+! example
+!!! example
+@ example
+@@@ example
 \`\`\`
 `,
         tags: ["markdown", "example", "post"],

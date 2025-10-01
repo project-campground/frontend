@@ -9,6 +9,7 @@ const LinkInner = styled(RouterLink, {
     name: "JoyLink"
 })(() => ({
     textDecoration: "inherit",
+    color: "inherit"
 }));
 
 export default function Link({ children, href, ...props }: LinkProps) {

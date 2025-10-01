@@ -25,7 +25,7 @@ export default class ProfilePostView extends React.Component<Props> {
                 <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: "2fr 5fr 2fr", gap: 8, px: 35, pt: 2 }}>
                     <Box>
                     </Box>
-                    <Stack gap={3}>
+                    <Stack gap={3} sx={{ width: "100%", overflow: "hidden" }}>
                         <Link href={`/profile/${user.did}`}>
                             <Typography level="body-md" fontWeight={900} startDecorator={<IconArrowNarrowLeft />}>Go back to the profile</Typography>
                         </Link>

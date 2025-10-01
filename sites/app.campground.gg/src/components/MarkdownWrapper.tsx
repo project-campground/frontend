@@ -26,6 +26,26 @@ const MarkdownWrapper = styled(Box, {
             bottom: 0,
         }
     },
+    "table": {
+        border: `solid 1px ${theme.vars.palette.neutral[500]}`,
+        borderSpacing: 0,
+        maxWidth: "100%",
+    },
+    "th, td": {
+        padding: `4px 8px`,
+    },
+    "tr": {
+        backgroundColor: theme.vars.palette.background.level1,
+    },
+    "tr:nth-child(odd)": {
+        backgroundColor: theme.vars.palette.background.level2,
+    },
+    "thead": {
+        backgroundColor: theme.vars.palette.background.body,
+        "tr, tr:nth-child(odd)": {
+            backgroundColor: theme.vars.palette.background.body,
+        }
+    }
 }))
 
 export default MarkdownWrapper;

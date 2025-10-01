@@ -22,7 +22,7 @@ export default class ProfileView extends React.Component<Props> {
                     <Box>
                         <Typography level="h3">Games</Typography>
                     </Box>
-                    <Box>
+                    <Box sx={{ width: "100%", overflow: "hidden" }}>
                         <ProfileFeed user={user} />
                     </Box>
                     <Box>

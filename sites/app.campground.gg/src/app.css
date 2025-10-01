@@ -7,6 +7,7 @@
 @import "@fontsource/quicksand/400.css";
 @import "@fontsource/quicksand/500.css";
 @import "@fontsource/quicksand/700.css";
+@import "./custom.css";
 
 html, body, #root {
     width: 100%;

@@ -12,7 +12,6 @@ export function meta(routes: Route.MetaArgs) {
 }
 
 export default function Index() {
-    console.log("profile");
     return (
         <GlobalLayout page={null}>
             <Outlet />

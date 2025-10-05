@@ -6,6 +6,7 @@ import ProfileFeedPost from "./ProfileFeedPost";
 import ProfileFeedComment from "./ProfileFeedComment";
 import { IconArrowNarrowLeft } from "@tabler/icons-react";
 import Link from "~/components/Link";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 
 type Props = {
     user: User;
@@ -22,7 +23,7 @@ export default class ProfilePostView extends React.Component<Props> {
 
         return (
             <ProfileLayout user={user}>
-                <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: "2fr 5fr 2fr", gap: 8, px: 35, pt: 2 }}>
+                <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: "2fr 7fr 2fr", gap: 8, px: 35, pt: 2 }}>
                     <Box>
                     </Box>
                     <Stack gap={3} sx={{ width: "100%", overflow: "hidden" }}>
@@ -46,6 +47,9 @@ export default class ProfilePostView extends React.Component<Props> {
                                     : <Typography level="body-md">There are no comments.</Typography>
                                 }
                             </Stack>
+                            <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more comments">
+                                Come back later to see new comments!
+                            </PagePlaceholder>
                         </Stack>
                     </Stack>
                     <Box>

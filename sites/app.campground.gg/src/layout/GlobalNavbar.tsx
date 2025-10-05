@@ -1,7 +1,8 @@
-import { Badge, Box, Divider, Stack, Typography } from "@mui/joy";
+import { Box, Divider, Stack, Typography } from "@mui/joy";
 import React from "react";
 import { GlobalNavbarItem } from "./GlobalNavbarItem";
 import NavbarCamp from "~/components/NavbarCamp";
+import GlobalNavProfile from "./GlobalNavProfile";
 
 type Props = {
     page: string | null;
@@ -38,11 +39,7 @@ export default class GlobalNavbar extends React.Component<Props> {
                         <NavbarCamp name="Camp #4" memberCount={500} hasNotification pingCount={2} />
                     </Stack>
                     <Stack direction="row">
-                        <Badge size="lg" anchorOrigin={{ horizontal: "right", vertical: "bottom" }} color="success" badgeInset={8}>
-                            <Box sx={(theme) => ({ width:48, height: 48, background: `linear-gradient(to bottom right, ${theme.vars.palette.secondary[500]}, ${theme.vars.palette.secondary[400]})`, borderRadius: theme.vars.radius.lg })}>
-
-                            </Box>
-                        </Badge>
+                        <GlobalNavProfile />
                     </Stack>
                 </Stack>
             </Box>

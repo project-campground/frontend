@@ -16,7 +16,7 @@ const sizeToPx: Record<Size, number> = {
     sm: 20,
     md: 24,
     lg: 48,
-    xl: 96,
+    xl: 80,
     xxl: 128,
 };
 

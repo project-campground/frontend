@@ -21,7 +21,7 @@ export default class ProfileFeedPost extends React.Component<Props> {
         const { linkTitle } = this.props;
         const { id, title, content, createdAt, comments, tags, author, profileUser } = this.props.post;
         const titleNode = (
-            <Typography level="h3">{title}</Typography>
+            <Typography level="h2">{title}</Typography>
         );
 
         return (

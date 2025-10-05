@@ -127,7 +127,7 @@ const CodeHeader = styled("header", {
     userSelect: "none",
     gap: 4,
     borderBottom: `solid 1px ${theme.vars.palette.neutral[800]}`,
-    padding: "8px 8px",
+    padding: "8px 10px",
 }));
 const CodeLanguage = styled(Chip, {
     name: "CodeLanguage",
@@ -265,13 +265,17 @@ export default class CodeBlock extends React.Component<Props> {
     }
     render() {
         const linefied = this.tokenizedCodeLines;
-        const languageDisplayName = linefied.language?.name ?? "none";
-        const noLanguage = CodeBlock.nonHighlightedLanguages.includes(languageDisplayName);
-        const iconButtonMargin = Number(!noLanguage) * 5 + 3;
         const startingLine = this.props.startingLine ?? 1;
-
+        
         // Additional metadata
         const { description, highlightLines, languageName: overrideLanguageDisplayName } = this.props;
+
+        // Language
+        const languageDisplayName = linefied.language?.name ?? "none";
+        const noLanguage = CodeBlock.nonHighlightedLanguages.includes(languageDisplayName) && !overrideLanguageDisplayName;
+
+        // Styling
+        const iconButtonMargin = Number(!noLanguage) * 5 + 3;
 
         return (
             <CodeContainer>
@@ -279,12 +283,12 @@ export default class CodeBlock extends React.Component<Props> {
                     <IconCopy />
                 </IconButton>
                 {
-                    noLanguage && !overrideLanguageDisplayName
+                    noLanguage || !description
                     ? null
                     : <CodeHeader>
-                        <Stack flex={1}>
+                        {!noLanguage && <Stack flex={1}>
                             <CodeLanguage>{overrideLanguageDisplayName?.substring(0, 64) ?? languageDisplayName}</CodeLanguage>
-                        </Stack>
+                        </Stack>}
                         {description &&
                             <Stack>
                                 <Typography level="title-md" textColor="text.tertiary">

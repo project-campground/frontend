@@ -3,6 +3,7 @@ import React from "react";
 import ProfileFeedPost from "./ProfileFeedPost";
 import { examplePosts } from "~/example/profile";
 import type { User } from "types/user";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 
 type Props = {
     user: User;
@@ -28,6 +29,9 @@ export default class ProfileFeed extends React.Component<Props> {
                         />
                     )}
                 </Stack>
+                <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more posts">
+                    This user has no more posts to be found! Come back later!
+                </PagePlaceholder>
             </Box>
         )
     }

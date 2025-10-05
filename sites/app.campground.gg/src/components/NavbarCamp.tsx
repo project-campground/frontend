@@ -24,15 +24,15 @@ export default class NavbarCamp extends React.Component<Props> {
 
         return (
             <GlobalNavbarItem sx={{ px: 1, pr: 3, py: 0.5, height: 48 }} className={isActive ? "active" : ""}>
-                <Stack direction="row" alignItems="center" gap={2}>
+                <Stack direction="row" alignItems="center" gap={2} py={1}>
                     <SimpleNotification pingCount={pingCount} regular={hasNotification} badgeInset={5}>
                         <Avatar src={avatar} variant="solid" sx={(theme) => ({ borderRadius: theme.vars.radius.md })}>
                             {name[0]}
                         </Avatar>
                     </SimpleNotification>
 
-                    <Stack direction="column" gap={0} alignItems="start">
-                        <Stack gap={1} direction="row" alignItems="center" sx={{}}>
+                    <Stack direction="column" gap={0.2} alignItems="start">
+                        <Stack gap={1} direction="row" alignItems="center">
                             <Typography level="title-md" lineHeight={1} fontSize={16}>{name}</Typography>
                             {isVerified && <VerifiedIcon size="xs" />}
                         </Stack>

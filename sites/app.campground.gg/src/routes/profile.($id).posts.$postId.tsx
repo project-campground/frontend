@@ -27,6 +27,7 @@ export async function clientLoader({ params: { id, postId } }: Route.ClientLoade
     return {
         id,
         error,
+        me: user,
         user,
         post,
         comments: exampleComments.slice(0, post?.comments ?? 0),
@@ -35,7 +36,6 @@ export async function clientLoader({ params: { id, postId } }: Route.ClientLoade
 clientLoader.hydrate = true as const;
 
 export default function Index({ loaderData: { error, user, post, comments } }: Route.ComponentProps) {
-    console.log("profile.$id.posts.$postId");
     return (
         error == null
         ? <ProfilePostView user={user!} post={{ profileUser: user!, author: user!, ...post! }} comments={comments.map((x) => ({ author: user!, ...x }))} />

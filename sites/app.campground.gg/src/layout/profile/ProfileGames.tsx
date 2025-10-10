@@ -8,9 +8,6 @@ type Props = {
 };
 
 export default class ProfileGames extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         return (
             <Box>

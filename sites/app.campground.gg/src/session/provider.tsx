@@ -1,57 +1,66 @@
-import React from 'react';
-import { type Session, type SessionInfo, SessionState } from './types';
+import React, { useMemo, useState } from 'react';
+import type { AuthCredentials, SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from './types';
 import { SessionContext } from '.';
 import { useLocalStorage } from '@mantine/hooks';
+import RESTClient from 'api/RESTClient';
 
 export function SessionProvider({ children }: React.PropsWithChildren) {
-    const [storedLocale, setStoredLocale] = useLocalStorage<string>({
-        key: 'locale',
-        defaultValue: 'en-US',
-    });
-    
-    const [session, setSession] = React.useState<Session>({
-        state: SessionState.LOADING,
-
-        getLocale() {
-            return storedLocale;
-        },
-        setLocale(locale: string) {
-            setStoredLocale(locale);
-        },
-    });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [sessionInfo, setSessionInfo] = useLocalStorage<SessionInfo | null>({
-        key: 'session',
-        defaultValue: null,
+    const [restClient, setRestClient] = useState<RESTClient | null>(null);
+    const [auth, setAuth] = useLocalStorage<SessionAuth>({
+        key: "auth",
+        defaultValue: { authenticated: false, },
         serialize: (value) => JSON.stringify(value),
         deserialize: (value) => {
             if (value) {
-                const sessionInfo: SessionInfo = JSON.parse(value);
-                return sessionInfo;
+                const parsed = JSON.parse(value) as SessionAuth;
+
+                // To have rest client
+                if (parsed.authenticated)
+                    setRestClient(new RESTClient({ auth: parsed.user.accessJwt, refreshAuth: parsed.user.refreshJwt }, refreshLogin));
+                return parsed;
             }
-            return null;
+            return { authenticated: false, };
+        },
+    });
+    const refreshLogin = (refresh: SessionAuthRefresh) =>
+        setAuth({ authenticated: true, user: { ...refresh, email: (auth as SessionAuthed).user?.email, emailConfirmed: (auth as SessionAuthed).user?.emailConfirmed } });
+    const [settings, setSettings] = useLocalStorage<SessionSettings>({
+        key: "settings",
+        defaultValue: { locale: "en-US", },
+        serialize: (value) => JSON.stringify(value),
+        deserialize: (value) => {
+            if (value)
+                return JSON.parse(value) as SessionSettings;
+            return { locale: "en-US", };
         },
     });
 
-    React.useEffect(() => {
-        if (sessionInfo) {
-            // TODO: Do something with this
-        } else {
-            setSession({
-                state: SessionState.UNAUTHENTICATED,
-
-                getLocale() {
-                    return storedLocale;
-                },
-                setLocale(locale: string) {
-                    setStoredLocale(locale);
-                },
-            });
+    const login = async (details: AuthCredentials) =>
+    {
+        const data = await RESTClient.login(details); 
+        if (data.ok)
+        {
+            setAuth(data.content);
+            setRestClient(new RESTClient({ auth: data.content.accessJwt, refreshAuth: data.content.refreshJwt }, refreshLogin))
         }
-    }, [sessionInfo, storedLocale, setStoredLocale]);
+        else throw new Error(data.errorDescription);
+    };
+    const logout = () =>
+    {
+
+    };
+
+    const value = useMemo(() => ({
+        auth,
+        restClient,
+        settings,
+        setSettings,
+        login,
+        logout,
+    }), [auth, restClient, settings]);
 
     return (
-        <SessionContext.Provider value={session}>
+        <SessionContext.Provider value={value}>
             {children}
         </SessionContext.Provider>
     );

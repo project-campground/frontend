@@ -3,17 +3,17 @@ import React from "react";
 import { GlobalNavbarItem } from "./GlobalNavbarItem";
 import NavbarCamp from "~/components/NavbarCamp";
 import GlobalNavProfile from "./GlobalNavProfile";
+import type { Session, SessionAuthUser } from "~/session/types";
 
 type Props = {
     page: string | null;
+    session: Session;
+    sessionUser: SessionAuthUser;
 };
 
 export default class GlobalNavbar extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render() {
-        const { page } = this.props;
+        const { session, sessionUser, page } = this.props;
         const activeHome = page === null;
 
         return (
@@ -39,7 +39,7 @@ export default class GlobalNavbar extends React.Component<Props> {
                         <NavbarCamp name="Camp #4" memberCount={500} hasNotification pingCount={2} />
                     </Stack>
                     <Stack direction="row">
-                        <GlobalNavProfile />
+                        <GlobalNavProfile session={session} sessionUser={sessionUser} />
                     </Stack>
                 </Stack>
             </Box>

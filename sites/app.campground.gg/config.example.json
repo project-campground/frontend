@@ -1,3 +1,4 @@
 {
-    "apiUrl": "https://localhost:3984"
+    "pdsUrl": "http://localhost:2583",
+    "backendDomain": "localhost:8080"
 }

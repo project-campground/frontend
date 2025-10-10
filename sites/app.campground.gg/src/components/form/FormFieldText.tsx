@@ -1,6 +1,6 @@
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from "react";
+import type { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
-import { FormFieldDecoratorProps, FormFieldProps } from "./forms";
+import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Input } from "@mui/joy";
 
 export interface FormFieldTextProps extends FormFieldProps<"text", string>, FormFieldDecoratorProps {

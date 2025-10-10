@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import { Link } from "@mui/joy";
 import SigninWrapper from "../components/signin/SigninWrapper";
 import { FormattedMessage } from "react-intl";
-import Form from "../components/form/Form";
+import Form from "../../../app.campground.gg/src/components/form/Form";
 
 export type Props = {
 

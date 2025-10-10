@@ -1,17 +1,17 @@
 import type { User } from "types/user";
-import { cgFetch } from "./requests";
+import RESTClient from "./RESTClient";
 
 export function requestGetUserProfile(did: string) {
-    return cgFetch({
+    return RESTClient.atprotoFetch({
         method: "GET",
-        route: `actor.getProfile`,
+        route: `gg.campground.actor.getProfile`,
         queries: {
             actor: did,
         },
     })
         .then((x) => {
             if (!x.ok)
-                throw x;
-            return x.json() as Promise<User>;
+                throw new Error(x.errorDescription);
+            return x.content as User;
         });
 }

@@ -1,5 +1,5 @@
 import React, { FormEvent, ReactNode } from "react";
-import { AnyFormField, FormSectionProps, AnyFormFieldProps } from "./forms";
+import type { AnyFormField, FormSectionProps, AnyFormFieldProps } from "./forms";
 import { Stack, Typography } from "@mui/joy";
 import PrimaryButton from "components/PrimaryButton";
 import { FormattedMessage } from "react-intl";
@@ -77,7 +77,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                     </Stack>
                     {/* Form footer */}
                     <Stack className="Form footer" direction="column" gap={1}>
-                        <PrimaryButton component="button" type="submit" fullWidth disabled={this.isButtonDisabled}>
+                        <PrimaryButton type="submit" fullWidth disabled={this.isButtonDisabled}>
                             <FormattedMessage id={submitText ?? "form.submit"} />
                         </PrimaryButton>
                         { children }

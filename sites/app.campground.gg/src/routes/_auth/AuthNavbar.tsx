@@ -1,15 +1,13 @@
 import React from "react";
-import BrandLogo from "../BrandLogo";
+import { BrandLogo } from "components";
 import { Box, Link, Stack } from "@mui/joy";
 
 export type Props = {
     page: string;
 };
 
-export default class SigninNavbar extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+export default class AuthNavbar extends React.Component<Props> {
+
     render() {
         return (
             <Box sx={{ position: "absolute", top: 0, zIndex: 20, backgroundColor: "transparent" }}>

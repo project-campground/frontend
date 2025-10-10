@@ -15,9 +15,6 @@ type Props = {
 };
 
 export default class ProfilePostView extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { user, post, comments } = this.props;
 

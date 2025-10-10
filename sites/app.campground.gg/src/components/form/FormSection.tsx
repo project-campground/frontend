@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/joy";
-import { AnyFormField, AnyFormFieldProps, fieldTypeToComponent, FormSectionProps } from "./forms";
+import { type AnyFormField, type AnyFormFieldProps, fieldTypeToComponent, type FormSectionProps } from "./forms";
 import FormFieldWrapper from "./FormFieldWrapper";
 import Form from "./Form";
 
@@ -14,8 +14,9 @@ export default function FormSection({ onFieldChange, fieldBinding, section: { he
         <Stack gap={2} className="FormSection container">
             <Typography className="FormSection header" level="title-md">{header}</Typography>
             <Stack className="FormSection fields" gap={1}>
-                {fields.map(field =>
+                {fields.map((field, i) =>
                     <FormFieldWrapper
+                        key={i}
                         FieldComponent={fieldTypeToComponent[field.type]}
                         onChange={onFieldChange}
                         binding={fieldBinding}

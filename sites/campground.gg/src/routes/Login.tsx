@@ -1,7 +1,7 @@
 import React, { FormEvent } from "react";
 import SigninWrapper from "../components/signin/SigninWrapper";
 import { FormattedMessage } from "react-intl";
-import Form from "../components/form/Form";
+import Form from "../../../app.campground.gg/src/components/form/Form";
 import { Link } from "@mui/joy";
 
 export type Props = {
@@ -9,9 +9,7 @@ export type Props = {
 };
 
 export default class Login extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     onSubmit(event: FormEvent<HTMLFormElement>, fieldValues: Record<string, any>) {
         event.preventDefault();
 

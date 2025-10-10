@@ -85,7 +85,7 @@ const markdownComponents: Components = {
     },
     table({ children }) {
         return (
-            <TableWrapper>
+            <TableWrapper component="table">
                 {children}
             </TableWrapper>
         )

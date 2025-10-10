@@ -16,9 +16,7 @@ type Props = {
 };
 
 export default class NavbarCamp extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render(): React.ReactNode {
         const { avatar, name, memberCount, isVerified, isActive, pingCount, hasNotification } = this.props;
 

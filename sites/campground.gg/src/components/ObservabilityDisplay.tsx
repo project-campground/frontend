@@ -62,8 +62,8 @@ export default class ObservabilityDisplay extends React.Component<Props, State> 
 
         return (
             <Box className="ObservabilityDisplay container" sx={{ position: "relative" }}>
-                {this.items.map(({ elementId, node }) =>
-                    <Box className="ObservabilityDisplay item" sx={{ position: "absolute", top: 0, left: 0, transition: `opacity 1s`, opacity: Number(displayIds.includes(elementId)) }}>
+                {this.items.map(({ elementId, node }, i) =>
+                    <Box key={i} className="ObservabilityDisplay item" sx={{ position: "absolute", top: 0, left: 0, transition: `opacity 1s`, opacity: Number(displayIds.includes(elementId)) }}>
                         {node}
                     </Box>
                 )}

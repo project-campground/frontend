@@ -1,6 +1,7 @@
 import type { Route } from "./+types/profile";
 import { Outlet } from "react-router";
 import GlobalLayout from "~/layout/GlobalLayout";
+import { useSession } from "~/session";
 
 export function meta(routes: Route.MetaArgs) {
     console.log("profiles", routes);
@@ -12,8 +13,10 @@ export function meta(routes: Route.MetaArgs) {
 }
 
 export default function Index() {
+    const session = useSession();
+
     return (
-        <GlobalLayout page={null}>
+        <GlobalLayout page={null} session={session}>
             <Outlet />
         </GlobalLayout>
     );

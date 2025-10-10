@@ -1,5 +1,5 @@
 import React from "react";
-import { AbstractAnyFormField, FormFieldProps, FormFieldType } from "./forms";
+import type { AbstractAnyFormField, FormFieldProps, FormFieldType } from "./forms";
 
 export default abstract class AbstractFormField<TType extends FormFieldType, TValue, TProps extends FormFieldProps<TType, TValue>, TState> extends React.Component<TProps, TState> {
     constructor(props: TProps) {

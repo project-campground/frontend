@@ -1,7 +1,9 @@
 import type { Route } from "./+types/profile.$id";
-import { requestGetUserProfile } from "api/profiles";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 import ProfileView from "~/layout/profile/ProfileView";
+import { authMiddleware } from "~/middleware/auth";
+import { loginRequiredMiddleware } from "~/middleware/login";
+import { sessionRouterContext } from "~/session";
 
 export function meta(_routes: Route.MetaArgs) {
     return [
@@ -10,32 +12,47 @@ export function meta(_routes: Route.MetaArgs) {
     ];
 }
 
-export async function clientLoader({ params: { id } }: Route.ClientLoaderArgs) {
-    const userRequest = await requestGetUserProfile(id)
-        .then((x) => ({ error: null, user: x }))
-        .catch((x) => ({ error: x.status, user: null }));
+export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
+    authMiddleware,
+    loginRequiredMiddleware,
+];
+
+export async function clientLoader({ context, params: { id } }: Route.ClientLoaderArgs) {
+    const session = context.get(sessionRouterContext);
+
+    // Can't fetch
+    if (!session.restClient)
+        return {
+            id,
+            error: 401,
+        };
+
+    const userRequest = await session.restClient.fetchProfile(id);
     console.log(userRequest);
 
-    const { error, user } = userRequest;
+    const { errorDescription, errorHeader, content, ok, status } = userRequest;
 
     return {
         id,
-        error,
-        user
+        status,
+        errorHeader,
+        errorDescription,
+        ok,
+        user: content
     };
 }
 clientLoader.hydrate = true as const;
 
-export default function Index({ loaderData: { error, user } }: Route.ComponentProps) {
+export default function Index({ loaderData: { status, ok, user, errorHeader, errorDescription } }: Route.ComponentProps) {
     return (
-        error == null
+        ok
         ? <ProfileView user={user!} />
-        : error === 404
+        : status === 404
         ? <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title="Cannot find that user">
             There is no such user with that DID. Have you entered the wrong DID?
         </PagePlaceholder>
-        : <PagePlaceholder icon={PagePlaceholderIcon.Error} title={`Error ${error}`}>
-            An error occurred while fetching a profile.
+        : <PagePlaceholder icon={PagePlaceholderIcon.Error} title={errorHeader ?? `Error ${status}`}>
+            An error occurred while fetching a profile. {errorDescription}
         </PagePlaceholder>
     );
 }

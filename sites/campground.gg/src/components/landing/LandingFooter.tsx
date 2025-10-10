@@ -1,5 +1,5 @@
 import React from "react";
-import BrandLogo from "../BrandLogo";
+import { BrandLogo } from "components";
 import LandingFooterItem from "./LandingFooterItem";
 import LandingFooterSection from "./LandingFooterSection";
 import { FormattedMessage } from "react-intl";
@@ -10,9 +10,7 @@ export type Props = {
 };
 
 export default class LandingFooter extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
             <Stack direction="column" className="LandingFooter container landing-side-padding" gap={2.5} sx={{ pt: 3, pb: 6 }}>

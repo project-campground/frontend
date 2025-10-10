@@ -1,6 +1,6 @@
 import { FormControl, FormLabel } from "@mui/joy";
 import Form from "./Form";
-import { AnyFormField, AnyFormFieldComponent, AnyFormFieldProps } from "./forms";
+import type { AnyFormField, AnyFormFieldComponent, AnyFormFieldProps } from "./forms";
 
 type Props<TValue, TProps extends AnyFormFieldProps> = {
     FieldComponent: AnyFormFieldComponent;

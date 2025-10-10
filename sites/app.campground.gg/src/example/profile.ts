@@ -81,9 +81,7 @@ const b = \`a: \${{
 }} <- a\`;
 
 export default class Example extends React.Component {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
             <span>{this.props.a}</span>

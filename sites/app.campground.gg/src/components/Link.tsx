@@ -3,7 +3,9 @@ import { Link as RouterLink } from "react-router";
 
 const LinkRoot = styled(JoyLink, {
     slot: "root"
-})();
+})(() => ({
+    
+}));
 
 const LinkInner = styled(RouterLink, {
     name: "JoyLink"

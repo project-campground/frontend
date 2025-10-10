@@ -10,9 +10,6 @@ type Props = {
 };
 
 export default class ProfileFeed extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { user } = this.props;
         const posts = examplePosts.map((x) => ({ ...x, author: user, profileUser: user }))

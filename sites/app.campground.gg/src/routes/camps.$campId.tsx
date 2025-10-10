@@ -1,5 +1,4 @@
 import type { Route } from "./+types/camps.$campId";
-import Home from "../layout/profile/ProfileView";
 import { Typography } from "@mui/joy";
 
 export function meta(routes: Route.MetaArgs) {

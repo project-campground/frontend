@@ -5,8 +5,8 @@ import { IconShare } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import type { UserPostComment } from "types/user";
 import Link from "~/components/Link";
-import MarkdownWrapper from "~/components/MarkdownWrapper";
-import { LargeContentMarkdown } from "~/components/Markdown";
+import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
+import { LargeContentMarkdown } from "~/components/markdown/Markdown";
 
 type Props = {
     comment: UserPostComment;
@@ -14,9 +14,6 @@ type Props = {
 };
 
 export default class ProfileFeedComment extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { content, createdAt, author } = this.props.comment;
 

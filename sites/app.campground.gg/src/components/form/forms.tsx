@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import AbstractFormField from "./AbstractFormField";
-import FormFieldText, { FormFieldTextProps } from "./FormFieldText";
+import type AbstractFormField from "./AbstractFormField";
+import FormFieldText, { type FormFieldTextProps } from "./FormFieldText";
 
 export type FormSectionProps = {
     header?: ReactNode | ReactNode[];

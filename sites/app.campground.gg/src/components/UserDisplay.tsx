@@ -30,6 +30,7 @@ export default function UserDisplay({ color, user, size }: Props) {
                 </MenuButton>
                 <Menu variant="soft">
                     <UserProfileCard
+                        did={user.did}
                         user={user}
                         />
                 </Menu>

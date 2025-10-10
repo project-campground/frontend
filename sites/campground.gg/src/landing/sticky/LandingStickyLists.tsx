@@ -56,9 +56,7 @@ function LandingStickyListSubItem(props: Props) {
 }
 
 class LandingStickyListItem extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         const { sx, noCompletionAnimation, animationDelay, title, description } = this.props;
 

@@ -10,9 +10,7 @@ export type Props = {
 };
 
 export default class Soon extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
             <LandingPageWrapper>

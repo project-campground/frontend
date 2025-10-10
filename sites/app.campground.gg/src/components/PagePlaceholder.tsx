@@ -28,9 +28,7 @@ const textToIcon: Record<PagePlaceholderIcon, string> = {
 };
 
 export default class PagePlaceholder extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         const { icon, title, sx, children } = this.props;
 

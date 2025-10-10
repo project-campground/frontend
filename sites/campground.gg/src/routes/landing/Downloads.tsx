@@ -11,9 +11,7 @@ export type Props = {
 };
 
 export default class Downloads extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
             <LandingPageWrapper>

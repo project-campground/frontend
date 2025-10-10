@@ -13,6 +13,7 @@ import { IntlProvider } from './i18n';
 // import { SessionProvider } from './session';
 import { Box, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { SvgDefs, theme } from "components";
+import { SessionProvider } from "./session";
 
 export const links: Route.LinksFunction = () => [
     // {
@@ -30,26 +31,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Meta />
                 <Links />
             </head>
-            <body>
-                <SvgDefs />
-                <>
-                    {/* <InitColorSchemeScript defaultMode="dark" /> */}
-                    <StyledEngineProvider injectFirst>
-                        <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
-                            <CssBaseline />
-                            <IntlProvider>
-                                <Box id="root">
-                                    {children}
-                                </Box>
-                            </IntlProvider>
-                            {/* <SessionProvider>
-                            </SessionProvider> */}
-                        </CssVarsProvider>
-                    </StyledEngineProvider>
-                </>
-                <ScrollRestoration />
-                <Scripts />
-            </body>
+            <SessionProvider>
+                <body>
+                    <SvgDefs />
+                    <>
+                        {/* <InitColorSchemeScript defaultMode="dark" /> */}
+                        <StyledEngineProvider injectFirst>
+                            <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
+                                <CssBaseline />
+                                    <IntlProvider>
+                                        <Box id="root">
+                                            {children}
+                                        </Box>
+                                    </IntlProvider>
+                            </CssVarsProvider>
+                        </StyledEngineProvider>
+                    </>
+                    <ScrollRestoration />
+                    <Scripts />
+                </body>
+            </SessionProvider>
         </html>
     );
 }

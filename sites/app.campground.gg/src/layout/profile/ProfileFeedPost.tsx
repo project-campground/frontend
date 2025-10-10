@@ -5,8 +5,8 @@ import { IconMessage, IconShare } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import type { UserPost } from "types/user";
 import Link from "~/components/Link";
-import MarkdownWrapper from "~/components/MarkdownWrapper";
-import { LargeContentMarkdown } from "~/components/Markdown";
+import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
+import { LargeContentMarkdown } from "~/components/markdown/Markdown";
 
 type Props = {
     post: UserPost;
@@ -14,9 +14,6 @@ type Props = {
 };
 
 export default class ProfileFeedPost extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { linkTitle } = this.props;
         const { id, title, content, createdAt, comments, tags, author, profileUser } = this.props.post;
@@ -34,7 +31,7 @@ export default class ProfileFeedPost extends React.Component<Props> {
                                 : titleNode
                             }
                             <Stack gap={1} direction="row">
-                                {tags.map((tag) => <Chip variant="solid">{tag}</Chip>)}
+                                {tags.map((tag, i) => <Chip key={i} variant="solid">{tag}</Chip>)}
                             </Stack>
                         </Stack>
                         <MarkdownWrapper>

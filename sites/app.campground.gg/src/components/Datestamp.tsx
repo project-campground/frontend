@@ -19,6 +19,17 @@ const DatestampText = styled(Typography, {
 }));
 
 export default function Datestamp({ noAgo, displayDate, date }: Props) {
+    const isInvalid = Number.isNaN(date.getSeconds());
+
+    if (isInvalid)
+        return (
+            <DateTooltip title={"The provided date is invalid"}>
+                <DatestampText>
+                    Invalid date
+                </DatestampText>
+            </DateTooltip>
+        );
+
     const time = `${ms(Date.now() - date.getTime(), { long: true })} ${noAgo ? "" : "ago"}`;
     const dateFormat = date.toLocaleDateString("en-US");
 

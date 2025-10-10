@@ -1,4 +1,5 @@
 import config from "./config.json";
 
-export const homeApiUrl = config.apiUrl;
-export const defaultXrpcPrefix = `/xrpc/gg.campground.`;
+export const defaultAppApiUrl = config.pdsUrl;
+export const defaultBackendDomain = config.backendDomain;
+export const defaultXrpcPrefix = `/xrpc/`;

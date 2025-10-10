@@ -1,5 +1,5 @@
 import React from "react";
-import BrandLogo from "../BrandLogo";
+import { BrandLogo } from "components";
 import LandingNavbarItem from "./LandingNavbarItem";
 import { FormattedMessage } from "react-intl";
 import { Box, Link, Stack } from "@mui/joy";
@@ -10,9 +10,7 @@ export type Props = {
 };
 
 export default class LandingNavbar extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
             <Box sx={(theme) => ({ position: "sticky", top: 0, zIndex: 20, backgroundColor: theme.vars.palette.background.transparent })}>

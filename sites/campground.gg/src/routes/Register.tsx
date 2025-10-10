@@ -3,7 +3,7 @@ import { Link, Stack, Typography } from "@mui/joy";
 import { IconAt } from "@tabler/icons-react";
 import SigninWrapper from "../components/signin/SigninWrapper";
 import { FormattedMessage } from "react-intl";
-import Form from "../components/form/Form";
+import Form from "../../../app.campground.gg/src/components/form/Form";
 
 export type Props = {
 

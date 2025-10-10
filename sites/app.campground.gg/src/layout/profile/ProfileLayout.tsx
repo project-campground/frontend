@@ -10,9 +10,6 @@ type Props = {
 };
 
 export default class ProfileLayout extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { user, children } = this.props;
 
@@ -37,7 +34,7 @@ export default class ProfileLayout extends React.Component<Props> {
                                 <Typography level="h2">{user.displayName}</Typography>
                                 <VerifiedIcon size="md" />
                             </Stack>
-                            <Typography level="body-md" textColor="neutral.200">@{user.handle}</Typography>
+                            <Typography level="body-md" textColor="neutral.200">@{user.handle.replace("at://", "")}</Typography>
                             <Typography level="body-lg" textColor="neutral.100">{user.tagline}</Typography>
                         </Stack>
                     </Stack>

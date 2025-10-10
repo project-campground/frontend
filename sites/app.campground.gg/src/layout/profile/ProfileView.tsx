@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/joy";
+import { Box, Stack } from "@mui/joy";
 import React from "react";
 import ProfileFeed from "./ProfileFeed";
 import ProfileAbout from "./ProfileAbout";
@@ -11,9 +11,6 @@ type Props = {
 };
 
 export default class ProfileView extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { user } = this.props;
 

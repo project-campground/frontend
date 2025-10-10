@@ -9,9 +9,6 @@ type Props = {
 };
 
 export default class ProfileAbout extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render(): React.ReactNode {
         const { user } = this.props;
 

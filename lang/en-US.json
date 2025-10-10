@@ -16,8 +16,9 @@
     },
     "info": {
         "username": "Username",
+        "handle": "Handle",
         "tagline": "Tag",
-        "taglineOrEmail": "Tag or Email",
+        "handleOrEmail": "Handle or Email",
         "email": "Email",
         "password": "Password",
         "confirmPassword": "Confirm password"

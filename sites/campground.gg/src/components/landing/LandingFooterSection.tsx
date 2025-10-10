@@ -8,9 +8,7 @@ export type Props = {
 };
 
 export default class LandingFooterSection extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render(): React.ReactNode {
         const { header, children } = this.props;
 

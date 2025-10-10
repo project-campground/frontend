@@ -15,9 +15,7 @@ type Props = {
 };
 
 export default class LandingSection extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
 
     render() {
         const { id, subtitle, title, description, learnMore, learnMoreHref, icon } = this.props;

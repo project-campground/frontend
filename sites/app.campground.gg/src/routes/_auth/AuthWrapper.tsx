@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { Box, Sheet, Stack, Typography } from "@mui/joy";
-import { SxProps } from "@mui/joy/styles/types";
+import type { SxProps } from "@mui/joy/styles/types";
 import { FormattedMessage } from "react-intl";
-import SigninNavbar from "./SigninNavbar";
+import AuthNavbar from "./AuthNavbar";
 
 type Props = {
     header: string;
@@ -11,17 +11,15 @@ type Props = {
     children: ReactNode[] | ReactNode;
 };
 
-export default class SigninWrapper extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+export default class AuthWrapper extends React.Component<Props> {
+
 
     render() {
         const { header, sx, bodySx, children } = this.props;
 
         return (
             <Stack component="main" direction="column" className="LandingBareboneWrapper container" sx={{ height: "100%", ...sx }}>
-                <SigninNavbar page="home" />
+                <AuthNavbar page="home" />
                 <Stack direction="column" className="SigninWrapper body" sx={{ overflow: "hidden", height: "100%", flex: 1, width: "100%", ...bodySx }}>
                     <Box className="SigninPage background" sx={(theme) => ({
                         position: "absolute",
@@ -62,19 +60,12 @@ export default class SigninWrapper extends React.Component<Props> {
                                         </Typography>
                                     </Stack>
                                     <Box className="SigninWrapper form-container">
-                                        {/* <form className="SigninWrapper form" onSubmit={onButtonSubmit}> */}
-                                            {children}
-                                        {/* </form> */}
+                                        {children}
                                     </Box>
                                 </Stack>
                             </Sheet>
                         </Box>
                     </Box>
-                    {/* <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr", gap: 5, flex: 1, height: "100%" }} spacing="xl" className="SigninWrapper grid">
-                        <Grid gridColumn={1}>
-                        </Grid>
-                        <Grid gridColumn={2}></Grid>
-                    </Grid> */}
                 </Stack>
             </Stack>
         );

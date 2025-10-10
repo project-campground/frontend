@@ -1,9 +1,11 @@
 import type { Route } from "./+types/profile.($id).posts.$postId";
 import { Typography } from "@mui/joy";
-import { requestGetUserProfile } from "api/profiles";
 import { redirect } from "react-router";
 import { exampleComments, examplePosts } from "~/example/profile";
 import ProfilePostView from "~/layout/profile/ProfilePostView";
+import { authMiddleware } from "~/middleware/auth";
+import { loginRequiredMiddleware } from "~/middleware/login";
+import { sessionRouterContext } from "~/session";
 
 export function meta(_routes: Route.MetaArgs) {
     return [
@@ -12,30 +14,46 @@ export function meta(_routes: Route.MetaArgs) {
     ];
 }
 
-export async function clientLoader({ params: { id, postId } }: Route.ClientLoaderArgs) {
-    if (!id)
-        throw redirect("/");
+export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
+    authMiddleware,
+    loginRequiredMiddleware,
+];
 
-    const userRequest = await requestGetUserProfile(id)
-        .then((x) => ({ error: null, user: x }))
-        .catch((x) => ({ error: x.status, user: null }));
+
+export async function clientLoader({ context, params: { id, postId } }: Route.ClientLoaderArgs) {
+    if (!id)
+        throw redirect("/profile");
+
+    const session = context.get(sessionRouterContext);
+
+    // Can't fetch
+    if (!session.restClient)
+        return {
+            id,
+            status: 401,
+        };
+
+    const userRequest = await session.restClient.fetchProfile(id);
     console.log(userRequest);
+
     const post = examplePosts.find((x) => x.id === postId);
 
-    const { error, user } = userRequest;
+    const { errorDescription, errorHeader, content, ok, status } = userRequest;
 
     return {
         id,
-        error,
-        me: user,
-        user,
+        status,
+        errorHeader,
+        errorDescription,
+        ok,
+        user: content,
         post,
-        comments: exampleComments.slice(0, post?.comments ?? 0),
+        comments: exampleComments
     };
 }
 clientLoader.hydrate = true as const;
 
-export default function Index({ loaderData: { error, user, post, comments } }: Route.ComponentProps) {
+export default function ProfilePosts_Id({ loaderData: { error, user, post, comments } }: Route.ComponentProps) {
     return (
         error == null
         ? <ProfilePostView user={user!} post={{ profileUser: user!, author: user!, ...post! }} comments={comments.map((x) => ({ author: user!, ...x }))} />

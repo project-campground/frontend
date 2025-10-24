@@ -5,10 +5,10 @@ import { authMiddleware } from "~/middleware/auth";
 import { loginRequiredMiddleware } from "~/middleware/login";
 import { sessionRouterContext } from "~/session";
 
-export function meta(_routes: Route.MetaArgs) {
+export function meta({ loaderData }: Route.MetaArgs) {
     return [
-        { title: "Campground — Camp" },
-        { name: "description", content: "Gather around the fire, friends" },
+        { title: `Campground — ${loaderData.ok ? loaderData.user!.displayName : `Profile`}` },
+        { name: "description", content: loaderData.ok ? loaderData.user!.tagline : "Gather around the fire, friends" },
     ];
 }
 
@@ -28,7 +28,8 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         };
 
     const userRequest = await session.restClient.fetchProfile(id);
-    console.log(userRequest);
+    const postsRequest = await session.restClient.fetchPosts(id);
+    console.log(userRequest, postsRequest);
 
     const { errorDescription, errorHeader, content, ok, status } = userRequest;
 
@@ -38,15 +39,19 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         errorHeader,
         errorDescription,
         ok,
-        user: content
+        user: content,
+        isSelf: session.auth.authenticated && session.auth.user.did === content?.did,
+        posts: postsRequest.content?.posts!,
     };
 }
 clientLoader.hydrate = true as const;
 
-export default function Index({ loaderData: { status, ok, user, errorHeader, errorDescription } }: Route.ComponentProps) {
+export default function Index({ loaderData: { status, ok, isSelf, user, posts, errorHeader, errorDescription } }: Route.ComponentProps) {
+
+
     return (
         ok
-        ? <ProfileView user={user!} />
+        ? <ProfileView user={user!} posts={posts} isSelf={isSelf} />
         : status === 404
         ? <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title="Cannot find that user">
             There is no such user with that DID. Have you entered the wrong DID?

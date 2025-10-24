@@ -1,9 +1,8 @@
 import { Box, Stack, Typography } from "@mui/joy";
 import React from "react";
-import type { User, UserPost, UserPostComment } from "types/user";
+import type { EitherUserPost, User, UserPost } from "types/user";
 import ProfileLayout from "./ProfileLayout";
 import ProfileFeedPost from "./ProfileFeedPost";
-import ProfileFeedComment from "./ProfileFeedComment";
 import { IconArrowNarrowLeft } from "@tabler/icons-react";
 import Link from "~/components/Link";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
@@ -11,12 +10,12 @@ import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlacehold
 type Props = {
     user: User;
     post: UserPost;
-    comments: UserPostComment[];
 };
 
 export default class ProfilePostView extends React.Component<Props> {
     render(): React.ReactNode {
-        const { user, post, comments } = this.props;
+        const { user, post } = this.props;
+        const { replyCount, replies } = post as EitherUserPost;
 
         return (
             <ProfileLayout user={user}>
@@ -30,15 +29,16 @@ export default class ProfilePostView extends React.Component<Props> {
                         <ProfileFeedPost post={post} />
                         <Stack gap={1}>
                             <Typography id="comments" level="h4">
-                                Comments ({post.comments})
+                                Comments ({replyCount ?? replies.length})
                             </Typography>
                             <Stack gap={1}>
                                 {
-                                    comments.length
-                                    ? comments.map((x) => (
-                                        <ProfileFeedComment
-                                            key={`comment-${x.id}`}
-                                            comment={x}
+                                    replies.length
+                                    ? replies.map((x) => (
+                                        <ProfileFeedPost
+                                            key={`comment-${x.uri}`}
+                                            post={x}
+                                            showCommentsLink
                                         />
                                     ))
                                     : <Typography level="body-md">There are no comments.</Typography>

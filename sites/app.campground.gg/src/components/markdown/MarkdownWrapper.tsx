@@ -26,6 +26,13 @@ const MarkdownWrapper = styled(Box, {
             bottom: 0,
         }
     },
+    "code": {
+        backgroundColor: theme.vars.palette.background.body,
+        color: theme.vars.palette.text.code,
+        padding: `2px 4px`,
+        borderRadius: theme.vars.radius.sm,
+        fontFamily: theme.vars.fontFamily.code,
+    },
     "table": {
         border: `solid 1px ${theme.vars.palette.neutral[500]}`,
         borderSpacing: 0,

@@ -13,18 +13,20 @@ export interface User {
     createdAt: string;
 }
 export interface UserPost {
-    id: string;
-    title: string;
+    uri: string;
     content: string;
     tags: string[];
-    comments: number;
-    createdAt: Date;
-    author: User;
-    profileUser: User;
-};
-export interface UserPostComment {
-    id: string;
-    content: string;
-    createdAt: Date;
+    createdAt: string;
+    indexedAt: string | null;
+    updatedAt: string | null;
     author: User;
 };
+export interface UserPostBasic extends UserPost {
+    replyCount: number;
+};
+export interface UserPostDetailed extends UserPost {
+    replies: UserPostBasic[];
+};
+export interface EitherUserPost extends UserPostBasic, UserPostDetailed {
+
+}

@@ -1,6 +1,6 @@
 import { defaultXrpcPrefix, defaultAppApiUrl, defaultBackendDomain } from "api.config";
 import type { RestResponseError, RestResponseOkWithContent, RestResponseWithContent } from "./RESTResponse";
-import type { User } from "types/user";
+import type { User, UserPostBasic, UserPostDetailed } from "types/user";
 import type { RESTRefreshLogin } from "./RESTErrorHandler";
 import type { SessionAuthRefresh } from "~/session/types";
 
@@ -149,6 +149,33 @@ export default class RESTClient {
             route: `gg.campground.actor.getProfile`,
             queries: {
                 actor,
+            },
+        });
+    }
+
+    fetchPosts(actor: string) {
+        return this.get<{ posts: UserPostBasic[] }>({
+            route: `gg.campground.profile.getPosts`,
+            queries: {
+                uri: `at://${actor}/gg.campground.profile.post`,
+            },
+        });
+    }
+
+    fetchPostReplies(actor: string, post_tid: string) {
+        return this.get<{ posts: UserPostBasic[] }>({
+            route: `gg.campground.profile.getPosts`,
+            queries: {
+                uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
+            },
+        });
+    }
+
+    fetchPost(actor: string, post_tid: string) {
+        return this.get<UserPostDetailed>({
+            route: `gg.campground.profile.getPost`,
+            queries: {
+                uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
             },
         });
     }

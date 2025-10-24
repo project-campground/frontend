@@ -2,17 +2,19 @@ import { Box, Stack } from "@mui/joy";
 import React from "react";
 import ProfileFeed from "./ProfileFeed";
 import ProfileAbout from "./ProfileAbout";
-import type { User } from "types/user";
+import type { User, UserPostBasic } from "types/user";
 import ProfileLayout from "./ProfileLayout";
 import ProfileGames from "./ProfileGames";
 
 type Props = {
     user: User;
+    posts: UserPostBasic[] | undefined;
+    isSelf: boolean;
 };
 
 export default class ProfileView extends React.Component<Props> {
     render(): React.ReactNode {
-        const { user } = this.props;
+        const { user, posts, isSelf } = this.props;
 
         return (
             <ProfileLayout user={user}>
@@ -21,7 +23,7 @@ export default class ProfileView extends React.Component<Props> {
                         <ProfileGames user={user} />
                     </Box>
                     <Box sx={{ width: "100%", overflow: "hidden" }}>
-                        <ProfileFeed user={user} />
+                        <ProfileFeed user={user} posts={posts} isSelf={isSelf} />
                     </Box>
                     <Box>
                         <ProfileAbout user={user} />

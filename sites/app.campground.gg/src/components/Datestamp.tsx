@@ -19,7 +19,7 @@ const DatestampText = styled(Typography, {
 }));
 
 export default function Datestamp({ noAgo, displayDate, date }: Props) {
-    const isInvalid = Number.isNaN(date.getSeconds());
+    const isInvalid = !date || Number.isNaN(date.getSeconds());
 
     if (isInvalid)
         return (

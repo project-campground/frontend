@@ -10,6 +10,7 @@ declare module "@mui/joy/styles/types/typography" {
     // Add new text levels
     interface TypographySystemOverrides {
         code: true;
+        quartary: true;
         ["code-keyword"]: true;
         ["code-string"]: true;
         ["code-number"]: true;

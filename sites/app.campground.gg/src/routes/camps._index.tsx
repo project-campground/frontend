@@ -1,4 +1,4 @@
-import Home from "~/layout/Home";
+import HomeSidebar from "~/routes/_home/HomeSidebar";
 import type { Route } from "./+types/camps._index";
 
 export function meta(routes: Route.MetaArgs) {
@@ -9,5 +9,5 @@ export function meta(routes: Route.MetaArgs) {
 }
 
 export default function Index(...args: unknown[]) {
-    return <Home />;
+    return <HomeSidebar />;
 }

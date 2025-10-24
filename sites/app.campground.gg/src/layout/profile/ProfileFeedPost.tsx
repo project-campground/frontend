@@ -1,58 +1,56 @@
-import { Card, CardContent, Chip, Stack, Typography } from "@mui/joy";
+import { Card, CardContent, CardOverflow, Chip, Stack, Typography } from "@mui/joy";
 import React from "react";
 import UserDisplay from "~/components/UserDisplay";
-import { IconMessage, IconShare } from "@tabler/icons-react";
+import { IconCornerUpRightDouble, IconMessage, IconMoodPlus } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import type { UserPost } from "types/user";
+import type { EitherUserPost, UserPost } from "types/user";
 import Link from "~/components/Link";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 import { LargeContentMarkdown } from "~/components/markdown/Markdown";
 
 type Props = {
     post: UserPost;
-    linkTitle?: boolean;
+    showCommentsLink?: boolean;
 };
 
 export default class ProfileFeedPost extends React.Component<Props> {
     render(): React.ReactNode {
-        const { linkTitle } = this.props;
-        const { id, title, content, createdAt, comments, tags, author, profileUser } = this.props.post;
-        const titleNode = (
-            <Typography level="h2">{title}</Typography>
-        );
+        const { showCommentsLink } = this.props;
+        const { uri, content, createdAt, replies, replyCount, tags, author } = this.props.post as EitherUserPost;
+        const postTid = uri.split("/")[4];
 
         return (
             <Card variant="soft">
-                <CardContent>
-                    <Stack gap={1.5}>
-                        <Stack gap={0.5}>
-                            {linkTitle
-                                ? <Link href={`/profile/${profileUser.did}/posts/${id}`}>{titleNode}</Link>
-                                : titleNode
-                            }
-                            <Stack gap={1} direction="row">
-                                {tags.map((tag, i) => <Chip key={i} variant="solid">{tag}</Chip>)}
-                            </Stack>
-                        </Stack>
-                        <MarkdownWrapper>
+                <CardOverflow sx={{ alignItems: "start", pt: 2 }}>
+                    <Stack gap={1} direction="row" flex={1}>
+                        <UserDisplay showHandle user={author} size="md" avatarSize="lg" alignItems="start" />
+                        <Typography level="body-md" textColor="neutral.500">•</Typography>
+                        {/* <Typography level="body-md" textColor="neutral.200">{ms(Date.now() - createdAt, { long: true })} ago</Typography> */}
+                        <Datestamp date={new Date(createdAt)} />
+                    </Stack>
+                </CardOverflow>
+                <CardContent sx={{ ml: 7.5 }}>
+                    <Stack gap={1}>
+                        <MarkdownWrapper sx={(theme) => ({ mt: -4.5, color: theme.vars.palette.text.secondary })}>
                             <LargeContentMarkdown>{content}</LargeContentMarkdown>
                         </MarkdownWrapper>
                         {/* <Typography level="body-md">{content}</Typography> */}
                         <Stack direction="row" gap={1} alignItems="center">
-                            <Stack gap={1} direction="row" flex={1}>
-                                <UserDisplay user={author} size="sm" />
-                                <Typography level="body-md" textColor="neutral.500">•</Typography>
-                                {/* <Typography level="body-md" textColor="neutral.200">{ms(Date.now() - createdAt, { long: true })} ago</Typography> */}
-                                <Datestamp date={createdAt} />
+                            <Stack direction="row" gap={1.5} flex={1}>
+                                {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconMessage />}>
+                                    {replyCount ?? replies.length}{" "}
+                                </Link>}
+                                {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconCornerUpRightDouble />}>
+                                    {replyCount ?? replies.length}{" "}
+                                </Link>}
+                                {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconMoodPlus />}>
+                                    {" "}
+                                </Link>}
                             </Stack>
-                            <Stack direction="row" gap={1.5}>
-                                <Link href={`/profile/${profileUser.did}/posts/${id}`} color="neutral" startDecorator={<IconMessage />}>
-                                    {comments}{" "}
-                                    Comments
-                                </Link>
-                                <Link color="neutral" startDecorator={<IconShare />}>
-                                    Share
-                                </Link>
+                            <Stack gap={0.5}>
+                                <Stack gap={1} direction="row">
+                                    {tags.map((tag, i) => <Chip key={i} variant="solid">{tag}</Chip>)}
+                                </Stack>
                             </Stack>
                         </Stack>
                     </Stack>

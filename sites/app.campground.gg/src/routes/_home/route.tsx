@@ -1,12 +1,14 @@
-import type { Route } from "./+types/_index";
-import Home from "../layout/Home";
+import { Outlet } from "react-router";
+import type { Route } from "./+types/route";
+import HomeSidebar from "./HomeSidebar";
 import GlobalLayout from "~/layout/GlobalLayout";
 import { loginRequiredMiddleware } from "~/middleware/login";
 import { useSession } from "~/session";
+import { Group } from "components";
 
-export function meta(routes: Route.MetaArgs) {
+export function meta(_routes: Route.MetaArgs) {
     return [
-        { title: "Campground — Camp" },
+        { title: "Campground — Home" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }
@@ -15,13 +17,16 @@ export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
     loginRequiredMiddleware
 ];
 
-export default function Index(...args: unknown[]) {
-    console.log("Got args", args);
+
+export default function Index() {
     const session = useSession();
-    console.log("Got session", session);
+
     return (
         <GlobalLayout page={null} session={session}>
-            <Home />
+            <Group sx={{ height: "100%" }}>
+                <HomeSidebar page="/" />
+                <Outlet />
+            </Group>
         </GlobalLayout>
     );
 }

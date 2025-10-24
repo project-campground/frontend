@@ -27,6 +27,7 @@ const lightColorScheme: ColorSystemOptions = {
             primary: shades[50],
             secondary: shades[100],
             tertiary: shades[200],
+            quartary: shades[400],
             icon: shades[300],
             "code-keyword": "#fe603f",
             "code-string": "#ff538b",

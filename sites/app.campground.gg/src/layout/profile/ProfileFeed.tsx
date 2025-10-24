@@ -1,27 +1,29 @@
 import { Box, Stack, Typography } from "@mui/joy";
 import React from "react";
 import ProfileFeedPost from "./ProfileFeedPost";
-import { examplePosts } from "~/example/profile";
-import type { User } from "types/user";
+import type { User, UserPostBasic } from "types/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PostInput from "~/components/markdown/PostInput";
 
 type Props = {
     user: User;
+    isSelf: boolean;
+    posts: UserPostBasic[] | undefined;
 };
 
 export default class ProfileFeed extends React.Component<Props> {
     render(): React.ReactNode {
-        const { user } = this.props;
-        const posts = examplePosts.map((x) => ({ ...x, author: user, profileUser: user }))
+        const { user, posts, isSelf } = this.props;
 
         return (
             <Box>
                 <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography>
+                {isSelf && <PostInput user={user} sx={{ mb: 2 }} />}
                 <Stack gap={2}>
-                    {posts.map((x) =>
+                    {posts?.map((x) =>
                         <ProfileFeedPost
-                            key={`post-${x.id}`}
-                            linkTitle
+                            key={`post-${x.uri}`}
+                            showCommentsLink
                             post={x}
                         />
                     )}
@@ -30,6 +32,6 @@ export default class ProfileFeed extends React.Component<Props> {
                     This user has no more posts to be found! Come back later!
                 </PagePlaceholder>
             </Box>
-        )
+        );
     }
 }

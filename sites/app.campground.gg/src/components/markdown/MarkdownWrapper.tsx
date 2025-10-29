@@ -33,6 +33,16 @@ const MarkdownWrapper = styled(Box, {
         borderRadius: theme.vars.radius.sm,
         fontFamily: theme.vars.fontFamily.code,
     },
+    "q": {
+        backgroundColor: theme.vars.palette.background.level4,
+        padding: `2px 4px`,
+        borderRadius: theme.vars.radius.sm,
+        "::after, ::before": {
+            color: theme.vars.palette.text.quartary,
+            fontWeight: 900,
+            margin: `0 4px`,
+        },
+    },
     "table": {
         border: `solid 1px ${theme.vars.palette.neutral[500]}`,
         borderSpacing: 0,

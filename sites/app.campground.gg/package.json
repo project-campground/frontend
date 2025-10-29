@@ -20,9 +20,6 @@
     "@react-router/node": "^7.7.1",
     "@react-router/serve": "^7.7.1",
     "@tabler/icons-react": "^3.35.0",
-    "@tiptap/pm": "^3.5.0",
-    "@tiptap/react": "^3.5.0",
-    "@tiptap/starter-kit": "^3.5.0",
     "components": "file:../../packages/components",
     "highlight.js": "^11.11.1",
     "isbot": "^5",
@@ -34,6 +31,9 @@
     "react-router": "^7.7.1",
     "react-router-dom": "^7.9.3",
     "remark-gfm": "^4.0.1",
+    "slate": "^0.118.1",
+    "slate-history": "^0.113.1",
+    "slate-react": "^0.118.2",
     "vite-plugin-static-copy": "^2.3.0"
   },
   "devDependencies": {

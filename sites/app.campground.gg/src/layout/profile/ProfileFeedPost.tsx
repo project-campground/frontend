@@ -25,7 +25,6 @@ export default class ProfileFeedPost extends React.Component<Props> {
                     <Stack gap={1} direction="row" flex={1}>
                         <UserDisplay showHandle user={author} size="md" avatarSize="lg" alignItems="start" />
                         <Typography level="body-md" textColor="neutral.500">•</Typography>
-                        {/* <Typography level="body-md" textColor="neutral.200">{ms(Date.now() - createdAt, { long: true })} ago</Typography> */}
                         <Datestamp date={new Date(createdAt)} />
                     </Stack>
                 </CardOverflow>
@@ -34,7 +33,6 @@ export default class ProfileFeedPost extends React.Component<Props> {
                         <MarkdownWrapper sx={(theme) => ({ mt: -4.5, color: theme.vars.palette.text.secondary })}>
                             <LargeContentMarkdown>{content}</LargeContentMarkdown>
                         </MarkdownWrapper>
-                        {/* <Typography level="body-md">{content}</Typography> */}
                         <Stack direction="row" gap={1} alignItems="center">
                             <Stack direction="row" gap={1.5} flex={1}>
                                 {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconMessage />}>

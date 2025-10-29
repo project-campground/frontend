@@ -3,7 +3,7 @@ import React from "react";
 import ProfileFeedPost from "./ProfileFeedPost";
 import type { User, UserPostBasic } from "types/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
-import PostInput from "~/components/markdown/PostInput";
+import PostInput from "~/components/editor/PostInput";
 
 type Props = {
     user: User;

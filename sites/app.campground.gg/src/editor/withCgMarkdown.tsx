@@ -1,9 +1,17 @@
 import { Editor, Element, Point, Range, Transforms } from "slate";
-import type { RichEditor, RichEditorBlockElementType } from "./editor";
+import { type RichEditor, RichEditorBlockElementType, RichEditorItemElementType } from "./editor";
 
-const nodePrefixes: Record<string, RichEditorBlockElementType> = {
-    "> ": "block-quote",
-    "```": "code-block",
+const unorderedList = {
+    type: "list-item",
+    wrapper: "unordered-list"
+} as const;
+
+const nodePrefixes: Record<string, { type: RichEditorBlockElementType | RichEditorItemElementType, wrapper?: RichEditorBlockElementType }> = {
+    "> ": { type: "paragraph", wrapper: "block-quote" },
+    "```": { wrapper: "code-block", type: "code-line" },
+    "- ": unorderedList,
+    "+ ": unorderedList,
+    "* ": unorderedList,
 };
 
 // Doesn't help a lot, but probably for some performance to do less calculations
@@ -12,31 +20,37 @@ const endingCharacters = [" ", "`"];
 function modifiedInsertText(editor: RichEditor, text: string): boolean {
     const { selection } = editor;
 
-    if (!endingCharacters.some((x) => text.endsWith(x)) && !(selection && Range.isCollapsed(selection)))
+    if (!endingCharacters.some((x) => text.endsWith(x)) || !(selection && Range.isCollapsed(selection)))
         return false;
 
-    const { anchor } = selection;
+    const { anchor } = (selection as Range);
 
     const block = Editor.above(editor, {
         match: n => Element.isElement(n) && Editor.isBlock(editor, n),
     });
 
+    if ((block?.[0] as Element | null)?.type !== "paragraph")
+        return false;
+
     const path = block ? block[1] : [];
     const start = Editor.start(editor, path);
     const range = { anchor, focus: start };
-    const beforeText = Editor.string(editor, range) + text.slice(0, -1);
-    const type = nodePrefixes[beforeText];
+    const beforeText = Editor.string(editor, range);
 
-    if (!type)
+
+    const elem = nodePrefixes[beforeText + text];
+
+    if (!elem)
         return false;
 
-    Transforms.select(editor, range)
+    Transforms.select(editor, range);
 
     if (!Range.isCollapsed(range))
         Transforms.delete(editor)
 
     const props: Partial<Element> = {
-        type,
+        type: elem.type,
+        children: []
     };
 
     Transforms.setNodes<Element>(
@@ -47,34 +61,31 @@ function modifiedInsertText(editor: RichEditor, text: string): boolean {
         }
     );
 
-    // if (type === 'list-item') {
-    //     const list: BulletedListElement = {
-    //     type: 'bulleted-list',
-    //     children: [],
-    //     }
-    //     Transforms.wrapNodes(editor, list, {
-    //     match: n =>
-    //         !Editor.isEditor(n) &&
-    //         SlateElement.isElement(n) &&
-    //         n.type === 'list-item',
-    //     })
-    // }
+    if (elem.wrapper)
+        Transforms.wrapNodes(editor,
+            {
+                type: elem.wrapper,
+                children: [],
+            },
+            {
+                match: n =>
+                    !Editor.isEditor(n) &&
+                    Element.isElement(n) &&
+                    n.type === elem.type,
+            })
 
     return true;
 }
 
 function modifiedDeleteBackward(editor: RichEditor): boolean {
     const { selection } = editor;
-    
-    console.log("Selection", { selection, collapsed: Range.isCollapsed(selection!) });
+
     if (!selection || Range.isCollapsed(selection))
         return false;
 
     const match = Editor.above(editor, {
         match: n => Element.isElement(n) && Editor.isBlock(editor, n),
     });
-
-    console.log("Match", match);
 
     if (!match)
         return false;
@@ -122,5 +133,6 @@ export default function withCgMarkdown(editor: RichEditor) {
         if (!modified)
             deleteBackward(...args);
     }
+
     return editor;
 }

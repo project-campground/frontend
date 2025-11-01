@@ -1,5 +1,5 @@
 import { Option, Select } from "@mui/joy";
-import type { RichEditorCodeBlock } from "./editor";
+import type { RichEditorCodeBlock } from "../../editor/editor";
 import hljs from "highlight.js";
 import { useSlateStatic } from "slate-react";
 import { Element, Transforms } from "slate";
@@ -16,7 +16,7 @@ export default function CodeBlockEditorHeader({ element }: Props) {
         Transforms.setNodes(
             editor,
             {
-                language,
+                lang: language,
             },
             {
                 match: m =>
@@ -32,7 +32,7 @@ export default function CodeBlockEditorHeader({ element }: Props) {
 
     return (
         <Group gap={1}>
-            <Select defaultValue={element.language} onChange={onValueSelected} variant="solid" size="sm" sx={{ width: 128 }}>
+            <Select defaultValue={element.lang} onChange={onValueSelected} variant="solid" size="sm" sx={{ width: 128 }}>
                 <Option value={null}>
                     No language
                 </Option>

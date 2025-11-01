@@ -38,9 +38,10 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     const login = async (details: AuthCredentials) =>
     {
         const data = await RESTClient.login(details); 
+    
         if (data.ok)
         {
-            setAuth(data.content);
+            setAuth({ authenticated: true, user: data.content });
             setRestClient(new RESTClient({ auth: data.content.accessJwt, refreshAuth: data.content.refreshJwt }, refreshLogin))
         }
         else throw new Error(data.errorDescription);

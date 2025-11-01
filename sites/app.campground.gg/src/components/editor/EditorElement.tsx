@@ -1,9 +1,10 @@
 import { type RenderElementProps } from "slate-react";
-import type { RichEditorAnyElementType, RichEditorCodeBlock, RichEditorCodeLine } from "./editor";
+import type { RichEditorAnyElementType, RichEditorCodeBlock, RichEditorCodeLine, RichEditorHeading, RichEditorLink } from "../../editor/editor";
 import { ReactNode } from "react";
 import { CodeContainer, CodeGrid, CodeHeader, CodeLine, CodeLineNumber, CodePre } from "../markdown/CodeBlock";
 import CodeBlockEditorHeader from "./CodeBlockEditorHeader";
 import { CodeEditorContextProvider, useCodeEditorContext } from "./codeEditorContext";
+import Link from "../Link";
 
 const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
     paragraph({ attributes, children }) {
@@ -11,6 +12,23 @@ const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProp
     },
     divider({ attributes }) {
         return <hr {...attributes} />;
+    },
+    heading({ attributes, children, element }) {
+        const Tag = `h${(element as RichEditorHeading).depth ?? 1}` as "h1";
+        return (
+            <Tag {...attributes}>
+                {children}
+            </Tag>
+        );
+    },
+    link({ children, element }) {
+        const link = element as RichEditorLink;
+
+        return (
+            <Link href={link.url}>
+                {children}
+            </Link>
+        );
     },
     ["block-quote"]({ attributes, children }) {
         return <blockquote {...attributes}>{children}</blockquote>
@@ -80,7 +98,6 @@ const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProp
 export default function EditorElement({ attributes, children, element }: RenderElementProps) {
     const nodeType = element.type;
     const Renderer = typeToRenderer[nodeType];
-    console.log("Arguments", arguments);
 
     return (
         <Renderer attributes={attributes} element={element}>

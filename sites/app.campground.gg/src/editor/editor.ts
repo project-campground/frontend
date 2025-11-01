@@ -1,4 +1,4 @@
-import type { BaseEditor, BaseRange, Element, Range, Text } from "slate";
+import type { BaseEditor, BasePoint, BaseRange, Element, Range, Text } from "slate";
 import type { HistoryEditor } from "slate-history";
 import type { ReactEditor } from "slate-react";
 
@@ -23,7 +23,7 @@ export interface RichEditorTextUnformatted {
  * Rich text editor's text node with all of its contents.
  */
 export interface RichEditorText extends RichEditorTextFormatting, RichEditorTextUnformatted { }
-const _RichEditorBlockElementType = ["paragraph", "block-quote", "code-block", "divider", "unordered-list", "ordered-list"] as const;
+const _RichEditorBlockElementType = ["paragraph", "block-quote", "code-block", "divider", "unordered-list", "ordered-list", "heading"] as const;
 /**
  * Rich text editor node elements that don't necessarily depend on the ancestor element and spans at least a line.
 */
@@ -46,11 +46,16 @@ export type RichEditorItemElementType = typeof _RichEditorItemElementType[number
 */
 export const RichEditorItemElementType = _RichEditorItemElementType;
 
+export const RichEditorItemToParent: Record<RichEditorItemElementType, RichEditorBlockElementType> = {
+    "code-line": "code-block",
+    "list-item": "unordered-list",
+};
+
 // Test inline
 /**
  * Rich text editor node elements that depends on the ancestor block element and does not necessarily span a line
  */
-const _RichEditorInlineElementType = ["inline-quote"] as const;
+const _RichEditorInlineElementType = ["inline-quote", "link"] as const;
 /**
  * Rich text editor node elements that depends on the ancestor block element and does not necessarily span a line.
  */
@@ -78,10 +83,19 @@ export interface RichEditorInlineElement<TType extends RichEditorInlineElementTy
 }
 
 export type RichEditorCodeLine = RichEditorBlockElement<"code-line", RichEditorTextUnformatted>;
-export type RichEditorListItem = RichEditorBlockElement<"list-item", RichEditorBlockElementType | RichEditorText>;
+export type RichEditorListItem = RichEditorBlockElement<"list-item", RichEditorAnyBlockElement | RichEditorText>;
 
 export interface RichEditorCodeBlock extends RichEditorBlockElement<"code-block", RichEditorCodeLine> {
-    language?: null | undefined | string;
+    lang?: null | undefined | string;
+    meta?: null | undefined | string;
+}
+
+export interface RichEditorHeading extends RichEditorBlockElement<"heading", Text> {
+    depth?: null | undefined | number;
+}
+
+export interface RichEditorLink extends RichEditorInlineElement<"link", Text> {
+    url: string;
 }
 
 export interface RichEditorOrderedList extends RichEditorBlockElement<"ordered-list", RichEditorListItem> {
@@ -90,6 +104,7 @@ export interface RichEditorOrderedList extends RichEditorBlockElement<"ordered-l
 
 export type RichEditorAnyBlockElement =
     RichEditorBlockElement<"paragraph", Text> |
+    RichEditorHeading |
     RichEditorBlockElement<"block-quote", RichEditorAnyBlockElement> |
     RichEditorBlockElement<"divider", RichEditorText> |
     RichEditorCodeBlock |
@@ -99,7 +114,8 @@ export type RichEditorAnyItemElement =
     RichEditorCodeLine |
     RichEditorListItem;
 export type RichEditorAnyInlineElement =
-    RichEditorInlineElement<"inline-quote", RichEditorAnyInlineElement | RichEditorText>;
+    RichEditorInlineElement<"inline-quote", RichEditorAnyInlineElement | RichEditorText> |
+    RichEditorLink;
 export type RichEditorAnyElement = RichEditorAnyInlineElement | RichEditorAnyBlockElement | RichEditorAnyItemElement;
 
 export type RichEditor =
@@ -108,11 +124,16 @@ export type RichEditor =
         nodeToDecorations?: Map<Element, Range[]>
     };
 
+export interface RichEditorPoint extends BasePoint {
+    lineOffset?: number;
+}
+
 declare module 'slate' {
   interface CustomTypes {
     Editor: RichEditor;
     Element: RichEditorAnyElement;
     Text: RichEditorText;
+    Point: RichEditorPoint;
     Range: BaseRange & {
         [key: string]: unknown
     }

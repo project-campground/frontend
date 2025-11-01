@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorBlockElementType } from "./editor";
+import type { RichEditorBlockElementType } from "../../editor/editor";
 
 type Props = {
     format: RichEditorBlockElementType;

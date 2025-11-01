@@ -1,25 +1,29 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorBlockElementType } from "./editor";
+import type { RichEditor, RichEditorBlockElementType } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
-type Props = {
-    format: RichEditorBlockElementType;
+type Props<T extends RichEditorBlockElementType> = {
+    format: T;
     children: ReactNode[] | ReactNode;
+    onClick?: (editor: RichEditor, format: T) => void;
 };
 
-export default function BlockNodeToggle({ children, format: formatting }: Props) {
+export default function BlockNodeToggle<T extends RichEditorBlockElementType>({ children, format: formatting, onClick }: Props<T>) {
     const editor = useSlate();
 
     const active = CampgroundEditor.isNodeFormatted(editor, formatting);
 
+    const toggleFormattingFn = onClick ?? CampgroundEditor.toggleBlockFormatting;
+
     const toggleFormatting = (ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         ev.preventDefault();
-        CampgroundEditor.toggleBlockFormatting(editor, formatting);
+        toggleFormattingFn(editor, formatting);
     };
+
     return (
-        <IconButton variant={active ? "solid" : "plain"} onClick={toggleFormatting}>
+        <IconButton variant={active ? "solid" : undefined} onClick={toggleFormatting}>
             {children}
         </IconButton>
     );

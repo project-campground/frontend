@@ -5,13 +5,13 @@ import MarkdownWrapper from "../markdown/MarkdownWrapper";
 import type { SxProps } from "@mui/joy/styles/types";
 import { Divider, styled } from "@mui/joy";
 import { withHistory } from "slate-history";
-import type { RichEditor } from "./editor";
+import type { RichEditor } from "../../editor/editor";
 import EditorLeaf from "./EditorLeaf";
 import EditorElement from "./EditorElement";
-import RichEditorToolbar, { RichEditorToolbarBlockFormatting, RichEditorToolbarInlineFormatting } from "./RichEditorToolbar";
-import withCgMarkdown from "./withCgMarkdown";
-import useBlockDecorate from "./block-decorate";
-import { editorKeyboardLogic } from "./keyboard-logic";
+import RichEditorToolbar, { RichEditorToolbarBlockFormatting, RichEditorToolbarHeading, RichEditorToolbarInlineFormatting } from "./RichEditorToolbar";
+import withCgMarkdown from "../../editor/withCgMarkdown";
+import useBlockDecorate from "../../editor/block-decorate";
+import { editorKeyboardLogic } from "../../editor/keyboard-logic";
 
 type Props = {
     sx: SxProps;
@@ -58,11 +58,13 @@ export default function BlockTextEditor({ sx }: Props) {
 
     return (
         <StyledContainer sx={sx}>
-            <Slate initialValue={[{ type: "paragraph", children: [{ text: "Example text" }] }]} editor={editor} onChange={(v) => console.log("VVVV", v)}>
+            <Slate initialValue={[{ type: "paragraph", children: [{ text: "Example text" }] }]} editor={editor}>
                 <RichEditorToolbar>
                     <RichEditorToolbarInlineFormatting />
                     <Divider />
                     <RichEditorToolbarBlockFormatting />
+                    <Divider />
+                    <RichEditorToolbarHeading />
                 </RichEditorToolbar>
                 <Divider />
                 <StyledWrapper>

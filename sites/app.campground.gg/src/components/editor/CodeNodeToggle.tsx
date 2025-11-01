@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorBlockElementType, RichEditorItemElementType } from "./editor";
+import type { RichEditorBlockElementType, RichEditorItemElementType } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
 type Props = {
@@ -20,7 +20,7 @@ export default function CodeNodeToggle({ children, format: formatting, itemForma
         CampgroundEditor.toggleCodeFormatting(editor, formatting, itemFormat);
     };
     return (
-        <IconButton variant={active ? "solid" : "plain"} onClick={toggleFormatting}>
+        <IconButton variant={active ? "solid" : "soft"} onClick={toggleFormatting}>
             {children}
         </IconButton>
     );

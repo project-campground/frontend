@@ -5,6 +5,11 @@ const Leaf = styled(Typography, {
     name: "Leaf",
 })<{ component: string; }>(() => ({
     display: "inline",
+    fontSize: "inherit",
+    "h1, h2, h3, h4, h5, h6 &": {
+        fontSize: "inherit",
+        fontWeight: "bolder",
+    },
     "&.bold": {
         fontWeight: "bolder",
     },

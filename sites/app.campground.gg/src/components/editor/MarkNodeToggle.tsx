@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorTextFormatting } from "./editor";
+import type { RichEditorTextFormatting } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
 type Props = {
@@ -20,7 +20,7 @@ export default function MarkNodeToggle({ children, format: formatting }: Props) 
     };
 
     return (
-        <IconButton variant={active ? "solid" : "plain"} onClick={toggleFormatting}>
+        <IconButton variant={active ? "solid" : undefined} onClick={toggleFormatting}>
             {children}
         </IconButton>
     );

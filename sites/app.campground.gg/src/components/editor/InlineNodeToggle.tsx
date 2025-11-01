@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorInlineElementType } from "./editor";
+import type { RichEditorInlineElementType } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
 type Props = {
@@ -19,7 +19,7 @@ export default function InlineNodeToggle({ children, format: formatting }: Props
         CampgroundEditor.toggleInlineFormatting(editor, formatting);
     };
     return (
-        <IconButton variant={active ? "solid" : "plain"} onClick={toggleFormatting}>
+        <IconButton variant={active ? "solid" : undefined} onClick={toggleFormatting}>
             {children}
         </IconButton>
     );

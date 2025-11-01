@@ -1,5 +1,5 @@
-import { Editor, Element, Text, Transforms } from "slate";
-import { RichEditorInlineElementType, type RichEditor, type RichEditorAnyElement, type RichEditorAnyElementType, type RichEditorBlockElementType, type RichEditorItemElementType, type RichEditorTextFormatting } from "./editor";
+import { Editor, Element, Node, type NodeEntry, Text, Transforms } from "slate";
+import { RichEditorInlineElementType, type RichEditor, type RichEditorAnyElementType, type RichEditorBlockElementType, type RichEditorItemElementType, type RichEditorTextFormatting } from "../../editor/editor";
 
 export default class CampgroundEditor {
     static isNodeFormatted(editor: RichEditor, type: RichEditorAnyElementType) {
@@ -24,16 +24,40 @@ export default class CampgroundEditor {
         // Returned at least one element, which means it is formatted
         return Boolean(match);
     }
+    static getSelectedNodes(editor: RichEditor): NodeEntry<Node>[] | null {
+        const { selection } = editor;
+
+        // Can't detect nodes; out of focus of editor
+        if (!selection)
+            return null;
+
+        return Array.from(
+            Editor.nodes(editor, {
+                at: Editor.unhangRange(editor, selection),
+                match: n => !Editor.isEditor(n) && Element.isElement(n),
+            })
+        );
+    }
     static isTextFormatted(editor: RichEditor, type: keyof RichEditorTextFormatting) {
         const marks = Editor.marks(editor);
         return (marks?.[type] as boolean | null) ?? false;
     }
-    static toggleBlockFormatting(editor: RichEditor, type: RichEditorBlockElementType) {
+    static toggleBlockFormatting(editor: RichEditor, type: RichEditorBlockElementType, additionalProps?: any) {
         const active = this.isNodeFormatted(editor, type);
 
         // Simple type change
+        const props = active ? additionalProps && Object.keys(additionalProps).reduce((obj, prop) => (obj[prop] = null, obj), {} as Record<string, null>) : additionalProps;
+
         Transforms.setNodes<Element>(editor, {
             type: active ? `paragraph` : type,
+            ...props,
+        });
+    }
+    static setBlockFormatting(editor: RichEditor, type: RichEditorBlockElementType, additionalProps?: any) {
+        // Simple type change
+        Transforms.setNodes<Element>(editor, {
+            type: type,
+            ...additionalProps,
         });
     }
     static toggleInlineFormatting(editor: RichEditor, type: RichEditorInlineElementType) {
@@ -90,6 +114,9 @@ export default class CampgroundEditor {
     }
     static toggleCodeFormatting(editor: RichEditor, type: RichEditorBlockElementType, itemType: RichEditorItemElementType) {
         const active = this.isNodeFormatted(editor, type);
+        const activeElems = this.getSelectedNodes(editor);
+
+        console.log(activeElems);
 
         // Simple type change
         Transforms.setNodes<Element>(
@@ -103,6 +130,8 @@ export default class CampgroundEditor {
             }
         );
 
+        editor.selection
+
         if (active) { }
         else
             Transforms.wrapNodes(
@@ -110,8 +139,8 @@ export default class CampgroundEditor {
                 {
                     type,
                     children: [],
-                    language: "js"
-                } as unknown as RichEditorAnyElement,
+                    lang: "js",
+                },
                 {
                     match: n => Element.isElement(n) && n.type === itemType
                 }

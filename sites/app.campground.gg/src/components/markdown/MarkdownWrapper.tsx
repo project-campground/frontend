@@ -4,17 +4,19 @@ const MarkdownWrapper = styled(Box, {
     name: "MarkdownWrapper",
     slot: "root"
 })(({ theme }) => ({
-    "p:first-child": {
-        marginTop: 0,
-    },
-    "p:last-child": {
-        marginBottom: 0,
+    "p, h1, h2, h3, h4, h5, h6, blockquote": {
+        "&:first-child": {
+            marginTop: 0,
+        },
+        "&:last-child": {
+            marginBottom: 0,
+        },
     },
     "blockquote": {
         position: "relative",
         marginLeft: "20px",
         marginRight: "0px",
-        "::before": {
+        "&::before": {
             position: "absolute",
             content: "''",
             height: "100%",

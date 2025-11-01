@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { RichEditorCodeLine } from "./editor";
+import type { RichEditorCodeLine } from "../../editor/editor";
 
 export const CodeEditorContext = createContext<RichEditorCodeLine[]>([]);
 export const useCodeEditorContext = () => useContext(CodeEditorContext);

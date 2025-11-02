@@ -1,8 +1,9 @@
 import { Editor, Element, Node, type NodeEntry, Text, Transforms } from "slate";
-import { RichEditorInlineElementType, type RichEditor, type RichEditorAnyElementType, type RichEditorBlockElementType, type RichEditorItemElementType, type RichEditorTextFormatting } from "../../editor/editor";
+import { EditorInlineElementType, type RichEditor, type EditorElementType, type EditorBlockElementType, type EditorItemElementType } from "../../editor/editor";
+import type { EditorTextFormatting } from "~/editor/text";
 
 export default class CampgroundEditor {
-    static isNodeFormatted(editor: RichEditor, type: RichEditorAnyElementType) {
+    static isNodeFormatted(editor: RichEditor, type: EditorElementType) {
         const { selection } = editor;
 
         // Can't detect nodes; out of focus of editor
@@ -38,11 +39,11 @@ export default class CampgroundEditor {
             })
         );
     }
-    static isTextFormatted(editor: RichEditor, type: keyof RichEditorTextFormatting) {
+    static isTextFormatted(editor: RichEditor, type: keyof EditorTextFormatting) {
         const marks = Editor.marks(editor);
         return (marks?.[type] as boolean | null) ?? false;
     }
-    static toggleBlockFormatting(editor: RichEditor, type: RichEditorBlockElementType, additionalProps?: any) {
+    static toggleBlockFormatting(editor: RichEditor, type: EditorBlockElementType, additionalProps?: any) {
         const active = this.isNodeFormatted(editor, type);
 
         // Simple type change
@@ -53,14 +54,14 @@ export default class CampgroundEditor {
             ...props,
         });
     }
-    static setBlockFormatting(editor: RichEditor, type: RichEditorBlockElementType, additionalProps?: any) {
+    static setBlockFormatting(editor: RichEditor, type: EditorBlockElementType, additionalProps?: any) {
         // Simple type change
         Transforms.setNodes<Element>(editor, {
             type: type,
             ...additionalProps,
         });
     }
-    static toggleInlineFormatting(editor: RichEditor, type: RichEditorInlineElementType) {
+    static toggleInlineFormatting(editor: RichEditor, type: EditorInlineElementType) {
         const active = this.isNodeFormatted(editor, type);
 
         if (active)
@@ -68,23 +69,24 @@ export default class CampgroundEditor {
                 match: (n) =>
                     !Editor.isEditor(n) &&
                     Element.isElement(n) &&
-                    (RichEditorInlineElementType as readonly string[]).includes(n.type)
+                    (EditorInlineElementType as readonly string[]).includes(n.type)
             });
 
         Transforms.wrapNodes(
             editor,
             { 
-                type: "inline-quote",
+                type: "link",
+                url: "#",
                 children: []
             },
             {
                 match: (n) =>
                     !Editor.isEditor(n) &&
-                    ((Element.isElement(n) && (RichEditorInlineElementType as readonly string[]).includes(n.type)) || Text.isText(n))
+                    ((Element.isElement(n) && (EditorInlineElementType as readonly string[]).includes(n.type)) || Text.isText(n))
             }
         );
     }
-    static toggleListFormatting(editor: RichEditor, type: RichEditorBlockElementType, itemType: RichEditorItemElementType) {
+    static toggleListFormatting(editor: RichEditor, type: EditorBlockElementType, itemType: EditorItemElementType) {
         const active = this.isNodeFormatted(editor, type);
 
         if (active)
@@ -112,7 +114,7 @@ export default class CampgroundEditor {
                 },
             );
     }
-    static toggleCodeFormatting(editor: RichEditor, type: RichEditorBlockElementType, itemType: RichEditorItemElementType) {
+    static toggleCodeFormatting(editor: RichEditor, type: EditorBlockElementType, itemType: EditorItemElementType) {
         const active = this.isNodeFormatted(editor, type);
         const activeElems = this.getSelectedNodes(editor);
 
@@ -146,7 +148,7 @@ export default class CampgroundEditor {
                 }
             );
     }
-    static toggleTextFormatting(editor: RichEditor, type: keyof RichEditorTextFormatting) {
+    static toggleTextFormatting(editor: RichEditor, type: keyof EditorTextFormatting) {
         const active = this.isTextFormatted(editor, type);
 
         if (active)

@@ -1,12 +1,12 @@
 import { Option, Select } from "@mui/joy";
-import type { RichEditorCodeBlock } from "../../editor/editor";
+import type { EditorCodeBlock } from "../../editor/editor";
 import hljs from "highlight.js";
 import { useSlateStatic } from "slate-react";
 import { Element, Transforms } from "slate";
 import { Group } from "components";
 
 type Props = {
-    element: RichEditorCodeBlock;
+    element: EditorCodeBlock;
 };
 
 export default function CodeBlockEditorHeader({ element }: Props) {

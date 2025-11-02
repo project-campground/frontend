@@ -2,12 +2,11 @@ import { ButtonGroup, Dropdown, ListItemContent, ListItemDecorator, Menu, MenuBu
 import { Group } from "components";
 import { ReactNode } from "react"
 import MarkNodeToggle from "./MarkNodeToggle";
-import { IconBlockquote, IconBold, IconBraces, IconCaretDownFilled, IconCode, IconH1, IconH2, IconH3, IconH4, IconH6, IconItalic, IconList, IconListNumbers, IconQuote, IconSeparatorHorizontal, IconStrikethrough, IconUnderline } from "@tabler/icons-react";
+import { IconBlockquote, IconBold, IconBraces, IconCaretDownFilled, IconCode, IconH1, IconH2, IconH3, IconH4, IconH6, IconItalic, IconList, IconListNumbers, IconSeparatorHorizontal, IconStrikethrough, IconUnderline } from "@tabler/icons-react";
 import BlockNodeToggle from "./BlockNodeToggle";
 import ListNodeToggle from "./ListNodeToggle";
 import CodeNodeToggle from "./CodeNodeToggle";
 import BlockNodeInsert from "./BlockNodeInsert";
-import InlineNodeToggle from "./InlineNodeToggle";
 import BlockNodeMenuItem from "./BlockNodeMenuItem";
 
 type Props = {
@@ -32,9 +31,9 @@ export function RichEditorToolbarInlineFormatting() {
             <MarkNodeToggle format="code">
                 <IconBraces />
             </MarkNodeToggle>
-            <InlineNodeToggle format="inline-quote">
+            {/* <InlineNodeToggle format="inline-quote">
                 <IconQuote />
-            </InlineNodeToggle>
+            </InlineNodeToggle> */}
         </ButtonGroup>
     );
 }

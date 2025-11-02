@@ -1,11 +1,11 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorTextFormatting } from "../../editor/editor";
+import type { EditorTextFormatting } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
 type Props = {
-    format: keyof RichEditorTextFormatting;
+    format: keyof EditorTextFormatting;
     children: ReactNode[] | ReactNode;
 };
 

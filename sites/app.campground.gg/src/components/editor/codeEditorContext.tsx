@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import type { RichEditorCodeLine } from "../../editor/editor";
+import type { EditorCodeLine } from "../../editor/editor";
 
-export const CodeEditorContext = createContext<RichEditorCodeLine[]>([]);
+export const CodeEditorContext = createContext<EditorCodeLine[]>([]);
 export const useCodeEditorContext = () => useContext(CodeEditorContext);
 
-export function CodeEditorContextProvider({ codeLines, children }: React.PropsWithChildren & { codeLines: RichEditorCodeLine[] }) {
+export function CodeEditorContextProvider({ codeLines, children }: React.PropsWithChildren & { codeLines: EditorCodeLine[] }) {
     return (
         <CodeEditorContext.Provider value={codeLines}>
             {children}

@@ -1,12 +1,12 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorBlockElementType, RichEditorItemElementType } from "../../editor/editor";
+import type { EditorBlockElementType, EditorItemElementType } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
 type Props = {
-    format: RichEditorBlockElementType;
-    itemFormat: RichEditorItemElementType;
+    format: EditorBlockElementType;
+    itemFormat: EditorItemElementType;
     children: ReactNode[] | ReactNode;
 };
 

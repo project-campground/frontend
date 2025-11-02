@@ -3,6 +3,7 @@ import type { RestResponseError, RestResponseOkWithContent, RestResponseWithCont
 import type { User, UserPostBasic, UserPostDetailed } from "types/user";
 import type { RESTRefreshLogin } from "./RESTErrorHandler";
 import type { SessionAuthRefresh } from "~/session/types";
+import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
 
 type HTTPMethod = "GET" | "OPTION" | "PUT" | "POST" | "PATCH" | "DELETE";
 
@@ -14,6 +15,7 @@ export interface RESTClientConfig extends RequestPrefixed {
     atprotoProxy: string;
     auth: string;
     refreshAuth: string;
+    userDid: string;
 };
 
 export interface RequestConfig {
@@ -30,6 +32,7 @@ export default class RESTClient {
         routePrefix: defaultXrpcPrefix,
         auth: `...`,
         refreshAuth: `...`,
+        userDid: `...`,
         atprotoProxy: `did:web:${defaultBackendDomain.replace(":", "%3A")}#campground_appview`
     };
 
@@ -128,6 +131,15 @@ export default class RESTClient {
     get<T>(config: Omit<RequestConfig, "method" | "body">) {
         return this.fetch<T>({ method: "GET", ...config });
     }
+    getRecord<T extends AtprotoValueBase>(config: { repo: string; rkey: string; collection: string; }) {
+        return this.fetch<AtprotoRecord<T>>({ route: "com.atproto.repo.getRecord", queries: config, method: "GET", request: { headers: { "atproto-proxy": "" } }, ...config });
+    }
+    getRecordList<T extends AtprotoValueBase>(config: { repo: string; collection: string; }) {
+        return this.fetch<GetRecordListResponse<T>>({ route: "com.atproto.repo.listRecords", queries: config, method: "GET", request: { headers: { "atproto-proxy": "" } }, ...config });
+    }
+    putRecord<T>(config: { repo: string; rkey: string; collection: string; record: T; }) {
+        return this.fetch<PutRecordResponse>({ route: "com.atproto.repo.putRecord", method: "POST", request: { headers: { "atproto-proxy": "" } }, body: config, ...config });
+    }
     post<T>(config: Omit<RequestConfig, "method">) {
         return this.fetch<T>({ method: "POST", ...config });
     }
@@ -176,6 +188,18 @@ export default class RESTClient {
             route: `gg.campground.profile.getPost`,
             queries: {
                 uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
+            },
+        });
+    }
+
+    createPost(record: { parentUri?: string | undefined; content: string; tags: string[]; createdAt: string; updatedAt: string; }) {
+        return this.putRecord({
+            repo: this._config.userDid,
+            collection: "gg.campground.profile.post",
+            rkey: "",
+            record: {
+                ...record,
+                "$type": "gg.campground.profile.post",
             },
         });
     }

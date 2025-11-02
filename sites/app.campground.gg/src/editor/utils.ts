@@ -1,4 +1,5 @@
-import type { RichEditorBlockElement, RichEditorText } from "./editor"
+import { Text } from "slate";
+import type { EditorBlockElementBase } from "./editor"
 
 export const getNeighborPath = (path: number[], distance: number = 1) =>
     [...getParentPath(path), negativeFloor(path[path.length - 1] + distance)];
@@ -15,7 +16,7 @@ const negativeFloor = (a: number) =>
 export const getParentPath = (path: number[]) =>
     path.slice(0, path.length - 1);
 
-export const paragraph: () => RichEditorBlockElement<"paragraph", RichEditorText> = () => ({
+export const paragraph: () => EditorBlockElementBase<"paragraph", Text> = () => ({
     type: "paragraph",
     children: [
         {

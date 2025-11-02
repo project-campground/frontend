@@ -1,11 +1,11 @@
 import { MenuItem } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { RichEditorBlockElementType } from "../../editor/editor";
+import type { EditorBlockElementType } from "../../editor/editor";
 import CampgroundEditor from "./CampgroundEditor";
 
 type Props = {
-    format: RichEditorBlockElementType;
+    format: EditorBlockElementType;
     additionalProps?: any;
     children: ReactNode[] | ReactNode;
     onClick?: () => void;

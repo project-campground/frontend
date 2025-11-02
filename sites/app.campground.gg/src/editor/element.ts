@@ -1,0 +1,100 @@
+import type { Text } from "slate";
+import type { EditorText, EditorTextUnformatted } from "./text";
+
+const _EditorBlockElementType = ["paragraph", "block-quote", "code-block", "divider", "unordered-list", "ordered-list", "heading"] as const;
+/**
+ * Rich text editor node elements that don't necessarily depend on the ancestor element and spans at least a line.
+*/
+export type EditorBlockElementType = typeof _EditorBlockElementType[number];
+/**
+ * Rich text editor node elements that don't necessarily depend on the ancestor element and spans at least a line.
+*/
+export const EditorBlockElementType = _EditorBlockElementType;
+
+/**
+ * Rich text editor node elements that depends on the ancestor block element and spans at least a line.
+*/
+const _EditorItemElementType = ["code-line", "list-item"] as const;
+/**
+ * Rich text editor node elements that depends on the ancestor block element and spans at least a line.
+*/
+export type EditorItemElementType = typeof _EditorItemElementType[number];
+/**
+ * Rich text editor node elements that depends on the ancestor block element and spans at least a line.
+*/
+export const EditorItemElementType = _EditorItemElementType;
+
+export const EditorItemToParent: Record<EditorItemElementType, EditorBlockElementType> = {
+    "code-line": "code-block",
+    "list-item": "unordered-list",
+};
+
+// Test inline
+/**
+ * Rich text editor node elements that depends on the ancestor block element and does not necessarily span a line
+ */
+const _RichEditorInlineElementType = ["link"] as const;
+/**
+ * Rich text editor node elements that depends on the ancestor block element and does not necessarily span a line.
+ */
+export type EditorInlineElementType = typeof _RichEditorInlineElementType[number];
+/**
+ * Rich text editor node elements that depends on the ancestor block element and does not necessarily span a line
+ */
+export const EditorInlineElementType = _RichEditorInlineElementType;
+
+export type EditorElementType = EditorBlockElementType | EditorItemElementType | EditorInlineElementType;
+export const EditorElementType = (_EditorItemElementType as readonly EditorElementType[])
+    .concat(_RichEditorInlineElementType)
+    .concat(_EditorBlockElementType);
+
+/**
+ * Type representing a base for block and item elements.
+ */
+export interface EditorBlockElementBase<TType extends EditorBlockElementType | EditorItemElementType, TDescendant> {
+    type: TType;
+    children: TDescendant[];
+}
+export interface EditorInlineElementBase<TType extends EditorInlineElementType, TDescendant> {
+    type: TType;
+    children: TDescendant[];
+}
+
+export type EditorParagraph = EditorBlockElementBase<"paragraph", Text>;
+export type EditorBlockQuote = EditorBlockElementBase<"block-quote", EditorBlockElement>;
+export type EditorDivider = EditorBlockElementBase<"divider", EditorText>;
+export type EditorUnorderedList = EditorBlockElementBase<"unordered-list", EditorListItem>;
+export interface EditorCodeBlock extends EditorBlockElementBase<"code-block", EditorCodeLine> {
+    lang?: null | undefined | string;
+    meta?: null | undefined | string;
+}
+
+export interface EditorHeading extends EditorBlockElementBase<"heading", Text> {
+    depth?: null | undefined | number;
+}
+
+export interface EditorOrderedList extends EditorBlockElementBase<"ordered-list", EditorListItem> {
+    start?: null | undefined | number;
+}
+    
+export type EditorBlockElement =
+    EditorParagraph |
+    EditorHeading |
+    EditorBlockQuote |
+    EditorDivider |
+    EditorCodeBlock |
+    EditorUnorderedList | 
+    EditorOrderedList;
+
+export type EditorCodeLine = EditorBlockElementBase<"code-line", EditorTextUnformatted>;
+export type EditorListItem = EditorBlockElementBase<"list-item", EditorBlockElement | EditorText>;
+
+export type EditorItemElement =
+    EditorCodeLine |
+    EditorListItem;
+
+export interface EditorLink extends EditorInlineElementBase<"link", Text> {
+    url: string;
+}
+export type EditorInlineElement = EditorLink;
+export type EditorElement = EditorInlineElement | EditorBlockElement | EditorItemElement;

@@ -1,5 +1,5 @@
-import { Editor, Element, Node, Path } from "slate";
-import { RichEditorItemElementType, type RichEditor } from "./editor";
+import { Editor, Element, Node } from "slate";
+import { EditorItemElementType, type RichEditor } from "./editor";
 import { getNeighborPath, getNewlineIndexes, getParentPath, paragraph } from "./utils";
 import React from "react";
 
@@ -36,7 +36,7 @@ function ArrowVertical(editor: RichEditor, up: boolean) {
     const abovePath = above![1];
     const aboveParent = getParentPath(abovePath);
 
-    const sequentialItemSettings = { at: abovePath, match: (node: Node, path: Path) => (console.log({ node, path }), !Editor.isEditor(node)) }
+    const sequentialItemSettings = { at: abovePath, match: (node: Node) => !Editor.isEditor(node) }
 
     // Positional calc
     const itemNext = editor.next(sequentialItemSettings);
@@ -93,8 +93,8 @@ export const editorKeyboardLogic: Record<string, (editor: RichEditor, event: Rea
         const above = editor.above();
 
         // Override others for code blocks and list
-        if (above && Element.isElement(above[0]) && RichEditorItemElementType.includes(above[0].type as RichEditorItemElementType) && (!event.shiftKey || above[0].type === "code-line")) {
-            editor.insertNode({ type: above[0].type, children: [] }, { at: getNeighborPath(above[1]) });
+        if (above && Element.isElement(above[0]) && EditorItemElementType.includes(above[0].type as EditorItemElementType) && (!event.shiftKey || above[0].type === "code-line")) {
+            editor.insertNode({ type: above[0].type as EditorItemElementType, children: [] }, { at: getNeighborPath(above[1]) });
 
             return editor.move({
                 unit: "line",

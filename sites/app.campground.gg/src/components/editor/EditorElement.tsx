@@ -1,12 +1,12 @@
 import { type RenderElementProps } from "slate-react";
-import type { RichEditorAnyElementType, RichEditorCodeBlock, RichEditorCodeLine, RichEditorHeading, RichEditorLink } from "../../editor/editor";
+import type { EditorElementType, EditorCodeBlock, EditorCodeLine, EditorHeading, EditorLink } from "../../editor/editor";
 import { ReactNode } from "react";
 import { CodeContainer, CodeGrid, CodeHeader, CodeLine, CodeLineNumber, CodePre } from "../markdown/CodeBlock";
 import CodeBlockEditorHeader from "./CodeBlockEditorHeader";
 import { CodeEditorContextProvider, useCodeEditorContext } from "./codeEditorContext";
 import Link from "../Link";
 
-const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
+const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
     paragraph({ attributes, children }) {
         return <p {...attributes}>{children}</p>
     },
@@ -14,7 +14,7 @@ const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProp
         return <hr {...attributes} />;
     },
     heading({ attributes, children, element }) {
-        const Tag = `h${(element as RichEditorHeading).depth ?? 1}` as "h1";
+        const Tag = `h${(element as EditorHeading).depth ?? 1}` as "h1";
         return (
             <Tag {...attributes}>
                 {children}
@@ -22,7 +22,7 @@ const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProp
         );
     },
     link({ children, element }) {
-        const link = element as RichEditorLink;
+        const link = element as EditorLink;
 
         return (
             <Link href={link.url}>
@@ -37,10 +37,10 @@ const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProp
         return (
             <CodeContainer {...attributes}>
                 <CodeHeader>
-                    <CodeBlockEditorHeader element={element as RichEditorCodeBlock} />
+                    <CodeBlockEditorHeader element={element as EditorCodeBlock} />
                 </CodeHeader>
                 <CodePre>
-                    <CodeEditorContextProvider codeLines={element.children as RichEditorCodeLine[]}>
+                    <CodeEditorContextProvider codeLines={element.children as EditorCodeLine[]}>
                         <CodeGrid>
                             {children}
                         </CodeGrid>
@@ -86,13 +86,13 @@ const typeToRenderer: Record<RichEditorAnyElementType, (props: RenderElementProp
             </li>
         );
     },
-    ["inline-quote"]({ attributes, children }) {
-        return (
-            <q {...attributes}>
-                {children}
-            </q>
-        );
-    },
+    // ["inline-quote"]({ attributes, children }) {
+    //     return (
+    //         <q {...attributes}>
+    //             {children}
+    //         </q>
+    //     );
+    // },
 }
 
 export default function EditorElement({ attributes, children, element }: RenderElementProps) {

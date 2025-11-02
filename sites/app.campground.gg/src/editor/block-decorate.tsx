@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 import { type DecoratedRange, Element, Node, type NodeEntry, type Range } from "slate";
-import type { RichEditorAnyElementType, RichEditorCodeBlock } from "./editor";
+import type { EditorElementType, EditorCodeBlock } from "./editor";
 import CodeBlock, { linefyTokens } from "../components/markdown/CodeBlock";
 
-const decorators: Partial<Record<RichEditorAnyElementType, (entry: NodeEntry) => DecoratedRange[]>> = {
+const decorators: Partial<Record<EditorElementType, (entry: NodeEntry) => DecoratedRange[]>> = {
     ["code-block"]([node, path]) {
         const content = Node.string(node);
 
-        const { lang: language } = node as unknown as RichEditorCodeBlock;
+        const { lang: language } = node as unknown as EditorCodeBlock;
 
         if (!language || CodeBlock.nonHighlightedLanguages.includes(language))
             return [];

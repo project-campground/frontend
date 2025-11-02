@@ -1,12 +1,12 @@
 import { Editor, Element, Point, Range, Transforms } from "slate";
-import { type RichEditor, RichEditorBlockElementType, RichEditorItemElementType } from "./editor";
+import { type RichEditor, EditorBlockElementType, EditorItemElementType } from "./editor";
 
 const unorderedList = {
     type: "list-item",
     wrapper: "unordered-list"
 } as const;
 
-const nodePrefixes: Record<string, { type: RichEditorBlockElementType | RichEditorItemElementType, wrapper?: RichEditorBlockElementType }> = {
+const nodePrefixes: Record<string, { type: EditorBlockElementType | EditorItemElementType, wrapper?: EditorBlockElementType }> = {
     "> ": { type: "paragraph", wrapper: "block-quote" },
     "```": { wrapper: "code-block", type: "code-line" },
     "- ": unorderedList,

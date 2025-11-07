@@ -1,7 +1,7 @@
 import type { Text } from "slate";
 import type { EditorText, EditorTextUnformatted } from "./text";
 
-const _EditorBlockElementType = ["paragraph", "block-quote", "code-block", "divider", "unordered-list", "ordered-list", "heading"] as const;
+const _EditorBlockElementType = ["paragraph", "block-quote", "code-block", "divider", "unordered-list", "ordered-list", "heading", "table"] as const;
 /**
  * Rich text editor node elements that don't necessarily depend on the ancestor element and spans at least a line.
 */
@@ -14,7 +14,7 @@ export const EditorBlockElementType = _EditorBlockElementType;
 /**
  * Rich text editor node elements that depends on the ancestor block element and spans at least a line.
 */
-const _EditorItemElementType = ["code-line", "list-item"] as const;
+const _EditorItemElementType = ["code-line", "list-item", "table-row", "table-cell"] as const;
 /**
  * Rich text editor node elements that depends on the ancestor block element and spans at least a line.
 */
@@ -24,9 +24,11 @@ export type EditorItemElementType = typeof _EditorItemElementType[number];
 */
 export const EditorItemElementType = _EditorItemElementType;
 
-export const EditorItemToParent: Record<EditorItemElementType, EditorBlockElementType> = {
+export const EditorItemToParent: Record<EditorItemElementType, EditorBlockElementType | EditorItemElementType> = {
     "code-line": "code-block",
     "list-item": "unordered-list",
+    "table-cell": "table-row",
+    "table-row": "table",
 };
 
 // Test inline
@@ -76,6 +78,10 @@ export interface EditorHeading extends EditorBlockElementBase<"heading", Text> {
 export interface EditorOrderedList extends EditorBlockElementBase<"ordered-list", EditorListItem> {
     start?: null | undefined | number;
 }
+export type BlockAlignment = "left" | "center" | "right";
+export interface EditorTable extends EditorBlockElementBase<"table", EditorTableRow> {
+    align?: BlockAlignment[] | undefined | null;
+}
     
 export type EditorBlockElement =
     EditorParagraph |
@@ -84,17 +90,23 @@ export type EditorBlockElement =
     EditorDivider |
     EditorCodeBlock |
     EditorUnorderedList | 
-    EditorOrderedList;
+    EditorOrderedList |
+    EditorTable;
 
 export type EditorCodeLine = EditorBlockElementBase<"code-line", EditorTextUnformatted>;
 export type EditorListItem = EditorBlockElementBase<"list-item", EditorBlockElement | EditorText>;
+export type EditorTableRow = EditorBlockElementBase<"table-row", EditorTableCell>;
+export type EditorTableCell = EditorBlockElementBase<"table-cell", Text>;
 
 export type EditorItemElement =
     EditorCodeLine |
-    EditorListItem;
+    EditorListItem |
+    EditorTableRow |
+    EditorTableCell;
 
 export interface EditorLink extends EditorInlineElementBase<"link", Text> {
     url: string;
+    title?: string | undefined | null;
 }
 export type EditorInlineElement = EditorLink;
 export type EditorElement = EditorInlineElement | EditorBlockElement | EditorItemElement;

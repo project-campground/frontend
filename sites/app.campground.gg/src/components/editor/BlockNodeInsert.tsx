@@ -1,23 +1,25 @@
 import { IconButton } from "@mui/joy";
 import { ReactNode } from "react";
 import { useSlate } from "slate-react";
-import type { EditorBlockElementType } from "../../editor/editor";
+import type { EditorBlockElementType, EditorItemElementType } from "../../editor/editor";
 
 type Props = {
-    format: EditorBlockElementType;
+    format: EditorBlockElementType | EditorItemElementType;
     children: ReactNode[] | ReactNode;
 };
 
-export default function BlockNodeInsert({ children, format: formatting }: Props) {
+export default function BlockNodeInsert({ children, format: formatting, }: Props) {
     const editor = useSlate();
 
     const addFormatting = (ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         ev.preventDefault();
 
-        editor.insertNode({
-            type: formatting,
-            children: [],
-        });
+        editor.insertNode(
+            {
+                type: formatting,
+                children: [],
+            },
+        );
     };
     return (
         <IconButton onClick={addFormatting}>

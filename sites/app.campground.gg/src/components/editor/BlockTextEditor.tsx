@@ -5,14 +5,18 @@ import { Divider, styled } from "@mui/joy";
 import type { RichEditor } from "../../editor/editor";
 import EditorLeaf from "./EditorLeaf";
 import EditorElement from "./EditorElement";
-import RichEditorToolbar, { RichEditorToolbarBlockFormatting, RichEditorToolbarHeading, RichEditorToolbarInlineFormatting } from "./RichEditorToolbar";
+import RichEditorToolbar, { RichEditorToolbarBlockFormatting, RichEditorToolbarHeading, RichEditorToolbarInlineFormatting, RichEditorToolbarTableFormatting } from "./RichEditorToolbar";
 import useBlockDecorate from "../../editor/block-decorate";
 import { editorKeyboardLogic } from "../../editor/keyboard-logic";
+import { paragraph } from "~/editor/utils";
+import { deserializeMarkdown } from "~/editor/mdast/markdown";
+import { slatefyRoot } from "~/editor/mdast/editor";
 
 type Props = {
     editor: RichEditor;
     sx: SxProps;
     placeholder?: string;
+    defaultValue?: string;
 };
 
 const StyledEditor = styled(Editable, {
@@ -50,18 +54,20 @@ const StyledWrapper = styled(MarkdownWrapper, {
     height: "100%",
 }));
 
-export default function BlockTextEditor({ editor, sx, placeholder }: Props) {
+export default function BlockTextEditor({ defaultValue, editor, sx, placeholder }: Props) {
     const blockDecorate = useBlockDecorate();
 
     return (
         <StyledContainer sx={sx}>
-            <Slate initialValue={[{ type: "paragraph", children: [{ text: "" }] }]} editor={editor}>
+            <Slate initialValue={defaultValue ? slatefyRoot(deserializeMarkdown(defaultValue)) : [paragraph()]} editor={editor}>
                 <RichEditorToolbar>
                     <RichEditorToolbarInlineFormatting />
                     <Divider />
                     <RichEditorToolbarBlockFormatting />
                     <Divider />
                     <RichEditorToolbarHeading />
+                    <Divider />
+                    <RichEditorToolbarTableFormatting />
                 </RichEditorToolbar>
                 <Divider />
                 <StyledWrapper>

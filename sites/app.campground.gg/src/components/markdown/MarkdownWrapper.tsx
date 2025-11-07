@@ -49,12 +49,18 @@ const MarkdownWrapper = styled(Box, {
         border: `solid 1px ${theme.vars.palette.neutral[500]}`,
         borderSpacing: 0,
         maxWidth: "100%",
+        // overflowX: "auto",
+        overflow: "hidden",
+        borderRadius: theme.vars.radius.md,
+        margin: "8px 0",
+        position: "relative",
     },
     "th, td": {
-        padding: `4px 8px`,
+        padding: `6px 12px`,
     },
     "tr": {
         backgroundColor: theme.vars.palette.background.level1,
+        position: "relative",
     },
     "tr:nth-child(odd)": {
         backgroundColor: theme.vars.palette.background.level2,

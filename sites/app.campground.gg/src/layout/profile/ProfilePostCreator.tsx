@@ -2,9 +2,9 @@ import { Card, CardContent, Link, Stack, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
 import type { User } from "types/user";
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "../../components/UserAvatar";
 import { Group, PrimaryButton } from "components";
-import BlockTextEditor from "./BlockTextEditor";
+import BlockTextEditor from "../../components/editor/BlockTextEditor";
 import withCgMarkdown from "~/editor/withCgMarkdown";
 import { withHistory } from "slate-history";
 import { withReact } from "slate-react";
@@ -12,7 +12,7 @@ import { createEditor } from "slate";
 import type { RichEditor } from "~/editor/editor";
 import { IconArrowRight } from "@tabler/icons-react";
 import { mdastifyEditor } from "~/editor/mdast";
-import { toMarkdown } from "mdast-util-to-markdown";
+import { serializeMarkdown } from "~/editor/mdast/markdown";
 
 type Props = {
     user: User;
@@ -22,7 +22,7 @@ type Props = {
     onPost: (content: string) => void | Promise<void>;
 };
 
-export default function PostInput({ user, placeholder, onPost, sx }: Props) {
+export default function ProfilePostCreator({ user, placeholder, onPost, sx }: Props) {
     const [open, setOpen] = useState(false);
     const [editor] = useState(() => withCgMarkdown(withHistory(withReact(createEditor()))) as RichEditor);
 
@@ -35,7 +35,7 @@ export default function PostInput({ user, placeholder, onPost, sx }: Props) {
                         <Stack gap={1} sx={{ flex: 1 }}>
                             <BlockTextEditor editor={editor} sx={(theme) => ({ color: theme.vars.palette.text.secondary })} placeholder="What is your current mood?" />
                             <Group gap={2} alignItems="center">
-                                <PrimaryButton endDecorator={<IconArrowRight />} onClick={() => (setOpen(false), onPost(toMarkdown(mdastifyEditor(editor), { bullet: "-", emphasis: "_" })))}>Post</PrimaryButton>
+                                <PrimaryButton endDecorator={<IconArrowRight />} onClick={() => (setOpen(false), onPost(serializeMarkdown(mdastifyEditor(editor))))}>Post</PrimaryButton>
                                 <Link color="neutral" onClick={() => setOpen(false)}>Cancel</Link>
                             </Group>
                         </Stack>

@@ -140,6 +140,9 @@ export default class RESTClient {
     putRecord<T>(config: { repo: string; rkey: string; collection: string; record: T; }) {
         return this.fetch<PutRecordResponse>({ route: "com.atproto.repo.putRecord", method: "POST", request: { headers: { "atproto-proxy": "" } }, body: config, ...config });
     }
+    deleteRecord(config: { repo: string; rkey: string; collection: string; }) {
+        return this.fetch<PutRecordResponse>({ route: "com.atproto.repo.deleteRecord", method: "POST", request: { headers: { "atproto-proxy": "" } }, body: config, ...config });
+    }
     post<T>(config: Omit<RequestConfig, "method">) {
         return this.fetch<T>({ method: "POST", ...config });
     }
@@ -201,6 +204,28 @@ export default class RESTClient {
                 ...record,
                 "$type": "gg.campground.profile.post",
             },
+        });
+    }
+
+    updatePost(uri: string, record: { content?: string; tags?: string[]; }) {
+        return this.putRecord({
+            repo: this._config.userDid,
+            collection: "gg.campground.profile.post",
+            rkey: uri.split("/")[4],
+            record: {
+                ...record,
+                "updatedAt": new Date().toISOString(),
+                "$type": "gg.campground.profile.post",
+            },
+        });
+    }
+
+    deletePost(uri: string) {
+        return this.deleteRecord({
+            repo: this._config.userDid,
+            collection: "gg.campground.profile.post",
+            // at://did:.../gg.campground.profile.post/...
+            rkey: uri.split("/")[4],
         });
     }
 }

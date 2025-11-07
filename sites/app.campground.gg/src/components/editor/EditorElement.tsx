@@ -1,10 +1,12 @@
 import { type RenderElementProps } from "slate-react";
 import type { EditorElementType, EditorCodeBlock, EditorCodeLine, EditorHeading, EditorLink } from "../../editor/editor";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { CodeContainer, CodeGrid, CodeHeader, CodeLine, CodeLineNumber, CodePre } from "../markdown/CodeBlock";
 import CodeBlockEditorHeader from "./CodeBlockEditorHeader";
 import { CodeEditorContextProvider, useCodeEditorContext } from "./codeEditorContext";
 import Link from "../Link";
+import { TableAlignContextProvider, TableHeadContextProvider, useTableAlignContext, useTableHeadContext } from "./tableHeadContext";
+import type { EditorTable } from "~/editor/element";
 
 const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
     paragraph({ attributes, children }) {
@@ -53,7 +55,7 @@ const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (
         // Since no index is given
         const context = useCodeEditorContext();
         const index = context?.findIndex((x) => x === element) ?? -1;
-
+        
         return (
             <>
                 <CodeLineNumber>
@@ -84,6 +86,51 @@ const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (
             <li {...attributes}>
                 {children}
             </li>
+        );
+    },
+    ["table"]({ attributes, children, element }) {
+        const table = element as EditorTable;
+        const headRow = children[0];
+
+        return (
+            <table {...attributes}>
+                <TableAlignContextProvider value={{ align: "left", allAligns: table.align }}>
+                    <thead>
+                        <TableHeadContextProvider isHead>
+                            {headRow}
+                        </TableHeadContextProvider>
+                    </thead>
+                    <tbody>
+                        <TableHeadContextProvider>
+                            {children.slice(1)}
+                        </TableHeadContextProvider>
+                    </tbody>
+                </TableAlignContextProvider>
+            </table>
+        );
+    },
+    ["table-row"]({ attributes, children }) {
+        const tableAlign = useTableAlignContext();
+
+        return (
+            <tr {...attributes}>
+                {(children as React.ReactElement[]).map((x, i) =>
+                    <TableAlignContextProvider value={{ align: tableAlign.allAligns?.[i] ?? "left", allAligns: tableAlign.allAligns }}>
+                        {x}
+                    </TableAlignContextProvider>
+                )}
+            </tr>
+        );
+    },
+    ["table-cell"]({ attributes, children }) {
+        const tableHead = useTableHeadContext();
+        const tableAlign = useTableAlignContext();
+        const Component = tableHead ? "th" : "td";
+
+        return (
+            <Component {...attributes} align={tableAlign.align}>
+                {children}
+            </Component>
         );
     },
     // ["inline-quote"]({ attributes, children }) {

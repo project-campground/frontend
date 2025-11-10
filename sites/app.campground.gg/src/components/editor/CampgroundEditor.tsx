@@ -46,7 +46,7 @@ export default class CampgroundEditor {
         return (marks?.[type] as boolean | null) ?? false;
     }
     static toggleBlockFormatting(editor: RichEditor, type: EditorBlockElementType, additionalProps?: any) {
-        const active = this.isNodeFormatted(editor, type);
+        const active = CampgroundEditor.isNodeFormatted(editor, type);
 
         // Simple type change
         const props = active ? additionalProps && Object.keys(additionalProps).reduce((obj, prop) => (obj[prop] = null, obj), {} as Record<string, null>) : additionalProps;
@@ -111,7 +111,7 @@ export default class CampgroundEditor {
         });
     }
     static toggleInlineFormatting(editor: RichEditor, type: EditorInlineElementType) {
-        const active = this.isNodeFormatted(editor, type);
+        const active = CampgroundEditor.isNodeFormatted(editor, type);
 
         if (active)
             return Transforms.unwrapNodes(editor, {
@@ -136,7 +136,7 @@ export default class CampgroundEditor {
         );
     }
     static toggleListFormatting(editor: RichEditor, type: EditorBlockElementType, itemType: EditorItemElementType) {
-        const active = this.isNodeFormatted(editor, type);
+        const active = CampgroundEditor.isNodeFormatted(editor, type);
 
         if (active)
             Transforms.unwrapNodes(editor, {
@@ -164,8 +164,8 @@ export default class CampgroundEditor {
             );
     }
     static toggleCodeFormatting(editor: RichEditor, type: EditorBlockElementType, itemType: EditorItemElementType) {
-        const active = this.isNodeFormatted(editor, type);
-        const activeElems = this.getSelectedNodes(editor);
+        const active = CampgroundEditor.isNodeFormatted(editor, type);
+        const activeElems = CampgroundEditor.getSelectedNodes(editor);
 
         console.log(activeElems);
 
@@ -176,12 +176,18 @@ export default class CampgroundEditor {
                 type: active ? `paragraph` : itemType,
             },
             {
-                match: n => Element.isElement(n) && n.type === "paragraph",
+                match: n => Element.isElement(n),
                 split: true,
             }
         );
 
-        if (active) { }
+        if (active)
+            Transforms.unwrapNodes(
+                editor,
+                {
+                    match: n => Element.isElement(n) && n.type === type
+                }
+            )
         else
             Transforms.wrapNodes(
                 editor,

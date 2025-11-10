@@ -3,12 +3,12 @@ import React from "react";
 import ProfileFeed from "./ProfileFeed";
 import ProfileAbout from "./ProfileAbout";
 import type { User, UserPostBasic } from "types/user";
-import ProfileLayout from "./ProfileLayout";
 import ProfileGames from "./ProfileGames";
+import ProfileLayout from "./ProfileLayout";
 
 type Props = {
     user: User;
-    posts: UserPostBasic[] | undefined;
+    posts: UserPostBasic[];
     isSelf: boolean;
 };
 

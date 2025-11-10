@@ -58,7 +58,7 @@ export default function ProfileFeed({ user, posts, isSelf }: Props) {
                         onPostUpdate={onPostUpdated}
                         appear={Boolean(posts.length && !i)}
                         key={`post-${x.uri}`}
-                        showCommentsLink
+                        showComments
                         post={x}
                     />
                 )}

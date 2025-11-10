@@ -1,48 +1,34 @@
-import { Card, CardContent, Link, Stack, Typography } from "@mui/joy";
+import { Card, CardContent, Link, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
 import type { User } from "types/user";
 import UserAvatar from "../../components/UserAvatar";
-import { Group, PrimaryButton } from "components";
-import BlockTextEditor from "../../components/editor/BlockTextEditor";
-import withCgMarkdown from "~/editor/withCgMarkdown";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
-import { createEditor } from "slate";
-import type { RichEditor } from "~/editor/editor";
-import { IconArrowRight } from "@tabler/icons-react";
-import { mdastifyEditor } from "~/editor/mdast";
-import { serializeMarkdown } from "~/editor/mdast/markdown";
+import { Group } from "components";
+import BasicPostEditor from "~/components/editor/BasicPostEditor";
 
 type Props = {
     user: User;
     content?: string;
     placeholder?: string;
     sx?: SxProps;
-    onPost: (content: string) => void | Promise<void>;
+    onPost: (content: string) => void | Promise<any>;
 };
 
 export default function ProfilePostCreator({ user, placeholder, onPost, sx }: Props) {
     const [open, setOpen] = useState(false);
-    const [editor] = useState(() => withCgMarkdown(withHistory(withReact(createEditor()))) as RichEditor);
+    const finalPlaceholder = placeholder ?? "What are you thinking?";
 
     return (
-        <Card variant="soft" sx={sx}>
+        <Card variant="soft" sx={{ py: 1.5, px: 2, ...sx, }}>
             <CardContent>
                 {open
                     ? <Group gap={1.5} alignItems="center">
                         <UserAvatar did={user.did} avatar={user.avatar} size="lg" />
-                        <Stack gap={1} sx={{ flex: 1 }}>
-                            <BlockTextEditor editor={editor} sx={(theme) => ({ color: theme.vars.palette.text.secondary })} placeholder="What is your current mood?" />
-                            <Group gap={2} alignItems="center">
-                                <PrimaryButton endDecorator={<IconArrowRight />} onClick={() => (setOpen(false), onPost(serializeMarkdown(mdastifyEditor(editor))))}>Post</PrimaryButton>
-                                <Link color="neutral" onClick={() => setOpen(false)}>Cancel</Link>
-                            </Group>
-                        </Stack>
+                        <BasicPostEditor onConfirm={(content) => (setOpen(false), onPost(content))} onCancel={() => setOpen(false)} sx={{ flex: 1 }} placeholder={finalPlaceholder} />
                     </Group>
                     : <Link overlay underline="none" component="button" level="body-md" onClick={() => setOpen(!open)} gap={1.5} color="neutral" startDecorator={<UserAvatar did={user.did} avatar={user.avatar} size="lg" />}>
                         <Typography level="title-lg">
-                            {placeholder ?? "What are you thinking?"}
+                            {finalPlaceholder}
                         </Typography>
                       </Link>
                 }

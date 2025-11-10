@@ -30,6 +30,13 @@ const theme = extendTheme({
                     transition: "background 0.3s",
                 }
             },
+        },
+        JoyCard: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    boxShadow: theme.vars.shadow.sm,
+                }),
+            }
         }
     }
 });

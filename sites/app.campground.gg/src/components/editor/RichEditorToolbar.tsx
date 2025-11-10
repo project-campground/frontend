@@ -100,7 +100,7 @@ export function RichEditorToolbarHeading() {
                 </MenuButton>
             </ButtonGroup>
             <Menu>
-                <BlockNodeMenuItem format="heading" additionalProps={{ level: 2 }}>
+                <BlockNodeMenuItem format="heading" additionalProps={{ depth: 2 }}>
                     <ListItemDecorator>
                         <IconH2 />
                     </ListItemDecorator>
@@ -108,7 +108,7 @@ export function RichEditorToolbarHeading() {
                         Heading 2
                     </ListItemContent>
                 </BlockNodeMenuItem>
-                <BlockNodeMenuItem format="heading" additionalProps={{ level: 3 }}>
+                <BlockNodeMenuItem format="heading" additionalProps={{ depth: 3 }}>
                     <ListItemDecorator>
                         <IconH3 />
                     </ListItemDecorator>
@@ -116,7 +116,7 @@ export function RichEditorToolbarHeading() {
                         Heading 3
                     </ListItemContent>
                 </BlockNodeMenuItem>
-                <BlockNodeMenuItem format="heading" additionalProps={{ level: 4 }}>
+                <BlockNodeMenuItem format="heading" additionalProps={{ depth: 4 }}>
                     <ListItemDecorator>
                         <IconH4 />
                     </ListItemDecorator>
@@ -124,7 +124,7 @@ export function RichEditorToolbarHeading() {
                         Heading 4
                     </ListItemContent>
                 </BlockNodeMenuItem>
-                <BlockNodeMenuItem format="heading" additionalProps={{ level: 5 }}>
+                <BlockNodeMenuItem format="heading" additionalProps={{ depth: 5 }}>
                     <ListItemDecorator>
                         <IconH6 />
                     </ListItemDecorator>
@@ -132,7 +132,7 @@ export function RichEditorToolbarHeading() {
                         Heading 5
                     </ListItemContent>
                 </BlockNodeMenuItem>
-                <BlockNodeMenuItem format="heading" additionalProps={{ level: 6 }}>
+                <BlockNodeMenuItem format="heading" additionalProps={{ depth: 6 }}>
                     <ListItemDecorator>
                         <IconH6 />
                     </ListItemDecorator>

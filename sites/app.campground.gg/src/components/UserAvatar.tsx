@@ -3,7 +3,7 @@ import type { SxProps } from "@mui/joy/styles/types";
 
 const availableBadgeSizes = ["sm", "md", "lg"];
 
-type Size = "sm" | "md" | "lg" | "xl" | "xxl";
+type Size = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 type Props = {
     did: string;
     avatar?: string | null;
@@ -13,17 +13,18 @@ type Props = {
     badgeSx?: SxProps;
 };
 const sizeToPx: Record<Size, number> = {
-    sm: 20,
-    md: 24,
+    sm: 24,
+    md: 32,
     lg: 48,
-    xl: 80,
-    xxl: 128,
+    xl: 56,
+    xxl: 80,
+    xxxl: 128,
 };
 
 const StyledAvatar = styled(Avatar)(({ theme, size }) => ({
     width: sizeToPx[size ?? "md"],
     height: sizeToPx[size ?? "md"],
-    borderRadius: theme.vars.radius[(size as Size) === "xxl" ? "xl" : size ?? "md"]
+    borderRadius: theme.vars.radius[(size as Size) === "xxl" || (size as Size) === "xxxl" ? "xl" : size ?? "md"]
 }));
 
 export default function UserAvatar({ did, avatar, status, size, badgeSx, sx }: Props) {

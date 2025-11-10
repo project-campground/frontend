@@ -1,9 +1,13 @@
-import { Editor, Element, Node } from "slate";
+import { type BaseSelection, Editor, Element, Node, Point } from "slate";
 import { EditorItemElementType, type RichEditor } from "./editor";
 import { getNeighborPath, getNewlineIndexes, getParentPath, paragraph } from "./utils";
 import React from "react";
 
-function ArrowVertical(editor: RichEditor, up: boolean) {
+function selectWithOptionalShift(editor: RichEditor, currentSelection: BaseSelection, shift: boolean, newPosition: Point) {
+    return editor.select({ anchor: shift ? currentSelection!.anchor : newPosition, focus: newPosition });
+}
+
+function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
     const above = editor.above();
     const elementAbove = above?.[0];
     const isElement = Element.isElement(elementAbove);
@@ -14,7 +18,8 @@ function ArrowVertical(editor: RichEditor, up: boolean) {
     const elementString = Node.string(elementAbove);
     const newlines = getNewlineIndexes(elementString).map((x) => x + 1);
 
-    const selectionOffset = editor.selection?.focus?.offset ?? 0;
+    const currentSelection = editor.selection;
+    const selectionOffset = currentSelection?.focus?.offset ?? 0;
 
     const passedLines = newlines.filter((x) => x <= selectionOffset);
     const nextNewlineOffset = newlines.find((x) => x > selectionOffset);
@@ -29,7 +34,16 @@ function ArrowVertical(editor: RichEditor, up: boolean) {
         // Perhaps the line offset was saved
         const finalLineOffset = editor.selection?.focus.lineOffset ?? currentLineOffset;
 
-        return editor.select({ lineOffset: finalLineOffset, path: editor.selection!.focus.path, offset: Math.min(lineThere + finalLineOffset, up ? currentLine - lineThere - 1: elementString.length) });
+        return selectWithOptionalShift(
+            editor,
+            currentSelection!,
+            shift,
+            {
+                lineOffset: finalLineOffset,
+                path: currentSelection!.focus.path,
+                offset: Math.min(lineThere + finalLineOffset, up ? currentLine - lineThere - 1: elementString.length)
+            },
+        );
     }
 
     // Will be used to get neighbours
@@ -57,17 +71,24 @@ function ArrowVertical(editor: RichEditor, up: boolean) {
         const newlinesThere = getNewlineIndexes(stringifiedThere).map((x) => x + 1);
 
         // Retain offset in the last line of the node 'there'
-        return editor.select({
-            path: itemThere[1],
-            lineOffset: newOffset,
-            offset: Math.min((newlinesThere.slice(-1)[0] ?? 0) + newOffset, stringifiedThere.length),
-        });
+        return selectWithOptionalShift(
+            editor,
+            currentSelection!,
+            shift,
+            {
+                path: itemThere[1],
+                lineOffset: newOffset,
+                offset: Math.min((newlinesThere.slice(-1)[0] ?? 0) + newOffset, stringifiedThere.length),
+            }
+        );
     }
     // The end of editor and no point trying to escape blocks
     else if (elementAbove.type === "paragraph" && abovePath.length < 2)
         return;
 
-    const newNodePath = getNeighborPath(aboveParent, (Number(up) * -2) + 1);
+    // 1 or -1
+    const whichNeighbor = (Number(up) * -2) + 1;
+    const newNodePath = elementAbove.type === "table-cell" ? getNeighborPath(getParentPath(aboveParent), whichNeighbor) : getNeighborPath(aboveParent, whichNeighbor);
 
     // Insert and set cursor to it. Made to escape blocks.
     editor.insertNode(
@@ -79,15 +100,24 @@ function ArrowVertical(editor: RichEditor, up: boolean) {
             at: newNodePath,
         },
     );
-    return editor.select({ path: [...newNodePath, 0], offset: 0, lineOffset: 0 });
+    return selectWithOptionalShift(
+        editor,
+        currentSelection!,
+        shift,
+        {
+            path: [...newNodePath, 0],
+            offset: 0,
+            lineOffset: 0
+        }
+    );
 }
 
 export const editorKeyboardLogic: Record<string, (editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) => void> = {
-    ArrowUp(editor: RichEditor, _: React.KeyboardEvent<HTMLDivElement>) {
-        return ArrowVertical(editor, true);
+    ArrowUp(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
+        return ArrowVertical(editor, true, event.shiftKey);
     },
-    ArrowDown(editor: RichEditor, _: React.KeyboardEvent<HTMLDivElement>) {
-        return ArrowVertical(editor, false);
+    ArrowDown(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
+        return ArrowVertical(editor, false, event.shiftKey);
     },
     Enter(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
         const above = editor.above();

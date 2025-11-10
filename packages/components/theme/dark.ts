@@ -18,6 +18,7 @@ const shades = {
 };
 
 const darkColorScheme: ColorSystemOptions = {
+    shadowOpacity: "0.35",
     palette: {
         neutral: {
             ...shades,

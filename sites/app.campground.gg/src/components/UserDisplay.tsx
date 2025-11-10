@@ -9,7 +9,7 @@ type Props = {
     user: User;
     color?: string;
     size?: Size;
-    avatarSize?: Size;
+    avatarSize?: Size | "xl";
     showHandle?: boolean;
     alignItems?: "center" | "start" | "end";
 };
@@ -36,7 +36,7 @@ export default function UserDisplay({ color, user, size, avatarSize, alignItems,
                         </Typography>
                         {
                             showHandle && <>
-                                <Typography level="body-md" fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                                <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
                             </>
                         }
                     </Stack>

@@ -45,7 +45,7 @@ export default function UserProfileCard({ did, user, self }: Props) {
                 </AspectRatio>
             </Box>
             <Box sx={{ mt: -6, px: 1.5 }}>
-                <UserAvatar did={fetchedUser.did} size="xl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.tooltip}` })} />
+                <UserAvatar did={fetchedUser.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.tooltip}` })} />
             </Box>
             <Box sx={{ px: 1.5, py: 1 }}>
                 <Stack>

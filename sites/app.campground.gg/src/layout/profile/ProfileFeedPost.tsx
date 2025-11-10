@@ -1,4 +1,4 @@
-import { Card, CardContent, CardOverflow, ListItemContent, ListItemDecorator, MenuItem, Stack, Typography } from "@mui/joy";
+import { Card, CardContent, CardOverflow, Divider, ListItemContent, ListItemDecorator, MenuItem, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import UserDisplay from "~/components/UserDisplay";
 import { IconCornerUpRightDouble, IconMessage, IconMoodPlus, IconPencil, IconTrashFilled } from "@tabler/icons-react";
@@ -10,14 +10,16 @@ import { LargeContentMarkdown } from "~/components/markdown/Markdown";
 import { keyframes } from "@emotion/react";
 import ContentOverflow from "~/components/content/ContentOverflow";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";
+import { Group } from "components";
 
 type Props = {
     appear?: boolean;
     post: UserPost;
-    showCommentsLink?: boolean;
+    showComments?: boolean;
+    bigger?: boolean;
     isOwnPost?: boolean;
-    onPostDelete: (uri: string) => void | Promise<void>;
-    onPostUpdate: (uri: string, content: string) => void | Promise<void>;
+    onPostDelete: (uri: string) => void | Promise<any>;
+    onPostUpdate: (uri: string, content: string) => void | Promise<any>;
 };
 
 const appearAnimation = keyframes`
@@ -31,26 +33,27 @@ const appearAnimation = keyframes`
     }
 `;
 
-function ProfileFeedPostHeader({ author, createdAt }: { author: UserPost["author"], createdAt: Date }) {
+function ProfileFeedPostHeader({ bigger, author, createdAt }: { bigger: boolean; author: UserPost["author"], createdAt: Date }) {
     return (
         <Stack gap={1} direction="row" flex={1}>
-            <UserDisplay showHandle user={author} size="md" avatarSize="lg" alignItems="start" />
-            <Typography level="body-md" textColor="neutral.500">•</Typography>
-            <Datestamp date={createdAt} />
+            <UserDisplay showHandle user={author} size={bigger ? "lg" : "md"} avatarSize={bigger ? "xl" : "lg"} alignItems="start" />
+            {!bigger && <Typography level="body-md" textColor="neutral.500">•</Typography>}
+            {!bigger && <Datestamp date={createdAt} />}
         </Stack>
     );
 }
 
 export default function ProfileFeedPost(props: Props) {
-    const { showCommentsLink, appear, isOwnPost, onPostDelete, onPostUpdate } = props;
+    const { showComments: showCommentsLink, bigger, appear, isOwnPost, onPostDelete, onPostUpdate } = props;
     const { uri, content, createdAt, replies, replyCount, author } = props.post as EitherUserPost;
     const postTid = uri.split("/")[4];
     const [editing, setEditing] = useState(false);
+    const createdAtDate = new Date(createdAt);
 
     return (
-        <Card variant="soft" sx={{ animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, }}>
+        <Card size={bigger ? "lg" : "md"} variant="soft" sx={(theme) => ({ boxShadow: bigger ? theme.vars.shadow.md : theme.vars.shadow.sm, animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, zIndex: 2, })}>
             <CardOverflow sx={{ alignItems: "start", pt: 2 }}>
-                <ProfileFeedPostHeader author={author} createdAt={new Date(createdAt)} />
+                <ProfileFeedPostHeader bigger={bigger ?? false} author={author} createdAt={createdAtDate} />
             </CardOverflow>
             {isOwnPost && <ContentOverflow>
                 <MenuItem onClick={() => setEditing(!editing)}>
@@ -70,7 +73,7 @@ export default function ProfileFeedPost(props: Props) {
                     </ListItemContent>
                 </MenuItem>
             </ContentOverflow>}
-            <CardContent sx={{ ml: 7.5 }}>
+            <CardContent sx={{ ml: bigger ? 9 : 7.5 }}>
                 <Stack gap={1}>
                     {editing
                     ? <BasicPostEditor
@@ -81,27 +84,36 @@ export default function ProfileFeedPost(props: Props) {
                         onCancel={() => setEditing(false)}
                         confirmButton="Edit"
                     />
-                    : <MarkdownWrapper sx={(theme) => ({ mt: -4.5, color: theme.vars.palette.text.secondary })}>
+                    : <MarkdownWrapper sx={(theme) => ({ mt: bigger ? -5.5 : -5, color: theme.vars.palette.text.secondary })}>
                         <LargeContentMarkdown>{content}</LargeContentMarkdown>
                     </MarkdownWrapper>}
-                    <Stack direction="row" gap={1} alignItems="center">
+                    {bigger &&
+                        <Stack gap={1} sx={{ mt: 1 }}>
+                            <Divider />
+                            <Group>
+                                <Datestamp date={createdAtDate} />
+                            </Group>
+                            <Divider />
+                        </Stack>
+                    }
+                    <Group gap={1} alignItems="center">
                         <Stack direction="row" gap={1.5} flex={1}>
                             {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconMessage />}>
                                 {replyCount ?? replies.length}{" "}
                             </Link>}
-                            {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconCornerUpRightDouble />}>
+                            <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconCornerUpRightDouble />}>
                                 {replyCount ?? replies.length}{" "}
-                            </Link>}
-                            {showCommentsLink && <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconMoodPlus />}>
+                            </Link>
+                            <Link href={`/profile/${author.did}/posts/${postTid}`} color="neutral" startDecorator={<IconMoodPlus />}>
                                 {" "}
-                            </Link>}
+                            </Link>
                         </Stack>
                         {/* <Stack gap={0.5}>
                             <Stack gap={1} direction="row">
                                 {tags.map((tag, i) => <Chip key={i} variant="solid">{tag}</Chip>)}
                             </Stack>
                         </Stack> */}
-                    </Stack>
+                    </Group>
                 </Stack>
             </CardContent>
         </Card>

@@ -14,6 +14,7 @@ export interface User {
 }
 export interface UserPost {
     uri: string;
+    parentUri?: string | null;
     content: string;
     tags: string[];
     createdAt: string;

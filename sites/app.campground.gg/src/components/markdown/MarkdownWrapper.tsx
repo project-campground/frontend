@@ -4,17 +4,19 @@ const MarkdownWrapper = styled(Box, {
     name: "MarkdownWrapper",
     slot: "root"
 })(({ theme }) => ({
-    "p:first-child": {
-        marginTop: 0,
-    },
-    "p:last-child": {
-        marginBottom: 0,
+    "p, h1, h2, h3, h4, h5, h6, blockquote": {
+        "&:first-child": {
+            marginTop: 0,
+        },
+        "&:last-child": {
+            marginBottom: 0,
+        },
     },
     "blockquote": {
         position: "relative",
         marginLeft: "20px",
         marginRight: "0px",
-        "::before": {
+        "&::before": {
             position: "absolute",
             content: "''",
             height: "100%",
@@ -26,16 +28,39 @@ const MarkdownWrapper = styled(Box, {
             bottom: 0,
         }
     },
+    "code": {
+        backgroundColor: theme.vars.palette.background.body,
+        color: theme.vars.palette.text.code,
+        padding: `2px 4px`,
+        borderRadius: theme.vars.radius.sm,
+        fontFamily: theme.vars.fontFamily.code,
+    },
+    "q": {
+        backgroundColor: theme.vars.palette.background.level4,
+        padding: `2px 4px`,
+        borderRadius: theme.vars.radius.sm,
+        "::after, ::before": {
+            color: theme.vars.palette.text.quartary,
+            fontWeight: 900,
+            margin: `0 4px`,
+        },
+    },
     "table": {
         border: `solid 1px ${theme.vars.palette.neutral[500]}`,
         borderSpacing: 0,
         maxWidth: "100%",
+        // overflowX: "auto",
+        overflow: "hidden",
+        borderRadius: theme.vars.radius.md,
+        margin: "8px 0",
+        position: "relative",
     },
     "th, td": {
-        padding: `4px 8px`,
+        padding: `6px 12px`,
     },
     "tr": {
         backgroundColor: theme.vars.palette.background.level1,
+        position: "relative",
     },
     "tr:nth-child(odd)": {
         backgroundColor: theme.vars.palette.background.level2,

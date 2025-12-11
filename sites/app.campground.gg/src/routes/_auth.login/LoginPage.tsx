@@ -3,7 +3,6 @@ import { FormattedMessage } from "react-intl";
 import Form from "../../components/form/Form";
 import { Alert, Link } from "@mui/joy";
 import { useSession } from "~/session";
-import { redirect } from "react-router";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 
 export default function LoginPage() {
@@ -19,18 +18,12 @@ export default function LoginPage() {
             password: fieldValues.password,
         };
 
-        console.log(details);
-
         return await session.login(details)
-            .then(() => {
-                console.log("Logged in");
-                throw redirect("/");
-            })
+            .then(() => (window.location.href = "/", undefined))
             .catch((err) =>
                 setError(err)
             );
     };
-    console.log("Session is", session);
 
     return (
         <Form

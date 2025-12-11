@@ -33,6 +33,10 @@ export default class SessionMiddleware {
             storage.setItem("auth", JSON.stringify(this.auth));
         };
 
-        this.restClient = this.auth.authenticated ? new RESTClient({ auth: this.auth.user.accessJwt, refreshAuth: this.auth.user.refreshJwt }, onRefresh) : null;
+        this.restClient = this.auth.authenticated ? new RESTClient({ auth: this.auth.user.accessJwt, refreshAuth: this.auth.user.refreshJwt, userDid: this.auth.user.did }, onRefresh) : null;
+    }
+
+    async fetchUserIfAuthed() {
+        return this.auth.authenticated ? await this.restClient!.fetchProfile(this.auth.user.did) : null;
     }
 }

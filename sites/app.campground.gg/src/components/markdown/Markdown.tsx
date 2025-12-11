@@ -27,14 +27,7 @@ function parseMeta(raw: string) {
 
 const TableWrapper = styled(Box, {
     name: "Table"
-})(({ theme }) => ({
-    border: `solid 1px ${theme.vars.palette.neutral[500]}`,
-    overflowX: "auto",
-    borderRadius: theme.vars.radius.md,
-    width: "min-content",
-    maxWidth: "100%",
-    margin: "8px 0",
-}))
+})();
 
 const markdownComponents: Components = {
     pre({ node }) {

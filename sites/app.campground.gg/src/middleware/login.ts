@@ -2,7 +2,7 @@ import { redirect } from "react-router";
 
 export function loginPageRejectionMiddleware() {
     const auth = window.localStorage.getItem("auth");
-    console.log("Rejectable login: ", auth);
+
     try {
         if (auth) {
             const json = JSON.parse(auth);
@@ -19,7 +19,7 @@ export function loginPageRejectionMiddleware() {
 
 export function loginRequiredMiddleware() {
     const auth = window.localStorage.getItem("auth");
-    console.log("Logged in: ", auth);
+
     try {
         if (auth) {
             const json = JSON.parse(auth);

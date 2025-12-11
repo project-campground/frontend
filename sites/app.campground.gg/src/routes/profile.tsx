@@ -1,13 +1,10 @@
-import type { Route } from "./+types/profile";
 import { Outlet } from "react-router";
 import GlobalLayout from "~/layout/GlobalLayout";
 import { useSession } from "~/session";
 
-export function meta(routes: Route.MetaArgs) {
-    console.log("profiles", routes);
-
+export function meta() {
     return [
-        { title: "Campground — Camp" },
+        { title: "Campground — Profile" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }

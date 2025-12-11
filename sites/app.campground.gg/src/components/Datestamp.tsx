@@ -3,23 +3,20 @@ import ms from "ms";
 
 type Props = {
     date: Date;
+    long?: boolean;
     noAgo?: boolean;
     displayDate?: boolean;
 };
 
 const DateTooltip = styled(Tooltip, {
     slot: "tooltip",
-})((theme) => ({
-
-}));
+})();
 const DatestampText = styled(Typography, {
     slot: "text",
-})((theme) => ({
+})();
 
-}));
-
-export default function Datestamp({ noAgo, displayDate, date }: Props) {
-    const isInvalid = Number.isNaN(date.getSeconds());
+export default function Datestamp({ noAgo, displayDate, date, long }: Props) {
+    const isInvalid = !date || Number.isNaN(date.getSeconds());
 
     if (isInvalid)
         return (
@@ -30,7 +27,7 @@ export default function Datestamp({ noAgo, displayDate, date }: Props) {
             </DateTooltip>
         );
 
-    const time = `${ms(Date.now() - date.getTime(), { long: true })} ${noAgo ? "" : "ago"}`;
+    const time = `${ms(Date.now() - date.getTime(), { long: long ?? false })} ${noAgo ? "" : "ago"}`;
     const dateFormat = date.toLocaleDateString("en-US");
 
     return (

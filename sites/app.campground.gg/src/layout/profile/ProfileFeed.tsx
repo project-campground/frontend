@@ -1,35 +1,107 @@
-import { Box, Stack, Typography } from "@mui/joy";
-import React from "react";
-import ProfileFeedPost from "./ProfileFeedPost";
-import { examplePosts } from "~/example/profile";
-import type { User } from "types/user";
+import { Box, LinearProgress, Stack, Tab, TabList, Tabs } from "@mui/joy";
+import type { User, UserPostParented } from "types/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import ProfilePostCreator from "~/layout/profile/ProfilePostCreator";
+import { useSession } from "~/session";
+import { useEffect, useState } from "react";
+import ProfileFeedPost from "./ProfileFeedPost";
+import { IconArticleFilled, IconFlameFilled } from "@tabler/icons-react";
+import RestError from "~/util/RestError";
 
 type Props = {
     user: User;
+    isSelf: boolean;
 };
 
-export default class ProfileFeed extends React.Component<Props> {
-    render(): React.ReactNode {
-        const { user } = this.props;
-        const posts = examplePosts.map((x) => ({ ...x, author: user, profileUser: user }))
+export default function ProfileFeed({ user, isSelf }: Props) {
+    const session = useSession();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [fetchReplies, setFetchReplies] = useState<boolean>(false);
+    const [postList, setPostList] = useState<UserPostParented[]>([]);
+    const [error, setError] = useState<RestError | null>(null);
 
-        return (
-            <Box>
-                <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography>
-                <Stack gap={2}>
-                    {posts.map((x) =>
-                        <ProfileFeedPost
-                            key={`post-${x.id}`}
-                            linkTitle
-                            post={x}
-                        />
-                    )}
-                </Stack>
-                <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more posts">
-                    This user has no more posts to be found! Come back later!
-                </PagePlaceholder>
-            </Box>
-        )
+    if (error)
+        throw error;
+
+    useEffect(() => {
+        setIsLoading(true);
+        session.restClient?.fetchPosts(user.did, fetchReplies)
+            .then((posts) => {
+                if (posts.ok)
+                    setPostList(posts.content.posts);
+                else
+                    setError(new RestError(posts.errorDescription, posts.status, posts.errorHeader));
+                setIsLoading(false);
+            });
+    }, [fetchReplies]);
+
+    const onPostCreated = (content: string) => {
+        const newPost = {
+            content,
+            tags: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        };
+        return session.restClient?.createPost(newPost)
+            .then((x) => setPostList([{ ...newPost, author: user, replyCount: 0, uri: x.content!.uri, indexedAt: new Date().toISOString(), parent: null } satisfies UserPostParented, ...postList]))
+            .catch((e) => console.error("Got an error while making a post", e));
     }
+    const onPostDeleted = (uri: string) => {
+        return session.restClient?.deletePost(uri)
+            .then(() => setPostList(postList.filter((x) => x.uri != uri)))
+            .catch((e) => console.error("Got an error while deleting a post", e));
+    };
+    const onPostUpdated = (uri: string, content: string) => {
+        return session.restClient?.updatePost(uri, { content })
+            .then(() => {
+                const postIndex = postList.findIndex((x) => x.uri === uri);
+                if (postIndex < 0)
+                    return;
+
+                // Update post in post list
+                const post = postList[postIndex];
+                setPostList([...postList.slice(0, postIndex), { ...post, content }, ...postList.slice(postIndex + 1) ])
+            })
+            .catch((e) => console.error("Got an error while editing a post", e));
+    };
+
+    return (
+        <Box>
+            {/* <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography> */}
+            <Tabs onChange={(_, v) => setFetchReplies(Boolean(v))} size="lg" sx={{ mb: 2 }}>
+                <TabList>
+                    <Tab value={0}>
+                        <IconFlameFilled />
+                        Feed
+                    </Tab>
+                    <Tab value={1}>
+                        <IconArticleFilled />
+                        Posts & Replies
+                    </Tab>
+                </TabList>
+            </Tabs>
+            {!isLoading && !fetchReplies && session.restClient && isSelf && <ProfilePostCreator user={user} onPost={onPostCreated} sx={{ mb: 2 }} />}
+            {
+                isLoading
+                ? <LinearProgress />
+                : <>
+                    <Stack gap={2}>
+                        {postList.map((x, i) =>
+                            <ProfileFeedPost
+                                isOwnPost={isSelf}
+                                onPostDelete={onPostDeleted}
+                                onPostUpdate={onPostUpdated}
+                                appear={Boolean(!i)}
+                                key={`post-${x.uri}`}
+                                post={x}
+                            />
+                        )}
+                    </Stack>
+                    <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more posts">
+                        This user has no more posts to be found! Come back later!
+                    </PagePlaceholder>
+                </>
+            }
+        </Box>
+    );
 }

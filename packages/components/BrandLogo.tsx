@@ -1,5 +1,5 @@
 import { Stack, Box, Typography, styled } from "@mui/joy";
-import { DefaultTypographySystem } from "@mui/joy/styles/types";
+import type { DefaultTypographySystem } from "@mui/joy/styles/types";
 import SvgLogo from "./svg/SvgLogo";
 import SvgUse from "./svg/SvgUse";
 

@@ -18,6 +18,7 @@ const shades = {
 };
 
 const darkColorScheme: ColorSystemOptions = {
+    shadowOpacity: "0.35",
     palette: {
         neutral: {
             ...shades,
@@ -27,7 +28,9 @@ const darkColorScheme: ColorSystemOptions = {
             primary: shades[50],
             secondary: shades[100],
             tertiary: shades[200],
+            quartary: shades[400],
             icon: shades[300],
+            code: "#fe603f",
             "code-keyword": "#fe603f",
             "code-string": "#ff538b",
             "code-number": "#c998f9",

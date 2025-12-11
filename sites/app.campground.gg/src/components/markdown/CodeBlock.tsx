@@ -14,7 +14,7 @@ type Props = {
 }
 
 // Code wrapping
-const CodeContainer = styled("div", {
+export const CodeContainer = styled("div", {
     name: "CodeContainer",
     slot: "container",
 })(({ theme }) => ({
@@ -102,13 +102,13 @@ const CodeContainer = styled("div", {
         }
     },
 }));
-const CodePre = styled("pre", {
+export const CodePre = styled("pre", {
     name: "CodePre",
     slot: "pre",
 })(() => ({
     margin: 0,
 }));
-const CodeGrid = styled("code", {
+export const CodeGrid = styled("code", {
     name: "CodeGrid",
     slot: "grid",
 })(() => ({
@@ -118,7 +118,7 @@ const CodeGrid = styled("code", {
 }));
 
 // Code additional content
-const CodeHeader = styled("header", {
+export const CodeHeader = styled("header", {
     name: "CodeHeader",
     slot: "header",
 })(({ theme }) => ({
@@ -129,7 +129,7 @@ const CodeHeader = styled("header", {
     borderBottom: `solid 1px ${theme.vars.palette.neutral[800]}`,
     padding: "8px 10px",
 }));
-const CodeLanguage = styled(Chip, {
+export const CodeLanguage = styled(Chip, {
     name: "CodeLanguage",
     slot: "language"
 })(({ theme }) => ({
@@ -141,7 +141,7 @@ const CodeLanguage = styled(Chip, {
 }));
 
 // Code lines
-const CodeLineNumber = styled("div", {
+export const CodeLineNumber = styled("div", {
     name: "CodeLineNumber",
 })(({ theme }) => ({
     color: theme.vars.palette.neutral[400],
@@ -156,7 +156,7 @@ const CodeLineNumber = styled("div", {
         backgroundColor: theme.vars.palette.info[900],
     },
 }));
-const CodeLine = styled("div", {
+export const CodeLine = styled("div", {
     name: "CodeLine",
 })(({ theme }) => ({
     paddingLeft: 16,
@@ -208,11 +208,11 @@ function insertLineBetween<T>(arr: T[] | string[]): Array<string | 0 | T> {
     return [firstElem, ...withElemsAfter];
 }
 
-function linefyTokens<T>(arr: (0 | T)[]) {
+export function linefyTokens<T>(arr: (0 | T)[]): T[][] {
     // It's basically .split(0), but for the arrays and their elements
     // [a, b, 0, c, d, e, 0, f, 0] => [[a, b], [c, d, e], [f], []]
     return arr
-        .reduce((a: (number | T)[][], b: 0 | T) =>
+        .reduce((a: T[][], b: 0 | T) =>
             typeof b === "number"
             ? [...a, []]
             : [...a.slice(0, a.length - 1), [...a[a.length - 1], b]]
@@ -221,7 +221,7 @@ function linefyTokens<T>(arr: (0 | T)[]) {
 
 
 export default class CodeBlock extends React.Component<Props> {
-    static nonHighlightedLanguages = ["none", "plain", "plaintext", "txt", "text"];
+    public static nonHighlightedLanguages = ["none", "plain", "plaintext", "txt", "text"];
 
     constructor(props: Props) {
         super(props)
@@ -230,10 +230,7 @@ export default class CodeBlock extends React.Component<Props> {
         const { children: text } = this.props;
         return text.substring(Number(text.startsWith("\n")), text.length - Number(text.endsWith("\n")));
     }
-    get tokenizedContent() {
-        const { language } = this.props;
-        const content = this.trimmedText;
-
+    static tokenizeContent(language: string | null | undefined, content: string) {
         // Nothing to highlight
         if (!language || CodeBlock.nonHighlightedLanguages.includes(language))
             return {
@@ -252,13 +249,22 @@ export default class CodeBlock extends React.Component<Props> {
             },
             tokens: nodes
                 .flatMap(splitTokens)
-                .map(componentifyToken)
         };
     }
-    get tokenizedCodeLines() {
-        const tokenizedContent = this.tokenizedContent;
+    get tokenizedContent() {
+        const { language } = this.props;
+        const content = this.trimmedText;
 
-        return { language: tokenizedContent.language, tokens: linefyTokens(tokenizedContent.tokens) };
+        return CodeBlock.tokenizeContent(language, content);
+    }
+    static getTokenLength(token: string | { scope: string; text: string; }) {
+        return ((token as { scope: string; text: string; }).text ?? token).length;
+    }
+    static splitByCodeLines(tokenizedContent: { language: undefined, tokens: (string | 0)[] } | { language: { language: string; name: string | undefined; }, tokens: (string | 0 | { scope: string; text: string; })[] }) {
+        return { language: tokenizedContent.language, tokens: linefyTokens(tokenizedContent.tokens.map(componentifyToken)) };
+    }
+    get tokenizedCodeLines() {
+        return CodeBlock.splitByCodeLines(this.tokenizedContent);
     }
     copyCode() {
         navigator.clipboard.writeText(this.trimmedText);

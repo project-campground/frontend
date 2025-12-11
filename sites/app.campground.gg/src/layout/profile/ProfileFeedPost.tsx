@@ -1,63 +1,52 @@
-import { Card, CardContent, Chip, Stack, Typography } from "@mui/joy";
-import React from "react";
-import UserDisplay from "~/components/UserDisplay";
-import { IconMessage, IconShare } from "@tabler/icons-react";
-import Datestamp from "~/components/Datestamp";
-import type { UserPost } from "types/user";
-import Link from "~/components/Link";
-import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
-import { LargeContentMarkdown } from "~/components/markdown/Markdown";
+import { Alert, Box } from "@mui/joy";
+import { useState } from "react";
+import { IconTrashFilled } from "@tabler/icons-react";
+import type { EitherUserPost, UserPostParented } from "types/user";
+import ProfilePost, { appearAnimation } from "./ProfilePost";
+import { ThreadLineItem, ThreadLineWrapper } from "~/components/ThreadLine";
 
 type Props = {
-    post: UserPost;
-    linkTitle?: boolean;
+    appear?: boolean;
+    post: UserPostParented;
+    isOwnPost?: boolean;
+    opacity?: number;
+    onPostDelete: (uri: string) => void | Promise<any>;
+    onPostUpdate: (uri: string, content: string) => void | Promise<any>;
 };
 
-export default class ProfileFeedPost extends React.Component<Props> {
-    render(): React.ReactNode {
-        const { linkTitle } = this.props;
-        const { id, title, content, createdAt, comments, tags, author, profileUser } = this.props.post;
-        const titleNode = (
-            <Typography level="h2">{title}</Typography>
-        );
+export default function ProfileFeedPost(props: Props) {
+    const { appear } = props;
+    const { parent, parentUri } = props.post as EitherUserPost;
+    const [parentPost, setParentPost] = useState(parent);
 
+    if (parentUri)
         return (
-            <Card variant="soft">
-                <CardContent>
-                    <Stack gap={1.5}>
-                        <Stack gap={0.5}>
-                            {linkTitle
-                                ? <Link href={`/profile/${profileUser.did}/posts/${id}`}>{titleNode}</Link>
-                                : titleNode
-                            }
-                            <Stack gap={1} direction="row">
-                                {tags.map((tag, i) => <Chip key={i} variant="solid">{tag}</Chip>)}
-                            </Stack>
-                        </Stack>
-                        <MarkdownWrapper>
-                            <LargeContentMarkdown>{content}</LargeContentMarkdown>
-                        </MarkdownWrapper>
-                        {/* <Typography level="body-md">{content}</Typography> */}
-                        <Stack direction="row" gap={1} alignItems="center">
-                            <Stack gap={1} direction="row" flex={1}>
-                                <UserDisplay user={author} size="sm" />
-                                <Typography level="body-md" textColor="neutral.500">•</Typography>
-                                {/* <Typography level="body-md" textColor="neutral.200">{ms(Date.now() - createdAt, { long: true })} ago</Typography> */}
-                                <Datestamp date={createdAt} />
-                            </Stack>
-                            <Stack direction="row" gap={1.5}>
-                                <Link href={`/profile/${profileUser.did}/posts/${id}`} color="neutral" startDecorator={<IconMessage />}>
-                                    {comments}{" "}
-                                    Comments
-                                </Link>
-                                <Link color="neutral" startDecorator={<IconShare />}>
-                                    Share
-                                </Link>
-                            </Stack>
-                        </Stack>
-                    </Stack>
-                </CardContent>
-            </Card>
+            <Box sx={{ animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, }}>
+                <ThreadLineWrapper >
+                    {parent
+                    ? <ProfilePost
+                        showComments
+                        post={parentPost!}
+                        onPostUpdate={(_, content) => setParentPost({ ...parentPost!, content })}
+                        onPostDelete={() => setParentPost(null)}
+                    />
+                    : <Alert variant="soft" color="danger" startDecorator={<IconTrashFilled />}>This post has been deleted.</Alert>}
+                    <ThreadLineItem>
+                        <ProfilePost
+                            showComments
+                            onPostUpdate={props.onPostUpdate}
+                            onPostDelete={props.onPostDelete}
+                            post={props.post}
+                            mt={0.5}
+                        />
+                    </ThreadLineItem>
+                </ThreadLineWrapper>
+            </Box>
         );
-    }
+        
+    return (
+        <Box sx={{ animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, }}>
+            <ProfilePost onPostUpdate={props.onPostUpdate} onPostDelete={props.onPostDelete} showComments post={props.post} />   
+        </Box>
+    );
 }

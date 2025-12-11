@@ -3,6 +3,7 @@ import theme from "./theme";
 import SvgDefs from "./svg/SvgDefs";
 import SvgUse from "./svg/SvgUse";
 import BrandLogo from "./BrandLogo";
+import Group from "./Group";
 import "./types";
 
-export { theme, PrimaryButton, BrandLogo, SvgDefs, SvgUse };
+export { theme, PrimaryButton, BrandLogo, SvgDefs, SvgUse, Group };

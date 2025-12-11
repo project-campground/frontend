@@ -16,7 +16,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
                 // To have rest client
                 if (parsed.authenticated)
-                    setRestClient(new RESTClient({ auth: parsed.user.accessJwt, refreshAuth: parsed.user.refreshJwt }, refreshLogin));
+                    setRestClient(new RESTClient({ auth: parsed.user.accessJwt, refreshAuth: parsed.user.refreshJwt, userDid: parsed.user.did }, refreshLogin));
                 return parsed;
             }
             return { authenticated: false, };
@@ -38,10 +38,11 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     const login = async (details: AuthCredentials) =>
     {
         const data = await RESTClient.login(details); 
+    
         if (data.ok)
         {
-            setAuth(data.content);
-            setRestClient(new RESTClient({ auth: data.content.accessJwt, refreshAuth: data.content.refreshJwt }, refreshLogin))
+            setAuth({ authenticated: true, user: data.content });
+            setRestClient(new RESTClient({ auth: data.content.accessJwt, refreshAuth: data.content.refreshJwt, userDid: data.content.did }, refreshLogin))
         }
         else throw new Error(data.errorDescription);
     };

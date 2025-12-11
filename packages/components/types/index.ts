@@ -19,6 +19,7 @@ declare module "@mui/joy/styles/types/colorSystem" {
     }
     // Add new text colours
     interface PaletteTextOverrides {
+        quartary: true;
         code: true;
         ["code-keyword"]: true;
         ["code-string"]: true;

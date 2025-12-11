@@ -1,6 +1,6 @@
 import { defaultXrpcPrefix, defaultAppApiUrl, defaultBackendDomain } from "api.config";
 import type { RestResponseError, RestResponseOkWithContent, RestResponseWithContent } from "./RESTResponse";
-import type { User, UserPostBasic, UserPostDetailed } from "types/user";
+import type { User, UserPostBasic, UserPostDetailed, UserPostParented } from "types/user";
 import type { RESTRefreshLogin } from "./RESTErrorHandler";
 import type { SessionAuthRefresh } from "~/session/types";
 import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
@@ -168,20 +168,25 @@ export default class RESTClient {
         });
     }
 
-    fetchPosts(actor: string) {
-        return this.get<{ posts: UserPostBasic[] }>({
+    fetchPosts(actor: string, replies: boolean = false, offset: number = 0) {
+        return this.get<{ posts: UserPostParented[] }>({
             route: `gg.campground.profile.getPosts`,
             queries: {
-                uri: `at://${actor}/gg.campground.profile.post`,
+                actor: actor,
+                limit: "50",
+                offset: offset.toString(),
+                replies: replies.toString()
             },
         });
     }
 
-    fetchPostReplies(actor: string, post_tid: string) {
+    fetchPostReplies(actor: string, post_tid: string, offset: number = 0) {
         return this.get<{ posts: UserPostBasic[] }>({
-            route: `gg.campground.profile.getPosts`,
+            route: `gg.campground.profile.getReplies`,
             queries: {
                 uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
+                limit: "50",
+                offset: offset.toString(),
             },
         });
     }
@@ -191,6 +196,15 @@ export default class RESTClient {
             route: `gg.campground.profile.getPost`,
             queries: {
                 uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
+            },
+        });
+    }
+
+    unindexPost(uri: string) {
+        return this.post<UserPostDetailed>({
+            route: `gg.campground.profile.unindexPost`,
+            queries: {
+                uri,
             },
         });
     }
@@ -226,6 +240,10 @@ export default class RESTClient {
             collection: "gg.campground.profile.post",
             // at://did:.../gg.campground.profile.post/...
             rkey: uri.split("/")[4],
-        });
+        })
+            .then((a) =>
+                this.unindexPost(uri)
+                    .then(() => a)
+            );
     }
 }

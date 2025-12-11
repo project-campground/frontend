@@ -27,7 +27,7 @@ export default class ProfileLayout extends React.Component<Props> {
                             </Box>
                         </AspectRatio>
                     </Box>
-                    <Stack direction="column" alignItems="center" gap={1} sx={{ mt: -8 }}>
+                    <Stack direction="column" alignItems="center" gap={1} sx={{ mt: -8, mb: 2 }}>
                         <UserAvatar did={user.did} size="xxxl" badgeSx={{ "--Badge-ringSize": "4px" }} sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level1}` })} />
                         <Stack gap={0} alignItems="center">
                             <Stack direction="row" gap={1} alignItems="center">

@@ -28,8 +28,7 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         };
 
     const userRequest = await session.restClient.fetchProfile(id);
-    const postsRequest = await session.restClient.fetchPosts(id);
-    console.log(userRequest, postsRequest);
+    console.log(userRequest);
 
     const { errorDescription, errorHeader, content, ok, status } = userRequest;
 
@@ -41,17 +40,16 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         ok,
         user: content,
         isSelf: session.auth.authenticated && session.auth.user.did === content?.did,
-        posts: postsRequest.content?.posts!,
     };
 }
 clientLoader.hydrate = true as const;
 
-export default function Index({ loaderData: { status, ok, isSelf, user, posts, errorHeader, errorDescription } }: Route.ComponentProps) {
+export default function Index({ loaderData: { status, ok, isSelf, user, errorHeader, errorDescription } }: Route.ComponentProps) {
 
 
     return (
         ok
-        ? <ProfileView user={user!} posts={posts} isSelf={isSelf} />
+        ? <ProfileView user={user!} isSelf={isSelf} />
         : status === 404
         ? <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title="Cannot find that user">
             There is no such user with that DID. Have you entered the wrong DID?

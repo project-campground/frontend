@@ -37,7 +37,28 @@ const theme = extendTheme({
                     boxShadow: theme.vars.shadow.sm,
                 }),
             }
-        }
+        },
+        JoyTabList: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    backgroundColor: theme.vars.palette.background.body,
+                    borderRadius: theme.vars.radius.md,
+                    borderBottom: "none",
+                })
+            }
+        },
+        JoyTab: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    borderRadius: theme.vars.radius.md,
+                    borderBottom: "none",
+                    flex: 1,
+                    "::after": {
+                        display: "none",
+                    }
+                })
+            }
+        },
     }
 });
 

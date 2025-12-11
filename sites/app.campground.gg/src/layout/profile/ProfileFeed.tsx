@@ -1,20 +1,39 @@
-import { Box, Stack, Typography } from "@mui/joy";
-import ProfileFeedPost from "./ProfileFeedPost";
-import type { User, UserPostBasic } from "types/user";
+import { Box, LinearProgress, Stack, Tab, TabList, Tabs } from "@mui/joy";
+import type { User, UserPostParented } from "types/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 import ProfilePostCreator from "~/layout/profile/ProfilePostCreator";
 import { useSession } from "~/session";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ProfileFeedPost from "./ProfileFeedPost";
+import { IconArticleFilled, IconFlameFilled } from "@tabler/icons-react";
+import RestError from "~/util/RestError";
 
 type Props = {
     user: User;
     isSelf: boolean;
-    posts: UserPostBasic[];
 };
 
-export default function ProfileFeed({ user, posts, isSelf }: Props) {
+export default function ProfileFeed({ user, isSelf }: Props) {
     const session = useSession();
-    const [postList, setPostList] = useState<UserPostBasic[]>(posts);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [fetchReplies, setFetchReplies] = useState<boolean>(false);
+    const [postList, setPostList] = useState<UserPostParented[]>([]);
+    const [error, setError] = useState<RestError | null>(null);
+
+    if (error)
+        throw error;
+
+    useEffect(() => {
+        setIsLoading(true);
+        session.restClient?.fetchPosts(user.did, fetchReplies)
+            .then((posts) => {
+                if (posts.ok)
+                    setPostList(posts.content.posts);
+                else
+                    setError(new RestError(posts.errorDescription, posts.status, posts.errorHeader));
+                setIsLoading(false);
+            });
+    }, [fetchReplies]);
 
     const onPostCreated = (content: string) => {
         const newPost = {
@@ -24,7 +43,7 @@ export default function ProfileFeed({ user, posts, isSelf }: Props) {
             updatedAt: new Date().toISOString(),
         };
         return session.restClient?.createPost(newPost)
-            .then((x) => setPostList([{ ...newPost, author: user, replyCount: 0, uri: x.content!.uri, indexedAt: new Date().toISOString() } satisfies UserPostBasic, ...posts]))
+            .then((x) => setPostList([{ ...newPost, author: user, replyCount: 0, uri: x.content!.uri, indexedAt: new Date().toISOString(), parent: null } satisfies UserPostParented, ...postList]))
             .catch((e) => console.error("Got an error while making a post", e));
     }
     const onPostDeleted = (uri: string) => {
@@ -48,24 +67,41 @@ export default function ProfileFeed({ user, posts, isSelf }: Props) {
 
     return (
         <Box>
-            <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography>
-            {session.restClient && isSelf && <ProfilePostCreator user={user} onPost={onPostCreated} sx={{ mb: 2 }} />}
-            <Stack gap={2}>
-                {postList.map((x, i) =>
-                    <ProfileFeedPost
-                        isOwnPost={isSelf}
-                        onPostDelete={onPostDeleted}
-                        onPostUpdate={onPostUpdated}
-                        appear={Boolean(posts.length && !i)}
-                        key={`post-${x.uri}`}
-                        showComments
-                        post={x}
-                    />
-                )}
-            </Stack>
-            <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more posts">
-                This user has no more posts to be found! Come back later!
-            </PagePlaceholder>
+            {/* <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography> */}
+            <Tabs onChange={(_, v) => setFetchReplies(Boolean(v))} size="lg" sx={{ mb: 2 }}>
+                <TabList>
+                    <Tab value={0}>
+                        <IconFlameFilled />
+                        Feed
+                    </Tab>
+                    <Tab value={1}>
+                        <IconArticleFilled />
+                        Posts & Replies
+                    </Tab>
+                </TabList>
+            </Tabs>
+            {!isLoading && !fetchReplies && session.restClient && isSelf && <ProfilePostCreator user={user} onPost={onPostCreated} sx={{ mb: 2 }} />}
+            {
+                isLoading
+                ? <LinearProgress />
+                : <>
+                    <Stack gap={2}>
+                        {postList.map((x, i) =>
+                            <ProfileFeedPost
+                                isOwnPost={isSelf}
+                                onPostDelete={onPostDeleted}
+                                onPostUpdate={onPostUpdated}
+                                appear={Boolean(!i)}
+                                key={`post-${x.uri}`}
+                                post={x}
+                            />
+                        )}
+                    </Stack>
+                    <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more posts">
+                        This user has no more posts to be found! Come back later!
+                    </PagePlaceholder>
+                </>
+            }
         </Box>
     );
 }

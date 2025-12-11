@@ -22,10 +22,15 @@ export interface UserPost {
     updatedAt: string | null;
     author: User;
 };
+export interface UserPostWithParent extends UserPost {
+    parent: UserPostBasic | null;
+}
 export interface UserPostBasic extends UserPost {
     replyCount: number;
 };
-export interface UserPostDetailed extends UserPost {
+export interface UserPostParented extends UserPostWithParent, UserPostBasic {
+};
+export interface UserPostDetailed extends UserPostWithParent {
     replies: UserPostBasic[];
 };
 export interface EitherUserPost extends UserPostBasic, UserPostDetailed {

@@ -1,12 +1,13 @@
 import { Alert, Box, Stack, } from "@mui/joy";
 import { useState } from "react";
-import type { EitherUserPost, User, UserPost } from "types/user";
-import ProfileFeedPost from "../../layout/profile/ProfileFeedPost";
+import type { EitherUserPost, User, UserPost, UserPostBasic } from "types/user";
+import ProfilePost from "../../layout/profile/ProfilePost";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 import { useSession } from "~/session";
 import ProfilePostCreator from "../../layout/profile/ProfilePostCreator";
-import PostParentLine from "./PostParentLine";
+import { ThreadLineItem, ThreadLineWrapper } from "../../components/ThreadLine";
+import type { Session } from "~/session/types";
 
 type Props = {
     currentUser: User | null;
@@ -14,6 +15,39 @@ type Props = {
     parentPostDeleted: boolean;
     post: UserPost;
 };
+
+type RepliesProps = {
+    currentUser: User | null;
+    post: UserPost;
+    replies: UserPostBasic[];
+    onReply: (content: string) => Promise<number | null> | undefined;
+    onCommentUpdated: (uri: string, content: string) => Promise<void> | undefined;
+    onCommentDeleted: (uri: string) => Promise<void> | undefined;
+    session: Session;
+};
+
+function ProfilePostViewReplies({ session, currentUser, onReply, onCommentUpdated, onCommentDeleted, replies }: RepliesProps) {
+    return [
+        currentUser &&
+            <ThreadLineItem>
+                <ProfilePostCreator user={currentUser} onPost={onReply} placeholder="Have something to say?" sx={{ mb: 0.5, mt: 1 }} />
+            </ThreadLineItem>,
+        replies.length && replies.map((x) => (
+            <ThreadLineItem>
+                <ProfilePost
+                    mt={0.5}
+                    mb={0.5}
+                    isOwnPost={session.auth.authenticated && session.auth.user.did === x.author.did}
+                    onPostUpdate={onCommentUpdated}
+                    onPostDelete={onCommentDeleted}
+                    key={`comment-${x.uri}`}
+                    post={x}
+                    showComments
+                />
+            </ThreadLineItem>
+        ))
+    ].filter((x) => x);
+}
 
 export default function ProfilePostView({ currentUser: user, post, parentPost, parentPostDeleted }: Props) {
     const [replies, setReplies] = useState((post as EitherUserPost).replies);
@@ -73,16 +107,21 @@ export default function ProfilePostView({ currentUser: user, post, parentPost, p
         </Alert>
     );
     const parentPostIfExists = parentPost && (
-        <ProfileFeedPost
-            showComments
-            isOwnPost={session.auth.authenticated && session.auth.user.did === parentPost.author.did}
-            post={parentPost}
-            onPostDelete={(uri: string) => onPostDeleted(uri)}
-            onPostUpdate={(uri: string, content: string) => onPostUpdated(uri, content)}
-        />
+        <Box sx={{ px: 4 }}>
+            <ProfilePost
+                showComments
+                opacity={0.75}
+                isOwnPost={session.auth.authenticated && session.auth.user.did === parentPost.author.did}
+                post={parentPost}
+                onPostDelete={(uri: string) => onPostDeleted(uri)}
+                onPostUpdate={(uri: string, content: string) => onPostUpdated(uri, content)}
+            />
+        </Box>
     );
+    const anyParentPost = deletedParentCard || parentPostIfExists;
+
     const mainPost = (
-        <ProfileFeedPost
+        <ProfilePost
             bigger
             isOwnPost={session.auth.authenticated && session.auth.user.did === post.author.did}
             post={currentPost}
@@ -90,8 +129,6 @@ export default function ProfilePostView({ currentUser: user, post, parentPost, p
             onPostUpdate={(uri: string, content: string) => onPostUpdated(uri, content)?.then((ok) => ok && setCurrentPost({ ...post, content }))}
         />
     );
-
-    const replyPadding = parentPostDeleted || parentPostIfExists ? 5 : 0;
 
     return (
         <Box sx={{ overflowY: "scroll", flex: 1, width: "100%" }}>
@@ -103,39 +140,22 @@ export default function ProfilePostView({ currentUser: user, post, parentPost, p
                         {/* <Link href={`/profile/${post.author.did}`}>
                             <Typography level="body-md" fontWeight={900} startDecorator={<IconArrowNarrowLeft />}>View user profile</Typography>
                         </Link> */}
-                        {deletedParentCard || parentPostIfExists}
-                        {deletedParentCard || parentPostIfExists ? <PostParentLine>{mainPost}</PostParentLine> : mainPost}
-                        <Stack gap={1}>
-                            {/* <Typography id="comments" level="h4">
-                                Comments ({replyCount ?? replies.length})
-                            </Typography> */}
-                            {user &&
-                                <PostParentLine leftPadding={replyPadding}>
-                                    <ProfilePostCreator user={user} onPost={onReply} placeholder="Have to something to say?" />
-                                </PostParentLine>
-                            }
-                            <Stack gap={1}>
-                                {
-                                    replies.length
-                                    ? replies.map((x) => (
-                                        <PostParentLine leftPadding={replyPadding}>
-                                            <ProfileFeedPost
-                                                isOwnPost={session.auth.authenticated && session.auth.user.did === x.author.did}
-                                                onPostUpdate={onCommentUpdated}
-                                                onPostDelete={onCommentDeleted}
-                                                key={`comment-${x.uri}`}
-                                                post={x}
-                                                showComments
-                                            />
-                                        </PostParentLine>
-                                    ))
-                                    : <></>
-                                }
-                            </Stack>
-                            <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more comments">
-                                Come back later to see new comments!
-                            </PagePlaceholder>
-                        </Stack>
+                        {anyParentPost}
+                        <ThreadLineWrapper>
+                            {mainPost}
+                            <ProfilePostViewReplies
+                                post={post}
+                                replies={replies}
+                                session={session}
+                                currentUser={user}
+                                onReply={onReply}
+                                onCommentUpdated={onCommentUpdated}
+                                onCommentDeleted={onCommentDeleted}
+                            />
+                        </ThreadLineWrapper>
+                        <PagePlaceholder sx={{ mt: 8 }} icon={PagePlaceholderIcon.NoMore} title="No more comments">
+                            Come back later to see new comments!
+                        </PagePlaceholder>
                     </Stack>
                     <Box>
                     </Box>

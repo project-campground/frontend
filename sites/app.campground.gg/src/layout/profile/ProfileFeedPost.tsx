@@ -9,13 +9,12 @@ type Props = {
     appear?: boolean;
     post: UserPostParented;
     isOwnPost?: boolean;
-    opacity?: number;
     onPostDelete: (uri: string) => void | Promise<any>;
     onPostUpdate: (uri: string, content: string) => void | Promise<any>;
 };
 
 export default function ProfileFeedPost(props: Props) {
-    const { appear } = props;
+    const { appear, isOwnPost } = props;
     const { parent, parentUri } = props.post as EitherUserPost;
     const [parentPost, setParentPost] = useState(parent);
 
@@ -34,6 +33,7 @@ export default function ProfileFeedPost(props: Props) {
                     <ThreadLineItem>
                         <ProfilePost
                             showComments
+                            isOwnPost={isOwnPost}
                             onPostUpdate={props.onPostUpdate}
                             onPostDelete={props.onPostDelete}
                             post={props.post}
@@ -46,7 +46,7 @@ export default function ProfileFeedPost(props: Props) {
         
     return (
         <Box sx={{ animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, }}>
-            <ProfilePost onPostUpdate={props.onPostUpdate} onPostDelete={props.onPostDelete} showComments post={props.post} />   
+            <ProfilePost onPostUpdate={props.onPostUpdate} onPostDelete={props.onPostDelete} showComments post={props.post} isOwnPost={isOwnPost} />   
         </Box>
     );
 }

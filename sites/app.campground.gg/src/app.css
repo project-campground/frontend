@@ -19,6 +19,18 @@ html, body, #root {
     color: var(--palette-primary-100)
 }
 
+* {
+  scrollbar-color: var(--palette-neutral-400) transparent;
+}
+*::-webkit-scrollbar {
+  background-color: transparent;
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: var(--palette-neutral-400);
+}
+
 .svg-primary {
     stroke: var(--palette-text-primary);
 }

@@ -7,13 +7,14 @@ import { CodeEditorContextProvider, useCodeEditorContext } from "./codeEditorCon
 import Link from "../Link";
 import { TableAlignContextProvider, TableHeadContextProvider, useTableAlignContext, useTableHeadContext } from "./tableHeadContext";
 import type { EditorTable } from "~/editor/element";
+import Divider from "../markdown/Divider";
 
 const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
     paragraph({ attributes, children }) {
         return <p {...attributes}>{children}</p>
     },
     divider({ attributes }) {
-        return <hr {...attributes} />;
+        return <Divider {...attributes} />;
     },
     heading({ attributes, children, element }) {
         const Tag = `h${(element as EditorHeading).depth ?? 1}` as "h1";

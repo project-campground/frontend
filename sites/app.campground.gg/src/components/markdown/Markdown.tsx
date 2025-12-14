@@ -4,6 +4,7 @@ import CodeBlock from "./CodeBlock";
 import type { Element, Text } from "hast";
 import InlineCode from "./InlineCode";
 import { Box, Checkbox, styled } from "@mui/joy";
+import Divider from "./Divider";
 
 type Props = {
     children: string;
@@ -82,6 +83,9 @@ const markdownComponents: Components = {
                 {children}
             </TableWrapper>
         )
+    },
+    hr() {
+        return <Divider />;
     },
     input({ checked }) {
         return <Checkbox checked={checked} variant="soft" color={checked ? "success" : "danger"}></Checkbox>

@@ -7,7 +7,7 @@ import EditorLeaf from "./EditorLeaf";
 import EditorElement from "./EditorElement";
 import RichEditorToolbar, { RichEditorToolbarBlockFormatting, RichEditorToolbarHeading, RichEditorToolbarInlineFormatting, RichEditorToolbarTableFormatting } from "./RichEditorToolbar";
 import useBlockDecorate from "../../editor/block-decorate";
-import { editorKeyboardLogic } from "../../editor/keyboard-logic";
+import { editorKeyboardLogic, type KeyboardSettings } from "../../editor/keyboard-logic";
 import { paragraph } from "~/editor/utils";
 import { deserializeMarkdown } from "~/editor/mdast/markdown";
 import { slatefyRoot } from "~/editor/mdast/editor";
@@ -17,6 +17,8 @@ type Props = {
     sx: SxProps;
     placeholder?: string;
     defaultValue?: string;
+    enableToolbar?: boolean;
+    keyboardSettings?: KeyboardSettings;
 };
 
 const StyledEditor = styled(Editable, {
@@ -42,6 +44,7 @@ const StyledContainer = styled(MarkdownWrapper, {
     borderRadius: theme.vars.radius.md,
     position: "relative",
     overflow: "hidden",
+    color: theme.vars.palette.text.secondary,
 }));
 const StyledWrapper = styled(MarkdownWrapper, {
     name: "MarkdownEditorWrapper",
@@ -49,27 +52,31 @@ const StyledWrapper = styled(MarkdownWrapper, {
 })(() => ({
     padding: `6px 12px`,
     position: "relative",
-    overflow: "auto",
+    overflowY: "auto",
+    overflowX: "hidden",
     width: "100%",
     height: "100%",
 }));
 
-export default function BlockTextEditor({ defaultValue, editor, sx, placeholder }: Props) {
+export default function BlockTextEditor({ defaultValue, editor, sx, placeholder, enableToolbar, keyboardSettings }: Props) {
     const blockDecorate = useBlockDecorate();
+    const keyboardSettingsDefaulted = keyboardSettings ?? {};
 
     return (
         <StyledContainer sx={sx}>
             <Slate initialValue={defaultValue ? slatefyRoot(deserializeMarkdown(defaultValue)) : [paragraph()]} editor={editor}>
-                <RichEditorToolbar>
-                    <RichEditorToolbarInlineFormatting />
+                {enableToolbar && <>
+                    <RichEditorToolbar>
+                        <RichEditorToolbarInlineFormatting />
+                        <Divider />
+                        <RichEditorToolbarBlockFormatting />
+                        <Divider />
+                        <RichEditorToolbarHeading />
+                        <Divider />
+                        <RichEditorToolbarTableFormatting />
+                    </RichEditorToolbar>
                     <Divider />
-                    <RichEditorToolbarBlockFormatting />
-                    <Divider />
-                    <RichEditorToolbarHeading />
-                    <Divider />
-                    <RichEditorToolbarTableFormatting />
-                </RichEditorToolbar>
-                <Divider />
+                </>}
                 <StyledWrapper>
                     <StyledEditor
                         placeholder={placeholder}
@@ -85,7 +92,7 @@ export default function BlockTextEditor({ defaultValue, editor, sx, placeholder 
                                 return;
 
                             event.preventDefault();
-                            logic(editor, event);
+                            logic(editor, event, keyboardSettingsDefaulted);
                         }}
                     />
                 </StyledWrapper>

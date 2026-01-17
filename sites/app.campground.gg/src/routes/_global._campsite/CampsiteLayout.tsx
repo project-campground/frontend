@@ -1,0 +1,94 @@
+import { Box } from "@mui/joy";
+import { Group } from "components";
+import React from "react";
+// import type { CampsiteViewDetailed } from "types/campsites";
+import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
+import { CampsiteContext, CurrentTentContext, TentContext } from "./context";
+import type { CampsiteViewDetailed } from "types/campsites";
+import { SessionContext } from "~/context/session";
+import type { Session } from "~/context/session/types";
+import type { RestResponseError } from "api/RESTResponse";
+
+type Props = {
+    campsiteId: string;
+} & React.PropsWithChildren;
+
+type State = {
+    init: boolean;
+    loading: boolean;
+    campsite: CampsiteViewDetailed | null;
+    err: RestResponseError | null;
+    bonfireSelected: string | null;
+    tentSelected: string | null;
+};
+
+export default class CampsiteLayout extends React.Component<Props, State, Session> {
+    currentTent: CurrentTentContext;
+    static contextType?: React.Context<any> | undefined = SessionContext;
+    constructor(props: Props, context: any) {
+        super(props, context);
+
+        // tentSidebarOpen false by default, so it wouldn't be auto-open on mobile
+        this.state = { err: null, campsite: null, init: false, loading: true, bonfireSelected: null, tentSelected: null };
+
+        this.currentTent = new CurrentTentContext(null);
+        this.currentTent.subscribeToChanges((newValue) =>
+            this.setState({ bonfireSelected: newValue?.bonfireId ?? null, tentSelected: newValue?.id ?? null })
+        );
+    }
+    async fetchCampsite() {
+        return (this.context as Session).restClient!
+            .getCampsite(this.props.campsiteId)
+            .then((resp) => {
+                if (!resp.ok)
+                    return this.setState({ err: resp });
+                return this.setState({ err: null, campsite: resp.content, init: true, loading: false });
+            });
+    }
+    async componentDidMount(): Promise<void> {
+        if (this.state.init)
+            return;
+
+        this.setState({ init: true });
+        
+        return this.fetchCampsite();
+    }
+    async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: Session | undefined): Promise<void> {
+        if (prevProps.campsiteId == this.props.campsiteId)
+            return;
+        
+        this.setState({ loading: true });
+
+        return this.fetchCampsite();
+    }
+    render(): React.ReactNode {
+        const { children } = this.props;
+        const { init, loading, bonfireSelected, tentSelected, campsite } = this.state;
+
+        if (!init || loading)
+            return (
+                <Group sx={{ width: "100%", height: "100%" }} gap={1}>
+                    <Box>
+                        <TentSidebarSkeleton />
+                    </Box>
+                </Group>
+            );
+
+        return (
+            <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} gap={1}>
+                <Box>
+                    <TentSidebar
+                        campsite={campsite!}
+                        bonfireSelected={bonfireSelected}
+                        tentSelected={tentSelected}
+                        />
+                </Box>
+                <TentContext.Provider value={this.currentTent}>
+                    <CampsiteContext.Provider value={campsite!}>
+                        {children}
+                    </CampsiteContext.Provider>
+                </TentContext.Provider>
+            </Group>
+        );
+    }
+}

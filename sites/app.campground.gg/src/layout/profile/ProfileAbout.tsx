@@ -2,10 +2,10 @@ import { Box, List, ListItem, ListItemContent, ListItemDecorator, Stack, Typogra
 import React from "react";
 import { IconCake, IconMapPin } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import type { User } from "types/user";
+import type { ProfileView } from "types/user";
 
 type Props = {
-    user: User;
+    user: ProfileView;
 };
 
 export default class ProfileAbout extends React.Component<Props> {
@@ -27,7 +27,11 @@ export default class ProfileAbout extends React.Component<Props> {
                             <ListItemContent>
                                 <Typography>
                                     Joined{" "}
-                                    <Datestamp displayDate date={new Date(user.createdAt)} />
+                                    <Datestamp
+                                        displayDate
+                                        date={user.createdAt ? new Date(user.createdAt) : new Date()}
+                                        dateOptions={{ weekday: "short", year: "2-digit", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", }}
+                                    />
                                 </Typography>
                             </ListItemContent>
                         </ListItem>

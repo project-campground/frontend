@@ -1,17 +1,20 @@
-import { Dropdown, Menu, MenuButton, Stack, Typography } from "@mui/joy";
-import UserAvatar from "./UserAvatar";
-import type { User } from "types/user";
+import { Dropdown, Menu, MenuButton, Skeleton, Typography } from "@mui/joy";
+import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
+import type { ProfileView } from "types/user";
 import UserProfileCard from "./UserProfileCard";
+import { Group } from "components";
 
 type Size = "sm" | "md" | "lg";
 
 type Props = {
-    user: User;
+    user: ProfileView;
+    noAvatar?: boolean;
     color?: string;
     size?: Size;
     avatarSize?: Size | "xl";
     showHandle?: boolean;
     alignItems?: "center" | "start" | "end";
+    withStatus?: boolean;
 };
 
 const sizeToGap: Record<Size, number> = {
@@ -20,39 +23,62 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-export default function UserDisplay({ color, user, size, avatarSize, alignItems, showHandle }: Props) {
-    // const [openModal, setOpenModal] = React.useState(false);
-
+export function UserDisplayNoModal({ withStatus, noAvatar, color, user, size, avatarSize, alignItems, showHandle }: Props) {
     const actualSize = size ?? "md";
 
+    return (
+        <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"}>
+            {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
+            <Typography level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ color: color ?? theme.vars.palette.neutral[100], })}>
+                {user.displayName}
+            </Typography>
+            {
+                showHandle && <>
+                    <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                </>
+            }
+        </Group>
+    );
+}
+
+export default function UserDisplay(props: Props) {
     return (
         <>
             <Dropdown>
                 <MenuButton variant="plain" sx={{ px: 0, py: 0, minHeight: "min-content" }}>
-                    <Stack direction="row" gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"}>
-                        <UserAvatar did={user.did} size={avatarSize ?? actualSize} />
-                        <Typography level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ color: color ?? theme.vars.palette.neutral[100], })}>
-                            {user.displayName}
-                        </Typography>
-                        {
-                            showHandle && <>
-                                <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
-                            </>
-                        }
-                    </Stack>
-                    {/* <Link component="button" onClick={setOpenModal.bind(null, true)} sx={(theme) => ({ color: color ?? theme.vars.palette.neutral[100], textDecorationColor: color ?? theme.vars.palette.neutral[100] })}>
-                    </Link> */}
+                    <UserDisplayNoModal {...props} />
                 </MenuButton>
                 <Menu variant="soft">
                     <UserProfileCard
-                        did={user.did}
-                        user={user}
-                        />
+                        did={props.user.did}
+                        user={props.user}
+                    />
                 </Menu>
-
-            {/* <Tooltip arrow title={<UserProfileCard user={user} />} open={openModal} onClose={setOpenModal.bind(null, false)} variant="soft"> */}
-            {/* </Tooltip> */}
             </Dropdown>
         </>
+    );
+}
+
+export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
+    const actualSize = size ?? "md";
+
+    return (
+        <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"}>
+            {!noAvatar && <UserAvatarSkeleton withStatus={withStatus} size={avatarSize ?? actualSize} />}
+            <Typography level={`title-${actualSize}`} fontWeight={700}>
+                <Skeleton loading>
+                    Example user
+                </Skeleton>
+            </Typography>
+            {
+                showHandle && <>
+                    <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">
+                        <Skeleton loading>
+                            @example
+                        </Skeleton>
+                    </Typography>
+                </>
+            }
+        </Group>
     );
 }

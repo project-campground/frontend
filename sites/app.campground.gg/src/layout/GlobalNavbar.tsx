@@ -1,51 +1,49 @@
-import { Box, Divider, Stack, Typography } from "@mui/joy";
-import React from "react";
-import { GlobalNavbarItem } from "./GlobalNavbarItem";
+import { Box, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
 import NavbarCamp from "~/components/NavbarCamp";
 import GlobalNavProfile from "./GlobalNavProfile";
-import type { Session, SessionAuthUser } from "~/session/types";
-import { Link } from "react-router";
+import NavbarButton from "~/components/NavbarButton";
+import { IconCompassFilled, IconPlus } from "@tabler/icons-react";
+import { useMeContext } from "~/context/session";
 
 type Props = {
-    page: string | null;
-    session: Session;
-    sessionUser: SessionAuthUser;
+    loaded: boolean;
+    page: string | undefined | null;
 };
 
-export default class GlobalNavbar extends React.Component<Props> {
-    render() {
-        const { session, sessionUser, page } = this.props;
-        const activeHome = page === null;
+const homePages = ["friends"]
 
-        return (
-            <Box sx={{ px: 1, py: 1, width: "100%" }}>
-                <Stack direction="row" gap={2} sx={{ width: "100%" }} alignItems="center">
-                    <Stack direction="row">
-                        <Link to="/">
-                            <GlobalNavbarItem className={activeHome ? "active" : ""} sx={{  width: 48, height: 48 }}>
-                                <Stack direction="row" sx={{ width: "100%", height: "100%" }} alignItems="center">
-                                    <Stack direction="column" sx={{ width: "100%" }} alignItems="center">
-                                        <Typography component="svg" sx={{ height: 36, width: 36, stroke: "var(--svg-color)", transition: "stroke 0.4s", strokeWidth: 3 }}>
-                                            <use href="#cg-logo" />
-                                        </Typography>
-                                    </Stack>
-                                </Stack>
-                                {/* <SvgUse id="cg-logo" className="svg-neutral-500 stroke-5" width="48" height="48" /> */}
-                            </GlobalNavbarItem>
-                        </Link>
-                    </Stack>
-                    <Divider orientation="vertical" sx={{ width: 2 }} />
-                    <Stack direction="row" sx={{ flex: 1 }} gap={1} >
-                        <NavbarCamp name="Example camp" memberCount={30} isActive={true} />
-                        <NavbarCamp name="Camp #2" memberCount={500} hasNotification isVerified />
-                        <NavbarCamp name="Camp #3" memberCount={500} pingCount={2} />
-                        <NavbarCamp name="Camp #4" memberCount={500} hasNotification pingCount={2} />
-                    </Stack>
-                    <Stack direction="row">
-                        <GlobalNavProfile session={session} sessionUser={sessionUser} />
-                    </Stack>
+export default function GlobalNavbar({ page, loaded }: Props) {
+    const me = useMeContext();
+
+    return (
+        <Box sx={{ px: 1, py: 1, width: "100%" }}>
+            <Stack direction="row" gap={2} sx={{ width: "100%" }} alignItems="center">
+                <Stack direction="row">
+                    <NavbarButton href="/" isActive={!page || homePages.includes(page)}>
+                        <Stack direction="row" sx={{ width: "100%" }} alignItems="center">
+                            <Typography component="svg" sx={{ height: 36, width: 36, stroke: "var(--svg-color)", transition: "stroke 0.4s", strokeWidth: 3 }}>
+                                <use href="#cg-logo" />
+                            </Typography>
+                        </Stack>
+                    </NavbarButton>
                 </Stack>
-            </Box>
-        )
-    }
+                <Divider orientation="vertical" sx={{ width: 2 }} />
+                <Stack direction="row" sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }} gap={1}>
+                    {me?.campsites.map((x) =>
+                        <NavbarCamp key={x.id} id={x.id} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
+                    )}
+                    {!loaded && <CircularProgress />}
+                    {me && <NavbarButton href="/c/create" isActive={page === "create"}>
+                        <IconPlus />
+                    </NavbarButton>}
+                    <NavbarButton href="/discover" isActive={page === "discover"}>
+                        <IconCompassFilled />
+                    </NavbarButton>
+                </Stack>
+                <Stack direction="row">
+                    <GlobalNavProfile />
+                </Stack>
+            </Stack>
+        </Box>
+    );
 }

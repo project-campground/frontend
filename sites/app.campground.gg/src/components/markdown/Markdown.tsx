@@ -1,5 +1,6 @@
 import Markdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import CodeBlock from "./CodeBlock";
 import type { Element, Text } from "hast";
 import InlineCode from "./InlineCode";
@@ -49,8 +50,6 @@ const markdownComponents: Components = {
         const metaRaw = codeNode.data?.meta;
         const metaParsed = metaRaw ? parseMeta(metaRaw) : null;
 
-        console.log("Parsed meta", metaParsed);
-
         return (
             <CodeBlock
                 language={lang}
@@ -94,7 +93,7 @@ const markdownComponents: Components = {
 
 export function LargeContentMarkdown({ children }: Props) {
     return (
-        <Markdown remarkPlugins={[ remarkGfm ]} components={markdownComponents}>
+        <Markdown remarkPlugins={[ remarkGfm, remarkBreaks ]} components={markdownComponents}>
             { children }
         </Markdown>
     )

@@ -16,6 +16,7 @@ const MarkdownWrapper = styled(Box, {
         position: "relative",
         marginLeft: "20px",
         marginRight: "0px",
+        minHeight: "1.5em",
         "&::before": {
             position: "absolute",
             content: "''",
@@ -28,7 +29,7 @@ const MarkdownWrapper = styled(Box, {
             bottom: 0,
         }
     },
-    "code": {
+    ":not(pre) > code": {
         backgroundColor: theme.vars.palette.background.body,
         color: theme.vars.palette.text.code,
         padding: `2px 4px`,

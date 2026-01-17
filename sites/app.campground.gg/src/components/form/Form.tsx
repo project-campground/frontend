@@ -10,7 +10,8 @@ export type FormProps = {
     sections: FormSectionProps[];
     submitText?: string;
     children?: ReactNode[] | ReactNode;
-    onSubmit: (ev: FormEvent<HTMLFormElement>, fieldValues: Record<string, any>) => Promise<void> | void;
+    onSubmit: (ev: FormEvent<HTMLFormElement>, fieldValues: Record<string, any>) => Promise<void | unknown> | void | unknown;
+    ReactiveComponent?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
 };
 type FormState = {
     fieldValues: Record<string, any>;
@@ -21,12 +22,20 @@ export default class Form extends React.Component<FormProps, FormState> {
     constructor(props: FormProps) {
         super(props);
         this.state = {
-            fieldValues: {},
-            fieldRequirementFilled: Object.fromEntries(
+            fieldValues:
+                Object.fromEntries(
+                    props
+                        .sections
+                        .flatMap(x => x.fields)
+                        .map(x => [x.id, x.defaultValue])
+                        .filter((x) => typeof x[1] !== "undefined" && x[1] !== null)
+                ),
+            fieldRequirementFilled:
+            Object.fromEntries(
                 props
                     .sections
                     .flatMap(x => x.fields)
-                    .map(x => [x.id, !x.required || !!x.defaultValue]))
+                    .map(x => [x.id, !x.required || (typeof x.defaultValue !== "undefined" && x.defaultValue !== null)]))
         };
     }
 
@@ -36,6 +45,7 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     private onFieldChange(props: AnyFormFieldProps, field: AnyFormField, value: any): Promise<void> | void {
+        console.log({ isValid: field.isValid, value, props, state: this.state });
         this.setState(({ fieldValues, fieldRequirementFilled }) => ({
             fieldValues: {
                 ...fieldValues,
@@ -57,7 +67,8 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     public render(): ReactNode[] | ReactNode {
-        const { header, sections, submitText, children } = this.props;
+        const { header, sections, submitText, children, ReactiveComponent } = this.props;
+        const { fieldValues } = this.state;
 
         return (
             <form className="Form container" onSubmit={this.onButtonSubmit.bind(this)}>
@@ -72,14 +83,16 @@ export default class Form extends React.Component<FormProps, FormState> {
                                 fieldBinding={this}
                                 section={section}
                                 onFieldChange={this.onFieldChange}
+                                disabled={section.disableOn?.(fieldValues)}
                             />
                         )}
                     </Stack>
                     {/* Form footer */}
-                    <Stack className="Form footer" direction="column" gap={1}>
+                    <Stack className="Form footer" direction="column" gap={1} sx={{ mt: 2 }}>
                         <PrimaryButton type="submit" fullWidth disabled={this.isButtonDisabled}>
                             <FormattedMessage id={submitText ?? "form.submit"} />
                         </PrimaryButton>
+                        {ReactiveComponent && <ReactiveComponent {...fieldValues} />}
                         { children }
                     </Stack>
                 </Stack>

@@ -1,7 +1,7 @@
-export interface User {
+export interface ProfileView {
     did: string;
     handle: string;
-    displayName: string;
+    displayName: string | null;
 
     description: string | null;
     tagline: string | null;
@@ -10,9 +10,12 @@ export interface User {
     avatar: string | null;
     banner: string | null;
 
-    createdAt: string;
+    createdAt: string | null;
 }
-export interface UserPost {
+export interface ProfileViewBasic extends ProfileView {
+    
+}
+export interface ProfilePostView {
     uri: string;
     parentUri?: string | null;
     content: string;
@@ -20,19 +23,19 @@ export interface UserPost {
     createdAt: string;
     indexedAt: string | null;
     updatedAt: string | null;
-    author: User;
+    author: ProfileView;
 };
-export interface UserPostWithParent extends UserPost {
-    parent: UserPostBasic | null;
+export interface ProfilePostViewWithParent extends ProfilePostView {
+    parent: ProfilePostViewBasic | null;
 }
-export interface UserPostBasic extends UserPost {
+export interface ProfilePostViewBasic extends ProfilePostView {
     replyCount: number;
 };
-export interface UserPostParented extends UserPostWithParent, UserPostBasic {
+export interface ProfilePostViewParented extends ProfilePostViewWithParent, ProfilePostViewBasic {
 };
-export interface UserPostDetailed extends UserPostWithParent {
-    replies: UserPostBasic[];
+export interface ProfilePostViewDetailed extends ProfilePostViewWithParent {
+    replies: ProfilePostViewBasic[];
 };
-export interface EitherUserPost extends UserPostBasic, UserPostDetailed {
+export interface EitherProfilePostView extends ProfilePostViewBasic, ProfilePostViewParented, ProfilePostViewDetailed {
 
 }

@@ -1,10 +1,21 @@
 import { Editor, Element, Node, type NodeEntry, Text, Transforms } from "slate";
 import { EditorInlineElementType, type RichEditor, type EditorElementType, type EditorBlockElementType, type EditorItemElementType } from "../../editor/editor";
 import type { EditorTextFormatting } from "~/editor/text";
-import type { EditorTable } from "~/editor/element";
-import { getNeighborPath } from "~/editor/utils";
+import { EditorItemParents, type EditorTable } from "~/editor/element";
+import { getNeighborPath, paragraph } from "~/editor/utils";
 
 export default class CampgroundEditor {
+    static clearEditor(editor: RichEditor) {
+        editor.delete({
+            at: {
+                anchor: editor.start([]),
+                focus: editor.end([]),
+            }
+        });
+        editor.unwrapNodes({ mode: "all", match: (node) => !Editor.isEditor(node) });
+
+        editor.insertNode(paragraph());
+    }
     static isNodeFormatted(editor: RichEditor, type: EditorElementType) {
         const { selection } = editor;
 
@@ -44,6 +55,9 @@ export default class CampgroundEditor {
     static isTextFormatted(editor: RichEditor, type: keyof EditorTextFormatting) {
         const marks = Editor.marks(editor);
         return (marks?.[type] as boolean | null) ?? false;
+    }
+    static isListElement(element: any) {
+        return Element.isElement(element) && EditorItemParents["list-item"].includes(element.type as EditorBlockElementType);
     }
     static toggleBlockFormatting(editor: RichEditor, type: EditorBlockElementType, additionalProps?: any) {
         const active = CampgroundEditor.isNodeFormatted(editor, type);

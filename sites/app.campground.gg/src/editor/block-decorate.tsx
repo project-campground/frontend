@@ -1,19 +1,22 @@
 import { useCallback } from "react";
-import { type DecoratedRange, Element, Node, type NodeEntry, type Range } from "slate";
+import { type DecoratedRange, Element, type NodeEntry, type Range } from "slate";
 import type { EditorElementType, EditorCodeBlock } from "./editor";
 import CodeBlock, { linefyTokens } from "../components/markdown/CodeBlock";
 
 const decorators: Partial<Record<EditorElementType, (entry: NodeEntry) => DecoratedRange[]>> = {
     ["code-block"]([node, path]) {
-        const content = Node.string(node);
+        const content = (node as EditorCodeBlock).children.map((x) => x.children.map((y) => y.text).join("")).join("\n");
 
         const { lang: language } = node as unknown as EditorCodeBlock;
-
+        
+        console.log({ language });
         if (!language || CodeBlock.nonHighlightedLanguages.includes(language))
             return [];
 
         const { tokens } = CodeBlock.tokenizeContent(language, content);
         const linefied = linefyTokens(tokens);
+
+        console.log({ node, path, content, tokens, linefied });
 
         const decors: DecoratedRange[] = linefied
             .flatMap<Range>(
@@ -39,6 +42,7 @@ const decorators: Partial<Record<EditorElementType, (entry: NodeEntry) => Decora
                         .filter((x) => x.scope);
                 }
             );
+        console.log({ decors });
 
         return decors;
     }

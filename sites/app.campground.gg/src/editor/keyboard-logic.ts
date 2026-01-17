@@ -1,7 +1,9 @@
-import { type BaseSelection, Editor, Element, Node, Point } from "slate";
+import { type BaseSelection, Editor, Element, Node, type NodeEntry, type Path, Point, Text } from "slate";
 import { EditorItemElementType, type RichEditor } from "./editor";
-import { getNeighborPath, getNewlineIndexes, getParentPath, paragraph } from "./utils";
+import { getNeighborPath, getNewlineOffsets, getParentPath, paragraph } from "./utils";
 import React from "react";
+import { type EditorElement, type EditorItemElement } from "./element";
+import CampgroundEditor from "~/components/editor/CampgroundEditor";
 
 function selectWithOptionalShift(editor: RichEditor, currentSelection: BaseSelection, shift: boolean, newPosition: Point) {
     return editor.select({ anchor: shift ? currentSelection!.anchor : newPosition, focus: newPosition });
@@ -16,23 +18,27 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
         return;
 
     const elementString = Node.string(elementAbove);
-    const newlines = getNewlineIndexes(elementString).map((x) => x + 1);
+    // a\nb means newline offsets will be [2], because second line starts at offset 2
+    // if string is "a\nb", then offsets will be [0]a[1]\n[2]b[3], [2] being after \n
+    const newlines = getNewlineOffsets(elementString);
 
     const currentSelection = editor.selection;
     const selectionOffset = currentSelection?.focus?.offset ?? 0;
 
     const passedLines = newlines.filter((x) => x <= selectionOffset);
-    const nextNewlineOffset = newlines.find((x) => x > selectionOffset);
+    const linesAfter = newlines.filter((x) => x > selectionOffset);
 
     // Move between lines in a single block
-    if (!up && nextNewlineOffset || up && passedLines.length) {
+    if (!up && linesAfter.length || up && passedLines.length) {
         // Where the newline is found as offset to move to
-        const lineThere = up ? passedLines.slice(-2, -1)[0] ?? 0 : nextNewlineOffset!;
-
+        const lineThere = up ? passedLines.slice(-2, -1)[0] ?? 0 : linesAfter[0]!;
+        
         const currentLine = passedLines.slice(-1)[0] ?? 0;
         const currentLineOffset = selectionOffset - currentLine;
         // Perhaps the line offset was saved
+
         const finalLineOffset = editor.selection?.focus.lineOffset ?? currentLineOffset;
+        const lineThereMaxOffset = up ? currentLine - lineThere - 1 : (linesAfter[1] ?? elementString.length + 1) - 1 - lineThere;
 
         return selectWithOptionalShift(
             editor,
@@ -41,11 +47,13 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
             {
                 lineOffset: finalLineOffset,
                 path: currentSelection!.focus.path,
-                offset: Math.min(lineThere + finalLineOffset, up ? currentLine - lineThere - 1: elementString.length)
+                // To not allow going beyond the string
+                offset: lineThere + Math.min(finalLineOffset, lineThereMaxOffset),
             },
         );
     }
 
+    console.log("A");
     // Will be used to get neighbours
     const abovePath = above![1];
     const aboveParent = getParentPath(abovePath);
@@ -68,7 +76,7 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
         const stringifiedThere = Node.string(itemThere[0]);
         // Retain the offset from the line cursor is at
         const newOffset = editor.selection?.focus.lineOffset ?? (editor.selection?.focus?.offset ?? 0) - (newlines.slice(-1)[0] ?? 0);
-        const newlinesThere = getNewlineIndexes(stringifiedThere).map((x) => x + 1);
+        const newlinesThere = getNewlineOffsets(stringifiedThere);
 
         // Retain offset in the last line of the node 'there'
         return selectWithOptionalShift(
@@ -86,9 +94,10 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
     else if (elementAbove.type === "paragraph" && abovePath.length < 2)
         return;
 
+    const parent = editor.above({ at: abovePath });
     // 1 or -1
     const whichNeighbor = (Number(up) * -2) + 1;
-    const newNodePath = elementAbove.type === "table-cell" ? getNeighborPath(getParentPath(aboveParent), whichNeighbor) : getNeighborPath(aboveParent, whichNeighbor);
+    const newNodePath = elementAbove.type === "table-cell" || (parent?.[0] as Element).type === "list-item" ? getNeighborPath(getParentPath(aboveParent), whichNeighbor) : getNeighborPath(aboveParent, whichNeighbor);
 
     // Insert and set cursor to it. Made to escape blocks.
     editor.insertNode(
@@ -112,29 +121,104 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
     );
 }
 
-export const editorKeyboardLogic: Record<string, (editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) => void> = {
+export type KeyboardSettings = {
+    enterCallback?: () => unknown;
+};
+
+function unnestListItem(editor: RichEditor, path: Path) {
+    const parent = path.slice(0, -1);
+    const grandparent = editor.above({
+        at: parent,
+    });
+    
+    if (!CampgroundEditor.isListElement(grandparent?.[0]))
+        return;
+
+    editor.unwrapNodes({
+        at: parent,
+    });
+}
+
+function enterInsertItem(editor: RichEditor, above: NodeEntry<Element>) {
+    const neighborPath = getNeighborPath(above[1]);
+
+    editor.insertNode({
+        type: above[0].type as EditorItemElementType, children: [] } as EditorItemElement,
+        { at: neighborPath }
+    );
+
+    if (above[0].type === "list-item")
+        editor.insertNode(paragraph(), { at: [...neighborPath, 0] })
+
+    return editor.move({
+        unit: "line",
+        distance: 1,
+    });
+}
+
+export const editorKeyboardLogic: Record<string, (editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>, settings: KeyboardSettings) => void> = {
     ArrowUp(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
         return ArrowVertical(editor, true, event.shiftKey);
     },
     ArrowDown(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
         return ArrowVertical(editor, false, event.shiftKey);
     },
-    Enter(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
-        const above = editor.above();
+    Tab(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>) {
+        const above = editor.above({
+            match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) && n.type !== "paragraph",
+        });
+
+        if (!above)
+            return;
+        
+        const [block, path] = above;
+
+        if ((block as EditorElement).type !== "list-item")
+            return;
+        else if (event.shiftKey && !event.ctrlKey)
+            return unnestListItem(editor, path);
+
+        const nearestList = editor.above({
+            match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) && n.type !== "list-item" && n.type !== "paragraph",
+        });
+
+        editor.wrapNodes({
+            type: (nearestList?.[0] as EditorElement).type ?? "unordered-list",
+            children: [],
+        } as EditorElement, { at: path });
+    },
+    Enter(editor: RichEditor, event: React.KeyboardEvent<HTMLDivElement>, settings: KeyboardSettings) {
+        const above = editor.above({
+            match: n =>
+                Element.isElement(n) &&
+                n.type !== "paragraph",
+        });
 
         // Override others for code blocks and list
-        if (above && Element.isElement(above[0]) && EditorItemElementType.includes(above[0].type as EditorItemElementType) && (!event.shiftKey || above[0].type === "code-line")) {
-            editor.insertNode({ type: above[0].type as EditorItemElementType, children: [] }, { at: getNeighborPath(above[1]) });
+        if (above && EditorItemElementType.includes(above[0].type as EditorItemElementType) && (!event.shiftKey || above[0].type === "code-line"))
+            return enterInsertItem(editor, above);
 
-            return editor.move({
-                unit: "line",
-                distance: 1,
-            });
-        }
+        const currentSelection = editor.selection;
+        if (!currentSelection)
+            return;
+
+        const textNode = editor.node(currentSelection.focus.path)[0];
+
+        if (!Text.isText(textNode))
+            return;
+
+        const previousCharacter = textNode.text[currentSelection.focus.offset - 1];
 
         // Soft break
-        if (event.shiftKey)
+        if (event.shiftKey && previousCharacter !== "\n")
             return editor.insertText("\n");
+        else if (event.shiftKey) {
+            editor.deleteBackward("character");
+            return editor.insertNode(paragraph());
+        }
+
+        if (settings.enterCallback)
+            return settings.enterCallback?.();
 
         editor.insertNode(paragraph());
     }

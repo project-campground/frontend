@@ -1,5 +1,6 @@
 import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, type ColorPaletteProp } from "@mui/joy";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
+import { useNavigate } from "react-router";
 
 type Props = {
     href: string;
@@ -9,23 +10,19 @@ type Props = {
     color?: ColorPaletteProp;
 };
 
-export default class PageSidebarItem extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
-    render() {
-        const { children, active, href, icon, color } = this.props;
-        return (
-            <ListItem component="a" href={href} color={color} sx={{ textDecoration: "none" }}>
-                <ListItemButton color={color ?? "neutral"} variant={active ? "soft" : "plain"} sx={(theme) => ({ borderRadius: theme.vars.radius.lg })}>
-                    <ListItemDecorator>
-                        {icon}
-                    </ListItemDecorator>
-                    <ListItemContent>
-                        {children}
-                    </ListItemContent>
-                </ListItemButton>
-            </ListItem>
-        );
-    }
+export default function PageSidebarItem({ children, active, href, icon, color }: Props) {
+    const navigate = useNavigate();
+
+    return (
+        <ListItem color={color} sx={{ textDecoration: "none" }} onClick={() => navigate(href)}>
+            <ListItemButton color={color ?? "neutral"} variant={active ? "soft" : "plain"} sx={(theme) => ({ borderRadius: theme.vars.radius.lg })}>
+                <ListItemDecorator>
+                    {icon}
+                </ListItemDecorator>
+                <ListItemContent>
+                    {children}
+                </ListItemContent>
+            </ListItemButton>
+        </ListItem>
+    );
 }

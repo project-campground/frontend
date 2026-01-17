@@ -26,7 +26,7 @@ export default function BasicPostEditor({ placeholder, onConfirm, onCancel, cont
 
     return (
         <Stack gap={1} sx={sx}>
-            <BlockTextEditor editor={editor} defaultValue={content} sx={(theme) => ({ color: theme.vars.palette.text.secondary })} placeholder={placeholder ?? "What is your current mood?"} />
+            <BlockTextEditor enableToolbar editor={editor} defaultValue={content} sx={(theme) => ({ color: theme.vars.palette.text.secondary })} placeholder={placeholder ?? "What is your current mood?"} />
             <Group gap={2} alignItems="center">
                 <PrimaryButton endDecorator={<IconArrowRight />} onClick={() => onConfirm(serializeMarkdown(mdastifyEditor(editor)))}>{confirmButton ?? "Post"}</PrimaryButton>
                 {onCancel && <Link color="neutral" onClick={onCancel}>Cancel</Link>}

@@ -30,6 +30,12 @@ export const EditorItemToParent: Record<EditorItemElementType, EditorBlockElemen
     "table-cell": "table-row",
     "table-row": "table",
 };
+export const EditorItemParents: Record<EditorItemElementType, (EditorBlockElementType | EditorItemElementType)[]> = {
+    "code-line": ["code-block"],
+    "list-item": ["unordered-list", "ordered-list"],
+    "table-cell": ["table-row"],
+    "table-row": ["table"],
+}
 
 // Test inline
 /**

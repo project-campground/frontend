@@ -14,7 +14,7 @@ const nodeSerializers: Record<EditorElementType, (element: Element) => RootConte
     },
     ["code-block"](element) {
         const codeBlock = element as EditorCodeBlock;
-        
+
         return { ...codeBlock, type: "code", value: element.children.map(Node.string).join("\n"), };
     },
     table(element) {
@@ -40,15 +40,15 @@ const nodeSerializers: Record<EditorElementType, (element: Element) => RootConte
         } satisfies TableCell;
     },
     ["unordered-list"](element) {
-        return { type: "list", spread: false, children: element.children.map(mdastifyNode) as ListItem[] };
+        return { type: "list", spread: true, children: element.children.map(mdastifyNode) as ListItem[] };
     },
     ["ordered-list"](element) {
         const orderedList = element as EditorOrderedList;
         
-        return { ...orderedList, type: "list", ordered: true, spread: false, children: element.children.map(mdastifyNode) as ListItem[] };
+        return { ...orderedList, type: "list", ordered: true, spread: true, children: element.children.map(mdastifyNode) as ListItem[] };
     },
     ["list-item"](element) {
-        return { type: "listItem", spread: false, children: element.children.map(mdastifyNode) as (BlockContent | DefinitionContent)[] };
+        return { type: "listItem", spread: true, children: element.children.map(mdastifyNode) as (BlockContent | DefinitionContent)[] };
     },
     ["code-line"](element) {
         return { type: "paragraph", children: element.children.map(mdastifyNode) as PhrasingContent[] };

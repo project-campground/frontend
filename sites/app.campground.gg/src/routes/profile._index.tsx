@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 import type { Route } from "./+types/profile._index";
 import HomeSidebar from "~/routes/_home/HomeSidebar";
-import { sessionRouterContext } from "~/session";
+import { sessionRouterContext } from "~/context/session";
 
 export async function clientLoader({ context }: Route.ClientLoaderArgs) {
     const session = context.get(sessionRouterContext);

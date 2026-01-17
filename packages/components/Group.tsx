@@ -1,7 +1,8 @@
 import { Stack, styled } from "@mui/joy";
 
 const Group = styled(Stack, {
-    name: "CampgroundGroup"
+    name: "CampgroundGroup",
+    slot: "root"
 })(() => ({
     flexDirection: "row",
 }));

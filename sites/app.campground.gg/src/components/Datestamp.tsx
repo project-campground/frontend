@@ -6,6 +6,7 @@ type Props = {
     long?: boolean;
     noAgo?: boolean;
     displayDate?: boolean;
+    dateOptions?: Intl.DateTimeFormatOptions;
 };
 
 const DateTooltip = styled(Tooltip, {
@@ -15,7 +16,16 @@ const DatestampText = styled(Typography, {
     slot: "text",
 })();
 
-export default function Datestamp({ noAgo, displayDate, date, long }: Props) {
+const defaultDateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+};
+
+export default function Datestamp({ dateOptions, noAgo, displayDate, date, long }: Props) {
     const isInvalid = !date || Number.isNaN(date.getSeconds());
 
     if (isInvalid)
@@ -28,7 +38,7 @@ export default function Datestamp({ noAgo, displayDate, date, long }: Props) {
         );
 
     const time = `${ms(Date.now() - date.getTime(), { long: long ?? false })} ${noAgo ? "" : "ago"}`;
-    const dateFormat = date.toLocaleDateString("en-US");
+    const dateFormat = date.toLocaleString("en-US", dateOptions ?? defaultDateOptions);
 
     return (
         <DateTooltip title={displayDate ? time : dateFormat}>

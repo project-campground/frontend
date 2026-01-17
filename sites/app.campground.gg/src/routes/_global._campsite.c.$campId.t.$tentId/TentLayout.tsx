@@ -1,0 +1,42 @@
+import type { CampsiteViewDetailed } from "types/campsites";
+import type { TentViewDetailed } from "types/tent";
+import TentContentWrapper from "./TentContentWrapper";
+import { ComponentByTentType } from "./tents";
+import MemberSidebar from "./MemberSidebar";
+import { useState } from "react";
+import { Box, styled } from "@mui/joy";
+
+type Props = {
+    campsite: CampsiteViewDetailed;
+    campsiteId: string;
+    tent: TentViewDetailed;
+};
+
+const SidebarWrapper = styled(Box)(() => ({
+    transitionDuration: "0.3s",
+    transitionProperty: "width",
+    overflow: "hidden",
+    height: "100%",
+    minWidth: 0,
+    width: 0,
+    maxWidth: 320,
+    "&.open": {
+        width: 320,
+    },
+}));
+
+export default function TentLayout({ campsite, campsiteId, tent }: Props) {
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const Component = ComponentByTentType[tent.type];
+
+    return (
+        <>
+            <TentContentWrapper tent={tent} sidebarToggle={setSidebarOpen} sidebarOpen={sidebarOpen}>
+                <Component campsiteId={campsiteId} tent={tent} />
+            </TentContentWrapper>
+            <SidebarWrapper className={sidebarOpen ? "open" : ""}>
+                <MemberSidebar campsiteId={campsiteId} campsite={campsite!} tent={tent} />
+            </SidebarWrapper>
+        </>
+    );
+}

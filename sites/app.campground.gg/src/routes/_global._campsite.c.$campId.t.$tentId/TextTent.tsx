@@ -1,0 +1,309 @@
+import { Alert, Box, Divider, Link, Skeleton, Stack, styled, Typography } from "@mui/joy";
+import type { RestResponseError } from "api/RESTResponse";
+import React from "react";
+import type { TentMessageViewWithReplies } from "types/content";
+import type { TentViewDetailed } from "types/tent";
+import MessageEditor from "~/components/editor/MessageEditor";
+import PagePlaceholder, { PagePlaceholderIcon, textToIcon } from "~/components/PagePlaceholder";
+import TentMessage, { TentMessageSkeleton1, TentMessageSkeleton2 } from "~/components/tents/TentMessage";
+import ContentDeleteModal from "./ContentDeleteModal";
+import { IconCircleXFilled, IconExclamationCircleFilled } from "@tabler/icons-react";
+import { UserDisplayNoModal } from "~/components/UserDisplay";
+import { Group } from "components";
+import FadingBox from "~/components/FadingBox";
+import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
+
+type Props = {
+    campsiteId: string;
+    tent: TentViewDetailed;
+};
+
+type State = {
+    messages: TentMessageViewWithReplies[];
+    init: boolean;
+    loading: boolean;
+    error: RestResponseError | null;
+    isEnd: boolean;
+
+    deleteMessage: TentMessageViewWithReplies | null;
+    replyMessages: TentMessageViewWithReplies[];
+};
+
+export default class TextTent extends React.Component<Props, State, ContextSuite> {
+    static contextType?: React.Context<any> | undefined = ContextSuiteContext;
+    state: State = {
+        messages: [],
+        init: false,
+        loading: true,
+        error: null,
+        isEnd: false,
+        deleteMessage: null,
+        replyMessages: [],
+    };
+
+    async componentDidMount(): Promise<void> {
+        const { session } = this.context as ContextSuite;
+
+        if (this.state.init || !session.restClient)
+            return;
+
+        return this.fetchMessages(0)
+            .then((messages) =>
+                messages && this.setState({ messages, loading: false, isEnd: messages.length < 50, init: true })
+            );
+    }
+    
+    async fetchMessages(offset: number = 0) {
+        const { session } = this.context as ContextSuite;
+
+        const { tent } = this.props;
+
+        return session
+            .restClient!
+            .getTentMessages(tent.id, offset)
+            .then((resp) => {
+                if (!resp.ok)
+                    return this.setState({ error: resp, loading: false });
+
+                return resp.content.messages;// this.setState({ messages: resp.content.messages, isEnd: resp.content.messages.length < 50, loading: false });
+            });
+    }
+
+    async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: ContextSuite | undefined): Promise<void> {
+        if (prevProps.tent.id === this.props.tent.id)
+            return;
+
+        this.setState({ init: false, loading: true });
+
+        return this
+            .fetchMessages(0)
+            .then((messages) =>
+                messages && this.setState({ messages, isEnd: messages.length < 50, init: true, loading: false })
+            );
+    }
+
+    async onMessageCreate(content: string): Promise<unknown> {
+        const { session, floaters } = this.context as ContextSuite;
+        const replyMessages = this.state.replyMessages;
+
+        this.setState({ replyMessages: [] });
+
+        return session
+            .restClient!
+            .createTentMessage(this.props.tent.id, { content, replies: replyMessages.map((x) => x.id) })
+            .then((resp) => {
+                if (!resp.ok)
+                    return floaters.notifyError(`${resp.errorHeader ?? "Error"}: ${resp.errorDescription}`);
+                const replyingTo = replyMessages.map((x) => ({ ...x, replyingTo: x.replyingTo.map((y) => y.id), }));
+                return this.setState({ messages: [{ ...resp.content, replyingToCount: resp.content.replyingTo?.length ?? 0, replyingTo, }, ...this.state.messages] })
+            });
+    }
+
+    async onMessagesLoad() {
+        return this.fetchMessages(this.state.messages.length)
+            .then((messages) =>
+                messages && this.setState({ messages: [...this.state.messages, ...messages], isEnd: messages.length < 50 })
+        );
+    }
+
+    onMessageDeletePrompt(message: TentMessageViewWithReplies) {
+        return this.setState({ deleteMessage: message });
+    }
+
+    MessageDeleteRender() {
+        if (!this.state.deleteMessage)
+            return (
+                <Alert color="warning" variant="soft" startDecorator={<IconExclamationCircleFilled />}>Could not render message.</Alert>
+            );
+
+        return (
+            <TentMessage
+                hideToolbar
+                message={this.state.deleteMessage}
+                promptDelete={() => null}
+                addReply={() => null}
+            />
+        );
+    }
+
+    async onMessageDelete() {
+        const messageDeleted = this.state.deleteMessage!;
+
+        return (this.context as ContextSuite).session.restClient
+            ?.deleteTentMessage(this.props.tent.id, messageDeleted.id)
+            .then((resp) => {
+                if (!resp.ok)
+                    return this.setState({ deleteMessage: null });
+
+                return this.setState({ deleteMessage: null, messages: this.state.messages.filter((x) => x.id !== messageDeleted.id) })
+            })
+            ?? this.setState({ deleteMessage: null });
+    }
+
+    addMessageReply(message: TentMessageViewWithReplies) {
+        if (this.state.replyMessages.length >= 5)
+            return;
+        else if (this.state.replyMessages.includes(message))
+            return this.setState({ replyMessages: this.state.replyMessages.filter((x) => x !== message) });
+        
+        return this.setState({ replyMessages: [...this.state.replyMessages, message] });
+    }
+    
+    removeMessageReply(message: TentMessageViewWithReplies) {
+        return this.setState({ replyMessages: this.state.replyMessages.filter((x) => x !== message) });
+    }
+
+    render(): React.ReactNode {
+        console.log(this);
+        if (this.state.loading)
+            return (
+                <Stack sx={{ height: "100%", overflow: "hidden" }}>
+                    <Box flex={1} sx={{ overflow: "hidden" }}>
+                        <MessageLimitStack sx={{ overflow: "hidden" }}>
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                        </MessageLimitStack>
+                    </Box>
+                    <MessageInputSkeleton />
+                </Stack>
+            );
+
+        const { tent } = this.props;
+
+        return (
+            <Stack sx={{ height: "100%", overflow: "hidden" }}>
+                <Box flex={1} sx={{ overflow: "hidden" }}>
+                    <MessageList
+                        isEnd={this.state.isEnd}
+                        messages={this.state.messages}
+                        onMessagesLoad={this.onMessagesLoad.bind(this)}
+                        promptMessageDelete={this.onMessageDeletePrompt.bind(this)}
+                        addReply={this.addMessageReply.bind(this)}
+                    />
+                </Box>
+                <MessageInputWrapper
+                    tentName={tent.name}
+                    onCreate={this.onMessageCreate.bind(this)}
+                    removeReply={this.removeMessageReply.bind(this)}
+                    replyMessages={this.state.replyMessages}
+                />
+                <ContentDeleteModal
+                    title="message"
+                    open={Boolean(this.state.deleteMessage)}
+                    ContentRender={this.MessageDeleteRender.bind(this)}
+                    onConfirm={this.onMessageDelete.bind(this)}
+                    onClose={() => this.setState({ deleteMessage: null })}
+                />
+            </Stack>
+        );
+    }
+}
+
+const MessageLimitStack = styled(Stack)(() => ({
+    flexDirection: "column-reverse",
+    overflow: "auto",
+    height: "100%",
+    paddingBottom: 8,
+}));
+
+type MessageListProps = {
+    isEnd: boolean;
+    messages: TentMessageViewWithReplies[];
+    onMessagesLoad: () => unknown;
+    promptMessageDelete: (message: TentMessageViewWithReplies) => unknown;
+    addReply: (message: TentMessageViewWithReplies) => unknown;
+};
+
+function MessageList({ messages, isEnd, onMessagesLoad, promptMessageDelete, addReply }: MessageListProps) {
+    const onScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+        const target = e.target as HTMLDivElement;
+
+        if (-target.scrollTop < (target.scrollHeight - target.offsetHeight - 80))
+            return;
+
+        return onMessagesLoad();
+    };
+
+    return (
+        <MessageLimitStack onScroll={isEnd ? undefined : onScroll}>
+            {/* To make You've reached the end always at the top */}
+            <Box flex={1}></Box>
+            {messages.map((m) =>
+                <TentMessage
+                    key={m.id}
+                    message={m}
+                    promptDelete={promptMessageDelete}
+                    addReply={addReply}
+                />
+            )}
+            {isEnd ?
+                <Stack gap={4} pt={4} pb={2} sx={{ position: "relative" }}>
+                    <FadingBox sx={{ zIndex: 1, position: "absolute", left: 0, right: 0, bottom: 40, opacity: 0.15 }}>
+                        <Group px={4}>
+                            <Typography level="title-lg" fontSize={64} sx={{ transform: "rotate(-10deg)" }}>
+                                {textToIcon[PagePlaceholderIcon.NotOk]}
+                            </Typography>
+                            <Box flex={1}></Box>
+                            <Typography level="title-lg" fontSize={64} sx={{ transform: "rotate(10deg)" }}>
+                                {textToIcon[PagePlaceholderIcon.Appreciation]}
+                            </Typography>
+                        </Group>
+                    </FadingBox>
+                    <PagePlaceholder sx={{ zIndex: 2 }} icon={PagePlaceholderIcon.NoMore} title="You've reached the end">
+                        This is the beginning of this tent. There are no more messages in this tent.
+                    </PagePlaceholder>
+                    <Divider sx={{ zIndex: 2 }} orientation="horizontal" />
+                </Stack>
+            : <FadingBox className="reverse">
+                <TentMessageSkeleton1 />
+                <TentMessageSkeleton2 />
+            </FadingBox>}
+        </MessageLimitStack>
+    );
+}
+
+function MessageInputWrapper({ tentName, replyMessages, onCreate, removeReply }: { tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, onCreate: (content: string) => Promise<unknown> }) {
+    return (
+        <Stack sx={{ px: 2, pb: 2 }} gap={1}>
+            {!!replyMessages.length && <Group gap={1} alignItems="center">
+                <Typography level="body-md" textColor="text.tertiary">Replying to </Typography>
+                {replyMessages.map((x, i) =>
+                    <Link color="neutral" alignItems="center" component="button" onClick={() => removeReply(x)}>
+                        <Group gap={0.5} alignItems="center">
+                            <UserDisplayNoModal
+                                key={`reply-${i}`}
+                                size="sm"
+                                user={x.createdBy}
+                                />
+                            <IconCircleXFilled size={16} />
+                        </Group>
+                    </Link>
+                )}
+            </Group>}
+            <Box sx={{ maxHeight: 200 }}>
+                <MessageEditor placeholder={`Message #${tentName}`} onConfirm={onCreate} />
+            </Box>
+        </Stack>
+    );
+}
+
+function MessageInputSkeleton() {
+    return (
+        <Stack sx={{ height: 80, px: 2, }}>
+            <Skeleton width="100%" height={52} />
+        </Stack>
+    );
+}

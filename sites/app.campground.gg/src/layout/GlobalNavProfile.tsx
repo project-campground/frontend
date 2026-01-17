@@ -1,36 +1,34 @@
 import { Dropdown, IconButton, Menu, MenuButton } from "@mui/joy";
+import { IconLogin } from "@tabler/icons-react";
+import { PrimaryButton } from "components";
+import { useNavigate } from "react-router";
 import UserAvatar from "~/components/UserAvatar";
 import UserProfileCard from "~/components/UserProfileCard";
-import type { Session, SessionAuthUser } from "~/session/types";
+import { useMeContext } from "~/context/session";
 
-type Props = {
-    session: Session;
-    sessionUser: SessionAuthUser;
-};
+export default function GlobalNavProfile() {
+    const me = useMeContext();
+    const navigate = useNavigate();
 
-export default function GlobalNavProfile({ sessionUser }: Props) {
     return (
         <Dropdown>
             <MenuButton slots={{
-                root: IconButton
+                root: me ? IconButton : PrimaryButton
+            }} slotProps={{
+                root: me ? {} : { startDecorator: <IconLogin />, onClick: () => navigate("/login") }
             }}>
-                <UserAvatar did={sessionUser.did} size="lg" />
+                {me
+                ? <UserAvatar withStatus did={me.profile.did} size="lg" avatar={me.profile.avatar} />
+                // : <Avatar size="lg" color="neutral" variant="solid" sx={{ borderRadius: "lg", width: 48, height: 48 }}>
+                //     <IconLogin />
+                // </Avatar>}
+                : "Login"}
             </MenuButton>
             <Menu placement="bottom" variant="soft">
-                <UserProfileCard self
-                    did={sessionUser.did}
-                    // user={{
-                    //     did: sessionUser.did,
-                    //     handle: sessionUser.handle,
-                    //     displayName: sessionUser.handle,
-                    //     description: "Example description",
-                    //     tagline: "Example tagline",
-                    //     location: null,
-                    //     avatar: null,
-                    //     banner: null,
-                    //     createdAt: new Date().toDateString(),
-                    // }}
-                />
+                {me && <UserProfileCard
+                    did={me.profile.did}
+                    user={me.profile}
+                />}
             </Menu>
         </Dropdown>
     );

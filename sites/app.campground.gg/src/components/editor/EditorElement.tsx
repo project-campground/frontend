@@ -6,7 +6,7 @@ import CodeBlockEditorHeader from "./CodeBlockEditorHeader";
 import { CodeEditorContextProvider, useCodeEditorContext } from "./codeEditorContext";
 import Link from "../Link";
 import { TableAlignContextProvider, TableHeadContextProvider, useTableAlignContext, useTableHeadContext } from "./tableHeadContext";
-import type { EditorTable } from "~/editor/element";
+import type { EditorOrderedList, EditorTable } from "~/editor/element";
 import Divider from "../markdown/Divider";
 
 const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
@@ -75,9 +75,10 @@ const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (
             </ul>
         );
     },
-    ["ordered-list"]({ attributes, children }) {
+    ["ordered-list"]({ element, attributes, children }) {
+        const ordered = element as EditorOrderedList;
         return (
-            <ol {...attributes}>
+            <ol start={ordered.start ?? 1} {...attributes}>
                 {children}
             </ol>
         );

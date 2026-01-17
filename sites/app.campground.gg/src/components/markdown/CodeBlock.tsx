@@ -289,9 +289,7 @@ export default class CodeBlock extends React.Component<Props> {
                     <IconCopy />
                 </IconButton>
                 {
-                    noLanguage || !description
-                    ? null
-                    : <CodeHeader>
+                    (!noLanguage || description) && <CodeHeader>
                         {!noLanguage && <Stack flex={1}>
                             <CodeLanguage>{overrideLanguageDisplayName?.substring(0, 64) ?? languageDisplayName}</CodeLanguage>
                         </Stack>}

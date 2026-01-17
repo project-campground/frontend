@@ -1,21 +1,26 @@
-import { AspectRatio, Box, CircularProgress, ListItemContent, ListItemDecorator, MenuItem, MenuList, Sheet, Stack, Typography } from "@mui/joy";
+import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Sheet, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
-import type { User } from "types/user";
-import UserAvatar from "./UserAvatar";
-import { IconSettings2, IconShield, IconUser, IconUserPlus } from "@tabler/icons-react";
-import UnstyledLink from "./UnstyledLink";
-import { useSession } from "~/session";
+import type { ProfileView } from "types/user";
+import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
+import { IconLogout2, IconSettings2, IconShield, IconUser, IconUserPlus } from "@tabler/icons-react";
+import { useSession } from "~/context/session";
+import { useNavigate } from "react-router";
 
 type Props = {
-    user?: User;
+    user?: ProfileView;
     did: string;
-    self?: boolean;
 };
 
-export default function UserProfileCard({ did, user, self }: Props) {
+const UserProfileCardWrapper = styled(Box)(() => ({
+    width: 300,
+    padding: `0 8px`,
+}));
+
+export default function UserProfileCard({ did, user }: Props) {
     const session = useSession();
     const [fetchedUser, setFetchedUser] = useState(user);
     const [isFetching, setIsFetching] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchUser() {
@@ -28,64 +33,96 @@ export default function UserProfileCard({ did, user, self }: Props) {
         }
     });
     
-    if (!fetchedUser)
-        return (
-            <Stack direction="column" alignItems="center" sx={{ width: 300, px: 1, py: 4 }}>
-                <CircularProgress />
-            </Stack>
-        );
+    // if (!fetchedUser)
+    //     return (
+    //         <Stack direction="column" alignItems="center" sx={{ width: 300, px: 1, py: 4 }}>
+    //             <CircularProgress />
+    //         </Stack>
+    //     );
+    const isLoading = !fetchedUser;
 
     return (
-        <Box sx={{ width: 300, px: 1 }}>
+        <UserProfileCardWrapper>
             <Box>
-                <AspectRatio ratio={3} sx={(theme) => ({ borderRadius: theme.vars.radius.lg })}>
-                    <Sheet color="primary" variant="solid" sx={{ width: "100%", height: "100%", }}>
+                <AspectRatio ratio={3} sx={{ borderRadius: "lg" }}>
+                    {isLoading
+                    ? <Skeleton loading sx={{ zIndex: 0 }}>
+                    </Skeleton>
+                    : <Sheet color="primary" variant="solid" sx={{ width: "100%", height: "100%", }}>
 
-                    </Sheet>
+                    </Sheet>}
                 </AspectRatio>
             </Box>
-            <Box sx={{ mt: -6, px: 1.5 }}>
-                <UserAvatar did={fetchedUser.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.tooltip}` })} />
+            <Box sx={{ mt: -6, px: 1.5, zIndex: 2 }}>
+                {isLoading
+                ? <UserAvatarSkeleton withStatus size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level2}` })} />
+                : <UserAvatar withStatus did={fetchedUser!.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level2}` })} />}
             </Box>
             <Box sx={{ px: 1.5, py: 1 }}>
                 <Stack>
                     <Typography level="title-lg" fontWeight={900}>
-                        {fetchedUser.displayName}
+                        <Skeleton loading={isLoading}>
+                            {fetchedUser?.displayName ?? "Loading User"}
+                        </Skeleton>
                     </Typography>
                     <Typography level="body-md" textColor="text.tertiary">
-                        @{fetchedUser.handle.replace("at://", "")}
+                        <Skeleton loading={isLoading}>
+                            @{fetchedUser?.handle.replace("at://", "") ?? "loading_user"}
+                        </Skeleton>
                     </Typography>
                 </Stack>
                 <Stack mt={1}>
                     <Typography level="body-sm" textColor="text.tertiary">
-                        0 mutual friends {"\u2022"} 0 mutual camps
+                        <Skeleton loading={isLoading}>
+                            0 mutual friends {"\u2022"} 0 mutual camps
+                        </Skeleton>
                     </Typography>
                 </Stack>
                 <Stack mt={1}>
                     <Typography level="body-lg" textColor="text.secondary">
-                        {fetchedUser.tagline}
+                        <Skeleton loading={isLoading}>
+                            {isLoading ? "Loading tagline" : fetchedUser?.tagline}
+                        </Skeleton>
                     </Typography>
                 </Stack>
             </Box>
             <MenuList variant="plain">
-                <UnstyledLink to={`/profile/${fetchedUser.did}`}>
-                    <MenuItem sx={{ textDecoration: "none" }} variant="plain" href={`/profile/${fetchedUser.did}`}>
-                        <ListItemDecorator>
-                            <IconUser />
-                        </ListItemDecorator>
-                        <ListItemContent>
-                            View profile
-                        </ListItemContent>
-                    </MenuItem>
-                </UnstyledLink>
-                {self
+                <MenuItem variant="plain" onClick={() => navigate(`/profile/${did}`)}>
+                    <ListItemDecorator>
+                        <IconUser />
+                    </ListItemDecorator>
+                    <ListItemContent>
+                        <Typography textColor="inherit">
+                            <Skeleton loading={isLoading}>
+                                View profile
+                            </Skeleton>
+                        </Typography>
+                    </ListItemContent>
+                </MenuItem>
+                {session.auth.authenticated && session.auth.user.did === did
                     ? <>
                         <MenuItem variant="plain">
                             <ListItemDecorator>
                                 <IconSettings2 />
                             </ListItemDecorator>
                             <ListItemContent>
-                                Settings
+                                <Typography textColor="inherit">
+                                    <Skeleton loading={isLoading}>
+                                        Settings
+                                    </Skeleton>
+                                </Typography>
+                            </ListItemContent>
+                        </MenuItem>
+                        <MenuItem variant="plain" color="danger" onClick={() => session.logout()}>
+                            <ListItemDecorator>
+                                <IconLogout2 />
+                            </ListItemDecorator>
+                            <ListItemContent>
+                                <Typography textColor="inherit">
+                                    <Skeleton loading={isLoading}>
+                                        Logout
+                                    </Skeleton>
+                                </Typography>
                             </ListItemContent>
                         </MenuItem>
                     </>
@@ -95,7 +132,11 @@ export default function UserProfileCard({ did, user, self }: Props) {
                                 <IconUserPlus />
                             </ListItemDecorator>
                             <ListItemContent>
-                                Add friend
+                                <Typography textColor="inherit">
+                                    <Skeleton loading={isLoading}>
+                                        Add friend
+                                    </Skeleton>
+                                </Typography>
                             </ListItemContent>
                         </MenuItem>
                         <MenuItem variant="plain" color="danger">
@@ -103,11 +144,15 @@ export default function UserProfileCard({ did, user, self }: Props) {
                                 <IconShield />
                             </ListItemDecorator>
                             <ListItemContent>
-                                Block
+                                <Typography textColor="inherit">
+                                    <Skeleton loading={isLoading}>
+                                        Block
+                                    </Skeleton>
+                                </Typography>
                             </ListItemContent>
                         </MenuItem>
                     </>}
             </MenuList>
-        </Box>
+        </UserProfileCardWrapper>
     );
 }

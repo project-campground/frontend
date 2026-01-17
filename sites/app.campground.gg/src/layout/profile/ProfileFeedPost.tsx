@@ -1,13 +1,13 @@
 import { Alert, Box } from "@mui/joy";
 import { useState } from "react";
 import { IconTrashFilled } from "@tabler/icons-react";
-import type { EitherUserPost, UserPostParented } from "types/user";
-import ProfilePost, { appearAnimation } from "./ProfilePost";
+import type { EitherProfilePostView, ProfilePostViewParented } from "types/user";
+import ProfilePost, { appearAnimation, ProfilePostSkeleton } from "./ProfilePost";
 import { ThreadLineItem, ThreadLineWrapper } from "~/components/ThreadLine";
 
 type Props = {
     appear?: boolean;
-    post: UserPostParented;
+    post: ProfilePostViewParented;
     isOwnPost?: boolean;
     onPostDelete: (uri: string) => void | Promise<any>;
     onPostUpdate: (uri: string, content: string) => void | Promise<any>;
@@ -15,7 +15,7 @@ type Props = {
 
 export default function ProfileFeedPost(props: Props) {
     const { appear, isOwnPost } = props;
-    const { parent, parentUri } = props.post as EitherUserPost;
+    const { parent, parentUri } = props.post as EitherProfilePostView;
     const [parentPost, setParentPost] = useState(parent);
 
     if (parentUri)
@@ -47,6 +47,21 @@ export default function ProfileFeedPost(props: Props) {
     return (
         <Box sx={{ animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, }}>
             <ProfilePost onPostUpdate={props.onPostUpdate} onPostDelete={props.onPostDelete} showComments post={props.post} isOwnPost={isOwnPost} />   
+        </Box>
+    );
+}
+
+export function ProfileFeedPostReplySkeleton() {
+    return (
+        <Box>
+            <ThreadLineWrapper >
+                <ProfilePostSkeleton />
+                <ThreadLineItem>
+                    <ProfilePostSkeleton
+                        mt={0.5}
+                    />
+                </ThreadLineItem>
+            </ThreadLineWrapper>
         </Box>
     );
 }

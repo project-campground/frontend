@@ -10,7 +10,7 @@ const OverflowButtonWrapper = styled(CardOverflow, {
     zIndex: 10,
     transition: "opacity 0.5s",
     opacity: 0,
-    ".MuiCard-root:hover &": {
+    ".MuiCard-root:hover &, .CampgroundOverflow-parent:hover &": {
         opacity: 1,
     }
 }));

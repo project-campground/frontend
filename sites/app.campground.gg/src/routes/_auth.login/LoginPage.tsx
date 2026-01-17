@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import Form from "../../components/form/Form";
 import { Alert, Link } from "@mui/joy";
-import { useSession } from "~/session";
+import { useSession } from "~/context/session";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 
 export default function LoginPage() {

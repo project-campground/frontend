@@ -1,9 +1,13 @@
 import { defaultXrpcPrefix, defaultAppApiUrl, defaultBackendDomain } from "api.config";
 import type { RestResponseError, RestResponseOkWithContent, RestResponseWithContent } from "./RESTResponse";
-import type { User, UserPostBasic, UserPostDetailed, UserPostParented } from "types/user";
+import type { ProfileView, ProfilePostViewBasic, ProfilePostViewDetailed, ProfilePostViewParented } from "types/user";
 import type { RESTRefreshLogin } from "./RESTErrorHandler";
-import type { SessionAuthRefresh } from "~/session/types";
+import type { SessionAuthRefresh } from "~/context/session/types";
 import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
+import type { Me } from "types/me";
+import type { BonfireViewDetailed, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersOutput } from "types/campsites";
+import type { GetTentsOutput, TentViewDetailed } from "types/tent";
+import type { GetTentMessagesOutput, TentMessageViewBasic } from "types/content";
 
 type HTTPMethod = "GET" | "OPTION" | "PUT" | "POST" | "PATCH" | "DELETE";
 
@@ -13,26 +17,28 @@ export interface RequestPrefixed {
 }
 export interface RESTClientConfig extends RequestPrefixed {
     atprotoProxy: string;
-    auth: string;
-    refreshAuth: string;
-    userDid: string;
+    auth?: string;
+    refreshAuth?: string;
+    userDid?: string;
 };
+
+type QueryType = string | number | boolean | undefined | null;
 
 export interface RequestConfig {
     method: HTTPMethod;
     route: string;
     body?: any;
     request?: RequestInit;
-    queries?: Record<string, string>;
+    queries?: Record<string, QueryType | QueryType[]>;
 }
 
 export default class RESTClient {
     private static _default: RESTClientConfig = {
         url: defaultAppApiUrl,
         routePrefix: defaultXrpcPrefix,
-        auth: `...`,
-        refreshAuth: `...`,
-        userDid: `...`,
+        // auth: `...`,
+        // refreshAuth: `...`,
+        // userDid: `...`,
         atprotoProxy: `did:web:${defaultBackendDomain.replace(":", "%3A")}#campground_appview`
     };
 
@@ -73,10 +79,26 @@ export default class RESTClient {
             });
     }
 
+    private static convertValueToArray([key, value]: [string, any]) {
+        return Array.isArray(value)
+            ? value.filter((y) => typeof y !== "undefined" && y !== null).map((y) => [key, y.toString()])
+            : [[key, value.toString()]];
+    }
+
+    public static convertObjectToQuery(value: Record<string, any>): URLSearchParams {
+        const newValue = (
+            Object
+                .entries(value)
+                .filter(([_, key]) => typeof key !== "undefined" && key !== null)
+                .flatMap(this.convertValueToArray)
+        );
+        return new URLSearchParams(newValue);
+    }
+
     public static atprotoFetch<T = any | null>(config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit; }): Promise<RestResponseWithContent<T>> {
         const { url, queries, routePrefix, route, method, body, request, headers } = { ...this._default, ...config };
 
-        const queriesString = queries ? `?${new URLSearchParams(queries)}` : ``;
+        const queriesString = queries ? `?${this.convertObjectToQuery(queries)}` : ``;
 
         const resolvedUrl = `${url}${routePrefix}${route}${queriesString}`;
 
@@ -101,21 +123,24 @@ export default class RESTClient {
     }
     
     fetch<T>({ method, body, queries, route, request }: RequestConfig) {
-        const doFetch = (auth: string) => RESTClient.atprotoFetch<T>({
+        const doFetch = (auth: string | undefined) => RESTClient.atprotoFetch<T>({
             url: this._config.url,
             routePrefix: this._config.routePrefix,            
             body,
             queries,
             route,
             ...request,
-
+            
             method,
-            headers: {
-                "Authorization": `Bearer ${auth}`,
+            headers:{
                 "atproto-proxy": this._config.atprotoProxy,
                 ...request?.headers,
+                ...(this._config.auth ? { "Authorization": `Bearer ${auth}` } : {})
             },
         });
+
+        if (!this._config.auth)
+            return doFetch(undefined);
 
         return doFetch(this._config.auth)
             .then((resp) => {
@@ -159,8 +184,14 @@ export default class RESTClient {
         return this.fetch<T>({ method: "OPTION", ...config });
     }
 
+    getMe() {
+        return this.get<Me>({
+            route: `gg.campground.actor.getMe`,
+        });
+    }
+
     fetchProfile(actor: string) {
-        return this.get<User>({
+        return this.get<ProfileView>({
             route: `gg.campground.actor.getProfile`,
             queries: {
                 actor,
@@ -168,20 +199,20 @@ export default class RESTClient {
         });
     }
 
-    fetchPosts(actor: string, replies: boolean = false, offset: number = 0) {
-        return this.get<{ posts: UserPostParented[] }>({
+    fetchPosts(actor: string, replies: boolean = false, offset: number = 0, limit: number = 50) {
+        return this.get<{ posts: ProfilePostViewParented[] }>({
             route: `gg.campground.profile.getPosts`,
             queries: {
                 actor: actor,
-                limit: "50",
-                offset: offset.toString(),
-                replies: replies.toString()
+                limit,
+                offset,
+                replies,
             },
         });
     }
 
     fetchPostReplies(actor: string, post_tid: string, offset: number = 0) {
-        return this.get<{ posts: UserPostBasic[] }>({
+        return this.get<{ posts: ProfilePostViewBasic[] }>({
             route: `gg.campground.profile.getReplies`,
             queries: {
                 uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
@@ -192,7 +223,7 @@ export default class RESTClient {
     }
 
     fetchPost(actor: string, post_tid: string) {
-        return this.get<UserPostDetailed>({
+        return this.get<ProfilePostViewDetailed>({
             route: `gg.campground.profile.getPost`,
             queries: {
                 uri: `at://${actor}/gg.campground.profile.post/${post_tid}`,
@@ -201,7 +232,7 @@ export default class RESTClient {
     }
 
     unindexPost(uri: string) {
-        return this.post<UserPostDetailed>({
+        return this.post<ProfilePostViewDetailed>({
             route: `gg.campground.profile.unindexPost`,
             queries: {
                 uri,
@@ -210,6 +241,9 @@ export default class RESTClient {
     }
 
     createPost(record: { parentUri?: string | undefined; content: string; tags: string[]; createdAt: string; updatedAt: string; }) {
+        if (!this._config.userDid)
+            throw new Error("Operation not allowed while unauthenticated");
+        
         return this.putRecord({
             repo: this._config.userDid,
             collection: "gg.campground.profile.post",
@@ -220,8 +254,11 @@ export default class RESTClient {
             },
         });
     }
-
+    
     updatePost(uri: string, record: { content?: string; tags?: string[]; }) {
+        if (!this._config.userDid)
+            throw new Error("Operation not allowed while unauthenticated");
+        
         return this.putRecord({
             repo: this._config.userDid,
             collection: "gg.campground.profile.post",
@@ -233,8 +270,11 @@ export default class RESTClient {
             },
         });
     }
-
+    
     deletePost(uri: string) {
+        if (!this._config.userDid)
+            throw new Error("Operation not allowed while unauthenticated");
+
         return this.deleteRecord({
             repo: this._config.userDid,
             collection: "gg.campground.profile.post",
@@ -245,5 +285,117 @@ export default class RESTClient {
                 this.unindexPost(uri)
                     .then(() => a)
             );
+    }
+
+    getCampsite(id: string) {
+        return this.get<CampsiteViewDetailed>({
+            route: "gg.campground.campsite.getCampsite",
+            queries: { id },
+        });
+    }
+
+    createCampsite(body: { name: string; description: string; tags: string[]; vanityUrl?: string | null; }) {
+        return this.post<CreateCampsiteOutput>({
+            route: "gg.campground.campsite.createCampsite",
+            body,
+        });
+    }
+    
+    getBonfire(campsiteId: string, id: string) {
+        return this.get<BonfireViewDetailed>({
+            route: "gg.campground.campsite.getBonfire",
+            queries: { campsite_id: campsiteId, id },
+        });
+    }
+
+    createBonfire(campsite_id: string, body: { name: string, description: string; priority: number; }) {
+        return this.post<BonfireViewDetailed>({
+            route: "gg.campground.campsite.createBonfire",
+            queries: { campsite_id },
+            body,
+        });
+    }
+
+    getMembers(campsiteId: string, offsetOrIds: string[] | number) {
+        return this.get<GetMembersOutput>({
+            route: "gg.campground.campsite.getMembers",
+            queries: {
+                campsite_id: campsiteId,
+                offset: typeof offsetOrIds === "number"
+                    ? offsetOrIds.toString()
+                    : null,
+                actors: Array.isArray(offsetOrIds)
+                    ? offsetOrIds
+                    : null
+            },
+        });
+    }
+
+    getTents(campsiteId: string, bonfireId: string) {
+        return this.get<GetTentsOutput>({
+            route: "gg.campground.tent.getTents",
+            queries: { campsite_id: campsiteId, bonfire_id: bonfireId },
+        });
+    }
+    
+    getTent(id: string) {
+        return this.get<TentViewDetailed>({
+            route: "gg.campground.tent.getTent",
+            queries: { id },
+        });
+    }
+    
+    createTent(campsite_id: string, bonfire_id: string, body: { type: number, name: string, description: string; priority: number; }) {
+        return this.post<TentViewDetailed>({
+            route: "gg.campground.tent.createTent",
+            queries: { campsite_id, bonfire_id },
+            body: { viewType: 0, ...body },
+        });
+    }
+    
+
+    deleteTent(tentId: string) {
+        return this.post<TentMessageViewBasic>({
+            route: "gg.campground.tent.deleteTent",
+            queries: { id: tentId },
+        });
+    }
+
+    createCategory(campsite_id: string, bonfire_id: string, body: { name: string, description: string; priority: number; }) {
+        return this.post<TentViewDetailed>({
+            route: "gg.campground.tent.createCategory",
+            queries: { campsite_id, bonfire_id },
+            body,
+        });
+    }
+
+    getTentMessages(tentId: string, offset: number = 0, limit: number = 50) {
+        return this.get<GetTentMessagesOutput>({
+            route: "gg.campground.tent.getMessages",
+            queries: { tent_id: tentId, offset, limit },
+        });
+    }
+
+    createTentMessage(tentId: string, body: { content: string; replies?: string[]; }) {
+        return this.post<TentMessageViewBasic>({
+            route: "gg.campground.tent.createMessage",
+            queries: { tent_id: tentId, },
+            body,
+        });
+    }
+
+    updateTentMessage(tentId: string, messageId: string, body: { content: string; }) {
+        return this.post<TentMessageViewBasic>({
+            route: "gg.campground.tent.updateMessage",
+            queries: { tent_id: tentId, id: messageId },
+            body,
+        });
+    }
+
+    deleteTentMessage(tentId: string, messageId: string) {
+        return this.post<TentMessageViewBasic>({
+            route: "gg.campground.tent.deleteMessage",
+            queries: { tent_id: tentId, id: messageId },
+        });
     }
 }

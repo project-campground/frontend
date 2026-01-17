@@ -1,14 +1,14 @@
 import { Card, CardContent, Link, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
-import type { User } from "types/user";
+import type { ProfileView } from "types/user";
 import UserAvatar from "../../components/UserAvatar";
 import { Group } from "components";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";
 import { IconPencil } from "@tabler/icons-react";
 
 type Props = {
-    user: User;
+    user: ProfileView;
     content?: string;
     placeholder?: string;
     sx?: SxProps;
@@ -24,10 +24,10 @@ export default function ProfilePostCreator({ user, placeholder, onPost, sx }: Pr
             <CardContent>
                 {open
                     ? <Group gap={1.5} alignItems="center">
-                        <UserAvatar did={user.did} avatar={user.avatar} size="lg" />
+                        <UserAvatar withStatus did={user.did} avatar={user.avatar} size="lg" />
                         <BasicPostEditor onConfirm={(content) => (setOpen(false), onPost(content))} onCancel={() => setOpen(false)} sx={{ flex: 1 }} placeholder={finalPlaceholder} />
                     </Group>
-                    : <Link overlay underline="none" component="button" level="body-md" onClick={() => setOpen(!open)} gap={1.5} color="neutral" startDecorator={<UserAvatar did={user.did} avatar={user.avatar} size="lg" />}>
+                    : <Link overlay underline="none" component="button" level="body-md" onClick={() => setOpen(!open)} gap={1.5} color="neutral" startDecorator={<UserAvatar withStatus did={user.did} avatar={user.avatar} size="lg" />}>
                         <Typography level="title-lg" startDecorator={<IconPencil />}>
                             {finalPlaceholder}
                         </Typography>

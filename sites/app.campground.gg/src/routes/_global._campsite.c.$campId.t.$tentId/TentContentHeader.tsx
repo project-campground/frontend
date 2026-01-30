@@ -1,25 +1,32 @@
-import { Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Typography } from "@mui/joy";
-import { IconDots, IconLayoutSidebar, IconLayoutSidebarFilled, IconSettings2, IconTrashFilled } from "@tabler/icons-react";
+import { Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Typography } from "@mui/joy";
+import { IconDots, IconLayoutSidebar, IconLayoutSidebarFilled, IconTrashFilled } from "@tabler/icons-react";
 import { Group } from "components";
 import type { TentViewDetailed } from "types/tent";
 import TentIcon from "~/components/tents/TentIcon";
 import ContentDeleteModal from "./ContentDeleteModal";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import TentItem from "../_global._campsite/TentItem";
+import { CampsitePermissionConsts } from "~/util/permissions";
+import { CampsiteContext, PermissionsContext } from "../_global._campsite/context";
+import { SnackbarContext } from "~/context/snackbar";
 
 export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: { sidebarOpen: boolean; sidebarToggle: (value: boolean) => unknown; tent: TentViewDetailed }) {
     const session = useSession();
     const navigate = useNavigate();
     const [deleteOpen, setDeleteOpen] = useState(false);
+    const campsite = useContext(CampsiteContext);
+    const permissions = useContext(PermissionsContext);
+    const floating = useContext(SnackbarContext);
+    const canManageTent = Boolean(permissions.campsitePermissions & CampsitePermissionConsts.MANAGE_TENTS);
 
     const onDelete = () => session
         .restClient
         ?.deleteTent(tent.id)
         .then((resp) => {
             if (!resp.ok)
-                return;
+                return floating.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`);
 
             setDeleteOpen(false);
             return navigate(`/c/${tent.campsiteId}`);
@@ -37,7 +44,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
                 {/* <IconButton size="sm">
                     <IconPinFilled />
                 </IconButton> */}
-                <Dropdown>
+                {(canManageTent || campsite.owner === campsite.member.userId) && tent.id !== "bulletin" && <Dropdown>
                     <MenuButton slots={{ root: IconButton }} size="sm">
                         <IconDots />
                     </MenuButton>
@@ -59,7 +66,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
                             </ListItemContent>
                         </MenuItem>
                     </Menu>
-                </Dropdown>
+                </Dropdown>}
                 <ContentDeleteModal
                     title="tent"
                     open={deleteOpen}

@@ -1,4 +1,4 @@
-import { Alert, Button, List, Modal, Stack, styled, Typography } from "@mui/joy";
+import { Alert, Button, Divider, List, Modal, Stack, styled, Typography } from "@mui/joy";
 import { IconInfoCircleFilled, IconTent } from "@tabler/icons-react";
 import React from "react";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/tent";
@@ -68,12 +68,19 @@ export default class TentList extends React.Component<Props, State, Session> {
         this.setState({ createModalOpen: true, modalCategoryId: categoryId });
     }
     render() {
-        const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected } } = this;
+        const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected, campsiteId } } = this;
         const onModalClose = this.onModalClose.bind(this);
 
         return (
             <>
                 <Stack gap={2}>
+                    <TentCategorizedList
+                        tentSelected={tentSelected}
+                        tents={[
+                            { id: "bulletin", campsiteId, name: "Bulletin Board", type: "bulletin" }
+                        ] as unknown[] as TentViewBasic[]}
+                    />
+                    <Divider />
                     {tentsUncategorized.length
                         ? <TentCategorizedList tents={tentsUncategorized} tentSelected={tentSelected} />
                         : null

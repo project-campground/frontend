@@ -16,6 +16,7 @@ import { BrandLogo, FlexCenter, SvgDefs, theme } from "components";
 import { SessionProvider } from "./context/session";
 import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";
+import { DndContext } from "@dnd-kit/core";
 
 export const links: Route.LinksFunction = () => [
     // {
@@ -44,9 +45,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
                                     <IntlProvider>
                                         <SnackbarContextProvider>
                                             <ContextSuiteProvider>
-                                                <Box id="root">
-                                                    {children}
-                                                </Box>
+                                                <DndContext>
+                                                    <Box id="root">
+                                                        {children}
+                                                    </Box>
+                                                </DndContext>
                                             </ContextSuiteProvider>
                                         </SnackbarContextProvider>
                                     </IntlProvider>

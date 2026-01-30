@@ -40,6 +40,8 @@ declare module "@mui/joy/styles/types/colorSystem" {
     interface Palette {
         secondary: PaletteRange;
         info: PaletteRange;
+        debug: PaletteRange;
+        note: PaletteRange;
     }
     interface ColorPalettePropOverrides {
         secondary: true;

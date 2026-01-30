@@ -8,13 +8,14 @@ import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import type { CampsiteMemberViewBasic, CampsiteViewDetailed } from "types/campsites";
 import MemberList from "./MemberList";
+import { CampsiteContext } from "../_global._campsite/context";
 
 type Props = {
     campsiteId: string;
     campsite: CampsiteViewDetailed;
     tent: TentViewDetailed;
     closed?: boolean;
-};
+} & React.PropsWithChildren;
 type State = {
     loading: boolean;
     init: boolean;
@@ -24,19 +25,24 @@ type State = {
     members: CampsiteMemberViewBasic[];
 };
 
-const SidebarBox = styled(Stack, {
+export const RightSidebarBox = styled(Stack, {
     name: "CampsiteSidebar",
-    slot: "root",
-})(({ theme }) => ({
-    backgroundColor: theme.vars.palette.background.level1,
+    slot: "wrapper",
+})(() => ({
     width: 320,
-    borderRadius: theme.vars.radius.xl,
     height: "100%",
-    padding: 5,
     transition: "width 0.3s",
     ".closed": {
         width: 0,
     },
+}));
+export const RightSidebarList = styled(Stack, {
+    name: "CampsiteSidebar",
+    slot: "root",
+})(({ theme }) => ({
+    backgroundColor: theme.vars.palette.background.level1,
+    borderRadius: theme.vars.radius.xl,
+    padding: 5,
 }));
 
 export default class MemberSidebar extends React.Component<Props, State, Session> {
@@ -92,37 +98,46 @@ export default class MemberSidebar extends React.Component<Props, State, Session
         return (this.context as Session).restClient!.getMembers(this.props.campsiteId, offset);
     }
     render(): React.ReactNode {
-        const { closed, tent } = this.props;
+        const { closed, tent, children } = this.props;
 
         return (
-            <SidebarBox gap={1} className={closed ? "closed" : ""}>
-                {tent.description && <Sheet sx={{ borderRadius: "xl", px: 2, py: 1 }} variant="soft">
+            <RightSidebarBox gap={1} className={closed ? "closed" : ""}>
+                {children && <RightSidebarList>
+                    {children}
+                </RightSidebarList>}
+                {tent.description && <RightSidebarList sx={{ px: 2, py: 1.5 }}>
                     <Typography level="title-md">Channel topic</Typography>
                     <MarkdownWrapper>
                         {tent.description}
                     </MarkdownWrapper>
-                </Sheet>}
-                <Tabs onChange={(_, v) => this.setState({ tab: (v ?? 0) as number })} size="lg" sx={{ mb: 1, borderRadius: "xl" }}>
-                    <TabList>
-                        <Tab value={0}>
-                            <IconUsers />
-                            Members
-                        </Tab>
-                        <Tab value={1}>
-                            <IconListTree />
-                            Threads
-                        </Tab>
-                    </TabList>
-                </Tabs>
-                <MemberList
-                    memberCount={1}
-                    title="Members"
-                    members={this.state.members}
-                />
+                </RightSidebarList>}
+                <RightSidebarList flex={1}>
+                    <Tabs onChange={(_, v) => this.setState({ tab: (v ?? 0) as number })} size="lg" sx={{ mb: 1, borderRadius: "xl", overflow: "hidden" }}>
+                        <TabList>
+                            <Tab value={0}>
+                                <IconUsers />
+                                Members
+                            </Tab>
+                            <Tab value={1}>
+                                <IconListTree />
+                                Threads
+                            </Tab>
+                        </TabList>
+                    </Tabs>
+                    <CampsiteContext.Consumer>
+                        {campsite =>
+                            <MemberList
+                                memberCount={1}
+                                members={this.state.members}
+                                roles={campsite.roles}
+                            />
+                        }
+                    </CampsiteContext.Consumer>
+                </RightSidebarList>
                 {/* <Button startDecorator={<IconUserPlus />} variant="outlined" color="neutral" sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[500]}` })}>
                     Invite users
                 </Button> */}
-            </SidebarBox>
+            </RightSidebarBox>
         );
     }
 }

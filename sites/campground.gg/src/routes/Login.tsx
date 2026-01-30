@@ -70,9 +70,9 @@ export default class Login extends React.Component<Props> {
                         </FormControl>
                     </Stack>
                     <Stack direction="column" gap={1}>
-                        <PrimaryButton type="submit" fullWidth>
+                        <Button variant="glow" color="primary" type="submit" fullWidth>
                             <FormattedMessage id="global.login" />
-                        </PrimaryButton>
+                        </Button>
                         <Link color="neutral" textColor="neutral.300" level="body-md" href="/register">Don't have an account? Sign up</Link>
                     </Stack>
                 </Stack> */}

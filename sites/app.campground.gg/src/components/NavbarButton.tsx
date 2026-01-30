@@ -1,7 +1,7 @@
 import { Stack } from "@mui/joy";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router";
-import { GlobalNavbarItem } from "~/layout/GlobalNavbarItem";
+import { GlobalNavbarItem } from "~/routes/_global/GlobalNavbarItem";
 
 type Props = {
     isActive?: boolean;

@@ -53,7 +53,7 @@ export default function UserAvatar({ withStatus, did, avatar, status, size, badg
                 variant="solid"
                 size={(size ?? "md") as "sm" | "md" | "lg"}
                 sx={sx}
-                src={avatar ?? undefined}
+                src={avatar ?? "/DefaultAvatar0.png"}
             >
             </StyledAvatar>
         </Badge>

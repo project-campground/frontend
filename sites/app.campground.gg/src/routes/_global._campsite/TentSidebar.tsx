@@ -1,4 +1,4 @@
-import { Avatar, Box, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
+import { Avatar, Box, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
 import type { RestResponseError } from "api/RESTResponse";
 import { Group } from "components";
@@ -13,6 +13,7 @@ import TentList, { TentStyledList } from "./TentList";
 import BonfireListMenu from "./BonfireListMenu";
 import { TentItemSkeleton } from "./TentItem";
 import { TentCategorySkeleton } from "./TentCategory";
+import CampsiteSettingsModal from "~/layout/campsite/CampsiteSettingsModal";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -21,13 +22,14 @@ type Props = {
 };
 type State = {
     groupMenuOpen: boolean;
+    campsiteSettingsOpen: boolean;
     bonfireSelected: BonfireViewBasic;
     loading: boolean;
     init: boolean;
     error: RestResponseError | null;
 };
 
-export const TentSidebarBox = styled(Box, {
+export const TentSidebarBox = styled(Stack, {
     name: "CampsiteSidebar",
     slot: "root",
 })(({ theme }) => ({
@@ -61,7 +63,7 @@ const ClickableBox = styled(Box)(() => ({
     padding: "8px 12px",
     opacity: 0,
     height: 85,
-    transition: "opacity 0.5s",
+    transition: "opacity 0.3s",
     ":hover": {
         opacity: 0.65,
     }
@@ -84,6 +86,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         this.state = {
             groupMenuOpen: false,
+            campsiteSettingsOpen: false,
             bonfireSelected,
             loading: true,
             init: false,
@@ -95,6 +98,9 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     }
     setGroupMenu(value: boolean) {
         this.setState({ groupMenuOpen: value });
+    }
+    setCampsiteSettings(value: boolean) {
+        this.setState({ campsiteSettingsOpen: value });
     }
     async componentDidMount(): Promise<void> {
         const { bonfireSelected } = this.state;
@@ -191,7 +197,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Create invites
                                         </ListItemContent>
                                     </MenuItem>
-                                    <MenuItem variant="soft">
+                                    <MenuItem variant="soft" onClick={this.setCampsiteSettings.bind(this, true)}>
                                         <ListItemDecorator>
                                             <IconCampfire />
                                         </ListItemDecorator>
@@ -220,7 +226,10 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                     onBonfireOpen={this.setBonfireSelected.bind(this)}
                     onBonfireCreated={this.onBonfireCreated.bind(this)}
                 />
-                <Box sx={{ py: 2, px: 1 }}>
+                <Modal open={this.state.campsiteSettingsOpen} onClose={this.setCampsiteSettings.bind(this, false)}>
+                    <CampsiteSettingsModal campsite={campsite} />
+                </Modal>
+                <Box flex={1} sx={{ py: 2, px: 1 }}>
                     {loading
                     ? <TentListSkeleton />
                     : <TentList

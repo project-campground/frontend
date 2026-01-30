@@ -3,11 +3,12 @@ import { Group } from "components";
 import React from "react";
 // import type { CampsiteViewDetailed } from "types/campsites";
 import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
-import { CampsiteContext, CurrentTentContext, TentContext } from "./context";
+import { CampsiteContext, CampsiteContextSuiteContext, CurrentTentContext, ownerPermissions, PermissionsContext, TentContext } from "./context";
 import type { CampsiteViewDetailed } from "types/campsites";
-import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import type { RestResponseError } from "api/RESTResponse";
+import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
+import { aggregateAllPermissions } from "~/util/permissions";
 
 type Props = {
     campsiteId: string;
@@ -24,7 +25,7 @@ type State = {
 
 export default class CampsiteLayout extends React.Component<Props, State, Session> {
     currentTent: CurrentTentContext;
-    static contextType?: React.Context<any> | undefined = SessionContext;
+    static contextType?: React.Context<any> | undefined = ContextSuiteContext;
     constructor(props: Props, context: any) {
         super(props, context);
 
@@ -37,7 +38,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         );
     }
     async fetchCampsite() {
-        return (this.context as Session).restClient!
+        return (this.context as ContextSuite).session.restClient!
             .getCampsite(this.props.campsiteId)
             .then((resp) => {
                 if (!resp.ok)
@@ -62,6 +63,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         return this.fetchCampsite();
     }
     render(): React.ReactNode {
+        const context = this.context as ContextSuite;
         const { children } = this.props;
         const { init, loading, bonfireSelected, tentSelected, campsite } = this.state;
 
@@ -85,7 +87,11 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
                 </Box>
                 <TentContext.Provider value={this.currentTent}>
                     <CampsiteContext.Provider value={campsite!}>
-                        {children}
+                        <CampsiteContextSuiteContext.Provider value={{ ...context, campsite: campsite! }}>
+                            <PermissionsContext.Provider value={campsite!.owner === campsite!.member.userId ? ownerPermissions : aggregateAllPermissions(campsite!.member, campsite!.roles, this.currentTent.value!.permissions)}>
+                                {children}
+                            </PermissionsContext.Provider>
+                        </CampsiteContextSuiteContext.Provider>
                     </CampsiteContext.Provider>
                 </TentContext.Provider>
             </Group>

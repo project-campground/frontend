@@ -1,6 +1,6 @@
 import { Link } from "@mui/joy";
 import React, { ReactNode } from "react";
-import PrimaryButton from "components/PrimaryButton";
+
 
 export type Props = {
     children: ReactNode[] | ReactNode;
@@ -15,9 +15,9 @@ export default class LandingNavbarPrimary extends React.Component<Props> {
         const { children, href } = this.props;
         return (
             <Link underline="none" href={href} tabIndex={-1}>
-                <PrimaryButton component="button" size="md" className="LandingNavbarItem container">
+                <Button variant="glow" color="primary" component="button" size="md" className="LandingNavbarItem container">
                     { children }
-                </PrimaryButton>
+                </Button>
             </Link>
         );
     }

@@ -3,15 +3,17 @@ import type { RestResponseError } from "api/RESTResponse";
 import React from "react";
 import type { TentMessageViewWithReplies } from "types/content";
 import type { TentViewDetailed } from "types/tent";
-import MessageEditor from "~/components/editor/MessageEditor";
+import MessageEditor, { MessageEditorContainer } from "~/components/editor/MessageEditor";
 import PagePlaceholder, { PagePlaceholderIcon, textToIcon } from "~/components/PagePlaceholder";
 import TentMessage, { TentMessageSkeleton1, TentMessageSkeleton2 } from "~/components/tents/TentMessage";
 import ContentDeleteModal from "./ContentDeleteModal";
-import { IconCircleXFilled, IconExclamationCircleFilled } from "@tabler/icons-react";
+import { IconCircleXFilled, IconExclamationCircleFilled, IconLockFilled } from "@tabler/icons-react";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { Group } from "components";
 import FadingBox from "~/components/FadingBox";
-import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
+import { type ContextSuite } from "~/context/context-suite";
+import { TentPermissionConsts } from "~/util/permissions";
+import { CampsiteContextSuiteContext, PermissionsContext, type CampsiteContextSuite } from "../_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -30,7 +32,7 @@ type State = {
 };
 
 export default class TextTent extends React.Component<Props, State, ContextSuite> {
-    static contextType?: React.Context<any> | undefined = ContextSuiteContext;
+    static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
     state: State = {
         messages: [],
         init: false,
@@ -42,7 +44,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     };
 
     async componentDidMount(): Promise<void> {
-        const { session } = this.context as ContextSuite;
+        const { session } = this.context as CampsiteContextSuite;
 
         if (this.state.init || !session.restClient)
             return;
@@ -54,7 +56,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
     
     async fetchMessages(offset: number = 0) {
-        const { session } = this.context as ContextSuite;
+        const { session } = this.context as CampsiteContextSuite;
 
         const { tent } = this.props;
 
@@ -83,7 +85,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
 
     async onMessageCreate(content: string): Promise<unknown> {
-        const { session, floaters } = this.context as ContextSuite;
+        const { session, floaters } = this.context as CampsiteContextSuite;
         const replyMessages = this.state.replyMessages;
 
         this.setState({ replyMessages: [] });
@@ -154,7 +156,6 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
 
     render(): React.ReactNode {
-        console.log(this);
         if (this.state.loading)
             return (
                 <Stack sx={{ height: "100%", overflow: "hidden" }}>
@@ -194,12 +195,17 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                         addReply={this.addMessageReply.bind(this)}
                     />
                 </Box>
-                <MessageInputWrapper
-                    tentName={tent.name}
-                    onCreate={this.onMessageCreate.bind(this)}
-                    removeReply={this.removeMessageReply.bind(this)}
-                    replyMessages={this.state.replyMessages}
-                />
+                <PermissionsContext.Consumer>
+                    {permissions =>
+                        <MessageInputWrapper
+                            tentName={tent.name}
+                            onCreate={this.onMessageCreate.bind(this)}
+                            removeReply={this.removeMessageReply.bind(this)}
+                            replyMessages={this.state.replyMessages}
+                            canCreate={Boolean(permissions.tentPermissions & TentPermissionConsts.CREATE_CONTENT)}
+                        />
+                    }
+                </PermissionsContext.Consumer>
                 <ContentDeleteModal
                     title="message"
                     open={Boolean(this.state.deleteMessage)}
@@ -275,7 +281,7 @@ function MessageList({ messages, isEnd, onMessagesLoad, promptMessageDelete, add
     );
 }
 
-function MessageInputWrapper({ tentName, replyMessages, onCreate, removeReply }: { tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, onCreate: (content: string) => Promise<unknown> }) {
+function MessageInputWrapper({ canCreate, tentName, replyMessages, onCreate, removeReply }: { canCreate: boolean, tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, onCreate: (content: string) => Promise<unknown> }) {
     return (
         <Stack sx={{ px: 2, pb: 2 }} gap={1}>
             {!!replyMessages.length && <Group gap={1} alignItems="center">
@@ -294,7 +300,13 @@ function MessageInputWrapper({ tentName, replyMessages, onCreate, removeReply }:
                 )}
             </Group>}
             <Box sx={{ maxHeight: 200 }}>
-                <MessageEditor placeholder={`Message #${tentName}`} onConfirm={onCreate} />
+                {canCreate
+                ? <MessageEditor placeholder={`Message #${tentName}`} onConfirm={onCreate} />
+                : <MessageEditorContainer>
+                    <Box sx={{ px: "12px", py: "6px" }}>
+                        <Typography textColor="text.tertiary" startDecorator={<IconLockFilled />}>You do not have the permission to type in this tent.</Typography>
+                    </Box>
+                </MessageEditorContainer>}
             </Box>
         </Stack>
     );

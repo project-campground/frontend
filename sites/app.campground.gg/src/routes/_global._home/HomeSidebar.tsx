@@ -1,8 +1,6 @@
 import { type ColorPaletteProp, Stack, Typography } from "@mui/joy";
 import React from "react";
-import PageSidebar, { PageSidebarList } from "../../layout/PageSidebar";
 import { IconFlame, IconFriends } from "@tabler/icons-react";
-import PageSidebarItem from "../../layout/PageSidebarItem";
 
 type Props = {
     page: string;
@@ -27,7 +25,7 @@ export default class HomeSidebar extends React.Component<Props> {
         const { page: active } = this.props;
         return (
             <Stack direction="row">
-                <PageSidebar>
+                {/* <PageSidebar>
                     <Typography level="title-sm" textColor="text.quartary" fontWeight={900}>Campground</Typography>
                     <PageSidebarList>
                         {pages.map((page) =>
@@ -36,7 +34,7 @@ export default class HomeSidebar extends React.Component<Props> {
                             </PageSidebarItem>
                         )}
                     </PageSidebarList>
-                </PageSidebar>
+                </PageSidebar> */}
             </Stack>
         );
     }

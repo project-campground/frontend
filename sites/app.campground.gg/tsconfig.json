@@ -4,7 +4,7 @@
     "**/.server/**/*",
     "**/.client/**/*",
     ".react-router/types/**/*"
-, "../../packages/components/svg", "src/layout/profile/ProfileGames.tsx"  ],
+, "../../packages/components/svg", "src/routes/_global.profile.$id/ProfileGames.tsx"  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["vite/client"],

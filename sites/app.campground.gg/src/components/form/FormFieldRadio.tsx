@@ -10,14 +10,10 @@ export interface FormFieldRadioItem {
     endDecorator?: React.ReactNode;
 }
 type RadioType = "default" | "button" | "grid";
-export interface FormFieldRadioProps extends FormFieldProps<"radio", string | boolean | number>, FormFieldDecoratorProps {
+export interface FormFieldRadioProps extends FormFieldProps<"radio", string | boolean | number | null>, FormFieldDecoratorProps {
     options: FormFieldRadioItem[];
     design?: RadioType;
 }
-
-type State = {
-    value: string | number | boolean | null;
-};
 
 const RadioList = styled(List)(() => ({
     "--List-gap": "8px",
@@ -42,10 +38,9 @@ const RadioGrid = styled(List)(({ theme }) => ({
     }
 }));
 
-export default class FormFieldRadio extends AbstractFormField<"radio", number | boolean | string, FormFieldRadioProps, State> {
+export default class FormFieldRadio extends AbstractFormField<"radio", number | boolean | string | null, FormFieldRadioProps> {
     constructor(props: FormFieldRadioProps) {
-        super(props);
-        this.state = { value: props.defaultValue ?? null };
+        super(props, null);
     }
 
     public override get isValid(): boolean {
@@ -92,7 +87,7 @@ export default class FormFieldRadio extends AbstractFormField<"radio", number | 
         );
     }
 
-    private RenderOptionGridButtoned(option: FormFieldRadioItem) {
+    private RadioOptionGridButtoned(option: FormFieldRadioItem) {
         return (
             <ListItem variant="soft" sx={{ boxShadow: "sm", flexDirection: "column", alignItems: "center" }}>
                 {option.startDecorator && <ListItemDecorator>
@@ -117,13 +112,16 @@ export default class FormFieldRadio extends AbstractFormField<"radio", number | 
     public override render(): ReactNode {
         const { options, defaultValue } = this.props;
         const { state: { value } } = this;
+        const RadioOptionButtoned = this.RadioOptionButtoned.bind(this);
+        const RadioOptionGridButtoned = this.RadioOptionGridButtoned.bind(this);
+        const RadioOption = this.RadioOption.bind(this);
 
         return (
             <RadioGroup value={value} defaultValue={defaultValue} onChange={(e) => this.onInputChange(e.target.value)}>
                 {this.props.design === "button"
                 ? <RadioList>
                     {options.map((x, i) =>
-                        <this.RadioOptionButtoned
+                        <RadioOptionButtoned
                             key={`${i}-${x.value}`}
                             {...x}
                         />
@@ -132,14 +130,14 @@ export default class FormFieldRadio extends AbstractFormField<"radio", number | 
                 : this.props.design === "grid"
                 ? <RadioGrid>
                     {options.map((x, i) =>
-                        <this.RenderOptionGridButtoned
+                        <RadioOptionGridButtoned
                             key={`${i}-${x.value}`}
                             {...x}
                         />
                     )}
                 </RadioGrid>
                 : options.map((x, i) =>
-                    <this.RadioOption
+                    <RadioOption
                         key={`${i}-${x.value}`}
                         {...x}
                     />

@@ -1,4 +1,4 @@
-import { Avatar, Box, Skeleton, Stack, styled, Typography } from "@mui/joy";
+import { Box, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { Group, loremIpsum } from "components";
 import type { TentMessageViewWithReplies } from "types/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
@@ -8,10 +8,11 @@ import MessageToolbar from "./MessageToolbar";
 import { useState } from "react";
 import MessageEditor from "../editor/MessageEditor";
 import { useSession } from "~/context/session";
-import Datestamp from "../Datestamp";
+import Datestamp, { defaultDateOptions } from "../Datestamp";
 import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
-import UserDisplay from "../UserDisplay";
+import { UserDisplayNoModal } from "../UserDisplay";
+import { IconPencil } from "@tabler/icons-react";
 
 const TentMessageWrapper = styled(Stack, {
     name: "TentMessage",
@@ -84,11 +85,21 @@ export default function TentMessage({ hideToolbar, message, promptDelete, addRep
                 </Box>
                 <Stack flex={1}>
                     <Group gap={1} alignItems="center">
-                        <UserDisplay noAvatar user={message.createdBy} />
+                        <UserDisplayNoModal noAvatar user={message.createdBy} />
                         {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
                         <Typography level="body-sm">
                             <Datestamp long date={new Date(message.createdAt)}/>
                         </Typography>
+                        {message.updatedAt &&
+                        <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
+                            <Typography level="body-sm" textColor="text.tertiary">
+                                <Group alignItems="center">
+                                    {"("}
+                                    <IconPencil size={16} />
+                                    {" edited)"}
+                                </Group>
+                            </Typography>
+                        </Tooltip>}
                     </Group>
                     <Box>
                         {editMode

@@ -1,7 +1,7 @@
 import { Box, Stack, Tab, TabList, Tabs } from "@mui/joy";
 import type { ProfileView, ProfilePostViewParented } from "types/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
-import ProfilePostCreator from "~/layout/profile/ProfilePostCreator";
+import ProfilePostCreator from "~/routes/_global.profile.$id/ProfilePostCreator";
 import { useSession } from "~/context/session";
 import { useEffect, useState } from "react";
 import ProfileFeedPost, { ProfileFeedPostReplySkeleton } from "./ProfileFeedPost";

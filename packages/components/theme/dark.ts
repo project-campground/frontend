@@ -45,6 +45,8 @@ const darkColorScheme: ColorSystemOptions = {
         warning: generateColorScheme("#fea01c", darkest, lightest),
         success: generateColorScheme("#0cef43", darkest, lightest),
         info: generateColorScheme("#6026ff", darkest, lightest),
+        debug: generateColorScheme("#26f2ff", darkest, lightest),
+        note: generateColorScheme("#ca1cfe", darkest, lightest),
         background: {
             transparent: `${shades[950]}dd`,
             popup: "#000000",

@@ -1,7 +1,7 @@
-import { Divider, Dropdown, IconButton, Link, MenuButton, Sheet, Stack, styled } from "@mui/joy";
+import { Button, Divider, Dropdown, IconButton, Link, MenuButton, Sheet, Stack, styled } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
-import { Group, PrimaryButton } from "components";
+import { Group } from "components";
 import BlockTextEditor from "./BlockTextEditor";
 import withCgMarkdown from "~/editor/withCgMarkdown";
 import { withHistory } from "slate-history";
@@ -24,7 +24,7 @@ type Props = {
     onConfirm: (content: string) => unknown;
 };
 
-const MessageEditorContainer = styled(Sheet)(({ theme }) => ({
+export const MessageEditorContainer = styled(Sheet)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level2,
     width: "100%",
     maxHeight: 200,
@@ -84,7 +84,7 @@ export default function MessageEditor({ placeholder, content, onConfirm, onCance
                 </MessageEditorGroup>
             </MessageEditorContainer>
             {confirmButton && <Group gap={2} alignItems="center">
-                <PrimaryButton endDecorator={<IconArrowRight />} onClick={onDone}>{confirmButton ?? "Post"}</PrimaryButton>
+                <Button variant="glow" color="primary" endDecorator={<IconArrowRight />} onClick={onDone}>{confirmButton ?? "Post"}</Button>
                 {onCancel && <Link color="neutral" onClick={onCancel}>Cancel</Link>}
             </Group>}
         </Stack>

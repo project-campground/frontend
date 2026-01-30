@@ -1,5 +1,6 @@
 import * as ColorSystem from "components/types/colorSystem";
 import * as Typography from "components/types/typography";
+import * as Components from "components/types/components";
 
 // Add new colours
 declare module "@mui/joy/styles/types/colorSystem" {
@@ -13,4 +14,11 @@ declare module "@mui/joy/styles/types/colorSystem" {
 // Add new colours
 declare module "@mui/joy/styles/types/typography" {
     interface TypographySystemOverrides extends Typography.TypographySystemOverrides {}
+}
+// Modify components
+declare module "@mui/joy/Button/ButtonProps" {
+    interface ButtonPropsVariantOverrides extends Components.ButtonPropsVariantOverrides {}
+}
+declare module "@mui/joy/Avatar/AvatarProps" {
+    interface AvatarPropsSizeOverrides extends Components.AvatarPropsSizeOverrides {}
 }

@@ -1,7 +1,7 @@
-import { Link, Stack } from "@mui/joy";
+import { Button, Link, Stack } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
-import { Group, PrimaryButton } from "components";
+import { Group } from "components";
 import BlockTextEditor from "./BlockTextEditor";
 import withCgMarkdown from "~/editor/withCgMarkdown";
 import { withHistory } from "slate-history";
@@ -28,7 +28,7 @@ export default function BasicPostEditor({ placeholder, onConfirm, onCancel, cont
         <Stack gap={1} sx={sx}>
             <BlockTextEditor enableToolbar editor={editor} defaultValue={content} sx={(theme) => ({ color: theme.vars.palette.text.secondary })} placeholder={placeholder ?? "What is your current mood?"} />
             <Group gap={2} alignItems="center">
-                <PrimaryButton endDecorator={<IconArrowRight />} onClick={() => onConfirm(serializeMarkdown(mdastifyEditor(editor)))}>{confirmButton ?? "Post"}</PrimaryButton>
+                <Button variant="glow" color="primary" endDecorator={<IconArrowRight />} onClick={() => onConfirm(serializeMarkdown(mdastifyEditor(editor)))}>{confirmButton ?? "Post"}</Button>
                 {onCancel && <Link color="neutral" onClick={onCancel}>Cancel</Link>}
             </Group>
         </Stack>

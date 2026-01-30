@@ -1,5 +1,5 @@
 import { Avatar, Stack, styled, Typography } from "@mui/joy";
-import { GlobalNavbarItem } from "~/layout/GlobalNavbarItem";
+import { GlobalNavbarItem } from "~/routes/_global/GlobalNavbarItem";
 import { IconUsers } from "@tabler/icons-react";
 import SimpleNotification from "./SimpleNotification";
 import VerifiedIcon from "./VerifiedIcon";

@@ -15,6 +15,7 @@ const homePages = ["friends"]
 export default function GlobalNavbar({ page, loaded }: Props) {
     const me = useMeContext();
 
+    console.log("Me", me);
     return (
         <Box sx={{ px: 1, py: 1, width: "100%" }}>
             <Stack direction="row" gap={2} sx={{ width: "100%" }} alignItems="center">
@@ -30,7 +31,7 @@ export default function GlobalNavbar({ page, loaded }: Props) {
                 <Divider orientation="vertical" sx={{ width: 2 }} />
                 <Stack direction="row" sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }} gap={1}>
                     {me?.campsites.map((x) =>
-                        <NavbarCamp key={x.id} id={x.id} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
+                        <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
                     )}
                     {!loaded && <CircularProgress />}
                     {me && <NavbarButton href="/c/create" isActive={page === "create"}>

@@ -1,6 +1,5 @@
-import { Dropdown, IconButton, Menu, MenuButton } from "@mui/joy";
+import { Button, Dropdown, IconButton, Menu, MenuButton } from "@mui/joy";
 import { IconLogin } from "@tabler/icons-react";
-import { PrimaryButton } from "components";
 import { useNavigate } from "react-router";
 import UserAvatar from "~/components/UserAvatar";
 import UserProfileCard from "~/components/UserProfileCard";
@@ -13,9 +12,9 @@ export default function GlobalNavProfile() {
     return (
         <Dropdown>
             <MenuButton slots={{
-                root: me ? IconButton : PrimaryButton
+                root: me ? IconButton : Button
             }} slotProps={{
-                root: me ? {} : { startDecorator: <IconLogin />, onClick: () => navigate("/login") }
+                root: me ? {} : { variant: "glow", color: "primary", startDecorator: <IconLogin />, onClick: () => navigate("/login") }
             }}>
                 {me
                 ? <UserAvatar withStatus did={me.profile.did} size="lg" avatar={me.profile.avatar} />

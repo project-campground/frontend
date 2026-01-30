@@ -16,7 +16,7 @@ const DatestampText = styled(Typography, {
     slot: "text",
 })();
 
-const defaultDateOptions: Intl.DateTimeFormatOptions = {
+export const defaultDateOptions: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",

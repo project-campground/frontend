@@ -15,8 +15,7 @@ type State = {
 
 export default class FormFieldText extends AbstractFormField<"text", string, FormFieldTextProps, State> {
     constructor(props: FormFieldTextProps) {
-        super(props);
-        this.state = { value: "" };
+        super(props, "");
     }
 
     public override get isValid(): boolean {
@@ -42,12 +41,14 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
     public override render(): ReactNode {
         const { startDecorator, endDecorator, defaultValue, placeholder, inputType } = this.props;
         const { isFormatValid, state: { value } } = this;
+        console.log("Props", this.props, this.state);
 
         return (
             <Input
                 type={inputType}
                 placeholder={placeholder}
                 defaultValue={defaultValue}
+                value={value}
                 startDecorator={startDecorator}
                 endDecorator={endDecorator}
                 onChange={this.onInputChange.bind(this)}

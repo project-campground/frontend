@@ -2,6 +2,7 @@ import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, Skeleton,
 import { IconHash } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import type { TentViewBasic } from "types/tent"
+import TentIcon from "~/components/tents/TentIcon";
 
 type Props = {
     tent: TentViewBasic;
@@ -12,7 +13,6 @@ const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
     borderRadius: theme.vars.radius.sm,
 }));
 
-
 export default function TentItem({ tent, isActive }: Props) {
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ export default function TentItem({ tent, isActive }: Props) {
         <ListItem>
             <ListItemButtonStyled variant={isActive ? "soft" : "plain"} onClick={() => navigate(`/c/${tent.campsiteId}/t/${tent.id}`)}>
                 <ListItemDecorator>
-                    <IconHash />
+                    <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>
                 <ListItemContent>
                     {tent.name}

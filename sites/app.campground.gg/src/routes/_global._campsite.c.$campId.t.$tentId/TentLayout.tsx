@@ -27,7 +27,7 @@ const SidebarWrapper = styled(Box)(() => ({
 
 export default function TentLayout({ campsite, campsiteId, tent }: Props) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const Component = ComponentByTentType[tent.type];
+    const { Component, MemberSidebarInfo } = ComponentByTentType[tent.type];
 
     return (
         <>
@@ -35,7 +35,9 @@ export default function TentLayout({ campsite, campsiteId, tent }: Props) {
                 <Component campsiteId={campsiteId} tent={tent} />
             </TentContentWrapper>
             <SidebarWrapper className={sidebarOpen ? "open" : ""}>
-                <MemberSidebar campsiteId={campsiteId} campsite={campsite!} tent={tent} />
+                <MemberSidebar campsiteId={campsiteId} campsite={campsite!} tent={tent}>
+                    {MemberSidebarInfo && <MemberSidebarInfo campsite={campsite} tent={tent} />}
+                </MemberSidebar>
             </SidebarWrapper>
         </>
     );

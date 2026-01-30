@@ -19,7 +19,7 @@ export default function Index({ matches }: Route.ComponentProps) {
     const page = matches.slice(-1)[0]!.pathname;
 
     return (
-        <Group sx={{ height: "100%", flexDirection: { xs: "column", md: "row" }, alignItems: "stretch" }}>
+        <Group withMobile sx={{ height: "100%", alignItems: "stretch" }}>
             <HomeSidebar page={page} />
             <Outlet />
         </Group>

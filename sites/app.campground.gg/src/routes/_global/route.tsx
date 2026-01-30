@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import GlobalLayout from "~/layout/GlobalLayout";
+import GlobalLayout from "./GlobalLayout";
 import { authMiddleware } from "~/middleware/auth";
 import type { Route } from "./+types/route";
 

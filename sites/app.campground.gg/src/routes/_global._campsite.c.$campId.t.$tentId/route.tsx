@@ -1,13 +1,12 @@
 import type { Route } from "./+types/route";
 import { authMiddleware } from "~/middleware/auth";
-import { sessionRouterContext, useSession } from "~/context/session";
+import { sessionRouterContext } from "~/context/session";
 import { useContext } from "react";
 import { CampsiteContext, TentContext } from "../_global._campsite/context";
 import TentLayout from "./TentLayout";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 import { redirect } from "react-router";
-import WebSocketClient from "api/WebSocketClient";
-import { defaultAppBackendUrl } from "api.config";
+import type { TentViewDetailed } from "types/tent";
 
 export function meta({ loaderData: { tentId, tent } }: Route.MetaArgs) {
     return [
@@ -22,6 +21,14 @@ export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
 
 export async function clientLoader({ context, params: { campId, tentId } }: Route.ClientLoaderArgs) {
     const session = context.get(sessionRouterContext);
+
+    if (tentId === "bulletin")
+        return {
+            err: null,
+            campsiteId: campId,
+            tentId: "bulletin",
+            tent: { id: "bulletin", campsiteId: campId, name: "Bulletin Board", bonfireId: "", categoryId: null, permissions: [], description: "", type: "bulletin", viewType: 0, } as unknown as TentViewDetailed
+        }
 
     const tent = await session.restClient!.getTent(tentId);
 

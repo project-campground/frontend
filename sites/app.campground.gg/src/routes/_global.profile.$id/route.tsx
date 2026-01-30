@@ -1,6 +1,6 @@
-import type { Route } from "./+types/_global.profile.$id";
+import type { Route } from "./+types/route";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
-import ProfileView from "~/layout/profile/ProfileView";
+import ProfileView from "~/routes/_global.profile.$id/ProfileView";
 import { authMiddleware } from "~/middleware/auth";
 import { sessionRouterContext } from "~/context/session";
 
@@ -26,7 +26,6 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         };
 
     const userRequest = await session.restClient.fetchProfile(id);
-    console.log({ userRequest });
 
     const { errorDescription, errorHeader, content, ok, status } = userRequest;
 

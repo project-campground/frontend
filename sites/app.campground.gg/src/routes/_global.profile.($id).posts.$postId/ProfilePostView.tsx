@@ -1,11 +1,11 @@
 import { Alert, Box, Stack, } from "@mui/joy";
 import { useState } from "react";
 import type { EitherProfilePostView, ProfilePostView, ProfilePostViewBasic } from "types/user";
-import ProfilePost from "../../layout/profile/ProfilePost";
+import ProfilePost from "../_global.profile.$id/ProfilePost";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 import { useMeContext, useSession } from "~/context/session";
-import ProfilePostCreator from "../../layout/profile/ProfilePostCreator";
+import ProfilePostCreator from "../_global.profile.$id/ProfilePostCreator";
 import { ThreadLineItem, ThreadLineWrapper } from "../../components/ThreadLine";
 import type { Session } from "~/context/session/types";
 

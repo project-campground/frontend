@@ -5,9 +5,10 @@ import type { RESTRefreshLogin } from "./RESTErrorHandler";
 import type { SessionAuthRefresh } from "~/context/session/types";
 import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
 import type { Me } from "types/me";
-import type { BonfireViewDetailed, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersOutput } from "types/campsites";
-import type { GetTentsOutput, TentViewDetailed } from "types/tent";
+import type { BonfireViewBasic, BonfireViewDetailed, CampsitePermissionView, CampsiteRoleView, CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersOutput, GetRolesOutput } from "types/campsites";
+import type { GetTentsOutput, TentCategoryView, TentViewDetailed } from "types/tent";
 import type { GetTentMessagesOutput, TentMessageViewBasic } from "types/content";
+import type { CampsiteBanView, CampsiteInviteViewBasic, CampsiteInviteViewDetailed, GetInvitesOutput } from "types/membership";
 
 type HTTPMethod = "GET" | "OPTION" | "PUT" | "POST" | "PATCH" | "DELETE";
 
@@ -59,24 +60,22 @@ export default class RESTClient {
         });
     }
     
-    public refreshLogin(requestConfig: Partial<RequestPrefixed> = {}) {
-        return RESTClient.atprotoFetch<SessionAuthRefresh>({
+    public async refreshLogin(requestConfig: Partial<RequestPrefixed> = {}) {
+        const resp = await RESTClient.atprotoFetch<SessionAuthRefresh>({
             method: "POST",
             route: "com.atproto.server.refreshSession",
             headers: {
                 "Authorization": `Bearer ${this._config.refreshAuth}`,
             },
             ...requestConfig,
-        })
-            .then((resp) => {
-                if (!resp.ok)
-                    return resp;
-                this._onRefreshLogin?.(resp.content!);
-                // Change in REST as well
-                this._config.auth = resp.content?.accessJwt ?? this._config.auth;
-                this._config.refreshAuth = resp.content?.refreshJwt ?? this._config.refreshAuth;
-                return resp;
-            });
+        });
+        if (!resp.ok)
+            return resp;
+        this._onRefreshLogin?.(resp.content!);
+        // Change in REST as well
+        this._config.auth = resp.content?.accessJwt ?? this._config.auth;
+        this._config.refreshAuth = resp.content?.refreshJwt ?? this._config.refreshAuth;
+        return resp;
     }
 
     private static convertValueToArray([key, value]: [string, any]) {
@@ -95,7 +94,7 @@ export default class RESTClient {
         return new URLSearchParams(newValue);
     }
 
-    public static atprotoFetch<T = any | null>(config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit; }): Promise<RestResponseWithContent<T>> {
+    public static async atprotoFetch<T = any | null>(config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit; }): Promise<RestResponseWithContent<T>> {
         const { url, queries, routePrefix, route, method, body, request, headers } = { ...this._default, ...config };
 
         const queriesString = queries ? `?${this.convertObjectToQuery(queries)}` : ``;
@@ -104,7 +103,7 @@ export default class RESTClient {
 
         console.log({ resolvedUrl, queriesString, method });
 
-        return fetch(resolvedUrl, { 
+        const response = await fetch(resolvedUrl, {
             method,
             body: body ? JSON.stringify(body) : null,
             headers: {
@@ -112,17 +111,16 @@ export default class RESTClient {
                 ...headers,
             },
             ...request,
-        })
-            .then(async (response) => {
-                const responseBody = response.body ? await response.json() : null;
-                if (!response.ok)
-                    return { ok: false, url: response.url, status: response.status, content: undefined, errorHeader: responseBody?.message ? responseBody.error : null, errorDescription: responseBody?.message ?? responseBody?.error ?? "Unknown error" } satisfies RestResponseError;
-                else
-                    return { ok: true, url: response.url, status: response.status, content: responseBody as T, errorHeader: undefined, errorDescription: undefined, } satisfies RestResponseOkWithContent<T>;
-            });
+        });
+        const responseBody = response.body ? await response.json() : null;
+        if (!response.ok)
+            return { ok: false, url: response.url, status: response.status, content: undefined, errorHeader: responseBody?.message ? responseBody.error : null, errorDescription: responseBody?.message ?? responseBody?.error ?? "Unknown error" } satisfies RestResponseError;
+
+        else
+            return { ok: true, url: response.url, status: response.status, content: responseBody as T, errorHeader: undefined, errorDescription: undefined, } satisfies RestResponseOkWithContent<T>;
     }
     
-    fetch<T>({ method, body, queries, route, request }: RequestConfig) {
+    async fetch<T>({ method, body, queries, route, request }: RequestConfig) {
         const doFetch = (auth: string | undefined) => RESTClient.atprotoFetch<T>({
             url: this._config.url,
             routePrefix: this._config.routePrefix,            
@@ -142,16 +140,13 @@ export default class RESTClient {
         if (!this._config.auth)
             return doFetch(undefined);
 
-        return doFetch(this._config.auth)
-            .then((resp) => {
-                if (!resp.ok && resp.errorHeader === "ExpiredToken") {
-                    return this.refreshLogin()
-                        .then((refresh) =>
-                            refresh.ok ? doFetch(refresh.content!.accessJwt) : refresh
-                        );
-                }
-                return resp;
-            })
+        const resp = await doFetch(this._config.auth);
+        if (!resp.ok && resp.errorHeader === "ExpiredToken") {
+            return this.refreshLogin()
+                .then((refresh) => refresh.ok ? doFetch(refresh.content!.accessJwt) : refresh
+                );
+        }
+        return resp;
     }
     get<T>(config: Omit<RequestConfig, "method" | "body">) {
         return this.fetch<T>({ method: "GET", ...config });
@@ -271,40 +266,46 @@ export default class RESTClient {
         });
     }
     
-    deletePost(uri: string) {
+    async deletePost(uri: string) {
         if (!this._config.userDid)
             throw new Error("Operation not allowed while unauthenticated");
 
-        return this.deleteRecord({
+        const a = await this.deleteRecord({
             repo: this._config.userDid,
             collection: "gg.campground.profile.post",
             // at://did:.../gg.campground.profile.post/...
             rkey: uri.split("/")[4],
-        })
-            .then((a) =>
-                this.unindexPost(uri)
-                    .then(() => a)
-            );
+        });
+        await this.unindexPost(uri);
+        return a;
     }
 
-    getCampsite(id: string) {
+    getCampsite(campsite_id: string) {
         return this.get<CampsiteViewDetailed>({
             route: "gg.campground.campsite.getCampsite",
-            queries: { id },
+            queries: { campsite_id },
         });
     }
 
-    createCampsite(body: { name: string; description: string; tags: string[]; vanityUrl?: string | null; }) {
+    createCampsite(body: { avatar?: string; name: string; description: string; tags: string[]; vanityUrl?: string | null; }) {
         return this.post<CreateCampsiteOutput>({
             route: "gg.campground.campsite.createCampsite",
             body,
         });
     }
+
+    updateCampsite(campsite_id: string, body: { avatarUri?: string; bannerUri?: string; name?: string; description?: string; tags?: string[]; vanityUrl?: string | null; }) {
+        return this.post<CampsiteViewBasic>({
+            route: "gg.campground.campsite.updateCampsite",
+            queries: { campsite_id, },
+            body,
+        });
+    }
     
-    getBonfire(campsiteId: string, id: string) {
+    getBonfire(campsite_id: string, bonfire_id: string) {
         return this.get<BonfireViewDetailed>({
             route: "gg.campground.campsite.getBonfire",
-            queries: { campsite_id: campsiteId, id },
+            queries: { campsite_id, bonfire_id, },
         });
     }
 
@@ -315,87 +316,273 @@ export default class RESTClient {
             body,
         });
     }
+    
+    updateBonfire(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; priority?: number; }) {
+        return this.post<BonfireViewBasic>({
+            route: "gg.campground.campsite.updateBonfire",
+            queries: { campsite_id, bonfire_id },
+            body,
+        });
+    }
+    
+    deleteBonfire(campsite_id: string, bonfire_id: string) {
+        return this.post<BonfireViewBasic>({
+            route: "gg.campground.campsite.deleteBonfire",
+            queries: { campsite_id, bonfire_id },
+        });
+    }
 
-    getMembers(campsiteId: string, offsetOrIds: string[] | number) {
+    getRoles(campsite_id: string) {
+        return this.post<GetRolesOutput>({
+            route: "gg.campground.campsite.getRoles",
+            queries: { campsite_id },
+        });
+    }
+
+    createRole(campsite_id: string, body: { name: string, color: number; colorSecondary: number; displaySeparately: boolean; mentionable: boolean; priority: number; campsitePermissions: number; tentPermissions: number; }) {
+        return this.post<CampsiteRoleView>({
+            route: "gg.campground.campsite.createRole",
+            queries: { campsite_id },
+            body,
+        });
+    }
+    
+    updateRole(campsite_id: string, role_id: string, body: { name?: string, color?: number; colorSecondary?: number; displaySeparately?: boolean; mentionable?: boolean; priority?: number; campsitePermissions?: number; tentPermissions?: number; }) {
+        return this.post<CampsiteRoleView>({
+            route: "gg.campground.campsite.updateRole",
+            queries: { campsite_id, role_id },
+            body,
+        });
+    }
+    
+    deleteRole(campsite_id: string, role_id: string) {
+        return this.post<CampsiteRoleView>({
+            route: "gg.campground.campsite.deleteRole",
+            queries: { campsite_id, role_id },
+        });
+    }
+    
+    getMembers(campsite_id: string, offsetOrIds: string[] | number) {
         return this.get<GetMembersOutput>({
-            route: "gg.campground.campsite.getMembers",
+            route: "gg.campground.membership.getMembers",
             queries: {
-                campsite_id: campsiteId,
+                campsite_id,
                 offset: typeof offsetOrIds === "number"
-                    ? offsetOrIds.toString()
-                    : null,
+                ? offsetOrIds.toString()
+                : null,
                 actors: Array.isArray(offsetOrIds)
-                    ? offsetOrIds
-                    : null
+                ? offsetOrIds
+                : null
             },
         });
     }
 
-    getTents(campsiteId: string, bonfireId: string) {
+    removeMember(campsite_id: string, actor: string) {
+        return this.get<null>({
+            route: "gg.campground.membership.removeMember",
+            queries: {
+                campsite_id,
+                actor,
+            },
+        });
+    }
+    
+    leaveCampsite(campsite_id: string) {
+        return this.get<null>({
+            route: "gg.campground.membership.removeMember",
+            queries: {
+                campsite_id,
+            },
+        });
+    }
+
+    banMember(campsite_id: string, actor: string) {
+        return this.get<CampsiteBanView>({
+            route: "gg.campground.membership.banMember",
+            queries: {
+                campsite_id,
+                actor,
+            },
+        });
+    }
+
+    getInvite(invite_id: string) {
+        return this.post<CampsiteInviteViewDetailed>({
+            route: "gg.campground.membership.getInvite",
+            queries: {
+                invite_id,
+            },
+        });
+    }
+
+    getInvites(campsite_id: string, offset: number = 0, limit: number = 50) {
+        return this.post<GetInvitesOutput>({
+            route: "gg.campground.membership.getInvites",
+            queries: {
+                campsite_id,
+                offset,
+                limit,
+            },
+        });
+    }
+    
+    createInvite(campsite_id: string, body: Pick<CampsiteInviteViewBasic, "allowedAmount" | "expiresAt">) {
+        return this.post<CampsiteInviteViewBasic>({
+            route: "gg.campground.membership.createInvite",
+            queries: {
+                campsite_id,
+            },
+            body,
+        });
+    }
+    
+    deleteInvite(campsite_id: string, invite_id: string) {
+        return this.post<CampsiteInviteViewBasic>({
+            route: "gg.campground.membership.deleteInvite",
+            queries: {
+                campsite_id,
+                invite_id,
+            },
+        });
+    }
+    
+    deleteMemberBan(campsite_id: string, actor: string) {
+        return this.get<CampsiteBanView>({
+            route: "gg.campground.membership.deleteMemberBan",
+            queries: {
+                campsite_id,
+                actor,
+            },
+        });
+    }
+    
+    addMemberRole(campsite_id: string, role_id: string, body: { member_ids: string[]; }) {
+        return this.post<number>({
+            route: "gg.campground.membership.addMemberRole",
+            queries: { campsite_id, role_id },
+            body,
+        });
+    }
+    
+    removeMemberRole(campsite_id: string, role_id: string, body: { member_ids: string[]; }) {
+        return this.post<number>({
+            route: "gg.campground.membership.removeMemberRole",
+            queries: { campsite_id, role_id },
+            body,
+        });
+    }
+    
+    getTents(campsite_id: string, bonfire_id: string) {
         return this.get<GetTentsOutput>({
             route: "gg.campground.tent.getTents",
-            queries: { campsite_id: campsiteId, bonfire_id: bonfireId },
+            queries: { campsite_id, bonfire_id, },
         });
     }
     
-    getTent(id: string) {
+    getTent(tent_id: string) {
         return this.get<TentViewDetailed>({
             route: "gg.campground.tent.getTent",
-            queries: { id },
+            queries: { tent_id, },
         });
     }
     
-    createTent(campsite_id: string, bonfire_id: string, body: { type: number, name: string, description: string; priority: number; }) {
+    createTent(campsite_id: string, bonfire_id: string, body: { type: number; name: string; description: string; priority: number; }) {
         return this.post<TentViewDetailed>({
             route: "gg.campground.tent.createTent",
-            queries: { campsite_id, bonfire_id },
+            queries: { campsite_id, bonfire_id, },
             body: { viewType: 0, ...body },
         });
     }
     
-
-    deleteTent(tentId: string) {
+    updateTent(tent_id: string, body: { name?: string; description?: string; viewType?: number; }) {
+        return this.post<TentViewDetailed>({
+            route: "gg.campground.tent.updateTent",
+            queries: { tent_id, },
+            body,
+        });
+    }
+    
+    moveTent(tent_id: string, body: { bonfire_id?: string; category_id?: string; priority?: number; }) {
+        return this.post<TentViewDetailed>({
+            route: "gg.campground.tent.moveTent",
+            queries: { tent_id, },
+            body,
+        });
+    }
+    
+    deleteTent(tent_id: string) {
         return this.post<TentMessageViewBasic>({
             route: "gg.campground.tent.deleteTent",
-            queries: { id: tentId },
+            queries: { tent_id, },
         });
     }
-
-    createCategory(campsite_id: string, bonfire_id: string, body: { name: string, description: string; priority: number; }) {
-        return this.post<TentViewDetailed>({
+    
+    createCategory(campsite_id: string, bonfire_id: string, body: { name: string; description: string; priority: number; }) {
+        return this.post<TentCategoryView>({
             route: "gg.campground.tent.createCategory",
-            queries: { campsite_id, bonfire_id },
+            queries: { campsite_id, bonfire_id, },
             body,
         });
     }
+    
+    updateCategory(category_id: string, body: { name?: string; description?: string; }) {
+        return this.post<TentCategoryView>({
+            route: "gg.campground.tent.updateCategory",
+            queries: { category_id, },
+            body,
+        });
+    }
+    
+    moveCategory(category_id: string, body: { bonfire_id?: string; priority?: number; }) {
+        return this.post<TentCategoryView>({
+            route: "gg.campground.tent.moveCategory",
+            queries: { category_id, },
+            body,
+        });
+    }
+    
+    deleteCategory(category_id: string) {
+        return this.post<TentCategoryView>({
+            route: "gg.campground.tent.deleteCategory",
+            queries: { category_id, },
+        });
+    }
 
-    getTentMessages(tentId: string, offset: number = 0, limit: number = 50) {
+    updatePermission(queries: ({ tent_id: string; } | { category_id: string; } | { bonfire_id: string; }) & ({ role_id: string; } | { actor: string; }), body: Pick<CampsitePermissionView, "allowedCampsitePermissions" | "allowedTentPermissions" | "deniedCampsitePermissions" | "deniedTentPermissions">) {
+        return this.post<CampsitePermissionView>({
+            route: "gg.campground.membership.updatePermission",
+            queries,
+            body,
+        });
+    }
+    
+    getTentMessages(tent_id: string, offset: number = 0, limit: number = 50) {
         return this.get<GetTentMessagesOutput>({
             route: "gg.campground.tent.getMessages",
-            queries: { tent_id: tentId, offset, limit },
+            queries: { tent_id, offset, limit, },
         });
     }
-
-    createTentMessage(tentId: string, body: { content: string; replies?: string[]; }) {
+    
+    createTentMessage(tent_id: string, body: { content: string; replies?: string[]; }) {
         return this.post<TentMessageViewBasic>({
             route: "gg.campground.tent.createMessage",
-            queries: { tent_id: tentId, },
+            queries: { tent_id, },
             body,
         });
     }
-
-    updateTentMessage(tentId: string, messageId: string, body: { content: string; }) {
+    
+    updateTentMessage(tent_id: string, message_id: string, body: { content: string; }) {
         return this.post<TentMessageViewBasic>({
             route: "gg.campground.tent.updateMessage",
-            queries: { tent_id: tentId, id: messageId },
+            queries: { tent_id, message_id, },
             body,
         });
     }
 
-    deleteTentMessage(tentId: string, messageId: string) {
+    deleteTentMessage(tent_id: string, message_id: string) {
         return this.post<TentMessageViewBasic>({
             route: "gg.campground.tent.deleteMessage",
-            queries: { tent_id: tentId, id: messageId },
+            queries: { tent_id, message_id, },
         });
     }
 }

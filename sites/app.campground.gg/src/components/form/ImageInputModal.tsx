@@ -16,7 +16,7 @@ export default function ImageInputModal({ currentValue, onClose, onSubmit, onRem
             <DialogTitle>Upload image</DialogTitle>
             <DialogContent>Upload an image or submit URL of the image.</DialogContent>
             <Stack alignItems="center">
-                {currentValue && <Image src={currentValue} mh={200} />}
+                {currentValue && <Image src={currentValue} mh={200} mw={400} />}
             </Stack>
             <Form
                 sections={[

@@ -1,4 +1,4 @@
-import { ProfileView } from "./user";
+import type { CampsiteMemberViewAuthor } from "./campsites";
 
 export interface TentMessageView<T> {
     id: string;
@@ -9,7 +9,7 @@ export interface TentMessageView<T> {
     content: string;
     replyingTo: T[];
 
-    createdBy: ProfileView;
+    createdBy: CampsiteMemberViewAuthor;
     createdAt: string;
     updatedAt?: string | null;
 }

@@ -18,8 +18,8 @@ type Props = {
 export default function CampsiteSettingsModal(props: Props) {
     const session = useSession();
     const callbacks: Record<Page, (fieldValues: Record<string, any>) => unknown> = {
-        profile: (fieldValues) => session.restClient?.updateCampsite(props.campsite.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", tags: fieldValues.tags, vanityUrl: fieldValues.vanityUrl ?? "" }),
-        roles: (fieldValues) => session.restClient?.updateCampsite(props.campsite.id, { name: fieldValues.name, avatar: fieldValues.avatar ?? "" }),
+        profile: (fieldValues) => session.restClient?.updateCampsite(props.campsite.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", bannerUri: fieldValues?.bannerUri ?? "", tags: fieldValues.tags, vanityUrl: fieldValues.vanityUrl ?? "" }),
+        roles: (fieldValues) => session.restClient?.updateCampsite(props.campsite.id, { name: fieldValues.name }),
     }
 
     return (
@@ -28,7 +28,7 @@ export default function CampsiteSettingsModal(props: Props) {
             settingsProps={props}
             settingsPages={settingsPages}
             defaultPage="profile"
-            onSubmit={(page, values) => callbacks[page](values)}
+            onSubmit={async (page, values) => callbacks[page](values)}
             sections={[
                 {
                     id: "overview",

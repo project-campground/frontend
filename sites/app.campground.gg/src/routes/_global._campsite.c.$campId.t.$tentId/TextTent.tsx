@@ -6,14 +6,17 @@ import type { TentViewDetailed } from "types/tent";
 import MessageEditor, { MessageEditorContainer } from "~/components/editor/MessageEditor";
 import PagePlaceholder, { PagePlaceholderIcon, textToIcon } from "~/components/PagePlaceholder";
 import TentMessage, { TentMessageSkeleton1, TentMessageSkeleton2 } from "~/components/tents/TentMessage";
-import ContentDeleteModal from "./ContentDeleteModal";
+import ContentDeleteModal from "../../layout/ContentDeleteModal";
 import { IconCircleXFilled, IconExclamationCircleFilled, IconLockFilled } from "@tabler/icons-react";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { Group } from "components";
 import FadingBox from "~/components/FadingBox";
 import { type ContextSuite } from "~/context/context-suite";
 import { TentPermissionConsts } from "~/util/permissions";
-import { CampsiteContextSuiteContext, PermissionsContext, type CampsiteContextSuite } from "../_global._campsite/context";
+import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "../_global._campsite/context";
+import { PermissionsContext } from "~/context/permissions";
+import type { CampsiteRoleView } from "types/campsites";
+import { decimalToHexColor } from "~/util/color";
 
 type Props = {
     campsiteId: string;
@@ -183,11 +186,15 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
             );
 
         const { tent } = this.props;
+        const { campsite } = this.context as CampsiteContextSuite;
+        const colorRoles = campsite.roles.filter((x) => x.color || x.colorSecondary);
 
         return (
             <Stack sx={{ height: "100%", overflow: "hidden" }}>
                 <Box flex={1} sx={{ overflow: "hidden" }}>
                     <MessageList
+                        colorRoles={colorRoles}
+                        replyMessages={this.state.replyMessages}
                         isEnd={this.state.isEnd}
                         messages={this.state.messages}
                         onMessagesLoad={this.onMessagesLoad.bind(this)}
@@ -202,7 +209,8 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                             onCreate={this.onMessageCreate.bind(this)}
                             removeReply={this.removeMessageReply.bind(this)}
                             replyMessages={this.state.replyMessages}
-                            canCreate={Boolean(permissions.tentPermissions & TentPermissionConsts.CREATE_CONTENT)}
+                            colorRoles={colorRoles}
+                            canCreate={Boolean(permissions.tent.tentPermissions & TentPermissionConsts.CREATE_CONTENT)}
                         />
                     }
                 </PermissionsContext.Consumer>
@@ -226,14 +234,16 @@ const MessageLimitStack = styled(Stack)(() => ({
 }));
 
 type MessageListProps = {
+    colorRoles: CampsiteRoleView[];
     isEnd: boolean;
     messages: TentMessageViewWithReplies[];
+    replyMessages: TentMessageViewWithReplies[];
     onMessagesLoad: () => unknown;
     promptMessageDelete: (message: TentMessageViewWithReplies) => unknown;
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
 
-function MessageList({ messages, isEnd, onMessagesLoad, promptMessageDelete, addReply }: MessageListProps) {
+function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, promptMessageDelete, addReply, colorRoles }: MessageListProps) {
     const onScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
         const target = e.target as HTMLDivElement;
 
@@ -244,60 +254,69 @@ function MessageList({ messages, isEnd, onMessagesLoad, promptMessageDelete, add
     };
 
     return (
-        <MessageLimitStack onScroll={isEnd ? undefined : onScroll}>
-            {/* To make You've reached the end always at the top */}
-            <Box flex={1}></Box>
-            {messages.map((m) =>
-                <TentMessage
-                    key={m.id}
-                    message={m}
-                    promptDelete={promptMessageDelete}
-                    addReply={addReply}
-                />
-            )}
-            {isEnd ?
-                <Stack gap={4} pt={4} pb={2} sx={{ position: "relative" }}>
-                    <FadingBox sx={{ zIndex: 1, position: "absolute", left: 0, right: 0, bottom: 40, opacity: 0.15 }}>
-                        <Group px={4}>
-                            <Typography level="title-lg" fontSize={64} sx={{ transform: "rotate(-10deg)" }}>
-                                {textToIcon[PagePlaceholderIcon.NotOk]}
-                            </Typography>
-                            <Box flex={1}></Box>
-                            <Typography level="title-lg" fontSize={64} sx={{ transform: "rotate(10deg)" }}>
-                                {textToIcon[PagePlaceholderIcon.Appreciation]}
-                            </Typography>
-                        </Group>
-                    </FadingBox>
-                    <PagePlaceholder sx={{ zIndex: 2 }} icon={PagePlaceholderIcon.NoMore} title="You've reached the end">
-                        This is the beginning of this tent. There are no more messages in this tent.
-                    </PagePlaceholder>
-                    <Divider sx={{ zIndex: 2 }} orientation="horizontal" />
-                </Stack>
-            : <FadingBox className="reverse">
-                <TentMessageSkeleton1 />
-                <TentMessageSkeleton2 />
-            </FadingBox>}
-        </MessageLimitStack>
+        <>
+            <MessageLimitStack onScroll={isEnd ? undefined : onScroll}>
+                {/* To make You've reached the end always at the top */}
+                <Box flex={1}></Box>
+                {messages.map((m) =>
+                    <TentMessage
+                        key={m.id}
+                        colorRoles={colorRoles}
+                        message={m}
+                        promptDelete={promptMessageDelete}
+                        addReply={addReply}
+                        isBeingRepliedTo={replyMessages.includes(m)}
+                    />
+                )}
+                {isEnd ?
+                    <Stack gap={4} pt={4} pb={2} sx={{ position: "relative" }}>
+                        <FadingBox sx={{ zIndex: 1, position: "absolute", left: 0, right: 0, bottom: 40, opacity: 0.15 }}>
+                            <Group px={4}>
+                                <Typography level="title-lg" fontSize={64} sx={{ transform: "rotate(-10deg)" }}>
+                                    {textToIcon[PagePlaceholderIcon.NotOk]}
+                                </Typography>
+                                <Box flex={1}></Box>
+                                <Typography level="title-lg" fontSize={64} sx={{ transform: "rotate(10deg)" }}>
+                                    {textToIcon[PagePlaceholderIcon.Appreciation]}
+                                </Typography>
+                            </Group>
+                        </FadingBox>
+                        <PagePlaceholder sx={{ zIndex: 2 }} icon={PagePlaceholderIcon.NoMore} title="You've reached the end">
+                            This is the beginning of this tent. There are no more messages in this tent.
+                        </PagePlaceholder>
+                        <Divider sx={{ zIndex: 2 }} orientation="horizontal" />
+                    </Stack>
+                : <FadingBox className="reverse">
+                    <TentMessageSkeleton1 />
+                    <TentMessageSkeleton2 />
+                </FadingBox>}
+            </MessageLimitStack>
+        </>
     );
 }
 
-function MessageInputWrapper({ canCreate, tentName, replyMessages, onCreate, removeReply }: { canCreate: boolean, tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, onCreate: (content: string) => Promise<unknown> }) {
+function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, onCreate, removeReply }: { colorRoles: CampsiteRoleView[], canCreate: boolean, tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, onCreate: (content: string) => Promise<unknown> }) {
     return (
         <Stack sx={{ px: 2, pb: 2 }} gap={1}>
             {!!replyMessages.length && <Group gap={1} alignItems="center">
                 <Typography level="body-md" textColor="text.tertiary">Replying to </Typography>
-                {replyMessages.map((x, i) =>
-                    <Link color="neutral" alignItems="center" component="button" onClick={() => removeReply(x)}>
-                        <Group gap={0.5} alignItems="center">
-                            <UserDisplayNoModal
-                                key={`reply-${i}`}
-                                size="sm"
-                                user={x.createdBy}
-                                />
-                            <IconCircleXFilled size={16} />
-                        </Group>
-                    </Link>
-                )}
+                {replyMessages.map((msg, i) => {
+                    const colorRole = colorRoles.find((role) => msg.createdBy.roles.includes(role.id));
+                    const color = colorRole?.color || colorRole?.colorSecondary;
+                    return (
+                        <Link color="neutral" alignItems="center" component="button" onClick={() => removeReply(msg)}>
+                            <Group gap={0.5} alignItems="center">
+                                <UserDisplayNoModal
+                                    key={`reply-${i}`}
+                                    size="sm"
+                                    color={color ? decimalToHexColor(color) : undefined}
+                                    user={msg.createdBy.user}
+                                    />
+                                <IconCircleXFilled size={16} />
+                            </Group>
+                        </Link>
+                    );
+                })}
             </Group>}
             <Box sx={{ maxHeight: 200 }}>
                 {canCreate

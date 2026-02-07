@@ -6,7 +6,7 @@ import ImageInputModal from "./ImageInputModal";
 import { IconPencil } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
 
-export interface FormFieldAvatarProps extends FormFieldProps<"avatar", string> {
+export interface FormFieldAvatarProps extends FormFieldProps<"avatar", string | null> {
     borderRadius?: keyof Radius;
     color?: ColorPaletteProp;
     variant?: VariantProp;
@@ -19,13 +19,14 @@ type State = {
     open: boolean;
 };
 
-export default class FormFieldAvatar extends AbstractFormField<"avatar", string, FormFieldAvatarProps, State> {
+export default class FormFieldAvatar extends AbstractFormField<"avatar", string | null, FormFieldAvatarProps, State> {
     constructor(props: FormFieldAvatarProps) {
         super(props, "");
         this.state = { open: false, value: props.defaultValue ?? null };
     }
 
     private onInputChange(value: string | null) {
+        console.log({ value });
         this.setState({ value }, () => value && this.onChange(value));
     }
 
@@ -34,7 +35,6 @@ export default class FormFieldAvatar extends AbstractFormField<"avatar", string,
     }
 
     private get isNotEmptyOrRequired(): boolean {
-        console.log("Props", { props: this.props, state: this.state, isValid: !this.props.required || this.state.value });
         return !this.props.required || this.state.value !== null;
     }
 

@@ -39,11 +39,11 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                         </ListItemDecorator>
                         <ListItemContent>
                             <Stack>
-                                <Typography level="title-md" fontWeight="bolder">
+                                <Typography level="title-md" fontWeight="bolder" sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                     {bonfire.name}
                                 </Typography>
-                                <Typography level="body-md">
-                                    {bonfire.description.substring(0, 50)}{bonfire.description.length > 50 && "..."}
+                                <Typography level="body-md" sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                    {bonfire.description}
                                 </Typography>
                             </Stack>
                         </ListItemContent>

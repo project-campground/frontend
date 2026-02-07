@@ -15,7 +15,6 @@ export async function clientLoader({ params: { id } }: Route.ClientLoaderArgs) {
 clientLoader.hydrate = true as const;
 
 export default function ProfilePostsIndex() {
-    console.log("profile.$id.posts._index");
     return (
         <Typography>Redirect...</Typography>
     );

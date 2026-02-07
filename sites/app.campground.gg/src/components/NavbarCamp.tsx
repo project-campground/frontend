@@ -15,6 +15,7 @@ type Props = {
     pingCount?: number;
     isActive?: boolean;
     isVerified?: boolean;
+    isOwner?: boolean;
     sx?: SxProps;
 };
 
@@ -35,7 +36,7 @@ export default function NavbarCamp({ id, avatar, name, memberCount, isVerified, 
 
                 <Stack direction="column" gap={0.2} alignItems="start" sx={{ display: { xs: "none", md: "flex" } }}>
                     <Stack gap={1} direction="row" alignItems="center">
-                        <Typography level="title-md" lineHeight={1} fontSize={16}>{name}</Typography>
+                        <Typography level="title-md" lineHeight={1} fontSize={16} sx={{ maxWidth: 140, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name}</Typography>
                         {isVerified && <VerifiedIcon size="xs" />}
                     </Stack>
                     <Stack gap={1} direction="row" alignItems="center">

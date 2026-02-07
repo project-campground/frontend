@@ -13,20 +13,18 @@ export default function CampsiteCreation() {
     const navigate = useNavigate();
     const [error, setError] = useState<RestResponseError | null>(null);
     const onSubmit = (_: any, fieldValues: Record<string, any>) =>
-            session
-                .restClient
-                ?.createCampsite({ ...fieldValues, tags: [] as string[] } as { name: string; description: string; vanityUrl?: string; tags: string[]; })
-                .then((resp) => {
-                    if (!resp.ok)
-                        return setError(resp);
+        session
+            .restClient
+            ?.createCampsite({ ...fieldValues, tags: [] as string[] } as { name: string; description: string; vanityUrl?: string; tags: string[]; })
+            .then((resp) => {
+                if (!resp.ok)
+                    return setError(resp);
 
-                    console.log("Response", resp);
-
-                    navigate(`/c/${resp.content.campsite.id}`);
-                });
+                navigate(`/c/${resp.content.campsite.id}`);
+            });
 
     return (
-        <Stack alignItems="center" sx={(theme) => ({ position: "relative", width: "100%", height: "100%", pt: 8, background: `linear-gradient(to bottom right, transparent, ${theme.vars.palette.background.level1})` })}>
+        <Stack alignItems="center" sx={(theme) => ({ position: "relative", width: "100%", height: "100%", pt: { sm: 0, md: 8 }, background: `linear-gradient(to bottom right, transparent, ${theme.vars.palette.background.level1})` })}>
             <FadingBanner sx={{ opacity: 0.25 }}>
                 <Typography level="h1" sx={{ position: "absolute", top: "7%", left: "22%", transform: "rotate(15deg)" }}>{textToIcon[PagePlaceholderIcon.Appreciation]}</Typography>
                 <Typography level="h1" sx={{ position: "absolute", bottom: "42%", left: "30%", transform: "rotate(-20deg)" }}>{textToIcon[PagePlaceholderIcon.Error]}</Typography>
@@ -62,55 +60,70 @@ export default function CampsiteCreation() {
                     <IconHeart size={52} />
                 </Typography>
             </FadingBanner>
-            <Box sx={{ minWidth: 512, maxWidth: 512 }}>
-                <Sheet sx={{ px: 6, py: 4, borderRadius: "lg", boxShadow: "lg" }}>
+            <Box sx={{ minWidth: { sm: "100%", md: 512 }, maxWidth: { sm: "100%", md: 512 }, height: { sm: "100%", md: "auto" } }}>
+                <Sheet sx={{ px: 6, py: 4, height: { sm: "100%", md: "auto" }, borderRadius: "lg", boxShadow: "lg" }}>
                     <Form
                         header="Create a Campsite"
                         sections={[
                             {
+                                id: "display",
+                                fields: [],
+                                ReactiveHeader: ({ name, avatarUri }) =>
+                                    <Card>
+                                        <Stack direction="row" alignItems="center" gap={2} py={1}>
+                                            <Avatar src={avatarUri} variant="solid" sx={{ borderRadius: "md" }}>
+                                                {name?.[0] ?? "?"}
+                                            </Avatar>
+                                            <Stack direction="column" gap={0.2} alignItems="start">
+                                                <Stack gap={1} direction="row" alignItems="center">
+                                                    <Typography level="title-lg" lineHeight={1} fontSize={16}>{name?.substring(0, 32) || <Typography textColor="text.tertiary">Unnamed</Typography>}</Typography>
+                                                </Stack>
+                                                <Stack gap={1} direction="row" alignItems="center">
+                                                    <Typography level="body-lg" textColor="neutral.300" lineHeight={1}>
+                                                        <IconUsers size={16} />
+                                                    </Typography>
+                                                    <Typography level="body-md" lineHeight={1} fontSize={12}>1 member</Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Card>
+                            },
+                            {
+                                id: "basic",
+                                layout: "inline",
+                                alignItems: "center",
+                                gap: 2,
                                 fields: [
+                                    {
+                                        type: "avatar",
+                                        id: "avatarUri",
+                                        size: "lg",
+                                        borderRadius: "md",
+                                        variant: "solid",
+                                        placeholder: "?",
+                                    },
                                     {
                                         type: "text",
                                         id: "name",
-                                        header: "Name",
+                                        header: "Campsite Name",
                                         required: true,
-                                    },
-                                    {
-                                        type: "text",
-                                        id: "vanity_url",
-                                        header: "Vanity URL",
-                                    },
-                                    {
-                                        type: "text",
-                                        id: "description",
-                                        header: "Description",
-                                        required: true,
+                                        flex: 1,
                                     },
                                 ]
-                            }
+                            },
+                            {
+                                id: "info",
+                                fields: [
+                                    {
+                                        type: "textarea",
+                                        id: "description",
+                                        header: "Description",
+                                    },
+                                ]
+                            },
                         ]}
                         onSubmit={onSubmit}
                         submitText="Create"
-                        ReactiveComponent={({ name }) =>
-                            <Card sx={{ mt: 2 }}>
-                                <Stack direction="row" alignItems="center" gap={2} py={1}>
-                                    <Avatar variant="solid" sx={{ borderRadius: "md" }}>
-                                        {name?.[0] ?? "?"}
-                                    </Avatar>
-                                    <Stack direction="column" gap={0.2} alignItems="start">
-                                        <Stack gap={1} direction="row" alignItems="center">
-                                            <Typography level="title-lg" lineHeight={1} fontSize={16}>{name?.substring(0, 32) || <Typography textColor="text.tertiary">Unnamed</Typography>}</Typography>
-                                        </Stack>
-                                        <Stack gap={1} direction="row" alignItems="center">
-                                            <Typography level="body-lg" textColor="neutral.300" lineHeight={1}>
-                                                <IconUsers size={16} />
-                                            </Typography>
-                                            <Typography level="body-md" lineHeight={1} fontSize={12}>1 member</Typography>
-                                        </Stack>
-                                    </Stack>
-                                </Stack>
-                            </Card>
-                        }
                     >
                         {error && <Alert color="danger">{error.errorHeader}: {error.errorDescription}</Alert>}
                     </Form>

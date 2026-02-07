@@ -25,7 +25,7 @@ export interface CampsiteInviteViewBasic extends CampsiteInviteView {
     campsiteId: string;
 }
 
-export interface CampsiteInviteViewDetailed extends CampsiteViewDetailed {
+export interface CampsiteInviteViewDetailed extends CampsiteInviteView {
     campsite: CampsiteViewBasic;
 }
 

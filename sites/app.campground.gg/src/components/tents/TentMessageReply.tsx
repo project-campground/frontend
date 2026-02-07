@@ -2,9 +2,12 @@ import { Group, loremIpsum } from "components";
 import type { TentMessageViewBasic } from "types/content";
 import UserDisplay, { UserDisplaySkeleton } from "../UserDisplay";
 import { Skeleton, styled, Typography } from "@mui/joy";
+import type { CampsiteRoleView } from "types/campsites";
+import { decimalToHexColor } from "~/util/color";
 
 type Props = {
     message: TentMessageViewBasic;
+    colorRoles?: CampsiteRoleView[];
 };
 
 const TentMessageReplyWrapper = styled(Group, {
@@ -15,17 +18,18 @@ const TentMessageReplyWrapper = styled(Group, {
     padding: 2,
     paddingLeft: 24,
     alignItems: "center",
-    // ".ThreadLineItem-wrapper:last-child &": {
-    //     paddingBottom: 2,
-    // }
 }));
 
-export default function TentMessageReply({ message }: Props) {
+export default function TentMessageReply({ message, colorRoles }: Props) {
+    const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
+    const color = colorRole?.color || colorRole?.colorSecondary;
+
     return (
         <TentMessageReplyWrapper>
             <UserDisplay
                 size="sm"
-                user={message.createdBy}
+                user={message.createdBy.user}
+                color={color ? decimalToHexColor(color) : undefined}
             />
             <Typography level="body-sm" textColor="text.secondary">
                 {message.content.split("\n").join(" ").substring(0, 50)}{message.content.length > 50 ? "..." : ""}

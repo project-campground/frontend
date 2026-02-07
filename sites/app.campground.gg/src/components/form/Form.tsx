@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactNode, type MouseEventHandler } from "react";
+import React, { ReactNode, type MouseEvent } from "react";
 import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance } from "./forms";
 import { Button, Stack, Typography } from "@mui/joy";
 
@@ -9,12 +9,13 @@ import { Group } from "components";
 export type FormProps = {
     header?: ReactNode | ReactNode[];
     sections: FormSectionProps[];
+    gap?: number;
     submitText?: string;
     cancelText?: string;
     children?: ReactNode[] | ReactNode;
-    onSubmit?: (ev: FormEvent<HTMLFormElement>, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
+    onSubmit?: (ev: MouseEvent<HTMLAnchorElement>, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
     onChange?: (isValid: boolean, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
-    onCancel?: MouseEventHandler<HTMLAnchorElement>;
+    onCancel?: (ev: MouseEvent<HTMLAnchorElement>) => unknown;
     ReactiveComponent?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
 };
 type FormState = {
@@ -53,13 +54,13 @@ export default class Form extends React.Component<FormProps, FormState> {
         this.setState(getFieldValuesAndRequirements(this.props));
     }
 
-    public onButtonSubmit(ev: FormEvent<HTMLFormElement>) {
+    public onButtonSubmit(ev: MouseEvent<HTMLAnchorElement>) {
         ev.preventDefault();
         return this.props.onSubmit?.(ev, this.state.fieldValues);
     }
 
     private onFieldChange(props: AnyFormFieldProps, field: FieldTypeToInstance[keyof FieldTypeToInstance], value: any): Promise<void> | void {
-        this.setState(({ fieldValues, fieldRequirementFilled }) => ({
+        return this.setState(({ fieldValues, fieldRequirementFilled }) => ({
             fieldValues: {
                 ...fieldValues,
                 [props.id]: value
@@ -69,9 +70,6 @@ export default class Form extends React.Component<FormProps, FormState> {
                 [props.id]: field.isValid
             }
         }), () => this.props.onChange?.(this.allValid, this.state.fieldValues));
-
-
-        return props.onChange && props.onChange(field as any, value);
     }
 
     private get allValid(): boolean {
@@ -79,17 +77,17 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     public render(): ReactNode[] | ReactNode {
-        const { header, sections, submitText, cancelText, children, ReactiveComponent } = this.props;
+        const { header, sections, submitText, cancelText, children, ReactiveComponent, gap } = this.props;
         const { fieldValues } = this.state;
 
         return (
-            <form className="Form container" onSubmit={this.onButtonSubmit.bind(this)}>
+            <form className="Form container">
                 <Stack className="Form content" gap={3}>
                     {header && <Typography level="title-lg" fontWeight={700}>
                         {header}
                     </Typography>}
                     {/* Sections */}
-                    <Stack className="Form sections" gap={4}>
+                    <Stack className="Form sections" gap={gap ?? 4}>
                         {sections.map(section =>
                             <FormSection
                                 key={section.id}
@@ -97,6 +95,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                                 section={section}
                                 onFieldChange={this.onFieldChange}
                                 disabled={section.disableOn?.(fieldValues)}
+                                fieldValues={fieldValues}
                             />
                         )}
                     </Stack>
@@ -106,7 +105,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                             {this.props.onCancel && <Button variant="plain" color="danger" onClick={this.props.onCancel} fullWidth>
                                 <FormattedMessage id={cancelText ?? "form.cancel"} />
                             </Button>}
-                            {this.props.onSubmit && <Button variant="glow" color="primary" type="submit" fullWidth disabled={!this.allValid}>
+                            {this.props.onSubmit && <Button onClick={this.onButtonSubmit.bind(this)} variant="glow" color="primary" fullWidth disabled={!this.allValid}>
                                 <FormattedMessage id={submitText ?? "form.submit"} />
                             </Button>}
                         </Group>

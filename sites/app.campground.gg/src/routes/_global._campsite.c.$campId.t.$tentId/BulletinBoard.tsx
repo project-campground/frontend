@@ -5,7 +5,7 @@ import type { CampsiteViewDetailed } from "types/campsites";
 import type { TentViewDetailed } from "types/tent";
 import { IconCake, IconUsers } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import { Group } from "components";
+import { Group, Image } from "components";
 
 export default function BulletinBoard() {
     const campsite = useContext(CampsiteContext);
@@ -15,13 +15,15 @@ export default function BulletinBoard() {
             <Stack sx={(theme) => ({ minHeight: "100%", pb: 16, backgroundColor: theme.vars.palette.background.level1 })}>
                 <Box>
                     <AspectRatio ratio={8} slotProps={{ content: { sx: { paddingBottom: { xs: 20, md: "calc(var(--AspectRatio-paddingBottom) - 2 * var(--variant-borderWidth, 0px))" } } } }}>
-                        <Box sx={(theme) => ({
+                        {campsite.bannerUri
+                        ? <Image src={campsite.bannerUri} />
+                        : <Box sx={(theme) => ({
                             width: "100%",
                             height: "100%",
                             background: `linear-gradient(to bottom right, ${theme.vars.palette.neutral[600]}, ${theme.vars.palette.neutral[700]})`
                         })}>
                             
-                        </Box>
+                        </Box>}
                     </AspectRatio>
                 </Box>
                 <Stack direction="column" alignItems="center" gap={1} sx={{ mt: -8, mb: 2 }}>

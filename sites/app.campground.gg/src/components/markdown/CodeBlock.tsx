@@ -24,6 +24,7 @@ export const CodeContainer = styled("div", {
     borderRadius: theme.vars.radius.md,
     display: "flex",
     flexDirection: "column",
+    width: "100%",
     margin: "8px 0",
     "> .code-icon-button": {
         opacity: 0,

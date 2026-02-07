@@ -3,11 +3,14 @@ import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
 import UserProfileCard from "./UserProfileCard";
 import { Group } from "components";
+import type { CampsiteMemberView } from "types/campsites";
+import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";
 
-type Props = {
-    user: ProfileView;
+type Props<T extends ProfileView> = {
+    user: T;
+    member?: CampsiteMemberView<T>;
     noAvatar?: boolean;
     color?: string;
     size?: Size;
@@ -23,14 +26,14 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-export function UserDisplayNoModal({ withStatus, noAvatar, color, user, size, avatarSize, alignItems, showHandle }: Props) {
+export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, color, user, size, avatarSize, alignItems, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
 
     return (
-        <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"}>
+        <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"} onClick={onClick}>
             {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
             <Typography level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ color: color ?? theme.vars.palette.neutral[100], })}>
-                {user.displayName}
+                {member?.nickname ?? user.displayName}
             </Typography>
             {
                 showHandle && <>
@@ -41,7 +44,7 @@ export function UserDisplayNoModal({ withStatus, noAvatar, color, user, size, av
     );
 }
 
-export default function UserDisplay(props: Props) {
+export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
     return (
         <>
             <Dropdown>
@@ -59,7 +62,7 @@ export default function UserDisplay(props: Props) {
     );
 }
 
-export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
+export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props<ProfileView>, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
     const actualSize = size ?? "md";
 
     return (

@@ -41,7 +41,6 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
     public override render(): ReactNode {
         const { startDecorator, endDecorator, defaultValue, placeholder, inputType } = this.props;
         const { isFormatValid, state: { value } } = this;
-        console.log("Props", this.props, this.state);
 
         return (
             <Input

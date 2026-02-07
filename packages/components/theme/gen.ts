@@ -50,6 +50,4 @@ export const generateColorScheme = (typicalColour: string, background: string, c
 
     softActiveBg: mixHexColors(typicalColour, background, 0.6),
     softActiveColor: mixHexColors(typicalColour, counter, 0.8),
-    // // Transparency
-    // "sm-opacity": `${typicalColour}55`,
 });

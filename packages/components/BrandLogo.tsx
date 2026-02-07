@@ -26,7 +26,7 @@ const sizeToPx: Record<Size, number> = {
     xl: 96,
 };
 
-const BrandIconContainer = styled(Box, {
+const BrandIconContainer = styled("span", {
     name: "BrandIconContainer",
 })(({ theme }) => ({
     "& > img": {

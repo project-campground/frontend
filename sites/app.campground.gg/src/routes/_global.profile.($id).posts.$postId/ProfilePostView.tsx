@@ -104,7 +104,7 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
 
     const deletedParentCard = parentPostDeleted && (
         <Alert startDecorator={<IconExclamationCircleFilled />}>
-            This post has been deleted by the author.
+            The post being replied to has been deleted or the post's URI is invalid.
         </Alert>
     );
     const parentPostIfExists = parentPost && (

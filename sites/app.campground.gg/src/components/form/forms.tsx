@@ -16,6 +16,8 @@ import FormFieldTristate from "./FormFieldTristate";
 import type { FormFieldTristateProps } from "./FormFieldTristate";
 import type { FormFieldSwitchProps } from "./FormFieldSwitch";
 import FormFieldSwitch from "./FormFieldSwitch";
+import type { FormFieldImageProps } from "./FormFieldImage";
+import FormFieldImage from "./FormFieldImage";
 
 export type FormSectionProps = {
     id: string;
@@ -25,9 +27,10 @@ export type FormSectionProps = {
     alignItems?: AlignSetting;
     gap?: number;
     disableOn?: (fieldValues: Record<string, any>) => boolean;
+    ReactiveHeader?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
 };
 
-export type FormFieldType = "text" | "textarea" | "select" | "color" | "radio" | "checkbox" | "switch" | "tristate" | "avatar" | "tags";
+export type FormFieldType = "text" | "textarea" | "select" | "color" | "radio" | "checkbox" | "switch" | "tristate" | "avatar" | "image" | "tags";
 
 export type AnyFormFieldProps = FormFieldTypeToProps[keyof FormFieldTypeToProps];
 
@@ -42,6 +45,7 @@ export type FormFieldTypeToProps = {
     checkbox: FormFieldCheckboxProps;
     switch: FormFieldSwitchProps;
     tristate: FormFieldTristateProps;
+    image: FormFieldImageProps;
     avatar: FormFieldAvatarProps;
     color: FormFieldColorProps;
 };
@@ -56,6 +60,7 @@ export type FieldTypeToInstance = {
     switch: FormFieldSwitch;
     tristate: FormFieldTristate,
     avatar: FormFieldAvatar,
+    image: FormFieldImage,
     color: FormFieldColor,
 };
 export const fieldTypeToComponent = {
@@ -68,6 +73,7 @@ export const fieldTypeToComponent = {
     switch: FormFieldSwitch,
     radio: FormFieldRadio,
     avatar: FormFieldAvatar,
+    image: FormFieldImage,
     color: FormFieldColor,
 };
 

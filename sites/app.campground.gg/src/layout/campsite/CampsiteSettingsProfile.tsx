@@ -1,16 +1,38 @@
-import { Box, Typography } from "@mui/joy";
+import { Box } from "@mui/joy";
 import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteViewDetailed } from "types/campsites";
 
 export default function CampsiteSettingsProfile({ onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
-    const defaultValues = { avatarUri: campsite.avatarUri ?? undefined, name: campsite.name, description: campsite.description, vanityUrl: campsite.vanityUrl, tags: campsite.tags ?? [] };
+    const defaultValues = {
+        bannerUri: campsite.bannerUri ?? undefined,
+        avatarUri: campsite.avatarUri ?? undefined,
+        name: campsite.name,
+        description: campsite.description,
+        vanityUrl: campsite.vanityUrl,
+        tags: campsite.tags ?? []
+    };
     const oneOfNotDefault = (fieldValues: Record<string, any>) => Object.entries(fieldValues).some(([key, value]) => defaultValues[key as keyof typeof defaultValues] != value);
 
     return (
         <Box sx={{ width: 500 }}>
             <Form
                 sections={[
+                    {
+                        id: "banner",
+                        fields: [
+                            {
+                                type: "image",
+                                header: "Banner",
+                                id: "bannerUri",
+                                borderRadius: "md",
+                                width: 310,
+                                sizeRatio: 3.647,
+                                defaultValue: defaultValues.bannerUri,
+                                footer: "The banner shows up at the top of the tent list",
+                            },
+                        ]
+                    },
                     {
                         id: "basic",
                         layout: "inline",

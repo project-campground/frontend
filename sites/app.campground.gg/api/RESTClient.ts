@@ -317,7 +317,7 @@ export default class RESTClient {
         });
     }
     
-    updateBonfire(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; priority?: number; }) {
+    updateBonfire(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; priority?: number; avatarUri?: string; bannerUri?: string; }) {
         return this.post<BonfireViewBasic>({
             route: "gg.campground.campsite.updateBonfire",
             queries: { campsite_id, bonfire_id },
@@ -407,21 +407,30 @@ export default class RESTClient {
     }
 
     getInvite(invite_id: string) {
-        return this.post<CampsiteInviteViewDetailed>({
+        return this.get<CampsiteInviteViewDetailed>({
             route: "gg.campground.membership.getInvite",
             queries: {
                 invite_id,
             },
         });
     }
-
+    
     getInvites(campsite_id: string, offset: number = 0, limit: number = 50) {
-        return this.post<GetInvitesOutput>({
+        return this.get<GetInvitesOutput>({
             route: "gg.campground.membership.getInvites",
             queries: {
                 campsite_id,
                 offset,
                 limit,
+            },
+        });
+    }
+
+    useInvite(invite_id: string) {
+        return this.post<null>({
+            route: "gg.campground.membership.useInvite",
+            queries: {
+                invite_id,
             },
         });
     }

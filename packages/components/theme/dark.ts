@@ -51,7 +51,6 @@ const darkColorScheme: ColorSystemOptions = {
             transparent: `${shades[950]}dd`,
             popup: "#000000",
             body: shades[950],
-            //backdrop: shades[950],
             surface: shades[900],
             level1: shades[900],
             level2: shades[800],

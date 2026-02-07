@@ -5,7 +5,7 @@ import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 import MarkdownWrapper from "../markdown/MarkdownWrapper";
 import { LargeContentMarkdown } from "../markdown/Markdown";
 import MessageToolbar from "./MessageToolbar";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import MessageEditor from "../editor/MessageEditor";
 import { useSession } from "~/context/session";
 import Datestamp, { defaultDateOptions } from "../Datestamp";
@@ -13,6 +13,8 @@ import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
 import { IconPencil } from "@tabler/icons-react";
+import type { CampsiteRoleView } from "types/campsites";
+import { decimalToHexColor } from "~/util/color";
 
 const TentMessageWrapper = styled(Stack, {
     name: "TentMessage",
@@ -22,6 +24,21 @@ const TentMessageWrapper = styled(Stack, {
     backgroundColor: "transparent",
     transition: "background 0.3s",
     position: "relative",
+    "&.being-replied-to": {
+        backgroundColor: theme.vars.palette.info[950],
+    },
+    "&.being-replied-to:hover": {
+        backgroundColor: theme.vars.palette.info[900],
+    },
+    "&.being-replied-to::before": {
+        content: "''",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        width: 3,
+        backgroundColor: theme.vars.palette.info[500],
+    },
     ":hover": {
         backgroundColor: theme.vars.palette.background.level2,
     }
@@ -43,11 +60,14 @@ const TentMessageContainer = styled(Stack, {
 type Props = {
     hideToolbar?: boolean;
     message: TentMessageViewWithReplies;
+    colorRoles?: CampsiteRoleView[];
+    isBeingRepliedTo?: boolean;
+    onAuthorClick?: (ev: MouseEvent<HTMLDivElement>) => unknown;
     promptDelete: (message: TentMessageViewWithReplies) => unknown;
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
 
-export default function TentMessage({ hideToolbar, message, promptDelete, addReply }: Props) {
+export default function TentMessage({ onAuthorClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
     const session = useSession();
     const [editMode, setEditMode] = useState(false);
     const [msgContent, setMsgContent] = useState(message.content);
@@ -63,29 +83,32 @@ export default function TentMessage({ hideToolbar, message, promptDelete, addRep
                 return setMsgContent(message.content = resp.content.content);
             });
     }
+    const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
+    const color = colorRole?.color || colorRole?.colorSecondary;
 
     return (
-        <TentMessageWrapper className="TentMessage-wrapper">
+        <TentMessageWrapper className={`TentMessage-wrapper${isBeingRepliedTo ? " being-replied-to" : ""}`}>
             {!hideToolbar && <MessageToolbar
                 // message={message}
                 onEdit={() => setEditMode(true)}
                 onDelete={() => promptDelete(message)}
                 addReply={() => addReply(message)}
+                beingRepliedTo={isBeingRepliedTo}
             />}
             {message.replyingTo && <TentMessageReplies>
                 {message.replyingTo.map((x, i) =>
                     <ThreadLineItem reverse key={`reply-${i}`} hookSx={{ width: 55, }}>
-                        <TentMessageReply message={x} />
+                        <TentMessageReply message={x} colorRoles={colorRoles} />
                     </ThreadLineItem>
                 )}
             </TentMessageReplies>}
             <TentMessageContainer className="TentMessage-container">
-                <Box>
-                    <UserAvatar did={message.createdBy.did} avatar={message.createdBy.avatar} size="lg" />
+                <Box onClick={onAuthorClick}>
+                    <UserAvatar did={message.createdBy.user.did} avatar={message.createdBy.user.avatar} size="lg" />
                 </Box>
                 <Stack flex={1}>
                     <Group gap={1} alignItems="center">
-                        <UserDisplayNoModal noAvatar user={message.createdBy} />
+                        <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} color={color ? decimalToHexColor(color) : undefined} />
                         {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
                         <Typography level="body-sm">
                             <Datestamp long date={new Date(message.createdAt)}/>
@@ -101,7 +124,7 @@ export default function TentMessage({ hideToolbar, message, promptDelete, addRep
                             </Typography>
                         </Tooltip>}
                     </Group>
-                    <Box>
+                    <Box sx={{ overflow: "hidden" }}>
                         {editMode
                         ? <MessageEditor
                             content={msgContent}

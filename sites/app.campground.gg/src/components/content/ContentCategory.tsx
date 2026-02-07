@@ -8,7 +8,7 @@ const CategoryContainer = styled(Stack)(() => ({
 }));
 
 type Props = React.PropsWithChildren & {
-    header: React.ReactElement | React.ReactElement[];
+    header: React.ReactNode | React.ReactNode[];
 };
 
 export default function ContentCategory({ header, children }: Props) {

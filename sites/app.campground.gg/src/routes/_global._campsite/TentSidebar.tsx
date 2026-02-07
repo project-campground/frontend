@@ -1,7 +1,7 @@
 import { Avatar, Box, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
 import type { RestResponseError } from "api/RESTResponse";
-import { Group } from "components";
+import { Group, Image } from "components";
 import React from "react";
 import type { BonfireViewBasic, BonfireViewDetailed, CampsiteViewDetailed } from "types/campsites";
 import type { GetTentsOutput } from "types/tent";
@@ -14,15 +14,18 @@ import BonfireListMenu from "./BonfireListMenu";
 import { TentItemSkeleton } from "./TentItem";
 import { TentCategorySkeleton } from "./TentCategory";
 import CampsiteSettingsModal from "~/layout/campsite/CampsiteSettingsModal";
+import BonfireSettingsModal from "~/layout/bonfire/BonfireSettingsModal";
+import { type NavigateFunction } from "react-router";
 
 type Props = {
     campsite: CampsiteViewDetailed;
     bonfireSelected: string | null;
     tentSelected: string | null;
+    navigate: NavigateFunction;
 };
+type MenuOption = "campsite-settings" | "bonfire-settings" | "bonfire-list";
 type State = {
-    groupMenuOpen: boolean;
-    campsiteSettingsOpen: boolean;
+    menuOpen: MenuOption | null;
     bonfireSelected: BonfireViewBasic;
     loading: boolean;
     init: boolean;
@@ -35,6 +38,7 @@ export const TentSidebarBox = styled(Stack, {
 })(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level1,
     minWidth: 320,
+    maxWidth: 320,
     borderRadius: theme.vars.radius.xl,
     height: "100%",
     paddingTop: "5px",
@@ -85,8 +89,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         const bonfireSelected = props.bonfireSelected ? this.bonfires.find((x) => x.id === props.bonfireSelected) ?? this.topBonfire : this.topBonfire;
 
         this.state = {
-            groupMenuOpen: false,
-            campsiteSettingsOpen: false,
+            menuOpen: null,
             bonfireSelected,
             loading: true,
             init: false,
@@ -94,13 +97,10 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         };
     }
     toggleGroupMenu() {
-        return this.setGroupMenu(!this.state.groupMenuOpen);
+        return this.setMenu(this.state.menuOpen ? null : "bonfire-list");
     }
-    setGroupMenu(value: boolean) {
-        this.setState({ groupMenuOpen: value });
-    }
-    setCampsiteSettings(value: boolean) {
-        this.setState({ campsiteSettingsOpen: value });
+    setMenu(value: MenuOption | null) {
+        this.setState({ menuOpen: value });
     }
     async componentDidMount(): Promise<void> {
         const { bonfireSelected } = this.state;
@@ -119,8 +119,10 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 return this.setState({ loading: false });
             });
     }
-    async componentDidUpdate(_prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: any): Promise<void> {
-        if (this.state.init || !this.state.loading)
+    async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: any): Promise<void> {
+        if (this.props.bonfireSelected !== prevProps.bonfireSelected)
+            return this.setBonfireSelected(this.props.bonfireSelected ? this.bonfires.find((x) => x.id === this.props.bonfireSelected)! : this.bonfires[0]);
+        else if (!this.state.loading)
             return;
 
         const { bonfireSelected } = this.state;
@@ -146,16 +148,39 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     get bonfires() {
         return this.props.campsite.bonfires;
     }
+    set bonfires(value: BonfireViewBasic[]) {
+        this.props.campsite.bonfires = value;
+    }
     setBonfireSelected(bonfire: BonfireViewBasic) {
-        this.setState({ bonfireSelected: bonfire, groupMenuOpen: false, loading: true });
+        this.setState({ bonfireSelected: bonfire, menuOpen: null, loading: true });
     }
     onBonfireCreated(bonfire: BonfireViewDetailed) {
         this.props.campsite.bonfires.push(bonfire);
     }
+    onBonfireDeleted() {
+        if (this.bonfires.length < 2)
+            return;
+
+        this.setState({ menuOpen: null });
+
+        return (this.context as Session).restClient?.deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
+            .then((resp) => {
+                if (!resp.ok)
+                    return;
+
+                this.bonfires = this.bonfires.filter((x) => x.id !== this.state.bonfireSelected.id);
+                const cached = Object.keys(this.bonfiresToTents);
+
+                if (cached.length)
+                    this.props.navigate(`/c/${this.props.campsite.id}/t/${this.bonfiresToTents[cached[0]].tents[0].id}`);
+                else 
+                    this.props.navigate(`/c/${this.props.campsite.id}`);
+            });
+    }
     render(): React.ReactNode {
         const { campsite, tentSelected } = this.props;
         // const bonfireOrDefault = campsite.bonfires.find((x) => x.id === bonfireSelected) ??
-        const { loading, groupMenuOpen, bonfireSelected } = this.state;
+        const { loading, menuOpen, bonfireSelected } = this.state;
         const tents = this.bonfiresToTents[bonfireSelected.id];
         const toggleGroupMenu = this.toggleGroupMenu.bind(this);
 
@@ -163,7 +188,9 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             <TentSidebarBox>
                 <TentSidebarBannerWrapper >
                     <FadingBanner sx={{ opacity: 0.25 }}>
-                        <GradientBanner />
+                        {bonfireSelected.bannerUri
+                            ? <Image src={bonfireSelected.bannerUri} />
+                            : <GradientBanner />}
                     </FadingBanner>
                     <ClickableBox onClick={toggleGroupMenu}>
                         <Typography>Click to see bonfire list</Typography>
@@ -174,11 +201,11 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                 <Avatar sx={{ borderRadius: "sm" }} src={bonfireSelected.avatarUri ?? undefined} size="sm" variant="solid" color="primary">
                                     {bonfireSelected.name[0]}
                                 </Avatar>
-                                <Stack sx={{ maxHeight: 45 }}>
+                                <Stack sx={{ maxHeight: 45, width: 194 }}>
                                     <Typography level="title-lg" textColor="text.primary">{bonfireSelected.name}</Typography>
                                     {bonfireSelected.description &&
                                     <Tooltip variant="soft" title={bonfireSelected.description}>
-                                        <Typography level="body-sm" textColor="text.tertiary">{bonfireSelected.description.substring(0, 50)}{bonfireSelected.description.length > 50 ? "..." : ""}</Typography>
+                                        <Typography level="body-sm" textColor="text.tertiary" sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis" }}>{bonfireSelected.description}</Typography>
                                     </Tooltip>}
                                 </Stack>
                             </TentSidebarTopBar>
@@ -197,7 +224,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Create invites
                                         </ListItemContent>
                                     </MenuItem>
-                                    <MenuItem variant="soft" onClick={this.setCampsiteSettings.bind(this, true)}>
+                                    <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>
                                         <ListItemDecorator>
                                             <IconCampfire />
                                         </ListItemDecorator>
@@ -205,7 +232,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Campsite Settings
                                         </ListItemContent>
                                     </MenuItem>
-                                    <MenuItem variant="soft">
+                                    <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
                                         <ListItemDecorator>
                                             <IconSettings2 />
                                         </ListItemDecorator>
@@ -220,17 +247,20 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 </TentSidebarBannerWrapper>
                 <BonfireListMenu
                     campsiteId={campsite.id}
-                    open={groupMenuOpen}
+                    open={menuOpen === "bonfire-list"}
                     top={menuTopDesktop}
                     bonfires={campsite.bonfires}
                     onBonfireOpen={this.setBonfireSelected.bind(this)}
                     onBonfireCreated={this.onBonfireCreated.bind(this)}
                 />
-                <Modal open={this.state.campsiteSettingsOpen} onClose={this.setCampsiteSettings.bind(this, false)}>
+                <Modal open={menuOpen === "campsite-settings"} onClose={this.setMenu.bind(this, null)}>
                     <CampsiteSettingsModal campsite={campsite} />
                 </Modal>
+                <Modal open={menuOpen === "bonfire-settings"} onClose={this.setMenu.bind(this, null)}>
+                    <BonfireSettingsModal canDeleteBonfire={campsite.bonfires.length > 1} bonfire={bonfireSelected} onBonfireDeleted={this.onBonfireDeleted.bind(this)} />
+                </Modal>
                 <Box flex={1} sx={{ py: 2, px: 1 }}>
-                    {loading
+                    {loading || !tents
                     ? <TentListSkeleton />
                     : <TentList
                         campsiteId={campsite.id}

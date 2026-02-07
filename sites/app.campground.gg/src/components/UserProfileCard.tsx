@@ -5,9 +5,15 @@ import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import { IconLogout2, IconSettings2, IconShield, IconUser, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
+import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites";
+import ContentCategory from "./content/ContentCategory";
+import RoleDisplay from "./campsite/RoleDisplay";
+import { Group } from "components";
 
 type Props = {
     user?: ProfileView;
+    member?: CampsiteMemberViewBasic;
+    campsiteRoles?: CampsiteRoleView[];
     did: string;
 };
 
@@ -16,7 +22,7 @@ const UserProfileCardWrapper = styled(Box)(() => ({
     padding: `0 8px`,
 }));
 
-export default function UserProfileCard({ did, user }: Props) {
+export default function UserProfileCard({ did, user, member, campsiteRoles }: Props) {
     const session = useSession();
     const [fetchedUser, setFetchedUser] = useState(user);
     const [isFetching, setIsFetching] = useState(false);
@@ -32,14 +38,10 @@ export default function UserProfileCard({ did, user }: Props) {
             fetchUser();
         }
     });
-    
-    // if (!fetchedUser)
-    //     return (
-    //         <Stack direction="column" alignItems="center" sx={{ width: 300, px: 1, py: 4 }}>
-    //             <CircularProgress />
-    //         </Stack>
-    //     );
+
     const isLoading = !fetchedUser;
+
+    const roles = member && campsiteRoles ? campsiteRoles?.filter((x) => member?.roles.includes(x.id)) : null;
 
     return (
         <UserProfileCardWrapper>
@@ -86,6 +88,15 @@ export default function UserProfileCard({ did, user }: Props) {
                     </Typography>
                 </Stack>
             </Box>
+            {roles && <Box sx={{ mb: 1 }}>
+                <ContentCategory header={"Roles"}>
+                    <Group gap={1}>
+                        {roles.map((role) =>
+                            <RoleDisplay key={role.id} {...role}/>
+                        )}
+                    </Group>
+                </ContentCategory>
+            </Box>}
             <MenuList variant="plain">
                 <MenuItem variant="plain" onClick={() => navigate(`/profile/${did}`)}>
                     <ListItemDecorator>

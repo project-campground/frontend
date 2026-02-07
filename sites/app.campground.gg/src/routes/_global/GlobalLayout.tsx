@@ -43,7 +43,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
         const { me, loaded } = this.state;
 
         return (
-            <Stack direction="column" alignItems="stretch" sx={{ width: "100%", height: "100%", overflow: "hidden" }}>
+            <Stack alignItems="stretch" sx={{ flexDirection: { sm: "column-reverse", md: "column" }, width: "100%", height: "100%", overflow: "hidden" }}>
                 <MeContext.Provider value={me}>
                     <GlobalNavbar page={page} loaded={loaded} />
                     <Stack sx={{ flex: 1, height: "100%", overflow: "hidden" }}>

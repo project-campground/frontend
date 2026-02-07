@@ -15,7 +15,6 @@ const homePages = ["friends"]
 export default function GlobalNavbar({ page, loaded }: Props) {
     const me = useMeContext();
 
-    console.log("Me", me);
     return (
         <Box sx={{ px: 1, py: 1, width: "100%" }}>
             <Stack direction="row" gap={2} sx={{ width: "100%" }} alignItems="center">

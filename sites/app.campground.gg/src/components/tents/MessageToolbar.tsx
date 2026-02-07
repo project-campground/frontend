@@ -1,12 +1,12 @@
 import { ButtonGroup, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, styled } from "@mui/joy";
-import { IconArrowForwardUp, IconDots, IconMoodPlus, IconPencil, IconTrash } from "@tabler/icons-react";
-import type { TentMessageViewWithReplies } from "types/content";
+import { IconArrowForwardUp, IconDots, IconMoodPlus, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
 
 type Props = {
     // message: TentMessageViewWithReplies;
     addReply: () => unknown;
     onEdit: () => unknown;
     onDelete: () => unknown;
+    beingRepliedTo?: boolean;
 };
 
 const ToolbarWrapper = styled(ButtonGroup, {
@@ -25,7 +25,7 @@ const ToolbarWrapper = styled(ButtonGroup, {
     }
 }));
 
-export default function MessageToolbar({ onEdit, addReply, onDelete }: Props) {
+export default function MessageToolbar({ onEdit, addReply, onDelete, beingRepliedTo }: Props) {
     return (
         <>
             <ToolbarWrapper variant="soft">
@@ -37,7 +37,7 @@ export default function MessageToolbar({ onEdit, addReply, onDelete }: Props) {
                     <IconPencil />
                 </IconButton>
                 <IconButton onClick={addReply}>
-                    <IconArrowForwardUp />
+                    <IconArrowForwardUp />{beingRepliedTo && <IconX size={12} />}
                 </IconButton>
                 <Dropdown>
                     <MenuButton slots={{ root: IconButton }}>

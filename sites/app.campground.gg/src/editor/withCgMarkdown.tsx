@@ -170,8 +170,6 @@ function modifiedDeleteBackward(editor: RichEditor): boolean {
             at: path,
         }), true);
 
-    console.log("Match", match);
-
     const grandparent = editor.above({ at: path.slice(0, -1) });
 
     if (!Element.isElement(grandparent?.[0]) || !EditorItemParents[block.type as EditorItemElementType].includes((grandparent[0] as Element).type as EditorBlockElementType))

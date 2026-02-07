@@ -63,13 +63,16 @@ export interface CampsitePermissionView {
 }
 export interface CampsiteMemberView<TUser extends ProfileView> {
     user: TUser;
-    userId: string;
-    campsiteId: string;
-    joinedAt: string;
     nickname: string | null | undefined;
     roles: string[];
 }
 export interface CampsiteMemberViewBasic extends CampsiteMemberView<ProfileViewBasic> {
+}
+export interface CampsiteMemberViewAuthor extends CampsiteMemberView<ProfileViewBasic> {
+    isMember: boolean;
+}
+export interface CampsiteMemberViewDetailed extends CampsiteMemberView<ProfileView> {
+    joinedAt: string;
 }
 export interface BonfireView {
     id: string;

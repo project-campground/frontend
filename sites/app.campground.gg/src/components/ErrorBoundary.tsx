@@ -46,7 +46,7 @@ export default class ErrorBoundary extends React.Component<PropsWithChildren, St
                 <Renderer />
             );
         } catch(e) {
-            console.log("C");
+            console.error("Error not caught by error boundary", e);
         }
     }
     static getDerivedStateFromError(error: Error): { error: ErrorBoundaryError } {

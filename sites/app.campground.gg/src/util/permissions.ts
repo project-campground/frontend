@@ -42,17 +42,32 @@ export const aggregateAllPermissions = (member: CampsiteMemberViewBasic, roles: 
     const bonfirePerms = aggregateCampsitePermissions(filteredPerms.filter((x) => x.bonfireId));
     const categoryPerms = aggregateCampsitePermissions(filteredPerms.filter((x) => x.categoryId));
     const tentPerms = aggregateCampsitePermissions(filteredPerms.filter((x) => x.tentId));
+
     return {
-        campsitePermissions:
-            (campsiteRolePermissions & invertCampsite(bonfirePerms.deniedCampsitePermissions)) |
-            (bonfirePerms.allowedCampsitePermissions & invertCampsite(categoryPerms.deniedCampsitePermissions)) |
-            (categoryPerms.allowedCampsitePermissions & invertCampsite(tentPerms.deniedCampsitePermissions)) |
-            tentPerms.allowedCampsitePermissions,
-        tentPermissions:
-            (tentRolePermissions & invertTent(bonfirePerms.deniedTentPermissions)) |
-            (bonfirePerms.allowedTentPermissions & invertTent(categoryPerms.deniedTentPermissions)) |
-            (categoryPerms.allowedTentPermissions & invertTent(tentPerms.deniedTentPermissions)) |
-            tentPerms.allowedTentPermissions,
+        role: {
+            campsitePermissions: campsiteRolePermissions,
+            tentPermissions: tentRolePermissions,
+        },
+        bonfire: {
+            campsitePermissions:
+                (campsiteRolePermissions & invertCampsite(bonfirePerms.deniedCampsitePermissions)) |
+                bonfirePerms.allowedCampsitePermissions,
+            tentPermissions:
+                (tentRolePermissions & invertTent(bonfirePerms.deniedTentPermissions)) |
+                bonfirePerms.allowedTentPermissions
+        },
+        tent: {
+            campsitePermissions:
+                (campsiteRolePermissions & invertCampsite(bonfirePerms.deniedCampsitePermissions)) |
+                (bonfirePerms.allowedCampsitePermissions & invertCampsite(categoryPerms.deniedCampsitePermissions)) |
+                (categoryPerms.allowedCampsitePermissions & invertCampsite(tentPerms.deniedCampsitePermissions)) |
+                tentPerms.allowedCampsitePermissions,
+            tentPermissions:
+                (tentRolePermissions & invertTent(bonfirePerms.deniedTentPermissions)) |
+                (bonfirePerms.allowedTentPermissions & invertTent(categoryPerms.deniedTentPermissions)) |
+                (categoryPerms.allowedTentPermissions & invertTent(tentPerms.deniedTentPermissions)) |
+                tentPerms.allowedTentPermissions,
+        }
     };
 }
 const invertCampsite = (a: number) => CampsitePermissionConsts.MAX - a;

@@ -7,6 +7,7 @@ type Props = {
     section: FormSectionProps;
     fieldBinding: Form;
     disabled?: boolean;
+    fieldValues: Record<string, any>;
     onFieldChange: (props: AnyFormFieldProps, field: FieldTypeToInstance[keyof FieldTypeToInstance], value: any) => Promise<void> | void;
 }
 
@@ -29,11 +30,12 @@ const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
     }
 }));
 
-export default function FormSection({ onFieldChange, fieldBinding, disabled, section: { header, fields, layout, alignItems, gap } }: Props) {
+export default function FormSection({ onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, header, fields, layout, alignItems, gap } }: Props) {
     return (
         <FormSectionStack gap={2} className={`FormSection container${disabled ? " disabled" : ""}${layout ? ` ${layout}` : ""}`}>
             {header && <Typography className="FormSection header" level="title-lg" fontWeight={700}>{header}</Typography>}
-            <FormSectionFieldStack className={`FormSection fields ${layout ?? ""}`} gap={gap ?? 2} sx={{ alignItems }}>
+            {ReactiveHeader && <ReactiveHeader {...fieldValues}/>}
+            {fields.length ? <FormSectionFieldStack className={`FormSection fields ${layout ?? ""}`} gap={gap ?? 2} sx={{ alignItems }}>
                 {fields.map((field) =>
                     <FormFieldWrapper
                         key={field.id}
@@ -44,7 +46,7 @@ export default function FormSection({ onFieldChange, fieldBinding, disabled, sec
                         disabled={disabled}
                     />
                 )}
-            </FormSectionFieldStack>
+            </FormSectionFieldStack> : null}
         </FormSectionStack>
     )
 }

@@ -19,6 +19,8 @@ type Props = {
 type State = {
     createModalOpen: boolean;
     modalCategoryId: string | null;
+    sortedTents: TentViewBasic[];
+    sortedCategories: TentCategoryView[];
 };
 export const TentStyledList = styled(List)(() => ({
     "--ListItemDecorator-size": "32px",
@@ -36,29 +38,40 @@ function TentCategorizedList({ tents, tentSelected }: { tents: TentViewBasic[], 
 
 export default class TentList extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = SessionContext;
-    private sortedTents: TentViewBasic[];
-    private sortedCategories: TentCategoryView[];
+    
 
     constructor(props: Props, context: Session) {
         super(props, context);
 
-        this.state = { createModalOpen: false, modalCategoryId: null };
-        this.sortedTents = this.props.tents.tents.sort((a, b) => a.priority - b.priority);
-        this.sortedCategories = this.props.tents.categories.sort((a, b) => a.priority - b.priority);
+        this.state = {
+            createModalOpen: false,
+            modalCategoryId: null,
+            sortedTents: this.props.tents.tents.sort((a, b) => a.priority - b.priority),
+            sortedCategories: this.props.tents.categories.sort((a, b) => a.priority - b.priority)
+        };
+    }
+    componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: Session | undefined): void {
+        if (prevProps.tents === this.props.tents)
+            return;
+
+        this.setState({
+            sortedTents: this.props.tents.tents.sort((a, b) => a.priority - b.priority),
+            sortedCategories: this.props.tents.categories.sort((a, b) => a.priority - b.priority)
+        });
     }
     get lowestPriorityTent() {
-        return this.sortedTents.slice(-1)[0]?.priority ?? -1;
+        return this.state.sortedTents.slice(-1)[0]?.priority ?? -1;
     }
     get lowestPriorityCategory() {
-        return this.sortedCategories.slice(-1)[0]?.priority ?? -1;
+        return this.state.sortedCategories.slice(-1)[0]?.priority ?? -1;
     }
     get tentsUncategorized() {
-        return this.sortedTents.filter((x) => !x.categoryId);
+        return this.state.sortedTents.filter((x) => !x.categoryId);
     }
     get tentsCategorized() {
-        const { sortedTents: tents } = this;
+        const { sortedTents: tents } = this.state;
     
-        return this.sortedCategories.map((x) => ({ category: x, tents: tents.filter((y) => y.categoryId === x.id) }));
+        return this.state.sortedCategories.map((x) => ({ category: x, tents: tents.filter((y) => y.categoryId === x.id) }));
     }
     onModalClose() {
         this.setState({ createModalOpen: false, modalCategoryId: null });
@@ -109,7 +122,7 @@ export default class TentList extends React.Component<Props, State, Session> {
                     <TentCreationModal
                         campsiteId={this.props.campsiteId}
                         bonfireId={this.props.bonfireId}
-                        categories={this.sortedCategories}
+                        categories={this.state.sortedCategories}
                         onTentCreated={this.props.onTentCreated}
                         categoryId={this.state.modalCategoryId}
                         onClose={onModalClose}

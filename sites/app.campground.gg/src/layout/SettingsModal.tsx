@@ -1,9 +1,6 @@
-import { Box, Breadcrumbs, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
-import { IconSettings2 } from "@tabler/icons-react";
+import { Box, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
 import { Group } from "components";
 import React, { useState } from "react";
-import FadingBanner from "~/components/FadingBanner";
-import GradientBanner from "~/components/GradientBanner";
 import PageSidebar, { type PageSidebarSection } from "~/components/sidebar/PageSidebar";
 
 type Props<TPage extends string, TProps> = {
@@ -93,7 +90,7 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                         </Box>
                         <Divider sx={{ bgcolor: "background.body", height: 2 }} />
                         <Box flex={1} sx={{ height: "100%", overflow: "hidden", px: 3, py: 4 }}>
-                            <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ values, valid, changed })} />
+                            <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: true, values, valid, changed })} />
                         </Box>
                     </SettingsPage>
                 </Group>

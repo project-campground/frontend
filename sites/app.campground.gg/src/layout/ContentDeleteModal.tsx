@@ -23,7 +23,7 @@ export default function ContentDeleteModal({ title, open, ContentRender, onClose
         <Modal open={open} onClose={onClose}>
             <ModalDialog>
                 <DialogTitle>Delete this {title}?</DialogTitle>
-                <DialogContent>This cannot be reversed and will be permanently deleted.</DialogContent>
+                <DialogContent>This cannot be reversed and the {title} will be permanently deleted.</DialogContent>
                 <Sheet variant="outlined" sx={{ minWidth: 500, maxHeight: 200, borderRadius: "md", position: "relative", overflow: "hidden" }}>
                     <Box>
                         <ContentRender />

@@ -22,14 +22,14 @@ const sizeToPx: Record<Size, number> = {
     xxxl: 128,
 };
 
-const StyledAvatar = styled(Avatar)(({ theme, size }) => ({
+const StyledAvatar = styled(Avatar)<{ size?: Size }>(({ theme, size }) => ({
     width: sizeToPx[size ?? "md"],
     height: sizeToPx[size ?? "md"],
-    borderRadius: theme.vars.radius[(size as Size) === "xxl" || (size as Size) === "xxxl" ? "xl" : size ?? "md"],
+    borderRadius: theme.vars.radius[(size as Size) === "xxl" || (size as Size) === "xxxl" ? "xl" : size as "md" ?? "md"],
     // zIndex: 7,
 }));
 
-export default function UserAvatar({ withStatus, did, avatar, status, size, badgeSx, sx }: Props) {
+export default function UserAvatar({ withStatus, avatar, size, badgeSx, sx }: Props) {
     const sizePx = sizeToPx[size ?? "md"];
     const badgeSize = sizePx * 0.25;
 

@@ -11,12 +11,13 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { IntlProvider } from './i18n';
 // import { SessionProvider } from './session';
-import { Box, CircularProgress, CssBaseline, CssVarsProvider, Stack, StyledEngineProvider, Typography } from '@mui/joy';
+import { Box, CircularProgress, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { BrandLogo, FlexCenter, SvgDefs, theme } from "components";
 import { SessionProvider } from "./context/session";
 import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";
 import { DndContext } from "@dnd-kit/core";
+import { RightClickProvider } from "./context/mouse";
 
 export const links: Route.LinksFunction = () => [
     // {
@@ -46,9 +47,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
                                         <SnackbarContextProvider>
                                             <ContextSuiteProvider>
                                                 <DndContext>
-                                                    <Box id="root">
-                                                        {children}
-                                                    </Box>
+                                                    <RightClickProvider>
+                                                        <Box id="root">
+                                                            {children}
+                                                        </Box>
+                                                    </RightClickProvider>
                                                 </DndContext>
                                             </ContextSuiteProvider>
                                         </SnackbarContextProvider>
@@ -100,13 +103,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 export function HydrateFallback() {
     return (
         <FlexCenter>
-            <Stack alignItems="center" gap={2}>
-                <CircularProgress size="lg" sx={{ "--CircularProgress-size": "128px" }}>
-                    <Typography level="title-lg" textColor="primary.500">
-                        <BrandLogo size="xl" />
-                    </Typography>
-                </CircularProgress>
-            </Stack>
+            <CircularProgress size="lg" sx={{ "--CircularProgress-size": "128px" }}>
+                <BrandLogo size="xl" />
+            </CircularProgress>
         </FlexCenter>
     );
 }

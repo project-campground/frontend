@@ -3,14 +3,15 @@ import { IconDots, IconLayoutSidebar, IconLayoutSidebarFilled, IconTrashFilled }
 import { Group } from "components";
 import type { TentViewDetailed } from "types/tent";
 import TentIcon from "~/components/tents/TentIcon";
-import ContentDeleteModal from "./ContentDeleteModal";
+import ContentDeleteModal from "../../layout/ContentDeleteModal";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
 import { useContext, useState } from "react";
 import TentItem from "../_global._campsite/TentItem";
 import { CampsitePermissionConsts } from "~/util/permissions";
-import { CampsiteContext, PermissionsContext } from "../_global._campsite/context";
+import { CampsiteContext } from "../_global._campsite/context";
 import { SnackbarContext } from "~/context/snackbar";
+import { PermissionsContext } from "~/context/permissions";
 
 export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: { sidebarOpen: boolean; sidebarToggle: (value: boolean) => unknown; tent: TentViewDetailed }) {
     const session = useSession();
@@ -19,7 +20,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
     const campsite = useContext(CampsiteContext);
     const permissions = useContext(PermissionsContext);
     const floating = useContext(SnackbarContext);
-    const canManageTent = Boolean(permissions.campsitePermissions & CampsitePermissionConsts.MANAGE_TENTS);
+    const canManageTent = Boolean(permissions.tent.campsitePermissions & CampsitePermissionConsts.MANAGE_TENTS);
 
     const onDelete = () => session
         .restClient
@@ -44,7 +45,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
                 {/* <IconButton size="sm">
                     <IconPinFilled />
                 </IconButton> */}
-                {(canManageTent || campsite.owner === campsite.member.userId) && tent.id !== "bulletin" && <Dropdown>
+                {(canManageTent || campsite.owner === campsite.member.user.did) && tent.id !== "bulletin" && <Dropdown>
                     <MenuButton slots={{ root: IconButton }} size="sm">
                         <IconDots />
                     </MenuButton>

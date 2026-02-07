@@ -3,10 +3,6 @@ import { createContext } from "react";
 import type { CampsiteViewDetailed } from "types/campsites";
 import { ContextBase } from "~/context/session/base";
 import type { ContextSuite } from "~/context/context-suite";
-import { CampsitePermissionConsts, TentPermissionConsts, type AggregatePermissions } from "~/util/permissions";
-
-export const PermissionsContext = createContext<AggregatePermissions>({ tentPermissions: 0, campsitePermissions: 0 });
-export const ownerPermissions: AggregatePermissions = { tentPermissions: TentPermissionConsts.MAX, campsitePermissions: CampsitePermissionConsts.MAX };
 
 export class CurrentTentContext extends ContextBase<TentViewDetailed> {
 }

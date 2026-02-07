@@ -22,7 +22,7 @@ export default function TentItem({ tent, isActive }: Props) {
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>
-                <ListItemContent>
+                <ListItemContent sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {tent.name}
                 </ListItemContent>
             </ListItemButtonStyled>

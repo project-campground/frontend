@@ -53,7 +53,6 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
         );
     }
 
-    console.log("A");
     // Will be used to get neighbours
     const abovePath = above![1];
     const aboveParent = getParentPath(abovePath);

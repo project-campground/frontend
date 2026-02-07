@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/c.$campId._index";
+import type { Route } from "./+types/_global._campsite.c.$campId._index";
 import { sessionRouterContext } from "~/context/session";
 import { loginRequiredMiddleware } from "~/middleware/login";
 import { authMiddleware } from "~/middleware/auth";
@@ -31,8 +31,8 @@ export async function clientLoader({ params: { campId }, context }: Route.Client
         throw redirect("/");
 
     const firstTent = tents.content.tents.sort((a, b) => a.priority - b.priority)[0];
-    
-    throw redirect(session.auth.authenticated ? `/c/${campId}/t/${firstTent.id}` : `/`);
+
+    throw redirect(session.auth.authenticated ? `/c/${campId}/t/${firstTent?.id ?? "bulletin"}` : `/`);
 }
 clientLoader.hydrate = true as const;
 
@@ -44,5 +44,9 @@ export default function Index({ loaderData: { status } }: Route.ComponentProps) 
             </PagePlaceholder>
         );
 
-    return <></>;
+    return (
+        <PagePlaceholder icon={PagePlaceholderIcon.Empty} title="No available tents">
+            It seems that you do not have the permission to view any of the tents.
+        </PagePlaceholder>
+    );
 }

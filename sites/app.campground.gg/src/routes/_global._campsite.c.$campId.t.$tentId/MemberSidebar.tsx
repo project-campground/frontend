@@ -1,4 +1,4 @@
-import { Sheet, Stack, styled, Tab, TabList, Tabs, Typography } from "@mui/joy";
+import { Stack, styled, Tab, TabList, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
 import type { RestResponseError } from "api/RESTResponse";
 import React from "react";

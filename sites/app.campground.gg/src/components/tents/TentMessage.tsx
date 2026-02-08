@@ -1,4 +1,4 @@
-import { Box, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
+import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { Group, loremIpsum } from "components";
 import type { TentMessageViewWithReplies } from "types/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
@@ -12,7 +12,7 @@ import Datestamp, { defaultDateOptions } from "../Datestamp";
 import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
-import { IconPencil } from "@tabler/icons-react";
+import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
 import type { CampsiteRoleView } from "types/campsites";
 import { decimalToHexColor } from "~/util/color";
 
@@ -24,6 +24,12 @@ const TentMessageWrapper = styled(Stack, {
     backgroundColor: "transparent",
     transition: "background 0.3s",
     position: "relative",
+    "&.waiting": {
+        opacity: 0.45,
+    },
+    "&.error": {
+        color: theme.vars.palette.danger[500],
+    },
     "&.being-replied-to": {
         backgroundColor: theme.vars.palette.info[950],
     },
@@ -58,6 +64,8 @@ const TentMessageContainer = styled(Stack, {
 }));
 
 type Props = {
+    waiting?: boolean;
+    error?: string;
     hideToolbar?: boolean;
     message: TentMessageViewWithReplies;
     colorRoles?: CampsiteRoleView[];
@@ -67,7 +75,7 @@ type Props = {
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
 
-export default function TentMessage({ onAuthorClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
+export default function TentMessage({ waiting, error, onAuthorClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
     const session = useSession();
     const [editMode, setEditMode] = useState(false);
     const [msgContent, setMsgContent] = useState(message.content);
@@ -87,13 +95,14 @@ export default function TentMessage({ onAuthorClick, colorRoles, isBeingRepliedT
     const color = colorRole?.color || colorRole?.colorSecondary;
 
     return (
-        <TentMessageWrapper className={`TentMessage-wrapper${isBeingRepliedTo ? " being-replied-to" : ""}`}>
+        <TentMessageWrapper className={`TentMessage-wrapper${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
             {!hideToolbar && <MessageToolbar
                 // message={message}
                 onEdit={() => setEditMode(true)}
                 onDelete={() => promptDelete(message)}
                 addReply={() => addReply(message)}
                 beingRepliedTo={isBeingRepliedTo}
+                onlyAllowDeletion={waiting}
             />}
             {message.replyingTo && <TentMessageReplies>
                 {message.replyingTo.map((x, i) =>
@@ -113,6 +122,13 @@ export default function TentMessage({ onAuthorClick, colorRoles, isBeingRepliedT
                         <Typography level="body-sm">
                             <Datestamp long date={new Date(message.createdAt)}/>
                         </Typography>
+                        {waiting && !error && <CircularProgress size="sm" />}
+                        {error && <Tooltip title={error}>
+                            <Typography textColor="danger.500" level="body-sm" sx={{ lineHeight: 0 }}>
+                                <IconExclamationCircleFilled />
+                            </Typography>
+                        </Tooltip>
+                        }
                         {message.updatedAt &&
                         <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
                             <Typography level="body-sm" textColor="text.tertiary">
@@ -125,7 +141,7 @@ export default function TentMessage({ onAuthorClick, colorRoles, isBeingRepliedT
                         </Tooltip>}
                     </Group>
                     <Box sx={{ overflow: "hidden" }}>
-                        {editMode
+                        {editMode && !waiting
                         ? <MessageEditor
                             content={msgContent}
                             confirmButton="Edit"

@@ -39,7 +39,7 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
     }
 
     public override render(): ReactNode {
-        const { startDecorator, endDecorator, defaultValue, placeholder, inputType } = this.props;
+        const { startDecorator, endDecorator, defaultValue, placeholder, inputType, disabled } = this.props;
         const { isFormatValid, state: { value } } = this;
 
         return (
@@ -52,6 +52,7 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
                 endDecorator={endDecorator}
                 onChange={this.onInputChange.bind(this)}
                 error={value.length > 0 && !isFormatValid}
+                disabled={disabled}
                 />
         );
     }

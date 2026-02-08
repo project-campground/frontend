@@ -26,6 +26,7 @@ export type FormSectionProps = {
     layout?: "stack" | "inline" | "grid-3" | "divided";
     alignItems?: AlignSetting;
     gap?: number;
+    hide?: boolean;
     disableOn?: (fieldValues: Record<string, any>) => boolean;
     ReactiveHeader?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
 };

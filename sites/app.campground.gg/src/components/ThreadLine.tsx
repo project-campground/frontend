@@ -50,10 +50,10 @@ const ThreadLineItemWrapper = styled(Group, {
 })(() => ({
     position: "relative",
     width: "100%",
-    "&:not(.reverse):last-child .line": {
+    "&:not(.reverse):last-of-type .line": {
         opacity: 0,
     },
-    "&.reverse:first-child .line": {
+    "&.reverse:first-of-type .line": {
         opacity: 0,
     },
 }));

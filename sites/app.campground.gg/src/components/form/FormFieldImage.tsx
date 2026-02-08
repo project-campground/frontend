@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldProps } from "./forms";
 import { AspectRatio, Modal, Sheet, styled, Typography, type Radius, } from "@mui/joy";
-import ImageInputModal from "./ImageInputModal";
+import ImageInputModal from "../ImageInputModal";
 import { IconPencil } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
 import { FlexCenter, Image } from "components";

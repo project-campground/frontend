@@ -15,6 +15,9 @@ const FormSectionStack = styled(Stack)(() => ({
     "&.disabled": {
         opacity: 0.65,
     },
+    "&.hide": {
+        display: "none",
+    },
 }));
 const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
     "&.inline": {
@@ -30,9 +33,9 @@ const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
     }
 }));
 
-export default function FormSection({ onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, header, fields, layout, alignItems, gap } }: Props) {
+export default function FormSection({ onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, hide, header, fields, layout, alignItems, gap } }: Props) {
     return (
-        <FormSectionStack gap={2} className={`FormSection container${disabled ? " disabled" : ""}${layout ? ` ${layout}` : ""}`}>
+        <FormSectionStack gap={2} className={`FormSection container${disabled ? " disabled" : ""}${layout ? ` ${layout}` : ""}${hide ? " hide" : ""}`}>
             {header && <Typography className="FormSection header" level="title-lg" fontWeight={700}>{header}</Typography>}
             {ReactiveHeader && <ReactiveHeader {...fieldValues}/>}
             {fields.length ? <FormSectionFieldStack className={`FormSection fields ${layout ?? ""}`} gap={gap ?? 2} sx={{ alignItems }}>

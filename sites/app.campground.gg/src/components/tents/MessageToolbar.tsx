@@ -7,6 +7,7 @@ type Props = {
     onEdit: () => unknown;
     onDelete: () => unknown;
     beingRepliedTo?: boolean;
+    onlyAllowDeletion?: boolean;
 };
 
 const ToolbarWrapper = styled(ButtonGroup, {
@@ -25,35 +26,44 @@ const ToolbarWrapper = styled(ButtonGroup, {
     }
 }));
 
-export default function MessageToolbar({ onEdit, addReply, onDelete, beingRepliedTo }: Props) {
+export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, onDelete, beingRepliedTo }: Props) {
     return (
         <>
             <ToolbarWrapper variant="soft">
-                <IconButton>
-                    <IconMoodPlus />
-                </IconButton>
-                <Divider />
-                <IconButton onClick={onEdit}>
-                    <IconPencil />
-                </IconButton>
-                <IconButton onClick={addReply}>
-                    <IconArrowForwardUp />{beingRepliedTo && <IconX size={12} />}
-                </IconButton>
-                <Dropdown>
-                    <MenuButton slots={{ root: IconButton }}>
-                        <IconDots />
-                    </MenuButton>
-                    <Menu>
-                        <MenuItem color="danger" onClick={onDelete}>
-                            <ListItemDecorator>
-                                <IconTrash />
-                            </ListItemDecorator>
-                            <ListItemContent>
-                                Delete message
-                            </ListItemContent>
-                        </MenuItem>
-                    </Menu>
-                </Dropdown>
+                {!onlyAllowDeletion
+                ? <>
+                    <IconButton>
+                        <IconMoodPlus />
+                    </IconButton>
+                    <Divider />
+                    <IconButton onClick={onEdit}>
+                        <IconPencil />
+                    </IconButton>
+                    <IconButton onClick={addReply}>
+                        <IconArrowForwardUp />{beingRepliedTo && <IconX size={12} />}
+                    </IconButton>
+                    <Dropdown>
+                        <MenuButton slots={{ root: IconButton }}>
+                            <IconDots />
+                        </MenuButton>
+                        <Menu>
+                            <MenuItem color="danger" onClick={onDelete}>
+                                <ListItemDecorator>
+                                    <IconTrash />
+                                </ListItemDecorator>
+                                <ListItemContent>
+                                    Delete message
+                                </ListItemContent>
+                            </MenuItem>
+                        </Menu>
+                    </Dropdown>
+                </>
+                : <>
+                    <IconButton onClick={onDelete}>
+                        <IconTrash />
+                    </IconButton>
+                </>
+                }
             </ToolbarWrapper>
         </>
     );

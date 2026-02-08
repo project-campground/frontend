@@ -92,11 +92,14 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
     // The end of editor and no point trying to escape blocks
     else if (elementAbove.type === "paragraph" && abovePath.length < 2)
         return;
-
+    
     const parent = editor.above({ at: abovePath });
     // 1 or -1
     const whichNeighbor = (Number(up) * -2) + 1;
-    const newNodePath = elementAbove.type === "table-cell" || (parent?.[0] as Element).type === "list-item" ? getNeighborPath(getParentPath(aboveParent), whichNeighbor) : getNeighborPath(aboveParent, whichNeighbor);
+    const newNodePath = elementAbove.type === "table-cell" || (parent?.[0] as Element).type === "list-item"
+        ? getNeighborPath(getParentPath(aboveParent), whichNeighbor)
+        // ternary to prevent NaN when it's the table
+        : getNeighborPath(parent?.[1].length ? aboveParent : abovePath, whichNeighbor);
 
     // Insert and set cursor to it. Made to escape blocks.
     editor.insertNode(
@@ -193,8 +196,11 @@ export const editorKeyboardLogic: Record<string, (editor: RichEditor, event: Rea
                 n.type !== "paragraph",
         });
 
+        // Can't create newlines in image alt
+        if (above && above[0].type === "image")
+            return;
         // Override others for code blocks and list
-        if (above && EditorItemElementType.includes(above[0].type as EditorItemElementType) && (!event.shiftKey || above[0].type === "code-line"))
+        else if (above && EditorItemElementType.includes(above[0].type as EditorItemElementType) && (!event.shiftKey || above[0].type === "code-line"))
             return enterInsertItem(editor, above);
 
         const currentSelection = editor.selection;

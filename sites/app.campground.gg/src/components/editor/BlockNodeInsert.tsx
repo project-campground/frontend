@@ -19,6 +19,9 @@ export default function BlockNodeInsert({ children, format: formatting, }: Props
                 type: formatting,
                 children: [],
             },
+            {
+                at: editor.selection?.focus ?? [editor.children.length],
+            }
         );
     };
     return (

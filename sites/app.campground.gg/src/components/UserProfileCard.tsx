@@ -9,6 +9,7 @@ import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites"
 import ContentCategory from "./content/ContentCategory";
 import RoleDisplay from "./campsite/RoleDisplay";
 import { Group } from "components";
+import GradientBanner from "./GradientBanner";
 
 type Props = {
     user?: ProfileView;
@@ -46,13 +47,13 @@ export default function UserProfileCard({ did, user, member, campsiteRoles }: Pr
     return (
         <UserProfileCardWrapper>
             <Box>
-                <AspectRatio ratio={3} sx={{ borderRadius: "lg" }}>
+                <AspectRatio ratio={3} sx={{ borderRadius: "sm" }}>
                     {isLoading
                     ? <Skeleton loading sx={{ zIndex: 0 }}>
                     </Skeleton>
-                    : <Sheet color="primary" variant="solid" sx={{ width: "100%", height: "100%", }}>
+                    : <GradientBanner color="primary" sx={{ zIndex: "inherit", width: "100%", height: "100%", }}>
 
-                    </Sheet>}
+                    </GradientBanner>}
                 </AspectRatio>
             </Box>
             <Box sx={{ mt: -6, px: 1.5, zIndex: 2 }}>

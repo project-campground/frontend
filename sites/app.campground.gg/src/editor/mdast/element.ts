@@ -3,7 +3,7 @@ import type { EditorBlockElement, EditorCodeBlock, EditorElementType, EditorHead
 import type { BlockContent, DefinitionContent, ListItem, PhrasingContent, RootContentMap, Node as MdastNode, Paragraph, Parent, Blockquote, Code, List, Heading, Link, Html, Text, InlineCode, FootnoteDefinition, FootnoteReference, Definition, Image, ImageReference, Yaml, Table, TableRow, TableCell, LinkReference } from "mdast";
 import { mdastifyNode } from "./nodes";
 import { slatefyText } from "./text";
-import type { BlockAlignment, EditorParagraph, EditorTable, EditorTableCell, EditorTableRow } from "../element";
+import type { BlockAlignment, EditorImage, EditorParagraph, EditorTable, EditorTableCell, EditorTableRow } from "../element";
 
 const nodeSerializers: Record<EditorElementType, (element: Element) => RootContentMap[keyof RootContentMap] | TableRow | TableCell> = {
     paragraph(element) {
@@ -14,7 +14,7 @@ const nodeSerializers: Record<EditorElementType, (element: Element) => RootConte
     },
     ["code-block"](element) {
         const codeBlock = element as EditorCodeBlock;
-
+        
         return { ...codeBlock, type: "code", value: element.children.map(Node.string).join("\n"), };
     },
     table(element) {
@@ -24,7 +24,17 @@ const nodeSerializers: Record<EditorElementType, (element: Element) => RootConte
             type: "table",
             align: table.align,
             children:
-                table.children.map(mdastifyNode) as TableRow[],
+            table.children.map(mdastifyNode) as TableRow[],
+        };
+    },
+    image(element) {
+        const { url, title, children } = element as EditorImage;
+
+        return {
+            type: "image",
+            url,
+            title,
+            alt: children.map((node) => Node.string(node)).join(""),
         };
     },
     ["table-row"](element) {

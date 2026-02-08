@@ -16,8 +16,8 @@ export default class ProfileLayout extends React.Component<Props> {
         return (
             <Box sx={{ overflowY: "auto", flex: 1, width: "100%" }}>
                 <Stack className="ProfileLayout container" sx={(theme) => ({ minHeight: "100%", pb: 16, backgroundColor: theme.vars.palette.background.level1 })}>
-                    <Box>
-                        <AspectRatio ratio={8} slotProps={{ content: { sx: { paddingBottom: { xs: 20, md: "calc(var(--AspectRatio-paddingBottom) - 2 * var(--variant-borderWidth, 0px))" } } } }}>
+                    <Box sx={{ px: 2, py: 2, overflow: "hidden" }}>
+                        <AspectRatio ratio={8} sx={{ borderRadius: "md" }} slotProps={{ content: { sx: { paddingBottom: { xs: 20, md: "calc(var(--AspectRatio-paddingBottom) - 2 * var(--variant-borderWidth, 0px))" } } } }}>
                             <Box sx={(theme) => ({
                                 width: "100%",
                                 height: "100%",

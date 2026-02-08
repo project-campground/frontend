@@ -8,15 +8,12 @@ const decorators: Partial<Record<EditorElementType, (entry: NodeEntry) => Decora
         const content = (node as EditorCodeBlock).children.map((x) => x.children.map((y) => y.text).join("")).join("\n");
 
         const { lang: language } = node as unknown as EditorCodeBlock;
-        
-        console.log({ language });
+
         if (!language || CodeBlock.nonHighlightedLanguages.includes(language))
             return [];
 
         const { tokens } = CodeBlock.tokenizeContent(language, content);
         const linefied = linefyTokens(tokens);
-
-        console.log({ node, path, content, tokens, linefied });
 
         const decors: DecoratedRange[] = linefied
             .flatMap<Range>(

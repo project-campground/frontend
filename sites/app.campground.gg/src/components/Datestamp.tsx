@@ -1,4 +1,4 @@
-import { styled, Tooltip, Typography } from "@mui/joy";
+import { Tooltip, Typography } from "@mui/joy";
 import ms from "ms";
 
 type Props = {
@@ -8,13 +8,6 @@ type Props = {
     displayDate?: boolean;
     dateOptions?: Intl.DateTimeFormatOptions;
 };
-
-const DateTooltip = styled(Tooltip, {
-    slot: "tooltip",
-})();
-const DatestampText = styled(Typography, {
-    slot: "text",
-})();
 
 export const defaultDateOptions: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -30,21 +23,21 @@ export default function Datestamp({ dateOptions, noAgo, displayDate, date, long 
 
     if (isInvalid)
         return (
-            <DateTooltip title={"The provided date is invalid"}>
-                <DatestampText>
+            <Tooltip title={"The provided date is invalid"}>
+                <Typography>
                     Invalid date
-                </DatestampText>
-            </DateTooltip>
+                </Typography>
+            </Tooltip>
         );
 
     const time = `${ms(Date.now() - date.getTime(), { long: long ?? false })} ${noAgo ? "" : "ago"}`;
     const dateFormat = date.toLocaleString("en-US", dateOptions ?? defaultDateOptions);
 
     return (
-        <DateTooltip title={displayDate ? time : dateFormat}>
-            <DatestampText>
+        <Tooltip title={displayDate ? time : dateFormat}>
+            <Typography>
                 {displayDate ? dateFormat : time}
-            </DatestampText>
-        </DateTooltip>
+            </Typography>
+        </Tooltip>
     );
 }

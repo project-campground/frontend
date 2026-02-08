@@ -1,8 +1,8 @@
-import { Editor, Element, Node, type NodeEntry, Text, Transforms } from "slate";
+import { type Ancestor, Editor, Element, Node, type NodeEntry, type Path, Text, Transforms } from "slate";
 import { EditorInlineElementType, type RichEditor, type EditorElementType, type EditorBlockElementType, type EditorItemElementType } from "../../editor/editor";
 import type { EditorTextFormatting } from "~/editor/text";
-import { EditorItemParents, type EditorTable } from "~/editor/element";
-import { getNeighborPath, paragraph } from "~/editor/utils";
+import { EditorItemParents, EditorListElementType } from "~/editor/element";
+import { paragraph } from "~/editor/utils";
 
 export default class CampgroundEditor {
     static clearEditor(editor: RichEditor) {
@@ -52,9 +52,26 @@ export default class CampgroundEditor {
             })
         );
     }
+    static getNearestAncestor(editor: RichEditor, type?: EditorElementType): NodeEntry<Ancestor> | undefined | null {
+        const { selection } = editor;
+
+        // Can't detect nodes; out of focus of editor
+        if (!selection)
+            return null;
+
+        return Editor.above(editor, {
+            at: Editor.unhangRange(editor, selection),
+            match: n => !Editor.isEditor(n) && Element.isElement(n) && (!type || n.type === type),
+        });
+    }
     static isTextFormatted(editor: RichEditor, type: keyof EditorTextFormatting) {
         const marks = Editor.marks(editor);
         return (marks?.[type] as boolean | null) ?? false;
+    }
+    static toggleTextFormatting(editor: RichEditor, type: keyof EditorTextFormatting) {
+        const isMarked = this.isTextFormatted(editor, type);
+
+        return isMarked ? Editor.removeMark(editor, type) : Editor.addMark(editor, type, true);
     }
     static isListElement(element: any) {
         return Element.isElement(element) && EditorItemParents["list-item"].includes(element.type as EditorBlockElementType);
@@ -70,44 +87,36 @@ export default class CampgroundEditor {
             ...props,
         });
     }
-    static insertTableRow(editor: RichEditor, table: EditorTable) {
-        if (!editor.selection)
-            return;
-
-        const currentPath = editor.selection.focus.path;
-        const insertedPath = getNeighborPath(currentPath.slice(0, -2));
-
+    static insertTableRow(editor: RichEditor, columns: number, tablePath: Path, row: number) {
+        const rowPath = [...tablePath, row];
+        console.log({ tablePath });
         editor.insertNode(
             {
                 type: "table-row",
-                children: table.children[0].children.map((_, i) => ({
-                    type: "table-cell",
-                    children: [
-                        { text: `Cell #${i + 1}` }
-                    ]
-                }))
+                children: Array(columns)
+                    .fill(null)
+                    .map(() => ({
+                        type: "table-cell",
+                        children: [
+                            { text: "" }
+                        ]
+                    }))
             },
             {
-                at: insertedPath,
+                at: rowPath,
             }
         );
-        editor.select({ path: [...insertedPath, 0, 0], offset: 1 });
+        editor.select({ path: [...rowPath, 0, 0], offset: 1 });
     }
-    static insertTableColumn(editor: RichEditor, table: EditorTable) {
-        if (!editor.selection)
-            return;
-
-        const currentPath = editor.selection.focus.path;
-        const [column] = currentPath.slice(-2);
-
-        for (let row = 0; row < table.children.length; row++) {
-            const columnPath = [...currentPath.slice(0, -3), row, column + 1];
+    static insertTableColumn(editor: RichEditor, rows: number, tablePath: Path, column: number) {
+        for (let row = 0; row < rows; row++) {
+            const columnPath = [...tablePath, row, column];
 
             editor.insertNode(
                 {
                     type: "table-cell",
                     children: [
-                        { text: `Cell #${row + 1}` }
+                        { text: "" }
                     ]
                 },
                 {
@@ -116,6 +125,14 @@ export default class CampgroundEditor {
             );
         }
         // editor.select({ path: [...insertedPath, 0, 0], offset: 1 });
+    }
+    static removeTableColumn(editor: RichEditor, tablePath: Path, column: number) {
+        editor.removeNodes(
+            {
+                at: tablePath,
+                match: (node, path) => Element.isElement(node) && node.type === "table-cell" && path.slice(-1)[0] === column,
+            },
+        );
     }
     static setBlockFormatting(editor: RichEditor, type: EditorBlockElementType, additionalProps?: any) {
         // Simple type change
@@ -149,39 +166,76 @@ export default class CampgroundEditor {
             }
         );
     }
-    static toggleListFormatting(editor: RichEditor, type: EditorBlockElementType, itemType: EditorItemElementType) {
-        const active = CampgroundEditor.isNodeFormatted(editor, type);
+    static toggleListFormatting(editor: RichEditor, type: EditorBlockElementType) {
+        if (!editor.selection)
+            return;
 
-        if (active)
-            Transforms.unwrapNodes(editor, {
-                match: (n) =>
-                    !Editor.isEditor(n) &&
-                    Element.isElement(n),
-                split: true,
-            });
-        
-        // Simple type change
-        Transforms.setNodes<Element>(
-            editor,
-            {
-                type: active ? `paragraph` : itemType,
-            },
-        );
+        const nearestList = Editor.above(editor, {
+            match: (node) =>
+                Element.isElement(node) &&
+                EditorListElementType.includes(node.type as EditorListElementType)
+        });
 
-        if (!active)
+        // Wrap into a list
+        if (!nearestList)
+        {
+            Transforms.wrapNodes(
+                editor,
+                {
+                    type: "list-item",
+                    children: [],
+                },
+                {
+                    at: editor.selection,
+                    match: n => Element.isElement(n)
+                }
+            );
             Transforms.wrapNodes(
                 editor,
                 {
                     type,
                     children: [],
                 },
+                {
+                    match: n => Element.isElement(n) && n.type === "list-item"
+                }
             );
+
+            return;
+        }
+        // Change list type
+        else if (Element.isElement(nearestList[0]) && nearestList[0].type !== type)
+            return Transforms.setNodes(
+                editor,
+                {
+                    type,
+                },
+                {
+                    at: nearestList[1],
+                }
+            );
+
+        // unwrap all the lists
+        Transforms.unwrapNodes(
+            editor,
+            {
+                match: n => Element.isElement(n) && n.type === "list-item",
+                at: editor.selection,
+                split: true,
+            },
+        );
+        Transforms.unwrapNodes(
+            editor,
+            {
+                match: n => Element.isElement(n) && n.type === type,
+                split: true,
+                at: editor.selection,
+                mode: "all",
+            }
+        );
     }
     static toggleCodeFormatting(editor: RichEditor, type: EditorBlockElementType, itemType: EditorItemElementType) {
         const active = CampgroundEditor.isNodeFormatted(editor, type);
-        const activeElems = CampgroundEditor.getSelectedNodes(editor);
-
-        console.log(activeElems);
 
         // Simple type change
         Transforms.setNodes<Element>(
@@ -254,6 +308,25 @@ export default class CampgroundEditor {
                     ]
                 }
             ]
+        });
+    }
+    static insertImageFormatting(editor: RichEditor, url: string, title?: string | null | undefined) {
+        editor.insertNode({
+            type: "paragraph",
+            children: [
+                {
+                    type: "image",
+                    url,
+                    title,
+                    children: [
+                        {
+                            text: ""
+                        },
+                    ],
+                }
+            ]
+        }, {
+            at: editor.selection?.focus,
         });
     }
 }

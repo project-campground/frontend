@@ -94,7 +94,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                                 fieldBinding={this}
                                 section={section}
                                 onFieldChange={this.onFieldChange}
-                                disabled={section.disableOn?.(fieldValues)}
+                                disabled={section.hide ?? section.disableOn?.(fieldValues)}
                                 fieldValues={fieldValues}
                             />
                         )}

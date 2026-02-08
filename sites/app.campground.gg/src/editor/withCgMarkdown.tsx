@@ -1,8 +1,10 @@
-import { Editor, Element, Point, Range, Transforms } from "slate";
+import { Editor, Element, Point, Range, Transforms, type NodeEntry, type Path, type TextUnit } from "slate";
 import { type RichEditor, EditorBlockElementType, EditorItemElementType } from "./editor";
-import { EditorItemParents, type EditorElementType } from "./element";
+import { EditorItemParents, EditorListElementType, type EditorElementType, type EditorTable } from "./element";
+import { getParentPath, paragraph } from "./utils";
+import CampgroundEditor from "~/components/editor/CampgroundEditor";
 
-const unorderedList = {
+const unorderedList: PrefixedElement = {
     type: "list-item",
     wrapper: "unordered-list",
 } as const;
@@ -10,7 +12,7 @@ const unorderedList = {
 type PrefixedElement = {
     type: EditorBlockElementType | EditorItemElementType;
     data?: any;
-    wrapper?: EditorBlockElementType;
+    wrapper?: EditorBlockElementType | EditorItemElementType;
     wrapperData?: any;
 }
 
@@ -26,6 +28,7 @@ const nodePrefixes: Record<string, PrefixedElement> = {
     "#### ": { type: "heading", data: { depth: 4 } },
     "##### ": { type: "heading", data: { depth: 5 } },
     "###### ": { type: "heading", data: { depth: 6 } },
+    "--- ": { type: "divider" },
 };
 
 // Doesn't help a lot, but probably for some performance to do less calculations
@@ -130,7 +133,7 @@ function modifiedInsertText(editor: RichEditor, text: string): boolean {
             {
                 type: elem.wrapper,
                 children: [],
-                ...elem.wrapperData,
+                // ...elem.wrapperData,
             },
             {
                 match: n =>
@@ -142,7 +145,9 @@ function modifiedInsertText(editor: RichEditor, text: string): boolean {
     return true;
 }
 
-function modifiedDeleteBackward(editor: RichEditor): boolean {
+const blockContainers: (EditorBlockElementType | EditorItemElementType)[] = ["block-quote"];
+
+function modifiedDeleteBackward(editor: RichEditor, type: TextUnit): boolean {
     const { selection } = editor;
 
     if (!selection)
@@ -159,28 +164,28 @@ function modifiedDeleteBackward(editor: RichEditor): boolean {
     const start = Editor.start(editor, path);
     
     if (
-        Editor.isEditor(block) ||
         !Element.isElement(block) ||
-        block.type === "paragraph" ||
         !Point.equals(selection.anchor, start)
     )
         return false;
-    else if ((block as Element).type === "block-quote")
-        return (Transforms.unwrapNodes(editor, {
-            at: path,
-        }), true);
-
-    const grandparent = editor.above({ at: path.slice(0, -1) });
-
-    if (!Element.isElement(grandparent?.[0]) || !EditorItemParents[block.type as EditorItemElementType].includes((grandparent[0] as Element).type as EditorBlockElementType))
+    else if (type === "word")
+        return fullUnwrap(editor, block);
+    else if (
+        (block as Element).type === "list-item"
+    )
+        return unwrapList(editor, path);
+    else if (
+        (block as Element).type === "table-cell"
+    )
+        return removeColumn(editor, path);
+    else if (
+        blockContainers.includes((block as Element).type as EditorBlockElementType)
+    )
         Transforms.unwrapNodes(editor, {
-            match: n =>
-                !Editor.isEditor(n) &&
-                Element.isElement(n) &&
-                n.type === block.type,
-            split: true
+            at: path,
         });
 
+    // List items and such have double nested blocks
     if (EditorItemParents[(block as Element).type as EditorItemElementType])
         Transforms.unwrapNodes(editor, {
             match: n =>
@@ -189,6 +194,65 @@ function modifiedDeleteBackward(editor: RichEditor): boolean {
                 EditorItemParents[block.type as EditorItemElementType].includes(n.type as EditorBlockElementType),
             split: true,
         });
+        
+    return true;
+}
+
+function fullUnwrap(editor: RichEditor, block: Element) {
+    Transforms.unwrapNodes(editor, {
+        split: true,
+        mode: "all",
+        match: (node) =>
+            Element.isElement(node) &&
+            node.type !== "paragraph" &&
+            node.type !== "code-line",
+    });
+
+    if (block.type === "code-line")
+        Transforms.setNodes(editor, {
+            type: "paragraph",
+        });
+
+    return true;
+}
+
+function unwrapList(editor: RichEditor, path: Path): boolean {
+    const parent = getParentPath(path);
+    const grandparent = editor.above({ at: getParentPath(path) });
+    const grandparentIsList = Element.isElement(grandparent?.[0]) && EditorListElementType.includes(grandparent[0].type as EditorListElementType);
+
+    if (!grandparentIsList)
+        Transforms.unwrapNodes(editor, {
+            at: path,
+            split: true,
+        });
+
+    Transforms.unwrapNodes(editor, {
+        at: parent,
+        split: true,
+    });
+
+    return true;
+}
+function removeColumn(editor: RichEditor, path: Path): boolean {
+    const table = CampgroundEditor.getNearestAncestor(editor, "table") as NodeEntry<EditorTable>;
+
+    const [column] = path.slice(-1);
+
+    // If there is single column, then remove entire table
+    if (table![0].children[0]!.children.length === 1) {
+        editor.removeNodes({
+            at: table[1],
+        });
+
+        // Make sure a node at least exists
+        if (!editor.children.length)
+            editor.insertNode(paragraph());
+
+        return true;
+    }
+
+    CampgroundEditor.removeTableColumn(editor, table![1], column);
 
     return true;
 }
@@ -201,11 +265,11 @@ export default function withCgMarkdown(editor: RichEditor) {
             insertText(text);
     };
 
-    editor.deleteBackward = (...args) => {
-        const modified = modifiedDeleteBackward(editor); 
+    editor.deleteBackward = (type) => {
+        const modified = modifiedDeleteBackward(editor, type); 
 
         if (!modified)
-            deleteBackward(...args);
+            deleteBackward(type);
     }
 
     return editor;

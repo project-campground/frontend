@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldProps } from "./forms";
 import { Avatar, Modal, type ColorPaletteProp, type Radius, type VariantProp, } from "@mui/joy";
-import ImageInputModal from "./ImageInputModal";
+import ImageInputModal from "../ImageInputModal";
 import { IconPencil } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
 

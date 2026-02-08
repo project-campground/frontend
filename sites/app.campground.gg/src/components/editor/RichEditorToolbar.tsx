@@ -74,15 +74,18 @@ export function RichEditorToolbarTableFormatting() {
 
     if (!activeTable?.length)
         return <></>;
-
-    console.log("Active table", activeTable);
+    const table = activeTable[0];
+    const insertRow = () =>
+        CampgroundEditor.insertTableRow(editor, (table[0] as EditorTable).children[0]?.children.length ?? 0, table[1], editor.selection!.focus.path.slice(-3)[0]! + 1);
+    const insertColumn = () =>
+        CampgroundEditor.insertTableColumn(editor, (table[0] as EditorTable).children.length, table[1], editor.selection!.focus.path.slice(-2)[0]! + 1);
 
     return (
         <ButtonGroup variant="soft" sx={{ overflow: "hidden" }}>
-            <IconButton onClick={() => CampgroundEditor.insertTableRow(editor, activeTable[0][0] as EditorTable)}>
+            <IconButton onClick={insertRow}>
                 <IconTableRow />
             </IconButton>
-            <IconButton onClick={() => CampgroundEditor.insertTableColumn(editor, activeTable[0][0] as EditorTable)}>
+            <IconButton onClick={insertColumn}>
                 <IconTableColumn />
             </IconButton>
         </ButtonGroup>

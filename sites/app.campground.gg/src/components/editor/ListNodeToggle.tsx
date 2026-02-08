@@ -10,14 +10,14 @@ type Props = {
     children: ReactNode[] | ReactNode;
 };
 
-export default function ListNodeToggle({ children, format: formatting, itemFormat }: Props) {
+export default function ListNodeToggle({ children, format: formatting }: Props) {
     const editor = useSlate();
 
-    const active = CampgroundEditor.isNodeFormatted(editor, itemFormat);
+    const active = CampgroundEditor.isNodeFormatted(editor, formatting);
 
     const toggleFormatting = (ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         ev.preventDefault();
-        CampgroundEditor.toggleListFormatting(editor, formatting, itemFormat);
+        CampgroundEditor.toggleListFormatting(editor, formatting);
     };
     return (
         <IconButton variant={active ? "solid" : undefined} onClick={toggleFormatting}>

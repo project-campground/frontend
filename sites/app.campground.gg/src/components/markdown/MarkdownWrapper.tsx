@@ -5,10 +5,10 @@ const MarkdownWrapper = styled(Box, {
     slot: "root"
 })(({ theme }) => ({
     "p, h1, h2, h3, h4, h5, h6, blockquote": {
-        "&:first-child": {
+        "&:first-of-type": {
             marginTop: 0,
         },
-        "&:last-child": {
+        "&:last-of-type": {
             marginBottom: 0,
         },
     },
@@ -63,12 +63,12 @@ const MarkdownWrapper = styled(Box, {
         backgroundColor: theme.vars.palette.background.level1,
         position: "relative",
     },
-    "tr:nth-child(odd)": {
+    "tr:nth-of-type(odd)": {
         backgroundColor: theme.vars.palette.background.level2,
     },
     "thead": {
         backgroundColor: theme.vars.palette.background.body,
-        "tr, tr:nth-child(odd)": {
+        "tr, tr:nth-of-type(odd)": {
             backgroundColor: theme.vars.palette.background.body,
         }
     }

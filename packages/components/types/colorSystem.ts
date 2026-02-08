@@ -27,7 +27,8 @@ export interface PaletteRangeOverrides {
 // }
 // Add new backgrounds
 export interface PaletteBackgroundOverrides {
-    transparent: true;
+    transparent0: true;
+    transparent1: true;
     // level0: true;
     level4: true;
     level5: true;
@@ -65,7 +66,9 @@ declare module "@mui/joy/styles/types/colorSystem" {
     // }
     // Add new backgrounds
     interface PaletteBackgroundOverrides {
-        transparent: true;
+        transparent0: true;
+        transparent1: true;
+        transparent2: true;
         // level0: true;
         level4: true;
         level5: true;

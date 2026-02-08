@@ -113,6 +113,7 @@ export const CodeGrid = styled("code", {
     name: "CodeGrid",
     slot: "grid",
 })(() => ({
+    position: "relative",
     display: "grid",
     gridTemplateColumns: "auto 1fr",
     overflowX: "auto",
@@ -308,14 +309,16 @@ export default class CodeBlock extends React.Component<Props> {
                         {linefied.tokens.map((x, i) => {
                             const commonClassNames = highlightLines?.includes(i) ? `highlighted` : ``;
                             return (
-                                <>
-                                    <CodeLineNumber className={commonClassNames} key={`num-${i}`}>
+                                <React.Fragment key={i}>
+                                    <CodeLineNumber className={commonClassNames}>
                                         {i + startingLine}
                                     </CodeLineNumber>
-                                    <CodeLine className={commonClassNames} key={i}>
-                                        {x}
+                                    <CodeLine className={commonClassNames}>
+                                        {x.map((y, i) =>
+                                            <span key={i}>{y}</span>
+                                        )}
                                     </CodeLine>
-                                </>
+                                </React.Fragment>
                             );
                         })}
                     </CodeGrid>

@@ -6,6 +6,7 @@ import type { TentViewDetailed } from "types/tent";
 import { IconCake, IconUsers } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import { Group, Image } from "components";
+import GradientBanner from "~/components/GradientBanner";
 
 export default function BulletinBoard() {
     const campsite = useContext(CampsiteContext);
@@ -13,17 +14,13 @@ export default function BulletinBoard() {
     return (
         <Box sx={{ overflowY: "auto", flex: 1, width: "100%" }}>
             <Stack sx={(theme) => ({ minHeight: "100%", pb: 16, backgroundColor: theme.vars.palette.background.level1 })}>
-                <Box>
-                    <AspectRatio ratio={8} slotProps={{ content: { sx: { paddingBottom: { xs: 20, md: "calc(var(--AspectRatio-paddingBottom) - 2 * var(--variant-borderWidth, 0px))" } } } }}>
+                <Box sx={{ px: 2, py: 2 }}>
+                    <AspectRatio ratio={8} sx={{ borderRadius: "md" }} slotProps={{ content: { sx: { paddingBottom: { xs: 20, md: "calc(var(--AspectRatio-paddingBottom) - 2 * var(--variant-borderWidth, 0px))" } } } }}>
                         {campsite.bannerUri
                         ? <Image src={campsite.bannerUri} />
-                        : <Box sx={(theme) => ({
-                            width: "100%",
-                            height: "100%",
-                            background: `linear-gradient(to bottom right, ${theme.vars.palette.neutral[600]}, ${theme.vars.palette.neutral[700]})`
-                        })}>
+                        : <GradientBanner sx={{ zIndex: "inherit" }}>
                             
-                        </Box>}
+                        </GradientBanner>}
                     </AspectRatio>
                 </Box>
                 <Stack direction="column" alignItems="center" gap={1} sx={{ mt: -8, mb: 2 }}>

@@ -28,9 +28,12 @@ const DividerDot = styled(`span`, {
     width: 8,
     height: 8,
     borderRadius: theme.vars.radius.sm,
+    ".selected > &": {
+        backgroundColor: theme.vars.palette.primary[500],
+    },
 }));
 
-export default function Divider(props: object) {
+export default function Divider(props: React.HTMLAttributes<HTMLDivElement>) {
     return (
         <DividerBase {...props}>
             <Group gap={1} sx={{  }}>

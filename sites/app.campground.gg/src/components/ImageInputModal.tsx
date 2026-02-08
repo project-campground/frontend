@@ -1,15 +1,17 @@
 import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack } from "@mui/joy";
-import Form from "./Form";
+import Form from "./form/Form";
 import { Image } from "components";
 
 type Props = {
+    allowTitle?: boolean;
     onClose: () => unknown;
-    onSubmit: (url: string) => unknown;
+    onSubmit: (url: string, title?: string | null) => unknown;
     onRemove?: () => unknown;
     currentValue?: string | null;
+    currentTitle?: string | null;
 };
 
-export default function ImageInputModal({ currentValue, onClose, onSubmit, onRemove }: Props) {
+export default function ImageInputModal({ allowTitle, currentValue, currentTitle, onClose, onSubmit, onRemove }: Props) {
     return (
         <ModalDialog>
             <ModalClose />
@@ -21,6 +23,19 @@ export default function ImageInputModal({ currentValue, onClose, onSubmit, onRem
             <Form
                 sections={[
                     {
+                        id: "title",
+                        hide: !allowTitle,
+                        fields: [
+                            {
+                                id: "title",
+                                type: "text",
+                                header: "Image Title",
+                                placeholder: "a.png",
+                                defaultValue: currentTitle ?? undefined,
+                            }
+                        ],
+                    },
+                    {
                         id: "url",
                         fields: [
                             {
@@ -28,12 +43,13 @@ export default function ImageInputModal({ currentValue, onClose, onSubmit, onRem
                                 type: "text",
                                 header: "Image URL",
                                 placeholder: "https://example.com",
-                                required: true
+                                defaultValue: currentValue ?? undefined,
+                                required: true,
                             }
                         ]
                     }
                 ]}
-                onSubmit={(_, values) => (onClose(), onSubmit(values.url))}
+                onSubmit={(_, values) => (onClose(), onSubmit(values.url, values.title))}
                 onCancel={() => (onClose(), onRemove?.())}
                 cancelText="Remove image"
                 submitText="Upload image"

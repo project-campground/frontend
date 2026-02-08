@@ -1,20 +1,26 @@
-import { type RenderElementProps } from "slate-react";
-import type { EditorElementType, EditorCodeBlock, EditorCodeLine, EditorHeading, EditorLink } from "../../editor/editor";
+import { useSelected, useSlate, type RenderElementProps } from "slate-react";
+import type { EditorElementType, EditorCodeBlock, EditorCodeLine, EditorHeading } from "../../editor/editor";
 import React, { ReactNode } from "react";
 import { CodeContainer, CodeGrid, CodeHeader, CodeLine, CodeLineNumber, CodePre } from "../markdown/CodeBlock";
 import CodeBlockEditorHeader from "./CodeBlockEditorHeader";
 import { CodeEditorContextProvider, useCodeEditorContext } from "./codeEditorContext";
 import Link from "../Link";
-import { TableAlignContextProvider, TableHeadContextProvider, useTableAlignContext, useTableHeadContext } from "./tableHeadContext";
-import type { EditorOrderedList, EditorTable } from "~/editor/element";
+import { TableColumnContextProvider, TableContextProvider, TableRowContextProvider, useTableColumnContext, useTableRowContext } from "./tableHeadContext";
+import type { EditorImage, EditorOrderedList, EditorTable } from "~/editor/element";
 import Divider from "../markdown/Divider";
+import EditorImageDisplay, { EditorImageDisplayRoot, EditorImageAlt, EditorImageWrapperRoot, EditorImageHeaderRoot } from "./EditorImageDisplay";
+import EditorTableDisplay, { EditorColumnAdder, EditorRowAdder, EditorTableColumnAdderRow } from "./EditorTableDisplay";
+import { Typography } from "@mui/joy";
+import { IconFileFilled } from "@tabler/icons-react";
 
 const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (ReactNode[] | ReactNode)> = {
     paragraph({ attributes, children }) {
         return <p {...attributes}>{children}</p>
     },
     divider({ attributes }) {
-        return <Divider {...attributes} />;
+        const selected = useSelected();
+
+        return <Divider className={selected ? "selected" : ""} {...attributes} />;
     },
     heading({ attributes, children, element }) {
         const Tag = `h${(element as EditorHeading).depth ?? 1}` as "h1";
@@ -24,13 +30,30 @@ const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (
             </Tag>
         );
     },
-    link({ children, element }) {
-        const link = element as EditorLink;
-
+    link({ children, attributes }) {
         return (
-            <Link href={link.url}>
+            <Link {...attributes}>
                 {children}
             </Link>
+        );
+    },
+    image({ element, children }) {
+        const selected = useSelected();
+        const image = element as EditorImage;
+
+        return (
+            <EditorImageDisplayRoot>
+                <EditorImageWrapperRoot>
+                    {image.title && <EditorImageHeaderRoot>
+                        <IconFileFilled />
+                        <Typography level="body-md">{image.title}</Typography>
+                    </EditorImageHeaderRoot>}
+                    <EditorImageDisplay className={selected ? "selected" : ""} src={image.url} mw={200} />
+                </EditorImageWrapperRoot>
+                <EditorImageAlt>
+                    {children}
+                </EditorImageAlt>
+            </EditorImageDisplayRoot>
         );
     },
     ["block-quote"]({ attributes, children }) {
@@ -56,7 +79,7 @@ const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (
         // Since no index is given
         const context = useCodeEditorContext();
         const index = context?.findIndex((x) => x === element) ?? -1;
-        
+
         return (
             <>
                 <CodeLineNumber>
@@ -91,46 +114,67 @@ const typeToRenderer: Record<EditorElementType, (props: RenderElementProps) => (
         );
     },
     ["table"]({ attributes, children, element }) {
+        const editor = useSlate();
         const table = element as EditorTable;
         const headRow = children[0];
+        const thisTable = [...editor.nodes({
+            match: (node) => node === table,
+        })];
 
         return (
-            <table {...attributes}>
-                <TableAlignContextProvider value={{ align: "left", allAligns: table.align }}>
-                    <thead>
-                        <TableHeadContextProvider isHead>
-                            {headRow}
-                        </TableHeadContextProvider>
-                    </thead>
-                    <tbody>
-                        <TableHeadContextProvider>
-                            {children.slice(1)}
-                        </TableHeadContextProvider>
-                    </tbody>
-                </TableAlignContextProvider>
-            </table>
+            <TableContextProvider rows={table.children.length} columns={table.children[0]?.children.length ?? 0} tablePosition={thisTable[0]?.[1]}>
+                <EditorTableDisplay {...attributes}>
+                    <TableColumnContextProvider value={{ column: 0, allAligns: table.align }}>
+                        <EditorTableColumnAdderRow>
+                            <EditorColumnAdder nth={0} />
+                            {table.children.map((_, i) =>
+                                <td>
+                                    <EditorColumnAdder nth={i + 1} />
+                                </td>
+                            )}
+                        </EditorTableColumnAdderRow>
+                        <thead>
+                            <TableRowContextProvider nth={0}>
+                                {headRow}
+                            </TableRowContextProvider>
+                        </thead>
+                        <tbody>
+                            {(children as React.ReactElement[]).slice(1).map((x, i) =>
+                                <TableRowContextProvider key={i} nth={i + 1}>
+                                    {x}
+                                </TableRowContextProvider>
+                            )}
+                        </tbody>
+                    </TableColumnContextProvider>
+                </EditorTableDisplay>
+            </TableContextProvider>
         );
     },
     ["table-row"]({ attributes, children }) {
-        const tableAlign = useTableAlignContext();
+        const row = useTableRowContext();
+        const tableAlign = useTableColumnContext();
 
         return (
-            <tr {...attributes}>
-                {(children as React.ReactElement[]).map((x, i) =>
-                    <TableAlignContextProvider value={{ align: tableAlign.allAligns?.[i] ?? "left", allAligns: tableAlign.allAligns }}>
-                        {x}
-                    </TableAlignContextProvider>
-                )}
-            </tr>
+            <>
+                <tr {...attributes}>
+                    {(children as React.ReactElement[]).map((x, i) =>
+                        <TableColumnContextProvider key={i} value={{ column: i, allAligns: tableAlign.allAligns }}>
+                            {x}
+                        </TableColumnContextProvider>
+                    )}
+                </tr>
+                <EditorRowAdder nth={row + 1} />
+            </>
         );
     },
     ["table-cell"]({ attributes, children }) {
-        const tableHead = useTableHeadContext();
-        const tableAlign = useTableAlignContext();
-        const Component = tableHead ? "th" : "td";
+        const tableRow = useTableRowContext();
+        const tableAlign = useTableColumnContext();
+        // First row is a head
+        const Component = tableRow ? "td" : "th";
 
         return (
-            <Component {...attributes} align={tableAlign.align}>
+            <Component {...attributes} align={tableAlign.allAligns?.[tableAlign.column] ?? "left"}>
                 {children}
             </Component>
         );

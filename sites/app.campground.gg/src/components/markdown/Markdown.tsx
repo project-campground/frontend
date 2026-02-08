@@ -4,7 +4,7 @@ import remarkBreaks from "remark-breaks";
 import CodeBlock from "./CodeBlock";
 import type { Element, Text } from "hast";
 import InlineCode from "./InlineCode";
-import { Box, Checkbox, styled } from "@mui/joy";
+import { Checkbox } from "@mui/joy";
 import Divider from "./Divider";
 
 type Props = {
@@ -26,10 +26,6 @@ function parseMeta(raw: string) {
         return null;
     }
 }
-
-const TableWrapper = styled(Box, {
-    name: "Table"
-})();
 
 const markdownComponents: Components = {
     pre({ node }) {
@@ -75,13 +71,6 @@ const markdownComponents: Components = {
                 {String(text)}
             </InlineCode>
         );
-    },
-    table({ children }) {
-        return (
-            <TableWrapper component="table">
-                {children}
-            </TableWrapper>
-        )
     },
     hr() {
         return <Divider />;

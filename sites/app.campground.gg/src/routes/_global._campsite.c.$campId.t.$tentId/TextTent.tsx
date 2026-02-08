@@ -1,7 +1,7 @@
 import { Alert, Box, Divider, Link, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import type { RestResponseError } from "api/RESTResponse";
 import React from "react";
-import type { TentMessageViewWithReplies } from "types/content";
+import type { TentMessageViewBasic, TentMessageViewWithReplies } from "types/content";
 import type { TentViewDetailed } from "types/tent";
 import MessageEditor, { MessageEditorContainer } from "~/components/editor/MessageEditor";
 import PagePlaceholder, { PagePlaceholderIcon, textToIcon } from "~/components/PagePlaceholder";
@@ -23,8 +23,10 @@ type Props = {
     tent: TentViewDetailed;
 };
 
+export type TextTentMessage = TentMessageViewWithReplies & { waiting?: true; error?: string; };
+
 type State = {
-    messages: TentMessageViewWithReplies[];
+    messages: TextTentMessage[];
     init: boolean;
     loading: boolean;
     error: RestResponseError | null;
@@ -45,6 +47,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         deleteMessage: null,
         replyMessages: [],
     };
+    pseudoMessages: string[] = [];
 
     async componentDidMount(): Promise<void> {
         const { session } = this.context as CampsiteContextSuite;
@@ -88,19 +91,35 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
 
     async onMessageCreate(content: string): Promise<unknown> {
-        const { session, floaters } = this.context as CampsiteContextSuite;
+        const { session, campsite } = this.context as CampsiteContextSuite;
         const replyMessages = this.state.replyMessages;
 
-        this.setState({ replyMessages: [] });
+        // For user's messages to not randomly appear after a year (not literally)
+        const fakeMessage: TextTentMessage = {
+            id: (Math.floor(Math.random() * 9000) + 1000).toString(),
+            replyingTo: replyMessages.map((x) => ({ ...x, replyingTo: x.replyingTo.map((y) => y.id) }) as TentMessageViewBasic),
+            replyingToCount: replyMessages.length,
+            campsiteId: this.props.tent.bonfireId,
+            bonfireId: this.props.tent.bonfireId,
+            tentId: this.props.tent.id,
+            content,
+            createdBy: { isMember: true, ...campsite.member },
+            createdAt: new Date().toISOString(),
+            waiting: true,
+        };
+        this.setState({ replyMessages: [], messages: [fakeMessage, ...this.state.messages] });
+        this.pseudoMessages.push(fakeMessage.id);
 
         return session
             .restClient!
             .createTentMessage(this.props.tent.id, { content, replies: replyMessages.map((x) => x.id) })
             .then((resp) => {
                 if (!resp.ok)
-                    return floaters.notifyError(`${resp.errorHeader ?? "Error"}: ${resp.errorDescription}`);
+                    return this.setState({ messages: [{ ...fakeMessage, error: resp.errorDescription }, ...this.state.messages.filter((x) => x.id !== fakeMessage.id)] })
+
+                this.pseudoMessages = this.pseudoMessages.filter((x) => x === fakeMessage.id);
                 const replyingTo = replyMessages.map((x) => ({ ...x, replyingTo: x.replyingTo.map((y) => y.id), }));
-                return this.setState({ messages: [{ ...resp.content, replyingToCount: resp.content.replyingTo?.length ?? 0, replyingTo, }, ...this.state.messages] })
+                return this.setState({ messages: [{ ...resp.content, replyingToCount: resp.content.replyingTo?.length ?? 0, replyingTo, }, ...this.state.messages.filter((x) => x.id !== fakeMessage.id)] })
             });
     }
 
@@ -132,13 +151,18 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
 
     async onMessageDelete() {
+        const { floaters } = this.context as CampsiteContextSuite;
         const messageDeleted = this.state.deleteMessage!;
+
+        // To not do random useless requests and keep them
+        if (this.pseudoMessages.includes(messageDeleted.id))
+            return this.setState({ deleteMessage: null, messages: this.state.messages.filter((x) => x.id !== messageDeleted.id) });
 
         return (this.context as ContextSuite).session.restClient
             ?.deleteTentMessage(this.props.tent.id, messageDeleted.id)
             .then((resp) => {
                 if (!resp.ok)
-                    return this.setState({ deleteMessage: null });
+                    return (floaters.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`), this.setState({ deleteMessage: null }));
 
                 return this.setState({ deleteMessage: null, messages: this.state.messages.filter((x) => x.id !== messageDeleted.id) })
             })
@@ -236,7 +260,7 @@ const MessageLimitStack = styled(Stack)(() => ({
 type MessageListProps = {
     colorRoles: CampsiteRoleView[];
     isEnd: boolean;
-    messages: TentMessageViewWithReplies[];
+    messages: TextTentMessage[];
     replyMessages: TentMessageViewWithReplies[];
     onMessagesLoad: () => unknown;
     promptMessageDelete: (message: TentMessageViewWithReplies) => unknown;
@@ -265,6 +289,8 @@ function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, promptMes
                         message={m}
                         promptDelete={promptMessageDelete}
                         addReply={addReply}
+                        waiting={m.waiting}
+                        error={m.error}
                         isBeingRepliedTo={replyMessages.includes(m)}
                     />
                 )}

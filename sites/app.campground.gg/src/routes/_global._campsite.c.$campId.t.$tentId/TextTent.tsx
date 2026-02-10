@@ -17,6 +17,7 @@ import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "../_glob
 import { PermissionsContext } from "~/context/permissions";
 import type { CampsiteRoleView } from "types/campsites";
 import { decimalToHexColor } from "~/util/color";
+import TentMessageDivider from "~/components/tents/TentMessageDivider";
 
 type Props = {
     campsiteId: string;
@@ -31,7 +32,6 @@ type State = {
     loading: boolean;
     error: RestResponseError | null;
     isEnd: boolean;
-
     deleteMessage: TentMessageViewWithReplies | null;
     replyMessages: TentMessageViewWithReplies[];
 };
@@ -282,18 +282,30 @@ function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, promptMes
             <MessageLimitStack onScroll={isEnd ? undefined : onScroll}>
                 {/* To make You've reached the end always at the top */}
                 <Box flex={1}></Box>
-                {messages.map((m) =>
-                    <TentMessage
-                        key={m.id}
-                        colorRoles={colorRoles}
-                        message={m}
-                        promptDelete={promptMessageDelete}
-                        addReply={addReply}
-                        waiting={m.waiting}
-                        error={m.error}
-                        isBeingRepliedTo={replyMessages.includes(m)}
-                    />
-                )}
+                {messages.map((m, i, all) => {
+                    const previousMessageDate = all[i + 1] && new Date(all[i + 1].createdAt).toDateString();
+                    const currentMessageDate = new Date(m.createdAt);
+
+                    return (
+                        <React.Fragment key={m.id}>
+                            <TentMessage
+                                key={m.id}
+                                colorRoles={colorRoles}
+                                message={m}
+                                promptDelete={promptMessageDelete}
+                                addReply={addReply}
+                                waiting={m.waiting}
+                                error={m.error}
+                                isBeingRepliedTo={replyMessages.includes(m)}
+                            />
+                            {previousMessageDate && previousMessageDate !== currentMessageDate.toDateString() &&
+                                <TentMessageDivider color="neutral">
+                                    {currentMessageDate.toLocaleDateString()}
+                                </TentMessageDivider>
+                            }
+                        </React.Fragment>
+                    );
+                })}
                 {isEnd ?
                     <Stack gap={4} pt={4} pb={2} sx={{ position: "relative" }}>
                         <FadingBox sx={{ zIndex: 1, position: "absolute", left: 0, right: 0, bottom: 40, opacity: 0.15 }}>

@@ -1,4 +1,4 @@
-import { Avatar, Box, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
+import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
 import type { RestResponseError } from "api/RESTResponse";
 import { Group, Image } from "components";
@@ -317,6 +317,10 @@ export function TentSidebarSkeleton() {
 function TentListSkeleton() {
     return (
         <>
+            <TentStyledList>
+                <TentItemSkeleton />
+            </TentStyledList>
+            <Divider />
             <TentStyledList>
                 <TentItemSkeleton />
                 <TentItemSkeleton />

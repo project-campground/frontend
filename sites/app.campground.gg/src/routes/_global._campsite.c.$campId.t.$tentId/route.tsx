@@ -1,8 +1,8 @@
 import type { Route } from "./+types/route";
 import { authMiddleware } from "~/middleware/auth";
 import { sessionRouterContext } from "~/context/session";
-import { useContext } from "react";
-import { CampsiteContext, TentContext } from "../_global._campsite/context";
+import { useContext, useMemo } from "react";
+import { TentContext, useCampsite } from "../_global._campsite/context";
 import TentLayout from "./TentLayout";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
 import { redirect } from "react-router";
@@ -63,9 +63,9 @@ export default function Index({ loaderData: { errorDescription, errorHeader, err
 
 
     const tentContext = useContext(TentContext);
-    const campsite = useContext(CampsiteContext);
+    const campsite = useCampsite();
 
-    tentContext?.setNewValue(tent);
+    useMemo(() => tentContext?.setNewValue(tent), [tent?.id]);
 
     return (
         <TentLayout campsiteId={campsiteId} tent={tent!} campsite={campsite!} />

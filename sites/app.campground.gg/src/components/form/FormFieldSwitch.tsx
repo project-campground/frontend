@@ -31,7 +31,9 @@ export default class FormFieldSwitch extends AbstractFormField<"switch", boolean
 
     private onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
         const value = ev.target.checked;
-        this.setState({ value: this.props.checkedValue ? (Number(value) as 1 | 0) * this.props.checkedValue : value }, () => value && this.onChange(value));
+        const checkedValue = this.props.checkedValue ? (Number(value) as 1 | 0) * this.props.checkedValue : value;
+        console.log("Input change", { id: this.props.id, checkedValue });
+        this.setState({ value: checkedValue }, () => this.onChange(checkedValue));
     }
 
     private FieldText() {

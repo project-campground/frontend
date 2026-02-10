@@ -90,7 +90,7 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                         </Box>
                         <Divider sx={{ bgcolor: "background.body", height: 2 }} />
                         <Box flex={1} sx={{ height: "100%", overflow: "hidden", px: 3, py: 4 }}>
-                            <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: true, values, valid, changed })} />
+                            <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: false, values, valid, changed })} />
                         </Box>
                     </SettingsPage>
                 </Group>

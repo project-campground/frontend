@@ -1,5 +1,7 @@
 import { IconButton, Snackbar, type ColorPaletteProp } from "@mui/joy";
 import { IconX, IconExclamationCircleFilled, IconCircleCheckFilled, IconInfoCircleFilled } from "@tabler/icons-react";
+import type { RestResponse, RestResponseError } from "api/RESTResponse";
+import { Group } from "components";
 import React, { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 export type SnackbarProps = {
@@ -11,6 +13,7 @@ export type SnackbarProps = {
 export type SnackbarItem = SnackbarProps & { id: number };
 
 type SnackbarNotify = (text: ReactNode | ReactNode[]) => unknown;
+type SnackbarNotifyApi<T extends RestResponse> = (response: T) => unknown;
 export type SnackbarContextType = {
     snackbars: SnackbarItem[];
     notify: (props: SnackbarProps) => unknown;
@@ -18,6 +21,7 @@ export type SnackbarContextType = {
     notifyInfo: SnackbarNotify;
     notifyWarn: SnackbarNotify;
     notifyError: SnackbarNotify;
+    notifyApiError: SnackbarNotifyApi<RestResponseError>;
 };
 
 export const SnackbarContext = createContext<SnackbarContextType>(null!);
@@ -28,6 +32,7 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
 
     const notify = (props: SnackbarProps) => setSnackbars([...snackbars, {...props, id: Math.floor(Math.random() * 10000)}]);
     const notifyError: SnackbarNotify = (text) => notify({ color: "danger", startDecorator: <IconExclamationCircleFilled />, text });
+    const notifyApiError: SnackbarNotifyApi<RestResponseError> = (resp: RestResponseError) => notify({ color: "danger", startDecorator: <IconExclamationCircleFilled />, text: <Group><span>{resp.status}</span>{resp.errorHeader && <strong>{" "}{resp.errorHeader}</strong>}<span>:{" "}{resp.errorDescription}</span></Group> });
     const notifySuccess: SnackbarNotify = (text) => notify({ color: "success", startDecorator: <IconCircleCheckFilled />, text});
     const notifyInfo: SnackbarNotify = (text) => notify({ color: "info", startDecorator: <IconInfoCircleFilled />, text});
     const notifyWarn: SnackbarNotify = (text) => notify({ color: "warning", startDecorator: <IconExclamationCircleFilled />, text});
@@ -37,6 +42,7 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
         snackbars,
         notify,
         notifyError,
+        notifyApiError,
         notifySuccess,
         notifyInfo,
         notifyWarn,

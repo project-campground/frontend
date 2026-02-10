@@ -1,11 +1,16 @@
 import { useDraggable, useDroppable } from "@dnd-kit/core";
-import { Button, Chip, styled, Typography } from "@mui/joy";
+import { Box, Button, Chip, styled, Typography } from "@mui/joy";
 import { IconGripVertical } from "@tabler/icons-react";
 import type { CampsiteRoleView } from "types/campsites";
 import { decimalToHexColor } from "~/util/color";
 
 const RoleButton = styled(Button)(() => ({
     paddingInline: "0.5rem",
+    width: "100%",
+    justifyContent: "start",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
     "& > .MuiButton-startDecorator": {
         opacity: 0,
         transition: "opacity 0.3s",
@@ -15,15 +20,20 @@ const RoleButton = styled(Button)(() => ({
     },
 }));
 
-export default function RoleItem({ onClick, active, id, added, name, color, colorSecondary, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary"> & { added?: true, immovable?: boolean; }) {
+export default function RoleItem({ onClick, active, id, added, flags, name, color, colorSecondary, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "flags"> & { added?: true, immovable?: boolean; }) {
     const {attributes, listeners, setNodeRef, transform} = immovable ? { transform: { x: 0, y: 0 } } : useDraggable({
         id,
     });
     const style = transform ? { transform: `translate3d(0px, ${transform.y}px, 0)` } : undefined;
+    const badge = (flags & 1) === 1
+        ? <Chip color="primary" variant="soft">Default</Chip>
+        : added
+        ? <Chip color="danger" variant="soft">NEW</Chip>
+        : null;
 
     return (
-        <RoleButton onClick={onClick} startDecorator={<IconGripVertical size="20px" {...listeners} />} endDecorator={added && <Chip color="neutral" variant="soft">NEW</Chip>} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style} sx={{ width: "100%", justifyContent: "start" }}>
-            <Typography sx={{ color: color || colorSecondary ? decimalToHexColor(color || colorSecondary) : null }}>
+        <RoleButton onClick={onClick} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" {...listeners} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style}>
+            <Typography sx={{ textOverflow: "ellipsis", overflow: "hidden", color: color || colorSecondary ? decimalToHexColor(color || colorSecondary) : null }}>
                 {name}
             </Typography>
         </RoleButton>

@@ -132,11 +132,9 @@ export default function TentMessage({ waiting, error, onAuthorClick, colorRoles,
                         {message.updatedAt &&
                         <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
                             <Typography level="body-sm" textColor="text.tertiary">
-                                <Group alignItems="center">
-                                    {"("}
-                                    <IconPencil size={16} />
-                                    {" edited)"}
-                                </Group>
+                                {"("}
+                                <IconPencil size={16} />
+                                {" edited)"}
                             </Typography>
                         </Tooltip>}
                     </Group>

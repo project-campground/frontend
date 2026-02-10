@@ -8,7 +8,7 @@ import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import type { CampsiteMemberViewBasic, CampsiteViewDetailed } from "types/campsites";
 import MemberList from "./MemberList";
-import { CampsiteContext } from "../_global._campsite/context";
+import { CampsiteContextSuiteContext } from "../_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -124,15 +124,15 @@ export default class MemberSidebar extends React.Component<Props, State, Session
                             </Tab>
                         </TabList>
                     </Tabs>
-                    <CampsiteContext.Consumer>
-                        {campsite =>
+                    <CampsiteContextSuiteContext.Consumer>
+                        {ctx =>
                             <MemberList
                                 memberCount={1}
                                 members={this.state.members}
-                                roles={campsite.roles}
+                                roles={ctx.campsite.roles}
                             />
                         }
-                    </CampsiteContext.Consumer>
+                    </CampsiteContextSuiteContext.Consumer>
                 </RightSidebarList>
                 {/* <Button startDecorator={<IconUserPlus />} variant="outlined" color="neutral" sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[500]}` })}>
                     Invite users

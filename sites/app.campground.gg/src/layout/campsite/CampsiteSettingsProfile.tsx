@@ -2,17 +2,19 @@ import { Box } from "@mui/joy";
 import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteViewDetailed } from "types/campsites";
+import { useMemo } from "react";
 
 export default function CampsiteSettingsProfile({ onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
-    const defaultValues = {
+    const defaultValues = useMemo(() => ({
         bannerUri: campsite.bannerUri ?? undefined,
         avatarUri: campsite.avatarUri ?? undefined,
         name: campsite.name,
         description: campsite.description,
         vanityUrl: campsite.vanityUrl,
-        tags: campsite.tags ?? []
-    };
-    const oneOfNotDefault = (fieldValues: Record<string, any>) => Object.entries(fieldValues).some(([key, value]) => defaultValues[key as keyof typeof defaultValues] != value);
+        tags: campsite.tags ?? [],
+    }), [campsite.id]);
+    const oneOfNotDefault = (fieldValues: Record<string, any>) =>
+        Object.entries(fieldValues).some(([key, value]) => defaultValues[key as keyof typeof defaultValues] != value);
 
     return (
         <Box sx={{ width: 500 }}>

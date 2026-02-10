@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 import { useContext, useState } from "react";
 import TentItem from "../_global._campsite/TentItem";
 import { CampsitePermissionConsts } from "~/util/permissions";
-import { CampsiteContext } from "../_global._campsite/context";
+import { useCampsite } from "../_global._campsite/context";
 import { SnackbarContext } from "~/context/snackbar";
 import { PermissionsContext } from "~/context/permissions";
 
@@ -17,7 +17,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
     const session = useSession();
     const navigate = useNavigate();
     const [deleteOpen, setDeleteOpen] = useState(false);
-    const campsite = useContext(CampsiteContext);
+    const campsite = useCampsite();
     const permissions = useContext(PermissionsContext);
     const floating = useContext(SnackbarContext);
     const canManageTent = Boolean(permissions.tent.campsitePermissions & CampsitePermissionConsts.MANAGE_TENTS);

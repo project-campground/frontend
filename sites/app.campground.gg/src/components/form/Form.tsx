@@ -60,7 +60,8 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     private onFieldChange(props: AnyFormFieldProps, field: FieldTypeToInstance[keyof FieldTypeToInstance], value: any): Promise<void> | void {
-        return this.setState(({ fieldValues, fieldRequirementFilled }) => ({
+        console.log({ field, value, props, state: this.state });
+        return this.setState(({ fieldValues, fieldRequirementFilled }) => (console.log({ fieldValues, fieldRequirementFilled }), {
             fieldValues: {
                 ...fieldValues,
                 [props.id]: value
@@ -69,7 +70,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                 ...fieldRequirementFilled,
                 [props.id]: field.isValid
             }
-        }), () => this.props.onChange?.(this.allValid, this.state.fieldValues));
+        }), () => (console.log("This", { allValid: this.allValid, fieldValues: this.state.fieldValues }), this.props.onChange?.(this.allValid, this.state.fieldValues)));
     }
 
     private get allValid(): boolean {

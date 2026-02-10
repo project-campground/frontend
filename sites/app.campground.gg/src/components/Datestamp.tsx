@@ -1,10 +1,11 @@
 import { Tooltip, Typography } from "@mui/joy";
 import ms from "ms";
 
+type DatestampType = "ago" | "before" | "after" | "none";
 type Props = {
     date: Date;
     long?: boolean;
-    noAgo?: boolean;
+    type?: DatestampType;
     displayDate?: boolean;
     dateOptions?: Intl.DateTimeFormatOptions;
 };
@@ -18,7 +19,7 @@ export const defaultDateOptions: Intl.DateTimeFormatOptions = {
     minute: "2-digit",
 };
 
-export default function Datestamp({ dateOptions, noAgo, displayDate, date, long }: Props) {
+export default function Datestamp({ dateOptions, type, displayDate, date, long }: Props) {
     const isInvalid = !date || Number.isNaN(date.getSeconds());
 
     if (isInvalid)
@@ -30,7 +31,7 @@ export default function Datestamp({ dateOptions, noAgo, displayDate, date, long 
             </Tooltip>
         );
 
-    const time = `${ms(Date.now() - date.getTime(), { long: long ?? false })} ${noAgo ? "" : "ago"}`;
+    const time = `${ms(Date.now() - date.getTime(), { long: long ?? false })} ${type !== "none" ? type ?? "ago" : ""}`;
     const dateFormat = date.toLocaleString("en-US", dateOptions ?? defaultDateOptions);
 
     return (

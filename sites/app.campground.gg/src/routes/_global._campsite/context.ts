@@ -1,5 +1,5 @@
 import type { TentViewDetailed } from "types/tent";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import type { CampsiteViewDetailed } from "types/campsites";
 import { ContextBase } from "~/context/session/base";
 import type { ContextSuite } from "~/context/context-suite";
@@ -9,6 +9,7 @@ export class CurrentTentContext extends ContextBase<TentViewDetailed> {
 
 export const TentContext = createContext<CurrentTentContext>(null!);
 
-export const CampsiteContext = createContext<CampsiteViewDetailed>(null!);
-export type CampsiteContextSuite = ContextSuite & { campsite: CampsiteViewDetailed };
+export const useCampsite = () => useContext(CampsiteContextSuiteContext).campsite;
+export const useCampsiteContext = () => useContext(CampsiteContextSuiteContext);
+export type CampsiteContextSuite = ContextSuite & { campsite: CampsiteViewDetailed, updateCampsite: (update: Partial<CampsiteViewDetailed>) => unknown; };
 export const CampsiteContextSuiteContext = createContext<CampsiteContextSuite>(null!);

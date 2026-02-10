@@ -14,7 +14,7 @@ type Props = {
 
 export default function MemberList({ members, roles }: Props) {
     const displayedRoles = roles.filter((x) => x.displaySeparately);
-    const defaultRole = roles.slice(-1)[0];
+    const defaultRole = roles.find((x) => x.flags & 1)!;
     const [cardMember, setCardMember] = useState<{ x: number, y: number, member: CampsiteMemberViewBasic } | null>(null);
 
     // Make sure it always exists

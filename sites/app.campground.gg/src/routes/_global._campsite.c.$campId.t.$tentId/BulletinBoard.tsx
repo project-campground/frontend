@@ -1,6 +1,5 @@
 import { AspectRatio, Avatar, Box, Chip, List, ListItem, ListItemContent, ListItemDecorator, Stack, Typography } from "@mui/joy";
-import { useContext } from "react";
-import { CampsiteContext } from "../_global._campsite/context";
+import { useCampsite } from "../_global._campsite/context";
 import type { CampsiteViewDetailed } from "types/campsites";
 import type { TentViewDetailed } from "types/tent";
 import { IconCake, IconUsers } from "@tabler/icons-react";
@@ -9,7 +8,7 @@ import { Group, Image } from "components";
 import GradientBanner from "~/components/GradientBanner";
 
 export default function BulletinBoard() {
-    const campsite = useContext(CampsiteContext);
+    const campsite = useCampsite();
 
     return (
         <Box sx={{ overflowY: "auto", flex: 1, width: "100%" }}>

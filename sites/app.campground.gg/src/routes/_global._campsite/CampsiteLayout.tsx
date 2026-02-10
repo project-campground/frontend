@@ -3,7 +3,7 @@ import { Group } from "components";
 import React from "react";
 // import type { CampsiteViewDetailed } from "types/campsites";
 import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
-import { CampsiteContext, CampsiteContextSuiteContext, CurrentTentContext, TentContext } from "./context";
+import { CampsiteContextSuiteContext, CurrentTentContext, TentContext } from "./context";
 import type { CampsiteViewDetailed } from "types/campsites";
 import type { Session } from "~/context/session/types";
 import type { RestResponseError } from "api/RESTResponse";
@@ -28,6 +28,7 @@ type State = {
 export default class CampsiteLayout extends React.Component<Props, State, Session> {
     currentTent: CurrentTentContext;
     static contextType?: React.Context<any> | undefined = ContextSuiteContext;
+    _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
     constructor(props: Props, context: any) {
         super(props, context);
 
@@ -38,6 +39,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         this.currentTent.subscribeToChanges((newValue) =>
             this.setState({ bonfireSelected: newValue?.bonfireId ?? null, tentSelected: newValue?.id ?? null })
         );
+        this._updateCampsiteDataBind = this.updateCampsiteData.bind(this);
     }
     async fetchCampsite() {
         return (this.context as ContextSuite).session.restClient!
@@ -45,9 +47,12 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
             .then((resp) => {
                 if (!resp.ok)
                     return this.setState({ err: resp });
-                resp.content.roles.sort((a, b) => a.priority - b.priority);
+                this.sortCampsiteRoles(resp.content);
                 return this.setState({ err: null, campsite: resp.content, init: true, loading: false });
             });
+    }
+    sortCampsiteRoles(campsite: Pick<CampsiteViewDetailed, "roles">) {
+        return campsite.roles.sort((a, b) => (a.flags & 1) == (b.flags & 1) ? (a.priority - b.priority) : a.flags);
     }
     async componentDidMount(): Promise<void> {
         if (this.state.init)
@@ -65,6 +70,12 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
 
         return this.fetchCampsite();
     }
+    updateCampsiteData(data: Partial<CampsiteViewDetailed>) {
+        if (data.roles)
+            this.sortCampsiteRoles(data as Pick<CampsiteViewDetailed, "roles">);
+
+        this.setState({ campsite: Object.assign(this.state.campsite!, data) });
+    }
     render(): React.ReactNode {
         const context = this.context as ContextSuite;
         const { children, navigate } = this.props;
@@ -81,22 +92,20 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
 
         return (
             <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} gap={1}>
-                <Box>
-                    <TentSidebar
-                        campsite={campsite!}
-                        bonfireSelected={bonfireSelected}
-                        tentSelected={tentSelected}
-                        navigate={navigate}
-                    />
-                </Box>
                 <TentContext.Provider value={this.currentTent}>
-                    <CampsiteContext.Provider value={campsite!}>
-                        <CampsiteContextSuiteContext.Provider value={{ ...context, campsite: campsite! }}>
-                            <PermissionsContext.Provider value={this.currentTent.value ? getPermissionsContextValue(campsite!, this.currentTent.value.permissions) : ownerPermissions}>
-                                {children}
-                            </PermissionsContext.Provider>
-                        </CampsiteContextSuiteContext.Provider>
-                    </CampsiteContext.Provider>
+                    <CampsiteContextSuiteContext.Provider value={{ ...context, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
+                        <PermissionsContext.Provider value={this.currentTent.value ? getPermissionsContextValue(campsite!, this.currentTent.value.permissions) : ownerPermissions}>
+                            <Box>
+                                <TentSidebar
+                                    campsite={campsite!}
+                                    bonfireSelected={bonfireSelected}
+                                    tentSelected={tentSelected}
+                                    navigate={navigate}
+                                />
+                            </Box>
+                            {children}
+                        </PermissionsContext.Provider>
+                    </CampsiteContextSuiteContext.Provider>
                 </TentContext.Provider>
             </Group>
         );

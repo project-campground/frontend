@@ -2,18 +2,18 @@ import { Box, Button, } from "@mui/joy";
 import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { BonfireViewBasic } from "types/campsites";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ContentDeleteModal from "../ContentDeleteModal";
 
 export default function BonfireSettingsProfile({ onValuesChanged, settingsProps: { onBonfireDeleted, bonfire, canDeleteBonfire } }: SettingsComponentProps<{ canDeleteBonfire: boolean; onBonfireDeleted: () => unknown; bonfire: BonfireViewBasic }>) {
     const [deleteConfirmOpen, setConfirmOpen] = useState(false);
 
-    const defaultValues = {
+    const defaultValues = useMemo(() => ({
         name: bonfire.name,
         description: bonfire.description,
         avatarUri: bonfire.avatarUri ?? undefined,
         bannerUri: bonfire.bannerUri ?? undefined,
-    };
+    }), [bonfire.id]);
     const oneOfNotDefault = (fieldValues: Record<string, any>) => Object.entries(fieldValues).some(([key, value]) => defaultValues[key as keyof typeof defaultValues] != value);
 
     return (

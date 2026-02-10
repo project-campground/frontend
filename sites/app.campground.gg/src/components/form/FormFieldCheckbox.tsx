@@ -31,7 +31,7 @@ export default class FormFieldCheckbox extends AbstractFormField<"checkbox", boo
 
     private onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
         const value = ev.target.checked;
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => this.onChange(value));
     }
 
     private FieldText() {

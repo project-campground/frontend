@@ -339,7 +339,7 @@ export default class RESTClient {
         });
     }
 
-    createRole(campsite_id: string, body: { name: string, color: number; colorSecondary: number; displaySeparately: boolean; mentionable: boolean; priority: number; campsitePermissions: number; tentPermissions: number; }) {
+    createRole(campsite_id: string, body: { name: string, color: number; colorSecondary: number; displaySeparately: boolean; mentionable: boolean; campsitePermissions: number; tentPermissions: number; }) {
         return this.post<CampsiteRoleView>({
             route: "gg.campground.campsite.createRole",
             queries: { campsite_id },
@@ -347,10 +347,18 @@ export default class RESTClient {
         });
     }
     
-    updateRole(campsite_id: string, role_id: string, body: { name?: string, color?: number; colorSecondary?: number; displaySeparately?: boolean; mentionable?: boolean; priority?: number; campsitePermissions?: number; tentPermissions?: number; }) {
+    updateRole(campsite_id: string, role_id: string, body: { name?: string, color?: number; colorSecondary?: number; displaySeparately?: boolean; mentionable?: boolean; campsitePermissions?: number; tentPermissions?: number; }) {
         return this.post<CampsiteRoleView>({
             route: "gg.campground.campsite.updateRole",
             queries: { campsite_id, role_id },
+            body,
+        });
+    }
+    
+    moveRoles(campsite_id: string, body: { roleByPriority: Record<string, number>; }) {
+        return this.post<GetRolesOutput>({
+            route: "gg.campground.campsite.moveRoles",
+            queries: { campsite_id, },
             body,
         });
     }

@@ -39,7 +39,6 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         isSelf: session.auth.authenticated && session.auth.user.did === content?.did,
     };
 }
-clientLoader.hydrate = true as const;
 
 export default function Index({ loaderData: { status, ok, isSelf, user, errorHeader, errorDescription } }: Route.ComponentProps) {
     return (

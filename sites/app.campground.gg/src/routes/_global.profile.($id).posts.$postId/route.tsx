@@ -47,7 +47,6 @@ export async function clientLoader({ context, params: { id, postId } }: Route.Cl
         parentPost: parentPostRequest?.content,
     };
 }
-clientLoader.hydrate = true as const;
 
 export default function ProfilePosts_Id({ loaderData: { ok, errorHeader, status, post, parentPostDeleted, parentPost } }: Route.ComponentProps) {
     return (

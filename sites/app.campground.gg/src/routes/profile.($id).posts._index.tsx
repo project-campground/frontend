@@ -12,7 +12,6 @@ export function meta(_routes: Route.MetaArgs) {
 export async function clientLoader({ params: { id } }: Route.ClientLoaderArgs) {
     throw redirect(id ? `/profile/${id}` : "/profile");
 }
-clientLoader.hydrate = true as const;
 
 export default function ProfilePostsIndex() {
     return (

@@ -2,7 +2,7 @@ import {IntlProvider as ReactIntlProvider} from 'react-intl';
 import React from 'react';
 import { loadLocale } from '.';
 import { flattenMessages } from './util';
-import { useSession } from '../context/session';
+import { useSession } from '../session';
 
 export function IntlProvider({ children }: React.PropsWithChildren) {
     const session = useSession();
@@ -10,15 +10,15 @@ export function IntlProvider({ children }: React.PropsWithChildren) {
 
     console.log("Locale", session?.settings?.locale);
     React.useEffect(() => {
+        console.log("Loading locale");
         loadLocale(session?.settings?.locale || "en-US").then((messages) => {
             setMessages(flattenMessages(messages));
         });
-    }, [session]);
+    }, [session.settings.locale]);
 
     return (
         <ReactIntlProvider defaultLocale='en-US' locale={session?.settings?.locale || "en-US"} messages={messages}>
             {children}
         </ReactIntlProvider>
     );
-
 }

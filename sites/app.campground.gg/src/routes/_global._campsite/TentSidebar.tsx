@@ -28,7 +28,6 @@ type State = {
     menuOpen: MenuOption | null;
     bonfireSelected: BonfireViewBasic;
     loading: boolean;
-    init: boolean;
     error: RestResponseError | null;
 };
 
@@ -83,16 +82,14 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
 export default class TentSidebar extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = SessionContext;
     bonfiresToTents: Record<string, GetTentsOutput> = {};
+    private lock: boolean = false;
     constructor(props: Props, context: Session) {
         super(props, context);
 
-        const bonfireSelected = props.bonfireSelected ? this.bonfires.find((x) => x.id === props.bonfireSelected) ?? this.topBonfire : this.topBonfire;
-
         this.state = {
             menuOpen: null,
-            bonfireSelected,
+            bonfireSelected: this.bonfireSelected,
             loading: true,
-            init: false,
             error: null,
         };
     }
@@ -102,27 +99,16 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     setMenu(value: MenuOption | null) {
         this.setState({ menuOpen: value });
     }
-    async componentDidMount(): Promise<void> {
-        const { bonfireSelected } = this.state;
-
-        const tents = this.bonfiresToTents[bonfireSelected.id];
-        if (tents)
-            return this.setState({ loading: false });
-
-        return (this.context as Session).restClient?.getTents(this.props.campsite.id, bonfireSelected.id)
-            .then((x) => {
-                if (!x.ok)
-                    return this.setState({ error: x });
-
-                this.bonfiresToTents[bonfireSelected.id] = x.content;
-
-                return this.setState({ loading: false });
-            });
+    get bonfireSelected(): BonfireViewBasic {
+        return this.props.bonfireSelected ? this.props.campsite.bonfires.find((x) => x.id === this.props.bonfireSelected) ?? this.defaultBonfire : this.defaultBonfire;
+    }
+    get defaultBonfire(): BonfireViewBasic {
+        return this.props.campsite.bonfires.sort((a, b) => a.priority - b.priority)[0]!;
     }
     async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: any): Promise<void> {
         if (this.props.bonfireSelected !== prevProps.bonfireSelected)
-            return this.setBonfireSelected(this.props.bonfireSelected ? this.bonfires.find((x) => x.id === this.props.bonfireSelected)! : this.bonfires[0]);
-        else if (!this.state.loading)
+            return this.setBonfireSelected(this.bonfireSelected);
+        else if (!this.state.loading || this.lock)
             return;
 
         const { bonfireSelected } = this.state;
@@ -131,12 +117,14 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         if (tents)
             return this.setState({ loading: false });
 
+        this.lock = true;
         return (this.context as Session).restClient?.getTents(this.props.campsite.id, bonfireSelected.id)
             .then((x) => {
                 if (!x.ok)
                     return this.setState({ error: x });
 
                 this.bonfiresToTents[bonfireSelected.id] = x.content;
+                this.lock = false;
 
                 return this.setState({ loading: false });
             });

@@ -10,7 +10,8 @@ import type { GetTentsOutput, TentCategoryView, TentViewDetailed } from "types/t
 import type { GetTentMessagesOutput, TentMessageViewBasic } from "types/content";
 import type { CampsiteBanView, CampsiteInviteViewBasic, CampsiteInviteViewDetailed, GetInvitesOutput } from "types/membership";
 
-type HTTPMethod = "GET" | "OPTION" | "PUT" | "POST" | "PATCH" | "DELETE";
+type HTTPMethodXRPC = "GET" | "POST";
+type HTTPMethod = HTTPMethodXRPC | "DELETE" | "OPTION" | "HEAD" | "PUT" | "PATCH";
 
 export interface RequestPrefixed {
     url: string;
@@ -49,6 +50,14 @@ export default class RESTClient {
     constructor(config: Partial<RESTClientConfig>, onRefreshLogin?: RESTRefreshLogin) {
         this._config = { ...RESTClient._default, ...config };
         this._onRefreshLogin = onRefreshLogin;
+    }
+
+    public get authExpired(): boolean | null {
+        try {    
+            return this._config.auth ? null : JSON.parse(this._config.auth?.split(".")[1]!).exp * 1000 < new Date().getTime();
+        } catch(_) {
+            return null;
+        }
     }
 
     public static login(auth: { identifier: string; password: string; }, requestConfig: Partial<RequestPrefixed> = {}) {
@@ -101,8 +110,6 @@ export default class RESTClient {
 
         const resolvedUrl = `${url}${routePrefix}${route}${queriesString}`;
 
-        console.log({ resolvedUrl, queriesString, method });
-
         const response = await fetch(resolvedUrl, {
             method,
             body: body ? JSON.stringify(body) : null,
@@ -140,43 +147,39 @@ export default class RESTClient {
         if (!this._config.auth)
             return doFetch(undefined);
 
+        console.log("Expired", this.authExpired);
         const resp = await doFetch(this._config.auth);
         if (!resp.ok && resp.errorHeader === "ExpiredToken") {
+            console.log("Expired token", this.authExpired);
             return this.refreshLogin()
-                .then((refresh) => refresh.ok ? doFetch(refresh.content!.accessJwt) : refresh
-                );
+                .then((refresh) => refresh.ok ? doFetch(refresh.content!.accessJwt) : refresh);
         }
         return resp;
     }
     get<T>(config: Omit<RequestConfig, "method" | "body">) {
         return this.fetch<T>({ method: "GET", ...config });
     }
-    getRecord<T extends AtprotoValueBase>(config: { repo: string; rkey: string; collection: string; }) {
-        return this.fetch<AtprotoRecord<T>>({ route: "com.atproto.repo.getRecord", queries: config, method: "GET", request: { headers: { "atproto-proxy": "" } }, ...config });
-    }
-    getRecordList<T extends AtprotoValueBase>(config: { repo: string; collection: string; }) {
-        return this.fetch<GetRecordListResponse<T>>({ route: "com.atproto.repo.listRecords", queries: config, method: "GET", request: { headers: { "atproto-proxy": "" } }, ...config });
-    }
-    putRecord<T>(config: { repo: string; rkey: string; collection: string; record: T; }) {
-        return this.fetch<PutRecordResponse>({ route: "com.atproto.repo.putRecord", method: "POST", request: { headers: { "atproto-proxy": "" } }, body: config, ...config });
-    }
-    deleteRecord(config: { repo: string; rkey: string; collection: string; }) {
-        return this.fetch<PutRecordResponse>({ route: "com.atproto.repo.deleteRecord", method: "POST", request: { headers: { "atproto-proxy": "" } }, body: config, ...config });
-    }
     post<T>(config: Omit<RequestConfig, "method">) {
         return this.fetch<T>({ method: "POST", ...config });
     }
-    delete<T>(config: Omit<RequestConfig, "method">) {
-        return this.fetch<T>({ method: "DELETE", ...config });
+
+    fetchPDS<T>(method: HTTPMethodXRPC, nsid: string, request: Omit<RequestConfig, "route" | "method">) {
+        return this.fetch<T>({ route: nsid, method, request: { headers: { "atproto-proxy": "" } }, ...request });
     }
-    put<T>(config: Omit<RequestConfig, "method">) {
-        return this.fetch<T>({ method: "PUT", ...config });
+    getRecord<T extends AtprotoValueBase>(config: { repo: string; rkey: string; collection: string; }) {
+        return this.fetchPDS<AtprotoRecord<T>>("GET", "com.atproto.repo.getRecord", { queries: config });
     }
-    patch<T>(config: Omit<RequestConfig, "method">) {
-        return this.fetch<T>({ method: "PATCH", ...config });
+    getRecordList<T extends AtprotoValueBase>(config: { repo: string; collection: string; }) {
+        return this.fetchPDS<GetRecordListResponse<T>>("GET", "com.atproto.repo.listRecords", { queries: config });
     }
-    option<T>(config: Omit<RequestConfig, "method">) {
-        return this.fetch<T>({ method: "OPTION", ...config });
+    putRecord<T>(config: { repo: string; rkey: string; collection: string; record: T; }) {
+        return this.fetchPDS<PutRecordResponse>("POST", "com.atproto.repo.putRecord", { body: config, });
+    }
+    deleteRecord(config: { repo: string; rkey: string; collection: string; }) {
+        return this.fetchPDS<PutRecordResponse>("POST", "com.atproto.repo.deleteRecord", { body: config, });
+    }
+    getServiceAuth(config: { exp?: number; lxm?: string; }) {
+        return this.fetchPDS<{ token: string; }>("GET", "com.atproto.server.getServiceAuth", { queries: { aud: this._config.atprotoProxy.split("#", 1)[0], ...config } });
     }
 
     getMe() {
@@ -299,6 +302,13 @@ export default class RESTClient {
             route: "gg.campground.campsite.updateCampsite",
             queries: { campsite_id, },
             body,
+        });
+    }
+
+    deleteCampsite(campsite_id: string) {
+        return this.post<null>({
+            route: "gg.campground.campsite.deleteCampsite",
+            queries: { campsite_id, },
         });
     }
     

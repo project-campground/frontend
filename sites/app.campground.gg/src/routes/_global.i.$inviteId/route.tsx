@@ -24,7 +24,6 @@ export async function clientLoader({ context, params: { inviteId } }: Route.Clie
         invite: invite.content,
     };
 }
-clientLoader.hydrate = true as const;
 
 export default function Index({ loaderData: { invite, inviteId, err, errorDescription, errorHeader } }: Route.ComponentProps) {
     if (err)

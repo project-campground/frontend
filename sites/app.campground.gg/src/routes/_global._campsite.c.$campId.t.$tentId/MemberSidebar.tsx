@@ -18,7 +18,6 @@ type Props = {
 } & React.PropsWithChildren;
 type State = {
     loading: boolean;
-    init: boolean;
     end: boolean;
     error: RestResponseError | null;
     tab: number;
@@ -30,6 +29,7 @@ export const RightSidebarBox = styled(Stack, {
     slot: "wrapper",
 })(() => ({
     width: 320,
+    gap: 4,
     height: "100%",
     transition: "width 0.3s",
     ".closed": {
@@ -47,9 +47,9 @@ export const RightSidebarList = styled(Stack, {
 
 export default class MemberSidebar extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = SessionContext;
+    private init: boolean = false;
     state: State = {
         loading: true,
-        init: false,
         end: false,
         error: null,
         tab: 0,
@@ -59,15 +59,15 @@ export default class MemberSidebar extends React.Component<Props, State, Session
         super(props, context);
     }
     async componentDidMount(): Promise<void> {
-        if (this.state.init)
+        if (this.init)
             return;
 
-        this.setState({ init: true });
+        this.init = true;
 
         return this.initFetchMembers();
     }
     async componentDidUpdate(_prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: any): Promise<void> {
-        if (this.state.init || !this.state.loading)
+        if (this.init || !this.state.loading)
             return;
         // else if (_prevProps.tent.id !== this.props.tent.id)
         //     return this.initFetchMembers();
@@ -101,12 +101,12 @@ export default class MemberSidebar extends React.Component<Props, State, Session
         const { closed, tent, children } = this.props;
 
         return (
-            <RightSidebarBox gap={1} className={closed ? "closed" : ""}>
+            <RightSidebarBox className={closed ? "closed" : ""}>
                 {children && <RightSidebarList>
                     {children}
                 </RightSidebarList>}
                 {tent.description && <RightSidebarList sx={{ px: 2, py: 1.5 }}>
-                    <Typography level="title-md">Channel topic</Typography>
+                    <Typography level="title-md">Tent topic</Typography>
                     <MarkdownWrapper>
                         {tent.description}
                     </MarkdownWrapper>

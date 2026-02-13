@@ -1,9 +1,11 @@
 import RESTClient from "api/RESTClient";
+import type WebSocketClient from "api/WebSocketClient";
 
 export interface Session {
     auth: SessionAuth;
     settings: SessionSettings;
-    restClient: RESTClient | null;
+    restClient: RESTClient;
+    webSocket: WebSocketClient;
     login(details: AuthCredentials): Promise<void>;
     logout(): void;
     setSettings(value: SessionSettings | ((prevState: SessionSettings) => SessionSettings)): void;

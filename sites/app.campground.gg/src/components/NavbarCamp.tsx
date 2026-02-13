@@ -26,7 +26,7 @@ export default function NavbarCamp({ id, avatar, name, memberCount, isVerified, 
     const navigate = useNavigate();
 
     return (
-        <NavbarCampWrapper sx={[{ px: 1, py: 0.5, height: 48, pr: { xs: 1, md: 3 } }, ...(Array.isArray(sx) ? sx : [sx])]} className={isActive ? "active" : ""} onClick={() => navigate(`/c/${id}`)}>
+        <NavbarCampWrapper sx={[{ px: 1, py: 0.5, height: 48, pr: { xs: 1, md: 3 } }, ...(Array.isArray(sx) ? sx : [sx])]} className={isActive ? "active" : ""} onClick={() => navigate(`/c/${id}/t/bulletin`)}>
             <Stack direction="row" alignItems="center" gap={2} py={1}>
                 <SimpleNotification pingCount={pingCount} regular={hasNotification} badgeInset={5}>
                     <Avatar src={avatar} variant="solid" sx={(theme) => ({ borderRadius: theme.vars.radius.md })}>

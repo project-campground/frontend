@@ -20,21 +20,8 @@ export async function clientLoader({ params: { campId }, context }: Route.Client
     else if (!campsite?.ok)
         throw redirect("/");
 
-    const defaultBonfire = campsite.content.bonfires.sort((a, b) => a.priority - b.priority)[0];
-
-    if (!defaultBonfire)
-        throw redirect("/");
-
-    const tents = await session.restClient!.getTents(campId, defaultBonfire.id);
-
-    if (!tents.ok)
-        throw redirect("/");
-
-    const firstTent = tents.content.tents.sort((a, b) => a.priority - b.priority)[0];
-
-    throw redirect(session.auth.authenticated ? `/c/${campId}/t/${firstTent?.id ?? "bulletin"}` : `/`);
+    throw redirect(session.auth.authenticated ? `/c/${campId}/t/bulletin` : `/`);
 }
-clientLoader.hydrate = true as const;
 
 export default function Index({ loaderData: { status } }: Route.ComponentProps) {
     if (status === 404)

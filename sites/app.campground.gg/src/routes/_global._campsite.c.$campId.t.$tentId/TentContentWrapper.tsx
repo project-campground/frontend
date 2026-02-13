@@ -8,7 +8,7 @@ type Props = React.PropsWithChildren & {
     sidebarOpen: boolean;
 };
 
-const TentContentBox = styled(Sheet)(({ theme }) => ({
+export const TentContentBox = styled(Sheet)(({ theme }) => ({
     borderRadius: theme.vars.radius.xl,
     display: "flex",
     flexDirection: "column",
@@ -16,7 +16,7 @@ const TentContentBox = styled(Sheet)(({ theme }) => ({
     overflow: "hidden",
 }));
 
-const TentContentDivider = styled(Divider)(({ theme }) => ({
+export const TentContentDivider = styled(Divider)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.body,
     height: 2,
 }));

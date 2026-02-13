@@ -29,6 +29,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
     currentTent: CurrentTentContext;
     static contextType?: React.Context<any> | undefined = ContextSuiteContext;
     _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
+    private init: boolean = false;
     constructor(props: Props, context: any) {
         super(props, context);
 
@@ -55,20 +56,28 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         return campsite.roles.sort((a, b) => (a.flags & 1) == (b.flags & 1) ? (a.priority - b.priority) : a.flags);
     }
     async componentDidMount(): Promise<void> {
-        if (this.state.init)
+        if (this.init)
             return;
+        this.init = true;
+        this.setCampsiteForWebSocket();
 
-        this.setState({ init: true });
-        
         return this.fetchCampsite();
     }
     async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: Session | undefined): Promise<void> {
         if (prevProps.campsiteId == this.props.campsiteId)
             return;
+
+        // To see campsite events
+        this.setCampsiteForWebSocket();
         
         this.setState({ loading: true });
-
+        
         return this.fetchCampsite();
+    }
+    setCampsiteForWebSocket() {
+        const ws = (this.context as ContextSuite).session.webSocket;
+        ws.setCampsite(this.props.campsiteId);
+        return ws;
     }
     updateCampsiteData(data: Partial<CampsiteViewDetailed>) {
         if (data.roles)

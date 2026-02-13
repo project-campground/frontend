@@ -18,6 +18,7 @@ import { PermissionsContext } from "~/context/permissions";
 import type { CampsiteRoleView } from "types/campsites";
 import { decimalToHexColor } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
+import { type WebSocketSubscription } from "api/WebSocketClient";
 
 type Props = {
     campsiteId: string;
@@ -28,7 +29,6 @@ export type TextTentMessage = TentMessageViewWithReplies & { waiting?: true; err
 
 type State = {
     messages: TextTentMessage[];
-    init: boolean;
     loading: boolean;
     error: RestResponseError | null;
     isEnd: boolean;
@@ -40,7 +40,6 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
     state: State = {
         messages: [],
-        init: false,
         loading: true,
         error: null,
         isEnd: false,
@@ -48,19 +47,43 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         replyMessages: [],
     };
     pseudoMessages: string[] = [];
+    private _initLock: boolean = false;
+    private _lock: boolean = false;
+    private _wsSubscription: WebSocketSubscription | null = null;
 
     async componentDidMount(): Promise<void> {
-        const { session } = this.context as CampsiteContextSuite;
-
-        if (this.state.init || !session.restClient)
+        if (this._initLock)
             return;
+        
+        this._initLock = true;
+        const session = (this.context as CampsiteContextSuite).session;
+        this._wsSubscription = session.webSocket
+            .subscribe((ev) => {
+                if (ev.op !== 1)
+                    return;
 
-        return this.fetchMessages(0)
+                return this.onWebSocketEvent(ev.t, ev.payload);
+            });
+            
+            return this.fetchMessages(0)
             .then((messages) =>
-                messages && this.setState({ messages, loading: false, isEnd: messages.length < 50, init: true })
-            );
+                messages && this.setState({ messages, loading: false, isEnd: messages.length < 50 })
+        );
     }
     
+    private onWebSocketEvent(type: string, payload: any) {
+        switch (type) {
+            case "TentMessageCreated":
+                const messageCreated = payload as TentMessageViewBasic;
+                if (this.state.messages.some((x) => x.id === messageCreated.id))
+                    return;
+
+                this.setState({ messages: [ { ...messageCreated, replyingTo: [], replyingToCount: messageCreated.replyingTo.length }, ...this.state.messages ] })
+                return;
+            default:
+        }
+    }
+
     async fetchMessages(offset: number = 0) {
         const { session } = this.context as CampsiteContextSuite;
 
@@ -78,16 +101,26 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
 
     async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: ContextSuite | undefined): Promise<void> {
-        if (prevProps.tent.id === this.props.tent.id)
+        if (!this._initLock || this._lock || prevProps.tent.id === this.props.tent.id)
             return;
 
-        this.setState({ init: false, loading: true });
+        this._lock = true;
+        this.setState({ loading: true });
 
         return this
             .fetchMessages(0)
             .then((messages) =>
-                messages && this.setState({ messages, isEnd: messages.length < 50, init: true, loading: false })
+                messages && !(this._lock = false) && this.setState({ messages, isEnd: messages.length < 50, loading: false })
             );
+    }
+
+    componentWillUnmount(): void {
+        if (!this._wsSubscription)
+            return;
+
+        (this.context as CampsiteContextSuite).session.webSocket.unsubscribe(
+            this._wsSubscription
+        );
     }
 
     async onMessageCreate(content: string): Promise<unknown> {
@@ -124,9 +157,13 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
 
     async onMessagesLoad() {
+        if (this._lock)
+            return;
+
+        this._lock = true;
         return this.fetchMessages(this.state.messages.length)
             .then((messages) =>
-                messages && this.setState({ messages: [...this.state.messages, ...messages], isEnd: messages.length < 50 })
+                messages && !(this._lock = false) && this.setState({ messages: [...this.state.messages, ...messages], isEnd: messages.length < 50 })
         );
     }
 

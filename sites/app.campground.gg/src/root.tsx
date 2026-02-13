@@ -9,7 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { IntlProvider } from './i18n';
+import { IntlProvider } from './context/i18n';
 // import { SessionProvider } from './session';
 import { Box, CircularProgress, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { BrandLogo, FlexCenter, SvgDefs, theme } from "components";
@@ -35,43 +35,45 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Meta />
                 <Links />
             </head>
-            <SessionProvider>
-                <body>
-                    <SvgDefs />
-                    <>
-                        {/* <InitColorSchemeScript defaultMode="dark" /> */}
-                        <StyledEngineProvider injectFirst>
-                            <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
-                                <CssBaseline />
-                                    <IntlProvider>
-                                        <SnackbarContextProvider>
-                                            <ContextSuiteProvider>
-                                                <DndContext>
-                                                    <RightClickProvider>
-                                                        <Box id="root">
-                                                            {children}
-                                                        </Box>
-                                                    </RightClickProvider>
-                                                </DndContext>
-                                            </ContextSuiteProvider>
-                                        </SnackbarContextProvider>
-                                    </IntlProvider>
-                            </CssVarsProvider>
-                        </StyledEngineProvider>
-                    </>
-                    <ScrollRestoration />
-                    <Scripts />
-                </body>
-            </SessionProvider>
+            <body>
+                <SvgDefs />
+                <>
+                    {/* <InitColorSchemeScript defaultMode="dark" /> */}
+                    <StyledEngineProvider injectFirst>
+                        <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
+                            <CssBaseline />
+                            {children}
+                        </CssVarsProvider>
+                    </StyledEngineProvider>
+                </>
+                <ScrollRestoration />
+                <Scripts />
+            </body>
         </html>
     );
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <SessionProvider>
+        <IntlProvider>
+            <SnackbarContextProvider>
+                <ContextSuiteProvider>
+                    <DndContext>
+                        <RightClickProvider>
+                            <Box id="root">
+                                <Outlet />
+                            </Box>
+                        </RightClickProvider>
+                    </DndContext>
+                </ContextSuiteProvider>
+            </SnackbarContextProvider>
+        </IntlProvider>
+    </SessionProvider>
+  );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function AppErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     let message = "Oops!";
     let details = "An unexpected error occurred.";
     let stack: string | undefined;

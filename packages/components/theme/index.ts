@@ -78,11 +78,15 @@ const theme = extendTheme({
         JoyButton: {
             styleOverrides: {
                 root: ({ theme, ownerState: { variant, disabled, color, } }) => ({
-                    transition: "background 0.3s",
+                    transitionDuration: "0.3s",
+                    transitionProperty: "background, color, box-shadow",
                     ...(variant === "glow" ? {
                         background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[300]}, ${theme.vars.palette.neutral[500]})` : `linear-gradient(30deg, ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}, ${theme.vars.palette[!color || color === "primary" ? "secondary" : color as ColorPaletteProp][500]})`,
-                        boxShadow: disabled ? `0 0 5px ${theme.vars.palette.neutral[400]}` : `0 0 5px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
+                        boxShadow: disabled ? theme.vars.shadow.md : `0 0 5px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
                         color: theme.vars.palette.common.black,
+                        ":not([disabled]):hover": {
+                            boxShadow: `0 0 15px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
+                        },
                         "::after": {
                             content: '""',
                             zIndex: 1,
@@ -93,9 +97,9 @@ const theme = extendTheme({
                             backgroundColor: "transparent",
                             position: "absolute",
                             transition: "background 0.3s",
-                            borderRadius: "var(--Button-radius, var(--joy-radius-sm))",
+                            borderRadius: "var(--Button-radius, var(--radius-sm))",
                         },
-                        ":hover::after": {
+                        ":not([disabled]):hover::after": {
                             backgroundColor: "#FFF3"
                         }
                     } : {})

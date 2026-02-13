@@ -20,7 +20,7 @@ export default function CampsiteCreation() {
                 if (!resp.ok)
                     return setError(resp);
 
-                navigate(`/c/${resp.content.campsite.id}`);
+                navigate(`/c/${resp.content.campsite.id}/t/bulletin`);
             });
 
     return (
@@ -118,6 +118,7 @@ export default function CampsiteCreation() {
                                         type: "textarea",
                                         id: "description",
                                         header: "Description",
+                                        required: true,
                                     },
                                 ]
                             },

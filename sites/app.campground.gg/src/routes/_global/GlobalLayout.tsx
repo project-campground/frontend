@@ -17,11 +17,16 @@ type State = {
 
 export default class GlobalLayout extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined = SessionContext;
+    private init: boolean = false;
     state = {
         me: null,
         loaded: false,
     };
     async componentDidMount(): Promise<void> {
+        if (this.init)
+            return;
+
+        this.init = true;
         const session = (this.context as Session);
 
         if (!session.auth.authenticated)

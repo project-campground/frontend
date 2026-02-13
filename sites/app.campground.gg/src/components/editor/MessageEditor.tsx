@@ -43,8 +43,8 @@ export default function MessageEditor({ placeholder, content, onConfirm, onCance
     const relativeRef = useRef<HTMLDivElement | null>(null);
 
     const onDone = async () => {
-        // if (editor.children.length === 1 && (editor.children[0] as EditorElement).type === "paragraph" && !Node.string(editor.children[0]).trim())
-        //     return;
+        if (editor.children.length === 1 && (editor.children[0] as EditorElement).type === "paragraph" && !Node.string(editor.children[0]).trim())
+            return;
 
         const serialized = serializeMarkdown(mdastifyEditor(editor));
 

@@ -45,7 +45,6 @@ export async function clientLoader({ context, params: { campId, tentId } }: Rout
         tent: tent.content,
     };
 }
-clientLoader.hydrate = true as const;
 
 export default function Index({ loaderData: { errorDescription, errorHeader, err, campsiteId, tent } }: Route.ComponentProps) {
     if (err === 404)

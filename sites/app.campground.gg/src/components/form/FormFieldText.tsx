@@ -7,6 +7,7 @@ export interface FormFieldTextProps extends FormFieldProps<"text", string>, Form
     inputType?: HTMLInputTypeAttribute;
     placeholder?: string;
     format?: RegExp;
+    allowedValue?: string | null;
 }
 
 type State = {
@@ -19,7 +20,7 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
     }
 
     public override get isValid(): boolean {
-        return this.isNotEmptyOrRequired && this.isFormatValid;
+        return this.isNotEmptyOrRequired && this.isFormatValid && this.hasAllowedValue;
     }
 
     private get isNotEmptyOrRequired(): boolean {
@@ -30,6 +31,10 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
         // Special thanks to De Morgan for solving this mess
         // !this.props.format || !!this.props.format!.exec(this.state.value)
         return !(this.props.format && !this.props.format!.exec(this.state.value));
+    }
+
+    private get hasAllowedValue(): boolean {
+        return !this.props.allowedValue || this.props.allowedValue === this.state.value;
     }
 
     private onInputChange(ev: ChangeEvent<HTMLInputElement>) {
@@ -53,7 +58,7 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
                 onChange={this.onInputChange.bind(this)}
                 error={value.length > 0 && !isFormatValid}
                 disabled={disabled}
-                />
+            />
         );
     }
 }

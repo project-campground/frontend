@@ -1,4 +1,4 @@
-import { IconBadgesFilled, IconLayoutBoardFilled, type ReactNode } from "@tabler/icons-react";
+import { IconBadgesFilled, IconLayoutBoardFilled, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
 import type { CampsiteViewDetailed } from "types/campsites";
 import CampsiteSettingsProfile from "~/layout/campsite/CampsiteSettingsProfile";
 import SettingsModal, { type SettingsComponentProps } from "../SettingsModal";
@@ -6,11 +6,14 @@ import { useSession } from "~/context/session";
 import CampsiteSettingsRoles from "./CampsiteSettingsRoles";
 import { useSnackbars } from "~/context/snackbar";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
+import CampsiteSettingsDeletion from "./CampsiteSettingsDeletion";
+import type { PageSidebarSection } from "~/components/sidebar/PageSidebar";
 
-type Page = "profile" | "roles";
+type Page = "profile" | "roles" | "delete";
 const settingsPages: Record<Page, (props: SettingsComponentProps<Props>) => ReactNode | ReactNode[]> = {
     profile: CampsiteSettingsProfile,
     roles: CampsiteSettingsRoles,
+    delete: CampsiteSettingsDeletion,
 };
 
 type Props = {
@@ -49,6 +52,7 @@ export default function CampsiteSettingsModal(props: Props) {
                     if (modifiedRole)
                         return Object.assign(modifiedRole, resp.content);
                 }),
+        delete: () => null,
     }
 
     return (
@@ -81,6 +85,18 @@ export default function CampsiteSettingsModal(props: Props) {
                         }
                     ]
                 },
-            ]} />
+                props.campsite.owner === props.campsite.member.user.did && {
+                    id: "other",
+                    header: "Other",
+                    items: [
+                        {
+                            id: "delete",
+                            name: "Delete campsite",
+                            color: "danger",
+                            startDecorator: <IconTrashFilled />
+                        }
+                    ]
+                },
+            ].filter(Boolean) as PageSidebarSection[]} />
     )
 }

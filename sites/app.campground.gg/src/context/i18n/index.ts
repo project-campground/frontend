@@ -1,4 +1,4 @@
-import supportedLocales from '../../supportedLocales.json';
+import supportedLocales from '../../../supportedLocales.json';
 import { mappifyMessages, type NestedMessages } from './util';
 
 export { IntlProvider } from './provider';

@@ -1,53 +1,15 @@
-import type { PaletteRange } from "@mui/joy";
+import type { TypographySystemOverrides as TextSystemOverrides } from "./typography";
+import type { Palette as ColorPalette, ColorPalettePropOverrides as ColorPropOverrides, PaletteTextOverrides as ColorTextOverrides, PaletteRangeOverrides as ColorRangeOverrides, PaletteBackgroundOverrides as ColorBackgroundOverrides } from "./colorSystem";
 
 declare module "@mui/joy/styles/types/typography" {
-    // Add new text levels
-    interface TypographySystemOverrides {
-        code: true;
-    }
+    interface TypographySystemOverrides extends TextSystemOverrides { }
 }
 
 // Add new colours
 declare module "@mui/joy/styles/types/colorSystem" {
-    interface Palette {
-        secondary: PaletteRange;
-        info: PaletteRange;
-        note: PaletteRange;
-        debug: PaletteRange;
-    }
-    interface ColorPalettePropOverrides {
-        secondary: true;
-        info: true;
-    }
-    // Add new text colours
-    interface PaletteTextOverrides {
-        quartary: true;
-        code: true;
-        ["code-keyword"]: true;
-        ["code-string"]: true;
-        ["code-number"]: true;
-        ["code-template"]: true;
-        ["code-function"]: true;
-        ["code-class"]: true;
-        ["code-attribute"]: true;
-    }
-    // Add new palette ranges
-    interface PaletteRangeOverrides {
-        1000: true;
-        950: true;
-        850: true;
-        ["t-950"]: true;
-        ["t-500"]: true;
-    }
-    // Add new backgrounds
-    interface PaletteBackgroundOverrides {
-        transparent0: true;
-        transparent1: true;
-        transparent2: true;
-        // level0: true;
-        level4: true;
-        level5: true;
-        // skeleton0: true;
-        // skeleton1: true;
-    }
+    interface Palette extends ColorPalette { }
+    interface ColorPalettePropOverrides extends ColorPropOverrides { }
+    interface PaletteTextOverrides extends ColorTextOverrides { }
+    interface PaletteRangeOverrides extends ColorRangeOverrides { }
+    interface PaletteBackgroundOverrides extends ColorBackgroundOverrides {}
 }

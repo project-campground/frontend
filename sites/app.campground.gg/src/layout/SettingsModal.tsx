@@ -39,8 +39,20 @@ const SubmitBox = styled(Sheet)(({ theme }) => ({
 const SettingsPage = styled(Stack)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level1,
     height: "100%",
-    borderRadius: theme.vars.radius.md,
+    borderRadius: theme.vars.radius.lg,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
+}));
+
+export const SettingsSidebar = styled(Stack)(({ theme }) => ({
+    backgroundColor: theme.vars.palette.background.level1,
+    height: "100%",
+    width: 300,
+    position: "relative",
+    padding: `${theme.spacing(3)} ${theme.spacing(4)}`,
+    borderRadius: theme.vars.radius.lg,
     overflow: "hidden",
+    gap: theme.spacing(2),
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
 }));
 
 export default function SettingsModal<TPage extends string, TProps>({ header, onSubmit, settingsProps, settingsPages, defaultPage, sections }: Props<TPage, TProps>) {
@@ -59,7 +71,7 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                         </Breadcrumbs>
                 </Group> */}
                 <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} flex={1} gap={0.5}>
-                    <Stack gap={2} sx={{ width: 300, height: "100%", position: "relative", px: 3, py: 4, bgcolor: "background.level1", overflow: "hidden", borderRadius: "md" }}>
+                    <SettingsSidebar>
                         <Typography level="title-lg">{header}</Typography>
                         <Box flex={1} sx={{ overflowY: "auto" }}>
                             <PageSidebar
@@ -83,12 +95,12 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                                 }}>{values.submitting ? <CircularProgress color="neutral" /> : "Save changes"}</Button>
                             </Group>
                         </SubmitBox>
-                    </Stack>
+                    </SettingsSidebar>
                     <SettingsPage flex={1}>
                         <Box sx={{ px: 3, py: 2, }}>
                             <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
                         </Box>
-                        <Divider sx={{ bgcolor: "background.body", height: 2 }} />
+                        <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1 }} />
                         <Box flex={1} sx={{ height: "100%", overflow: "hidden", px: 3, py: 4 }}>
                             <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: false, values, valid, changed })} />
                         </Box>

@@ -1,4 +1,4 @@
-import { Stack, styled, Tab, TabList, Tabs, Typography } from "@mui/joy";
+import { Stack, styled, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
 import type { RestResponseError } from "api/RESTResponse";
 import React from "react";
@@ -9,6 +9,7 @@ import type { Session } from "~/context/session/types";
 import type { CampsiteMemberViewBasic, CampsiteViewDetailed } from "types/campsites";
 import MemberList from "./MemberList";
 import { CampsiteContextSuiteContext } from "../_global._campsite/context";
+import { SmoothTabList } from "components";
 
 type Props = {
     campsiteId: string;
@@ -42,6 +43,8 @@ export const RightSidebarList = styled(Stack, {
 })(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level1,
     borderRadius: theme.vars.radius.xl,
+    boxShadow: theme.vars.shadow.lg,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
     padding: 5,
 }));
 
@@ -113,16 +116,18 @@ export default class MemberSidebar extends React.Component<Props, State, Session
                 </RightSidebarList>}
                 <RightSidebarList flex={1}>
                     <Tabs onChange={(_, v) => this.setState({ tab: (v ?? 0) as number })} size="lg" sx={{ mb: 1, borderRadius: "xl", overflow: "hidden" }}>
-                        <TabList>
-                            <Tab value={0}>
-                                <IconUsers />
-                                Members
-                            </Tab>
-                            <Tab value={1}>
-                                <IconListTree />
-                                Threads
-                            </Tab>
-                        </TabList>
+                        <SmoothTabList tabs={[
+                            {
+                                id: 0,
+                                startDecorator: <IconUsers />,
+                                name: "Members",
+                            },
+                            {
+                                id: 1,
+                                startDecorator: <IconListTree />,
+                                name: "Threads",
+                            }
+                        ]} />
                     </Tabs>
                     <CampsiteContextSuiteContext.Consumer>
                         {ctx =>

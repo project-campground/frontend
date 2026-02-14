@@ -1,9 +1,9 @@
-import { Alert, Box, Button, IconButton, Stack, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
+import { Alert, Box, Button, IconButton, Stack, TabPanel, Tabs, Typography } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteRoleView, CampsiteViewDetailed, GetRolesOutput } from "types/campsites";
 import RoleItem, { RoleItemGap } from "./RoleItem";
 import React, { useContext, useMemo, useState } from "react";
-import { Group } from "components";
+import { Group, SmoothTabList } from "components";
 import { IconExclamationCircleFilled, IconListCheck, IconPaletteFilled, IconPlus, IconSettings2 } from "@tabler/icons-react";
 import Form from "~/components/form/Form";
 import { CampsitePermissionConsts, TentPermissionConsts } from "~/util/permissions";
@@ -79,9 +79,9 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
         const updatedRoleIds = updatedRoles.content.roles.map((x) => x.id);
         const withoutUpdated = roles.filter((x) => !updatedRoleIds.includes(x.id));
         const withUpdated = withoutUpdated.concat(updatedRoles.content.roles);
-        updateCampsite({ roles: withUpdated });
+        return updateCampsite({ roles: withUpdated });
     };
-    const deleteRole = (roleToDelete: SettingsRole) => {
+    const deleteRole = async (roleToDelete: SettingsRole) => {
         const roleIndex = roles.indexOf(roleToDelete);
 
         return session
@@ -110,7 +110,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
                         {roles.map((role) =>
                             <React.Fragment key={role.id}>
                                 <RoleItemGap id={role.id} />
-                                <RoleItem active={openRole === role} onClick={() => setOpenRole(role)} {...role} />
+                                <RoleItem immovable={Boolean(role.flags & 1)} active={openRole === role} onClick={() => setOpenRole(role)} {...role} />
                             </React.Fragment>
                         )}
                     </Stack>
@@ -169,20 +169,25 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
         <Stack flex={1} gap={2}>
             <Typography level="title-lg">{role.name}</Typography>
             <Tabs sx={{ height: "100%" }}>
-                <TabList>
-                    <Tab value={0}>
-                        <IconPaletteFilled />
-                        Display
-                    </Tab>
-                    <Tab value={1}>
-                        <IconListCheck />
-                        Permissions
-                    </Tab>
-                    <Tab value={2}>
-                        <IconSettings2 />
-                        Manage
-                    </Tab>
-                </TabList>
+                <SmoothTabList
+                    tabs={[
+                        {
+                            id: 0,
+                            name: "Display",
+                            startDecorator: <IconPaletteFilled />,
+                        },
+                        {
+                            id: 1,
+                            name: "Permissions",
+                            startDecorator: <IconListCheck />,
+                        },
+                        {
+                            id: 2,
+                            name: "Manage",
+                            startDecorator: <IconSettings2 />,
+                        },
+                    ]}
+                />
                 <TabPanel value={0} sx={{ overflowY: "auto" }}>
                     <RolePageDisplay role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 0)} />
                 </TabPanel>
@@ -220,6 +225,13 @@ function RolePageDisplay({ value, onChanged }: RolePageTabProps) {
                             type: "color",
                             header: "Role color",
                             defaultValue: value.color,
+                            allowAlpha: true,
+                        },
+                        {
+                            id: "colorSecondary",
+                            type: "color",
+                            header: "Secondary color",
+                            defaultValue: value.colorSecondary,
                             allowAlpha: true,
                         },
                     ],

@@ -13,12 +13,19 @@ export const TentContentBox = styled(Sheet)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    overflow: "hidden",
+    // overflow: "hidden",
+    boxShadow: theme.vars.shadow.lg,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
+    position: "relative",
 }));
 
 export const TentContentDivider = styled(Divider)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.body,
     height: 2,
+    left: "-1px",
+    right: "-1px",
+    zIndex: 200,
+    // position: "absolute",
 }));
 
 export default function TentContentWrapper({ sidebarOpen, sidebarToggle, tent, children }: Props) {

@@ -22,14 +22,18 @@ const TentMessageReplyWrapper = styled(Group, {
 
 export default function TentMessageReply({ message, colorRoles }: Props) {
     const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
-    const color = colorRole?.color || colorRole?.colorSecondary;
+    const displayColors = colorRole?.color && colorRole?.colorSecondary
+        ? [decimalToHexColor(colorRole.color), decimalToHexColor(colorRole.colorSecondary)]
+        : colorRole?.color || colorRole?.colorSecondary
+        ? [decimalToHexColor(colorRole?.color || colorRole?.colorSecondary)]
+        : undefined;
 
     return (
         <TentMessageReplyWrapper>
             <UserDisplay
                 size="sm"
                 user={message.createdBy.user}
-                color={color ? decimalToHexColor(color) : undefined}
+                colors={displayColors}
             />
             <Typography level="body-sm" textColor="text.secondary">
                 {message.content.split("\n").join(" ").substring(0, 50)}{message.content.length > 50 ? "..." : ""}

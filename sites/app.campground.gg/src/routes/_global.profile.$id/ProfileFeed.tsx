@@ -8,6 +8,7 @@ import ProfileFeedPost, { ProfileFeedPostReplySkeleton } from "./ProfileFeedPost
 import { IconArticleFilled, IconFlameFilled } from "@tabler/icons-react";
 import RestError from "~/util/RestError";
 import { ProfilePostSkeleton } from "./ProfilePost";
+import { SmoothTabList } from "components";
 
 type Props = {
     user: ProfileView;
@@ -70,16 +71,18 @@ export default function ProfileFeed({ user, isSelf }: Props) {
         <Box>
             {/* <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography> */}
             <Tabs onChange={(_, v) => setFetchReplies(Boolean(v))} size="lg" sx={{ mb: 2 }}>
-                <TabList>
-                    <Tab value={0}>
-                        <IconFlameFilled />
-                        Feed
-                    </Tab>
-                    <Tab value={1}>
-                        <IconArticleFilled />
-                        Posts & Replies
-                    </Tab>
-                </TabList>
+                <SmoothTabList tabs={[
+                    {
+                        id: 0,
+                        name: "Feed",
+                        startDecorator: <IconFlameFilled />,
+                    },
+                    {
+                        id: 1,
+                        name: "Posts & Replies",
+                        startDecorator: <IconArticleFilled />,
+                    },
+                ]} />
             </Tabs>
             {
                 isLoading

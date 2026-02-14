@@ -1,16 +1,27 @@
 import { useDraggable, useDroppable } from "@dnd-kit/core";
-import { Box, Button, Chip, styled, Typography } from "@mui/joy";
+import { Box, Button, Chip, styled } from "@mui/joy";
 import { IconGripVertical } from "@tabler/icons-react";
+import { GradientTypography } from "components";
 import type { CampsiteRoleView } from "types/campsites";
-import { decimalToHexColor } from "~/util/color";
+import { getColorFromSet } from "~/util/color";
 
-const RoleButton = styled(Button)(() => ({
+const RoleButton = styled(Button, {
+    name: "RoleItem",
+    slot: "root",
+})<{ colors?: string[]; }>(({ theme, colors, }) => ({
+    position: "relative",
     paddingInline: "0.5rem",
     width: "100%",
     justifyContent: "start",
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+    border: "solid 1px transparent",
+    transitionProperty: "background, border, color, box-shadow",
+    "&.active": {
+        border: `solid 1px ${theme.vars.palette.neutral.border}`,
+        boxShadow: theme.vars.shadow.sm,
+    },
     "& > .MuiButton-startDecorator": {
         opacity: 0,
         transition: "opacity 0.3s",
@@ -18,6 +29,22 @@ const RoleButton = styled(Button)(() => ({
     "&:hover > .MuiButton-startDecorator": {
         opacity: 1,
     },
+    "::after": {
+        content: "''",
+        position: "absolute",
+        borderRadius: theme.vars.radius.sm,
+        transition: "opacity 0.3s",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0,
+        opacity: 0,
+        background: colors?.length ? colors.length > 1 ? `linear-gradient(to right, ${colors.join(", ")})` : colors[0] : `transparent`,
+    },
+    "&.active::after": {
+        opacity: 0.10,
+    }
 }));
 
 export default function RoleItem({ onClick, active, id, added, flags, name, color, colorSecondary, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "flags"> & { added?: true, immovable?: boolean; }) {
@@ -30,12 +57,13 @@ export default function RoleItem({ onClick, active, id, added, flags, name, colo
         : added
         ? <Chip color="danger" variant="soft">NEW</Chip>
         : null;
+    const colors = getColorFromSet(color, colorSecondary);
 
     return (
-        <RoleButton onClick={onClick} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" {...listeners} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style}>
-            <Typography sx={{ textOverflow: "ellipsis", overflow: "hidden", color: color || colorSecondary ? decimalToHexColor(color || colorSecondary) : null }}>
+        <RoleButton onClick={onClick} colors={colors} className={active ? "active" : ""} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" {...listeners} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style}>
+            <GradientTypography colors={colors} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
                 {name}
-            </Typography>
+            </GradientTypography>
         </RoleButton>
     )
 }

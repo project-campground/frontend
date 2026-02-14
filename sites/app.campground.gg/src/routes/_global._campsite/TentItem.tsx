@@ -11,6 +11,13 @@ type Props = {
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
     borderRadius: theme.vars.radius.sm,
+    transitionProperty: "background, box-shadow, border",
+    transitionDuration: "0.3s",
+    border: "solid 1px transparent",
+    "&.active": {
+        boxShadow: theme.vars.shadow.xs,
+        border: `solid 1px ${theme.vars.palette.neutral.border}`,
+    }
 }));
 
 export default function TentItem({ tent, isActive }: Props) {
@@ -18,7 +25,7 @@ export default function TentItem({ tent, isActive }: Props) {
 
     return (
         <ListItem>
-            <ListItemButtonStyled variant={isActive ? "soft" : "plain"} onClick={() => navigate(`/c/${tent.campsiteId}/t/${tent.id}`)}>
+            <ListItemButtonStyled className={isActive ? "active" : ""} variant={isActive ? "soft" : "plain"} onClick={() => navigate(`/c/${tent.campsiteId}/t/${tent.id}`)}>
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>

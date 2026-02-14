@@ -2,13 +2,15 @@ import { Button, styled } from "@mui/joy";
 
 export const GlobalNavbarItem = styled(Button)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level1,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
     padding: 1,
     borderRadius: theme.vars.radius.lg,
     transitionDuration: "0.4s",
-    transitionProperty: "background-color, color",
+    transitionProperty: "background-color, border, color",
     "--svg-color": theme.vars.palette.neutral[400],
     cursor: "pointer",
     color: theme.vars.palette.text.tertiary,
+    boxShadow: theme.vars.shadow.sm,
     ":hover": {
         color: theme.vars.palette.text.primary,
         backgroundColor: theme.vars.palette.background.level2,

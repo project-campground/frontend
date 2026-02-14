@@ -82,3 +82,28 @@ html, body, #root {
 .stroke-5 {
     stroke-width: 3px;
 }
+
+@keyframes appear-animation {
+    0% {
+        opacity: 0%;
+        scale: 50%;
+    }
+    80% {
+        scale: 100%;
+    }
+    90% {
+        scale: 97.5%;
+    }
+    100% {
+        opacity: 100%;
+        scale: 100%;
+    }
+}
+@keyframes appear-animation-opacity {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}

@@ -92,7 +92,11 @@ export default function TentMessage({ waiting, error, onAuthorClick, colorRoles,
             });
     }
     const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
-    const color = colorRole?.color || colorRole?.colorSecondary;
+    const displayColors = colorRole?.color && colorRole?.colorSecondary
+        ? [decimalToHexColor(colorRole.color), decimalToHexColor(colorRole.colorSecondary)]
+        : colorRole?.color || colorRole?.colorSecondary
+        ? [decimalToHexColor(colorRole?.color || colorRole?.colorSecondary)]
+        : undefined;
 
     return (
         <TentMessageWrapper className={`TentMessage-wrapper${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
@@ -117,7 +121,7 @@ export default function TentMessage({ waiting, error, onAuthorClick, colorRoles,
                 </Box>
                 <Stack flex={1}>
                     <Group gap={1} alignItems="center">
-                        <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} color={color ? decimalToHexColor(color) : undefined} />
+                        <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} colors={displayColors} />
                         {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
                         <Typography level="body-sm">
                             <Datestamp long date={new Date(message.createdAt)}/>

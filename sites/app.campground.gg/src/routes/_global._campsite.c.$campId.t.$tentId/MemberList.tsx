@@ -1,10 +1,11 @@
-import { Chip, List, Menu, Stack, Typography } from "@mui/joy";
+import { Chip, List, Menu, Stack } from "@mui/joy";
 import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites";
 import MemberItem from "./MemberItem";
 import ContentCategory from "~/components/content/ContentCategory";
-import { decimalToHexColor } from "~/util/color";
+import { decimalToHexColor, getColorFromSet } from "~/util/color";
 import UserProfileCard from "~/components/UserProfileCard";
 import { useState, type MouseEvent } from "react";
+import { GradientTypography } from "components";
 
 type Props = {
     memberCount: number;
@@ -45,7 +46,9 @@ export default function MemberList({ members, roles }: Props) {
                     return (
                         <ContentCategory key={role.id} header={
                             <>
-                                <Typography level="title-md" fontWeight={700} sx={{ color: role.color || role.colorSecondary ? decimalToHexColor(role.color || role.colorSecondary) : null }}>{role.name}</Typography>
+                                <GradientTypography animated colors={getColorFromSet(role.color, role.colorSecondary)} level="title-md" fontWeight={700} sx={{ width: "max-content", color: role.color || role.colorSecondary ? decimalToHexColor(role.color || role.colorSecondary) : null }}>
+                                    {role.name}
+                                </GradientTypography>
                                 <Chip variant="soft" sx={{ fontWeight: 700 }}>{roleMembers.length}</Chip>
                             </>
                         }>

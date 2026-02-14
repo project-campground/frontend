@@ -2,7 +2,7 @@ import { Dropdown, Menu, MenuButton, Skeleton, Typography } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
 import UserProfileCard from "./UserProfileCard";
-import { Group } from "components";
+import { GradientTypography, Group } from "components";
 import type { CampsiteMemberView } from "types/campsites";
 import type { MouseEvent } from "react";
 
@@ -12,7 +12,7 @@ type Props<T extends ProfileView> = {
     user: T;
     member?: CampsiteMemberView<T>;
     noAvatar?: boolean;
-    color?: string;
+    colors?: string[];
     size?: Size;
     avatarSize?: Size | "xl";
     showHandle?: boolean;
@@ -26,15 +26,14 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, color, user, size, avatarSize, alignItems, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, user, size, avatarSize, alignItems, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
-
     return (
         <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"} onClick={onClick}>
             {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
-            <Typography level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ color: color ?? theme.vars.palette.neutral[100], })}>
+            <GradientTypography animated colors={colors} level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ background: colors ? undefined : `${theme.vars.palette.text.secondary} text` })}>
                 {member?.nickname ?? user.displayName}
-            </Typography>
+            </GradientTypography>
             {
                 showHandle && <>
                     <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>

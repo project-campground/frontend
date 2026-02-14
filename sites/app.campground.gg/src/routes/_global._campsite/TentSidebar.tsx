@@ -39,6 +39,8 @@ export const TentSidebarBox = styled(Stack, {
     minWidth: 320,
     maxWidth: 320,
     borderRadius: theme.vars.radius.xl,
+    boxShadow: theme.vars.shadow.lg,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
     height: "100%",
     paddingTop: "5px",
 }));

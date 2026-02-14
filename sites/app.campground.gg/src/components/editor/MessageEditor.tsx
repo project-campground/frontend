@@ -31,6 +31,8 @@ export const MessageEditorContainer = styled(Sheet)(({ theme }) => ({
     width: "100%",
     maxHeight: 200,
     padding: "8px 8px",
+    boxShadow: theme.vars.shadow.sm,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
     borderRadius: theme.vars.radius.md,
 }));
 

@@ -56,13 +56,25 @@ function PageSidebarSectionComponent(props: PageSidebarSection & { activeItem: s
     )
 }
 
-const PageSidebarItemButton = styled(Button)(() => ({
+const PageSidebarItemButton = styled(Button, {
+    name: "PageSidebarItem",
+    slot: "root",
+})(({ theme }) => ({
     justifyContent: "start",
+    border: `solid 1px transparent`,
+    transitionProperty: "background, color, box-shadow, border",
+    "&.active": {
+        border: `solid 1px ${theme.vars.palette.neutral.border}`,
+        boxShadow: theme.vars.shadow.sm,
+    },
+    "&.MuiButton-colorDanger.active": {
+        border: `solid 1px ${theme.vars.palette.danger.border}`,
+    },
 }));
 
 function PageSidebarItemComponent(props: PageSidebarItem & { active: boolean; onClick: () => unknown }) {
     return (
-        <PageSidebarItemButton onClick={props.onClick} variant={props.active ? "soft" : "plain"} color={props.color ?? "neutral"} startDecorator={props.startDecorator} endDecorator={props.endDecorator}>
+        <PageSidebarItemButton onClick={props.onClick} className={props.active ? "active" : ""} variant={props.active ? "soft" : "plain"} color={props.color ?? "neutral"} startDecorator={props.startDecorator} endDecorator={props.endDecorator}>
             {props.name}
         </PageSidebarItemButton>
     )

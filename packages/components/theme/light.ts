@@ -21,6 +21,7 @@ const lightColorScheme: ColorSystemOptions = {
     palette: {
         neutral: {
             ...shades,
+            border: `${shades[200]}0B`,
             "t-950": `${lightest}cc`,
         },
         text: {
@@ -46,6 +47,8 @@ const lightColorScheme: ColorSystemOptions = {
         debug: generateColorScheme("#26f2ff", lightest, darkest),
         note: generateColorScheme("#ca1cfe", lightest, darkest),
         background: {
+            backdrop: `${shades[800]}aa`,
+            backdrop950: `${shades[950]}aa`,
             transparent0: `${shades[950]}dd`,
             transparent1: `${shades[950]}99`,
             transparent2: `${shades[950]}55`,

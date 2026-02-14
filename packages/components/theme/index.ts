@@ -2,9 +2,7 @@ import { extendTheme, type ColorPaletteProp } from "@mui/joy";
 import { bodyFontFamily, displayFontFamily } from "./font";
 import lightColorScheme from "./light";
 import darkColorScheme from "./dark";
-import type { AvatarPropsSizeOverrides } from "../types/components";
 
-const newAvatarSizes: (keyof AvatarPropsSizeOverrides)[] = ["xl", "xxl", "xxxl"];
 const theme = extendTheme({
     cssVarPrefix: ``,
     typography: {
@@ -51,9 +49,24 @@ const theme = extendTheme({
                 }
             }
         },
+        JoyMenu: {
+            styleOverrides: {
+                root: () => ({
+                    animation: "appear-animation-opacity ease-out 0.125s",
+                })
+            }
+        },
+        JoyModal: {
+            styleOverrides: {
+                backdrop: () => ({
+                    backdropFilter: "none",
+                }),
+            }
+        },
         JoyModalDialog: {
             styleOverrides: {
                 root: ({ theme, ownerState: {  }}) => ({
+                    animation: "appear-animation ease-out 0.125s",
                     [theme.breakpoints.up("md")]: {
                         "&.MuiModalDialog-layoutFullscreen": {
                             borderRadius: theme.vars.radius.xl,
@@ -79,7 +92,7 @@ const theme = extendTheme({
             styleOverrides: {
                 root: ({ theme, ownerState: { variant, disabled, color, } }) => ({
                     transitionDuration: "0.3s",
-                    transitionProperty: "background, color, box-shadow",
+                    transitionProperty: "background, background-color, color, box-shadow",
                     ...(variant === "glow" ? {
                         background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[300]}, ${theme.vars.palette.neutral[500]})` : `linear-gradient(30deg, ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}, ${theme.vars.palette[!color || color === "primary" ? "secondary" : color as ColorPaletteProp][500]})`,
                         boxShadow: disabled ? theme.vars.shadow.md : `0 0 5px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
@@ -131,6 +144,13 @@ const theme = extendTheme({
                     "::after": {
                         display: "none",
                     }
+                })
+            }
+        },
+        JoyTabPanel: {
+            styleOverrides: {
+                root: () => ({
+                    flex: 1,
                 })
             }
         },

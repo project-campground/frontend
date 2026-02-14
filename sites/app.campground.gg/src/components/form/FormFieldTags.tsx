@@ -61,7 +61,7 @@ export default class FormFieldTags extends AbstractFormField<"tags", string[], F
                         color={colorOrDefault}
                         sx={{ width: 150, borderRadius: "1.5rem" }}
                         onKeyUp={(ev) => ev.key === "Enter" && (ev.target as HTMLInputElement).value && (this.addValue((ev.target as HTMLInputElement).value), (ev.target as HTMLInputElement).value = "")}
-                        />
+                    />
                 </Group>
             </Stack>
         );

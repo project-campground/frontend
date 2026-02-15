@@ -32,7 +32,7 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
 
     const notify = (props: SnackbarProps) => setSnackbars([...snackbars, {...props, id: Math.floor(Math.random() * 10000)}]);
     const notifyError: SnackbarNotify = (text) => notify({ color: "danger", startDecorator: <IconExclamationCircleFilled />, text });
-    const notifyApiError: SnackbarNotifyApi<RestResponseError> = (resp: RestResponseError) => notify({ color: "danger", startDecorator: <IconExclamationCircleFilled />, text: <Group><span>{resp.status}</span>{resp.errorHeader && <strong>{" "}{resp.errorHeader}</strong>}<span>:{" "}{resp.errorDescription}</span></Group> });
+    const notifyApiError: SnackbarNotifyApi<RestResponseError> = (resp: RestResponseError) => notify({ color: "danger", startDecorator: <IconExclamationCircleFilled />, text: <Group><span>{resp.status}{" "}</span>{resp.errorHeader && <strong>{resp.errorHeader}</strong>}<span>:{" "}{resp.errorDescription}</span></Group> });
     const notifySuccess: SnackbarNotify = (text) => notify({ color: "success", startDecorator: <IconCircleCheckFilled />, text});
     const notifyInfo: SnackbarNotify = (text) => notify({ color: "info", startDecorator: <IconInfoCircleFilled />, text});
     const notifyWarn: SnackbarNotify = (text) => notify({ color: "warning", startDecorator: <IconExclamationCircleFilled />, text});

@@ -1,4 +1,4 @@
-import { Alert, DialogContent, DialogTitle, ModalDialog, Stack, Typography } from "@mui/joy";
+import { Alert, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
 import type { RestResponseError } from "api/RESTResponse";
 import { useState } from "react";
@@ -17,19 +17,18 @@ type Props = {
     onTentCreated: (tent: TentViewDetailed) => void | unknown;
 };
 
-export default function TentCreationModal({ campsiteId, bonfireId, categoryId, categories, onClose, onTentCreated, lowestPriorityTent, lowestPriorityCategory }: Props) {
+export default function TentCreationModal({ campsiteId, bonfireId, categoryId, onClose, lowestPriorityTent, lowestPriorityCategory }: Props) {
     const session = useSession();
     const [error, setError] = useState<RestResponseError | null>(null);
-    console.log({ categoryId, categories });
 
     const onTentCreate = (body: Record<string, any>): unknown =>
         session.restClient
-            ?.createTent(campsiteId, bonfireId, { ...body, priority: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; priority: number; })
+            ?.createTent(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, priority: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; priority: number; })
             .then((r) => {
                 if (!r.ok)
                     return setError(r);
 
-                return (onTentCreated(r.content), onClose());
+                return onClose();
             });
     const onCategoryCreate = (name: string, description: string): unknown =>
         session.restClient
@@ -38,7 +37,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, c
                 if (!r.ok)
                     return setError(r);
 
-                return (onTentCreated(r.content), onClose());
+                return onClose();
             });
 
     return (
@@ -48,6 +47,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, c
             <Form
                 sections={[
                     {
+                        id: "info",
                         fields: [
                             {
                                 id: "name",
@@ -84,6 +84,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, c
                         ]
                     },
                     {
+                        id: "tent",
                         header: "Tent settings",
                         disableOn: ({ what }) => what !== "tent",
                         fields: [
@@ -102,22 +103,6 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, c
                                     },
                                 ]
                             },
-                            {
-                                id: "categoryId",
-                                type: "select",
-                                header: "Select the parent category",
-                                required: false,
-                                defaultValue: categoryId ?? undefined,
-                                options: categories.map((x) => ({
-                                    value: x.id,
-                                    text: <Stack>
-                                        <Typography level="title-md" fontWeight={700} sx={{ textAlign: "left" }}>
-                                            {x.name}
-                                        </Typography>
-                                        {x.description && <Typography level="body-sm" textColor="text.tertiary">{x.description}</Typography>}
-                                    </Stack>
-                                }))
-                            }
                         ]
                     }
                 ]}

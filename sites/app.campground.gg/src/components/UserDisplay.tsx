@@ -31,7 +31,7 @@ export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus,
     return (
         <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"} onClick={onClick}>
             {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
-            <GradientTypography animated colors={colors} level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ background: colors ? undefined : `${theme.vars.palette.text.secondary} text` })}>
+            <GradientTypography gradientAnimated colors={colors} level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ background: colors ? undefined : `${theme.vars.palette.text.secondary} text` })}>
                 {member?.nickname ?? user.displayName}
             </GradientTypography>
             {

@@ -46,7 +46,7 @@ export default function MemberList({ members, roles }: Props) {
                     return (
                         <ContentCategory key={role.id} header={
                             <>
-                                <GradientTypography animated colors={getColorFromSet(role.color, role.colorSecondary)} level="title-md" fontWeight={700} sx={{ width: "max-content", color: role.color || role.colorSecondary ? decimalToHexColor(role.color || role.colorSecondary) : null }}>
+                                <GradientTypography gradientAnimated colors={getColorFromSet(role.color, role.colorSecondary)} level="title-md" fontWeight={700} sx={{ width: "max-content", color: role.color || role.colorSecondary ? decimalToHexColor(role.color || role.colorSecondary) : null }}>
                                     {role.name}
                                 </GradientTypography>
                                 <Chip variant="soft" sx={{ fontWeight: 700 }}>{roleMembers.length}</Chip>

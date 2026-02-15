@@ -2,6 +2,7 @@ import { decodeSequence, encode } from "cbor2";
 import type { KeyValueEncoded } from "cbor2/sorts";
 import { stringify } from "uuid";
 import type RESTClient from "./RESTClient";
+import type { TypeToPayload } from "types/ws";
 
 type Config = {
     url: string;
@@ -21,7 +22,7 @@ interface WebSocketDataFrame<TType extends string, TData> extends WebSocketFrame
     t: TType;
 }
 
-type WebSocketMessage = WebSocketErrorFrame | WebSocketDataFrame<string, any>;
+type WebSocketMessage = WebSocketErrorFrame | WebSocketDataFrame<keyof TypeToPayload, TypeToPayload[keyof TypeToPayload]>;
 
 export type WebSocketSubscriptionCallback = (message: WebSocketMessage) => unknown;
 
@@ -49,6 +50,7 @@ export default class WebSocketClient {
         this._subscriptions = [];
         this._client = new WebSocket(this._config.url);
         this._client.onmessage = this._onMessage.bind(this);
+        console.log("This", this);
     }
     public subscribe(callback: WebSocketSubscriptionCallback) {
         const subscription = {
@@ -62,6 +64,7 @@ export default class WebSocketClient {
     }
     public initWithAuth(restClient: RESTClient) {
         this._client.onopen = async () => {
+            console.log("WS Open");
             const serviceAuth = await restClient.getServiceAuth({ lxm: "gg.campground.websocket.subscribe" });
             this._client.send(
                 encode({
@@ -71,7 +74,10 @@ export default class WebSocketClient {
                     } : undefined,
                 })
             );
-            this._internalInitOnOpen();
+            console.log("Sent auth");
+            setTimeout(() => {
+                this._internalInitOnOpen();
+            }, 300);
         };
     }
     public initWithoutAuth() {
@@ -85,18 +91,21 @@ export default class WebSocketClient {
         }
     }
     private _internalInitOnOpen() {
+        console.log("Fully initializing WebSocket");
         for (const onOpen of this._onOpen)
             onOpen();
     }
     public setCampsite(campsiteId: string | null) {
-        console.log("External");
         if (this._client.readyState !== this._client.OPEN)
             return this._onOpen.push(this._internalSetCampsite.bind(this, campsiteId));
 
-        this._internalSetCampsite(campsiteId);
+        console.log("Set campsite", campsiteId);
+        setTimeout(() => {
+            this._internalSetCampsite(campsiteId);
+        }, 100);
     }
     private _internalSetCampsite(campsiteId: string | null) {
-        console.log("Internal");
+        console.log("Set campsite after opening", campsiteId);
         this._client.send(
             encode({
                 op: 1,
@@ -121,7 +130,7 @@ export default class WebSocketClient {
     }
     private async _onMessage(msg: MessageEvent<any>) {
         const [header, payload] = [...decodeSequence(await (msg.data as Blob).bytes(), { createObject })] as [WebSocketFrameHeader<-1> | WebSocketFrameHeaderTyped<1, string>, any];
-        const message: WebSocketMessage = {...header, payload };
+        const message: WebSocketMessage = {...header, payload } as WebSocketMessage;
         console.log("Message", message);
         return await Promise.allSettled(
             this._subscriptions.map((x) =>

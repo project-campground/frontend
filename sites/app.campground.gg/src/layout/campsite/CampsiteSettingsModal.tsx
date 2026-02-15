@@ -69,7 +69,7 @@ export default function CampsiteSettingsModal(props: Props) {
                     items: [
                         {
                             id: "profile",
-                            name: "Campsite Profile",
+                            name: "Campsite profile",
                             startDecorator: <IconLayoutBoardFilled />
                         },
                     ]

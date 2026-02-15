@@ -1,7 +1,6 @@
 import { Alert, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
 import type { RestResponseError } from "api/RESTResponse";
 import { useState } from "react";
-import type { BonfireViewDetailed } from "types/campsites";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
 
@@ -9,10 +8,9 @@ type Props = {
     campsiteId: string;
     lowestPriorityBonfire: number;
     onClose: () => Promise<void> | void;
-    onBonfireCreated: (tent: BonfireViewDetailed) => void | unknown;
 };
 
-export default function BonfireCreationModal({ campsiteId, onClose, onBonfireCreated, lowestPriorityBonfire }: Props) {
+export default function BonfireCreationModal({ campsiteId, onClose, lowestPriorityBonfire }: Props) {
     const session = useSession();
     const [error, setError] = useState<RestResponseError | null>(null);
 
@@ -23,7 +21,7 @@ export default function BonfireCreationModal({ campsiteId, onClose, onBonfireCre
                 if (!r.ok)
                     return setError(r);
 
-                return (onBonfireCreated(r.content), onClose());
+                return onClose();
             });
 
     return (
@@ -33,6 +31,7 @@ export default function BonfireCreationModal({ campsiteId, onClose, onBonfireCre
             <Form
                 sections={[
                     {
+                        id: "info",
                         fields: [
                             {
                                 id: "name",

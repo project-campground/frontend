@@ -27,7 +27,7 @@ const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr",
     },
-    "&.divided > .FormField-container:not(:first-child)": {
+    "&.divided > .FormField-container:not(:first-of-type)": {
         borderTop: `solid 1px ${theme.vars.palette.background.body}`,
         paddingTop: 12,
     }

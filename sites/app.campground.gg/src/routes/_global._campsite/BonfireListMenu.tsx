@@ -1,6 +1,6 @@
 import { Avatar, ListItemContent, ListItemDecorator, Menu, MenuItem, Modal, Stack, styled, Typography } from "@mui/joy";
 import { IconPlus } from "@tabler/icons-react";
-import type { BonfireViewBasic, BonfireViewDetailed } from "types/campsites";
+import type { BonfireViewBasic } from "types/campsites";
 import BonfireCreationModal from "./BonfireCreationModal";
 import { useState } from "react";
 
@@ -10,7 +10,6 @@ type Props = {
     open: boolean;
     top: number;
     onBonfireOpen: (bonfire: BonfireViewBasic) => unknown;
-    onBonfireCreated: (bonfire: BonfireViewDetailed) => unknown;
 };
 
 const BonfireMenu = styled(Menu)(({ theme }) => ({
@@ -22,7 +21,7 @@ const BonfireMenu = styled(Menu)(({ theme }) => ({
     left: `5px !important`
 }));
 
-export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBonfireOpen, onBonfireCreated }: Props) {
+export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBonfireOpen }: Props) {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const lowestPriorityBonfire = bonfires.sort((a, b) => a.priority - b.priority).slice(-1)[0]?.priority ?? -1;
     const onClose = () => setCreateModalOpen(false);
@@ -61,7 +60,7 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                 </MenuItem>
             </BonfireMenu>
             <Modal open={createModalOpen} onClose={onClose}>
-                <BonfireCreationModal campsiteId={campsiteId} lowestPriorityBonfire={lowestPriorityBonfire} onClose={onClose} onBonfireCreated={onBonfireCreated} />
+                <BonfireCreationModal campsiteId={campsiteId} lowestPriorityBonfire={lowestPriorityBonfire} onClose={onClose} />
             </Modal>
         </>
     );

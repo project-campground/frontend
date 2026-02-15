@@ -1,12 +1,15 @@
-import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, Skeleton, styled, Typography } from "@mui/joy";
-import { IconHash } from "@tabler/icons-react";
+import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, styled, Typography } from "@mui/joy";
+import { IconHash, IconTrashFilled } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import type { TentViewBasic } from "types/tent"
 import TentIcon from "~/components/tents/TentIcon";
+import { useRightClick } from "~/context/mouse";
 
 type Props = {
     tent: TentViewBasic;
     isActive?: boolean;
+    disableMenu?: boolean;
+    onTentDelete?: (tent: TentViewBasic) => unknown;
 }
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
@@ -20,11 +23,26 @@ const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
     }
 }));
 
-export default function TentItem({ tent, isActive }: Props) {
+export default function TentItem({ tent, isActive, onTentDelete }: Props) {
     const navigate = useNavigate();
+    const { listeners } = useRightClick({
+        MenuComponent: ({ tent }) => (
+            <>
+                {tent.id !== "bulletin" && onTentDelete && <MenuItem color="danger" variant="plain" onClick={() => onTentDelete(tent)}>
+                    <ListItemDecorator>
+                        <IconTrashFilled />
+                    </ListItemDecorator>
+                    <ListItemContent>
+                        Delete tent
+                    </ListItemContent>
+                </MenuItem>}
+            </>
+        ),
+        menuProps: { tent },
+    });
 
     return (
-        <ListItem>
+        <ListItem {...listeners}>
             <ListItemButtonStyled className={isActive ? "active" : ""} variant={isActive ? "soft" : "plain"} onClick={() => navigate(`/c/${tent.campsiteId}/t/${tent.id}`)}>
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />

@@ -1,13 +1,10 @@
-import { Box, Button, } from "@mui/joy";
+import { Box } from "@mui/joy";
 import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { BonfireViewBasic } from "types/campsites";
-import { useMemo, useState } from "react";
-import ContentDeleteModal from "../ContentDeleteModal";
+import { useMemo } from "react";
 
-export default function BonfireSettingsProfile({ onValuesChanged, settingsProps: { onBonfireDeleted, bonfire, canDeleteBonfire } }: SettingsComponentProps<{ canDeleteBonfire: boolean; onBonfireDeleted: () => unknown; bonfire: BonfireViewBasic }>) {
-    const [deleteConfirmOpen, setConfirmOpen] = useState(false);
-
+export default function BonfireSettingsProfile({ onValuesChanged, settingsProps: { bonfire } }: SettingsComponentProps<{ bonfire: BonfireViewBasic }>) {
     const defaultValues = useMemo(() => ({
         name: bonfire.name,
         description: bonfire.description,
@@ -76,16 +73,7 @@ export default function BonfireSettingsProfile({ onValuesChanged, settingsProps:
                     ]}
                     onChange={(isValid, values) => onValuesChanged(isValid, oneOfNotDefault(values), values)}
                 />
-                {canDeleteBonfire && <Button variant="glow" color="danger" onClick={() => setConfirmOpen(true)}>
-                    Delete bonfire
-                </Button>}
             </Box>
-            <ContentDeleteModal title="bonfire"
-                open={deleteConfirmOpen}
-                onClose={() => setConfirmOpen(false)}
-                onConfirm={() => (setConfirmOpen(false), onBonfireDeleted())}
-                ContentRender={() => "..."}
-            />
         </>
     )
 }

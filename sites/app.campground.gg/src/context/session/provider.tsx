@@ -44,7 +44,6 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
         setAuth({ authenticated: false });
         navigate("/login");
     };
-
     const webSocket = useMemo(() => {
         const webSocket = new WebSocketClient({ url: defaultAppBackendUrl + "/ws/v1" });
         if (auth.authenticated)
@@ -52,7 +51,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
         else
             webSocket.initWithoutAuth();
         return webSocket;
-    }, [auth]);
+    }, [auth.authenticated]);
 
     const value = useMemo(() => ({
         auth,
@@ -61,8 +60,8 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
         setSettings,
         login,
         logout,
-        webSocket,
-    }), [auth, restClient, settings]);
+        webSocket
+    }), [auth, settings]);
 
     return (
         <SessionContext.Provider value={value}>

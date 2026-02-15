@@ -2,11 +2,13 @@ import { Alert, Button, Divider, List, Modal, Stack, styled, Typography } from "
 import { IconInfoCircleFilled, IconTent } from "@tabler/icons-react";
 import React from "react";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/tent";
-import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import TentCreationModal from "./TentCreationModal";
 import TentItem from "./TentItem";
 import TentCategory from "./TentCategory";
+import ContentDeleteModal from "~/layout/ContentDeleteModal";
+import type { NavigateFunction } from "react-router";
+import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
 
 type Props = {
     campsiteId: string;
@@ -14,6 +16,7 @@ type Props = {
     tentSelected: string | null;
     tents: GetTentsOutput;
     onTentCreated: (tent: TentViewDetailed) => void | unknown;
+    navigate: NavigateFunction;
 };
 
 type State = {
@@ -21,33 +24,34 @@ type State = {
     modalCategoryId: string | null;
     sortedTents: TentViewBasic[];
     sortedCategories: TentCategoryView[];
+    deletingTent: TentViewBasic | null;
 };
 export const TentStyledList = styled(List)(() => ({
     "--ListItemDecorator-size": "32px",
 }));
 
-function TentCategorizedList({ tents, tentSelected }: { tents: TentViewBasic[], tentSelected?: string | null }) {
+function TentCategorizedList({ tents, tentSelected, onTentDelete }: { tents: TentViewBasic[], tentSelected?: string | null; onTentDelete: (tent: TentViewBasic) => unknown; }) {
     return (
         <TentStyledList sx={{ "--List-padding": 0 }}>
             {tents.map((x) =>
-                <TentItem key={x.id} tent={x} isActive={x.id === tentSelected} />
+                <TentItem key={x.id} tent={x} isActive={x.id === tentSelected} onTentDelete={onTentDelete} />
             )}
         </TentStyledList>
     )
 }
 
 export default class TentList extends React.Component<Props, State, Session> {
-    static contextType?: React.Context<any> | undefined = SessionContext;
-    
+    static contextType?: React.Context<any> | undefined = ContextSuiteContext;
 
-    constructor(props: Props, context: Session) {
+    constructor(props: Props, context: ContextSuite) {
         super(props, context);
 
         this.state = {
             createModalOpen: false,
             modalCategoryId: null,
             sortedTents: this.props.tents.tents.sort((a, b) => a.priority - b.priority),
-            sortedCategories: this.props.tents.categories.sort((a, b) => a.priority - b.priority)
+            sortedCategories: this.props.tents.categories.sort((a, b) => a.priority - b.priority),
+            deletingTent: null,
         };
     }
     componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: Session | undefined): void {
@@ -77,8 +81,22 @@ export default class TentList extends React.Component<Props, State, Session> {
         this.setState({ createModalOpen: false, modalCategoryId: null });
     }
     onCategoryTentCreate(categoryId: string) {
-        console.log({ categoryId });
         this.setState({ createModalOpen: true, modalCategoryId: categoryId });
+    }
+    private async onTentDelete() {
+        const deletingTent = this.state.deletingTent!;
+        this.setState({ deletingTent: null });
+
+        console
+        return (this.context as ContextSuite).session.restClient?.deleteTent(deletingTent.id)
+            .then((resp) => {
+                if (!resp.ok)
+                    return (this.context as ContextSuite).floaters.notifyApiError(resp);
+            });
+    }
+    private _setTentDeleteBind = this.setTentDelete.bind(this);
+    private async setTentDelete(tent: TentViewBasic) {
+        this.setState({ deletingTent: tent });
     }
     render() {
         const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected, campsiteId } } = this;
@@ -88,6 +106,7 @@ export default class TentList extends React.Component<Props, State, Session> {
             <>
                 <Stack gap={2}>
                     <TentCategorizedList
+                        onTentDelete={this._setTentDeleteBind}
                         tentSelected={tentSelected}
                         tents={[
                             { id: "bulletin", campsiteId, name: "Bulletin Board", type: "bulletin" }
@@ -95,12 +114,12 @@ export default class TentList extends React.Component<Props, State, Session> {
                     />
                     <Divider />
                     {tentsUncategorized.length
-                        ? <TentCategorizedList tents={tentsUncategorized} tentSelected={tentSelected} />
+                        ? <TentCategorizedList onTentDelete={this._setTentDeleteBind} tents={tentsUncategorized} tentSelected={tentSelected} />
                         : null
                     }
                     {tentsCategorized.map((x) =>
                         <TentCategory key={x.category.id} category={x.category} onCreate={this.onCategoryTentCreate.bind(this, x.category.id)}>
-                            <TentCategorizedList tents={x.tents} tentSelected={tentSelected} />
+                            <TentCategorizedList onTentDelete={this._setTentDeleteBind} tents={x.tents} tentSelected={tentSelected} />
                         </TentCategory>
                     )}
                     <Stack gap={1}>
@@ -130,6 +149,13 @@ export default class TentList extends React.Component<Props, State, Session> {
                         lowestPriorityCategory={lowestPriorityCategory}
                     />
                 </Modal>
+                <ContentDeleteModal
+                    title="tent"
+                    open={!!this.state.deletingTent}
+                    onConfirm={this.onTentDelete.bind(this)}
+                    onClose={() => this.setState({ deletingTent: null })}
+                    ContentRender={() => <TentItem isActive={true} tent={this.state.deletingTent!} />}
+                />
             </>
         );
     }

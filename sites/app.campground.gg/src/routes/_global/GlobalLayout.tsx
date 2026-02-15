@@ -4,6 +4,9 @@ import GlobalNavbar from "./GlobalNavbar";
 import type { Me } from "types/me";
 import { MeContext, SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
+import type { WebSocketSubscription } from "api/WebSocketClient";
+import type { TypeToPayload } from "types/ws";
+import type { CampsiteViewBasic } from "types/campsites";
 
 type Props = {
     page: string | undefined | null;
@@ -11,26 +14,31 @@ type Props = {
 };
 
 type State = {
-    me: Me | null;
     loaded: boolean;
 }
 
 export default class GlobalLayout extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined = SessionContext;
-    private init: boolean = false;
+    private _init: boolean = false;
     state = {
-        me: null,
         loaded: false,
     };
+    private _me: Me | null = null;
+    private _wsSubscription: WebSocketSubscription | null = null;
     async componentDidMount(): Promise<void> {
-        if (this.init)
+        if (this._init || this._me)
             return;
 
-        this.init = true;
+        this._init = true;
         const session = (this.context as Session);
 
         if (!session.auth.authenticated)
             return this.setState({ loaded: true });
+
+        this._wsSubscription = session.webSocket.subscribe(msg =>
+            msg.op === 1 &&
+            this.onWsMessage(msg.t, msg.payload)
+        );
 
         return session.restClient!
             .getMe()
@@ -40,16 +48,48 @@ export default class GlobalLayout extends React.Component<Props, State> {
                     return console.error("Got error while fetching me:", { description: resp.errorDescription, header: resp.errorHeader, status: resp.status });
                 }
 
-                return this.setState({ me: resp.content, loaded: true });
+                this._me = resp.content;
+                return this.setState({ loaded: true });
             });
+    }
+    componentWillUnmount(): void {
+        const session = this.context as Session;
+        session.webSocket.unsubscribe(this._wsSubscription!);
+    }
+    onWsMessage<T extends keyof TypeToPayload>(type: T, payload: TypeToPayload[T]) {
+        switch(type) {
+            case "CampsiteLeft":
+                const index = this._me?.campsites.findIndex((x) => x.id === payload.id);
+                if ((index ?? -1) >= 0)
+                    this._me?.campsites.splice(index!, 1);
+                break;
+            case "CampsiteUpdated":
+                const campsiteUpdated = this._me?.campsites.find((x) => payload.id === x.id);
+
+                if (campsiteUpdated) {
+                    Object.assign(campsiteUpdated, payload);
+                    break;
+                }
+
+                this._me?.campsites.push(payload as CampsiteViewBasic);
+                break;
+            case "CampsiteCreated":
+            case "CampsiteJoined":
+                this._me?.campsites.push(payload as CampsiteViewBasic);
+                break;
+            default:
+                return;
+        }
+        this.setState({});
     }
     render() {
         const { page, children } = this.props;
-        const { me, loaded } = this.state;
+        const { _me } = this;
+        const { loaded } = this.state;
 
         return (
             <Stack alignItems="stretch" sx={{ flexDirection: { sm: "column-reverse", md: "column" }, width: "100%", height: "100%", overflow: "hidden" }}>
-                <MeContext.Provider value={me}>
+                <MeContext.Provider value={_me}>
                     <GlobalNavbar page={page} loaded={loaded} />
                     <Stack sx={{ flex: 1, height: "100%", overflow: "hidden" }}>
                         { children }

@@ -22,7 +22,7 @@ export default function MemberItem({ member, roles, onClick }: Props) {
                     <UserAvatar withStatus size="md" did={member.user.did} avatar={member.user.avatar} />
                 </ListItemDecorator>
                 <ListItemContent>
-                    <GradientTypography animated colors={getColorFromSet(highestColorRole?.color, highestColorRole?.colorSecondary)} fontWeight={700} sx={{ width: "max-content", color: colorRoles.length ? decimalToHexColor(colorRoles[0].color || colorRoles[0].colorSecondary) : null }}>
+                    <GradientTypography gradientAnimated colors={getColorFromSet(highestColorRole?.color, highestColorRole?.colorSecondary)} fontWeight={700} sx={{ width: "max-content", color: colorRoles.length ? decimalToHexColor(colorRoles[0].color || colorRoles[0].colorSecondary) : null }}>
                         {member.nickname ?? member.user.displayName}
                     </GradientTypography>
                 </ListItemContent>

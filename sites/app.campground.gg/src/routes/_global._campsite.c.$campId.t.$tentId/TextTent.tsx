@@ -16,7 +16,7 @@ import { TentPermissionConsts } from "~/util/permissions";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "../_global._campsite/context";
 import { PermissionsContext } from "~/context/permissions";
 import type { CampsiteRoleView } from "types/campsites";
-import { decimalToHexColor } from "~/util/color";
+import { getColorFromSet } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
 import { type WebSocketSubscription } from "api/WebSocketClient";
 
@@ -72,16 +72,36 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
     
     private onWebSocketEvent(type: string, payload: any) {
+        const message = payload as TentMessageViewBasic;
+        if (message.tentId !== this.props.tent.id)
+            return;
         switch (type) {
-            case "TentMessageCreated":
-                const messageCreated = payload as TentMessageViewBasic;
-                if (this.state.messages.some((x) => x.id === messageCreated.id))
+            case "MessageCreated":
+                if (this.state.messages.some((x) => x.id === message.id))
                     return;
 
-                this.setState({ messages: [ { ...messageCreated, replyingTo: [], replyingToCount: messageCreated.replyingTo.length }, ...this.state.messages ] })
+                this.setState({ messages: [ { ...message, replyingTo: [], replyingToCount: message.replyingTo.length }, ...this.state.messages ] })
+                break;
+            case "MessageUpdated":
+                const updatedMessageIndex = this.state.messages.findIndex((x) => x.id === message.id);
+                if (updatedMessageIndex < 0)
+                    return;
+
+                Object.assign(this.state.messages[updatedMessageIndex], { content: message.content, updatedAt: message.updatedAt });
+                break;
+            case "MessageDeleted":
+                const deletedMessageIndex = this.state.messages.findIndex((x) => x.id === message.id);
+                if (deletedMessageIndex < 0)
+                    return;
+
+                this.state.messages.splice(deletedMessageIndex, 1);
+                this.setState({ replyMessages: this.state.replyMessages.filter((x) => x.id !== message.id)});
+                // Already has been updated
                 return;
             default:
+                return;
         }
+        this.setState({});
     }
 
     async fetchMessages(offset: number = 0) {
@@ -194,16 +214,15 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         // To not do random useless requests and keep them
         if (this.pseudoMessages.includes(messageDeleted.id))
             return this.setState({ deleteMessage: null, messages: this.state.messages.filter((x) => x.id !== messageDeleted.id) });
+    
+        this.setState({ deleteMessage: null });
 
         return (this.context as ContextSuite).session.restClient
             ?.deleteTentMessage(this.props.tent.id, messageDeleted.id)
             .then((resp) => {
                 if (!resp.ok)
                     return (floaters.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`), this.setState({ deleteMessage: null }));
-
-                return this.setState({ deleteMessage: null, messages: this.state.messages.filter((x) => x.id !== messageDeleted.id) })
-            })
-            ?? this.setState({ deleteMessage: null });
+            });
     }
 
     addMessageReply(message: TentMessageViewWithReplies) {
@@ -377,14 +396,14 @@ function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, o
                 <Typography level="body-md" textColor="text.tertiary">Replying to </Typography>
                 {replyMessages.map((msg, i) => {
                     const colorRole = colorRoles.find((role) => msg.createdBy.roles.includes(role.id));
-                    const color = colorRole?.color || colorRole?.colorSecondary;
+                    const colors = getColorFromSet(colorRole?.color, colorRole?.colorSecondary);
                     return (
                         <Link color="neutral" alignItems="center" component="button" onClick={() => removeReply(msg)}>
                             <Group gap={0.5} alignItems="center">
                                 <UserDisplayNoModal
                                     key={`reply-${i}`}
                                     size="sm"
-                                    color={color ? decimalToHexColor(color) : undefined}
+                                    colors={colors}
                                     user={msg.createdBy.user}
                                     />
                                 <IconCircleXFilled size={16} />

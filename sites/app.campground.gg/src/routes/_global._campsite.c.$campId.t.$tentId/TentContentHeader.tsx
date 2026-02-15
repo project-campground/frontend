@@ -1,5 +1,5 @@
-import { Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Typography } from "@mui/joy";
-import { IconDots, IconLayoutSidebar, IconLayoutSidebarFilled, IconTrashFilled } from "@tabler/icons-react";
+import { IconButton, Typography } from "@mui/joy";
+import { IconLayoutSidebar, IconLayoutSidebarFilled } from "@tabler/icons-react";
 import { Group } from "components";
 import type { TentViewDetailed } from "types/tent";
 import TentIcon from "~/components/tents/TentIcon";
@@ -8,19 +8,13 @@ import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
 import { useContext, useState } from "react";
 import TentItem from "../_global._campsite/TentItem";
-import { CampsitePermissionConsts } from "~/util/permissions";
-import { useCampsite } from "../_global._campsite/context";
 import { SnackbarContext } from "~/context/snackbar";
-import { PermissionsContext } from "~/context/permissions";
 
 export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: { sidebarOpen: boolean; sidebarToggle: (value: boolean) => unknown; tent: TentViewDetailed }) {
     const session = useSession();
     const navigate = useNavigate();
     const [deleteOpen, setDeleteOpen] = useState(false);
-    const campsite = useCampsite();
-    const permissions = useContext(PermissionsContext);
     const floating = useContext(SnackbarContext);
-    const canManageTent = Boolean(permissions.tent.campsitePermissions & CampsitePermissionConsts.MANAGE_TENTS);
 
     const onDelete = () => session
         .restClient
@@ -42,32 +36,6 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
                 </Typography>
             </Group>
             <Group gap={1}>
-                {/* <IconButton size="sm">
-                    <IconPinFilled />
-                </IconButton> */}
-                {(canManageTent || campsite.owner === campsite.member.user.did) && tent.id !== "bulletin" && <Dropdown>
-                    <MenuButton slots={{ root: IconButton }} size="sm">
-                        <IconDots />
-                    </MenuButton>
-                    <Menu variant="soft">
-                        {/* <MenuItem>
-                            <ListItemDecorator>
-                                <IconSettings2 />
-                            </ListItemDecorator>
-                            <ListItemContent>
-                                Tent settings
-                            </ListItemContent>
-                        </MenuItem> */}
-                        <MenuItem variant="plain" color="danger" onClick={() => setDeleteOpen(true)}>
-                            <ListItemDecorator>
-                                <IconTrashFilled />
-                            </ListItemDecorator>
-                            <ListItemContent>
-                                Delete tent
-                            </ListItemContent>
-                        </MenuItem>
-                    </Menu>
-                </Dropdown>}
                 <ContentDeleteModal
                     title="tent"
                     open={deleteOpen}

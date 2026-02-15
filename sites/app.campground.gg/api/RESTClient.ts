@@ -53,9 +53,10 @@ export default class RESTClient {
     }
 
     public get authExpired(): boolean | null {
-        try {    
-            return this._config.auth ? null : JSON.parse(this._config.auth?.split(".")[1]!).exp * 1000 < new Date().getTime();
-        } catch(_) {
+        try {
+            return this._config.auth ? JSON.parse(atob(this._config.auth?.split(".")[1]!)).exp * 1000 < new Date().getTime() : null;
+        } catch(err) {
+            console.warn(err);
             return null;
         }
     }
@@ -148,7 +149,11 @@ export default class RESTClient {
             return doFetch(undefined);
 
         console.log("Expired", this.authExpired);
-        const resp = await doFetch(this._config.auth);
+        const token = this.authExpired
+            ? await this.refreshLogin().then((refresh) => refresh.ok ? refresh.content!.accessJwt : this._config.auth)
+            : this._config.auth;
+
+        const resp = await doFetch(token);
         if (!resp.ok && resp.errorHeader === "ExpiredToken") {
             console.log("Expired token", this.authExpired);
             return this.refreshLogin()

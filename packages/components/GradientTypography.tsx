@@ -13,7 +13,7 @@ export const animatedGradient = keyframes`
 const GradientTypography = styled(Typography, {
     name: "GradientTypography",
     slot: "root",
-})<{ animated?: boolean; colors?: string[] | undefined | null; }>(({ animated, colors, theme }) => {
+})<{ gradientAnimated?: boolean; colors?: string[] | undefined | null; }>(({ gradientAnimated, colors, theme }) => {
     const percentageOfColor = 50 / ((colors?.length ?? 1));
 
     return [
@@ -23,7 +23,7 @@ const GradientTypography = styled(Typography, {
             backgroundClip: "text",
             width: "max-content",
         },
-        colors?.length && animated && {
+        colors?.length && gradientAnimated && {
             background: `linear-gradient(to right, ${colors.concat(colors).concat(colors[0]).map((x, i) => `${x} ${percentageOfColor * i}%`).join(", ")}) text`,
             backgroundClip: "text",
             backgroundSize: `200%`,

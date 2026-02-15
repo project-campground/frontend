@@ -53,7 +53,9 @@ const TentMessageWrapper = styled(Stack, {
 const TentMessageReplies = styled(Box, {
     name: "TentMessage",
     slot: "replies",
-})();
+})(() => ({
+    
+}));
 
 const TentMessageContainer = styled(Stack, {
     name: "TentMessage",

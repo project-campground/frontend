@@ -27,6 +27,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+    console.log("Layout render");
     return (
         <html lang="en">
             <head>
@@ -54,23 +55,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return (
-    <SessionProvider>
-        <IntlProvider>
-            <SnackbarContextProvider>
-                <ContextSuiteProvider>
-                    <DndContext>
-                        <RightClickProvider>
-                            <Box id="root">
-                                <Outlet />
-                            </Box>
-                        </RightClickProvider>
-                    </DndContext>
-                </ContextSuiteProvider>
-            </SnackbarContextProvider>
-        </IntlProvider>
-    </SessionProvider>
-  );
+    console.log("App render");
+    return (
+        <SessionProvider>
+            <IntlProvider>
+                <SnackbarContextProvider>
+                    <ContextSuiteProvider>
+                        <DndContext>
+                            <RightClickProvider>
+                                <Box id="root">
+                                    <Outlet />
+                                </Box>
+                            </RightClickProvider>
+                        </DndContext>
+                    </ContextSuiteProvider>
+                </SnackbarContextProvider>
+            </IntlProvider>
+        </SessionProvider>
+    );
 }
 
 export function AppErrorBoundary({ error }: Route.ErrorBoundaryProps) {

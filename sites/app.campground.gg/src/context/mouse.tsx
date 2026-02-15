@@ -33,7 +33,7 @@ export function RightClickProvider({ children }: React.PropsWithChildren) {
         <RightClickContext.Provider value={{ onCreate: setMenu }}>
             {children}
             {menu && <ClickAwayListener onClickAway={removeMenu}>
-                <Menu variant="soft" onClose={removeMenu} open={true} style={{ left: menu.left, top: menu.top }}>
+                <Menu variant="soft" onClose={removeMenu} open={true} onClick={() => setMenu(null)} style={{ left: menu.left, top: menu.top }}>
                     <menu.ItemComponent {...menu.props} />
                 </Menu>
             </ClickAwayListener>}

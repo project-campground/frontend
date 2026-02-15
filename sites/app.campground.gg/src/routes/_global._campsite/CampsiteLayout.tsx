@@ -4,12 +4,14 @@ import React from "react";
 // import type { CampsiteViewDetailed } from "types/campsites";
 import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
 import { CampsiteContextSuiteContext, CurrentTentContext, TentContext } from "./context";
-import type { CampsiteViewDetailed } from "types/campsites";
+import type { BonfireViewBasic, CampsiteViewDetailed } from "types/campsites";
 import type { Session } from "~/context/session/types";
 import type { RestResponseError } from "api/RESTResponse";
 import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
 import type { NavigateFunction } from "react-router";
 import { getPermissionsContextValue, ownerPermissions, PermissionsContext } from "~/context/permissions";
+import type { WebSocketSubscription } from "api/WebSocketClient";
+import type { TypeToPayload } from "types/ws";
 
 type Props = {
     campsiteId: string;
@@ -29,7 +31,8 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
     currentTent: CurrentTentContext;
     static contextType?: React.Context<any> | undefined = ContextSuiteContext;
     _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
-    private init: boolean = false;
+    private _init: boolean = false;
+    private _wsSubscription: WebSocketSubscription | null = null;
     constructor(props: Props, context: any) {
         super(props, context);
 
@@ -56,9 +59,9 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         return campsite.roles.sort((a, b) => (a.flags & 1) == (b.flags & 1) ? (a.priority - b.priority) : a.flags);
     }
     async componentDidMount(): Promise<void> {
-        if (this.init)
+        if (this._init)
             return;
-        this.init = true;
+        this._init = true;
         this.setCampsiteForWebSocket();
 
         return this.fetchCampsite();
@@ -74,10 +77,48 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         
         return this.fetchCampsite();
     }
+    componentWillUnmount(): void {
+        (this.context as ContextSuite)
+            .session
+            .webSocket
+            .unsubscribe(this._wsSubscription!);
+    }
     setCampsiteForWebSocket() {
         const ws = (this.context as ContextSuite).session.webSocket;
         ws.setCampsite(this.props.campsiteId);
+        this._wsSubscription = ws.subscribe(message =>
+            message.op === 1 && this.onWsMessage(message.t, message.payload)
+        );
         return ws;
+    }
+    onWsMessage<T extends keyof TypeToPayload>(type: T, payload: TypeToPayload[T]) {
+        const bonfire = payload as BonfireViewBasic;
+
+        switch (type) {
+            case "CampsiteLeft":
+                if ((payload as { id: string; }).id === this.props.campsiteId)
+                    this.props.navigate("/");
+                return;
+            case "CampsiteUpdated":
+                if ((payload as { id: string; }).id !== this.props.campsiteId)
+                    return;
+                this.setState({ campsite: Object.assign(this.state.campsite!, payload) });
+                break;
+            case "BonfireCreated":
+                this.setState({ campsite: Object.assign(this.state.campsite!, { bonfires: [...this.state.campsite!.bonfires, bonfire] }) });
+                return;
+            case "BonfireUpdated":
+                const modifiedBonfire = this.state.campsite!.bonfires.findIndex((x) => x.id === bonfire.id);
+                if (modifiedBonfire < 0)
+                    this.state.campsite!.bonfires.push(bonfire);
+                else
+                    Object.assign(this.state.campsite!.bonfires[modifiedBonfire], bonfire);
+                break;
+            case "BonfireDeleted":
+                this.setState({ campsite: Object.assign(this.state.campsite!, { bonfires: this.state.campsite!.bonfires.filter((x) => x.id !== bonfire.id) }) });
+                return;
+        }
+        this.setState({});
     }
     updateCampsiteData(data: Partial<CampsiteViewDetailed>) {
         if (data.roles)

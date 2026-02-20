@@ -5,8 +5,8 @@ import { Group, Image } from "components";
 import React from "react";
 import type { BonfireViewBasic, CampsiteViewDetailed } from "types/campsites";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic } from "types/tent";
-import FadingBanner from "~/components/FadingBanner";
-import GradientBanner from "~/components/GradientBanner";
+import FadingBanner from "~/components/pages/FadingBanner";
+import GradientBanner from "~/components/pages/GradientBanner";
 import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import TentList, { TentStyledList } from "./TentList";
@@ -18,6 +18,7 @@ import BonfireSettingsModal from "~/layout/bonfire/BonfireSettingsModal";
 import { type NavigateFunction } from "react-router";
 import type { WebSocketSubscription } from "api/WebSocketClient";
 import type { TypeToPayload } from "types/ws";
+import InviteCreationModal from "./InviteCreationModal";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -25,7 +26,7 @@ type Props = {
     tentSelected: string | null;
     navigate: NavigateFunction;
 };
-type MenuOption = "campsite-settings" | "bonfire-settings" | "bonfire-list";
+type MenuOption = "campsite-settings" | "bonfire-settings" | "bonfire-list" | "invite-creation";
 type State = {
     menuOpen: MenuOption | null;
     bonfireSelected: BonfireViewBasic;
@@ -263,7 +264,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                     <IconDots />
                                 </MenuButton>
                                 <Menu variant="soft">
-                                    <MenuItem variant="soft">
+                                    <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
                                         <ListItemDecorator>
                                             <IconTicket />
                                         </ListItemDecorator>
@@ -299,6 +300,11 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                     bonfires={campsite.bonfires}
                     onBonfireOpen={this.setBonfireSelected.bind(this)}
                 />
+                <Modal open={menuOpen === "invite-creation"} onClose={this.setMenu.bind(this, null)}>
+                    <InviteCreationModal
+                        campsiteId={campsite.id}
+                    />
+                </Modal>
                 <Modal open={menuOpen === "campsite-settings"} onClose={this.setMenu.bind(this, null)}>
                     <CampsiteSettingsModal campsite={campsite} />
                 </Modal>

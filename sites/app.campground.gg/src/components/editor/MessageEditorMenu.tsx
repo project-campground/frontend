@@ -1,7 +1,7 @@
 import { ListItemContent, ListItemDecorator, Menu, MenuItem, Modal } from "@mui/joy";
 import { IconMountainFilled, IconTable } from "@tabler/icons-react";
 import { useSlate } from "slate-react";
-import ImageInputModal from "../ImageInputModal";
+import ImageInputModal from "../../layout/ImageInputModal";
 import { useState } from "react";
 import CampgroundEditor from "./CampgroundEditor";
 

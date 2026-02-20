@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import RestError from "~/util/RestError";
-import PagePlaceholder, { PagePlaceholderIcon } from "./PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "./pages/PagePlaceholder";
 import { Typography } from "@mui/joy";
 
 interface ErrorBoundaryError {

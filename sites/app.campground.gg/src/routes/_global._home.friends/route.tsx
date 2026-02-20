@@ -1,4 +1,4 @@
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import type { Route } from "./+types/route";
 
 export function meta(_routes: Route.MetaArgs) {

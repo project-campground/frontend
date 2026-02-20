@@ -5,10 +5,10 @@ import type { RESTRefreshLogin } from "./RESTErrorHandler";
 import type { SessionAuthRefresh } from "~/context/session/types";
 import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
 import type { Me } from "types/me";
-import type { BonfireViewBasic, BonfireViewDetailed, CampsitePermissionView, CampsiteRoleView, CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersOutput, GetRolesOutput } from "types/campsites";
+import type { BonfireViewBasic, BonfireViewDetailed, CampsiteMemberViewDetailed, CampsitePermissionView, CampsiteRoleView, CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersDetailedOutput, GetMembersOutput, GetRolesOutput } from "types/campsites";
 import type { GetTentsOutput, TentCategoryView, TentViewDetailed } from "types/tent";
 import type { GetTentMessagesOutput, TentMessageViewBasic } from "types/content";
-import type { CampsiteBanView, CampsiteInviteViewBasic, CampsiteInviteViewDetailed, GetInvitesOutput } from "types/membership";
+import type { CampsiteBanView, CampsiteInviteViewBasic, CampsiteInviteViewDetailed, GetBansOutput, GetInvitesOutput } from "types/membership";
 
 type HTTPMethodXRPC = "GET" | "POST";
 type HTTPMethod = HTTPMethodXRPC | "DELETE" | "OPTION" | "HEAD" | "PUT" | "PATCH";
@@ -384,7 +384,7 @@ export default class RESTClient {
             queries: { campsite_id, role_id },
         });
     }
-    
+
     getMembers(campsite_id: string, offsetOrIds: string[] | number) {
         return this.get<GetMembersOutput>({
             route: "gg.campground.membership.getMembers",
@@ -396,6 +396,26 @@ export default class RESTClient {
                 actors: Array.isArray(offsetOrIds)
                 ? offsetOrIds
                 : null
+            },
+        });
+    }
+
+    getMembersDetailed(campsite_id: string, offset: number) {
+        return this.get<GetMembersDetailedOutput>({
+            route: "gg.campground.membership.getMembersDetailed",
+            queries: {
+                campsite_id,
+                offset,
+            },
+        });
+    }
+
+    getMember(campsite_id: string, actor: string) {
+        return this.get<CampsiteMemberViewDetailed>({
+            route: "gg.campground.membership.getMember",
+            queries: {
+                campsite_id,
+                actor,
             },
         });
     }
@@ -419,16 +439,6 @@ export default class RESTClient {
         });
     }
 
-    banMember(campsite_id: string, actor: string) {
-        return this.get<CampsiteBanView>({
-            route: "gg.campground.membership.banMember",
-            queries: {
-                campsite_id,
-                actor,
-            },
-        });
-    }
-
     getInvite(invite_id: string) {
         return this.get<CampsiteInviteViewDetailed>({
             route: "gg.campground.membership.getInvite",
@@ -437,7 +447,7 @@ export default class RESTClient {
             },
         });
     }
-    
+
     getInvites(campsite_id: string, offset: number = 0, limit: number = 50) {
         return this.get<GetInvitesOutput>({
             route: "gg.campground.membership.getInvites",
@@ -448,7 +458,7 @@ export default class RESTClient {
             },
         });
     }
-
+    
     useInvite(invite_id: string) {
         return this.post<null>({
             route: "gg.campground.membership.useInvite",
@@ -477,7 +487,27 @@ export default class RESTClient {
             },
         });
     }
+
+    getBans(campsite_id: string, offset: number = 0, limit: number = 50) {
+        return this.get<GetBansOutput>({
+            route: "gg.campground.membership.getMemberBans",
+            queries: {
+                campsite_id,
+                offset,
+                limit,
+            },
+        });
+    }
     
+    banMember(campsite_id: string, actor: string) {
+        return this.get<CampsiteBanView>({
+            route: "gg.campground.membership.banMember",
+            queries: {
+                campsite_id,
+                actor,
+            },
+        });
+    }
     deleteMemberBan(campsite_id: string, actor: string) {
         return this.get<CampsiteBanView>({
             route: "gg.campground.membership.deleteMemberBan",
@@ -488,17 +518,17 @@ export default class RESTClient {
         });
     }
     
-    addMemberRole(campsite_id: string, role_id: string, body: { member_ids: string[]; }) {
+    addMemberRole(campsite_id: string, role_id: string, body: { memberIds: string[]; }) {
         return this.post<number>({
-            route: "gg.campground.membership.addMemberRole",
+            route: "gg.campground.membership.addMemberRoles",
             queries: { campsite_id, role_id },
             body,
         });
     }
     
-    removeMemberRole(campsite_id: string, role_id: string, body: { member_ids: string[]; }) {
+    removeMemberRole(campsite_id: string, role_id: string, body: { memberIds: string[]; }) {
         return this.post<number>({
-            route: "gg.campground.membership.removeMemberRole",
+            route: "gg.campground.membership.removeMemberRoles",
             queries: { campsite_id, role_id },
             body,
         });

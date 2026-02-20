@@ -3,11 +3,12 @@ import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites"
 import MemberItem from "./MemberItem";
 import ContentCategory from "~/components/content/ContentCategory";
 import { decimalToHexColor, getColorFromSet } from "~/util/color";
-import UserProfileCard from "~/components/UserProfileCard";
+import UserProfileCard from "~/layout/UserProfileCard";
 import { useState, type MouseEvent } from "react";
 import { GradientTypography } from "components";
 
 type Props = {
+    campsiteId: string;
     memberCount: number;
     members: CampsiteMemberViewBasic[];
     roles: CampsiteRoleView[];

@@ -1,8 +1,8 @@
 import { Avatar, Stack, styled, Typography } from "@mui/joy";
 import { GlobalNavbarItem } from "~/routes/_global/GlobalNavbarItem";
 import { IconUsers } from "@tabler/icons-react";
-import SimpleNotification from "./SimpleNotification";
-import VerifiedIcon from "./VerifiedIcon";
+import SimpleNotification from "../SimpleNotification";
+import VerifiedIcon from "../VerifiedIcon";
 import { useNavigate } from "react-router";
 import type { SxProps } from "@mui/joy/styles/types";
 

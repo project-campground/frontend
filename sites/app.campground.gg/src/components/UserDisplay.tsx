@@ -1,7 +1,7 @@
 import { Dropdown, Menu, MenuButton, Skeleton, Typography } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
-import UserProfileCard from "./UserProfileCard";
+import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group } from "components";
 import type { CampsiteMemberView } from "types/campsites";
 import type { MouseEvent } from "react";
@@ -31,7 +31,7 @@ export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus,
     return (
         <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"} onClick={onClick}>
             {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
-            <GradientTypography gradientAnimated colors={colors} level={`title-${actualSize}`} fontWeight={700} sx={(theme) => ({ background: colors ? undefined : `${theme.vars.palette.text.secondary} text` })}>
+            <GradientTypography gradientAnimated colors={colors} level={`title-${actualSize}`} fontWeight={500} sx={(theme) => ({ background: colors ? undefined : `${theme.vars.palette.text.secondary} text` })}>
                 {member?.nickname ?? user.displayName}
             </GradientTypography>
             {

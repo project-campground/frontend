@@ -5,7 +5,7 @@ import type { TentViewDetailed } from "types/tent";
 import { IconCake, IconUsers } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import { Group, Image } from "components";
-import GradientBanner from "~/components/GradientBanner";
+import GradientBanner from "~/components/pages/GradientBanner";
 
 export default function BulletinBoard() {
     const campsite = useCampsite();

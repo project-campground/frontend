@@ -132,7 +132,8 @@ export default class MemberSidebar extends React.Component<Props, State, Session
                     <CampsiteContextSuiteContext.Consumer>
                         {ctx =>
                             <MemberList
-                                memberCount={1}
+                                campsiteId={this.props.campsiteId}
+                                memberCount={this.props.campsite.memberCount}
                                 members={this.state.members}
                                 roles={ctx.campsite.roles}
                             />

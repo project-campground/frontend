@@ -3,9 +3,9 @@ import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkle
 import type { RestResponseError } from "api/RESTResponse";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import FadingBanner from "~/components/FadingBanner";
+import FadingBanner from "~/components/pages/FadingBanner";
 import Form from "~/components/form/Form";
-import { PagePlaceholderIcon, textToIcon } from "~/components/PagePlaceholder";
+import { PagePlaceholderIcon, textToIcon } from "~/components/pages/PagePlaceholder";
 import { useSession } from "~/context/session";
 
 export default function CampsiteCreation() {

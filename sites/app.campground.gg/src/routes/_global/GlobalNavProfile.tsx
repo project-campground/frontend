@@ -2,7 +2,7 @@ import { Button, Dropdown, IconButton, Menu, MenuButton } from "@mui/joy";
 import { IconLogin } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import UserAvatar from "~/components/UserAvatar";
-import UserProfileCard from "~/components/UserProfileCard";
+import UserProfileCard from "~/layout/UserProfileCard";
 import { useMeContext } from "~/context/session";
 
 export default function GlobalNavProfile() {

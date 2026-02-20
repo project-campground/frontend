@@ -1,8 +1,7 @@
-import { Alert, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
-import type { RestResponseError } from "api/RESTResponse";
-import { useState } from "react";
+import { DialogContent, DialogTitle, ModalClose, ModalDialog } from "@mui/joy";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
+import { useSnackbars } from "~/context/snackbar";
 
 type Props = {
     campsiteId: string;
@@ -12,20 +11,21 @@ type Props = {
 
 export default function BonfireCreationModal({ campsiteId, onClose, lowestPriorityBonfire }: Props) {
     const session = useSession();
-    const [error, setError] = useState<RestResponseError | null>(null);
+    const snackbars = useSnackbars();
 
     const onBonfireCreate = (body: Record<string, any>): unknown =>
         session.restClient
             ?.createBonfire(campsiteId, { ...body, priority: lowestPriorityBonfire + 1 } as { name: string; description: string; priority: number; })
-            .then((r) => {
-                if (!r.ok)
-                    return setError(r);
+            .then((resp) => {
+                if (!resp.ok)
+                    return snackbars.notifyApiError(resp);
 
                 return onClose();
             });
 
     return (
         <ModalDialog>
+            <ModalClose />
             <DialogTitle>Create bonfire</DialogTitle>
             <DialogContent>Create a new bonfire in this campsite</DialogContent>
             <Form
@@ -50,9 +50,7 @@ export default function BonfireCreationModal({ campsiteId, onClose, lowestPriori
                 ]}
                 onSubmit={(_, values) => onBonfireCreate(values)}
                 submitText="Create"
-            >
-                {error && <Alert color="danger" variant="soft">{error.status} {error.errorHeader}: {error.errorDescription}</Alert>}
-            </Form>
+            />
         </ModalDialog>
     )
 }

@@ -3,7 +3,7 @@ import type { Route } from "./+types/_global._campsite.c.$campId._index";
 import { sessionRouterContext } from "~/context/session";
 import { loginRequiredMiddleware } from "~/middleware/login";
 import { authMiddleware } from "~/middleware/auth";
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 
 export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
     loginRequiredMiddleware,

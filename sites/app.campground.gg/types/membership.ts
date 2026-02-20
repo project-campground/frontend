@@ -1,4 +1,4 @@
-import type { CampsiteViewBasic, CampsiteViewDetailed } from "./campsites";
+import type { CampsiteRoleView, CampsiteViewBasic } from "./campsites";
 import type { ProfileViewBasic } from "./user";
 
 export interface CampsiteBanView {
@@ -17,7 +17,7 @@ export interface CampsiteInviteView {
     allowedAmount?: number | null | undefined;
     expiresAt?: string | null | undefined;
     createdAt: string;
-    createdBy: string;
+    createdBy: ProfileViewBasic;
     used: number;
 }
 
@@ -29,6 +29,15 @@ export interface CampsiteInviteViewDetailed extends CampsiteInviteView {
     campsite: CampsiteViewBasic;
 }
 
+export interface MemberRolesModified {
+    role: CampsiteRoleView;
+    members: string[];
+}
+
 export interface GetInvitesOutput {
     invites: CampsiteInviteViewBasic[];
+}
+
+export interface GetBansOutput {
+    memberBans: CampsiteBanView[];
 }

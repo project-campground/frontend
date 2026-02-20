@@ -1,6 +1,6 @@
 import { Box, Stack, Tab, TabList, Tabs } from "@mui/joy";
 import type { ProfileView, ProfilePostViewParented } from "types/user";
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import ProfilePostCreator from "~/routes/_global.profile.$id/ProfilePostCreator";
 import { useSession } from "~/context/session";
 import { useEffect, useState } from "react";

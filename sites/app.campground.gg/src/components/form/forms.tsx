@@ -18,6 +18,7 @@ import type { FormFieldSwitchProps } from "./FormFieldSwitch";
 import FormFieldSwitch from "./FormFieldSwitch";
 import type { FormFieldImageProps } from "./FormFieldImage";
 import FormFieldImage from "./FormFieldImage";
+import FormFieldNumber, { type FormFieldNumberProps } from "./FormFieldNumber";
 
 export type FormSectionProps = {
     id: string;
@@ -31,7 +32,7 @@ export type FormSectionProps = {
     ReactiveHeader?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
 };
 
-export type FormFieldType = "text" | "textarea" | "select" | "color" | "radio" | "checkbox" | "switch" | "tristate" | "avatar" | "image" | "tags";
+export type FormFieldType = "text" | "number" | "textarea" | "select" | "color" | "radio" | "checkbox" | "switch" | "tristate" | "avatar" | "image" | "tags";
 
 export type AnyFormFieldProps = FormFieldTypeToProps[keyof FormFieldTypeToProps];
 
@@ -39,6 +40,7 @@ export type AbstractAnyFormField = AbstractFormField<FormFieldType, any, FormFie
 
 export type FormFieldTypeToProps = {
     text: FormFieldTextProps;
+    number: FormFieldNumberProps;
     tags: FormFieldTagsProps;
     textarea: FormFieldTextAreaProps;
     select: FormFieldSelectProps;
@@ -53,6 +55,7 @@ export type FormFieldTypeToProps = {
 export type FieldTypeToComponent = typeof fieldTypeToComponent;
 export type FieldTypeToInstance = {
     text: FormFieldText,
+    number: FormFieldNumber,
     tags: FormFieldTags,
     textarea: FormFieldTextArea,
     select: FormFieldSelect,
@@ -66,6 +69,7 @@ export type FieldTypeToInstance = {
 };
 export const fieldTypeToComponent = {
     text: FormFieldText,
+    number: FormFieldNumber,
     tags: FormFieldTags,
     textarea: FormFieldTextArea,
     select: FormFieldSelect,

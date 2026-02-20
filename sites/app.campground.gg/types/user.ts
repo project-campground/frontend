@@ -15,6 +15,10 @@ export interface ProfileView {
 export interface ProfileViewBasic extends ProfileView {
     
 }
+export interface ProfileViewDetailed extends ProfileView {
+    description: string;
+    indexedAt: string;
+}
 export interface ProfilePostView {
     uri: string;
     parentUri?: string | null;

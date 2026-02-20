@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
-import NavbarCamp from "~/components/NavbarCamp";
+import NavbarCamp from "~/components/pages/NavbarCamp";
 import GlobalNavProfile from "./GlobalNavProfile";
-import NavbarButton from "~/components/NavbarButton";
+import NavbarButton from "~/components/pages/NavbarButton";
 import { IconCompassFilled, IconPlus } from "@tabler/icons-react";
 import { useMeContext } from "~/context/session";
 

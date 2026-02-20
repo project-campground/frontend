@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
 import { Group } from "components";
 import React, { useState } from "react";
-import PageSidebar, { type PageSidebarSection } from "~/components/sidebar/PageSidebar";
+import PageSidebar, { type PageSidebarSection } from "~/components/pages/PageSidebar";
 
 type Props<TPage extends string, TProps> = {
     header: string;
@@ -16,7 +16,7 @@ export type SettingsComponentProps<T> = {
     onValuesChanged: (isValid: boolean, notDefault: boolean, values: Record<string, any>) => unknown;
 };
 
-type SettingsPages<TProps> = Record<string, (props: SettingsComponentProps<TProps>) => React.ReactNode | React.ReactNode[]>;
+type SettingsPages<TProps> = Record<string, typeof React.Component | ((props: SettingsComponentProps<TProps>) => React.ReactNode | React.ReactNode[])>;
 
 const SubmitBox = styled(Sheet)(({ theme }) => ({
     position: "absolute",

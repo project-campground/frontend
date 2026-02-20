@@ -1,5 +1,5 @@
 import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack } from "@mui/joy";
-import Form from "./form/Form";
+import Form from "../components/form/Form";
 import { Image } from "components";
 
 type Props = {

@@ -109,7 +109,8 @@ export default class TentList extends React.Component<Props, State, Session> {
                         onTentDelete={this._setTentDeleteBind}
                         tentSelected={tentSelected}
                         tents={[
-                            { id: "bulletin", campsiteId, name: "Bulletin Board", type: "bulletin" }
+                            { id: "bulletin", campsiteId, name: "Bulletin Board", type: "bulletin" },
+                            { id: "members", campsiteId, name: "Members", type: "members" },
                         ] as unknown[] as TentViewBasic[]}
                     />
                     <Divider />

@@ -1,4 +1,4 @@
-import { IconBadgesFilled, IconLayoutBoardFilled, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
+import { IconBadgesFilled, IconHammer, IconLayoutBoardFilled, IconTicket, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
 import type { CampsiteViewDetailed } from "types/campsites";
 import CampsiteSettingsProfile from "~/layout/campsite/CampsiteSettingsProfile";
 import SettingsModal, { type SettingsComponentProps } from "../SettingsModal";
@@ -7,20 +7,25 @@ import CampsiteSettingsRoles from "./CampsiteSettingsRoles";
 import { useSnackbars } from "~/context/snackbar";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import CampsiteSettingsDeletion from "./CampsiteSettingsDeletion";
-import type { PageSidebarSection } from "~/components/sidebar/PageSidebar";
+import type { PageSidebarSection } from "~/components/pages/PageSidebar";
+import CampsiteSettingsInvites from "./CampsiteSettingsInvites";
+import type React from "react";
+import CampsiteSettingsBans from "./CampsiteSettingsBans";
 
-type Page = "profile" | "roles" | "delete";
-const settingsPages: Record<Page, (props: SettingsComponentProps<Props>) => ReactNode | ReactNode[]> = {
+type Page = "profile" | "bans" | "invites" | "roles" | "delete";
+const settingsPages: Record<Page, typeof React.Component | ((props: SettingsComponentProps<CampsiteSettingsProps>) => ReactNode | ReactNode[])> = {
     profile: CampsiteSettingsProfile,
     roles: CampsiteSettingsRoles,
+    invites: CampsiteSettingsInvites,
+    bans: CampsiteSettingsBans,
     delete: CampsiteSettingsDeletion,
 };
 
-type Props = {
+export type CampsiteSettingsProps = {
     campsite: CampsiteViewDetailed;
-}
+};
 
-export default function CampsiteSettingsModal(props: Props) {
+export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
     const session = useSession();
     const snackbars = useSnackbars();
     const { updateCampsite } = useCampsiteContext();
@@ -52,11 +57,13 @@ export default function CampsiteSettingsModal(props: Props) {
                     if (modifiedRole)
                         return Object.assign(modifiedRole, resp.content);
                 }),
+        bans: () => null,
+        invites: () => null,
         delete: () => null,
     }
 
     return (
-        <SettingsModal<Page, Props>
+        <SettingsModal<Page, CampsiteSettingsProps>
             header="Campsite Settings"
             settingsProps={props}
             settingsPages={settingsPages}
@@ -82,7 +89,17 @@ export default function CampsiteSettingsModal(props: Props) {
                             id: "roles",
                             name: "Roles",
                             startDecorator: <IconBadgesFilled />
-                        }
+                        },
+                        {
+                            id: "invites", 
+                            name: "Invites",
+                            startDecorator: <IconTicket />
+                        },
+                        {
+                            id: "bans", 
+                            name: "Bans",
+                            startDecorator: <IconHammer />
+                        },
                     ]
                 },
                 props.campsite.owner === props.campsite.member.user.did && {

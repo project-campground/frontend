@@ -5,8 +5,8 @@ import { Group, Image } from "components";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import type { CampsiteInviteViewDetailed } from "types/membership";
-import FadingBanner from "~/components/FadingBanner";
-import { PagePlaceholderIcon, textToIcon } from "~/components/PagePlaceholder";
+import FadingBanner from "~/components/pages/FadingBanner";
+import { PagePlaceholderIcon, textToIcon } from "~/components/pages/PagePlaceholder";
 import { useSession } from "~/context/session";
 
 export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inviteId: string; invite: CampsiteInviteViewDetailed; }) {

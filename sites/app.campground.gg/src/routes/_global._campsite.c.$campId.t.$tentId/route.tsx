@@ -4,9 +4,10 @@ import { sessionRouterContext } from "~/context/session";
 import { useContext, useMemo } from "react";
 import { TentContext, useCampsite } from "../_global._campsite/context";
 import TentLayout from "./TentLayout";
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import { redirect } from "react-router";
 import type { TentViewDetailed } from "types/tent";
+import { pseudoTents, type PseudoTentType } from "./pseudoTents";
 
 export function meta({ loaderData: { tentId, tent } }: Route.MetaArgs) {
     return [
@@ -19,16 +20,18 @@ export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
     authMiddleware,
 ];
 
+const pseudoTentTypes = Object.keys(pseudoTents) as PseudoTentType[];
+
 export async function clientLoader({ context, params: { campId, tentId } }: Route.ClientLoaderArgs) {
     const session = context.get(sessionRouterContext);
 
-    if (tentId === "bulletin")
+    if (pseudoTentTypes.includes(tentId as PseudoTentType))
         return {
             err: null,
             campsiteId: campId,
-            tentId: "bulletin",
-            tent: { id: "bulletin", campsiteId: campId, name: "Bulletin Board", bonfireId: "", categoryId: null, permissions: [], description: "", type: "bulletin", viewType: 0, } as unknown as TentViewDetailed
-        }
+            tentId,
+            tent: { id: tentId, campsiteId: campId, name: pseudoTents[tentId as PseudoTentType].name, bonfireId: "", categoryId: null, permissions: [], description: "", type: tentId, viewType: 0, } as unknown as TentViewDetailed
+        };
 
     const tent = await session.restClient!.getTent(tentId);
 

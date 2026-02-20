@@ -3,7 +3,7 @@ import AbstractFormField from "./AbstractFormField";
 import type { FormFieldProps } from "./forms";
 import { Box, Dropdown, MenuButton, Stack, styled } from "@mui/joy";
 import { Group } from "components";
-import ColorPickerMenu from "../ColorPickerMenu";
+import ColorPickerMenu from "../../layout/ColorPickerMenu";
 
 export interface FormFieldColorProps extends FormFieldProps<"color", number> {
     allowAlpha?: boolean;

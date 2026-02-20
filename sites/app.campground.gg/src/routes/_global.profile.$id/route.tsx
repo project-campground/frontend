@@ -1,5 +1,5 @@
 import type { Route } from "./+types/route";
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import ProfileView from "~/routes/_global.profile.$id/ProfileView";
 import { authMiddleware } from "~/middleware/auth";
 import { sessionRouterContext } from "~/context/session";

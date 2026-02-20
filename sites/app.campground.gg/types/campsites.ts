@@ -1,5 +1,5 @@
 import type { TentCategoryView, TentViewBasic } from "./tent";
-import type { ProfileView, ProfileViewBasic } from "./user";
+import type { ProfileView, ProfileViewBasic, ProfileViewDetailed } from "./user";
 
 export interface CampsiteView {
     id: string;
@@ -71,7 +71,9 @@ export interface CampsiteMemberViewBasic extends CampsiteMemberView<ProfileViewB
 export interface CampsiteMemberViewAuthor extends CampsiteMemberView<ProfileViewBasic> {
     isMember: boolean;
 }
-export interface CampsiteMemberViewDetailed extends CampsiteMemberView<ProfileView> {
+export interface CampsiteMemberViewDetailed extends CampsiteMemberView<ProfileViewDetailed> {
+    campsiteId: string;
+    usedInviteId: string;
     joinedAt: string;
 }
 export interface BonfireView {
@@ -101,6 +103,9 @@ export interface CreateCampsiteOutput {
 }
 export interface GetMembersOutput {
     members: CampsiteMemberViewBasic[];
+}
+export interface GetMembersDetailedOutput {
+    members: CampsiteMemberViewDetailed[];
 }
 export interface GetRolesOutput {
     roles: CampsiteRoleView[];

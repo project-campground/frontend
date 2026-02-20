@@ -1,19 +1,19 @@
-import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Sheet, Skeleton, Stack, styled, Typography } from "@mui/joy";
+import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
 import type { ProfileView } from "types/user";
-import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
+import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
 import { IconLogout2, IconSettings2, IconShield, IconUser, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
-import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites";
-import ContentCategory from "./content/ContentCategory";
-import RoleDisplay from "./campsite/RoleDisplay";
+import type { CampsiteMemberViewBasic, CampsiteMemberViewDetailed, CampsiteRoleView } from "types/campsites";
+import ContentCategory from "../components/content/ContentCategory";
+import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
-import GradientBanner from "./GradientBanner";
+import GradientBanner from "../components/pages/GradientBanner";
 
 type Props = {
     user?: ProfileView;
-    member?: CampsiteMemberViewBasic;
+    member?: CampsiteMemberViewBasic | CampsiteMemberViewDetailed;
     campsiteRoles?: CampsiteRoleView[];
     did: string;
 };
@@ -89,7 +89,7 @@ export default function UserProfileCard({ did, user, member, campsiteRoles }: Pr
                     </Typography>
                 </Stack>
             </Box>
-            {roles && <Box sx={{ mb: 1 }}>
+            {roles && <Stack sx={{ mb: 1 }} gap={2}>
                 <ContentCategory header={"Roles"}>
                     <Group gap={1}>
                         {roles.map((role) =>
@@ -97,7 +97,7 @@ export default function UserProfileCard({ did, user, member, campsiteRoles }: Pr
                         )}
                     </Group>
                 </ContentCategory>
-            </Box>}
+            </Stack>}
             <MenuList variant="plain">
                 <MenuItem variant="plain" onClick={() => navigate(`/profile/${did}`)}>
                     <ListItemDecorator>

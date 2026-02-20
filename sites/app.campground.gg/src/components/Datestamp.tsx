@@ -6,6 +6,7 @@ type Props = {
     date: Date;
     long?: boolean;
     type?: DatestampType;
+    prefix?: string;
     displayDate?: boolean;
     dateOptions?: Intl.DateTimeFormatOptions;
 };
@@ -19,7 +20,7 @@ export const defaultDateOptions: Intl.DateTimeFormatOptions = {
     minute: "2-digit",
 };
 
-export default function Datestamp({ dateOptions, type, displayDate, date, long }: Props) {
+export default function Datestamp({ prefix, dateOptions, type, displayDate, date, long }: Props) {
     const isInvalid = !date || Number.isNaN(date.getSeconds());
 
     if (isInvalid)
@@ -37,7 +38,7 @@ export default function Datestamp({ dateOptions, type, displayDate, date, long }
     return (
         <Tooltip title={displayDate ? time : dateFormat}>
             <Typography>
-                {displayDate ? dateFormat : time}
+                {prefix}{displayDate ? dateFormat : time}
             </Typography>
         </Tooltip>
     );

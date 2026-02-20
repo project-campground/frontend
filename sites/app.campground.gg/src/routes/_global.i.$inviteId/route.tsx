@@ -1,7 +1,7 @@
 import { sessionRouterContext } from "~/context/session";
 import type { Route } from "./+types/route";
 import CampsiteInvite from "./CampsiteInvite";
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 
 export function meta(routes: Route.MetaArgs) {
     return [

@@ -1,14 +1,15 @@
-import { IconHash, IconLayoutDashboardFilled, type Icon, type IconProps } from "@tabler/icons-react";
+import { IconHash, IconLayoutDashboardFilled, IconUserFilled, type Icon, type IconProps } from "@tabler/icons-react";
 import type { ForwardRefExoticComponent } from "react";
 import type { TentType } from "types/tent";
 
 type Props = {
-    type: TentType | "bulletin";
+    type: TentType | "bulletin" | "members";
     viewType: number;
 }
 
-export const TentTypeToIcon: Record<TentType | "bulletin", ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>> = {
+export const TentTypeToIcon: Record<TentType | "bulletin" | "members", ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>> = {
     "bulletin": IconLayoutDashboardFilled,
+    "members": IconUserFilled,
     "text": IconHash,
 };
 

@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { styled } from "@mui/joy";
+import { jsx } from "react/jsx-runtime";
 
 type Props = PropsWithChildren;
 
@@ -25,10 +26,8 @@ const FlexCenterHorizontal = styled("div", {
 
 export default function FlexCenter({ children }: Props) {
     return (
-        <FlexCenterVertical>
-            <FlexCenterHorizontal>
-                {children}
-            </FlexCenterHorizontal>
-        </FlexCenterVertical>
-    )
+        jsx(FlexCenterVertical, {
+            children: jsx(FlexCenterHorizontal, { children })
+        })
+    );
 }

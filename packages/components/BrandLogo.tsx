@@ -2,6 +2,7 @@ import { Stack, Box, Typography, styled } from "@mui/joy";
 import type { DefaultTypographySystem } from "@mui/joy/styles/types";
 import SvgLogo from "./svg/SvgLogo";
 import SvgUse from "./svg/SvgUse";
+import { jsx } from "react/jsx-runtime";
 
 type Size = "xl" | "lg" | "md" | "sm" | "xs";
 
@@ -75,16 +76,20 @@ export default function BrandLogo({ size, includeText }: Props) {
     const px = sizeToPx[size ?? "md"];
 
     return (
-        <Stack direction="row" alignItems="center" gap={1} className={`BrandLogo container BrandIconContainer-size${sizeName}`}>
-            <BrandIconContainer sx={{ height: px, }} className={`BrandIconContainer-size${sizeName}`}>
-                <Svg width={px} height={px}>
-                    <SvgLogo />
-                    <SvgUse id="cg-logo" />
-                </Svg>
-            </BrandIconContainer>
-            {includeText && <Typography level={fz} textColor="primary.500">
-                Campground
-            </Typography>}
-        </Stack>
+        jsx(Stack, {
+            direction: "row",
+            alignItems: "center",
+            gap: 1,
+            className: `BrandLogo container BrandIconContainer-size${sizeName}`,
+            children: [
+                jsx(BrandIconContainer, { sx: { height: px, }, className: `BrandIconContainer-size${sizeName}`, children:
+                    jsx(Svg, { width: px, height: px, children: [
+                        jsx(SvgLogo, {}, "logo"),
+                        jsx(SvgUse, { id: "cg-logo" }, "use"),
+                    ]}),
+                }),
+                includeText && jsx(Typography, { level: fz, textColor: "primary.500", children: "Campground" }),
+            ]
+        })
     )
 }

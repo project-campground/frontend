@@ -36,17 +36,35 @@ const SubmitBox = styled(Sheet)(({ theme }) => ({
     }
 }));
 
-const SettingsPage = styled(Stack)(({ theme }) => ({
+const SettingsPage = styled(Stack, {
+    name: "SettingsModal",
+    slot: "page",
+})(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level1,
     height: "100%",
+    width: "100%",
     borderRadius: theme.vars.radius.lg,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
+}));
+const SettingsPageContent = styled(Stack, {
+    name: "SettingsModal",
+    slot: "page-content",
+})(({ theme }) => ({
+    height: "100%",
+    overflow: "hidden",
+    overflowY: "auto",
+    flex: 1,
+    padding: `${theme.spacing(3)} ${theme.spacing(4)}`,
+    [theme.breakpoints.down("lg")]: {
+        padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+    },
 }));
 
 export const SettingsSidebar = styled(Stack)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level1,
     height: "100%",
     width: 300,
+    minWidth: 300,
     position: "relative",
     padding: `${theme.spacing(3)} ${theme.spacing(4)}`,
     borderRadius: theme.vars.radius.lg,
@@ -96,15 +114,17 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                             </Group>
                         </SubmitBox>
                     </SettingsSidebar>
-                    <SettingsPage flex={1}>
-                        <Box sx={{ px: 3, py: 2, }}>
-                            <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
-                        </Box>
-                        <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1 }} />
-                        <Box flex={1} sx={{ height: "100%", overflow: "hidden", px: 3, py: 4 }}>
-                            <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: false, values, valid, changed })} />
-                        </Box>
-                    </SettingsPage>
+                    <Box flex={1}>
+                        <SettingsPage>
+                            <Box sx={{ px: 3, py: 2, }}>
+                                <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
+                            </Box>
+                            <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1 }} />
+                            <SettingsPageContent>
+                                <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: false, values, valid, changed })} />
+                            </SettingsPageContent>
+                        </SettingsPage>
+                    </Box>
                 </Group>
             </Stack>
         </ModalDialog>

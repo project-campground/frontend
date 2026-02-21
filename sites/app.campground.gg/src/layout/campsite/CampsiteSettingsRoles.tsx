@@ -1,4 +1,4 @@
-import { Alert, Box, Button, IconButton, Stack, TabPanel, Tabs, Typography } from "@mui/joy";
+import { Alert, Box, Button, Card, IconButton, Stack, TabPanel, Tabs, Typography } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteRoleView, CampsiteViewDetailed, GetRolesOutput } from "types/campsites";
 import RoleItem, { RoleItemGap } from "./RoleItem";
@@ -13,6 +13,7 @@ import { DndContext } from "@dnd-kit/core";
 import ContentDeleteModal from "../ContentDeleteModal";
 import type { RestResponseWithContent } from "api/RESTResponse";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
+import TentMessage from "~/components/tents/TentMessage";
 
 type NewRole = CampsiteRoleView & { added: true; };
 type SettingsRole = CampsiteRoleView | NewRole;
@@ -98,7 +99,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
 
     return (
         <Group sx={{ width: "100%", height: "100%", }} gap={2}>
-            <Stack sx={{ width: 256, height: "100%" }} gap={2}>
+            <Stack sx={{ width: { xs: 128, lg: 256 }, height: "100%" }} gap={2}>
                 <Group alignItems="center" gap={1}>
                     <Typography level="title-lg" flex={1}>Roles</Typography>
                     <IconButton size="sm" onClick={createNewRole}>
@@ -166,7 +167,7 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
     }
 
     return (
-        <Stack flex={1} gap={2}>
+        <Stack flex={1} gap={2} sx={{ overflow: "hidden", height: "100%" }}>
             <Typography level="title-lg">{role.name}</Typography>
             <Tabs sx={{ height: "100%" }}>
                 <SmoothTabList
@@ -202,10 +203,68 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
     );
 }
 
-function RolePageDisplay({ value, onChanged }: RolePageTabProps) {
+function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
+    const fakeMessage = {
+        id: "",
+        campsiteId: "",
+        bonfireId: "",
+        tentId: "",
+        replyingTo: [],
+        replyingToCount: 0,
+        content: "This is an example text.",
+        createdAt: new Date().toISOString(),
+        createdBy: {
+            isMember: true,
+            nickname: null,
+            user: {
+                did: "",
+                displayName: "Example User",
+                handle: "",
+                description: "",
+                tagline: "",
+                location: "",
+                avatar: null,
+                banner: null,
+                createdAt: new Date().toISOString(),
+            },
+            roles: [value.id],
+        },
+    };
+
     return (
         <Form
             sections={[
+                {
+                    id: "preview",
+                    ReactiveHeader(values) {
+                        const colorRole = {...role, ...values};
+                        return (
+                            <Group withMobile gap={2} sx={{ flexDirection: { xs: "column", lg: "row" } }}>
+                                <Card data-joy-color-scheme="dark" sx={{ px: 1, py: 1, flex: 1 }}>
+                                    <TentMessage
+                                        hideToolbar
+                                        unhoverable
+                                        promptDelete={() => null}
+                                        addReply={() => null}
+                                        colorRoles={[colorRole]}
+                                        message={fakeMessage}
+                                    />
+                                </Card>
+                                <Card data-joy-color-scheme="light" sx={{ px: 1, py: 1, flex: 1 }}>
+                                    <TentMessage
+                                        hideToolbar
+                                        unhoverable
+                                        promptDelete={() => null}
+                                        addReply={() => null}
+                                        colorRoles={[colorRole]}
+                                        message={fakeMessage}
+                                    />
+                                </Card>
+                            </Group>
+                        );
+                    },
+                    fields: [],
+                },
                 {
                     id: "name",
                     fields: [
@@ -219,6 +278,8 @@ function RolePageDisplay({ value, onChanged }: RolePageTabProps) {
                 },
                 {
                     id: "colors",
+                    layout: "inline",
+                    gap: 4,
                     fields: [
                         {
                             id: "color",

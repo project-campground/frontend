@@ -1,5 +1,5 @@
 export function decimalToHexColor(color: number) {
-    return `#${(Math.abs(color) & 0xFFFFFF).toString(16)}`;
+    return `#${(Math.abs(color) & 0xFFFFFF).toString(16).padStart(6, "0")}`;
 }
 export function getColorFromSet(color: number | null | undefined, colorSecondary: number | null | undefined) {
     return (

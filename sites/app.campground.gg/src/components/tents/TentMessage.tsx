@@ -45,7 +45,7 @@ const TentMessageWrapper = styled(Stack, {
         width: 3,
         backgroundColor: theme.vars.palette.info[500],
     },
-    ":hover": {
+    "&:not(.unhoverable):hover": {
         backgroundColor: theme.vars.palette.background.level2,
     }
 }));
@@ -66,6 +66,7 @@ const TentMessageContainer = styled(Stack, {
 }));
 
 type Props = {
+    unhoverable?: boolean;
     waiting?: boolean;
     error?: string;
     hideToolbar?: boolean;
@@ -77,7 +78,7 @@ type Props = {
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
 
-export default function TentMessage({ waiting, error, onAuthorClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
+export default function TentMessage({ unhoverable, waiting, error, onAuthorClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
     const session = useSession();
     const [editMode, setEditMode] = useState(false);
     const [msgContent, setMsgContent] = useState(message.content);
@@ -101,7 +102,7 @@ export default function TentMessage({ waiting, error, onAuthorClick, colorRoles,
         : undefined;
 
     return (
-        <TentMessageWrapper className={`TentMessage-wrapper${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
+        <TentMessageWrapper className={`TentMessage-wrapper${unhoverable ? " unhoverable" : ""}${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
             {!hideToolbar && <MessageToolbar
                 // message={message}
                 onEdit={() => setEditMode(true)}

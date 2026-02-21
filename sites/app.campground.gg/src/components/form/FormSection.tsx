@@ -22,6 +22,7 @@ const FormSectionStack = styled(Stack)(() => ({
 const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
     "&.inline": {
         flexDirection: "row",
+        flexWrap: "wrap",
     },
     "&.grid-3": {
         display: "grid",
@@ -30,7 +31,12 @@ const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
     "&.divided > .FormField-container:not(:first-of-type)": {
         borderTop: `solid 1px ${theme.vars.palette.background.body}`,
         paddingTop: 12,
-    }
+    },
+    [theme.breakpoints.down("lg")]: {
+        "&.inline": {
+            flexDirection: "column",
+        },
+    },
 }));
 
 export default function FormSection({ onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, hide, header, fields, layout, alignItems, gap } }: Props) {

@@ -19,7 +19,7 @@ type Props = {
 };
 
 const UserProfileCardWrapper = styled(Box)(() => ({
-    width: 300,
+    width: 320,
     padding: `0 8px`,
 }));
 
@@ -91,7 +91,7 @@ export default function UserProfileCard({ did, user, member, campsiteRoles }: Pr
             </Box>
             {roles && <Stack sx={{ mb: 1 }} gap={2}>
                 <ContentCategory header={"Roles"}>
-                    <Group gap={1}>
+                    <Group wrap gap={1}>
                         {roles.map((role) =>
                             <RoleDisplay key={role.id} {...role}/>
                         )}

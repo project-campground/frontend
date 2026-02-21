@@ -1,15 +1,13 @@
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteSettingsProps } from "./CampsiteSettingsModal";
 import React from "react";
-import DataFetchTable from "~/components/pages/DataFetchTable";
+import DataDisplay from "~/components/pages/DataDisplay";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteInviteViewBasic } from "types/membership";
-import { IconButton, Typography } from "@mui/joy";
+import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { IconTrashFilled } from "@tabler/icons-react";
-import { useSession } from "~/context/session";
-import { useSnackbars } from "~/context/snackbar";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 
 type State = {
@@ -52,20 +50,29 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
             });
     }
 
+    private _onInvitesDeleteBind = this.onInvitesDelete.bind(this);
+    private onInvitesDelete(selected: CampsiteInviteViewBasic[]) {
+        console.log("Deleting", selected);
+    }
+
     render(): React.ReactNode {
         return (
-            <DataFetchTable
+            <DataDisplay
                 title="invites"
                 itemsPerPage={50}
                 maxItems={null}
                 columns={[
                     { id: "id", name: "Identifier", Component: IdComponent },
-                    { id: "createdBy", name: "Created By", width: 300, Component: CreatedByComponent },
-                    { id: "createdAt", name: "Created At", width: 120, Component: CreatedAtComponent },
-                    { id: "expires", name: "Expires At", width: 120, Component: ExpiresComponent },
-                    { id: "maxUses", name: "Max Uses", width: 120, Component: MaxUsesComponent },
-                    { id: "deletion", name: "", width: 52, Component: DeleteComponent },
+                    { id: "createdBy", name: "Created By", width: 240, Component: CreatedByComponent },
+                    { id: "createdAt", name: "Created At", width: 120, Component: CreatedAtComponent, screenSize: "lg", },
+                    { id: "expires", name: "Expires At", width: 120, Component: ExpiresComponent, screenSize: "lg", },
+                    { id: "maxUses", name: "Max Uses", width: 120, Component: MaxUsesComponent, screenSize: "xl" },
+                    { id: "used", name: "Times Used", width: 120, Component: UsedComponent, screenSize: "xl" },
                 ]}
+                menu={[
+                    { startDecorator: <IconTrashFilled />, content: "Delete invites", onClick: this._onInvitesDeleteBind, variant: "plain", color: "danger" }
+                ]}
+                HeaderComponent={IdComponent}
                 fetch={this.fetchInvites.bind(this)}
                 updateItems={this.onWebSocketEvent.bind(this)}
             />
@@ -100,19 +107,8 @@ function MaxUsesComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
         <Typography level="body-md" textColor={invite.allowedAmount ? "text.tertiary" : "text.quartary"}>{invite.allowedAmount ?? "No max limit"}</Typography>
     );
 }
-function DeleteComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
-    const session = useSession();
-    const snackbars = useSnackbars();
-    const onDelete = () => session.restClient
-        .deleteInvite(invite.campsiteId, invite.id)
-        .then((resp) => {
-            if (!resp.ok)
-                return snackbars.notifyApiError(resp);
-        });
-
+function UsedComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
     return (
-        <IconButton onClick={onDelete}>
-            <IconTrashFilled />
-        </IconButton>
+        <Typography level="body-md" textColor={invite.used ? "text.tertiary" : "text.quartary"}>{invite.used || "Invite has not been used"}</Typography>
     );
 }

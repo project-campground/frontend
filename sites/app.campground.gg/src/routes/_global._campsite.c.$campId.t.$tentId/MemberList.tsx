@@ -34,7 +34,7 @@ export default function MemberList({ members, roles }: Props) {
     const displayMember = (ev: MouseEvent<HTMLDivElement>, member: CampsiteMemberViewBasic) =>
         cardMember
         ? setCardMember(null)
-        : setCardMember({ member, x: document.body.clientWidth - 300, y: ev.clientY + 8 });
+        : setCardMember({ member, x: document.body.clientWidth - 320, y: ev.clientY + 8 });
 
     return (
         <>

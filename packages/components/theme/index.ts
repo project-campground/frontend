@@ -4,6 +4,14 @@ import lightColorScheme from "./light";
 import darkColorScheme from "./dark";
 
 const theme = extendTheme({
+    zIndex: {
+        badge: 1100,
+        table: 1200,
+        modal: 1300,
+        tooltip: 1400,
+        popup: 1500,
+        snackbar: 1600,
+    },
     cssVarPrefix: ``,
     typography: {
         code: {

@@ -1,20 +1,23 @@
 import { Checkbox, styled, Table } from "@mui/joy";
 import { IconSlash } from "@tabler/icons-react";
 import React, { type ReactNode } from "react";
+import type { Breakpoint } from "@mui/system";
 
 export type DataTableColumn<TItem> = {
     id: string;
     name: ReactNode[] | ReactNode;
     width?: number;
+    screenSize?: Breakpoint;
     Component: (props: { item: TItem; }) => ReactNode | ReactNode[];
 };
 
 export type DataTableProps<TItem> = {
     values: TItem[];
+    unselectable?: boolean;
+    onSelect?: (selected: TItem) => unknown;
+    onSelectAll?: () => unknown;
+    selected: TItem[];
     columns: DataTableColumn<TItem>[];
-};
-type State<TItem> = {
-    selectedValues: TItem[];
 };
 
 const DataTableRoot = styled(Table, {
@@ -34,44 +37,88 @@ const TableRow = styled("tr", {
 const TableColumn = styled("td", {
     name: "DataTable",
     slot: "column",
-})(() => ({
+})(({ theme }) => ({
+    [theme.breakpoints.keys.map((x) => `&.${x}`).join(", ")]: {
+        display: "none",
+    },
+    [theme.breakpoints.up("xs")]: {
+        "&.xs": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("sm")]: {
+        "&.sm": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("md")]: {
+        "&.md": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("lg")]: {
+        "&.lg": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("xl")]: {
+        "&.xl": {
+            display: "table-cell",
+        },
+    },
 }));
-const TableHeadColumn = styled("td", {
+const TableHeadColumn = styled("th", {
     name: "DataTable",
     slot: "headColumn",
-})(() => ({
+})(({ theme }) => ({
+    [theme.breakpoints.keys.map((x) => `&.${x}`).join(", ")]: {
+        display: "none",
+    },
+    [theme.breakpoints.up("xs")]: {
+        "&.xs": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("sm")]: {
+        "&.sm": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("md")]: {
+        "&.md": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("lg")]: {
+        "&.lg": {
+            display: "table-cell",
+        },
+    },
+    [theme.breakpoints.up("xl")]: {
+        "&.xl": {
+            display: "table-cell",
+        },
+    },
 }));
 
-export default class DataTable<TItem> extends React.Component<DataTableProps<TItem>, State<TItem>> {
-    state: State<TItem> = {
-        selectedValues: [],
-    };
+export default class DataTable<TItem> extends React.Component<DataTableProps<TItem>> {
     constructor(props: DataTableProps<TItem>, context: any) {
         super(props, context);
     }
     toggleSelect(item: TItem) {
-        return this.setState({
-            selectedValues: this.state.selectedValues.includes(item)
-                ? this.state.selectedValues.filter((x) => x !== item)
-                : [...this.state.selectedValues, item]
-        });
+        return this.props.onSelect?.(item);
     }
     toggleSelectAll() {
-        return this.setState({
-            selectedValues: this.state.selectedValues.length === this.props.values.length
-            ? []
-            : this.props.values
-        });
+        return this.props.onSelectAll?.();
     }
     render(): React.ReactNode {
-        const { values, columns } = this.props;
-        const { selectedValues } = this.state;
+        const { values, columns, unselectable, selected: selectedValues } = this.props;
 
         return (
             <DataTableRoot variant="outlined">
                 <thead>
                     <tr>
-                        <TableHeadColumn style={{ width: 48 }}>
+                        {!unselectable && <TableHeadColumn style={{ width: 48 }}>
                             <Checkbox
                                 variant="soft"
                                 color={selectedValues.length === values.length && selectedValues.length ? "success" : selectedValues.length ? "warning" : "neutral"}
@@ -80,25 +127,25 @@ export default class DataTable<TItem> extends React.Component<DataTableProps<TIt
                                 onChange={() => this.toggleSelectAll()}
                                 sx={{ alignSelf: "end" }}
                             />
-                        </TableHeadColumn>
+                        </TableHeadColumn>}
                         {columns.map((x) =>
-                            <TableHeadColumn key={x.id} style={{ width: x.width }}>{x.name}</TableHeadColumn>
+                            <TableHeadColumn key={x.id} className={x.screenSize} style={{ width: x.width }}>{x.name}</TableHeadColumn>
                         )}
                     </tr>
                 </thead>
                 <tbody>
                     {values.map((y, i) =>
                         <TableRow key={i}>
-                            <td>
+                            {!unselectable && <td>
                                 <Checkbox
                                     variant="soft"
                                     color={selectedValues.includes(y) ? "success" : "neutral"}
                                     checked={selectedValues.includes(y)}
                                     onChange={() => this.toggleSelect(y)}
                                 />
-                            </td>
-                            {columns.map(({ id, Component }) =>
-                                <TableColumn key={id}>
+                            </td>}
+                            {columns.map(({ id, screenSize, Component }) =>
+                                <TableColumn key={id} className={screenSize}>
                                     <Component item={y} />
                                 </TableColumn>
                             )}

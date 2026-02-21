@@ -1,13 +1,14 @@
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteSettingsProps } from "./CampsiteSettingsModal";
 import React from "react";
-import DataFetchTable from "~/components/pages/DataFetchTable";
+import DataDisplay from "~/components/pages/DataDisplay";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteBanView } from "types/membership";
 import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
+import { IconHammerOff } from "@tabler/icons-react";
 
 type State = {
 
@@ -48,18 +49,27 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
             });
     }
 
+    private _onBansDeleteBind = this.onBansDelete.bind(this);
+    private onBansDelete(selected: CampsiteBanView[]) {
+        console.log("Deleting", selected);
+    }
+
     render(): React.ReactNode {
         return (
-            <DataFetchTable
+            <DataDisplay
                 title="invites"
                 itemsPerPage={50}
                 maxItems={null}
                 columns={[
-                    { id: "id", name: "Banned User", Component: TargetComponent },
-                    { id: "reason", name: "Reason", width: 320, Component: ReasonComponent },
-                    { id: "createdBy", name: "Created By", width: 300, Component: CreatedByComponent },
-                    { id: "createdAt", name: "Created At", width: 120, Component: CreatedAtComponent },
+                    { id: "id", name: "Banned User", width: 240, Component: TargetComponent },
+                    { id: "reason", name: "Reason", Component: ReasonComponent, screenSize: "lg" },
+                    { id: "createdBy", name: "Banned By", width: 240, Component: CreatedByComponent },
+                    { id: "createdAt", name: "Banned At", width: 120, Component: CreatedAtComponent, screenSize: "xl" },
                 ]}
+                menu={[
+                    { startDecorator: <IconHammerOff />, content: "Unban users", onClick: this._onBansDeleteBind }
+                ]}
+                HeaderComponent={TargetComponent}
                 fetch={this.fetchBans.bind(this)}
                 updateItems={this.onWebSocketEvent.bind(this)}
             />

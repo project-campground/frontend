@@ -9,10 +9,10 @@ import type { CampsiteMemberViewDetailed, CampsiteRoleView } from "types/campsit
 import RoleDisplay from "~/components/campsite/RoleDisplay";
 import Datestamp from "~/components/Datestamp";
 import { useSession } from "~/context/session";
-import { IconPlus } from "@tabler/icons-react";
+import { IconHammer, IconLogout2, IconPlus } from "@tabler/icons-react";
 import type { TypeToPayload } from "types/ws";
 import type { MemberRolesModified } from "types/membership";
-import DataFetchTable from "~/components/pages/DataFetchTable";
+import DataDisplay from "~/components/pages/DataDisplay";
 
 type Props = {
     campsiteId: string;
@@ -64,21 +64,37 @@ export default class MemberTent extends React.Component<Props, State, ContextSui
             });
     }
 
+    private _onKickMembersBind = this.onKickMembers.bind(this);
+    private onKickMembers(selected: CampsiteMemberViewDetailed[]) {
+        console.log("Kicking", selected);
+    }
+
+    private _onBanMembersBind = this.onBanMembers.bind(this);
+    private onBanMembers(selected: CampsiteMemberViewDetailed[]) {
+        console.log("Banning", selected);
+    }
+
     render(): React.ReactNode {
         const {  } = this.props;
         const { campsite } = (this.context as CampsiteContextSuite);
 
         return (
-            <DataFetchTable
+            <DataDisplay
                 title="members"
                 itemsPerPage={50}
                 maxItems={campsite.memberCount}
                 columns={[
-                    { id: "name", name: "Member", width: 300, Component: NameComponent },
-                    { id: "joined", name: "Joined At", width: 120, Component: JoinedComponent },
-                    { id: "created", name: "Created At", width: 120, Component: CreatedComponent },
+                    { id: "name", name: "Member", width: 240, Component: NameComponent },
+                    { id: "joined", name: "Joined At", width: 120, Component: JoinedComponent, screenSize: "lg", },
+                    { id: "created", name: "Created At", width: 120, Component: CreatedComponent, screenSize: "xl", },
                     { id: "roles", name: "Roles", Component: RolesComponent },
                 ]}
+                menu={[
+                    { startDecorator: <IconLogout2 />, content: "Kick members", onClick: this._onKickMembersBind, variant: "plain", color: "danger" },
+                    { startDecorator: <IconHammer />, content: "Ban members", onClick: this._onBanMembersBind, variant: "plain", color: "danger" },
+                ]}
+                HeaderComponent={NameComponent}
+                Component={RolesComponent}
                 fetch={this.fetchMembers.bind(this)}
                 updateItems={this.onWebSocketEvent.bind(this)}
             />
@@ -122,7 +138,7 @@ function RolesComponent({ item: member }: { item: CampsiteMemberViewDetailed }) 
             });        
 
     return (
-        <Group gap={1} alignItems="center">
+        <Group wrap gap={1} alignItems="center">
             {userRoles.slice(0, 4).map((x) =>
                 <RoleDisplay key={x.id} {...x} onRemove={onRoleRemove} />
             )}

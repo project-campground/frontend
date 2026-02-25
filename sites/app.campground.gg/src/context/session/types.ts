@@ -1,11 +1,11 @@
 import HTTPClient from "api/HTTPClient";
-import type WebSocketClient from "api/WebSocketClient";
+import type WSClient from "api/WSClient";
 
 export interface Session {
     auth: SessionAuth;
     settings: SessionSettings;
     http: HTTPClient;
-    webSocket: WebSocketClient;
+    ws: WSClient;
     login(details: AuthCredentials): Promise<void>;
     logout(): void;
     setSettings(value: SessionSettings | ((prevState: SessionSettings) => SessionSettings)): void;

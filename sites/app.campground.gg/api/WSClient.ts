@@ -8,23 +8,23 @@ type Config = {
     url: string;
 };
 
-interface WebSocketFrameHeader<TOp extends number> {
+interface WSFrameHeader<TOp extends number> {
     op: TOp;
 }
-interface WebSocketFrameHeaderTyped<TOp extends number, TType extends string> extends WebSocketFrameHeader<TOp> {
+interface WSFrameHeaderTyped<TOp extends number, TType extends string> extends WSFrameHeader<TOp> {
     t: TType;
 }
-interface WebSocketFrame<TData> {
+interface WSFrame<TData> {
     payload: TData;
 }
-interface WebSocketErrorFrame extends WebSocketFrameHeader<-1>, WebSocketFrame<{ error: string; message?: string; }> {}
-interface WebSocketDataFrame<TType extends string, TData> extends WebSocketFrameHeaderTyped<1, TType>, WebSocketFrame< TData> {
+interface WSErrorFrame extends WSFrameHeader<-1>, WSFrame<{ error: string; message?: string; }> {}
+interface WSDataFrame<TType extends string, TData> extends WSFrameHeaderTyped<1, TType>, WSFrame< TData> {
     t: TType;
 }
 
-type WebSocketMessage = WebSocketErrorFrame | WebSocketDataFrame<keyof TypeToPayload, TypeToPayload[keyof TypeToPayload]>;
+type WSMessage = WSErrorFrame | WSDataFrame<keyof TypeToPayload, TypeToPayload[keyof TypeToPayload]>;
 
-export type WebSocketSubscriptionCallback = (message: WebSocketMessage) => unknown;
+export type WSSubscriptionCallback = (message: WSMessage) => unknown;
 
 const mapObjectValue = (value: any): any =>
     value instanceof Uint8Array
@@ -36,13 +36,13 @@ const mapObjectValue = (value: any): any =>
 const createObject = (kve: KeyValueEncoded[]) =>
     Object.fromEntries(kve.map(([key, value]) => [key as string, mapObjectValue(value)]));
 
-export interface WebSocketSubscription {
-    callback: WebSocketSubscriptionCallback;
+export interface WSSubscription {
+    callback: WSSubscriptionCallback;
 };
 
-export default class WebSocketClient {
+export default class WSClient {
     private _config: Config;
-    private _subscriptions: WebSocketSubscription[];
+    private _subscriptions: WSSubscription[];
     private _client: WebSocket;
     private _onOpen: Array<() => unknown> = [];
     constructor(config: Config) {
@@ -52,14 +52,14 @@ export default class WebSocketClient {
         this._client.onmessage = this._onMessage.bind(this);
         console.log("This", this);
     }
-    public subscribe(callback: WebSocketSubscriptionCallback) {
+    public subscribe(callback: WSSubscriptionCallback) {
         const subscription = {
             callback,
         };
         this._subscriptions.push(subscription);
         return subscription;
     }
-    public unsubscribe(subscription: WebSocketSubscription) {
+    public unsubscribe(subscription: WSSubscription) {
         this._subscriptions = this._subscriptions.filter((x) => x !== subscription);
     }
     public initWithAuth(restClient: HTTPClient) {
@@ -129,8 +129,8 @@ export default class WebSocketClient {
         );
     }
     private async _onMessage(msg: MessageEvent<any>) {
-        const [header, payload] = [...decodeSequence(await (msg.data as Blob).bytes(), { createObject })] as [WebSocketFrameHeader<-1> | WebSocketFrameHeaderTyped<1, string>, any];
-        const message: WebSocketMessage = {...header, payload } as WebSocketMessage;
+        const [header, payload] = [...decodeSequence(await (msg.data as Blob).bytes(), { createObject })] as [WSFrameHeader<-1> | WSFrameHeaderTyped<1, string>, any];
+        const message: WSMessage = {...header, payload } as WSMessage;
         console.log("Message", message);
         return await Promise.allSettled(
             this._subscriptions.map((x) =>

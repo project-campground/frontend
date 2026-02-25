@@ -18,7 +18,7 @@ import { PermissionsContext } from "~/context/permissions";
 import type { CampsiteRoleView } from "types/campsites";
 import { getColorFromSet } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
-import { type WebSocketSubscription } from "api/WebSocketClient";
+import { type WSSubscription } from "api/WSClient";
 
 type Props = {
     campsiteId: string;
@@ -49,7 +49,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     pseudoMessages: string[] = [];
     private _initLock: boolean = false;
     private _lock: boolean = false;
-    private _wsSubscription: WebSocketSubscription | null = null;
+    private _wsSubscription: WSSubscription | null = null;
 
     async componentDidMount(): Promise<void> {
         if (this._initLock)
@@ -57,7 +57,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         
         this._initLock = true;
         const session = (this.context as CampsiteContextSuite).session;
-        this._wsSubscription = session.webSocket
+        this._wsSubscription = session.ws
             .subscribe((ev) => {
                 if (ev.op !== 1)
                     return;
@@ -138,7 +138,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         if (!this._wsSubscription)
             return;
 
-        (this.context as CampsiteContextSuite).session.webSocket.unsubscribe(
+        (this.context as CampsiteContextSuite).session.ws.unsubscribe(
             this._wsSubscription
         );
     }

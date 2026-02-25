@@ -15,7 +15,7 @@ import { TentCategorySkeleton } from "./TentCategory";
 import CampsiteSettingsModal from "~/layout/campsite/CampsiteSettingsModal";
 import BonfireSettingsModal from "~/layout/bonfire/BonfireSettingsModal";
 import { type NavigateFunction } from "react-router";
-import type { WebSocketSubscription } from "api/WebSocketClient";
+import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "./InviteCreationModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
@@ -89,7 +89,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     bonfiresToTents: Record<string, GetTentsOutput> = {};
     private _lock: boolean = false;
     private _initLock: boolean = false;
-    private _wsSubscription: WebSocketSubscription | null = null;
+    private _wsSubscription: WSSubscription | null = null;
     constructor(props: Props, context: Session) {
         super(props, context);
 
@@ -120,7 +120,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         const { session } = this.context as CampsiteContextSuite;
         this._wsSubscription = session
-            .webSocket
+            .ws
             .subscribe((msg) =>
                 msg.op === 1 &&
                 this.onWsEvent(msg.t as keyof TypeToPayload, msg.payload)
@@ -181,7 +181,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         const { session } = this.context as CampsiteContextSuite;
         return (
             session
-                .webSocket
+                .ws
                 .unsubscribe(this._wsSubscription)
         );
     }

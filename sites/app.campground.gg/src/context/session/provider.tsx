@@ -4,7 +4,7 @@ import HTTPClient from 'api/HTTPClient';
 import { useNavigate } from 'react-router';
 import { defaultAppBackendUrl } from 'api.config';
 import { SessionContext } from '.';
-import WebSocketClient from 'api/WebSocketClient';
+import WSClient from 'api/WSClient';
 
 export function SessionProvider({ children }: React.PropsWithChildren) {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     const [settings, setSettingsUnsafe] = useState<SessionSettings>(localStorageSettings ? JSON.parse(localStorageSettings) : { locale: "en-US" });
     const refreshLogin = (refresh: SessionAuthRefresh) =>
         setAuth({ authenticated: true, user: { ...refresh, email: (auth as SessionAuthed).user?.email, emailConfirmed: (auth as SessionAuthed).user?.emailConfirmed } });
-    const restClient = useMemo(() =>
+    const http = useMemo(() =>
         auth.authenticated
         ? new HTTPClient({ auth: auth.user.accessJwt, refreshAuth: auth.user.refreshJwt, userDid: auth.user.did }, refreshLogin)
         : new HTTPClient({ url: defaultAppBackendUrl })
@@ -44,10 +44,10 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
         setAuth({ authenticated: false });
         navigate("/login");
     };
-    const webSocket = useMemo(() => {
-        const webSocket = new WebSocketClient({ url: defaultAppBackendUrl + "/ws/v1" });
+    const ws = useMemo(() => {
+        const webSocket = new WSClient({ url: defaultAppBackendUrl + "/ws/v1" });
         if (auth.authenticated)
-            webSocket.initWithAuth(restClient);
+            webSocket.initWithAuth(http);
         else
             webSocket.initWithoutAuth();
         return webSocket;
@@ -55,12 +55,12 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
     const value = useMemo(() => ({
         auth,
-        restClient,
+        http,
         settings,
         setSettings,
         login,
         logout,
-        webSocket
+        ws
     }), [auth, settings]);
 
     return (

@@ -6,7 +6,7 @@ import { IconAdjustmentsFilled, IconCaretLeftFilled, IconCaretRightFilled, IconD
 import type { HttpResponseWithContent } from "api/HTTPResponse";
 import type { TypeToPayload } from "types/ws";
 import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
-import type { WebSocketSubscription } from "api/WebSocketClient";
+import type { WSSubscription } from "api/WSClient";
 import type { DataCardStackProps } from "./DataCardStack";
 import DataCardStack from "./DataCardStack";
 
@@ -60,7 +60,7 @@ export default class DataDisplay<T> extends React.Component<Props<T>, State<T>> 
     private _maxPage: number | null = null;
     private _init: boolean = false;
     private _lock: boolean = true;
-    private _wsSubscription: WebSocketSubscription | null = null;
+    private _wsSubscription: WSSubscription | null = null;
 
     constructor(props: Props<T>, context: State<T>) {
         super(props, context);
@@ -90,14 +90,14 @@ export default class DataDisplay<T> extends React.Component<Props<T>, State<T>> 
     }
     public componentWillUnmount(): void {
         if (this._wsSubscription)
-            (this.context as ContextSuite).session.webSocket
+            (this.context as ContextSuite).session.ws
                 .unsubscribe(this._wsSubscription);
     }
 
     private subscribeToWs() {
         const { session } = this.context as ContextSuite;
 
-        this._wsSubscription = session.webSocket
+        this._wsSubscription = session.ws
             .subscribe(ws =>
                 ws.op === 1 && this.props.updateItems?.(this.state.items, ws.t, ws.payload) && this.setState({})
             );

@@ -4,7 +4,7 @@ import GlobalNavbar from "./GlobalNavbar";
 import type { Me } from "types/me";
 import { MeContext, SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
-import type { WebSocketSubscription } from "api/WebSocketClient";
+import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteViewBasic } from "types/campsites";
 
@@ -24,7 +24,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
         loaded: false,
     };
     private _me: Me | null = null;
-    private _wsSubscription: WebSocketSubscription | null = null;
+    private _wsSubscription: WSSubscription | null = null;
     async componentDidMount(): Promise<void> {
         if (this._init || this._me)
             return;
@@ -35,7 +35,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
         if (!session.auth.authenticated)
             return this.setState({ loaded: true });
 
-        this._wsSubscription = session.webSocket.subscribe(msg =>
+        this._wsSubscription = session.ws.subscribe(msg =>
             msg.op === 1 &&
             this.onWsMessage(msg.t, msg.payload)
         );
@@ -54,7 +54,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
     }
     componentWillUnmount(): void {
         const session = this.context as Session;
-        session.webSocket.unsubscribe(this._wsSubscription!);
+        session.ws.unsubscribe(this._wsSubscription!);
     }
     onWsMessage<T extends keyof TypeToPayload>(type: T, payload: TypeToPayload[T]) {
         switch(type) {

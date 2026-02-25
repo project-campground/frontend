@@ -10,7 +10,7 @@ import type { HttpResponseError } from "api/HTTPResponse";
 import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
 import type { NavigateFunction } from "react-router";
 import { PermissionsContext } from "~/context/permissions";
-import type { WebSocketSubscription } from "api/WebSocketClient";
+import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import PermissionsManager from "~/context/permissions/PermissionsManager";
 
@@ -34,7 +34,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
     static contextType?: React.Context<any> | undefined = ContextSuiteContext;
     _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
     private _init: boolean = false;
-    private _wsSubscription: WebSocketSubscription | null = null;
+    private _wsSubscription: WSSubscription | null = null;
     constructor(props: Props, context: any) {
         super(props, context);
 
@@ -84,11 +84,11 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
     componentWillUnmount(): void {
         (this.context as ContextSuite)
             .session
-            .webSocket
+            .ws
             .unsubscribe(this._wsSubscription!);
     }
     setCampsiteForWebSocket() {
-        const ws = (this.context as ContextSuite).session.webSocket;
+        const ws = (this.context as ContextSuite).session.ws;
         ws.setCampsite(this.props.campsiteId);
         this._wsSubscription = ws.subscribe(message =>
             message.op === 1 && this.onWsMessage(message.t, message.payload)

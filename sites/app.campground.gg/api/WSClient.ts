@@ -50,7 +50,6 @@ export default class WSClient {
         this._subscriptions = [];
         this._client = new WebSocket(this._config.url);
         this._client.onmessage = this._onMessage.bind(this);
-        console.log("This", this);
     }
     public subscribe(callback: WSSubscriptionCallback) {
         const subscription = {
@@ -64,7 +63,7 @@ export default class WSClient {
     }
     public initWithAuth(restClient: HTTPClient) {
         this._client.onopen = async () => {
-            console.log("WS Open");
+            console.log("WebSocket Open");
             const serviceAuth = await restClient.getServiceAuth({ lxm: "gg.campground.websocket.subscribe" });
             this._client.send(
                 encode({
@@ -74,7 +73,7 @@ export default class WSClient {
                     } : undefined,
                 })
             );
-            console.log("Sent auth");
+            console.log("Sent WebSocket auth frame");
             setTimeout(() => {
                 this._internalInitOnOpen();
             }, 300);
@@ -99,13 +98,13 @@ export default class WSClient {
         if (this._client.readyState !== this._client.OPEN)
             return this._onOpen.push(this._internalSetCampsite.bind(this, campsiteId));
 
-        console.log("Set campsite", campsiteId);
+        console.log("Setting campsite in WS", campsiteId);
         setTimeout(() => {
             this._internalSetCampsite(campsiteId);
         }, 100);
     }
     private _internalSetCampsite(campsiteId: string | null) {
-        console.log("Set campsite after opening", campsiteId);
+        console.log("Set campsite in WS", campsiteId);
         this._client.send(
             encode({
                 op: 1,

@@ -1,7 +1,7 @@
 import { styled, Tab, TabList, type TabListProps } from "@mui/joy";
 import { useRef, type ReactNode } from "react";
 import { useTabsList } from "@mui/base";
-import { jsx } from "react/jsx-runtime";
+import { jsx, Fragment } from "react/jsx-runtime";
 
 const SmoothTabListRoot = styled(TabList, {
     name: "SmoothTabList",
@@ -50,12 +50,12 @@ export default function SmoothTabList({ tabs, onChange, ...props }: SmoothTabLis
 
     return (
         jsx(SmoothTabListRoot, {...props, ref, children: [
-            jsx(SmoothTabListBackground, { sx: { left: `${currentTabIndex * tabWidth}%`, width: `${tabWidth}%` } }),
-            tabs.map((x) =>
+            jsx(SmoothTabListBackground, { sx: { left: `${currentTabIndex * tabWidth}%`, width: `${tabWidth}%` } }, "background"),
+            ...tabs.map((x) =>
                 jsx(SmoothTab, {children: [
-                    x.startDecorator,
-                    x.name,
-                    x.endDecorator
+                    jsx(Fragment, { children: x.startDecorator }, "start"),
+                    jsx(Fragment, { children: x.name }, "name"),
+                    jsx(Fragment, { children: x.endDecorator }, "end"),
                 ]}, x.id.toString())
             )
         ]})

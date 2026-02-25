@@ -1,20 +1,55 @@
 import { Stack, styled } from "@mui/joy";
-import type { Property } from "csstype";
+import { forwardRef } from "react";
+import { jsx } from "react/jsx-runtime";
+import type { StackProps } from "@mui/joy";
 
-const Group = styled(Stack, {
+export interface GroupProps extends React.PropsWithChildren, StackProps {
+    wrap?: boolean;
+    withMobile?: boolean;
+    withMobileReversed?: boolean;
+    className?: string;
+}
+
+const GroupRoot = styled(Stack, {
     name: "CampgroundGroup",
     slot: "root",
-})<{ wrap?: boolean; withMobile?: boolean; mobileDirection?: Property.FlexDirection }>(({ theme, wrap, withMobile, mobileDirection }) => ({
+})<{ ownerState: GroupProps }>(({ theme }) => ({
     flexDirection: "row",
-    ...(withMobile || mobileDirection
-        ? {
-            flexWrap: "wrap",
-            [theme.breakpoints.down("sm")]: {
-                flexDirection: mobileDirection ?? "column",
-            }
+    "&.wrap": {
+        flexWrap: "wrap",
+    },
+    "&.CampgroundGroup-mobile": {
+        flexWrap: "wrap",
+        [theme.breakpoints.down("sm")]: {
+            flexDirection: "column",
         }
-        : {}
-    ),
-    ...(wrap ? { flexWrap: "wrap" } : {}),
+    },
+    "&.CampgroundGroup-mobile.CampgroundGroup-mobile-reverse": {
+        flexWrap: "wrap-reverse",
+        [theme.breakpoints.down("sm")]: {
+            flexDirection: "column-reverse",
+        }
+    },
 }));
+
+
+const Group = forwardRef<HTMLDivElement, GroupProps>(function GradientTypography(props, ref) {
+    const { wrap, withMobile, withMobileReversed, className, ...other } = props;
+    const ownerState = other;
+
+    return (
+        jsx(GroupRoot, {
+            ref,
+            ownerState,
+            className: [
+                `CampgroundGroup-root`,
+                (withMobile || withMobileReversed) && `CampgroundGroup-mobile`,
+                withMobileReversed && `CampgroundGroup-mobile-reverse`,
+                className,
+            ].filter(Boolean).join(" "),
+            ...other
+        })
+    )
+});
+
 export default Group;

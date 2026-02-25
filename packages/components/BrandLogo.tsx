@@ -87,8 +87,8 @@ export default function BrandLogo({ size, includeText }: Props) {
                         jsx(SvgLogo, {}, "logo"),
                         jsx(SvgUse, { id: "cg-logo" }, "use"),
                     ]}),
-                }),
-                includeText && jsx(Typography, { level: fz, textColor: "primary.500", children: "Campground" }),
+                }, "icon"),
+                includeText && jsx(Typography, { level: fz, textColor: "primary.500", children: "Campground" }, "logo"),
             ]
         })
     )

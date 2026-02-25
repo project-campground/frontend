@@ -42,14 +42,16 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         this.state = { err: null, campsite: null, init: false, loading: true, bonfireSelected: null, tentSelected: null };
 
         this._currentTent = new CurrentTentContext(null);
+        this._updateCampsiteDataBind = this.updateCampsiteData.bind(this);
         this._currentTent.subscribeToChanges((newValue) =>
             this.setState({ bonfireSelected: newValue?.bonfireId ?? null, tentSelected: newValue?.id ?? null })
         );
-        this._updateCampsiteDataBind = this.updateCampsiteData.bind(this);
     }
 
     async fetchCampsite() {
-        return (this.context as ContextSuite).session.http
+        return (this.context as ContextSuite)
+            .session
+            .http
             .getCampsite(this.props.campsiteId)
             .then((resp) => {
                 if (!resp.ok)

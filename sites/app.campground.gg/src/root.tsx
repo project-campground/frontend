@@ -12,7 +12,7 @@ import "./app.css";
 import { IntlProvider } from './context/i18n';
 // import { SessionProvider } from './session';
 import { Box, CircularProgress, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
-import { BrandLogo, FlexCenter, SvgDefs, theme } from "components";
+import { BrandLogo, FlexCenter, SvgDefs, SvgUse, theme } from "components";
 import { SessionProvider } from "./context/session";
 import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";
@@ -58,8 +58,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
 }
 
-export default function App() {
-    console.log("App render");
+function AppComponent({ children }: React.PropsWithChildren) {
     return (
         <SessionProvider>
             <IntlProvider>
@@ -68,7 +67,7 @@ export default function App() {
                         <DndContext>
                             <RightClickProvider>
                                 <Box id="root">
-                                    <Outlet />
+                                    {children}
                                 </Box>
                             </RightClickProvider>
                         </DndContext>
@@ -79,7 +78,16 @@ export default function App() {
     );
 }
 
-export function AppErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export default function App() {
+    console.log("App render");
+    return (
+        <AppComponent>
+            <Outlet />
+        </AppComponent>
+    );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     let message = "Oops!";
     let details = "An unexpected error occurred.";
     let stack: string | undefined;
@@ -110,10 +118,32 @@ export function AppErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
 export function HydrateFallback() {
     return (
-        <FlexCenter>
-            <CircularProgress size="lg" sx={{ "--CircularProgress-size": "128px" }}>
-                <BrandLogo size="xl" />
-            </CircularProgress>
-        </FlexCenter>
+        <>
+            <style>
+                {`@keyframes stroke-width-animation {
+                    0% {
+                        mask-position: 0%;
+                        stroke-width: 2px;
+                    }
+                    50% {
+                        mask-position: 50%;
+                        stroke-width: 4px;
+                    }
+                    100% {
+                        mask-position: 80%;
+                        stroke-width: 2px;
+                    }
+                }`}
+            </style>
+            <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    <div style={{  position: "relative", width: "128px", height: "128px" }}>
+                        <div style={{ maskSize: "500%", maskImage: `linear-gradient(to right, rgba(255, 255, 255, 0.3) 20%, white 30%, white 70%, rgba(255, 255, 255, 0.3) 80%)`, zIndex: 1, position: "absolute", top: 0, left: 0, right: 0, bottom: 0, strokeWidth: "2px", stroke: "var(--palette-primary-500)", strokeLinecap: "round", strokeLinejoin: "round", animation: `stroke-width-animation 2s infinite` }}>
+                            <SvgUse id="cg-logo" width="128px" height="128px" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

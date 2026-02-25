@@ -1,5 +1,5 @@
-import { Alert, AspectRatio, Avatar, Box, Button, Card, Chip, Sheet, Stack, Typography } from "@mui/joy";
-import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkles, IconStar, IconUsers } from "@tabler/icons-react";
+import { Alert, AspectRatio, Avatar, Box, Button, Sheet, Stack, Typography } from "@mui/joy";
+import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkles, IconStar } from "@tabler/icons-react";
 import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import { useState } from "react";
@@ -92,7 +92,7 @@ export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inv
                     <Stack gap={2} sx={{ px: 4, pb: 4 }}>
                         <Stack alignItems="center" gap={2}>
                             <Typography>Do you want to accept invite to this campsite?</Typography>
-                            <Group withMobile mobileDirection="column-reverse" gap={2}>
+                            <Group withMobileReversed gap={2}>
                                 <Button variant="plain" color="neutral" onClick={() => navigate("/")}>
                                     Deny invite
                                 </Button>

@@ -22,7 +22,6 @@ export default class PermissionsManager {
         this.tentList.subscribeToChanges(this.onNewTentList.bind(this));
     }
     private onNewTentList(value: GetTentsOutput | null) {
-        console.log("New value", value);
         for (const perm in this._tentToPermissions)
             delete this._tentToPermissions[perm];
 

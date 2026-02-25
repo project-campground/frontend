@@ -39,7 +39,7 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
         const { session } = this.context as CampsiteContextSuite;
 
         return session
-            .restClient!
+            .http
             .getBans(this.props.settingsProps.campsite.id, offset, limit)
             .then((resp) => {
                 if (!resp.ok)

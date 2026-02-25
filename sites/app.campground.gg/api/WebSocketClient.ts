@@ -1,7 +1,7 @@
 import { decodeSequence, encode } from "cbor2";
 import type { KeyValueEncoded } from "cbor2/sorts";
 import { stringify } from "uuid";
-import type RESTClient from "./RESTClient";
+import type HTTPClient from "./HTTPClient";
 import type { TypeToPayload } from "types/ws";
 
 type Config = {
@@ -62,7 +62,7 @@ export default class WebSocketClient {
     public unsubscribe(subscription: WebSocketSubscription) {
         this._subscriptions = this._subscriptions.filter((x) => x !== subscription);
     }
-    public initWithAuth(restClient: RESTClient) {
+    public initWithAuth(restClient: HTTPClient) {
         this._client.onopen = async () => {
             console.log("WS Open");
             const serviceAuth = await restClient.getServiceAuth({ lxm: "gg.campground.websocket.subscribe" });

@@ -1,5 +1,5 @@
 import { Alert, Box, Divider, Link, Skeleton, Stack, styled, Typography } from "@mui/joy";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import React from "react";
 import type { TentMessageViewBasic, TentMessageViewWithReplies } from "types/content";
 import type { TentViewDetailed } from "types/tent";
@@ -30,7 +30,7 @@ export type TextTentMessage = TentMessageViewWithReplies & { waiting?: true; err
 type State = {
     messages: TextTentMessage[];
     loading: boolean;
-    error: RestResponseError | null;
+    error: HttpResponseError | null;
     isEnd: boolean;
     deleteMessage: TentMessageViewWithReplies | null;
     replyMessages: TentMessageViewWithReplies[];
@@ -110,7 +110,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         const { tent } = this.props;
 
         return session
-            .restClient!
+            .http
             .getTentMessages(tent.id, offset)
             .then((resp) => {
                 if (!resp.ok)
@@ -164,7 +164,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         this.pseudoMessages.push(fakeMessage.id);
 
         return session
-            .restClient!
+            .http
             .createTentMessage(this.props.tent.id, { content, replies: replyMessages.map((x) => x.id) })
             .then((resp) => {
                 if (!resp.ok)
@@ -217,7 +217,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     
         this.setState({ deleteMessage: null });
 
-        return (this.context as ContextSuite).session.restClient
+        return (this.context as ContextSuite).session.http
             ?.deleteTentMessage(this.props.tent.id, messageDeleted.id)
             .then((resp) => {
                 if (!resp.ok)

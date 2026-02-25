@@ -6,7 +6,7 @@ import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
 import { CampsiteContextSuiteContext, CurrentTentContext, TentContext } from "./context";
 import type { BonfireViewBasic, CampsiteViewDetailed } from "types/campsites";
 import type { Session } from "~/context/session/types";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
 import type { NavigateFunction } from "react-router";
 import { PermissionsContext } from "~/context/permissions";
@@ -23,7 +23,7 @@ type State = {
     init: boolean;
     loading: boolean;
     campsite: CampsiteViewDetailed | null;
-    err: RestResponseError | null;
+    err: HttpResponseError | null;
     bonfireSelected: string | null;
     tentSelected: string | null;
 };
@@ -49,7 +49,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
     }
 
     async fetchCampsite() {
-        return (this.context as ContextSuite).session.restClient!
+        return (this.context as ContextSuite).session.http
             .getCampsite(this.props.campsiteId)
             .then((resp) => {
                 if (!resp.ok)

@@ -30,7 +30,7 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
     const callbacks: Record<CategorySettingsPage, (fieldValues: Record<string, any>) => unknown> = {
         profile: (fieldValues) =>
             session
-                .restClient!
+                .http
                 .updateCategory(props.category.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
@@ -41,7 +41,7 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
                 }),
         permissions: ({ roleId, userId, permissions }) =>
             session
-                .restClient
+                .http
                 .updatePermission({ role_id: roleId, actor: userId, category_id: props.categoryId }, { permissions })
                 .then((resp) => {
                     if (!resp.ok)

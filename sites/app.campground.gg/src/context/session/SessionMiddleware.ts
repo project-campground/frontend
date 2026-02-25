@@ -1,4 +1,4 @@
-import RESTClient from "api/RESTClient";
+import HTTPClient from "api/HTTPClient";
 import type { SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from "./types";
 import { defaultAppBackendUrl } from "api.config";
 
@@ -21,7 +21,7 @@ function getFromStorageOrDefault<T>(storage: Storage, key: string, _default: T) 
 export default class SessionMiddleware {
     auth: SessionAuth;
     settings: SessionSettings;
-    restClient: RESTClient;
+    restClient: HTTPClient;
 
     constructor(storage: Storage) {
         this.auth = getFromStorageOrDefault<SessionAuth>(storage, "auth", { authenticated: false });
@@ -34,7 +34,7 @@ export default class SessionMiddleware {
             storage.setItem("auth", JSON.stringify(this.auth));
         };
 
-        this.restClient = this.auth.authenticated ? new RESTClient({ auth: this.auth.user.accessJwt, refreshAuth: this.auth.user.refreshJwt, userDid: this.auth.user.did }, onRefresh) : new RESTClient({ url: defaultAppBackendUrl });
+        this.restClient = this.auth.authenticated ? new HTTPClient({ auth: this.auth.user.accessJwt, refreshAuth: this.auth.user.refreshJwt, userDid: this.auth.user.did }, onRefresh) : new HTTPClient({ url: defaultAppBackendUrl });
     }
 
     async fetchUserIfAuthed() {

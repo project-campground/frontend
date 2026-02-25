@@ -1,6 +1,6 @@
 import { Alert, Avatar, Box, Card, Sheet, Stack, Typography } from "@mui/joy";
 import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkles, IconStar, IconUsers } from "@tabler/icons-react";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import FadingBanner from "~/components/pages/FadingBanner";
@@ -11,10 +11,10 @@ import { useSession } from "~/context/session";
 export default function CampsiteCreation() {
     const session = useSession();
     const navigate = useNavigate();
-    const [error, setError] = useState<RestResponseError | null>(null);
+    const [error, setError] = useState<HttpResponseError | null>(null);
     const onSubmit = (_: any, fieldValues: Record<string, any>) =>
         session
-            .restClient
+            .http
             ?.createCampsite({ ...fieldValues, tags: [] as string[] } as { name: string; description: string; vanityUrl?: string; tags: string[]; })
             .then((resp) => {
                 if (!resp.ok)

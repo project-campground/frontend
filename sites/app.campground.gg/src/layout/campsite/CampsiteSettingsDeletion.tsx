@@ -16,7 +16,7 @@ export default function CampsiteSettingsDeletion({ settingsProps: { campsite } }
     const modalClose = useContext(CloseModalContext);
     const onDelete = () =>
         session
-            .restClient!
+            .http
             .deleteCampsite(campsite.id)
             .then((resp) => {
                 if (!resp.ok)

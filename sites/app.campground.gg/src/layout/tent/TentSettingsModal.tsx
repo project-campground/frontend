@@ -30,7 +30,7 @@ export default function TentSettingsModal(props: TentSettingsProps) {
     const callbacks: Record<TentSettingsPage, (fieldValues: Record<string, any>) => unknown> = {
         profile: (fieldValues) =>
             session
-                .restClient!
+                .http
                 .updateTent(props.tent.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
@@ -42,7 +42,7 @@ export default function TentSettingsModal(props: TentSettingsProps) {
                 }),
         permissions: ({ roleId, userId, permissions }) =>
             session
-                .restClient
+                .http
                 .updatePermission({ role_id: roleId, actor: userId, tent_id: props.tentId }, { permissions })
                 .then((resp) => {
                     if (!resp.ok)

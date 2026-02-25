@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import React from "react";
 import type { BonfireViewBasic, CampsiteViewDetailed } from "types/campsites";
@@ -31,7 +31,7 @@ type State = {
     menuOpen: MenuOption | null;
     bonfireSelected: BonfireViewBasic;
     loading: boolean;
-    error: RestResponseError | null;
+    error: HttpResponseError | null;
 };
 
 export const TentSidebarBox = styled(Stack, {
@@ -200,7 +200,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         this._lock = true;
         return (this.context as CampsiteContextSuite)
             .session
-            .restClient
+            .http
             .getTents(this.props.campsite.id, bonfireSelected.id)
             .then((x) => {
                 if (!x.ok)
@@ -236,7 +236,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         return (this.context as CampsiteContextSuite)
             .session
-            .restClient
+            .http
             .deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
             .then((resp) => {
                 if (!resp.ok)

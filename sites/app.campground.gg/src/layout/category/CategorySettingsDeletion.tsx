@@ -36,7 +36,7 @@ export default function CategorySettingsDeletion({ settingsProps: { category } }
             submitText="Confirm deletion"
             submitColor="danger"
             onSubmit={() => session
-                    .restClient
+                    .http
                     .deleteCategory(category.id)
                     .then((resp) => {
                         if (!resp.ok)

@@ -1,7 +1,7 @@
 import { defaultXrpcPrefix, defaultAppApiUrl, defaultBackendDomain } from "api.config";
-import type { RestResponseError, RestResponseOkWithContent, RestResponseWithContent } from "./RESTResponse";
+import type { HttpResponseError, HttpResponseOkWithContent, HttpResponseWithContent } from "./HTTPResponse";
 import type { ProfileView, ProfilePostViewBasic, ProfilePostViewDetailed, ProfilePostViewParented } from "types/user";
-import type { RESTRefreshLogin } from "./RESTErrorHandler";
+import type { HTTPRefreshLogin } from "./HTTPErrorHandler";
 import type { SessionAuthRefresh } from "~/context/session/types";
 import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
 import type { Me } from "types/me";
@@ -34,7 +34,7 @@ export interface RequestConfig {
     queries?: Record<string, QueryType | QueryType[]>;
 }
 
-export default class RESTClient {
+export default class HTTPClient {
     private static _default: RESTClientConfig = {
         url: defaultAppApiUrl,
         routePrefix: defaultXrpcPrefix,
@@ -45,10 +45,10 @@ export default class RESTClient {
     };
 
     private _config: RESTClientConfig;
-    private _onRefreshLogin?: RESTRefreshLogin;
+    private _onRefreshLogin?: HTTPRefreshLogin;
 
-    constructor(config: Partial<RESTClientConfig>, onRefreshLogin?: RESTRefreshLogin) {
-        this._config = { ...RESTClient._default, ...config };
+    constructor(config: Partial<RESTClientConfig>, onRefreshLogin?: HTTPRefreshLogin) {
+        this._config = { ...HTTPClient._default, ...config };
         this._onRefreshLogin = onRefreshLogin;
     }
 
@@ -62,7 +62,7 @@ export default class RESTClient {
     }
 
     public static login(auth: { identifier: string; password: string; }, requestConfig: Partial<RequestPrefixed> = {}) {
-        return RESTClient.atprotoFetch({
+        return HTTPClient.atprotoFetch({
             method: "POST",
             route: "com.atproto.server.createSession",
             body: auth,
@@ -71,7 +71,7 @@ export default class RESTClient {
     }
     
     public async refreshLogin(requestConfig: Partial<RequestPrefixed> = {}) {
-        const resp = await RESTClient.atprotoFetch<SessionAuthRefresh>({
+        const resp = await HTTPClient.atprotoFetch<SessionAuthRefresh>({
             method: "POST",
             route: "com.atproto.server.refreshSession",
             headers: {
@@ -104,7 +104,7 @@ export default class RESTClient {
         return new URLSearchParams(newValue);
     }
 
-    public static async atprotoFetch<T = any | null>(config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit; }): Promise<RestResponseWithContent<T>> {
+    public static async atprotoFetch<T = any | null>(config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit; }): Promise<HttpResponseWithContent<T>> {
         const { url, queries, routePrefix, route, method, body, request, headers } = { ...this._default, ...config };
 
         const queriesString = queries ? `?${this.convertObjectToQuery(queries)}` : ``;
@@ -122,14 +122,14 @@ export default class RESTClient {
         });
         const responseBody = response.body ? await response.json() : null;
         if (!response.ok)
-            return { ok: false, url: response.url, status: response.status, content: undefined, errorHeader: responseBody?.message ? responseBody.error : null, errorDescription: responseBody?.message ?? responseBody?.error ?? "Unknown error" } satisfies RestResponseError;
+            return { ok: false, url: response.url, status: response.status, content: undefined, errorHeader: responseBody?.message ? responseBody.error : null, errorDescription: responseBody?.message ?? responseBody?.error ?? "Unknown error" } satisfies HttpResponseError;
 
         else
-            return { ok: true, url: response.url, status: response.status, content: responseBody as T, errorHeader: undefined, errorDescription: undefined, } satisfies RestResponseOkWithContent<T>;
+            return { ok: true, url: response.url, status: response.status, content: responseBody as T, errorHeader: undefined, errorDescription: undefined, } satisfies HttpResponseOkWithContent<T>;
     }
     
     async fetch<T>({ method, body, queries, route, request }: RequestConfig) {
-        const doFetch = (auth: string | undefined) => RESTClient.atprotoFetch<T>({
+        const doFetch = (auth: string | undefined) => HTTPClient.atprotoFetch<T>({
             url: this._config.url,
             routePrefix: this._config.routePrefix,            
             body,

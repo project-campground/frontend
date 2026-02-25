@@ -31,7 +31,7 @@ export default function UserProfileCard({ did, user, member, campsiteRoles }: Pr
 
     useEffect(() => {
         async function fetchUser() {
-            const fetched = await session.restClient?.fetchProfile(did);
+            const fetched = await session.http.fetchProfile(did);
             setFetchedUser(fetched?.content!);
         }
         if (!user && !isFetching) {

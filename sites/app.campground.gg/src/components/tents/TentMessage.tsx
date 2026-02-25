@@ -86,7 +86,7 @@ export default function TentMessage({ unhoverable, waiting, error, onAuthorClick
     const onEdit = (content: string) => {
         setEditMode(false);
 
-        return session.restClient?.updateTentMessage(message.tentId, message.id, { content })
+        return session.http.updateTentMessage(message.tentId, message.id, { content })
             .then((resp) => {
                 if (!resp.ok)
                     return;

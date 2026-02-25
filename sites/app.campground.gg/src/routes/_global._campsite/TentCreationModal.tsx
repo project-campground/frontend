@@ -1,6 +1,6 @@
 import { Alert, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import { useState } from "react";
 import type { TentCategoryView, TentViewDetailed } from "types/tent";
 import Form from "~/components/form/Form";
@@ -19,10 +19,10 @@ type Props = {
 
 export default function TentCreationModal({ campsiteId, bonfireId, categoryId, onClose, lowestPriorityTent, lowestPriorityCategory }: Props) {
     const session = useSession();
-    const [error, setError] = useState<RestResponseError | null>(null);
+    const [error, setError] = useState<HttpResponseError | null>(null);
 
     const onTentCreate = (body: Record<string, any>): unknown =>
-        session.restClient
+        session.http
             ?.createTent(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, priority: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; priority: number; })
             .then((r) => {
                 if (!r.ok)
@@ -31,7 +31,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                 return onClose();
             });
     const onCategoryCreate = (name: string, description: string): unknown =>
-        session.restClient
+        session.http
             ?.createCategory(campsiteId, bonfireId, { name, description, priority: lowestPriorityCategory + 1 } as { name: string; description: string; priority: number; })
             .then((r) => {
                 if (!r.ok)

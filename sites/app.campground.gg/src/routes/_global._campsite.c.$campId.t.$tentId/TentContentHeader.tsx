@@ -17,7 +17,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
     const floating = useContext(SnackbarContext);
 
     const onDelete = () => session
-        .restClient
+        .http
         ?.deleteTent(tent.id)
         .then((resp) => {
             if (!resp.ok)

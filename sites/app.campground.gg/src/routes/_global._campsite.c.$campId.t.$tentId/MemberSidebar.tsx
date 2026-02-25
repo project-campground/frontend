@@ -1,6 +1,6 @@
 import { Stack, styled, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import React from "react";
 import type { TentViewDetailed } from "types/tent";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
@@ -20,7 +20,7 @@ type Props = {
 type State = {
     loading: boolean;
     end: boolean;
-    error: RestResponseError | null;
+    error: HttpResponseError | null;
     tab: number;
     members: CampsiteMemberViewBasic[];
 };
@@ -98,7 +98,7 @@ export default class MemberSidebar extends React.Component<Props, State, Session
             });
     }
     async fetchMembers(offset: number) {
-        return (this.context as Session).restClient!.getMembers(this.props.campsiteId, offset);
+        return (this.context as Session).http.getMembers(this.props.campsiteId, offset);
     }
     render(): React.ReactNode {
         const { closed, tent, children } = this.props;

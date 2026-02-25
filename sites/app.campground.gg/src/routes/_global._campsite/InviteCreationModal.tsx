@@ -16,7 +16,7 @@ export default function InviteCreationModal({ campsiteId }: Props) {
     let values: FormValue = { allowedAmount: null };
 
     const onInviteCreate = (): Promise<string> =>
-        session.restClient
+        session.http
             .createInvite(campsiteId, values)
             .then((resp) => {
                 if (!resp.ok)

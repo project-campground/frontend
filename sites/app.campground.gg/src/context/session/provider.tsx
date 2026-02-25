@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import type { AuthCredentials, SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from './types';
-import RESTClient from 'api/RESTClient';
+import HTTPClient from 'api/HTTPClient';
 import { useNavigate } from 'react-router';
 import { defaultAppBackendUrl } from 'api.config';
 import { SessionContext } from '.';
@@ -16,8 +16,8 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
         setAuth({ authenticated: true, user: { ...refresh, email: (auth as SessionAuthed).user?.email, emailConfirmed: (auth as SessionAuthed).user?.emailConfirmed } });
     const restClient = useMemo(() =>
         auth.authenticated
-        ? new RESTClient({ auth: auth.user.accessJwt, refreshAuth: auth.user.refreshJwt, userDid: auth.user.did }, refreshLogin)
-        : new RESTClient({ url: defaultAppBackendUrl })
+        ? new HTTPClient({ auth: auth.user.accessJwt, refreshAuth: auth.user.refreshJwt, userDid: auth.user.did }, refreshLogin)
+        : new HTTPClient({ url: defaultAppBackendUrl })
     , [auth]);
 
     const setAuth = (value: SessionAuth) => {
@@ -31,7 +31,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
     const login = async (details: AuthCredentials) =>
     {
-        const data = await RESTClient.login(details); 
+        const data = await HTTPClient.login(details); 
     
         if (data.ok)
         {

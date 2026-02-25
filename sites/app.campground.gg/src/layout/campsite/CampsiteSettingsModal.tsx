@@ -32,7 +32,7 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
     const callbacks: Record<Page, (fieldValues: Record<string, any>) => unknown> = {
         profile: (fieldValues) =>
             session
-                .restClient!
+                .http
                 .updateCampsite(props.campsite.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
@@ -48,7 +48,7 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
                     return updateCampsite(resp.content);
                 }),
         roles: ({ id, ...fieldValues }) =>
-            session.restClient?.updateRole(props.campsite.id, id as string, fieldValues)
+            session.http.updateRole(props.campsite.id, id as string, fieldValues)
                 .then((resp) => {
                     if (!resp.ok)
                         return snackbars.notifyApiError(resp);

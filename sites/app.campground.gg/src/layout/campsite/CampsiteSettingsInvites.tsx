@@ -40,7 +40,7 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
         const { session } = this.context as CampsiteContextSuite;
 
         return session
-            .restClient!
+            .http
             .getInvites(this.props.settingsProps.campsite.id, offset, limit)
             .then((resp) => {
                 if (!resp.ok)

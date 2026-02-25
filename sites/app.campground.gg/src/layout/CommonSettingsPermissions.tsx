@@ -42,7 +42,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
     const [openPermission, setOpenPermission] = useState<CampsitePermissionViewSettings>(null!);
     useMemo(() => {
         session
-            .restClient
+            .http
             .getPermissions({ non_self: true, tent_id: tentId, bonfire_id: bonfireId, category_id: categoryId } as ({ bonfire_id: string } | { tent_id: string } | { category_id: string }))
             .then((resp) => {
                 if (!resp.ok)

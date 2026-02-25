@@ -40,7 +40,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
             this.onWsMessage(msg.t, msg.payload)
         );
 
-        return session.restClient!
+        return session.http
             .getMe()
             .then((resp) => {
                 if (!resp.ok) {

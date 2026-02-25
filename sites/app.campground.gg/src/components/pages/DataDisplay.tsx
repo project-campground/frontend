@@ -3,7 +3,7 @@ import DataTable, { type DataTableProps } from "./DataTable";
 import { Box, Button, ButtonGroup, Dropdown, IconButton, Input, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Skeleton, Stack, styled, Typography, type ColorPaletteProp, type VariantProp } from "@mui/joy";
 import { Group, loremIpsum } from "components";
 import { IconAdjustmentsFilled, IconCaretLeftFilled, IconCaretRightFilled, IconDots, IconSearch } from "@tabler/icons-react";
-import type { RestResponseWithContent } from "api/RESTResponse";
+import type { HttpResponseWithContent } from "api/HTTPResponse";
 import type { TypeToPayload } from "types/ws";
 import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
 import type { WebSocketSubscription } from "api/WebSocketClient";
@@ -15,7 +15,7 @@ type Props<T> = Omit<DataTableProps<T>, "values" | "selected"> & Omit<DataCardSt
     itemsPerPage: number;
     maxItems: number | null;
     individuallyManaged?: boolean;
-    fetch: (offset: number, limit: number) => Promise<RestResponseWithContent<T[]>>;
+    fetch: (offset: number, limit: number) => Promise<HttpResponseWithContent<T[]>>;
     menu?: Array<{
         startDecorator?: ReactNode[] | ReactNode;
         content: ReactNode[] | ReactNode;

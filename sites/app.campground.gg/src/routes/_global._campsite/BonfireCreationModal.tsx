@@ -14,7 +14,7 @@ export default function BonfireCreationModal({ campsiteId, onClose, lowestPriori
     const snackbars = useSnackbars();
 
     const onBonfireCreate = (body: Record<string, any>): unknown =>
-        session.restClient
+        session.http
             ?.createBonfire(campsiteId, { ...body, priority: lowestPriorityBonfire + 1 } as { name: string; description: string; priority: number; })
             .then((resp) => {
                 if (!resp.ok)

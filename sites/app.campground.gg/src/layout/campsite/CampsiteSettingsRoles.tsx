@@ -11,7 +11,7 @@ import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import { DndContext } from "@dnd-kit/core";
 import ContentDeleteModal from "../ContentDeleteModal";
-import type { RestResponseWithContent } from "api/RESTResponse";
+import type { HttpResponseWithContent } from "api/HTTPResponse";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import TentMessage from "~/components/tents/TentMessage";
 
@@ -28,7 +28,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
     const snackbars = useSnackbars();
     const createNewRole = () =>
         session
-            .restClient!
+            .http
             .createRole(campsite.id, {
                 name: "New role",
                 color: 0,
@@ -54,7 +54,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
         // Move a single role, because it is at the top or there is space between priorities that the role can be nudged to
         if (!movedToIndex || Math.abs(roles[movedToIndex - 1].priority - roles[movedToIndex].priority) > 1)
             return session
-                .restClient!
+                .http
                 .moveRoles(campsite.id, {
                     roleByPriority: { [roleMoved]: roles[movedToIndex]!.priority - 1 },
                 })
@@ -68,13 +68,13 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
         const newPriorities = Object.assign(Object.fromEntries(rolesToAdditionallyMove), { [roleMoved]: newPriority });
 
         return session
-            .restClient!
+            .http
             .moveRoles(campsite.id, {
                 roleByPriority: newPriorities,
             })
             .then(onRolesMoved);
     }
-    const onRolesMoved = (updatedRoles: RestResponseWithContent<GetRolesOutput>) => {
+    const onRolesMoved = (updatedRoles: HttpResponseWithContent<GetRolesOutput>) => {
         if (!updatedRoles.ok)
             return snackbars.notifyApiError(updatedRoles);
         const updatedRoleIds = updatedRoles.content.roles.map((x) => x.id);
@@ -86,7 +86,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
         const roleIndex = roles.indexOf(roleToDelete);
 
         return session
-            .restClient!
+            .http
             .deleteRole(campsite.id, roleToDelete.id)
             .then((resp) => {
                 if (!resp.ok)

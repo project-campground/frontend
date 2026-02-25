@@ -1,6 +1,6 @@
 import { Alert, AspectRatio, Avatar, Box, Button, Card, Chip, Sheet, Stack, Typography } from "@mui/joy";
 import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkles, IconStar, IconUsers } from "@tabler/icons-react";
-import type { RestResponseError } from "api/RESTResponse";
+import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -12,10 +12,10 @@ import { useSession } from "~/context/session";
 export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inviteId: string; invite: CampsiteInviteViewDetailed; }) {
     const session = useSession();
     const navigate = useNavigate();
-    const [error, setError] = useState<RestResponseError | null>(null);
+    const [error, setError] = useState<HttpResponseError | null>(null);
     const onAccept = () =>
         session
-            .restClient
+            .http
             ?.useInvite(inviteId)
             .then((resp) => {
                 if (!resp.ok)

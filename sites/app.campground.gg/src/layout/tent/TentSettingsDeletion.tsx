@@ -36,7 +36,7 @@ export default function TentSettingsDeletion({ settingsProps: { tent } }: Settin
             submitText="Confirm deletion"
             submitColor="danger"
             onSubmit={() => session
-                    .restClient
+                    .http
                     .deleteTent(tent.id)
                     .then((resp) => {
                         if (!resp.ok)

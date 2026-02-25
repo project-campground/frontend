@@ -17,7 +17,7 @@ export interface RequestPrefixed {
     url: string;
     routePrefix: string;
 }
-export interface RESTClientConfig extends RequestPrefixed {
+export interface HTTPClientConfig extends RequestPrefixed {
     atprotoProxy: string;
     auth?: string;
     refreshAuth?: string;
@@ -35,7 +35,7 @@ export interface RequestConfig {
 }
 
 export default class HTTPClient {
-    private static _default: RESTClientConfig = {
+    private static _default: HTTPClientConfig = {
         url: defaultAppApiUrl,
         routePrefix: defaultXrpcPrefix,
         // auth: `...`,
@@ -44,10 +44,10 @@ export default class HTTPClient {
         atprotoProxy: `did:web:${defaultBackendDomain.replace(":", "%3A")}#campground_appview`
     };
 
-    private _config: RESTClientConfig;
+    private _config: HTTPClientConfig;
     private _onRefreshLogin?: HTTPRefreshLogin;
 
-    constructor(config: Partial<RESTClientConfig>, onRefreshLogin?: HTTPRefreshLogin) {
+    constructor(config: Partial<HTTPClientConfig>, onRefreshLogin?: HTTPRefreshLogin) {
         this._config = { ...HTTPClient._default, ...config };
         this._onRefreshLogin = onRefreshLogin;
     }

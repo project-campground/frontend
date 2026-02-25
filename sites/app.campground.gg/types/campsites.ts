@@ -1,3 +1,4 @@
+import type { PermissionsDictionary, PermissionsStateDictionary } from "./permissions";
 import type { TentCategoryView, TentViewBasic } from "./tent";
 import type { ProfileView, ProfileViewBasic, ProfileViewDetailed } from "./user";
 
@@ -29,8 +30,7 @@ export interface CampsiteRoleView {
     name: string;
     displaySeparately: boolean;
     mentionable: boolean;
-    campsitePermissions: number;
-    tentPermissions: number;
+    permissions: PermissionsDictionary;
     priority: number;
     color: number;
     colorSecondary: number;
@@ -51,10 +51,7 @@ export interface CampsitePermissionView {
     userId?: string;
     roleId?: string;
 
-    allowedCampsitePermissions: number;
-    allowedTentPermissions: number;
-    deniedCampsitePermissions: number;
-    deniedTentPermissions: number;
+    permissions: PermissionsStateDictionary;
 
     createdAt: string;
     createdBy: string;
@@ -109,4 +106,7 @@ export interface GetMembersDetailedOutput {
 }
 export interface GetRolesOutput {
     roles: CampsiteRoleView[];
+}
+export interface GetPermissionsOutput {
+    permissions: CampsitePermissionView[];
 }

@@ -1,68 +1,73 @@
 import { IconLayoutBoardFilled, IconListCheck, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
-import type { BonfireViewBasic } from "types/campsites";
 import SettingsModal, { type SettingsComponentProps } from "../SettingsModal";
 import { useSession } from "~/context/session";
-import BonfireSettingsProfile from "./BonfireSettingsProfile";
-import BonfireSettingsDeletion from "./BonfireSettingsDeletion";
-import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { useSnackbars } from "~/context/snackbar";
+import type { PageSidebarSection } from "~/components/pages/PageSidebar";
+import type React from "react";
+import type { TentViewBasic } from "types/tent";
+import TentSettingsProfile from "./TentSettingsProfile";
+import TentSettingsDeletion from "./TentSettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
+import type PermissionsManager from "~/context/permissions/PermissionsManager";
 
-export type BonfireSettingsPage = "profile" | "permissions" | "delete";
-const settingsPages: Record<BonfireSettingsPage, (props: SettingsComponentProps<BonfireSettingsProps>) => ReactNode | ReactNode[]> = {
-    profile: BonfireSettingsProfile,
+export type TentSettingsPage = "profile" | "permissions" | "delete";
+const settingsPages: Record<TentSettingsPage, typeof React.Component | ((props: SettingsComponentProps<TentSettingsProps>) => ReactNode | ReactNode[])> = {
+    profile: TentSettingsProfile,
     permissions: CommonSettingsPermissions,
-    delete: BonfireSettingsDeletion,
+    delete: TentSettingsDeletion,
 };
 
-export type BonfireSettingsProps = {
-    defaultPage?: BonfireSettingsPage;
-    bonfireId: string;
-    bonfire: BonfireViewBasic;
-    canDeleteBonfire: boolean;
+export type TentSettingsProps = {
+    defaultPage?: TentSettingsPage;
+    tentId: string;
+    tent: TentViewBasic;
     permissions: PermissionsManager;
-    onBonfireDeleted: () => unknown;
-}
+};
 
-export default function BonfireSettingsModal(props: BonfireSettingsProps) {
+export default function TentSettingsModal(props: TentSettingsProps) {
     const session = useSession();
     const snackbars = useSnackbars();
-    const callbacks: Record<BonfireSettingsPage, (fieldValues: Record<string, any>) => unknown> = {
-        profile: (fieldValues) => (console.log(fieldValues), session.restClient?.updateBonfire(props.bonfire.campsiteId, props.bonfire.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", bannerUri: fieldValues.bannerUri ?? "" })),
+    const callbacks: Record<TentSettingsPage, (fieldValues: Record<string, any>) => unknown> = {
+        profile: (fieldValues) =>
+            session
+                .restClient!
+                .updateTent(props.tent.id, {
+                    name: fieldValues.name,
+                    description: fieldValues.description,
+                    viewType: fieldValues.viewType,
+                })
+                .then((resp) => {
+                    if (!resp.ok)
+                        return snackbars.notifyApiError(resp);
+                }),
         permissions: ({ roleId, userId, permissions }) =>
             session
                 .restClient
-                .updatePermission({ role_id: roleId, actor: userId, bonfire_id: props.bonfireId }, { permissions })
+                .updatePermission({ role_id: roleId, actor: userId, tent_id: props.tentId }, { permissions })
                 .then((resp) => {
                     if (!resp.ok)
                         return snackbars.notifyApiError(resp);
                 }),
         delete: () => null,
-    };
+    }
 
     return (
-        <SettingsModal<BonfireSettingsPage, BonfireSettingsProps>
-            header="Bonfire Settings"
+        <SettingsModal<TentSettingsPage, TentSettingsProps>
+            header="Tent Settings"
             settingsProps={props}
             settingsPages={settingsPages}
-            defaultPage="profile"
+            defaultPage={props.defaultPage ?? "profile"}
             onSubmit={async (page, values) => callbacks[page](values)}
             sections={[
                 {
                     id: "overview",
-                    header: props.bonfire.name,
+                    header: props.tent.name,
                     items: [
                         {
                             id: "profile",
-                            name: "Bonfire profile",
+                            name: "Tent profile",
                             startDecorator: <IconLayoutBoardFilled />
                         },
-                    ]
-                },
-                {
-                    id: "roles",
-                    header: "Roles",
-                    items: [
                         {
                             id: "permissions",
                             name: "Permissions",
@@ -76,12 +81,12 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
                     items: [
                         {
                             id: "delete",
-                            name: "Delete bonfire",
+                            name: "Delete tent",
                             color: "danger",
                             startDecorator: <IconTrashFilled />
                         }
                     ]
                 },
-            ]} />
+            ].filter(Boolean) as PageSidebarSection[]} />
     )
 }

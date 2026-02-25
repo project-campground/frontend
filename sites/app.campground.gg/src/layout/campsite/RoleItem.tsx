@@ -5,7 +5,7 @@ import { GradientTypography } from "components";
 import type { CampsiteRoleView } from "types/campsites";
 import { getColorFromSet } from "~/util/color";
 
-const RoleButton = styled(Button, {
+export const RoleButton = styled(Button, {
     name: "RoleItem",
     slot: "root",
 })<{ colors?: string[]; }>(({ theme, colors, }) => ({

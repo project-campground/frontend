@@ -17,7 +17,7 @@ type State = {
 
 export default class FormFieldTristate extends AbstractFormField<"tristate", TristateValue, FormFieldTristateProps, State> {
     constructor(props: FormFieldTristateProps) {
-        super(props);
+        super(props, "pass");
         this.state = { value: props.defaultValue ?? "pass" };
     }
 

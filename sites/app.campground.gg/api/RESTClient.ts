@@ -5,7 +5,7 @@ import type { RESTRefreshLogin } from "./RESTErrorHandler";
 import type { SessionAuthRefresh } from "~/context/session/types";
 import type { AtprotoRecord, AtprotoValueBase, GetRecordListResponse, PutRecordResponse } from "types/record";
 import type { Me } from "types/me";
-import type { BonfireViewBasic, BonfireViewDetailed, CampsiteMemberViewDetailed, CampsitePermissionView, CampsiteRoleView, CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersDetailedOutput, GetMembersOutput, GetRolesOutput } from "types/campsites";
+import type { BonfireViewBasic, BonfireViewDetailed, CampsiteMemberViewDetailed, CampsitePermissionView, CampsiteRoleView, CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput, GetMembersDetailedOutput, GetMembersOutput, GetPermissionsOutput, GetRolesOutput } from "types/campsites";
 import type { GetTentsOutput, TentCategoryView, TentViewDetailed } from "types/tent";
 import type { GetTentMessagesOutput, TentMessageViewBasic } from "types/content";
 import type { CampsiteBanView, CampsiteInviteViewBasic, CampsiteInviteViewDetailed, GetBansOutput, GetInvitesOutput } from "types/membership";
@@ -610,9 +610,17 @@ export default class RESTClient {
         });
     }
 
-    updatePermission(queries: ({ tent_id: string; } | { category_id: string; } | { bonfire_id: string; }) & ({ role_id: string; } | { actor: string; }), body: Pick<CampsitePermissionView, "allowedCampsitePermissions" | "allowedTentPermissions" | "deniedCampsitePermissions" | "deniedTentPermissions">) {
+    getPermissions(queries: ({ tent_id: string; } | { category_id: string; } | { bonfire_id: string; }) & { non_self?: boolean }) {
+        console.log(queries);
+        return this.get<GetPermissionsOutput>({
+            route: "gg.campground.permission.getPermissions",
+            queries,
+        });
+    }
+
+    updatePermission(queries: ({ tent_id: string; } | { category_id: string; } | { bonfire_id: string; }) & ({ role_id: string; } | { actor: string; }), body: Pick<CampsitePermissionView, "permissions">) {
         return this.post<CampsitePermissionView>({
-            route: "gg.campground.membership.updatePermission",
+            route: "gg.campground.permission.updatePermission",
             queries,
             body,
         });

@@ -9,9 +9,10 @@ import type { Session } from "~/context/session/types";
 import type { RestResponseError } from "api/RESTResponse";
 import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
 import type { NavigateFunction } from "react-router";
-import { getPermissionsContextValue, ownerPermissions, PermissionsContext } from "~/context/permissions";
+import { PermissionsContext } from "~/context/permissions";
 import type { WebSocketSubscription } from "api/WebSocketClient";
 import type { TypeToPayload } from "types/ws";
+import PermissionsManager from "~/context/permissions/PermissionsManager";
 
 type Props = {
     campsiteId: string;
@@ -28,7 +29,8 @@ type State = {
 };
 
 export default class CampsiteLayout extends React.Component<Props, State, Session> {
-    currentTent: CurrentTentContext;
+    private _currentTent: CurrentTentContext;
+    private _permissionsManager: PermissionsManager = null!;
     static contextType?: React.Context<any> | undefined = ContextSuiteContext;
     _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
     private _init: boolean = false;
@@ -39,12 +41,13 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         // tentSidebarOpen false by default, so it wouldn't be auto-open on mobile
         this.state = { err: null, campsite: null, init: false, loading: true, bonfireSelected: null, tentSelected: null };
 
-        this.currentTent = new CurrentTentContext(null);
-        this.currentTent.subscribeToChanges((newValue) =>
+        this._currentTent = new CurrentTentContext(null);
+        this._currentTent.subscribeToChanges((newValue) =>
             this.setState({ bonfireSelected: newValue?.bonfireId ?? null, tentSelected: newValue?.id ?? null })
         );
         this._updateCampsiteDataBind = this.updateCampsiteData.bind(this);
     }
+
     async fetchCampsite() {
         return (this.context as ContextSuite).session.restClient!
             .getCampsite(this.props.campsiteId)
@@ -52,6 +55,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
                 if (!resp.ok)
                     return this.setState({ err: resp });
                 this.sortCampsiteRoles(resp.content);
+                this._permissionsManager = new PermissionsManager(resp.content);
                 return this.setState({ err: null, campsite: resp.content, init: true, loading: false });
             });
     }
@@ -142,9 +146,9 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
 
         return (
             <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} gap={1}>
-                <TentContext.Provider value={this.currentTent}>
-                    <CampsiteContextSuiteContext.Provider value={{ ...context, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
-                        <PermissionsContext.Provider value={this.currentTent.value ? getPermissionsContextValue(campsite!, this.currentTent.value.permissions) : ownerPermissions}>
+                <TentContext.Provider value={this._currentTent}>
+                    <PermissionsContext.Provider value={this._permissionsManager}>
+                        <CampsiteContextSuiteContext.Provider value={{ ...context, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
                             <Box>
                                 <TentSidebar
                                     campsite={campsite!}
@@ -154,8 +158,8 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
                                 />
                             </Box>
                             {children}
-                        </PermissionsContext.Provider>
-                    </CampsiteContextSuiteContext.Provider>
+                        </CampsiteContextSuiteContext.Provider>
+                    </PermissionsContext.Provider>
                 </TentContext.Provider>
             </Group>
         );

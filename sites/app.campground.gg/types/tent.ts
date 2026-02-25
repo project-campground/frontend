@@ -21,7 +21,6 @@ export type TentType = "text";
 export interface TentViewBasic extends TentView {
 }
 export interface TentViewDetailed extends TentView {
-    permissions: CampsitePermissionView[];
 }
 export interface TentCategoryView {
     id: string;
@@ -41,4 +40,5 @@ export interface TentCategoryView {
 export interface GetTentsOutput {
     tents: TentViewBasic[];
     categories: TentCategoryView[];
+    permissions: CampsitePermissionView[];
 }

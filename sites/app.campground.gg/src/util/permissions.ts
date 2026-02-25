@@ -1,87 +1,75 @@
 import type { CampsiteMemberViewBasic, CampsitePermissionView, CampsiteRoleView } from "types/campsites";
+import type { PermissionsDictionary, PermissionsStateDictionary } from "types/permissions";
+import { mapLookup, toLookup } from "./array";
 
-export const sortPermissionsByLevel = (a: CampsitePermissionView, b: CampsitePermissionView) =>
-    getPermissionLevel(a) - getPermissionLevel(b);
-export const getPermissionLevel = (a: CampsitePermissionView) =>
-    a.bonfireId ? 1 : a.categoryId ? 2 : 3;
-const permissionKeys: (keyof CampsitePermissionView)[] = ["allowedCampsitePermissions", "allowedTentPermissions", "deniedCampsitePermissions", "deniedTentPermissions"]; 
-const roleKeys: (keyof CampsiteRoleView)[] = ["campsitePermissions", "tentPermissions"]; 
-export const aggregateAnyPermissions = <TType, TKey extends keyof TType>(keys: TKey[], values: TType[], defaultValues: Record<TKey, number>,) =>
+// To make it easier to edit later if it goes beyond ("allowed" and "denied") or ("campsite" and "tent")
+const permissionStateKeys: (keyof PermissionsStateDictionary)[] = ["allowed", "denied"]; 
+const permissionDictionaryKeys: (keyof PermissionsDictionary)[] = ["campsite", "tent"];
+
+export const applyNestedPermissions = (ancestor: PermissionsDictionary, current: PermissionsStateDictionary): PermissionsDictionary =>
+    ({
+        campsite: (ancestor.campsite & invertCampsitePermission(current.denied.campsite)) | current.allowed.campsite,
+        tent: (ancestor.tent & invertTentPermission(current.denied.tent)) | current.allowed.tent,
+    });
+export const aggregateAnyPermissions = (values: PermissionsDictionary[]) =>
     values.reduce((val, perm) => {
-        for (const key of keys)
+        for (const key of permissionDictionaryKeys)
             val[key] |= perm[key] as number;
         return val;
-    }, defaultValues);
-export const aggregateCampsitePermissions = (permissions: CampsitePermissionView[]) =>
-    aggregateAnyPermissions<CampsitePermissionView, typeof permissionKeys[number]>(
-        permissionKeys,
-        permissions,
-        {
-            allowedTentPermissions: 0,
-            allowedCampsitePermissions: 0,
-            deniedTentPermissions: 0,
-            deniedCampsitePermissions: 0,
-        } as Record<typeof permissionKeys[number], number>,
-    );
+    }, { tent: 0, campsite: 0 });
 export const aggregateRolePermissions = (roles: CampsiteRoleView[]) =>
-    aggregateAnyPermissions<CampsiteRoleView, typeof roleKeys[number]>(
-        roleKeys,
-        roles,
-        {
-            campsitePermissions: 0,
-            tentPermissions: 0,
-        } as Record<typeof roleKeys[number], number>,
+    aggregateAnyPermissions(
+        roles.map((x) => x.permissions),
     );
-export const aggregateAllPermissions = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[], permissions: CampsitePermissionView[]) => {
-    const { campsitePermissions: campsiteRolePermissions, tentPermissions: tentRolePermissions } = aggregateRolePermissions(
+export const aggregateCampsitePermissions = (permissions: CampsitePermissionView[]) =>
+    Object.fromEntries(
+        permissionStateKeys.map((state) =>
+            [
+                state,
+                aggregateAnyPermissions(
+                    permissions.map((perm) => perm.permissions[state])
+                )
+            ]
+        )
+    ) as unknown as PermissionsStateDictionary;
+export type AggregatedPermissions = {
+    role: PermissionsDictionary;
+    bonfire: PermissionsDictionary;
+    categories: Record<string, PermissionsDictionary>;
+    tents: Record<string, PermissionsStateDictionary>;
+};
+export const aggregateAllPermissions = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[], permissions: CampsitePermissionView[]): AggregatedPermissions => {
+    const rolePerms = aggregateRolePermissions(
         roles
             .filter((x) => member.roles.includes(x.id))
     );
 
     const filteredPerms = permissions.filter((x) => x.userId || x.roleId && member.roles.includes(x.roleId));
-    const bonfirePerms = aggregateCampsitePermissions(filteredPerms.filter((x) => x.bonfireId));
-    const categoryPerms = aggregateCampsitePermissions(filteredPerms.filter((x) => x.categoryId));
-    const tentPerms = aggregateCampsitePermissions(filteredPerms.filter((x) => x.tentId));
+    const bonfirePermsAggregated = aggregateCampsitePermissions(filteredPerms.filter((x) => (x.categoryId ?? x.tentId ?? null) === null));
+    const bonfirePerms = applyNestedPermissions(rolePerms, bonfirePermsAggregated);
+
+    const categoryPerms = mapLookup(
+        toLookup(filteredPerms.filter((x) => x.categoryId), (perm) => perm.categoryId!),
+        (_, value) =>
+            applyNestedPermissions(bonfirePerms, aggregateCampsitePermissions(value))
+    );
+    const tentPerms = mapLookup(
+        toLookup(filteredPerms.filter((x) => x.tentId), (perm) => perm.tentId!),
+        (_, value) =>
+            aggregateCampsitePermissions(value)
+    );
 
     return {
-        role: {
-            campsitePermissions: campsiteRolePermissions,
-            tentPermissions: tentRolePermissions,
-        },
-        bonfire: {
-            campsitePermissions:
-                (campsiteRolePermissions & invertCampsite(bonfirePerms.deniedCampsitePermissions)) |
-                bonfirePerms.allowedCampsitePermissions,
-            tentPermissions:
-                (tentRolePermissions & invertTent(bonfirePerms.deniedTentPermissions)) |
-                bonfirePerms.allowedTentPermissions
-        },
-        tent: {
-            campsitePermissions:
-                (campsiteRolePermissions & invertCampsite(bonfirePerms.deniedCampsitePermissions)) |
-                (bonfirePerms.allowedCampsitePermissions & invertCampsite(categoryPerms.deniedCampsitePermissions)) |
-                (categoryPerms.allowedCampsitePermissions & invertCampsite(tentPerms.deniedCampsitePermissions)) |
-                tentPerms.allowedCampsitePermissions,
-            tentPermissions:
-                (tentRolePermissions & invertTent(bonfirePerms.deniedTentPermissions)) |
-                (bonfirePerms.allowedTentPermissions & invertTent(categoryPerms.deniedTentPermissions)) |
-                (categoryPerms.allowedTentPermissions & invertTent(tentPerms.deniedTentPermissions)) |
-                tentPerms.allowedTentPermissions,
-        }
+        role: rolePerms,
+        bonfire: bonfirePerms,
+        categories: categoryPerms,
+        tents: tentPerms
     };
 }
-const invertCampsite = (a: number) => CampsitePermissionConsts.MAX - a;
-const invertTent = (a: number) => TentPermissionConsts.MAX - a;
-export type AggregateCampsitePermissions = {
-    allowedTentPermissions: number,
-    allowedCampsitePermissions: number,
-    deniedTentPermissions: number,
-    deniedCampsitePermissions: number,
-};
-export type AggregatePermissions = {
-    tentPermissions: number,
-    campsitePermissions: number,
-};
+export const invertTentPermission = (permission: number) =>
+    TentPermissionConsts.MAX - permission;
+export const invertCampsitePermission = (permission: number) =>
+    TentPermissionConsts.MAX - permission;
 export const TentPermissionConsts = {
     VIEW_CONTENT: 0b1,
     CREATE_CONTENT: 0b10,
@@ -106,3 +94,11 @@ export const CampsitePermissionConsts = {
     MANAGE_INVITES: 0b100000000000,
     MAX: 0b1111111111,
 } as const;
+export const maxPermissions: PermissionsDictionary = {
+    campsite: CampsitePermissionConsts.MAX,
+    tent: TentPermissionConsts.MAX,
+};
+export const nullPermissions: PermissionsDictionary = {
+    campsite: 0,
+    tent: 0,
+};

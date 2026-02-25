@@ -7,7 +7,6 @@ import type { BonfireViewBasic, CampsiteViewDetailed } from "types/campsites";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic } from "types/tent";
 import FadingBanner from "~/components/pages/FadingBanner";
 import GradientBanner from "~/components/pages/GradientBanner";
-import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import TentList, { TentStyledList } from "./TentList";
 import BonfireListMenu from "./BonfireListMenu";
@@ -19,6 +18,7 @@ import { type NavigateFunction } from "react-router";
 import type { WebSocketSubscription } from "api/WebSocketClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "./InviteCreationModal";
+import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -85,7 +85,7 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
 }));
 
 export default class TentSidebar extends React.Component<Props, State, Session> {
-    static contextType?: React.Context<any> | undefined = SessionContext;
+    static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
     bonfiresToTents: Record<string, GetTentsOutput> = {};
     private _lock: boolean = false;
     private _initLock: boolean = false;
@@ -118,7 +118,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         this._initLock = true;
 
-        const session = this.context as Session;
+        const { session } = this.context as CampsiteContextSuite;
         this._wsSubscription = session
             .webSocket
             .subscribe((msg) =>
@@ -132,16 +132,28 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             return;
 
         switch (eventType) {
+            case "BonfireDeleted":
+                this.bonfires = this.bonfires.filter((x) => x.id !== this.state.bonfireSelected.id);
+
+                delete this.bonfiresToTents[(payload as BonfireViewBasic).id];
+
+                if (this.bonfireSelected.id !== (payload as BonfireViewBasic).id)
+                    return;
+
+                const cached = Object.keys(this.bonfiresToTents);
+
+                this.props.navigate(`/c/${this.props.campsite.id}/t/${cached.length ? this.bonfiresToTents[cached[0]].tents[0].id : `bulletin`}`);
+                break;
             case "TentCreated":
                 bonfireToTents.tents.push(payload as TentViewBasic);
                 break;
             case "TentMoved":
             case "TentUpdated":
-                const tentModified = bonfireToTents.tents.findIndex((x) => x.id === payload.id);
+                const tentModified = bonfireToTents.tents.findIndex((x) => x.id === (payload as TentViewBasic).id);
                 bonfireToTents.tents[tentModified] = payload as TentViewBasic;
                 break;
             case "TentDeleted":
-                const tentDeleted = bonfireToTents.tents.findIndex((x) => x.id === payload.id);
+                const tentDeleted = bonfireToTents.tents.findIndex((x) => x.id === (payload as TentViewBasic).id);
                 bonfireToTents.tents.splice(tentDeleted, 1);
                 break;
             case "CategoryCreated":
@@ -149,11 +161,11 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 break;
             case "CategoryMoved":
             case "CategoryUpdated":
-                const categoryModified = bonfireToTents.categories.findIndex((x) => x.id === payload.id);
+                const categoryModified = bonfireToTents.categories.findIndex((x) => x.id === (payload as TentCategoryView).id);
                 bonfireToTents.categories[categoryModified] = payload as TentViewBasic;
                 break;
             case "CategoryDeleted":
-                const categoryDeleted = bonfireToTents.categories.findIndex((x) => x.id === payload.id);
+                const categoryDeleted = bonfireToTents.categories.findIndex((x) => x.id === (payload as TentCategoryView).id);
                 bonfireToTents.categories.splice(categoryDeleted, 1);
                 console.log("Category deleted", categoryDeleted);
                 break;
@@ -163,10 +175,15 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         this.setState({});
     }
     componentWillUnmount(): void {
-        const session = this.context as Session;
-        session
-            .webSocket
-            .unsubscribe(this._wsSubscription!);
+        if (!this._wsSubscription)
+            return;
+
+        const { session } = this.context as CampsiteContextSuite;
+        return (
+            session
+                .webSocket
+                .unsubscribe(this._wsSubscription)
+        );
     }
     async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: any): Promise<void> {
         if (this.props.bonfireSelected !== prevProps.bonfireSelected)
@@ -181,12 +198,16 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             return this.setState({ loading: false });
 
         this._lock = true;
-        return (this.context as Session).restClient?.getTents(this.props.campsite.id, bonfireSelected.id)
+        return (this.context as CampsiteContextSuite)
+            .session
+            .restClient
+            .getTents(this.props.campsite.id, bonfireSelected.id)
             .then((x) => {
                 if (!x.ok)
                     return this.setState({ error: x });
 
                 this.bonfiresToTents[bonfireSelected.id] = x.content;
+                (this.context as CampsiteContextSuite).permissions.tentList.setNewValue(x.content);
                 this._lock = false;
 
                 return this.setState({ loading: false });
@@ -203,6 +224,8 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         this.props.campsite.bonfires = value;
     }
     setBonfireSelected(bonfire: BonfireViewBasic) {
+        if (this.bonfiresToTents[bonfire.id])
+            (this.context as CampsiteContextSuite).permissions.tentList.setNewValue(this.bonfiresToTents[bonfire.id]);
         this.setState({ bonfireSelected: bonfire, menuOpen: null, loading: true });
     }
     onBonfireDeleted() {
@@ -211,18 +234,13 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         this.setState({ menuOpen: null });
 
-        return (this.context as Session).restClient?.deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
+        return (this.context as CampsiteContextSuite)
+            .session
+            .restClient
+            .deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
             .then((resp) => {
                 if (!resp.ok)
                     return;
-
-                this.bonfires = this.bonfires.filter((x) => x.id !== this.state.bonfireSelected.id);
-                const cached = Object.keys(this.bonfiresToTents);
-
-                if (cached.length)
-                    this.props.navigate(`/c/${this.props.campsite.id}/t/${this.bonfiresToTents[cached[0]].tents[0].id}`);
-                else 
-                    this.props.navigate(`/c/${this.props.campsite.id}`);
             });
     }
     render(): React.ReactNode {
@@ -309,7 +327,13 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                     <CampsiteSettingsModal campsite={campsite} />
                 </Modal>
                 <Modal open={menuOpen === "bonfire-settings"} onClose={this.setMenu.bind(this, null)}>
-                    <BonfireSettingsModal canDeleteBonfire={campsite.bonfires.length > 1} bonfire={bonfireSelected} onBonfireDeleted={this.onBonfireDeleted.bind(this)} />
+                    <BonfireSettingsModal
+                        bonfireId={bonfireSelected.id}
+                        permissions={(this.context as CampsiteContextSuite).permissions}
+                        canDeleteBonfire={campsite.bonfires.length > 1}
+                        bonfire={bonfireSelected}
+                        onBonfireDeleted={this.onBonfireDeleted.bind(this)}
+                    />
                 </Modal>
                 <Box flex={1} sx={{ py: 2, px: 1 }}>
                     {loading || !tents

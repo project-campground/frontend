@@ -93,7 +93,7 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                         <Typography level="title-lg">{header}</Typography>
                         <Box flex={1} sx={{ overflowY: "auto" }}>
                             <PageSidebar
-                                defaultActive="profile"
+                                defaultActive={defaultPage}
                                 onClick={(item) => setPage(item as TPage)}
                                 sections={sections}
                             />

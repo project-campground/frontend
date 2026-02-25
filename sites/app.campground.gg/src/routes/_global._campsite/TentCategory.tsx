@@ -1,34 +1,37 @@
 import { IconButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, Stack, Typography } from "@mui/joy";
-import { IconPlus, IconTrashFilled } from "@tabler/icons-react";
+import { IconPlus, IconSettings2, IconTrashFilled } from "@tabler/icons-react";
 import { Group } from "components";
-import type { TentCategoryView } from "types/tent";
+import type { TentCategoryView, TentViewBasic } from "types/tent";
 import ContentCategory from "~/components/content/ContentCategory";
 import { useRightClick } from "~/context/mouse";
-import { useSession } from "~/context/session";
-import { useSnackbars } from "~/context/snackbar";
+import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
 
-export default function TentCategory({ onCreate, category, children }: React.PropsWithChildren & { onCreate: () => unknown; category: TentCategoryView }) {
-    const session = useSession();
-    const floating = useSnackbars();
-    const onCategoryDelete = () =>
-        session
-            .restClient
-            .deleteCategory(category.id)
-            .then((resp) => {
-                if (!resp.ok)
-                    return floating.notifyApiError(resp);
-            });
+type Props = React.PropsWithChildren & {
+    category: TentCategoryView 
+    onCreate: () => unknown;
+    onSettingsOpen?: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: CategorySettingsPage }) => unknown;
+};
+
+export default function TentCategory({ onCreate, category, children, onSettingsOpen }: Props) {
     const { listeners } = useRightClick({
         MenuComponent: () => (
             <>
-                <MenuItem color="danger" variant="plain" onClick={onCategoryDelete}>
+                {onSettingsOpen && <MenuItem onClick={() => onSettingsOpen({ category })}>
+                    <ListItemDecorator>
+                        <IconSettings2 />
+                    </ListItemDecorator>
+                    <ListItemContent>
+                        Category settings
+                    </ListItemContent>
+                </MenuItem>}
+                {onSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onSettingsOpen({ category, page: "delete" })}>
                     <ListItemDecorator>
                         <IconTrashFilled />
                     </ListItemDecorator>
                     <ListItemContent>
                         Delete category
                     </ListItemContent>
-                </MenuItem>
+                </MenuItem>}
             </>
         ),
         menuProps: { category },

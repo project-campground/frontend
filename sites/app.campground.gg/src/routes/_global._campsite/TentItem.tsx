@@ -1,15 +1,16 @@
 import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, styled, Typography } from "@mui/joy";
-import { IconHash, IconTrashFilled } from "@tabler/icons-react";
+import { IconHash, IconSettings2, IconTrashFilled } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import type { TentViewBasic } from "types/tent"
+import type { TentCategoryView, TentViewBasic } from "types/tent"
 import TentIcon from "~/components/tents/TentIcon";
 import { useRightClick } from "~/context/mouse";
+import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
 
 type Props = {
     tent: TentViewBasic;
     isActive?: boolean;
     disableMenu?: boolean;
-    onTentDelete?: (tent: TentViewBasic) => unknown;
+    onSettingsOpen?: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown;
 }
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
@@ -23,12 +24,20 @@ const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
     }
 }));
 
-export default function TentItem({ tent, isActive, onTentDelete }: Props) {
+export default function TentItem({ tent, isActive, onSettingsOpen: onTentSettingsOpen }: Props) {
     const navigate = useNavigate();
     const { listeners } = useRightClick({
         MenuComponent: ({ tent }) => (
             <>
-                {tent.id !== "bulletin" && onTentDelete && <MenuItem color="danger" variant="plain" onClick={() => onTentDelete(tent)}>
+                {tent.id !== "bulletin" && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
+                    <ListItemDecorator>
+                        <IconSettings2 />
+                    </ListItemDecorator>
+                    <ListItemContent>
+                        Tent settings
+                    </ListItemContent>
+                </MenuItem>}
+                {tent.id !== "bulletin" && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
                     <ListItemDecorator>
                         <IconTrashFilled />
                     </ListItemDecorator>

@@ -1,0 +1,24 @@
+import { Chip } from "@mui/joy";
+import { GradientTypography } from "components";
+import type { CampsitePermissionView, CampsiteRoleView } from "types/campsites";
+import { getColorFromSet } from "~/util/color";
+import { RoleButton } from "./campsite/RoleItem";
+
+type Props = { active?: boolean; onClick?: () => unknown; role: CampsiteRoleView | undefined; } & Pick<CampsitePermissionView, "id" | "permissions" | "roleId" | "userId"> & { added?: true; };
+
+export default function PermissionItem({ onClick, active, added, userId, roleId, role }: Props) {
+    const badge = role && (role.flags & 1) === 1
+        ? <Chip color="primary" variant="soft">Default</Chip>
+        : added
+        ? <Chip color="danger" variant="soft">NEW</Chip>
+        : null;
+    const colors = (role && getColorFromSet(role.color, role.colorSecondary)) ?? undefined;
+
+    return (
+        <RoleButton onClick={onClick} colors={colors} className={active ? "active" : ""} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
+            <GradientTypography colors={colors} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
+                {role?.name ?? roleId ?? userId}
+            </GradientTypography>
+        </RoleButton>
+    )
+}

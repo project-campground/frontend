@@ -82,7 +82,7 @@ export default class HTTPClient {
         if (!resp.ok)
             return resp;
         this._onRefreshLogin?.(resp.content!);
-        // Change in REST as well
+        // Change in HTTP as well
         this._config.auth = resp.content?.accessJwt ?? this._config.auth;
         this._config.refreshAuth = resp.content?.refreshJwt ?? this._config.refreshAuth;
         return resp;

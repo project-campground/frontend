@@ -6,7 +6,7 @@ import { useSession } from "~/context/session";
 import { useEffect, useState } from "react";
 import ProfileFeedPost, { ProfileFeedPostReplySkeleton } from "./ProfileFeedPost";
 import { IconArticleFilled, IconFlameFilled } from "@tabler/icons-react";
-import RestError from "~/util/RestError";
+import HttpError from "~/util/HttpError";
 import { ProfilePostSkeleton } from "./ProfilePost";
 import { SmoothTabList } from "components";
 
@@ -20,7 +20,7 @@ export default function ProfileFeed({ user, isSelf }: Props) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [fetchReplies, setFetchReplies] = useState<boolean>(false);
     const [postList, setPostList] = useState<ProfilePostViewParented[]>([]);
-    const [error, setError] = useState<RestError | null>(null);
+    const [error, setError] = useState<HttpError | null>(null);
 
     if (error)
         throw error;
@@ -32,7 +32,7 @@ export default function ProfileFeed({ user, isSelf }: Props) {
                 if (posts.ok)
                     setPostList(posts.content.posts);
                 else
-                    setError(new RestError(posts.errorDescription, posts.status, posts.errorHeader));
+                    setError(new HttpError(posts.errorDescription, posts.status, posts.errorHeader));
                 setIsLoading(false);
             });
     }, [fetchReplies]);

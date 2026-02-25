@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import RestError from "~/util/RestError";
+import HttpError from "~/util/HttpError";
 import PagePlaceholder, { PagePlaceholderIcon } from "./pages/PagePlaceholder";
 import { Typography } from "@mui/joy";
 
@@ -50,7 +50,7 @@ export default class ErrorBoundary extends React.Component<PropsWithChildren, St
         }
     }
     static getDerivedStateFromError(error: Error): { error: ErrorBoundaryError } {
-        if (error instanceof RestError)
+        if (error instanceof HttpError)
             return {
                 error: {
                     message: error.message,

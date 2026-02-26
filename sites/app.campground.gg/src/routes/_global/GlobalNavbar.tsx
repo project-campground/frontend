@@ -28,7 +28,7 @@ export default function GlobalNavbar({ page, loaded }: Props) {
                     </NavbarButton>
                 </Stack>
                 <Divider orientation="vertical" sx={{ width: 2 }} />
-                <Stack direction="row" sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }} gap={1}>
+                <Stack direction="row" sx={{ flex: 1, overflowX: "auto", overflowY: "hidden" }} gap={1}>
                     {me?.campsites.map((x) =>
                         <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
                     )}

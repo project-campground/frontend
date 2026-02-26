@@ -20,7 +20,7 @@ export default class RegisterPage extends React.Component<Props, State> {
         super(props);
         this.state = { wrongConfirmPassword: false, password: "", confirmPassword: "" };
     }
-    onSubmit(event: React.FormEvent<HTMLFormElement>, fieldValues: Record<string, any>) {
+    onSubmit(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, fieldValues: Record<string, any>) {
         event.preventDefault();
 
         console.log(fieldValues);
@@ -37,6 +37,7 @@ export default class RegisterPage extends React.Component<Props, State> {
             <Form
                 sections={[
                     {
+                        id: "register",
                         fields: [
                             {
                                 type: "text",

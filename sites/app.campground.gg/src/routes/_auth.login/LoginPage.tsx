@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import Form from "../../components/form/Form";
 import { Alert, Link } from "@mui/joy";
@@ -9,7 +9,7 @@ export default function LoginPage() {
     const session = useSession();
     const [error, setError] = useState<Error | null>(null);
 
-    const onSubmit = async (event: FormEvent<HTMLFormElement>, fieldValues: Record<string, any>) => {
+    const onSubmit = async (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, fieldValues: Record<string, any>) => {
         event.preventDefault();
 
         // TODO: Stronger check on the identifier
@@ -29,6 +29,7 @@ export default function LoginPage() {
         <Form
             sections={[
                 {
+                    id: "login",
                     fields: [
                         {
                             type: "text",

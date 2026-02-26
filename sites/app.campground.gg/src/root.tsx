@@ -11,8 +11,8 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { IntlProvider } from './context/i18n';
 // import { SessionProvider } from './session';
-import { Box, CircularProgress, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
-import { BrandLogo, FlexCenter, SvgDefs, SvgUse, theme } from "components";
+import { Box, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
+import { SvgDefs, SvgUse, theme } from "components";
 import { SessionProvider } from "./context/session";
 import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";
@@ -126,11 +126,11 @@ export function HydrateFallback() {
                         stroke-width: 2px;
                     }
                     50% {
-                        mask-position: 50%;
+                        mask-position: 60%;
                         stroke-width: 4px;
                     }
                     100% {
-                        mask-position: 80%;
+                        mask-position: 120%;
                         stroke-width: 2px;
                     }
                 }`}
@@ -138,7 +138,10 @@ export function HydrateFallback() {
             <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <div style={{  position: "relative", width: "128px", height: "128px" }}>
-                        <div style={{ maskSize: "500%", maskImage: `linear-gradient(to right, rgba(255, 255, 255, 0.3) 20%, white 30%, white 70%, rgba(255, 255, 255, 0.3) 80%)`, zIndex: 1, position: "absolute", top: 0, left: 0, right: 0, bottom: 0, strokeWidth: "2px", stroke: "var(--palette-primary-500)", strokeLinecap: "round", strokeLinejoin: "round", animation: `stroke-width-animation 2s infinite` }}>
+                        <div style={{ zIndex: 1, position: "absolute", top: 0, left: 0, right: 0, bottom: 0, strokeWidth: "2px", stroke: "var(--palette-secondary-500)", strokeLinecap: "round", strokeLinejoin: "round", animation: `stroke-width-animation 2s infinite` }}>
+                            <SvgUse id="cg-logo" width="128px" height="128px" />
+                        </div>
+                        <div style={{ maskSize: "500%", maskImage: `linear-gradient(to right, transparent 20%, white 30%, white 70%, transparent 80%, transparent 150%)`, zIndex: 3, position: "absolute", top: 0, left: 0, right: 0, bottom: 0, strokeWidth: "2px", stroke: "var(--palette-primary-500)", strokeLinecap: "round", strokeLinejoin: "round", animation: `stroke-width-animation 2s infinite` }}>
                             <SvgUse id="cg-logo" width="128px" height="128px" />
                         </div>
                     </div>

@@ -18,15 +18,15 @@ export const RoleButton = styled(Button, {
     textOverflow: "ellipsis",
     border: "solid 1px transparent",
     transitionProperty: "background, border, color, box-shadow",
-    "&.active": {
+    "&.RoleItem-active": {
         border: `solid 1px ${theme.vars.palette.neutral.border}`,
         boxShadow: theme.vars.shadow.sm,
     },
-    "& > .MuiButton-startDecorator": {
+    "&.RoleItem-role > .MuiButton-startDecorator": {
         opacity: 0,
         transition: "opacity 0.3s",
     },
-    "&:hover > .MuiButton-startDecorator": {
+    "&.RoleItem-role:hover > .MuiButton-startDecorator": {
         opacity: 1,
     },
     "::after": {
@@ -42,7 +42,7 @@ export const RoleButton = styled(Button, {
         opacity: 0,
         background: colors?.length ? colors.length > 1 ? `linear-gradient(to right, ${colors.join(", ")})` : colors[0] : `transparent`,
     },
-    "&.active::after": {
+    "&.RoleItem-active::after": {
         opacity: 0.10,
     }
 }));
@@ -60,7 +60,7 @@ export default function RoleItem({ onClick, active, id, added, flags, name, colo
     const colors = getColorFromSet(color, colorSecondary);
 
     return (
-        <RoleButton onClick={onClick} colors={colors} className={active ? "active" : ""} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" {...listeners} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style}>
+        <RoleButton onClick={onClick} colors={colors} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" {...listeners} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style}>
             <GradientTypography colors={colors} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
                 {name}
             </GradientTypography>

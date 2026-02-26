@@ -1,4 +1,4 @@
-import { CircularProgress, Dropdown, IconButton, ListItemContent, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
+import { CircularProgress, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
 import type { CampsitePermissionView, CampsiteRoleView } from "types/campsites";
 import { useContext, useMemo, useState } from "react";
 import { GradientTypography, Group } from "components";
@@ -69,16 +69,23 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
     }, []);
 
     const onCreateRolePermission = (role: CampsiteRoleView) => {
-        console.log("A", { permissions: [...permissions] });
-        setPermissions(permissions.concat(createNewPermission({ roleId: role.id })));
-        console.log("B", { permissions: [...permissions] });
+        const newPermission = createNewPermission({ roleId: role.id });
+        const newPermissionList = openPermission.new && openPermission.roleId !== defaultRole.id ? permissions.filter((x) => x.id !== openPermission.id) : permissions;
+        setPermissions(newPermissionList.concat(newPermission));
+        return setOpenPermission(newPermission);
+    }
+    const changeOpenPermission = (permission: CampsitePermissionViewSettings) => {
+        const oldOpenPermission = openPermission;
+        setOpenPermission(permission);
+
+        if (oldOpenPermission.new && oldOpenPermission.roleId !== defaultRole.id)
+            return setPermissions(permissions.filter((x) => x.id !== oldOpenPermission.id));
     };
 
     if (loading)
         return <CircularProgress />;
 
     const existingRoleIds = permissions.filter((x) => x.roleId).map((x) => x.roleId);
-    console.log({ permissionsCurrent: permissions, permissions: [...permissions], existingRoleIds });
 
     return (
         <Group sx={{ width: "100%", height: "100%", }} gap={2}>
@@ -92,6 +99,9 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                         <Menu variant="soft">
                             {roles.filter((x) => !existingRoleIds.includes(x.id)).map((x) =>
                                 <MenuItem key={x.id} onClick={() => onCreateRolePermission(x)}>
+                                    <ListItemDecorator>
+                                        <IconPlus size={16} />
+                                    </ListItemDecorator>
                                     <ListItemContent>
                                         <GradientTypography colors={getColorFromSet(x.color, x.colorSecondary)}>
                                             {x.name}
@@ -108,7 +118,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                         .map((x) => [x, roles.find((y) => y.id === x.roleId)] as [CampsitePermissionViewSettings, CampsiteRoleView | undefined])
                         .sort((a, b) => (a[1]?.priority ?? 0) - (b[1]?.priority ?? 0))
                         .map(([permission, role]) =>
-                            <PermissionItem key={permission.id} role={role} active={openPermission === permission} onClick={() => setOpenPermission(permission)} {...permission} />
+                            <PermissionItem key={permission.id} role={role} active={openPermission === permission} onClick={() => changeOpenPermission(permission)} {...permission} />
                         )
                     }
                 </Stack>
@@ -173,8 +183,8 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
 
     return (
         <Stack flex={1} gap={2} sx={{ overflow: "hidden", height: "100%" }}>
-            <Typography level="title-lg">{role?.name ?? permission.userId}</Typography>
-            <Stack sx={{ overflowY: "auto" }}>
+            <Typography px={2} level="title-lg">{role?.name ?? permission.userId}</Typography>
+            <Stack sx={{ overflowY: "auto" }} p={2}>
                 <Form
                     sections={[
                         {

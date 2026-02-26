@@ -3,7 +3,7 @@ import AbstractFormField from "./AbstractFormField";
 import type { FormFieldProps } from "./forms";
 import { Avatar, Modal, type ColorPaletteProp, type Radius, type VariantProp, } from "@mui/joy";
 import ImageInputModal from "../../layout/ImageInputModal";
-import { IconPencil } from "@tabler/icons-react";
+import { IconPencil, IconPhotoPlus } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
 
 export interface FormFieldAvatarProps extends FormFieldProps<"avatar", string | null> {
@@ -43,7 +43,7 @@ export default class FormFieldAvatar extends AbstractFormField<"avatar", string 
     }
 
     public override render(): ReactNode {
-        const { placeholder, variant, color, borderRadius, size } = this.props;
+        const { variant, color, borderRadius, size } = this.props;
         const { open, value } = this.state;
         const onCloseModal = this.onCloseModal.bind(this);
 
@@ -51,7 +51,7 @@ export default class FormFieldAvatar extends AbstractFormField<"avatar", string 
             <>
                 <ImageEditBadge onClick={() => this.setState({ open: true })} badgeContent={<IconPencil size="20" />} variant="soft" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} color="neutral">
                     <Avatar src={value ?? undefined} variant={variant} color={color} sx={{ borderRadius }} size={size}>
-                        {placeholder}
+                        <IconPhotoPlus />
                     </Avatar>
                 </ImageEditBadge>
                 <Modal open={open} onClose={onCloseModal}>

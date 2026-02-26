@@ -16,7 +16,7 @@ html, body, #root {
 }
 ::selection {
     background-color: var(--palette-primary-t-500);
-    color: var(--palette-primary-100)
+    color: var(--palette-primary-100);
 }
 
 * {

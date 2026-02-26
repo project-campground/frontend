@@ -3,6 +3,7 @@ import { GradientTypography } from "components";
 import type { CampsitePermissionView, CampsiteRoleView } from "types/campsites";
 import { getColorFromSet } from "~/util/color";
 import { RoleButton } from "./campsite/RoleItem";
+import { IconBadgeFilled } from "@tabler/icons-react";
 
 type Props = { active?: boolean; onClick?: () => unknown; role: CampsiteRoleView | undefined; } & Pick<CampsitePermissionView, "id" | "permissions" | "roleId" | "userId"> & { added?: true; };
 
@@ -15,7 +16,7 @@ export default function PermissionItem({ onClick, active, added, userId, roleId,
     const colors = (role && getColorFromSet(role.color, role.colorSecondary)) ?? undefined;
 
     return (
-        <RoleButton onClick={onClick} colors={colors} className={active ? "active" : ""} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
+        <RoleButton startDecorator={<IconBadgeFilled />} onClick={onClick} colors={colors} className={active ? "active" : ""} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
             <GradientTypography colors={colors} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
                 {role?.name ?? roleId ?? userId}
             </GradientTypography>

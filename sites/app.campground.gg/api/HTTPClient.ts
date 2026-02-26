@@ -65,7 +65,7 @@ export default class HTTPClient {
         return HTTPClient.atprotoFetch({
             method: "POST",
             route: "com.atproto.server.createSession",
-            body: auth,
+            body: { ...auth, allowTakenDown: true },
             ...requestConfig,
         });
     }
@@ -611,7 +611,6 @@ export default class HTTPClient {
     }
 
     getPermissions(queries: ({ tent_id: string; } | { category_id: string; } | { bonfire_id: string; }) & { non_self?: boolean }) {
-        console.log(queries);
         return this.get<GetPermissionsOutput>({
             route: "gg.campground.permission.getPermissions",
             queries,

@@ -24,7 +24,7 @@ const GradientTypographyRoot = styled(Typography, {
 })<{ ownerState: GradientTypographyProps; }>(() => []);
 
 const GradientTypography = forwardRef<HTMLParagraphElement, GradientTypographyProps>(function GradientTypography(props, ref) {
-    const { gradientAnimated, colors, ...other } = props;
+    const { gradientAnimated, colors, sx, ...other } = props;
     const ownerState = other;
     const percentageOfColor = 50 / ((colors?.length ?? 1));
 
@@ -33,7 +33,7 @@ const GradientTypography = forwardRef<HTMLParagraphElement, GradientTypographyPr
             ref,
             ownerState,
             sx: [
-                colors?.length && {
+                !colors?.length && {
                     background: "transparent",
                 },
                 colors?.length && {
@@ -49,6 +49,7 @@ const GradientTypography = forwardRef<HTMLParagraphElement, GradientTypographyPr
                     backgroundSize: `200%`,
                     animation: `${animatedGradient} linear ${2.5 * colors.length}s infinite`,
                 },
+                sx,
             ],
             ...other
         })

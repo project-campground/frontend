@@ -1,4 +1,4 @@
-import { Card, CardContent, Link, Typography } from "@mui/joy";
+import { CardContent, Link, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
 import type { ProfileView } from "types/user";
@@ -6,6 +6,7 @@ import UserAvatar from "../../components/UserAvatar";
 import { Group } from "components";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";
 import { IconPencil } from "@tabler/icons-react";
+import { ProfilePostCard } from "./ProfilePost";
 
 type Props = {
     user: ProfileView;
@@ -20,7 +21,7 @@ export default function ProfilePostCreator({ user, placeholder, onPost, sx }: Pr
     const finalPlaceholder = placeholder ?? "What are you thinking?";
 
     return (
-        <Card variant="soft" sx={{ py: 1.5, px: 2, ...sx, }}>
+        <ProfilePostCard variant="soft" sx={{ py: 1.5, px: 2, ...sx, }}>
             <CardContent>
                 {open
                     ? <Group gap={1.5} alignItems="center">
@@ -34,6 +35,6 @@ export default function ProfilePostCreator({ user, placeholder, onPost, sx }: Pr
                       </Link>
                 }
             </CardContent>
-        </Card>
+        </ProfilePostCard>
     );
 }

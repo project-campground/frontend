@@ -86,7 +86,7 @@ html, body, #root {
 @keyframes appear-animation {
     0% {
         opacity: 0%;
-        scale: 50%;
+        scale: 75%;
     }
     80% {
         scale: 100%;

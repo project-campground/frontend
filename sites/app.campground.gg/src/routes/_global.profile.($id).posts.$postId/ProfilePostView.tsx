@@ -134,7 +134,7 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
     return (
         <Box sx={{ overflowY: "auto", flex: 1, width: "100%" }}>
             <Stack className="ProfileLayout container" sx={(theme) => ({ pt: 4, minHeight: "100%", pb: 16, backgroundColor: theme.vars.palette.background.level1 })}>
-                <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: "2fr 7fr 2fr", gap: 8, px: 35, pt: 2 }}>
+                <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: { md: "0 11fr 0", lg: "2fr 7fr 2fr" }, gap: 8, px: { sm: 2, md: 8, lg: 35 }, pt: 2 }}>
                     <Box>
                     </Box>
                     <Stack gap={2} sx={{ width: "100%", overflow: "hidden" }}>

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardOverflow, Divider, ListItemContent, ListItemDecorator, MenuItem, Skeleton, Stack, Typography } from "@mui/joy";
+import { Card, CardContent, CardOverflow, Divider, ListItemContent, ListItemDecorator, MenuItem, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useState } from "react";
 import UserDisplay, { UserDisplaySkeleton } from "~/components/UserDisplay";
 import { IconMessage, IconPencil, IconTrashFilled } from "@tabler/icons-react";
@@ -36,6 +36,14 @@ export const appearAnimation = keyframes`
     }
 `;
 
+export const ProfilePostCard = styled(Card, {
+    name: "ProfilePost",
+    slot: "root",
+})(({ theme }) => ({
+    zIndex: 2,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
+}));
+
 export default function ProfilePost({ post, showComments: showCommentsLink, bigger, appear, isOwnPost, onPostDelete, onPostUpdate, opacity, mb, mt }: Props) {
     const { uri, content, createdAt, replies, replyCount, author } = (post as EitherProfilePostView);
     const postTid = uri.split("/")[4];
@@ -43,7 +51,7 @@ export default function ProfilePost({ post, showComments: showCommentsLink, bigg
     const createdAtDate = new Date(createdAt);
 
     return (
-        <Card size={bigger ? "lg" : "md"} variant="soft" sx={{ mb, mt, opacity, boxShadow: bigger ? "md" : "sm", animation: `${appearAnimation} ${appear ? 0.75 : 0}s`, zIndex: 2 }}>
+        <ProfilePostCard size={bigger ? "lg" : "md"} variant="soft" sx={{ mb, mt, opacity, boxShadow: bigger ? "md" : "sm", animation: `${appearAnimation} ${appear ? 0.75 : 0}s` }}>
             <CardOverflow sx={{ alignItems: "start", pt: 2 }}>
                 <ProfilePostHeader bigger={bigger ?? false} author={author} createdAt={createdAtDate} />
             </CardOverflow>
@@ -97,13 +105,13 @@ export default function ProfilePost({ post, showComments: showCommentsLink, bigg
                     </Group>
                 </Stack>
             </CardContent>
-        </Card>
+        </ProfilePostCard>
     );
 }
 
 export function ProfilePostSkeleton({ mt, mb }: Pick<Props, "mt" | "mb">) {
     return (
-        <Card size="md" variant="soft" sx={{ boxShadow: "sm", zIndex: 2, mt, mb }}>
+        <ProfilePostCard size="md" variant="soft" sx={{ boxShadow: "sm", zIndex: 2, mt, mb }}>
             <CardOverflow sx={{ alignItems: "start", pt: 2 }}>
                 <ProfilePostHeaderSkeleton />
             </CardOverflow>
@@ -125,7 +133,7 @@ export function ProfilePostSkeleton({ mt, mb }: Pick<Props, "mt" | "mb">) {
                     </Group>
                 </Stack>
             </CardContent>
-        </Card>
+        </ProfilePostCard>
     );
 }
 

@@ -72,12 +72,18 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     }
     
     private onWebSocketEvent(type: string, payload: any) {
+        const { session } = this.context as CampsiteContextSuite;
         const message = payload as TentMessageViewBasic;
         if (message.tentId !== this.props.tent.id)
             return;
         switch (type) {
             case "MessageCreated":
-                if (this.state.messages.some((x) => x.id === message.id))
+                // Instead of ignoring messages being waited, the waited messages can be deleted, but it can look weird if you both see
+                // the message that was created by you and you are still waiting for for a split second.
+                if (this.state.messages.some((x) =>
+                    x.id === message.id ||
+                    (x.waiting && x.content === message.content && session.auth.authenticated && session.auth.user.did === message.createdBy.user.did)
+                ))
                     return;
 
                 this.setState({ messages: [ { ...message, replyingTo: [], replyingToCount: message.replyingTo.length }, ...this.state.messages ] })
@@ -170,9 +176,13 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                 if (!resp.ok)
                     return this.setState({ messages: [{ ...fakeMessage, error: resp.errorDescription }, ...this.state.messages.filter((x) => x.id !== fakeMessage.id)] })
 
-                this.pseudoMessages = this.pseudoMessages.filter((x) => x === fakeMessage.id);
                 const replyingTo = replyMessages.map((x) => ({ ...x, replyingTo: x.replyingTo.map((y) => y.id), }));
-                return this.setState({ messages: [{ ...resp.content, replyingToCount: resp.content.replyingTo?.length ?? 0, replyingTo, }, ...this.state.messages.filter((x) => x.id !== fakeMessage.id)] })
+                Object.assign(fakeMessage, resp.content, { replyingTo });
+                // To not have spinning circle
+                delete fakeMessage.waiting;
+
+                this.pseudoMessages = this.pseudoMessages.filter((x) => x === fakeMessage.id);
+                return this.setState({});
             });
     }
 
@@ -238,6 +248,10 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         return this.setState({ replyMessages: this.state.replyMessages.filter((x) => x !== message) });
     }
 
+    removeAllMessageReplies() {
+        return this.setState({ replyMessages: [] });
+    }
+
     render(): React.ReactNode {
         if (this.state.loading)
             return (
@@ -288,6 +302,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                             tentName={tent.name}
                             onCreate={this.onMessageCreate.bind(this)}
                             removeReply={this.removeMessageReply.bind(this)}
+                            removeAllReplies={this.removeAllMessageReplies.bind(this)}
                             replyMessages={this.state.replyMessages}
                             colorRoles={colorRoles}
                             canCreate={Boolean(permissions.getTentPermissions(tent.categoryId, tent.id).tent & TentPermissionConsts.CREATE_CONTENT)}
@@ -389,7 +404,7 @@ function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, promptMes
     );
 }
 
-function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, onCreate, removeReply }: { colorRoles: CampsiteRoleView[], canCreate: boolean, tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, onCreate: (content: string) => Promise<unknown> }) {
+function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, onCreate, removeReply, removeAllReplies, }: { colorRoles: CampsiteRoleView[], canCreate: boolean, tentName: string, replyMessages: TentMessageViewWithReplies[], removeReply: (message: TentMessageViewWithReplies) => unknown, removeAllReplies: () => unknown, onCreate: (content: string) => Promise<unknown> }) {
     return (
         <Stack sx={{ px: 2, pb: 2 }} gap={1}>
             {!!replyMessages.length && <Group gap={1} alignItems="center">
@@ -414,7 +429,7 @@ function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, o
             </Group>}
             <Box sx={{ maxHeight: 200 }}>
                 {canCreate
-                ? <MessageEditor placeholder={`Message #${tentName}`} onConfirm={onCreate} />
+                ? <MessageEditor placeholder={`Message #${tentName}`} onConfirm={onCreate} onClearReplies={removeAllReplies} />
                 : <MessageEditorContainer>
                     <Box sx={{ px: "12px", py: "6px" }}>
                         <Typography textColor="text.tertiary" startDecorator={<IconLockFilled />}>You do not have the permission to type in this tent.</Typography>

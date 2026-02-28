@@ -1,10 +1,13 @@
-import { Alert, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
+import { Alert, Card, DialogContent, DialogTitle, ModalDialog, Sheet, Stack, Typography } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
 import type { HttpResponseError } from "api/HTTPResponse";
 import { useState } from "react";
 import type { TentCategoryView, TentViewDetailed } from "types/tent";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
+import { PseudoTentItem } from "./TentItem";
+import { TentStyledList } from "./TentList";
+import ContentCategory from "~/components/content/ContentCategory";
 
 type Props = {
     campsiteId: string;
@@ -45,41 +48,77 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
             <DialogTitle>Create tent</DialogTitle>
             <DialogContent>Create a new tent or tent category in this bonfire</DialogContent>
             <Form
+                inlineReactiveComponent
+                ReactiveComponent={({ what, name, description }) =>
+                    <Sheet sx={{ bgcolor: "background.body", borderRadius: "md", p: 2 }}>
+                        <Card variant="outlined" sx={{ width: 300 }}>
+                            <ContentCategory header={
+                                <Stack flex={1}>
+                                    <Typography level="title-md">{what === "category" ? name : "Example category"}</Typography>
+                                    {description && <Typography level="body-sm">{what === "category" ? description : "Example description"}</Typography>}
+                                </Stack>
+                            }>
+                                <TentStyledList>
+                                    <PseudoTentItem tent={{
+                                        name: "Example tent #1",
+                                        type: "text",
+                                        viewType: 0,
+                                    }} />
+                                    <PseudoTentItem isActive={what === "tent"} tent={{
+                                        name: what === "tent" ? name : "Example tent #2",
+                                        type: "text",
+                                        viewType: 0,
+                                    }} />
+                                    <PseudoTentItem tent={{
+                                        name: "Example tent #3",
+                                        type: "text",
+                                        viewType: 0,
+                                    }} />
+                                </TentStyledList>
+                            </ContentCategory>
+                        </Card>
+                    </Sheet>
+                }
                 sections={[
                     {
-                        id: "info",
+                        id: "type",
                         fields: [
-                            {
-                                id: "name",
-                                type: "text",
-                                header: "Tent name",
-                                required: true,
-                            },
-                            {
-                                id: "description",
-                                type: "text",
-                                header: "Tent description",
-                                defaultValue: "",
-                            },
                             {
                                 id: "what",
                                 type: "radio",
                                 header: "Select what to create",
                                 required: true,
                                 defaultValue: "tent",
-                                design: "button",
+                                design: "grid",
                                 options: [
-                                    {
-                                        value: "category",
-                                        text: "Category",
-                                        startDecorator: <IconCategory />
-                                    },
                                     {
                                         value: "tent",
                                         text: "Tent",
                                         startDecorator: <IconTent />
                                     },
+                                    {
+                                        value: "category",
+                                        text: "Category",
+                                        startDecorator: <IconCategory />
+                                    },
                                 ]
+                            },
+                        ],
+                    },
+                    {
+                        id: "info",
+                        fields: [
+                            {
+                                id: "name",
+                                type: "text",
+                                header: "Name",
+                                required: true,
+                            },
+                            {
+                                id: "description",
+                                type: "textarea",
+                                header: "Topic",
+                                defaultValue: "",
                             },
                         ]
                     },

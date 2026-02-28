@@ -1,5 +1,5 @@
 import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
-import { IconCampfire, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
+import { IconCampfire, IconDoorExit, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
 import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import React from "react";
@@ -19,6 +19,7 @@ import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "./InviteCreationModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
+import { CampsitePermissionConsts } from "~/util/permissions";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -59,7 +60,8 @@ export const TentSidebarBannerWrapper = styled(Box, {
     zIndex: 3,
     cursor: "pointer"
 }));
-export const TentSidebarTopBar = styled(Group)(() => ({
+export const TentSidebarTopBar = styled(Stack)(() => ({
+    flexDirection: "row",
     alignItems: "center",
     padding: "0 8px",
     gap: 8,
@@ -83,6 +85,8 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
     marginTop: "auto",
     marginBottom: "auto"
 }));
+
+const anyManageCampsitePermission = CampsitePermissionConsts.MANAGE_CAMPSITE | CampsitePermissionConsts.BAN_MEMBERS | CampsitePermissionConsts.MANAGE_ROLES | CampsitePermissionConsts.MANAGE_INVITES;
 
 export default class TentSidebar extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
@@ -233,15 +237,29 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             return;
 
         this.setState({ menuOpen: null });
+        const { floaters, session } = (this.context as CampsiteContextSuite);
 
-        return (this.context as CampsiteContextSuite)
-            .session
-            .http
-            .deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
-            .then((resp) => {
-                if (!resp.ok)
-                    return;
-            });
+        return (
+            session
+                .http
+                .deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
+                .then((resp) => {
+                    if (!resp.ok)
+                        return floaters.notifyApiError(resp);
+                })
+        );
+    }
+    leaveCampsite() {
+        const { floaters, session } = (this.context as CampsiteContextSuite);
+        return (
+            session
+                .http
+                .removeMember(this.props.campsite.id, this.props.campsite.member.user.did)
+                .then((resp) => {
+                    if (!resp.ok)
+                        return floaters.notifyApiError(resp);
+                })
+        );
     }
     render(): React.ReactNode {
         const { campsite, tentSelected } = this.props;
@@ -249,6 +267,8 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         const { loading, menuOpen, bonfireSelected } = this.state;
         const tents = this.bonfiresToTents[bonfireSelected.id];
         const toggleGroupMenu = this.toggleGroupMenu.bind(this);
+        const { permissions } = (this.context as CampsiteContextSuite);
+        console.log({permissions, hasInvitePermission: permissions.role.campsite & CampsitePermissionConsts.CREATE_INVITES, create_invites: CampsitePermissionConsts.CREATE_INVITES});
 
         return (
             <TentSidebarBox>
@@ -282,30 +302,38 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                     <IconDots />
                                 </MenuButton>
                                 <Menu variant="soft">
-                                    <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
+                                    {!!(permissions.role.campsite & CampsitePermissionConsts.CREATE_INVITES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
                                         <ListItemDecorator>
                                             <IconTicket />
                                         </ListItemDecorator>
                                         <ListItemContent>
                                             Create invites
                                         </ListItemContent>
-                                    </MenuItem>
-                                    <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>
+                                    </MenuItem>}
+                                    {!!(permissions.role.campsite & anyManageCampsitePermission) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>
                                         <ListItemDecorator>
                                             <IconCampfire />
                                         </ListItemDecorator>
                                         <ListItemContent>
                                             Campsite Settings
                                         </ListItemContent>
-                                    </MenuItem>
-                                    <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
+                                    </MenuItem>}
+                                    {!!(permissions.bonfire.campsite & CampsitePermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
                                         <ListItemDecorator>
                                             <IconSettings2 />
                                         </ListItemDecorator>
                                         <ListItemContent>
                                             Bonfire Settings
                                         </ListItemContent>
-                                    </MenuItem>
+                                    </MenuItem>}
+                                    {campsite.owner !== campsite.member.user.did && <MenuItem variant="plain" color="danger" onClick={this.leaveCampsite.bind(this)}>
+                                        <ListItemDecorator>
+                                            <IconDoorExit />
+                                        </ListItemDecorator>
+                                        <ListItemContent>
+                                            Leave campsite
+                                        </ListItemContent>
+                                    </MenuItem>}
                                 </Menu>
                             </Dropdown>
                         </Group>

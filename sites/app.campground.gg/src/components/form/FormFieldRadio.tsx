@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
-import { List, ListItem, listItemClasses, ListItemDecorator, listItemDecoratorClasses, Radio, RadioGroup, styled, } from "@mui/joy";
+import { List, ListItem, Radio, RadioGroup, Stack, styled, Typography, } from "@mui/joy";
 
 export interface FormFieldRadioItem {
     value: string | boolean | number;
@@ -27,16 +27,16 @@ const RadioGrid = styled(List)(({ theme }) => ({
     "--ListItem-radius": "8px",
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr",
-    gap: 8,
-    [`& .${listItemDecoratorClasses.root}`]: {
-        flexDirection: "column",
-        alignItems: "center",
-        zIndex: 2,
-    },
-    [`& .${listItemClasses.root}:has(.Mui-checked) > .${listItemDecoratorClasses.root}`]: {
-        color: theme.vars.palette.primary[200]
-    }
+    gap: theme.spacing(1),
 }));
+const RadioLabel = styled(Stack, {
+    name: "RadioLabel",
+    slot: "root",
+})(({ theme }) => ({
+    gap: theme.spacing(2),
+    flexDirection: "column",
+    alignItems: "center",
+}))
 
 export default class FormFieldRadio extends AbstractFormField<"radio", number | boolean | string | null, FormFieldRadioProps> {
     constructor(props: FormFieldRadioProps) {
@@ -69,20 +69,22 @@ export default class FormFieldRadio extends AbstractFormField<"radio", number | 
     private RadioOptionButtoned(option: FormFieldRadioItem) {
         return (
             <ListItem variant="soft" sx={{ boxShadow: "sm" }}>
-                {option.startDecorator && <ListItemDecorator>
-                    {option.startDecorator}
-                </ListItemDecorator>}
                 <Radio
                     overlay
                     variant="soft"
                     disabled={this.props.disabled}
                     value={option.value}
-                    label={option.text}
+                    label={
+                        <RadioLabel>
+                            {option.startDecorator}
+                            <Typography>
+                                {option.text}
+                            </Typography>
+                            {option.endDecorator}
+                        </RadioLabel>
+                    }
                     sx={{ flexGrow: 1, flexDirection: "row-reverse" }}
                 />
-                {option.endDecorator && <ListItemDecorator>
-                    {option.endDecorator}
-                </ListItemDecorator>}
             </ListItem>
         );
     }
@@ -90,21 +92,23 @@ export default class FormFieldRadio extends AbstractFormField<"radio", number | 
     private RadioOptionGridButtoned(option: FormFieldRadioItem) {
         return (
             <ListItem variant="soft" sx={{ boxShadow: "sm", flexDirection: "column", alignItems: "center" }}>
-                {option.startDecorator && <ListItemDecorator>
-                    {option.startDecorator}
-                </ListItemDecorator>}
                 <Radio
                     overlay
                     variant="soft"
                     disabled={this.props.disabled}
                     value={option.value}
-                    label={option.text}
+                    label={
+                        <RadioLabel>
+                            {option.startDecorator}
+                            <Typography>
+                                {option.text}
+                            </Typography>
+                            {option.endDecorator}
+                        </RadioLabel>
+                    }
                     sx={{ flexGrow: 1, flexDirection: "row" }}
                     disableIcon
                 />
-                {option.endDecorator && <ListItemDecorator>
-                    {option.endDecorator}
-                </ListItemDecorator>}
             </ListItem>
         );
     }

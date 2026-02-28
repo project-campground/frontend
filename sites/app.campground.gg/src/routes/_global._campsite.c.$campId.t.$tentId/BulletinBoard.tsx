@@ -61,7 +61,7 @@ export function BulletinBoardSidebarComponent(props: { campsite: CampsiteViewDet
                     <ListItemDecorator>
                         <IconCake />
                     </ListItemDecorator>
-                    <ListItemContent>
+                    <ListItemContent sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
                         {"Created"}
                         <Datestamp date={new Date(props.campsite.createdAt)} />
                     </ListItemContent>

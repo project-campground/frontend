@@ -44,6 +44,7 @@ const RoleDisplayCircle = styled("div", {
     display: "block",
     width: 16,
     height: 16,
+    minWidth: 16,
     borderRadius: "100%",
     background: colors?.length ? colors.length > 1 ? `linear-gradient(to right, ${colors.join(", ")})` : `${colors[0]}` : theme.vars.palette.neutral[400],
 }));
@@ -56,6 +57,12 @@ const RoleDisplayDecorator = styled("span", {
     cursor: "pointer",
     padding: 2,
 }));
+const RoleDisplayName = styled("span", {
+    name: "RoleDisplay",
+    slot: "name",
+})(() => ({
+    width: "max-content",
+}));
 
 type Props = CampsiteRoleView & { endDecorator?: ReactNode[] | ReactNode; onClick?: (role: CampsiteRoleView) => unknown; onRemove?: (role: CampsiteRoleView) => unknown; };
 
@@ -64,9 +71,9 @@ export default function RoleDisplay({ endDecorator, onClick, onRemove, ...role }
     return (
         <RoleDisplayBadge className={colors?.length ? "colored" : "uncolored"} colors={colors} onClick={onClick ? () => onClick(role) : undefined} sx={{ cursor: onClick ? "pointer" : undefined }}>
             <RoleDisplayCircle colors={colors} />
-            <span>
+            <RoleDisplayName>
                 {role.name}
-            </span>
+            </RoleDisplayName>
             {endDecorator && <RoleDisplayDecorator>
                 {endDecorator}
             </RoleDisplayDecorator>}

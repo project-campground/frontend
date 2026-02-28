@@ -125,6 +125,7 @@ function ArrowVertical(editor: RichEditor, up: boolean, shift: boolean) {
 
 export type KeyboardSettings = {
     enterCallback?: () => unknown;
+    escapeCallback?: () => unknown;
 };
 
 function unnestListItem(editor: RichEditor, path: Path) {
@@ -226,5 +227,14 @@ export const editorKeyboardLogic: Record<string, (editor: RichEditor, event: Rea
             return settings.enterCallback?.();
 
         editor.insertNode(paragraph());
+    },
+    Escape(_editor, _event, settings) {
+        settings.escapeCallback?.();
+    },
+    Home(editor) {
+        editor.select(editor.start([]));
+    },
+    End(editor) {
+        editor.select(editor.end([]));
     }
 }

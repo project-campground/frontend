@@ -1,6 +1,6 @@
 import React, { ReactNode, type MouseEvent } from "react";
 import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance } from "./forms";
-import { Button, Stack, Typography, type ColorPaletteProp } from "@mui/joy";
+import { Button, Stack, styled, Typography, type ColorPaletteProp } from "@mui/joy";
 
 import { FormattedMessage } from "react-intl";
 import FormSection from "./FormSection";
@@ -19,6 +19,7 @@ export type FormProps = {
     onChange?: (isValid: boolean, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
     onCancel?: (ev: MouseEvent<HTMLAnchorElement>) => unknown;
     ReactiveComponent?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
+    inlineReactiveComponent?: boolean;
 };
 type FormState = {
     fieldValues: Record<string, any>;
@@ -41,6 +42,29 @@ const getFieldValuesAndRequirements = (props: FormProps) => ({
                 .flatMap(x => x.fields)
                 .map(x => [x.id, !x.required || (typeof x.defaultValue !== "undefined" && x.defaultValue !== null)]))
 });
+
+const FormRoot = styled("form", {
+    name: "Form",
+    slot: "root",
+})(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(3),
+    "&.Form-with-sidebar": {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        [theme.breakpoints.down("md")]: {
+            flexDirection: "column",
+        },
+    },
+}));
+const FormContent = styled(Stack, {
+    name: "Form",
+    slot: "content",
+})(({ theme }) => ({
+    gap: theme.spacing(3),
+    flex: 1,
+}));
 
 export default class Form extends React.Component<FormProps, FormState> {
     constructor(props: FormProps) {
@@ -79,12 +103,12 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     public render(): ReactNode[] | ReactNode {
-        const { header, sections, submitText, cancelText, children, ReactiveComponent, gap, submitColor, description } = this.props;
+        const { header, sections, submitText, cancelText, children, ReactiveComponent, gap, submitColor, description, inlineReactiveComponent } = this.props;
         const { fieldValues } = this.state;
 
         return (
-            <form className="Form container">
-                <Stack className="Form content" gap={3}>
+            <FormRoot className={`Form-root${inlineReactiveComponent ? " Form-with-sidebar" : ""}`}>
+                <FormContent className="Form-content">
                     <Stack gap={2}>
                         {header && <Typography level="title-lg" fontWeight={700}>
                             {header}
@@ -94,7 +118,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                         </Typography>}
                     </Stack>
                     {/* Sections */}
-                    <Stack className="Form sections" gap={gap ?? 4}>
+                    <Stack className="Form-sections" gap={gap ?? 4}>
                         {sections.map(section =>
                             <FormSection
                                 key={section.id}
@@ -107,7 +131,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                         )}
                     </Stack>
                     {/* Form footer */}
-                    <Stack className="Form footer" direction="column" gap={1} sx={{ mt: 2 }}>
+                    <Stack className="Form-footer" direction="column" gap={1} sx={{ mt: 2 }}>
                         <Group withMobileReversed gap={2} sx={{ width: "max-content" }}>
                             {this.props.onCancel && <Button variant="plain" color="danger" onClick={this.props.onCancel} fullWidth>
                                 <FormattedMessage id={cancelText ?? "form.cancel"} />
@@ -116,11 +140,11 @@ export default class Form extends React.Component<FormProps, FormState> {
                                 <FormattedMessage id={submitText ?? "form.submit"} />
                             </Button>}
                         </Group>
-                        {ReactiveComponent && <ReactiveComponent {...fieldValues} />}
                         { children }
                     </Stack>
-                </Stack>
-            </form>
+                </FormContent>
+                {ReactiveComponent && <ReactiveComponent {...fieldValues} />}
+            </FormRoot>
         );
     }
 }

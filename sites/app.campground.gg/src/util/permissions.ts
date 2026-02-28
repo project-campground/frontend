@@ -92,7 +92,7 @@ export const CampsitePermissionConsts = {
     MANAGE_OTHERS_IDENTITY: 0b1000000000,
     CREATE_INVITES: 0b10000000000,
     MANAGE_INVITES: 0b100000000000,
-    MAX: 0b1111111111,
+    MAX: 0b111111111111,
 } as const;
 export const maxPermissions: PermissionsDictionary = {
     campsite: CampsitePermissionConsts.MAX,

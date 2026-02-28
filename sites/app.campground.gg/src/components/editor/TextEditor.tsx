@@ -77,7 +77,7 @@ export default function TextEditor({ keyboardSettings, placeholder }: Props) {
                         const keybind = event.ctrlKey && controlKeybinds[event.key];
                         const logic = editorKeyboardLogic[event.key];
 
-                        if (!logic && !keybind)
+                        if (!(logic || keybind))
                             return;
 
                         event.preventDefault();

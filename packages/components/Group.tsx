@@ -15,7 +15,7 @@ const GroupRoot = styled(Stack, {
     slot: "root",
 })<{ ownerState: GroupProps }>(({ theme }) => ({
     flexDirection: "row",
-    "&.wrap": {
+    "&.CampgroundGroup-wrap": {
         flexWrap: "wrap",
     },
     "&.CampgroundGroup-mobile": {
@@ -43,6 +43,7 @@ const Group = forwardRef<HTMLDivElement, GroupProps>(function GradientTypography
             ownerState,
             className: [
                 `CampgroundGroup-root`,
+                wrap && `CampgroundGroup-wrap`,
                 (withMobile || withMobileReversed) && `CampgroundGroup-mobile`,
                 withMobileReversed && `CampgroundGroup-mobile-reverse`,
                 className,

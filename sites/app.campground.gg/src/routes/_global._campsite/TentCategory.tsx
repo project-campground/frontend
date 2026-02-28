@@ -5,18 +5,26 @@ import type { TentCategoryView, TentViewBasic } from "types/tent";
 import ContentCategory from "~/components/content/ContentCategory";
 import { useRightClick } from "~/context/mouse";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
+import { useCampsiteContext } from "./context";
+import { CampsitePermissionConsts } from "~/util/permissions";
 
-type Props = React.PropsWithChildren & {
-    category: TentCategoryView 
-    onCreate: () => unknown;
-    onSettingsOpen?: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: CategorySettingsPage }) => unknown;
+type TentCategoryViewComponent = Pick<TentCategoryView, "id" | "name" | "description">;
+
+type Props<T extends TentCategoryViewComponent> = React.PropsWithChildren & {
+    category: T;
+    onCreate?: () => unknown;
+    onSettingsOpen?: (props: { tent?: TentViewBasic, category?: T, page?: CategorySettingsPage }) => unknown;
 };
 
-export default function TentCategory({ onCreate, category, children, onSettingsOpen }: Props) {
+export default function TentCategory<T extends TentCategoryViewComponent>({ onCreate, category, children, onSettingsOpen }: Props<T>) {
+    const { permissions } = useCampsiteContext();
+    const categoryPermissions = permissions.permissions.categories[category.id] ?? permissions.permissions.bonfire;
+    const canManageCategory = !!(categoryPermissions.campsite & CampsitePermissionConsts.MANAGE_TENTS);
+
     const { listeners } = useRightClick({
         MenuComponent: () => (
             <>
-                {onSettingsOpen && <MenuItem onClick={() => onSettingsOpen({ category })}>
+                {canManageCategory && onSettingsOpen && <MenuItem onClick={() => onSettingsOpen({ category })}>
                     <ListItemDecorator>
                         <IconSettings2 />
                     </ListItemDecorator>
@@ -24,7 +32,7 @@ export default function TentCategory({ onCreate, category, children, onSettingsO
                         Category settings
                     </ListItemContent>
                 </MenuItem>}
-                {onSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onSettingsOpen({ category, page: "delete" })}>
+                {canManageCategory && onSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onSettingsOpen({ category, page: "delete" })}>
                     <ListItemDecorator>
                         <IconTrashFilled />
                     </ListItemDecorator>
@@ -44,9 +52,9 @@ export default function TentCategory({ onCreate, category, children, onSettingsO
                     <Typography level="title-md">{category.name}</Typography>
                     {category.description && <Typography level="body-sm">{category.description}</Typography>}
                 </Stack>
-                <IconButton sx={{ "--IconButton-size": "1.5rem" }} onClick={onCreate}>
+                {onCreate && canManageCategory && <IconButton sx={{ "--IconButton-size": "1.5rem" }} onClick={onCreate}>
                     <IconPlus size="16px" />
-                </IconButton>
+                </IconButton>}
             </Group>
         }>
             {children}

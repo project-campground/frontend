@@ -32,11 +32,13 @@ export default function Datestamp({ prefix, dateOptions, type, displayDate, date
             </Tooltip>
         );
 
-    const time = `${ms(Date.now() - date.getTime(), { long: long ?? false })} ${type !== "none" ? type ?? "ago" : ""}`;
+    const timespan = Date.now() - date.getTime();
+    // Anything below a minute (seconds ago) should be displayed as "Just now"
+    const time = timespan < 60000 ? "Just now" : `${ms(timespan, { long: long ?? false })} ${type !== "none" ? type ?? "ago" : ""}`;
     const dateFormat = date.toLocaleString("en-US", dateOptions ?? defaultDateOptions);
 
     return (
-        <Tooltip title={displayDate ? time : dateFormat}>
+        <Tooltip title={displayDate ? time : dateFormat} arrow>
             <Typography>
                 {prefix}{displayDate ? dateFormat : time}
             </Typography>

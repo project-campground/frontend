@@ -421,20 +421,11 @@ export default class HTTPClient {
     }
 
     removeMember(campsite_id: string, actor: string) {
-        return this.get<null>({
+        return this.post<null>({
             route: "gg.campground.membership.removeMember",
             queries: {
                 campsite_id,
                 actor,
-            },
-        });
-    }
-    
-    leaveCampsite(campsite_id: string) {
-        return this.get<null>({
-            route: "gg.campground.membership.removeMember",
-            queries: {
-                campsite_id,
             },
         });
     }

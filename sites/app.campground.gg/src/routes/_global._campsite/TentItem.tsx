@@ -1,35 +1,52 @@
 import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, styled, Typography } from "@mui/joy";
 import { IconHash, IconSettings2, IconTrashFilled } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import type { TentCategoryView, TentViewBasic } from "types/tent"
+import type { TentCategoryView, TentView } from "types/tent"
 import TentIcon from "~/components/tents/TentIcon";
 import { useRightClick } from "~/context/mouse";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
+import { useCampsiteContext } from "./context";
+import { CampsitePermissionConsts } from "~/util/permissions";
 
 type Props = {
-    tent: TentViewBasic;
-    isActive?: boolean;
+    tent: TentView;
+    unclickable?: boolean;
     disableMenu?: boolean;
-    onSettingsOpen?: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown;
+    isActive?: boolean;
+    onSettingsOpen?: (props: { tent?: TentView, category?: TentCategoryView, page?: TentSettingsPage }) => unknown;
 }
 
-const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
+export const TentItemButton = styled(ListItemButton, {
+    name: "TentItem",
+    slot: "root",
+})(({ theme }) => ({
     borderRadius: theme.vars.radius.sm,
     transitionProperty: "background, box-shadow, border",
     transitionDuration: "0.3s",
     border: "solid 1px transparent",
-    "&.active": {
+    "&.TentItem-active": {
         boxShadow: theme.vars.shadow.xs,
         border: `solid 1px ${theme.vars.palette.neutral.border}`,
     }
 }));
 
-export default function TentItem({ tent, isActive, onSettingsOpen: onTentSettingsOpen }: Props) {
+export default function TentItem({ isActive, tent, onSettingsOpen: onTentSettingsOpen }: Props) {
     const navigate = useNavigate();
+    const { permissions } = useCampsiteContext();
+    const tentPermissions = permissions.getTentPermissions(tent.categoryId, tent.id);
+    const navigateToTent = () => navigate(`/c/${tent.campsiteId}/t/${tent.id}`);
     const { listeners } = useRightClick({
         MenuComponent: ({ tent }) => (
             <>
-                {tent.id !== "bulletin" && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
+                <MenuItem onClick={navigateToTent}>
+                    <ListItemDecorator>
+                        <IconSettings2 />
+                    </ListItemDecorator>
+                    <ListItemContent>
+                        Tent settings
+                    </ListItemContent>
+                </MenuItem>
+                {!!(tentPermissions.campsite & CampsitePermissionConsts.MANAGE_TENTS) && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
                     <ListItemDecorator>
                         <IconSettings2 />
                     </ListItemDecorator>
@@ -37,7 +54,7 @@ export default function TentItem({ tent, isActive, onSettingsOpen: onTentSetting
                         Tent settings
                     </ListItemContent>
                 </MenuItem>}
-                {tent.id !== "bulletin" && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
+                {!!(tentPermissions.campsite & CampsitePermissionConsts.MANAGE_TENTS) && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
                     <ListItemDecorator>
                         <IconTrashFilled />
                     </ListItemDecorator>
@@ -52,22 +69,37 @@ export default function TentItem({ tent, isActive, onSettingsOpen: onTentSetting
 
     return (
         <ListItem {...listeners}>
-            <ListItemButtonStyled className={isActive ? "active" : ""} variant={isActive ? "soft" : "plain"} onClick={() => navigate(`/c/${tent.campsiteId}/t/${tent.id}`)}>
+            <TentItemButton variant={isActive ? "soft" : "plain"} onClick={navigateToTent}>
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>
                 <ListItemContent sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {tent.name}
                 </ListItemContent>
-            </ListItemButtonStyled>
+            </TentItemButton>
         </ListItem>
     );
 }
 
-export function TentItemSkeleton({ isActive }: Pick<Props, "isActive">) {
+export function PseudoTentItem({ isActive, tent }: Pick<Props, "isActive"> & { tent: Pick<TentView, "type" | "viewType" | "name"> }) {
     return (
         <ListItem>
-            <ListItemButtonStyled variant={isActive ? "soft" : "plain"}>
+            <TentItemButton variant={isActive ? "soft" : "plain"}>
+                <ListItemDecorator>
+                    <TentIcon type={tent.type} viewType={tent.viewType} />
+                </ListItemDecorator>
+                <ListItemContent sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {tent.name}
+                </ListItemContent>
+            </TentItemButton>
+        </ListItem>
+    );
+}
+
+export function TentItemSkeleton() {
+    return (
+        <ListItem>
+            <TentItemButton>
                 <ListItemDecorator>
                     <Skeleton loading width={24} height={24}/>
                     <IconHash />
@@ -79,7 +111,7 @@ export function TentItemSkeleton({ isActive }: Pick<Props, "isActive">) {
                         </Skeleton>
                     </Typography>
                 </ListItemContent>
-            </ListItemButtonStyled>
+            </TentItemButton>
         </ListItem>
     );
 }

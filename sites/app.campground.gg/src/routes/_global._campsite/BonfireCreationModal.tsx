@@ -41,7 +41,7 @@ export default function BonfireCreationModal({ campsiteId, onClose, lowestPriori
                             },
                             {
                                 id: "description",
-                                type: "text",
+                                type: "textarea",
                                 header: "Bonfire description",
                                 defaultValue: "",
                             },

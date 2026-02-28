@@ -3,9 +3,9 @@ import { IconArrowForwardUp, IconDots, IconMoodPlus, IconPencil, IconTrash, Icon
 
 type Props = {
     // message: TentMessageViewWithReplies;
-    addReply: () => unknown;
-    onEdit: () => unknown;
-    onDelete: () => unknown;
+    addReply?: () => unknown;
+    onEdit?: () => unknown;
+    onDelete?: () => unknown;
     beingRepliedTo?: boolean;
     onlyAllowDeletion?: boolean;
 };
@@ -36,13 +36,13 @@ export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, on
                         <IconMoodPlus />
                     </IconButton>
                     <Divider />
-                    <IconButton onClick={onEdit}>
+                    {onEdit && <IconButton onClick={onEdit}>
                         <IconPencil />
-                    </IconButton>
-                    <IconButton onClick={addReply}>
+                    </IconButton>}
+                    {addReply && <IconButton onClick={addReply}>
                         <IconArrowForwardUp />{beingRepliedTo && <IconX size={12} />}
-                    </IconButton>
-                    <Dropdown>
+                    </IconButton>}
+                    {onDelete && <Dropdown>
                         <MenuButton slots={{ root: IconButton }}>
                             <IconDots />
                         </MenuButton>
@@ -56,7 +56,7 @@ export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, on
                                 </ListItemContent>
                             </MenuItem>
                         </Menu>
-                    </Dropdown>
+                    </Dropdown>}
                 </>
                 : <>
                     <IconButton onClick={onDelete}>

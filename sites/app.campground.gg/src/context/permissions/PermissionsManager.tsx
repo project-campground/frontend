@@ -21,6 +21,15 @@ export default class PermissionsManager {
         this.tentList = new CurrentTentListContext(null);
         this.tentList.subscribeToChanges(this.onNewTentList.bind(this));
     }
+    public get role() {
+        return this.permissions.role;
+    }
+    public get bonfire() {
+        return this.permissions.bonfire;
+    }
+    public get categories() {
+        return this.permissions.categories;
+    }
     private onNewTentList(value: GetTentsOutput | null) {
         for (const perm in this._tentToPermissions)
             delete this._tentToPermissions[perm];

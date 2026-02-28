@@ -12,6 +12,7 @@ import TentSettingsModal from "~/layout/tent/TentSettingsModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
 import CategorySettingsModal from "~/layout/category/CategorySettingsModal";
+import { CampsitePermissionConsts } from "~/util/permissions";
 
 type Props = {
     campsiteId: string;
@@ -92,7 +93,9 @@ export default class TentList extends React.Component<Props, State, Session> {
     }
     render() {
         const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected, campsiteId } } = this;
+        const { permissions } = this.context as CampsiteContextSuite;
         const onModalClose = this.onModalClose.bind(this);
+        const canManageTents = !!(permissions.bonfire.campsite & CampsitePermissionConsts.MANAGE_TENTS);
 
         return (
             <>
@@ -125,9 +128,9 @@ export default class TentList extends React.Component<Props, State, Session> {
                                 </Typography>
                             </Stack>
                         </Alert>}
-                        <Button startDecorator={<IconTent />} color="neutral" variant="outlined" sx={{ borderWidth: 3, borderStyle: "dashed" }} onClick={() => this.setState({ createModalOpen: true })}>
+                        {canManageTents && <Button startDecorator={<IconTent />} color="neutral" variant="outlined" sx={{ borderWidth: 3, borderStyle: "dashed" }} onClick={() => this.setState({ createModalOpen: true })}>
                             Create tent
-                        </Button>
+                        </Button>}
                     </Stack>
                 </Stack>
                 <Modal open={this.state.createModalOpen} onClose={onModalClose}>

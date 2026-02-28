@@ -1,11 +1,9 @@
 import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { Group, loremIpsum } from "components";
-import type { TentMessageViewWithReplies } from "types/content";
+import type { TentMessageType, TentMessageViewWithReplies } from "types/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
-import MarkdownWrapper from "../markdown/MarkdownWrapper";
-import { LargeContentMarkdown } from "../markdown/Markdown";
 import MessageToolbar from "./MessageToolbar";
-import { useState, type MouseEvent } from "react";
+import { useState, type MouseEvent, type ReactNode } from "react";
 import MessageEditor from "../editor/MessageEditor";
 import { useSession } from "~/context/session";
 import Datestamp, { defaultDateOptions } from "../Datestamp";
@@ -13,8 +11,9 @@ import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
 import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
-import type { CampsiteRoleView } from "types/campsites";
-import { decimalToHexColor } from "~/util/color";
+import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
+import { getColorFromSet } from "~/util/color";
+import ContentDisplayBlock from "../markdown/ContentDisplayBlock";
 
 const TentMessageWrapper = styled(Stack, {
     name: "TentMessage",
@@ -73,12 +72,18 @@ type Props = {
     message: TentMessageViewWithReplies;
     colorRoles?: CampsiteRoleView[];
     isBeingRepliedTo?: boolean;
-    onAuthorClick?: (ev: MouseEvent<HTMLDivElement>) => unknown;
+    onUserClick?: (ev: MouseEvent<HTMLDivElement>, user: CampsiteMemberViewAuthor) => unknown;
     promptDelete: (message: TentMessageViewWithReplies) => unknown;
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
+type MessageTypeComponentProps = Pick<Props, "message" | "colorRoles" | "waiting" | "error" | "onUserClick"> & React.PropsWithChildren;
 
-export default function TentMessage({ unhoverable, waiting, error, onAuthorClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
+const TentMessageComponentByType: Record<TentMessageType, (props: MessageTypeComponentProps) => ReactNode[] | ReactNode> = {
+    default: TentMessageDefault,
+    system: TentMessageSystem,
+};
+
+export default function TentMessage({ unhoverable, waiting, error, onUserClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
     const session = useSession();
     const [editMode, setEditMode] = useState(false);
     const [msgContent, setMsgContent] = useState(message.content);
@@ -94,18 +99,12 @@ export default function TentMessage({ unhoverable, waiting, error, onAuthorClick
                 return setMsgContent(message.content = resp.content.content);
             });
     }
-    const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
-    const displayColors = colorRole?.color && colorRole?.colorSecondary
-        ? [decimalToHexColor(colorRole.color), decimalToHexColor(colorRole.colorSecondary)]
-        : colorRole?.color || colorRole?.colorSecondary
-        ? [decimalToHexColor(colorRole?.color || colorRole?.colorSecondary)]
-        : undefined;
+    const MessageComponent = TentMessageComponentByType[message.type ?? "default"];
 
     return (
         <TentMessageWrapper className={`TentMessage-wrapper${unhoverable ? " unhoverable" : ""}${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
             {!hideToolbar && <MessageToolbar
-                // message={message}
-                onEdit={() => setEditMode(true)}
+                onEdit={message.type !== "system" ? () => setEditMode(true) : undefined}
                 onDelete={() => promptDelete(message)}
                 addReply={() => addReply(message)}
                 beingRepliedTo={isBeingRepliedTo}
@@ -119,50 +118,80 @@ export default function TentMessage({ unhoverable, waiting, error, onAuthorClick
                 )}
             </TentMessageReplies>}
             <TentMessageContainer className="TentMessage-container">
-                <Box onClick={onAuthorClick}>
-                    <UserAvatar did={message.createdBy.user.did} avatar={message.createdBy.user.avatar} size="lg" />
-                </Box>
-                <Stack flex={1}>
-                    <Group gap={1} alignItems="center">
-                        <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} colors={displayColors} />
-                        {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
-                        <Typography level="body-sm">
-                            <Datestamp long date={new Date(message.createdAt)}/>
+                <MessageComponent message={message} colorRoles={colorRoles} onUserClick={onUserClick} waiting={waiting} error={error}>
+                    {editMode && !waiting
+                    ? <MessageEditor
+                        content={msgContent}
+                        confirmButton="Edit"
+                        onConfirm={onEdit}
+                        onCancel={() => setEditMode(false)}
+                        />
+                        : <ContentDisplayBlock content={msgContent} components={message.components} createdBy={message.createdBy} onUserClick={onUserClick} colorRoles={colorRoles} />}
+                </MessageComponent>
+            </TentMessageContainer>
+        </TentMessageWrapper>
+    )
+}
+
+function TentMessageDefault({ message, colorRoles, onUserClick, waiting, error, children }: MessageTypeComponentProps) {
+    const onAuthorClick = (ev: MouseEvent<HTMLDivElement>) => onUserClick?.(ev, message.createdBy);
+    const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
+    const displayColors = getColorFromSet(colorRole?.color, colorRole?.colorSecondary);
+
+    return (
+        <>
+            <Box onClick={onAuthorClick}>
+                <UserAvatar did={message.createdBy.user.did} avatar={message.createdBy.user.avatar} size="lg" />
+            </Box>
+            <Stack flex={1}>
+                <Group gap={1} alignItems="center">
+                    <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} colors={displayColors} />
+                    {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
+                    <Typography level="body-sm">
+                        <Datestamp long date={new Date(message.createdAt)}/>
+                    </Typography>
+                    {waiting && !error && <CircularProgress size="sm" />}
+                    {error && <Tooltip title={error}>
+                        <Typography textColor="danger.500" level="body-sm" sx={{ lineHeight: 0 }}>
+                            <IconExclamationCircleFilled />
                         </Typography>
-                        {waiting && !error && <CircularProgress size="sm" />}
-                        {error && <Tooltip title={error}>
-                            <Typography textColor="danger.500" level="body-sm" sx={{ lineHeight: 0 }}>
-                                <IconExclamationCircleFilled />
-                            </Typography>
-                        </Tooltip>
-                        }
-                        {message.updatedAt &&
+                    </Tooltip>
+                    }
+                    {message.updatedAt &&
                         <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
                             <Typography level="body-sm" textColor="text.tertiary">
                                 {"("}
                                 <IconPencil size={16} />
                                 {" edited)"}
                             </Typography>
-                        </Tooltip>}
-                    </Group>
-                    <Box sx={{ overflow: "hidden" }}>
-                        {editMode && !waiting
-                        ? <MessageEditor
-                            content={msgContent}
-                            confirmButton="Edit"
-                            onConfirm={onEdit}
-                            onCancel={() => setEditMode(false)}
-                            />
-                            : <MarkdownWrapper>
-                            <LargeContentMarkdown>
-                                {msgContent}
-                            </LargeContentMarkdown>
-                        </MarkdownWrapper>}
-                    </Box>
-                </Stack>
-            </TentMessageContainer>
-        </TentMessageWrapper>
-    )
+                        </Tooltip>
+                    }
+                </Group>
+                <Box sx={{ overflow: "hidden" }}>
+                    {children}
+                </Box>
+            </Stack>
+        </>
+    );
+}
+function TentMessageSystem({ message, children }: MessageTypeComponentProps) {
+    return (
+        <Group wrap alignItems="center" gap={2}>
+            {children}
+            <Typography level="body-sm">
+                <Datestamp long date={new Date(message.createdAt)}/>
+            </Typography>
+            {message.updatedAt &&
+                <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
+                    <Typography level="body-sm" textColor="text.tertiary">
+                        {"("}
+                        <IconPencil size={16} />
+                        {" edited)"}
+                    </Typography>
+                </Tooltip>
+            }
+        </Group>
+    );
 }
 
 function TentMessageSkeletonHeader() {

@@ -1,4 +1,4 @@
-import { Button, Divider, Dropdown, IconButton, Link, MenuButton, Sheet, Stack, styled } from "@mui/joy";
+import { Box, Button, Divider, Dropdown, IconButton, Link, MenuButton, Sheet, Stack, styled } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useRef, useState } from "react";
 import { Group } from "components";
@@ -24,12 +24,14 @@ type Props = {
     sx?: SxProps;
     onCancel?: () => unknown;
     onConfirm: (content: string) => unknown;
+    onClearReplies?: () => unknown;
 };
 
 export const MessageEditorContainer = styled(Sheet)(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.level2,
     width: "100%",
-    maxHeight: 200,
+    // 200 + border 1 + padding 8
+    maxHeight: 218,
     padding: "8px 8px",
     boxShadow: theme.vars.shadow.sm,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
@@ -40,7 +42,7 @@ const MessageEditorGroup = styled(Group)(() => ({
     height: "100%",
 }));
 
-export default function MessageEditor({ placeholder, content, onConfirm, onCancel, confirmButton, sx }: Props) {
+export default function MessageEditor({ placeholder, content, onConfirm, onCancel, confirmButton, onClearReplies, sx }: Props) {
     const [editor] = useState(() => withCgMarkdown(withHistory(withReact(createEditor()))) as RichEditor);
     const relativeRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,12 +75,15 @@ export default function MessageEditor({ placeholder, content, onConfirm, onCance
                         </Dropdown>
                         <Divider orientation="vertical" />
                         <RichEditorFloater useRelativeRef={relativeRef} />
-                        <TextEditor
-                            placeholder={placeholder ?? "Message"}
-                            keyboardSettings={{
-                                enterCallback: onDone,
-                            }}
-                        />
+                        <Box sx={{ maxHeight: 200, overflowY: "auto", overflowX: "hidden", flex: 1 }}>
+                            <TextEditor
+                                placeholder={placeholder ?? "Message"}
+                                keyboardSettings={{
+                                    enterCallback: onDone,
+                                    escapeCallback: onClearReplies,
+                                }}
+                            />
+                        </Box>
                         <Group gap={2} alignItems="center">
                             <Dropdown>
                                 <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: "soft" } }}>

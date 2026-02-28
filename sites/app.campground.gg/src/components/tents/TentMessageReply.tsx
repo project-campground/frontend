@@ -16,7 +16,7 @@ const TentMessageReplyWrapper = styled(Group, {
 })(() => ({
     gap: 4,
     padding: 2,
-    paddingLeft: 24,
+    paddingLeft: 24.25,
     alignItems: "center",
 }));
 
@@ -36,6 +36,7 @@ export default function TentMessageReply({ message, colorRoles }: Props) {
                 colors={displayColors}
             />
             <Typography level="body-sm" textColor="text.secondary">
+                {message.type === "system" ? <Typography level="code">[System message]</Typography> : ""}
                 {message.content.split("\n").join(" ").substring(0, 50)}{message.content.length > 50 ? "..." : ""}
             </Typography>
         </TentMessageReplyWrapper>

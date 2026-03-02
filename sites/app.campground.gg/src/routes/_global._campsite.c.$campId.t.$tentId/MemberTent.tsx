@@ -140,7 +140,7 @@ function RolesComponent({ item: member }: { item: CampsiteMemberViewDetailed }) 
     return (
         <Group wrap gap={1} alignItems="center">
             {userRoles.slice(0, 4).map((x) =>
-                <RoleDisplay key={x.id} {...x} onRemove={onRoleRemove} />
+                <RoleDisplay key={x.id} role={x} onRemove={onRoleRemove} />
             )}
             {userRoles.length > 4
             ? <Dropdown>
@@ -151,7 +151,7 @@ function RolesComponent({ item: member }: { item: CampsiteMemberViewDetailed }) 
                     {userRoles.slice(4).map((x) =>
                         <ListItem key={x.id}>
                             <ListItemContent>
-                                <RoleDisplay {...x} onRemove={onRoleRemove} />
+                                <RoleDisplay role={x} onRemove={onRoleRemove} />
                             </ListItemContent>
                         </ListItem>
                     )}
@@ -167,7 +167,7 @@ function RolesComponent({ item: member }: { item: CampsiteMemberViewDetailed }) 
                         {nonUserRoles.map((x) =>
                             <ListItem key={x.id}>
                                 <ListItemContent>
-                                    <RoleDisplay {...x} onClick={onRoleAdd} endDecorator={<IconPlus size={16} />} />
+                                    <RoleDisplay role={x} onClick={onRoleAdd} endDecorator={<IconPlus size={16} />} />
                                 </ListItemContent>
                             </ListItem>
                         )}

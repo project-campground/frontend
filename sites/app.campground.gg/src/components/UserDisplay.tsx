@@ -3,21 +3,23 @@ import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group } from "components";
-import type { CampsiteMemberView } from "types/campsites";
+import type { CampsiteMemberView, CampsiteRoleView } from "types/campsites";
 import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";
 
 type Props<T extends ProfileView> = {
     user: T;
-    member?: CampsiteMemberView<T>;
+    member?: CampsiteMemberView<T> | null;
     noAvatar?: boolean;
     colors?: string[];
     size?: Size;
     avatarSize?: Size | "xl";
     showHandle?: boolean;
     alignItems?: "center" | "start" | "end";
+    noHoverBackground?: boolean;
     withStatus?: boolean;
+    campsiteRoles?: CampsiteRoleView[];
 };
 
 const sizeToGap: Record<Size, number> = {
@@ -47,13 +49,15 @@ export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
     return (
         <>
             <Dropdown>
-                <MenuButton variant="plain" sx={{ px: 0, py: 0, minHeight: "min-content" }}>
+                <MenuButton variant="plain" sx={{ px: 0, py: 0, minHeight: "min-content", ":hover": { backgroundColor: props.noHoverBackground ? "transparent" : undefined } }}>
                     <UserDisplayNoModal {...props} />
                 </MenuButton>
                 <Menu variant="soft">
                     <UserProfileCard
                         did={props.user.did}
                         user={props.user}
+                        member={props.member}
+                        campsiteRoles={props.campsiteRoles}
                     />
                 </Menu>
             </Dropdown>

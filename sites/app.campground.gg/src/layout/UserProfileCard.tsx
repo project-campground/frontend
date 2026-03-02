@@ -5,15 +5,15 @@ import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
 import { IconLogout2, IconSettings2, IconShield, IconUser, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
-import type { CampsiteMemberViewBasic, CampsiteMemberViewDetailed, CampsiteRoleView } from "types/campsites";
+import type { CampsiteMemberView, CampsiteRoleView } from "types/campsites";
 import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
 import GradientBanner from "../components/pages/GradientBanner";
 
-type Props = {
+type Props<T extends ProfileView> = {
     user?: ProfileView;
-    member?: CampsiteMemberViewBasic | CampsiteMemberViewDetailed;
+    member?: CampsiteMemberView<T> | null;
     campsiteRoles?: CampsiteRoleView[];
     did: string;
 };
@@ -23,7 +23,7 @@ const UserProfileCardWrapper = styled(Box)(() => ({
     padding: `0 8px`,
 }));
 
-export default function UserProfileCard({ did, user, member, campsiteRoles }: Props) {
+export default function UserProfileCard<T extends ProfileView>({ did, user, member, campsiteRoles }: Props<T>) {
     const session = useSession();
     const [fetchedUser, setFetchedUser] = useState(user);
     const [isFetching, setIsFetching] = useState(false);
@@ -93,7 +93,7 @@ export default function UserProfileCard({ did, user, member, campsiteRoles }: Pr
                 <ContentCategory header={"Roles"}>
                     <Group wrap gap={1}>
                         {roles.map((role) =>
-                            <RoleDisplay key={role.id} {...role}/>
+                            <RoleDisplay key={role.id} role={role}/>
                         )}
                     </Group>
                 </ContentCategory>

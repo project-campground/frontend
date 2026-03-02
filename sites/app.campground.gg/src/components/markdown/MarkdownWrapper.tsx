@@ -4,6 +4,13 @@ const MarkdownWrapper = styled(Box, {
     name: "MarkdownWrapper",
     slot: "root"
 })(({ theme }) => ({
+    "p": {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 4,
+    },
     "p, h1, h2, h3, h4, h5, h6, blockquote": {
         "&:first-of-type": {
             marginTop: 0,

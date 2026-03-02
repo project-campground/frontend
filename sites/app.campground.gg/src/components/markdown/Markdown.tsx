@@ -6,6 +6,10 @@ import type { Element, Text } from "hast";
 import InlineCode from "./InlineCode";
 import { Checkbox } from "@mui/joy";
 import Divider from "./Divider";
+import { hastifyUnknownTypes, mdastMentions } from "~/editor/mdast/mentions";
+import ActorMention from "./ActorMention";
+import TentMention from "./TentMention";
+import RoleMention from "./RoleMention";
 
 type Props = {
     children: string;
@@ -27,7 +31,7 @@ function parseMeta(raw: string) {
     }
 }
 
-const markdownComponents: Components = {
+const markdownComponents: Components & { mention: Components["a"] } = {
     pre({ node }) {
         if (!node)
             return <CodeBlock>{""}</CodeBlock>;
@@ -77,12 +81,22 @@ const markdownComponents: Components = {
     },
     input({ checked }) {
         return <Checkbox checked={checked} variant="soft" color={checked ? "success" : "danger"}></Checkbox>
+    },
+    mention({ id, type }) {
+        switch (type) {
+            case "actor":
+                return <ActorMention did={id!} />
+            case "tent":
+                return <TentMention id={id!} />;
+            case "role":
+                return <RoleMention id={id!}/>
+        }
     }
 };
 
 export function LargeContentMarkdown({ children }: Props) {
     return (
-        <Markdown remarkPlugins={[ remarkGfm, remarkBreaks ]} components={markdownComponents}>
+        <Markdown remarkRehypeOptions={{ unknownHandler: hastifyUnknownTypes }} remarkPlugins={[ remarkGfm, remarkBreaks, () => mdastMentions ]} rehypePlugins={[ (...args) => (...args2) => console.log({ args, args2 }) ]} components={markdownComponents}>
             { children }
         </Markdown>
     )

@@ -1,4 +1,4 @@
-import { styled } from "@mui/joy";
+import { styled, type ButtonProps, type Radius } from "@mui/joy";
 import { IconX, type ReactNode } from "@tabler/icons-react";
 import type { CampsiteRoleView } from "types/campsites";
 import { getColorFromSet } from "~/util/color";
@@ -18,12 +18,13 @@ const RoleDisplayBadge = styled("span", {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    overflow: "hidden",
     position: "relative",
+    borderRadius: theme.vars.radius.lg,
     "::after": {
         content: "''",
         position: "absolute",
         opacity: 0.20,
-        borderRadius: theme.vars.radius.xl,
         top: 0,
         left: 0,
         border: `solid 1px transparent`,
@@ -64,13 +65,26 @@ const RoleDisplayName = styled("span", {
     width: "max-content",
 }));
 
-type Props = CampsiteRoleView & { endDecorator?: ReactNode[] | ReactNode; onClick?: (role: CampsiteRoleView) => unknown; onRemove?: (role: CampsiteRoleView) => unknown; };
+type Props = {
+    role: CampsiteRoleView;
+    radius?: keyof Radius;
+    size?: ButtonProps["size"];
+    startDecorator?: ReactNode[] | ReactNode;
+    endDecorator?: ReactNode[] | ReactNode;
+    onClick?: (role: CampsiteRoleView) => unknown;
+    onRemove?: (role: CampsiteRoleView) => unknown;
+};
+const sizeToPadding = {
+    "sm": "0px 6px",
+    "md": "2px 8px",
+};
 
-export default function RoleDisplay({ endDecorator, onClick, onRemove, ...role }: Props) {
+export default function RoleDisplay({ radius, role, size, startDecorator, endDecorator, onClick, onRemove }: Props) {
     const colors = getColorFromSet(role.color, role.colorSecondary);
+    const padding = sizeToPadding[size as "md" ?? "md"];
     return (
-        <RoleDisplayBadge className={colors?.length ? "colored" : "uncolored"} colors={colors} onClick={onClick ? () => onClick(role) : undefined} sx={{ cursor: onClick ? "pointer" : undefined }}>
-            <RoleDisplayCircle colors={colors} />
+        <RoleDisplayBadge className={colors?.length ? "colored" : "uncolored"} colors={colors} onClick={onClick ? () => onClick(role) : undefined} sx={{ p: padding, borderRadius: radius, cursor: onClick ? "pointer" : undefined }}>
+            {startDecorator || <RoleDisplayCircle colors={colors} />}
             <RoleDisplayName>
                 {role.name}
             </RoleDisplayName>

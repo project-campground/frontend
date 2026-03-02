@@ -1,21 +1,25 @@
-import { IconHash, IconLayoutDashboardFilled, IconUserFilled, type Icon, type IconProps } from "@tabler/icons-react";
+import { IconEyeOff, IconHash, IconLayoutDashboardFilled, IconUserFilled, type Icon, type IconProps } from "@tabler/icons-react";
 import type { ForwardRefExoticComponent } from "react";
 import type { TentType } from "types/tent";
+import type { PseudoTentType } from "~/util/pseudoTents";
 
+type Type = TentType | PseudoTentType | "unknown";
 type Props = {
-    type: TentType | "bulletin" | "members";
+    type: Type;
     viewType: number;
+    size?: number;
 }
 
-export const TentTypeToIcon: Record<TentType | "bulletin" | "members", ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>> = {
+export const TentTypeToIcon: Record<Type, ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>> = {
     "bulletin": IconLayoutDashboardFilled,
     "members": IconUserFilled,
     "text": IconHash,
+    "unknown": IconEyeOff
 };
 
-export default function TentIcon({ type }: Props) {
+export default function TentIcon({ type, size }: Props) {
     const IconComponent = TentTypeToIcon[type];
     return (
-        <IconComponent />
+        <IconComponent size={size} />
     );
 }

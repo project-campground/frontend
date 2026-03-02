@@ -217,8 +217,8 @@ When given the choice between losing support of deprecated systems or holding ba
 ### Front-end Webapp
 
 **Prerequisites:**
-- Running [back-end](/project-campground/backend)
-- Running [PDS](/project-campground/backend)
+- Running [back-end](https://github.com/project-campground/backend/tree/2026/campsites#getting-started)
+- Running [PDS](https://github.com/project-campground/backend/tree/2026/campsites#getting-started)
 
 ```bash
 cd ./sites/campground.gg

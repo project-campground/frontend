@@ -1,4 +1,4 @@
-import type { CampsitePermissionView } from "./campsites";
+import type { CampsitePermissionViewBasic } from "./campsites";
 
 export interface TentView {
     id: string;
@@ -40,5 +40,5 @@ export interface TentCategoryView {
 export interface GetTentsOutput {
     tents: TentViewBasic[];
     categories: TentCategoryView[];
-    permissions: CampsitePermissionView[];
+    permissions: CampsitePermissionViewBasic[];
 }

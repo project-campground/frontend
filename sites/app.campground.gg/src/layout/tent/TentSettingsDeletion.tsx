@@ -37,7 +37,7 @@ export default function TentSettingsDeletion({ settingsProps: { tent } }: Settin
             submitColor="danger"
             onSubmit={() => session
                     .http
-                    .deleteTent(tent.id)
+                    .tents.delete(tent.id)
                     .then((resp) => {
                         if (!resp.ok)
                             return floating.notifyApiError(resp);

@@ -98,7 +98,7 @@ export default class MemberSidebar extends React.Component<Props, State, Session
             });
     }
     async fetchMembers(offset: number) {
-        return (this.context as Session).http.getMembers(this.props.campsiteId, offset);
+        return (this.context as Session).http.members.getMany(this.props.campsiteId, offset);
     }
     render(): React.ReactNode {
         const { closed, tent, children } = this.props;

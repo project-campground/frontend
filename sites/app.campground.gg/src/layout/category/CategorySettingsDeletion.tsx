@@ -37,7 +37,7 @@ export default function CategorySettingsDeletion({ settingsProps: { category } }
             submitColor="danger"
             onSubmit={() => session
                     .http
-                    .deleteCategory(category.id)
+                    .categories.delete(category.id)
                     .then((resp) => {
                         if (!resp.ok)
                             return floating.notifyApiError(resp);

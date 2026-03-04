@@ -33,7 +33,8 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
         profile: (fieldValues) =>
             session
                 .http
-                .updateCampsite(props.campsite.id, {
+                .campsites
+                .update(props.campsite.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
                     avatarUri: fieldValues.avatarUri ?? "",
@@ -48,7 +49,7 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
                     return updateCampsite(resp.content);
                 }),
         roles: ({ id, ...fieldValues }) =>
-            session.http.updateRole(props.campsite.id, id as string, fieldValues)
+            session.http.roles.update(props.campsite.id, id as string, fieldValues)
                 .then((resp) => {
                     if (!resp.ok)
                         return snackbars.notifyApiError(resp);

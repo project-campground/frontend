@@ -37,7 +37,8 @@ export default function TentMention({ id }: Props) {
         return (
             session
                 .http
-                .getTent(id)
+                .tents
+                .get(id)
                 .then((resp) => resp.ok ? setTent(resp.content) : null)
         );
     }, [id]);

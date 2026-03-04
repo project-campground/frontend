@@ -29,7 +29,8 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
     const createNewRole = () =>
         session
             .http
-            .createRole(campsite.id, {
+            .roles
+            .create(campsite.id, {
                 name: "New role",
                 color: 0,
                 colorSecondary: 0,
@@ -55,7 +56,8 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
         if (!movedToIndex || Math.abs(roles[movedToIndex - 1].priority - roles[movedToIndex].priority) > 1)
             return session
                 .http
-                .moveRoles(campsite.id, {
+                .roles
+                .moveMany(campsite.id, {
                     roleByPriority: { [roleMoved]: roles[movedToIndex]!.priority - 1 },
                 })
                 .then(onRolesMoved);
@@ -69,7 +71,8 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
 
         return session
             .http
-            .moveRoles(campsite.id, {
+            .roles
+            .moveMany(campsite.id, {
                 roleByPriority: newPriorities,
             })
             .then(onRolesMoved);
@@ -87,7 +90,8 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
 
         return session
             .http
-            .deleteRole(campsite.id, roleToDelete.id)
+            .roles
+            .delete(campsite.id, roleToDelete.id)
             .then((resp) => {
                 if (!resp.ok)
                     return snackbars.notifyApiError(resp);
@@ -126,7 +130,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
     )
 }
 
-type FormValues = Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "mentionable" | "displaySeparately" | "tentPermissions" | "campsitePermissions">;
+type FormValues = Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "mentionable" | "displaySeparately" | "permissions">;
 type RolePageProps = { onRoleDelete: (role: SettingsRole) => unknown; role: SettingsRole; onChanged: (valid: boolean, changed: boolean, values: FormValues) => unknown; };
 type RolePageTabProps = { value: FormValues, role: SettingsRole; onChanged: (valid: boolean, values: Partial<FormValues>) => unknown; };
 
@@ -138,8 +142,7 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
             colorSecondary: role.colorSecondary,
             mentionable: role.mentionable,
             displaySeparately: role.displaySeparately,
-            campsitePermissions: role.campsitePermissions,
-            tentPermissions: role.tentPermissions,
+            permissions: role.permissions,
         },
         combinedValues: {
             id: role.id,
@@ -148,21 +151,22 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
             colorSecondary: role.colorSecondary,
             mentionable: role.mentionable,
             displaySeparately: role.displaySeparately,
-            campsitePermissions: role.campsitePermissions,
-            tentPermissions: role.tentPermissions,
+            permissions: role.permissions,
         }
     }), [role.id]);
     const validForTabs = [true, true];
-    const defaultValueList = Object.keys(defaultValues) as (keyof Omit<FormValues, "id">)[];
+    const defaultValueList = Object.keys(defaultValues).filter((x) => x !== "permissions") as (keyof Omit<FormValues, "id" | "permissions">)[];
+    const defaultPermissionList = Object.keys(defaultValues.permissions) as (keyof FormValues["permissions"])[];
 
     const onTabValuesChanged = (page: number, valid: boolean, values: Record<string, any>) => {
-        validForTabs[page] = valid; 
-        Object.assign(combinedValues, values);
-        const allTabsValid = validForTabs.every((x) => x);
-        const anyValueChanged = defaultValueList.some((x) => combinedValues[x as typeof defaultValueList[number]] !== defaultValues[x as typeof defaultValueList[number]]);
-        const valuesChanged = defaultValueList.map((x) => [x, combinedValues[x as typeof defaultValueList[number]] !== defaultValues[x as typeof defaultValueList[number]]]);
+        validForTabs[page] = valid;
 
-        console.log({ allTabsValid, anyValueChanged, combinedValues, valuesChanged, defaultValues, defaultValueList });
+        Object.assign(combinedValues, values);
+
+        const allTabsValid = validForTabs.every((x) => x);
+        const permissionsChanged = defaultPermissionList.some((x) => combinedValues.permissions[x] !== defaultValues.permissions[x]);
+        const anyValueChanged = permissionsChanged || defaultValueList.some((x) => combinedValues[x as typeof defaultValueList[number]] !== defaultValues[x as typeof defaultValueList[number]]);
+
         return onChanged(allTabsValid, anyValueChanged, combinedValues);
     }
 
@@ -351,7 +355,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
         const tentPermissions = entries.filter(([key]) => key[0] === "t").reduce((all, [_, current]) => all | current, 0);
         const campsitePermissions = entries.filter(([key]) => key[0] === "c").reduce((all, [_, current]) => all | current, 0);
         console.log({ tentPermissions, campsitePermissions, entries, });
-        return onChanged(isValid, { tentPermissions, campsitePermissions } satisfies Pick<FormValues, "campsitePermissions" | "tentPermissions">);
+        return onChanged(isValid, { permissions: { campsite: campsitePermissions, tent: tentPermissions } } satisfies Pick<FormValues, "permissions">);
     };
 
     return (
@@ -367,7 +371,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Campsite",
                             description: "Allows members with this role to edit the name of this campsite and other details.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_CAMPSITE,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_CAMPSITE,
                             checkedValue: CampsitePermissionConsts.MANAGE_CAMPSITE,
                         },
                         {
@@ -375,7 +379,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Bonfires",
                             description: "Allows members with this role to edit and delete bonfires.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_BONFIRES,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_BONFIRES,
                             checkedValue: CampsitePermissionConsts.MANAGE_BONFIRES,
                         },
                         {
@@ -383,7 +387,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Tents",
                             description: "Allows members with this role to edit and delete tents.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_TENTS,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_TENTS,
                             checkedValue: CampsitePermissionConsts.MANAGE_TENTS,
                         },
                         {
@@ -391,7 +395,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Roles",
                             description: "Allows members with this role to edit and delete roles below their highest role.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_ROLES,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_ROLES,
                             checkedValue: CampsitePermissionConsts.MANAGE_ROLES,
                         },
                         {
@@ -399,7 +403,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Give Roles",
                             description: "Allows members with this role to give and remove roles that are lower than their highest role from other members.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.GIVE_ROLES,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.GIVE_ROLES,
                             checkedValue: CampsitePermissionConsts.GIVE_ROLES,
                         },
                     ],
@@ -414,7 +418,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Mute Members",
                             description: "Allows members with this role to disallow other members from creating content.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MUTE_MEMBERS,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MUTE_MEMBERS,
                             checkedValue: CampsitePermissionConsts.MUTE_MEMBERS,
                         },
                         {
@@ -422,7 +426,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Kick Members",
                             description: "Allows members with this role to remove other members with lower rank/roles from this campsite.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.KICK_MEMBERS,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.KICK_MEMBERS,
                             checkedValue: CampsitePermissionConsts.KICK_MEMBERS,
                         },
                         {
@@ -430,7 +434,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Ban Members",
                             description: "Allows members with this role to remove other members with lower rank/roles from this campsite and disallow from them joining again or allow them to join again.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.BAN_MEMBERS,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.BAN_MEMBERS,
                             checkedValue: CampsitePermissionConsts.BAN_MEMBERS,
                         },
                         {
@@ -438,7 +442,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Their Own Identity",
                             description: "Allows members with this role to change their nicknames and avatars in this campsite.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_SELF_IDENTITY,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_SELF_IDENTITY,
                             checkedValue: CampsitePermissionConsts.MANAGE_SELF_IDENTITY,
                         },
                         {
@@ -446,7 +450,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Identity of Others",
                             description: "Allows members with this role to change nicknames and remove avatars of other members in this campsite.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_OTHERS_IDENTITY,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_OTHERS_IDENTITY,
                             checkedValue: CampsitePermissionConsts.MANAGE_OTHERS_IDENTITY,
                         },
                         {
@@ -454,7 +458,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Create Invites",
                             description: "Allows members with this role to create invites to this campsite.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.CREATE_INVITES,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.CREATE_INVITES,
                             checkedValue: CampsitePermissionConsts.CREATE_INVITES,
                         },
                         {
@@ -462,7 +466,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Invites",
                             description: "Allows members with this role to delete campsite's invites.",
-                            defaultValue: value.campsitePermissions & CampsitePermissionConsts.MANAGE_INVITES,
+                            defaultValue: value.permissions.campsite & CampsitePermissionConsts.MANAGE_INVITES,
                             checkedValue: CampsitePermissionConsts.MANAGE_INVITES,
                         },
                     ],
@@ -477,7 +481,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "View Content",
                             description: "Allows members to view tents and tent messages.",
-                            defaultValue: value.tentPermissions & TentPermissionConsts.VIEW_CONTENT,
+                            defaultValue: value.permissions.tent & TentPermissionConsts.VIEW_CONTENT,
                             checkedValue: TentPermissionConsts.VIEW_CONTENT,
                         },
                         {
@@ -485,7 +489,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Create Content",
                             description: "Allows members with this role to send messages in tents.",
-                            defaultValue: value.tentPermissions & TentPermissionConsts.CREATE_CONTENT,
+                            defaultValue: value.permissions.tent & TentPermissionConsts.CREATE_CONTENT,
                             checkedValue: TentPermissionConsts.CREATE_CONTENT,
                         },
                         {
@@ -493,7 +497,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Pin Content",
                             description: "Allows members with this role to pin messages in tents.",
-                            defaultValue: value.tentPermissions & TentPermissionConsts.PIN_CONTENT,
+                            defaultValue: value.permissions.tent & TentPermissionConsts.PIN_CONTENT,
                             checkedValue: TentPermissionConsts.PIN_CONTENT,
                         },
                         {
@@ -501,7 +505,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Manage Content",
                             description: "Allows members with this role to delete messages of other members.",
-                            defaultValue: value.tentPermissions & TentPermissionConsts.MANAGE_CONTENT,
+                            defaultValue: value.permissions.tent & TentPermissionConsts.MANAGE_CONTENT,
                             checkedValue: TentPermissionConsts.MANAGE_CONTENT,
                         },
                         {
@@ -509,7 +513,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Mention @everyone and @here",
                             description: "Allows members with this role to mention @everyone and @here.",
-                            defaultValue: value.tentPermissions & TentPermissionConsts.MENTION_EVERYONE,
+                            defaultValue: value.permissions.tent & TentPermissionConsts.MENTION_EVERYONE,
                             checkedValue: TentPermissionConsts.MENTION_EVERYONE,
                         },
                         {
@@ -517,7 +521,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             type: "switch",
                             label: "Create Private Content",
                             description: "Allows members with this role to send private messages in this campsite.",
-                            defaultValue: value.tentPermissions & TentPermissionConsts.CREATE_PRIVATE_CONTENT,
+                            defaultValue: value.permissions.tent & TentPermissionConsts.CREATE_PRIVATE_CONTENT,
                             checkedValue: TentPermissionConsts.CREATE_PRIVATE_CONTENT,
                         },
                     ],

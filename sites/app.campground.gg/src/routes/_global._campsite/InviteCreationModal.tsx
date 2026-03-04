@@ -17,7 +17,8 @@ export default function InviteCreationModal({ campsiteId }: Props) {
 
     const onInviteCreate = (): Promise<string> =>
         session.http
-            .createInvite(campsiteId, values)
+            .invites
+            .create(campsiteId, values)
             .then((resp) => {
                 if (!resp.ok)
                     return (snackbars.notifyApiError(resp), "");

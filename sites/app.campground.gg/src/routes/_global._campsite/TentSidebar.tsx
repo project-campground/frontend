@@ -205,7 +205,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         return (this.context as CampsiteContextSuite)
             .session
             .http
-            .getTents(this.props.campsite.id, bonfireSelected.id)
+            .tents.getMany(this.props.campsite.id, bonfireSelected.id)
             .then((x) => {
                 if (!x.ok)
                     return this.setState({ error: x });
@@ -242,7 +242,8 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         return (
             session
                 .http
-                .deleteBonfire(this.props.campsite.id, this.state.bonfireSelected.id)
+                .bonfires
+                .delete(this.props.campsite.id, this.state.bonfireSelected.id)
                 .then((resp) => {
                     if (!resp.ok)
                         return floaters.notifyApiError(resp);
@@ -254,7 +255,8 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         return (
             session
                 .http
-                .removeMember(this.props.campsite.id, this.props.campsite.member.user.did)
+                .members
+                .remove(this.props.campsite.id, this.props.campsite.member.user.did)
                 .then((resp) => {
                     if (!resp.ok)
                         return floaters.notifyApiError(resp);

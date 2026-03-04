@@ -41,9 +41,6 @@ export interface CampsiteRoleView {
     flags: number;
 }
 export interface CampsitePermissionView {
-    id: string;
-    campsiteId: string;
-
     bonfireId?: string;
     categoryId?: string;
     tentId?: string;
@@ -52,6 +49,12 @@ export interface CampsitePermissionView {
     roleId?: string;
 
     permissions: PermissionsStateDictionary;
+}
+export interface CampsitePermissionViewBasic extends CampsitePermissionView {
+}
+export interface CampsitePermissionViewDetailed extends CampsitePermissionView {
+    id: string;
+    campsiteId: string;
 
     createdAt: string;
     createdBy: string;
@@ -108,5 +111,5 @@ export interface GetRolesOutput {
     roles: CampsiteRoleView[];
 }
 export interface GetPermissionsOutput {
-    permissions: CampsitePermissionView[];
+    permissions: CampsitePermissionViewDetailed[];
 }

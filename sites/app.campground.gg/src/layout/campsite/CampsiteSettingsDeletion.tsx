@@ -17,7 +17,8 @@ export default function CampsiteSettingsDeletion({ settingsProps: { campsite } }
     const onDelete = () =>
         session
             .http
-            .deleteCampsite(campsite.id)
+            .campsites
+            .delete(campsite.id)
             .then((resp) => {
                 if (!resp.ok)
                     return snackbars.notifyApiError(resp);

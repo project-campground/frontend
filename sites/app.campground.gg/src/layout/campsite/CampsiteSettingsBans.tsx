@@ -40,7 +40,8 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
 
         return session
             .http
-            .getBans(this.props.settingsProps.campsite.id, offset, limit)
+            .memberBans
+            .getMany(this.props.settingsProps.campsite.id, offset, limit)
             .then((resp) => {
                 if (!resp.ok)
                     return resp;

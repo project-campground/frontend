@@ -28,11 +28,12 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
     const session = useSession();
     const snackbars = useSnackbars();
     const callbacks: Record<BonfireSettingsPage, (fieldValues: Record<string, any>) => unknown> = {
-        profile: (fieldValues) => (console.log(fieldValues), session.http.updateBonfire(props.bonfire.campsiteId, props.bonfire.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", bannerUri: fieldValues.bannerUri ?? "" })),
+        profile: (fieldValues) => (console.log(fieldValues), session.http.bonfires.update(props.bonfire.campsiteId, props.bonfire.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", bannerUri: fieldValues.bannerUri ?? "" })),
         permissions: ({ roleId, userId, permissions }) =>
             session
                 .http
-                .updatePermission({ role_id: roleId, actor: userId, bonfire_id: props.bonfireId }, { permissions })
+                .permissions
+                .update({ role_id: roleId, actor: userId, bonfire_id: props.bonfireId }, { permissions })
                 .then((resp) => {
                     if (!resp.ok)
                         return snackbars.notifyApiError(resp);

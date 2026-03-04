@@ -5,7 +5,7 @@ import { getColorFromSet } from "~/util/color";
 import { RoleButton } from "./campsite/RoleItem";
 import { IconBadgeFilled } from "@tabler/icons-react";
 
-type Props = { active?: boolean; onClick?: () => unknown; role: CampsiteRoleView | undefined; } & Pick<CampsitePermissionView, "id" | "permissions" | "roleId" | "userId"> & { added?: true; };
+type Props = { active?: boolean; onClick?: () => unknown; role: CampsiteRoleView | undefined; } & Pick<CampsitePermissionView, "permissions" | "roleId" | "userId"> & { added?: true; };
 
 export default function PermissionItem({ onClick, active, added, userId, roleId, role }: Props) {
     const badge = role && (role.flags & 1) === 1

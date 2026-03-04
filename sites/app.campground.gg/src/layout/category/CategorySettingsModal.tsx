@@ -31,7 +31,8 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
         profile: (fieldValues) =>
             session
                 .http
-                .updateCategory(props.category.id, {
+                .categories
+                .update(props.category.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
                 })
@@ -42,7 +43,8 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
         permissions: ({ roleId, userId, permissions }) =>
             session
                 .http
-                .updatePermission({ role_id: roleId, actor: userId, category_id: props.categoryId }, { permissions })
+                .permissions
+                .update({ role_id: roleId, actor: userId, category_id: props.categoryId }, { permissions })
                 .then((resp) => {
                     if (!resp.ok)
                         return snackbars.notifyApiError(resp);

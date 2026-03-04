@@ -64,7 +64,7 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
-        return session.http.createPost(newPost)
+        return session.http.profilePosts.create(newPost)
             .then((x) =>
                 x.ok
                 ? (
@@ -79,11 +79,11 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
     }
 
     const onPostDeleted = (uri: string) =>
-        session.http.deletePost(uri)
+        session.http.profilePosts.delete(uri)
             .then((x) => x.ok)
             .catch((e) => (console.error("Got an error while deleting a post", e), false));
     const onPostUpdated = (uri: string, content: string) =>
-        session.http.updatePost(uri, { content })
+        session.http.profilePosts.update(uri, { content })
             .then((x) => x.ok)
             .catch((e) => (console.error("Got an error while editing a post", e), false));
 

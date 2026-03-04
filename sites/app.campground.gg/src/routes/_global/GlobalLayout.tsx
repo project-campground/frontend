@@ -59,12 +59,12 @@ export default class GlobalLayout extends React.Component<Props, State> {
     onWsMessage<T extends keyof TypeToPayload>(type: T, payload: TypeToPayload[T]) {
         switch(type) {
             case "CampsiteLeft":
-                const index = this._me?.campsites.findIndex((x) => x.id === payload.id);
+                const index = this._me?.campsites.findIndex((x) => x.id === (payload as TypeToPayload["CampsiteLeft"]).id);
                 if ((index ?? -1) >= 0)
                     this._me?.campsites.splice(index!, 1);
                 break;
             case "CampsiteUpdated":
-                const campsiteUpdated = this._me?.campsites.find((x) => payload.id === x.id);
+                const campsiteUpdated = this._me?.campsites.find((x) => (payload as TypeToPayload["CampsiteUpdated"]).id === x.id);
 
                 if (campsiteUpdated) {
                     Object.assign(campsiteUpdated, payload);

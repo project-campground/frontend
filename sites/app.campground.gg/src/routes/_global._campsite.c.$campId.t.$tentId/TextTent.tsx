@@ -117,7 +117,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
 
         return session
             .http
-            .getTentMessages(tent.id, offset)
+            .messages.getMany(tent.id, offset)
             .then((resp) => {
                 if (!resp.ok)
                     return this.setState({ error: resp, loading: false });
@@ -171,7 +171,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
 
         return session
             .http
-            .createTentMessage(this.props.tent.id, { content, replies: replyMessages.map((x) => x.id) })
+            .messages.create(this.props.tent.id, { content, replies: replyMessages.map((x) => x.id) })
             .then((resp) => {
                 if (!resp.ok)
                     return this.setState({ messages: [{ ...fakeMessage, error: resp.errorDescription }, ...this.state.messages.filter((x) => x.id !== fakeMessage.id)] })
@@ -228,7 +228,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         this.setState({ deleteMessage: null });
 
         return (this.context as ContextSuite).session.http
-            ?.deleteTentMessage(this.props.tent.id, messageDeleted.id)
+            ?.messages.delete(this.props.tent.id, messageDeleted.id)
             .then((resp) => {
                 if (!resp.ok)
                     return (floaters.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`), this.setState({ deleteMessage: null }));

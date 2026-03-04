@@ -52,7 +52,7 @@ export default class CampsiteLayout extends React.Component<Props, State, Sessio
         return (this.context as ContextSuite)
             .session
             .http
-            .getCampsite(this.props.campsiteId)
+            .campsites.get(this.props.campsiteId)
             .then((resp) => {
                 if (!resp.ok)
                     return this.setState({ err: resp });

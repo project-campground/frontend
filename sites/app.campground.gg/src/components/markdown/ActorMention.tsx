@@ -32,7 +32,7 @@ export default function ActorMention({ did }: Props) {
             return (
                 session
                     .http
-                    .getMember(campsite.id, did)
+                    .members.get(campsite.id, did)
                     .then((resp) => resp.ok ? setMember(resp.content) : null)
             );
         }, [did]);

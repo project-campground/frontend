@@ -41,7 +41,8 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
 
         return session
             .http
-            .getInvites(this.props.settingsProps.campsite.id, offset, limit)
+            .invites
+            .getMany(this.props.settingsProps.campsite.id, offset, limit)
             .then((resp) => {
                 if (!resp.ok)
                     return resp;

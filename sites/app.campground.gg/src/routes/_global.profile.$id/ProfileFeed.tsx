@@ -1,4 +1,4 @@
-import { Box, Stack, Tab, TabList, Tabs } from "@mui/joy";
+import { Box, Stack, Tabs } from "@mui/joy";
 import type { ProfileView, ProfilePostViewParented } from "types/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import ProfilePostCreator from "~/routes/_global.profile.$id/ProfilePostCreator";
@@ -27,7 +27,7 @@ export default function ProfileFeed({ user, isSelf }: Props) {
 
     useEffect(() => {
         setIsLoading(true);
-        session.http.fetchPosts(user.did, fetchReplies)
+        session.http.profilePosts.getMany(user.did, fetchReplies)
             .then((posts) => {
                 if (posts.ok)
                     setPostList(posts.content.posts);
@@ -44,17 +44,17 @@ export default function ProfileFeed({ user, isSelf }: Props) {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
-        return session.http.createPost(newPost)
+        return session.http.profilePosts.create(newPost)
             .then((x) => setPostList([{ ...newPost, author: user, replyCount: 0, uri: x.content!.uri, indexedAt: new Date().toISOString(), parent: null } satisfies ProfilePostViewParented, ...postList]))
             .catch((e) => console.error("Got an error while making a post", e));
     }
     const onPostDeleted = (uri: string) => {
-        return session.http.deletePost(uri)
+        return session.http.profilePosts.delete(uri)
             .then(() => setPostList(postList.filter((x) => x.uri != uri)))
             .catch((e) => console.error("Got an error while deleting a post", e));
     };
     const onPostUpdated = (uri: string, content: string) => {
-        return session.http.updatePost(uri, { content })
+        return session.http.profilePosts.update(uri, { content })
             .then(() => {
                 const postIndex = postList.findIndex((x) => x.uri === uri);
                 if (postIndex < 0)

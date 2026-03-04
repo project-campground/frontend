@@ -1,5 +1,5 @@
 import { CircularProgress, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
-import type { CampsitePermissionView, CampsiteRoleView } from "types/campsites";
+import type { CampsitePermissionView, CampsitePermissionViewBasic, CampsiteRoleView } from "types/campsites";
 import { useContext, useMemo, useState } from "react";
 import { GradientTypography, Group } from "components";
 import { IconPlus } from "@tabler/icons-react";
@@ -13,11 +13,11 @@ import type { PermissionsDictionary } from "types/permissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { getColorFromSet } from "~/util/color";
 
-type CampsitePermissionViewSettings = Pick<CampsitePermissionView, "id" | "userId" | "roleId" | "permissions"> & { new?: true; };
+type CampsitePermissionViewSettings = Pick<CampsitePermissionViewBasic, "userId" | "roleId" | "permissions"> & { new?: true; };
 
 function createNewPermission({ roleId, userId }: { roleId?: string; userId?: string; }): CampsitePermissionViewSettings {
     return {
-        id: Math.floor((Math.random() * 9900) + 100).toString(),
+        // id: Math.floor((Math.random() * 9900) + 100).toString(),
         new: true,
         roleId,
         userId,
@@ -43,12 +43,13 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
     useMemo(() => {
         session
             .http
-            .getPermissions({ non_self: true, tent_id: tentId, bonfire_id: bonfireId, category_id: categoryId } as ({ bonfire_id: string } | { tent_id: string } | { category_id: string }))
+            .permissions
+            .get({ non_self: true, tent_id: tentId, bonfire_id: bonfireId, category_id: categoryId } as ({ bonfire_id: string } | { tent_id: string } | { category_id: string }))
             .then((resp) => {
                 if (!resp.ok)
                     return floaters.notifyApiError(resp);
 
-                const permissionsReceived = resp.content.permissions.concat(...(
+                const permissionsReceived = (resp.content.permissions as CampsitePermissionViewBasic[]).concat(...(
                     permissionsManager
                         .tentList
                         .value
@@ -70,7 +71,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
 
     const onCreateRolePermission = (role: CampsiteRoleView) => {
         const newPermission = createNewPermission({ roleId: role.id });
-        const newPermissionList = openPermission.new && openPermission.roleId !== defaultRole.id ? permissions.filter((x) => x.id !== openPermission.id) : permissions;
+        const newPermissionList = openPermission.new && openPermission.roleId !== defaultRole.id ? permissions.filter((x) => x.userId !== openPermission.userId || x.roleId !== openPermission.roleId) : permissions;
         setPermissions(newPermissionList.concat(newPermission));
         return setOpenPermission(newPermission);
     }
@@ -79,7 +80,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
         setOpenPermission(permission);
 
         if (oldOpenPermission.new && oldOpenPermission.roleId !== defaultRole.id)
-            return setPermissions(permissions.filter((x) => x.id !== oldOpenPermission.id));
+            return setPermissions(permissions.filter((x) => x.userId !== oldOpenPermission.userId || x.roleId !== oldOpenPermission.roleId));
     };
 
     if (loading)
@@ -118,7 +119,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                         .map((x) => [x, roles.find((y) => y.id === x.roleId)] as [CampsitePermissionViewSettings, CampsiteRoleView | undefined])
                         .sort((a, b) => (a[1]?.priority ?? 0) - (b[1]?.priority ?? 0))
                         .map(([permission, role]) =>
-                            <PermissionItem key={permission.id} role={role} active={openPermission === permission} onClick={() => changeOpenPermission(permission)} {...permission} />
+                            <PermissionItem key={`${permission.userId}:${permission.roleId}`} role={role} active={openPermission === permission} onClick={() => changeOpenPermission(permission)} {...permission} />
                         )
                     }
                 </Stack>
@@ -164,7 +165,7 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
         combinedValues: {
             permissions: permission.permissions,
         }
-    }), [permission.id]);
+    }), [permission.roleId, permission.userId]);
 
     const onValuesChanged = (isValid: boolean, values: Record<string, TristateValue>) => {
         const entries = Object.entries(values);

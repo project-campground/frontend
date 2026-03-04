@@ -31,7 +31,7 @@ export default function TentSettingsModal(props: TentSettingsProps) {
         profile: (fieldValues) =>
             session
                 .http
-                .updateTent(props.tent.id, {
+                .tents.update(props.tent.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
                     viewType: fieldValues.viewType,
@@ -43,7 +43,8 @@ export default function TentSettingsModal(props: TentSettingsProps) {
         permissions: ({ roleId, userId, permissions }) =>
             session
                 .http
-                .updatePermission({ role_id: roleId, actor: userId, tent_id: props.tentId }, { permissions })
+                .permissions
+                .update({ role_id: roleId, actor: userId, tent_id: props.tentId }, { permissions })
                 .then((resp) => {
                     if (!resp.ok)
                         return snackbars.notifyApiError(resp);

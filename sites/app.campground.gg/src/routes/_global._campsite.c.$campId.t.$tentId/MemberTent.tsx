@@ -55,7 +55,7 @@ export default class MemberTent extends React.Component<Props, State, ContextSui
 
         return session
             .http
-            .getMembersDetailed(this.props.campsiteId, offset)
+            .members.getManyDetailed(this.props.campsiteId, offset)
             .then((resp) => {
                 if (!resp.ok)
                     return resp;
@@ -128,12 +128,12 @@ function RolesComponent({ item: member }: { item: CampsiteMemberViewDetailed }) 
     const nonUserRoles = roles.filter((x) => !member.roles.includes(x.id));
     const onRoleAdd = (role: CampsiteRoleView) =>
         session.http
-            .addMemberRole(campsite.id, role.id, {
+            .members.addRole(campsite.id, role.id, {
                 memberIds: [member.user.did], 
             });
     const onRoleRemove = (role: CampsiteRoleView) =>
         session.http
-            .removeMemberRole(campsite.id, role.id, {
+            .members.removeRole(campsite.id, role.id, {
                 memberIds: [member.user.did], 
             });        
 

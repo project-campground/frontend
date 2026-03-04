@@ -270,7 +270,6 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         const tents = this.bonfiresToTents[bonfireSelected.id];
         const toggleGroupMenu = this.toggleGroupMenu.bind(this);
         const { permissions } = (this.context as CampsiteContextSuite);
-        console.log({permissions, hasInvitePermission: permissions.role.campsite & CampsitePermissionConsts.CREATE_INVITES, create_invites: CampsitePermissionConsts.CREATE_INVITES});
 
         return (
             <TentSidebarBox>

@@ -3,7 +3,6 @@ import { findAndReplace } from "mdast-util-find-and-replace";
 import type { Element } from "hast";
 
 export function mdastMentions(tree: Root, _file: any, ...args: any[]) {
-    console.log("Tree", { tree, _file, args });
     if (!tree)
         return;
 

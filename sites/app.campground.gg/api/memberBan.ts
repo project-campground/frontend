@@ -4,7 +4,7 @@ import type { CampsiteBanView, GetBansOutput } from "types/membership";
 export default class HTTPClientMemberBanManager extends HTTPClientObjectManager {
     getMany(campsite_id: string, offset: number = 0, limit: number = 50) {
         return this.client.get<GetBansOutput>({
-            route: "gg.campground.membership.members.getBans",
+            route: "gg.campground.membership.getMemberBans",
             queries: {
                 campsite_id,
                 offset,

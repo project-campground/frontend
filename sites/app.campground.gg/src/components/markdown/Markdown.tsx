@@ -96,7 +96,7 @@ const markdownComponents: Components & { mention: Components["a"] } = {
 
 export function LargeContentMarkdown({ children }: Props) {
     return (
-        <Markdown remarkRehypeOptions={{ unknownHandler: hastifyUnknownTypes }} remarkPlugins={[ remarkGfm, remarkBreaks, () => mdastMentions ]} rehypePlugins={[ (...args) => (...args2) => console.log({ args, args2 }) ]} components={markdownComponents}>
+        <Markdown remarkRehypeOptions={{ unknownHandler: hastifyUnknownTypes }} remarkPlugins={[ remarkGfm, remarkBreaks, () => mdastMentions ]} components={markdownComponents}>
             { children }
         </Markdown>
     )

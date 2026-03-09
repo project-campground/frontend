@@ -166,7 +166,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             case "CategoryMoved":
             case "CategoryUpdated":
                 const categoryModified = bonfireToTents.categories.findIndex((x) => x.id === (payload as TentCategoryView).id);
-                bonfireToTents.categories[categoryModified] = payload as TentViewBasic;
+                bonfireToTents.categories[categoryModified] = payload as TentCategoryView;
                 break;
             case "CategoryDeleted":
                 const categoryDeleted = bonfireToTents.categories.findIndex((x) => x.id === (payload as TentCategoryView).id);

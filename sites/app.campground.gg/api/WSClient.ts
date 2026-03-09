@@ -109,9 +109,8 @@ export default class WSClient {
             encode({
                 op: 1,
                 payload: {
-                    View: {
-                        campsite: campsiteId || "",
-                    }
+                    t: "View",
+                    campsite: campsiteId || "",
                 }
             })
         );
@@ -120,9 +119,19 @@ export default class WSClient {
         this._client.send(
             encode({
                 op: 1,
-                t: "CampsiteView",
                 payload: {
+                    t: "View",
                     campsiteId,
+                },
+            })
+        );
+    }
+    public fetchPermissions() {
+        this._client.send(
+            encode({
+                op: 1,
+                payload: {
+                    t: "ViewPermissions",
                 },
             })
         );

@@ -33,7 +33,7 @@ export async function clientLoader({ context, params: { campId, tentId } }: Rout
             tent: { id: tentId, campsiteId: campId, name: pseudoTents[tentId as PseudoTentType].name, bonfireId: "", categoryId: null, permissions: [], description: "", type: tentId, viewType: 0, } as unknown as TentViewDetailed
         };
 
-    const tent = await session.restClient!.tents.get(tentId);
+    const tent = await session.http.tents.get(tentId);
 
     if (!tent.ok)
         return { err: tent.status, errorDescription: tent.errorDescription, errorHeader: tent.errorHeader, campsiteId: campId, tentId, tent: null };

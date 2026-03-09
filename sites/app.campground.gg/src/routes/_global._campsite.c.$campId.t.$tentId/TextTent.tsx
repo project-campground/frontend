@@ -227,8 +227,11 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
     
         this.setState({ deleteMessage: null });
 
-        return (this.context as ContextSuite).session.http
-            ?.messages.delete(this.props.tent.id, messageDeleted.id)
+        return (this.context as ContextSuite)
+            .session
+            .http
+            .messages
+            .delete(this.props.tent.id, messageDeleted.id)
             .then((resp) => {
                 if (!resp.ok)
                     return (floaters.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`), this.setState({ deleteMessage: null }));

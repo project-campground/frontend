@@ -13,7 +13,7 @@ export function meta(routes: Route.MetaArgs) {
 export async function clientLoader({ context, params: { inviteId } }: Route.ClientLoaderArgs) {
     const session = context.get(sessionRouterContext);
 
-    const invite = await session.restClient!.getInvite(inviteId);
+    const invite = await session.http.invites.get(inviteId);
 
     if (!invite.ok)
         return { err: invite.status, errorDescription: invite.errorDescription, errorHeader: invite.errorHeader, inviteId, invite: null };

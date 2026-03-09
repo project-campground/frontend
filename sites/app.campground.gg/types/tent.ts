@@ -11,16 +11,15 @@ export interface TentView {
     viewType: number;
     
     priority: number;
-
-    createdBy: string;
-    createdAt: string;
-    updatedBy: string;
-    updatedAt: string;
 }
 export type TentType = "text";
 export interface TentViewBasic extends TentView {
 }
 export interface TentViewDetailed extends TentView {
+    createdBy: string;
+    createdAt: string;
+    updatedBy: string;
+    updatedAt: string;
 }
 export interface TentCategoryView {
     id: string;

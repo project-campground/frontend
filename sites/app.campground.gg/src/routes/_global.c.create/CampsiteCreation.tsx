@@ -15,7 +15,8 @@ export default function CampsiteCreation() {
     const onSubmit = (_: any, fieldValues: Record<string, any>) =>
         session
             .http
-            ?.createCampsite({ ...fieldValues, tags: [] as string[] } as { name: string; description: string; vanityUrl?: string; tags: string[]; })
+            .campsites
+            .create({ ...fieldValues, tags: [] as string[] } as { name: string; description: string; vanityUrl?: string; tags: string[]; })
             .then((resp) => {
                 if (!resp.ok)
                     return setError(resp);

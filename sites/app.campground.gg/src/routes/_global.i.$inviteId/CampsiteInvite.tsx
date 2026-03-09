@@ -16,7 +16,8 @@ export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inv
     const onAccept = () =>
         session
             .http
-            ?.useInvite(inviteId)
+            .invites
+            .use(inviteId)
             .then((resp) => {
                 if (!resp.ok)
                     return setError(resp);

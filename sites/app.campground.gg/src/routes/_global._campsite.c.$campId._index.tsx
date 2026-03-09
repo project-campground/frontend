@@ -13,7 +13,7 @@ export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
 export async function clientLoader({ params: { campId }, context }: Route.ClientLoaderArgs) {
     const session = context.get(sessionRouterContext);
 
-    const campsite = await session.restClient.campsites.get(campId);
+    const campsite = await session.http.campsites.get(campId);
 
     if (campsite?.status === 404)
         return { status: 404 };

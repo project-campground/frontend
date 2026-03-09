@@ -28,7 +28,7 @@ type State = {
     tentSelected: string | null;
 };
 
-export default class CampsiteLayout extends React.Component<Props, State, Session> {
+export default class CampsiteLayout extends React.Component<Props, State> {
     private _currentTent: CurrentTentContext;
     private _permissionsManager: PermissionsManager = null!;
     static contextType?: React.Context<any> | undefined = ContextSuiteContext;

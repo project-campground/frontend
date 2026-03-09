@@ -18,7 +18,8 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
 
     const onDelete = () => session
         .http
-        ?.tents.delete(tent.id)
+        .tents
+        .delete(tent.id)
         .then((resp) => {
             if (!resp.ok)
                 return floating.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`);

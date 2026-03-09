@@ -54,7 +54,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                         .tentList
                         .value
                         ?.permissions
-                        .filter((x) => (x.tentId ?? null) === (tentId ?? null) && (x.categoryId ?? null) === (categoryId ?? null))
+                        .filter((x) => (x.bonfireId ?? null) === (bonfireId ?? null) && (x.tentId ?? null) === (tentId ?? null) && (x.categoryId ?? null) === (categoryId ?? null))
                     ?? []
                 ));
                 const defaultRolePermission = permissionsReceived.find((x) => x.roleId === defaultRole.id) as CampsitePermissionViewSettings | undefined;

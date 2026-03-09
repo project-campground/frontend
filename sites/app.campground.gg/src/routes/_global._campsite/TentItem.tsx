@@ -26,6 +26,7 @@ export const TentItemButton = styled(ListItemButton, {
     border: "solid 1px transparent",
     "&.TentItem-active": {
         boxShadow: theme.vars.shadow.xs,
+        backgroundColor: theme.vars.palette.neutral[800],
         border: `solid 1px ${theme.vars.palette.neutral.border}`,
     }
 }));
@@ -69,7 +70,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
 
     return (
         <ListItem {...listeners}>
-            <TentItemButton variant={isActive ? "soft" : "plain"} onClick={navigateToTent}>
+            <TentItemButton className={isActive ? "TentItem-active" : ""} onClick={navigateToTent}>
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>
@@ -84,7 +85,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
 export function PseudoTentItem({ isActive, tent }: Pick<Props, "isActive"> & { tent: Pick<TentView, "type" | "viewType" | "name"> }) {
     return (
         <ListItem>
-            <TentItemButton variant={isActive ? "soft" : "plain"}>
+            <TentItemButton className={isActive ? "TentItem-active" : ""}>
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>

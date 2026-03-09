@@ -4,19 +4,19 @@ import { mapLookup, toLookup } from "./array";
 
 // To make it easier to edit later if it goes beyond ("allowed" and "denied") or ("campsite" and "tent")
 const permissionStateKeys: (keyof PermissionsStateDictionary)[] = ["allowed", "denied"]; 
-const permissionDictionaryKeys: (keyof PermissionsDictionary)[] = ["campsite", "tent"];
+const permissionDictionaryKeys: (keyof PermissionsDictionary)[] = ["general", "content"];
 
 export const applyNestedPermissions = (ancestor: PermissionsDictionary, current: PermissionsStateDictionary): PermissionsDictionary =>
     ({
-        campsite: (ancestor.campsite & invertCampsitePermission(current.denied.campsite)) | current.allowed.campsite,
-        tent: (ancestor.tent & invertTentPermission(current.denied.tent)) | current.allowed.tent,
+        general: (ancestor.general & invertCampsitePermission(current.denied.general)) | current.allowed.general,
+        content: (ancestor.content & invertTentPermission(current.denied.content)) | current.allowed.content,
     });
 export const aggregateAnyPermissions = (values: PermissionsDictionary[]) =>
     values.reduce((val, perm) => {
         for (const key of permissionDictionaryKeys)
             val[key] |= perm[key] as number;
         return val;
-    }, { tent: 0, campsite: 0 });
+    }, { content: 0, general: 0 });
 export const aggregateRolePermissions = (roles: CampsiteRoleView[]) =>
     aggregateAnyPermissions(
         roles.map((x) => x.permissions),
@@ -95,10 +95,10 @@ export const CampsitePermissionConsts = {
     MAX: 0b111111111111,
 } as const;
 export const maxPermissions: PermissionsDictionary = {
-    campsite: CampsitePermissionConsts.MAX,
-    tent: TentPermissionConsts.MAX,
+    general: CampsitePermissionConsts.MAX,
+    content: TentPermissionConsts.MAX,
 };
 export const nullPermissions: PermissionsDictionary = {
-    campsite: 0,
-    tent: 0,
+    general: 0,
+    content: 0,
 };

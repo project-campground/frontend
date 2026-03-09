@@ -59,7 +59,8 @@ const theme = extendTheme({
         },
         JoyMenu: {
             styleOverrides: {
-                root: () => ({
+                root: ({ theme }) => ({
+                    border: `solid 1px ${theme.palette.neutral.border}`,
                     animation: "appear-animation-opacity ease-out 0.125s",
                 })
             }

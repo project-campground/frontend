@@ -308,7 +308,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                             removeAllReplies={this.removeAllMessageReplies.bind(this)}
                             replyMessages={this.state.replyMessages}
                             colorRoles={colorRoles}
-                            canCreate={Boolean(permissions.getTentPermissions(tent.categoryId, tent.id).tent & TentPermissionConsts.CREATE_CONTENT)}
+                            canCreate={Boolean(permissions.getTentPermissions(tent.categoryId, tent.id).content & TentPermissionConsts.CREATE_CONTENT)}
                         />
                     }
                 </PermissionsContext.Consumer>

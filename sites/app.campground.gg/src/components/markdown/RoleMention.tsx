@@ -27,8 +27,8 @@ const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId"> = {
     displaySeparately: false,
     mentionable: false,
     permissions: {
-        campsite: 0,
-        tent: 0,
+        general: 0,
+        content: 0,
     },
     priority: 0,
     flags: 0,

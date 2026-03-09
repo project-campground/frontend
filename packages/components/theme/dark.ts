@@ -1,5 +1,5 @@
 import type { ColorSystemOptions } from "@mui/joy/styles/extendTheme";
-import { generateColorScheme } from "./gen";
+import { generateColorScheme, generateNeutralColorScheme } from "./gen";
 import "../types";
 
 const darkest = "#040409", lightest = "#f5f3ff";
@@ -21,11 +21,7 @@ const shades = {
 const darkColorScheme: ColorSystemOptions = {
     shadowOpacity: "0.25",
     palette: {
-        neutral: {
-            ...shades,
-            border: `${shades[200]}0B`,
-            "t-950": `${shades[950]}cc`,
-        },
+        neutral: generateNeutralColorScheme(shades, false),
         text: {
             primary: shades[50],
             secondary: shades[100],

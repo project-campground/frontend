@@ -1,5 +1,5 @@
 import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
-import { IconCampfire, IconDoorExit, IconDots, IconSettings2, IconTicket } from "@tabler/icons-react";
+import { IconCampfire, IconDoorExit, IconDots, IconSettingsFilled, IconTicket } from "@tabler/icons-react";
 import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import React from "react";
@@ -303,7 +303,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                     <IconDots />
                                 </MenuButton>
                                 <Menu variant="soft">
-                                    {!!(permissions.role.campsite & CampsitePermissionConsts.CREATE_INVITES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
+                                    {!!(permissions.role.general & CampsitePermissionConsts.CREATE_INVITES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
                                         <ListItemDecorator>
                                             <IconTicket />
                                         </ListItemDecorator>
@@ -311,7 +311,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Create invites
                                         </ListItemContent>
                                     </MenuItem>}
-                                    {!!(permissions.role.campsite & anyManageCampsitePermission) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>
+                                    {!!(permissions.role.general & anyManageCampsitePermission) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>
                                         <ListItemDecorator>
                                             <IconCampfire />
                                         </ListItemDecorator>
@@ -319,9 +319,9 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Campsite Settings
                                         </ListItemContent>
                                     </MenuItem>}
-                                    {!!(permissions.bonfire.campsite & CampsitePermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
+                                    {!!(permissions.bonfire.general & CampsitePermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
                                         <ListItemDecorator>
-                                            <IconSettings2 />
+                                            <IconSettingsFilled />
                                         </ListItemDecorator>
                                         <ListItemContent>
                                             Bonfire Settings

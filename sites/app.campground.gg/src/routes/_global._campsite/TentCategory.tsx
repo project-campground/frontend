@@ -1,5 +1,5 @@
 import { IconButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, Stack, Typography } from "@mui/joy";
-import { IconPlus, IconSettings2, IconTrashFilled } from "@tabler/icons-react";
+import { IconPlus, IconSettingsFilled, IconTrashFilled } from "@tabler/icons-react";
 import { Group } from "components";
 import type { TentCategoryView, TentViewBasic } from "types/tent";
 import ContentCategory from "~/components/content/ContentCategory";
@@ -19,14 +19,14 @@ type Props<T extends TentCategoryViewComponent> = React.PropsWithChildren & {
 export default function TentCategory<T extends TentCategoryViewComponent>({ onCreate, category, children, onSettingsOpen }: Props<T>) {
     const { permissions } = useCampsiteContext();
     const categoryPermissions = permissions.permissions.categories[category.id] ?? permissions.permissions.bonfire;
-    const canManageCategory = !!(categoryPermissions.campsite & CampsitePermissionConsts.MANAGE_TENTS);
+    const canManageCategory = !!(categoryPermissions.general & CampsitePermissionConsts.MANAGE_TENTS);
 
     const { listeners } = useRightClick({
         MenuComponent: () => (
             <>
                 {canManageCategory && onSettingsOpen && <MenuItem onClick={() => onSettingsOpen({ category })}>
                     <ListItemDecorator>
-                        <IconSettings2 />
+                        <IconSettingsFilled />
                     </ListItemDecorator>
                     <ListItemContent>
                         Category settings

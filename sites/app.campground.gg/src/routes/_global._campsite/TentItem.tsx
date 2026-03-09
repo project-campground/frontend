@@ -1,5 +1,5 @@
 import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, styled, Typography } from "@mui/joy";
-import { IconHash, IconSettings2, IconTrashFilled } from "@tabler/icons-react";
+import { IconEyeFilled, IconHash, IconSettingsFilled, IconTrashFilled } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import type { TentCategoryView, TentView } from "types/tent"
 import TentIcon from "~/components/tents/TentIcon";
@@ -7,6 +7,7 @@ import { useRightClick } from "~/context/mouse";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
 import { useCampsiteContext } from "./context";
 import { CampsitePermissionConsts } from "~/util/permissions";
+import { PseudoTentType } from "~/util/pseudoTents";
 
 type Props = {
     tent: TentView;
@@ -41,21 +42,21 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
             <>
                 <MenuItem onClick={navigateToTent}>
                     <ListItemDecorator>
-                        <IconSettings2 />
+                        <IconEyeFilled />
                     </ListItemDecorator>
                     <ListItemContent>
-                        Tent settings
+                        Open tent
                     </ListItemContent>
                 </MenuItem>
-                {!!(tentPermissions.campsite & CampsitePermissionConsts.MANAGE_TENTS) && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
+                {!!(tentPermissions.general & CampsitePermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType)  && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
                     <ListItemDecorator>
-                        <IconSettings2 />
+                        <IconSettingsFilled />
                     </ListItemDecorator>
                     <ListItemContent>
                         Tent settings
                     </ListItemContent>
                 </MenuItem>}
-                {!!(tentPermissions.campsite & CampsitePermissionConsts.MANAGE_TENTS) && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
+                {!!(tentPermissions.general & CampsitePermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType) && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
                     <ListItemDecorator>
                         <IconTrashFilled />
                     </ListItemDecorator>

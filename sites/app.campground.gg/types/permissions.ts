@@ -1,6 +1,6 @@
 export interface PermissionsDictionary {
-    campsite: number;
-    tent: number;
+    general: number;
+    content: number;
 }
 export interface PermissionsStateDictionary {
     allowed: PermissionsDictionary;

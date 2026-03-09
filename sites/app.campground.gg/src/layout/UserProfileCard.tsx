@@ -2,7 +2,7 @@ import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuLis
 import { useEffect, useState } from "react";
 import type { ProfileView } from "types/user";
 import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
-import { IconLogout2, IconSettings2, IconShield, IconUser, IconUserPlus } from "@tabler/icons-react";
+import { IconLogout2, IconSettingsFilled, IconShield, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
 import type { CampsiteMemberView, CampsiteRoleView } from "types/campsites";
@@ -101,7 +101,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
             <MenuList variant="plain">
                 <MenuItem variant="plain" onClick={() => navigate(`/profile/${did}`)}>
                     <ListItemDecorator>
-                        <IconUser />
+                        <IconUserFilled />
                     </ListItemDecorator>
                     <ListItemContent>
                         <Typography textColor="inherit">
@@ -115,7 +115,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                     ? <>
                         <MenuItem variant="plain">
                             <ListItemDecorator>
-                                <IconSettings2 />
+                                <IconSettingsFilled />
                             </ListItemDecorator>
                             <ListItemContent>
                                 <Typography textColor="inherit">

@@ -52,3 +52,24 @@ export const generateColorScheme = (typicalColour: string, background: string, c
     softActiveBg: mixHexColors(typicalColour, background, 0.6),
     softActiveColor: mixHexColors(typicalColour, counter, 0.8),
 });
+
+interface Shades {
+    950: string;
+    900: string;
+    800: string;
+    700: string;
+    600: string;
+    500: string;
+    400: string;
+    300: string;
+    200: string;
+    100: string;
+    50: string;
+}
+
+export const generateNeutralColorScheme = (shades: Shades, lightMode: boolean): Partial<PaletteOptions["neutral"]> => ({
+    ...shades,
+    plainActiveBg: shades[900],
+    border: `${shades[200]}0B`,
+    "t-950": `${shades[950]}cc`,
+})

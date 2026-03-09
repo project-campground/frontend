@@ -58,7 +58,7 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
     render(): React.ReactNode {
         return (
             <DataDisplay
-                title="invites"
+                title="bans"
                 itemsPerPage={50}
                 maxItems={null}
                 columns={[

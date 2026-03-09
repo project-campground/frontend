@@ -30,8 +30,9 @@ type State = {
     sortedCategories: TentCategoryView[];
     settingsOpen: { category?: TentCategoryView; tent?: TentViewBasic, page?: TentSettingsPage | CategorySettingsPage; } | null;
 };
-export const TentStyledList = styled(List)(() => ({
+export const TentStyledList = styled(List)(({ theme }) => ({
     "--ListItemDecorator-size": "32px",
+    gap: theme.spacing(0.5),
 }));
 
 function TentCategorizedList({ tents, tentSelected, onSettingsOpen: onTentSettingsOpen }: { tents: TentViewBasic[], tentSelected?: string | null; onSettingsOpen: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown; }) {
@@ -95,7 +96,7 @@ export default class TentList extends React.Component<Props, State, Session> {
         const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected, campsiteId } } = this;
         const { permissions } = this.context as CampsiteContextSuite;
         const onModalClose = this.onModalClose.bind(this);
-        const canManageTents = !!(permissions.bonfire.campsite & CampsitePermissionConsts.MANAGE_TENTS);
+        const canManageTents = !!(permissions.bonfire.general & CampsitePermissionConsts.MANAGE_TENTS);
 
         return (
             <>

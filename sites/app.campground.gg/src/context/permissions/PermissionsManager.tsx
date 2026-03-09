@@ -52,8 +52,8 @@ export default class PermissionsManager {
             return categoryPerms;
 
         return ((this._tentToPermissions[tentId] as PermissionsDictionary) = {
-            campsite: (categoryPerms.campsite & invertCampsitePermission(tentPermsState.denied.campsite)) | categoryPerms.campsite,
-            tent: (categoryPerms.tent & invertTentPermission(tentPermsState.denied.tent)) | categoryPerms.tent,
+            general: (categoryPerms.general & invertCampsitePermission(tentPermsState.denied.general)) | categoryPerms.general,
+            content: (categoryPerms.content & invertTentPermission(tentPermsState.denied.content)) | categoryPerms.content,
         });
     }
 }

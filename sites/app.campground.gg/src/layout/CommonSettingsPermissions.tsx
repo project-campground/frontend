@@ -23,12 +23,12 @@ function createNewPermission({ roleId, userId }: { roleId?: string; userId?: str
         userId,
         permissions: {
             allowed: {
-                campsite: 0,
-                tent: 0,
+                general: 0,
+                content: 0,
             },
             denied: {
-                campsite: 0,
-                tent: 0,
+                general: 0,
+                content: 0,
             }
         }
     };
@@ -143,7 +143,7 @@ function reduceTristateFields(entries: [string, TristateValue][]) {
             value === "pass"
             ? perms
             : (perms[value === "on" ? "allowed" : "denied"][key[0] === "t" ? "tent" : "campsite"] |= 1 << (parseInt(key.slice(1))), perms),
-        { allowed: { campsite: 0, tent: 0 }, denied: { campsite: 0, tent: 0 } } satisfies CampsitePermissionView["permissions"]
+        { allowed: { general: 0, content: 0 }, denied: { general: 0, content: 0 } } satisfies CampsitePermissionView["permissions"]
     );
 }
 
@@ -173,10 +173,10 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
         console.log(entries);
         const permissions = reduceTristateFields(entries);
         const hasChanged =
-            permissions.allowed.campsite !== defaultValues.permissions.allowed.campsite ||
-            permissions.allowed.tent !== defaultValues.permissions.allowed.tent ||
-            permissions.denied.campsite !== defaultValues.permissions.denied.campsite ||
-            permissions.denied.tent !== defaultValues.permissions.denied.tent;
+            permissions.allowed.campsite !== defaultValues.permissions.allowed.general ||
+            permissions.allowed.tent !== defaultValues.permissions.allowed.content ||
+            permissions.denied.campsite !== defaultValues.permissions.denied.general ||
+            permissions.denied.tent !== defaultValues.permissions.denied.content;
 
         combinedValues.permissions = permissions;
         return onChanged(isValid, hasChanged, { permissions, roleId: permission.roleId, userId: permission.userId });

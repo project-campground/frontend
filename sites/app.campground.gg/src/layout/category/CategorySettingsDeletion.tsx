@@ -5,10 +5,13 @@ import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import type { CategorySettingsProps } from "./CategorySettingsModal";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
+import { useContext } from "react";
+import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
 
 export default function CategorySettingsDeletion({ settingsProps: { category } }: SettingsComponentProps<CategorySettingsProps>) {
     const session = useSession();
     const floating = useSnackbars();
+    const modalClose = useContext(CloseModalContext);
 
     return (
         <Form
@@ -35,13 +38,15 @@ export default function CategorySettingsDeletion({ settingsProps: { category } }
             ]}
             submitText="Confirm deletion"
             submitColor="danger"
-            onSubmit={() => session
-                    .http
-                    .categories.delete(category.id)
-                    .then((resp) => {
-                        if (!resp.ok)
-                            return floating.notifyApiError(resp);
-                    })
+            onSubmit={(ev) => session
+                .http
+                .categories.delete(category.id)
+                .then((resp) => {
+                    if (!resp.ok)
+                        return floating.notifyApiError(resp);
+
+                    return modalClose?.(ev, "closeClick");
+                })
             }
         />
     )

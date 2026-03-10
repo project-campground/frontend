@@ -250,7 +250,7 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
                                     <TentMessage
                                         hideToolbar
                                         unhoverable
-                                        promptDelete={() => null}
+                                        onDelete={() => null}
                                         addReply={() => null}
                                         colorRoles={[colorRole]}
                                         message={fakeMessage}
@@ -260,7 +260,7 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
                                     <TentMessage
                                         hideToolbar
                                         unhoverable
-                                        promptDelete={() => null}
+                                        onDelete={() => null}
                                         addReply={() => null}
                                         colorRoles={[colorRole]}
                                         message={fakeMessage}

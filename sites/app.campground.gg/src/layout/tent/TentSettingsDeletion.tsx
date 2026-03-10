@@ -5,10 +5,13 @@ import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import type { TentSettingsProps } from "./TentSettingsModal";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
+import { useContext } from "react";
+import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
 
 export default function TentSettingsDeletion({ settingsProps: { tent } }: SettingsComponentProps<TentSettingsProps>) {
     const session = useSession();
     const floating = useSnackbars();
+    const modalClose = useContext(CloseModalContext);
 
     return (
         <Form
@@ -35,13 +38,15 @@ export default function TentSettingsDeletion({ settingsProps: { tent } }: Settin
             ]}
             submitText="Confirm deletion"
             submitColor="danger"
-            onSubmit={() => session
-                    .http
-                    .tents.delete(tent.id)
-                    .then((resp) => {
-                        if (!resp.ok)
-                            return floating.notifyApiError(resp);
-                    })
+            onSubmit={(ev) => session
+                .http
+                .tents.delete(tent.id)
+                .then((resp) => {
+                    if (!resp.ok)
+                        return floating.notifyApiError(resp);
+
+                    return modalClose?.(ev, "closeClick");
+                })
             }
         />
     )

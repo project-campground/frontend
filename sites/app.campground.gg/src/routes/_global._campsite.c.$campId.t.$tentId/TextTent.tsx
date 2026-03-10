@@ -197,8 +197,11 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
         );
     }
 
-    onMessageDeletePrompt(message: TentMessageViewWithReplies) {
-        return this.setState({ deleteMessage: message });
+    onMessageDelete(message: TentMessageViewWithReplies, prompt: boolean) {
+        if (prompt)
+            return this.setState({ deleteMessage: message });
+
+        return this.deleteMessage(message);
     }
 
     MessageDeleteRender() {
@@ -211,15 +214,14 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
             <TentMessage
                 hideToolbar
                 message={this.state.deleteMessage}
-                promptDelete={() => null}
+                onDelete={() => null}
                 addReply={() => null}
             />
         );
     }
 
-    async onMessageDelete() {
+    async deleteMessage(messageDeleted: TentMessageViewWithReplies) {
         const { floaters } = this.context as CampsiteContextSuite;
-        const messageDeleted = this.state.deleteMessage!;
 
         // To not do random useless requests and keep them
         if (this.pseudoMessages.includes(messageDeleted.id))
@@ -295,7 +297,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                         isEnd={this.state.isEnd}
                         messages={this.state.messages}
                         onMessagesLoad={this.onMessagesLoad.bind(this)}
-                        promptMessageDelete={this.onMessageDeletePrompt.bind(this)}
+                        onMessageDelete={this.onMessageDelete.bind(this)}
                         addReply={this.addMessageReply.bind(this)}
                     />
                 </Box>
@@ -316,7 +318,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                     title="message"
                     open={Boolean(this.state.deleteMessage)}
                     ContentRender={this.MessageDeleteRender.bind(this)}
-                    onConfirm={this.onMessageDelete.bind(this)}
+                    onConfirm={() => this.deleteMessage(this.state.deleteMessage!)}
                     onClose={() => this.setState({ deleteMessage: null })}
                 />
             </Stack>
@@ -337,11 +339,11 @@ type MessageListProps = {
     messages: TextTentMessage[];
     replyMessages: TentMessageViewWithReplies[];
     onMessagesLoad: () => unknown;
-    promptMessageDelete: (message: TentMessageViewWithReplies) => unknown;
+    onMessageDelete: (message: TentMessageViewWithReplies, prompt: boolean) => unknown;
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
 
-function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, promptMessageDelete, addReply, colorRoles }: MessageListProps) {
+function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, onMessageDelete, addReply, colorRoles }: MessageListProps) {
     const onScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
         const target = e.target as HTMLDivElement;
 
@@ -366,7 +368,7 @@ function MessageList({ replyMessages, messages, isEnd, onMessagesLoad, promptMes
                                 key={m.id}
                                 colorRoles={colorRoles}
                                 message={m}
-                                promptDelete={promptMessageDelete}
+                                onDelete={onMessageDelete}
                                 addReply={addReply}
                                 waiting={m.waiting}
                                 error={m.error}

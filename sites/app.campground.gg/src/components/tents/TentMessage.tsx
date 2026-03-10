@@ -73,7 +73,7 @@ type Props = {
     colorRoles?: CampsiteRoleView[];
     isBeingRepliedTo?: boolean;
     onUserClick?: (ev: MouseEvent<HTMLDivElement>, user: CampsiteMemberViewAuthor) => unknown;
-    promptDelete: (message: TentMessageViewWithReplies) => unknown;
+    onDelete: (message: TentMessageViewWithReplies, prompt: boolean) => unknown;
     addReply: (message: TentMessageViewWithReplies) => unknown;
 };
 type MessageTypeComponentProps = Pick<Props, "message" | "colorRoles" | "waiting" | "error" | "onUserClick"> & React.PropsWithChildren;
@@ -83,7 +83,7 @@ const TentMessageComponentByType: Record<TentMessageType, (props: MessageTypeCom
     system: TentMessageSystem,
 };
 
-export default function TentMessage({ unhoverable, waiting, error, onUserClick, colorRoles, isBeingRepliedTo, hideToolbar, message, promptDelete, addReply }: Props) {
+export default function TentMessage({ unhoverable, waiting, error, onUserClick, colorRoles, isBeingRepliedTo, hideToolbar, message, onDelete, addReply }: Props) {
     const session = useSession();
     const [editMode, setEditMode] = useState(false);
     const [msgContent, setMsgContent] = useState(message.content);
@@ -101,11 +101,14 @@ export default function TentMessage({ unhoverable, waiting, error, onUserClick, 
     }
     const MessageComponent = TentMessageComponentByType[message.type ?? "default"];
 
+    // To reduce potential future lag associated with updating tons of states, especially after context updates via shift and control
+    const [hover, setHover] = useState(false);
+
     return (
-        <TentMessageWrapper className={`TentMessage-wrapper${unhoverable ? " unhoverable" : ""}${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
-            {!hideToolbar && <MessageToolbar
+        <TentMessageWrapper onMouseMove={() => setHover(true)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className={`TentMessage-wrapper${unhoverable ? " unhoverable" : ""}${isBeingRepliedTo ? " being-replied-to" : ""}${waiting ? " waiting" : ""}${error ? " error" : ""}`}>
+            {!hideToolbar && hover && <MessageToolbar
                 onEdit={message.type !== "system" ? () => setEditMode(true) : undefined}
-                onDelete={() => promptDelete(message)}
+                onDelete={(prompt) => onDelete(message, prompt)}
                 addReply={() => addReply(message)}
                 beingRepliedTo={isBeingRepliedTo}
                 onlyAllowDeletion={waiting}

@@ -18,6 +18,8 @@ import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";
 import { DndContext } from "@dnd-kit/core";
 import { RightClickProvider } from "./context/mouse";
+import { KeyContext } from "./context/key";
+import { useState, type KeyboardEventHandler } from "react";
 
 export const links: Route.LinksFunction = () => [
     // {
@@ -31,9 +33,15 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-    console.log("Layout render");
+    const [keys, setKeys] = useState<KeyContext>({ shift: false, control: false });
+    const updateKeys: KeyboardEventHandler<HTMLHtmlElement> = (ev) =>
+        // To not update constantly update from other key holds and hold removals
+        ev.shiftKey !== keys.shift || ev.ctrlKey !== keys.control
+        ? setKeys({ shift: ev.shiftKey, control: ev.ctrlKey })
+        : null;
+
     return (
-        <html lang="en">
+        <html lang="en" onKeyDown={updateKeys} onKeyUp={updateKeys}>
             <head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,7 +55,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     <StyledEngineProvider injectFirst>
                         <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
                             <CssBaseline />
-                            {children}
+                            <KeyContext.Provider value={keys}>
+                                {children}
+                            </KeyContext.Provider>
                         </CssVarsProvider>
                     </StyledEngineProvider>
                 </>

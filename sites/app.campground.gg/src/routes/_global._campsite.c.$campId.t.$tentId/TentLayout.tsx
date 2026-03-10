@@ -5,6 +5,9 @@ import { ComponentByTentType } from "./tents";
 import MemberSidebar from "./MemberSidebar";
 import { useState } from "react";
 import { Box, styled } from "@mui/joy";
+import { useSession } from "~/context/session";
+import type { TypeToPayload } from "types/ws";
+import { useNavigate } from "react-router";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -25,8 +28,16 @@ const SidebarWrapper = styled(Box)(() => ({
 }));
 
 export default function TentLayout({ campsite, campsiteId, tent }: Props) {
+    const session = useSession();
+    const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { Component, MemberSidebarInfo } = ComponentByTentType[tent.type];
+    // To not stay on the tent
+    session.ws.subscribe((message) =>
+        message.op === 1 && message.t === "TentDeleted" && (message.payload as TypeToPayload["TentDeleted"]).id === tent.id
+        ? navigate(`/c/${campsiteId}/t/bulletin`)
+        : null
+    );
 
     return (
         <>

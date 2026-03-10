@@ -1,11 +1,12 @@
 import { ButtonGroup, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, styled } from "@mui/joy";
 import { IconArrowForwardUp, IconDots, IconMoodPlus, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
+import { useKeyContext } from "~/context/key";
 
 type Props = {
     // message: TentMessageViewWithReplies;
     addReply?: () => unknown;
     onEdit?: () => unknown;
-    onDelete?: () => unknown;
+    onDelete?: (prompt: boolean) => unknown;
     beingRepliedTo?: boolean;
     onlyAllowDeletion?: boolean;
 };
@@ -29,10 +30,12 @@ const ToolbarWrapper = styled(ButtonGroup, {
 }));
 
 export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, onDelete, beingRepliedTo }: Props) {
+    const keys = useKeyContext();
+
     return (
         <>
             <ToolbarWrapper variant="soft">
-                {!onlyAllowDeletion
+                {!onlyAllowDeletion && !keys.shift
                 ? <>
                     <IconButton>
                         <IconMoodPlus />
@@ -49,7 +52,7 @@ export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, on
                             <IconDots />
                         </MenuButton>
                         <Menu>
-                            <MenuItem color="danger" onClick={onDelete}>
+                            <MenuItem color="danger" onClick={() => onDelete(true)}>
                                 <ListItemDecorator>
                                     <IconTrash />
                                 </ListItemDecorator>
@@ -61,7 +64,7 @@ export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, on
                     </Dropdown>}
                 </>
                 : <>
-                    <IconButton onClick={onDelete}>
+                    <IconButton variant="plain" color="danger" onClick={() => onDelete?.(false)}>
                         <IconTrash />
                     </IconButton>
                 </>

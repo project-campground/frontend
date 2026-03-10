@@ -19,8 +19,10 @@ const ToolbarWrapper = styled(ButtonGroup, {
     right: 7.5,
     opacity: 0,
     transition: "opacity 0.3s",
-    border: `solid 1px ${theme.vars.palette.neutral[600]}`,
+    border: `solid 1px ${theme.vars.palette.neutral.border}`,
     boxShadow: theme.vars.shadow.md,
+    overflow: "hidden",
+    "--ButtonGroup-separatorSize": "0",
     ".TentMessage-wrapper:hover &": {
         opacity: 1,
     }

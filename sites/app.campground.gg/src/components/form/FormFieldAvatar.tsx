@@ -50,7 +50,7 @@ export default class FormFieldAvatar extends AbstractFormField<"avatar", string 
         return (
             <>
                 <ImageEditBadge onClick={() => this.setState({ open: true })} badgeContent={<IconPencil size="20" />} variant="soft" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} color="neutral">
-                    <Avatar src={value ?? undefined} variant={variant} color={color} sx={{ borderRadius }} size={size}>
+                    <Avatar src={value ?? undefined} variant={variant ?? "solid"} color={color} sx={{ borderRadius }} size={size}>
                         <IconPhotoPlus />
                     </Avatar>
                 </ImageEditBadge>

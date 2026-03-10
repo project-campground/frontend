@@ -2,7 +2,7 @@ import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuLis
 import { useEffect, useState } from "react";
 import type { ProfileView } from "types/user";
 import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
-import { IconLogout2, IconSettingsFilled, IconShield, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
+import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
 import type { CampsiteMemberView, CampsiteRoleView } from "types/campsites";
@@ -153,7 +153,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                         </MenuItem>
                         <MenuItem variant="plain" color="danger">
                             <ListItemDecorator>
-                                <IconShield />
+                                <IconShieldFilled />
                             </ListItemDecorator>
                             <ListItemContent>
                                 <Typography textColor="inherit">

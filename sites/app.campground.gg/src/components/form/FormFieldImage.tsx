@@ -19,10 +19,12 @@ interface State {
 };
 
 const ImagePlaceholder = styled(Sheet)(({ theme }) => ({
-    backgroundColor: theme.vars.palette.background.level4,
-    transition: "background 0.3s",
+    backgroundColor: theme.vars.palette.neutral.solidBg,
+    transition: "background, color",
+    transitionDuration: "0.3s",
+    color: theme.vars.palette.neutral.solidColor,
     "&:hover": {
-        backgroundColor: theme.vars.palette.background.level5,
+        backgroundColor: theme.vars.palette.neutral.solidHoverBg,
     }
 }));
 const FieldImage = styled(Image)<{ radius: keyof Radius; }>(({ radius, theme }) => ({

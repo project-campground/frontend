@@ -22,13 +22,21 @@ export const TentItemButton = styled(ListItemButton, {
     slot: "root",
 })(({ theme }) => ({
     borderRadius: theme.vars.radius.sm,
-    transitionProperty: "background, box-shadow, border",
+    transitionProperty: "background, box-shadow, border, color",
     transitionDuration: "0.3s",
     border: "solid 1px transparent",
+    color: theme.vars.palette.text.tertiary,
+    ":hover": {
+        color: theme.vars.palette.text.secondary,
+    },
     "&.TentItem-active": {
+        color: theme.vars.palette.text.tertiary,
         boxShadow: theme.vars.shadow.xs,
-        backgroundColor: theme.vars.palette.neutral[800],
+        backgroundColor: theme.vars.palette.neutral[850],
         border: `solid 1px ${theme.vars.palette.neutral.border}`,
+    },
+    "&.TentItem-active:hover": {
+        backgroundColor: theme.vars.palette.neutral[800],
     }
 }));
 

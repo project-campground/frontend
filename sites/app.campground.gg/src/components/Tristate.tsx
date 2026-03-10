@@ -25,7 +25,7 @@ const TristateBox = styled(ButtonGroup, {
     position: "relative",
     overflow: "hidden",
     "--ButtonGroup-separatorColor": "transparent",
-    border: `solid 1px ${theme.vars.palette.neutral[700]}`,
+    border: `solid 1px ${theme.vars.palette.neutral[800]}`,
     boxShadow: theme.vars.shadow.sm,
 }));
 
@@ -69,12 +69,13 @@ interface TristateOwnerState extends TristateProps {
 
 }
 const TristateButton = styled(IconButton)(({ theme, color }) => ({
-    color: theme.vars.palette.neutral[300],
+    color: theme.vars.palette.text.quartary,
     backgroundColor: "transparent",
     transitionProperty: "color, background",
     transitionDuration: "0.3s",
     "&:hover": {
         backgroundColor: "rgba(255, 255, 255, 0.05)",
+        color: theme.vars.palette.text.tertiary,
     },
     "&.checked": {
         color: theme.vars.palette[color as "neutral"][500],

@@ -15,7 +15,7 @@ export default function ProfileView({ user, isSelf }: Props) {
 
     return (
         <ProfileLayout user={user}>
-            <Stack direction={{ xs: "column", md: "row" }} sx={{ flex: 1, display: "grid", gridTemplateColumns: { xs: "11fr", md: "2fr 7fr 2fr" }, gap: 8, px: { xs: 2, md: 35 } }}>
+            <Stack direction={{ xs: "column", md: "row" }} sx={{ flex: 1, display: "grid", gridTemplateColumns: { xs: "11fr", md: "2fr 7fr 2fr" }, gap: 6, px: { xs: 2, md: 35 } }}>
                 <Box sx={{ display: { xs: "none", md: "block" }, gridRow: 1 }}>
                     <ProfileGames user={user} />
                 </Box>

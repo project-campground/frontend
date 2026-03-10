@@ -72,7 +72,7 @@ const RoleItemGapDivider = styled(`div`)(({ theme }) => ({
     height: 0,
     transitionDuration: "0.3s",
     transitionProperty: "height, opacity",
-    border: `dashed 1px ${theme.vars.palette.neutral[500]}`,
+    border: `dashed 1px ${theme.vars.palette.neutral[400]}`,
     borderRadius: theme.vars.radius.md,
     opacity: 0,
     "&.over": {

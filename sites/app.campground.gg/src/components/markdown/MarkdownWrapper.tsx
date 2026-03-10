@@ -4,6 +4,7 @@ const MarkdownWrapper = styled(Box, {
     name: "MarkdownWrapper",
     slot: "root"
 })(({ theme }) => ({
+    color: theme.vars.palette.text.secondary,
     "p": {
         display: "flex",
         flexDirection: "row",
@@ -30,7 +31,7 @@ const MarkdownWrapper = styled(Box, {
             height: "100%",
             width: "4px",
             borderRadius: theme.vars.radius.md,
-            backgroundColor: theme.vars.palette.neutral[400],
+            backgroundColor: theme.vars.palette.neutral[600],
             left: "-20px",
             top: 0,
             bottom: 0,
@@ -54,7 +55,7 @@ const MarkdownWrapper = styled(Box, {
         },
     },
     "table": {
-        border: `solid 1px ${theme.vars.palette.neutral[500]}`,
+        border: `solid 1px ${theme.vars.palette.neutral[750]}`,
         borderSpacing: 0,
         maxWidth: "100%",
         // overflowX: "auto",
@@ -62,6 +63,7 @@ const MarkdownWrapper = styled(Box, {
         borderRadius: theme.vars.radius.md,
         margin: "8px 0",
         position: "relative",
+        boxShadow: theme.vars.shadow.sm,
     },
     "th, td": {
         padding: `6px 12px`,

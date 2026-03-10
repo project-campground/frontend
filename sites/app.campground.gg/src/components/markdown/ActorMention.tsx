@@ -16,12 +16,12 @@ const ActorMentionWrapper = styled("span", {
     display: "inline-flex",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.vars.palette.neutral[700],
+    backgroundColor: theme.vars.palette.neutral[800],
     padding: `2px 8px`,
     borderRadius: theme.vars.radius.md,
     transition: "background 0.3s",
     ":hover": {
-        backgroundColor: theme.vars.palette.neutral[600],
+        backgroundColor: theme.vars.palette.neutral[750],
     }
 }));
 

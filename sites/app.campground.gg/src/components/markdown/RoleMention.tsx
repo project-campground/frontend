@@ -15,9 +15,6 @@ const RoleMentionWrapper = styled("span", {
     display: "inline-flex",
     flexDirection: "row",
     alignItems: "center",
-    // backgroundColor: theme.vars.palette.neutral[700],
-    // padding: `${theme.spacing(0.5)} ${theme.spacing(1.25)}`,
-    // borderRadius: theme.vars.radius.xl,
 }));
 
 const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId"> = {

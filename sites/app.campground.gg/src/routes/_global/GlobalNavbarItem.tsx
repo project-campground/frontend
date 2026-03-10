@@ -23,7 +23,6 @@ export const GlobalNavbarItem = styled(Button)(({ theme }) => ({
     },
     "&.active": {
         color: theme.vars.palette.text.secondary,
-        border: `solid 1px ${theme.vars.palette.neutral[500]}`,
         backgroundColor: theme.vars.palette.background.level2,
         "--svg-color": theme.vars.palette.neutral[200],
     }

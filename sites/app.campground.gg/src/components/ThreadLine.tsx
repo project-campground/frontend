@@ -8,7 +8,7 @@ const ThreadItemHook = styled(`div`, {
     slot: "hook",
 })(({ theme }) => ({
     position: "absolute",
-    border: `solid 3px ${theme.vars.palette.neutral[500]}`,
+    border: `solid 3px ${theme.vars.palette.neutral[700]}`,
     height: "50%",
     width: 30,
     left: 20,
@@ -30,7 +30,7 @@ const ThreadItemLine = styled(`div`, {
     slot: "line",
 })(({ theme }) => ({
     position: "absolute",
-    border: `solid 3px ${theme.vars.palette.neutral[500]}`,
+    border: `solid 3px ${theme.vars.palette.neutral[700]}`,
     borderTop: 0,
     borderRight: 0,
     height: `calc(50% + ${theme.vars.radius.md})`,

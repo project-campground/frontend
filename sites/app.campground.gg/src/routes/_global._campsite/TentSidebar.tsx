@@ -39,7 +39,7 @@ export const TentSidebarBox = styled(Stack, {
     name: "CampsiteSidebar",
     slot: "root",
 })(({ theme }) => ({
-    backgroundColor: theme.vars.palette.background.level1,
+    backgroundColor: theme.vars.palette.background.surface,
     minWidth: 320,
     maxWidth: 320,
     borderRadius: theme.vars.radius.xl,

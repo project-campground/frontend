@@ -3,6 +3,7 @@ import React from "react";
 import { IconCake, IconMapPin } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import type { ProfileView } from "types/user";
+import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 
 type Props = {
     user: ProfileView;
@@ -16,11 +17,13 @@ export default class ProfileAbout extends React.Component<Props> {
             <Box>
                 <Typography level="h3" sx={{ mb: 2 }}>About me</Typography>
                 <Box>
-                    <Typography level="body-md" textColor="neutral.100">{user.description}</Typography>
+                    <MarkdownWrapper>
+                        {user.description}
+                    </MarkdownWrapper>
                 </Box>
                 <Stack gap={2}>
                     <List>
-                        <ListItem>
+                        {user.createdAt && <ListItem>
                             <ListItemDecorator>
                                 <IconCake />
                             </ListItemDecorator>
@@ -29,12 +32,12 @@ export default class ProfileAbout extends React.Component<Props> {
                                     Joined{" "}
                                     <Datestamp
                                         displayDate
-                                        date={user.createdAt ? new Date(user.createdAt) : new Date()}
+                                        date={new Date(user.createdAt)}
                                         dateOptions={{ weekday: "short", year: "2-digit", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", }}
                                     />
                                 </Typography>
                             </ListItemContent>
-                        </ListItem>
+                        </ListItem>}
                         {user.location && <ListItem>
                             <ListItemDecorator>
                                 <IconMapPin />

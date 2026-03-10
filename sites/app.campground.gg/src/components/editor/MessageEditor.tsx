@@ -37,6 +37,14 @@ export const MessageEditorContainer = styled(Sheet)(({ theme }) => ({
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
     borderRadius: theme.vars.radius.md,
 }));
+export const MessageEditorButton = styled(IconButton)(({ theme }) => ({
+    backgroundColor: theme.vars.palette.background.level2,
+    color: theme.vars.palette.text.tertiary,
+    "&:hover": {
+        backgroundColor: theme.vars.palette.background.level3,
+        color: theme.vars.palette.text.secondary,
+    }
+}));
 
 const MessageEditorGroup = styled(Group)(() => ({
     height: "100%",
@@ -68,7 +76,7 @@ export default function MessageEditor({ placeholder, content, onConfirm, onCance
                 >
                     <MessageEditorGroup gap={1} sx={sx} alignItems="center">
                         <Dropdown>
-                            <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: "soft" } }}>
+                            <MenuButton slots={{ root: MessageEditorButton }} slotProps={{ root: { variant: "soft" } }}>
                                 <IconPlus />
                             </MenuButton>
                             <MessageEditorMenu />
@@ -86,14 +94,14 @@ export default function MessageEditor({ placeholder, content, onConfirm, onCance
                         </Box>
                         <Group gap={2} alignItems="center">
                             <Dropdown>
-                                <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: "soft" } }}>
+                                <MenuButton slots={{ root: MessageEditorButton }} slotProps={{ root: { variant: "soft" } }}>
                                     <IconMoodHappyFilled />
                                 </MenuButton>
                                 <MessageEditorMenu />
                             </Dropdown>
-                            {!confirmButton && <IconButton sx={{ display: { xs: "inline-flex", md: "none" } }} variant="soft" onClick={onDone}>
+                            {!confirmButton && <MessageEditorButton sx={{ display: { xs: "inline-flex", md: "none" } }} variant="soft" onClick={onDone}>
                                 <IconSend2 />
-                            </IconButton>}
+                            </MessageEditorButton>}
                         </Group>
                     </MessageEditorGroup>
                 </BlockTextSlate>

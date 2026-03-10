@@ -1,7 +1,12 @@
 import * as ColorSystem from "components/types/colorSystem";
 import * as Typography from "components/types/typography";
 import * as Components from "components/types/components";
+import * as Shadows from "components/types/shadow";
 
+// Add new shadows
+declare module "@mui/joy/styles/types/shadow" {
+    interface ShadowOverrides extends Shadows.ShadowOverrides {}
+}
 // Add new colours
 declare module "@mui/joy/styles/types/colorSystem" {
     interface Palette extends ColorSystem.Palette {}

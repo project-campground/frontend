@@ -15,7 +15,6 @@ type Props = {
 const SidebarWrapper = styled(Box)(() => ({
     transitionDuration: "0.3s",
     transitionProperty: "width",
-    overflow: "hidden",
     height: "100%",
     minWidth: 0,
     width: 0,

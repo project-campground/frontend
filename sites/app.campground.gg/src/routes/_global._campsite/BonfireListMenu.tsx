@@ -48,7 +48,7 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                         </ListItemContent>
                     </MenuItem>
                 )}
-                <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[500]}` })} onClick={() => setCreateModalOpen(true)}>
+                <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[400]}` })} onClick={() => setCreateModalOpen(true)}>
                     <ListItemDecorator>
                         <IconPlus />
                     </ListItemDecorator>

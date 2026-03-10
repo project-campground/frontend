@@ -1,7 +1,48 @@
-import { extendTheme, type ColorPaletteProp } from "@mui/joy";
+import { extendTheme, type ColorPaletteProp, type ButtonOwnerState, type IconButtonOwnerState, type Theme, type Palette } from "@mui/joy";
 import { bodyFontFamily, displayFontFamily } from "./font";
 import lightColorScheme from "./light";
 import darkColorScheme from "./dark";
+import "../types";
+
+const complementaryPalettes: Record<keyof Omit<Palette, "common" | "background" | "text" | "divider" | "focusVisible" | "mode">, keyof Palette> = {
+    primary: "secondary",
+    secondary: "primary",
+    success: "debug",
+    warning: "danger",
+    danger: "danger",
+    info: "note",
+    note: "debug",
+    debug: "info",
+    neutral: "neutral",
+};
+
+const ButtonStyling: (props: { ownerState: ButtonOwnerState | IconButtonOwnerState, theme: Theme }) => any = ({ theme, ownerState: { variant, disabled, color, } }) => ({
+    transitionDuration: "0.3s",
+    transitionProperty: "background, background-color, color, box-shadow",
+    ...(variant === "glow" ? {
+        background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[300]}, ${theme.vars.palette.neutral[400]})` : `linear-gradient(30deg, ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]} ${!color || color === "primary" ? 0 : 20}%, ${theme.vars.palette[complementaryPalettes[color ?? "primary" as keyof typeof complementaryPalettes] as ColorPaletteProp][500]} ${!color || color === "primary" ? 100 : 130}%)`,
+        boxShadow: disabled ? theme.vars.shadow.md : `0px 0px 8px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
+        color: theme.vars.palette.common.black,
+        ":not([disabled]):hover": {
+            boxShadow: `0 0 15px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][400]}`,
+        },
+        "::after": {
+            content: '""',
+            zIndex: 1,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "transparent",
+            position: "absolute",
+            transition: "background 0.3s",
+            borderRadius: "var(--Button-radius, var(--radius-sm))",
+        },
+        ":not([disabled]):hover::after": {
+            backgroundColor: "#FFF3"
+        }
+    } : {})
+});
 
 const theme = extendTheme({
     zIndex: {
@@ -31,7 +72,25 @@ const theme = extendTheme({
         light: lightColorScheme,
         dark: darkColorScheme,
     },
+    shadow: {
+        insetSm: "inset 0 0 2px rgba(var(--shadowChannel) / var(--shadowOpacity))",
+        insetMd: "inset 0 0 4px rgba(var(--shadowChannel) / var(--shadowOpacity))",
+        insetLg: "inset 0 0 8px rgba(var(--shadowChannel) / var(--shadowOpacity))",
+    },
     components: {
+        JoySkeleton: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    "--unstable_pulse-bg": theme.vars.palette.background.skeletonPulse,
+                    "::after": {
+                        backgroundColor: theme.vars.palette.background.skeleton,
+                    },
+                    "::before": {
+                        backgroundColor: theme.vars.palette.background.skeleton,
+                    },
+                }),
+            },
+        },
         JoySwitch: {
             styleOverrides: {
                 track: {
@@ -60,10 +119,18 @@ const theme = extendTheme({
         JoyMenu: {
             styleOverrides: {
                 root: ({ theme }) => ({
+                    "--List-padding": "var(--ListDivider-gap)",
                     border: `solid 1px ${theme.palette.neutral.border}`,
                     animation: "appear-animation-opacity ease-out 0.125s",
                 })
             }
+        },
+        JoyMenuItem: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    borderRadius: theme.vars.radius.md,
+                }),
+            },
         },
         JoyModal: {
             styleOverrides: {
@@ -74,7 +141,7 @@ const theme = extendTheme({
         },
         JoyModalDialog: {
             styleOverrides: {
-                root: ({ theme, ownerState: {  }}) => ({
+                root: ({ theme }) => ({
                     animation: "appear-animation ease-out 0.125s",
                     [theme.breakpoints.up("md")]: {
                         "&.MuiModalDialog-layoutFullscreen": {
@@ -99,33 +166,12 @@ const theme = extendTheme({
         },
         JoyButton: {
             styleOverrides: {
-                root: ({ theme, ownerState: { variant, disabled, color, } }) => ({
-                    transitionDuration: "0.3s",
-                    transitionProperty: "background, background-color, color, box-shadow",
-                    ...(variant === "glow" ? {
-                        background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[300]}, ${theme.vars.palette.neutral[500]})` : `linear-gradient(30deg, ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}, ${theme.vars.palette[!color || color === "primary" ? "secondary" : color as ColorPaletteProp][500]})`,
-                        boxShadow: disabled ? theme.vars.shadow.md : `0 0 5px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
-                        color: theme.vars.palette.common.black,
-                        ":not([disabled]):hover": {
-                            boxShadow: `0 0 15px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
-                        },
-                        "::after": {
-                            content: '""',
-                            zIndex: 1,
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: "transparent",
-                            position: "absolute",
-                            transition: "background 0.3s",
-                            borderRadius: "var(--Button-radius, var(--radius-sm))",
-                        },
-                        ":not([disabled]):hover::after": {
-                            backgroundColor: "#FFF3"
-                        }
-                    } : {})
-                })
+                root: ButtonStyling,
+            },
+        },
+        JoyIconButton: {
+            styleOverrides: {
+                root: ButtonStyling,
             },
         },
         JoyCard: {

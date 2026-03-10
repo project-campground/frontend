@@ -41,7 +41,7 @@ export const RightSidebarList = styled(Stack, {
     name: "CampsiteSidebar",
     slot: "root",
 })(({ theme }) => ({
-    backgroundColor: theme.vars.palette.background.level1,
+    backgroundColor: theme.vars.palette.background.surface,
     borderRadius: theme.vars.radius.xl,
     boxShadow: theme.vars.shadow.lg,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
@@ -109,7 +109,7 @@ export default class MemberSidebar extends React.Component<Props, State, Session
                     {children}
                 </RightSidebarList>}
                 {tent.description && <RightSidebarList sx={{ px: 2, py: 1.5 }}>
-                    <Typography level="title-md">Tent topic</Typography>
+                    <Typography level="title-md" fontWeight={700}>Tent topic</Typography>
                     <MarkdownWrapper>
                         {tent.description}
                     </MarkdownWrapper>
@@ -140,9 +140,6 @@ export default class MemberSidebar extends React.Component<Props, State, Session
                         }
                     </CampsiteContextSuiteContext.Consumer>
                 </RightSidebarList>
-                {/* <Button startDecorator={<IconUserPlus />} variant="outlined" color="neutral" sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[500]}` })}>
-                    Invite users
-                </Button> */}
             </RightSidebarBox>
         );
     }

@@ -63,7 +63,7 @@ export default class FormFieldColor extends AbstractFormField<"color", number, F
             <Stack>
                 <Group gap={1}>
                     <Dropdown>
-                        <MenuButton sx={(theme) => ({ fontFamily: theme.fontFamily.code })} color="neutral" variant="outlined" startDecorator={<ColorPick sx={(theme) => ({ backgroundColor: value ? hexColor : `transparent`, border: value ? null : `solid 2px ${theme.vars.palette.neutral[500]}` })} />}>
+                        <MenuButton sx={(theme) => ({ fontFamily: theme.fontFamily.code })} color="neutral" variant="outlined" startDecorator={<ColorPick sx={(theme) => ({ backgroundColor: value ? hexColor : `transparent`, border: value ? null : `solid 2px ${theme.vars.palette.neutral[400]}` })} />}>
                             {hexColor}
                         </MenuButton>
                         <ColorPickerMenu allowAlpha={allowAlpha} defaultColor={hexColor} onChange={this.onInputChange.bind(this)} />

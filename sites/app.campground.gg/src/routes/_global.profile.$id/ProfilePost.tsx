@@ -42,6 +42,7 @@ export const ProfilePostCard = styled(Card, {
 })(({ theme }) => ({
     zIndex: 2,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
+    backgroundColor: theme.vars.palette.background.level2,
 }));
 
 export default function ProfilePost({ post, showComments: showCommentsLink, bigger, appear, isOwnPost, onPostDelete, onPostUpdate, opacity, mb, mt }: Props) {
@@ -84,7 +85,7 @@ export default function ProfilePost({ post, showComments: showCommentsLink, bigg
                         onCancel={() => setEditing(false)}
                         confirmButton="Edit"
                     />
-                    : <MarkdownWrapper sx={(theme) => ({ mt: bigger ? -5.5 : -5, color: theme.vars.palette.text.secondary })}>
+                    : <MarkdownWrapper sx={(theme) => ({ mt: bigger ? -5 : -4.5, color: theme.vars.palette.text.secondary })}>
                         <LargeContentMarkdown>{content}</LargeContentMarkdown>
                     </MarkdownWrapper>}
                     {bigger &&
@@ -152,7 +153,7 @@ function ProfilePostHeaderSkeleton() {
 function ProfilePostHeader({ bigger, author, createdAt }: { bigger: boolean; author: ProfilePostView["author"], createdAt: Date }) {
     return (
         <Stack gap={1} direction="row" flex={1}>
-            <UserDisplay withStatus showHandle user={author} size={bigger ? "lg" : "md"} avatarSize={bigger ? "xl" : "lg"} alignItems="start" />
+            <UserDisplay withStatus showHandle noHoverBackground user={author} size={bigger ? "lg" : "md"} avatarSize={bigger ? "xl" : "lg"} alignItems="start" />
             {!bigger && <Typography level="body-md" textColor="neutral.500">•</Typography>}
             {!bigger && <Datestamp date={createdAt} />}
         </Stack>

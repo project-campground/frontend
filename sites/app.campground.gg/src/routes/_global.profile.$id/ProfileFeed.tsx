@@ -68,7 +68,7 @@ export default function ProfileFeed({ user, isSelf }: Props) {
     };
 
     return (
-        <Box>
+        <Box sx={{ px: 2 }}>
             {/* <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography> */}
             <Tabs onChange={(_, v) => setFetchReplies(Boolean(v))} size="lg" sx={{ mb: 2 }}>
                 <SmoothTabList tabs={[

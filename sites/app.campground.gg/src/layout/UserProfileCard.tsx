@@ -19,8 +19,8 @@ type Props<T extends ProfileView> = {
 };
 
 const UserProfileCardWrapper = styled(Box)(() => ({
-    width: 320,
-    padding: `0 8px`,
+    // - side padding - side border
+    width: 320 - 12 - 2,
 }));
 
 export default function UserProfileCard<T extends ProfileView>({ did, user, member, campsiteRoles }: Props<T>) {
@@ -59,7 +59,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
             <Box sx={{ mt: -6, px: 1.5, zIndex: 2 }}>
                 {isLoading
                 ? <UserAvatarSkeleton withStatus size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level2}` })} />
-                : <UserAvatar withStatus did={fetchedUser!.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level2}` })} />}
+                : <UserAvatar withStatus did={fetchedUser!.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.neutral.softBg}` })} />}
             </Box>
             <Box sx={{ px: 1.5, py: 1 }}>
                 <Stack>

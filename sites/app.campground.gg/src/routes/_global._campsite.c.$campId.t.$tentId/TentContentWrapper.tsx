@@ -17,6 +17,8 @@ export const TentContentBox = styled(Sheet)(({ theme }) => ({
     boxShadow: theme.vars.shadow.lg,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
     position: "relative",
+    backgroundColor: theme.vars.palette.background.surface,
+    color: theme.vars.palette.text.secondary,
 }));
 
 export const TentContentDivider = styled(Divider)(({ theme }) => ({

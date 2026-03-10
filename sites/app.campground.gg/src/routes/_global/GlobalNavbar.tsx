@@ -16,9 +16,9 @@ export default function GlobalNavbar({ page, loaded }: Props) {
     const me = useMeContext();
 
     return (
-        <Box sx={{ px: 1, py: 1, width: "100%" }}>
-            <Stack direction="row" gap={2} sx={{ width: "100%" }} alignItems="center">
-                <Stack direction="row">
+        <Box sx={{ width: "100%" }}>
+            <Stack direction="row" sx={{ width: "100%" }} alignItems="center">
+                <Stack direction="row" sx={{ m: 1 }}>
                     <NavbarButton href="/" isActive={!page || homePages.includes(page)}>
                         <Stack direction="row" sx={{ width: "100%" }} alignItems="center">
                             <Typography component="svg" sx={{ height: 36, width: 36, stroke: "var(--svg-color)", transition: "stroke 0.4s", strokeWidth: 3 }}>
@@ -27,20 +27,22 @@ export default function GlobalNavbar({ page, loaded }: Props) {
                         </Stack>
                     </NavbarButton>
                 </Stack>
-                <Divider orientation="vertical" sx={{ width: 2 }} />
-                <Stack direction="row" sx={{ flex: 1, overflowX: "auto", overflowY: "hidden" }} gap={1}>
-                    {me?.campsites.map((x) =>
-                        <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
-                    )}
-                    {!loaded && <CircularProgress />}
-                    {me && <NavbarButton href="/c/create" isActive={page === "create"}>
-                        <IconPlus />
-                    </NavbarButton>}
-                    <NavbarButton href="/discover" isActive={page === "discover"}>
-                        <IconCompassFilled />
-                    </NavbarButton>
-                </Stack>
-                <Stack direction="row">
+                <Divider orientation="vertical" sx={{ width: 2, mt: 1, mb: 1, }} />
+                <Box sx={{ overflowX: "auto", overflowY: "hidden" }} flex={1}>
+                    <Stack direction="row" sx={{ flex: 1, m: 1, }} gap={1}>
+                        {me?.campsites.map((x) =>
+                            <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
+                        )}
+                        {!loaded && <CircularProgress />}
+                        {me && <NavbarButton href="/c/create" isActive={page === "create"}>
+                            <IconPlus />
+                        </NavbarButton>}
+                        <NavbarButton href="/discover" isActive={page === "discover"}>
+                            <IconCompassFilled />
+                        </NavbarButton>
+                    </Stack>
+                </Box>
+                <Stack direction="row" sx={{ m: 1 }}>
                     <GlobalNavProfile />
                 </Stack>
             </Stack>

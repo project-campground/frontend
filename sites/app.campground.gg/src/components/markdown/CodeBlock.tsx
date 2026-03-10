@@ -26,6 +26,7 @@ export const CodeContainer = styled("div", {
     flexDirection: "column",
     width: "100%",
     margin: "8px 0",
+    boxShadow: theme.vars.shadow.insetLg,
     "> .code-icon-button": {
         opacity: 0,
         transition: "opacity 0.5s",
@@ -135,11 +136,12 @@ export const CodeLanguage = styled(Chip, {
     name: "CodeLanguage",
     slot: "language"
 })(({ theme }) => ({
-    backgroundColor: theme.vars.palette.neutral[500],
+    backgroundColor: theme.vars.palette.neutral.solidBg,
     borderRadius: theme.vars.radius.md,
     fontWeight: 700,
     fontFamily: theme.fontFamily.code,
-    color: theme.vars.palette.neutral[100]
+    color: theme.vars.palette.neutral.solidColor,
+    boxShadow: theme.vars.shadow.sm,
 }));
 
 // Code lines

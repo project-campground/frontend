@@ -133,11 +133,11 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
 
     return (
         <Box sx={{ overflowY: "auto", flex: 1, width: "100%" }}>
-            <Stack className="ProfileLayout container" sx={(theme) => ({ pt: 4, minHeight: "100%", pb: 16, backgroundColor: theme.vars.palette.background.level1 })}>
-                <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: { md: "0 11fr 0", lg: "2fr 7fr 2fr" }, gap: 8, px: { sm: 2, md: 8, lg: 35 }, pt: 2 }}>
+            <Stack className="ProfileLayout container" sx={(theme) => ({ pt: { md: 0, lg: 4 }, minHeight: "100%", pb: 16, backgroundColor: theme.vars.palette.background.level1 })}>
+                <Stack direction="row" sx={{ flex: 1, display: "grid", gridTemplateColumns: { md: "0 11fr 0", lg: "2fr 7fr 2fr" }, gap: 6, px: { sm: 2, md: 8, lg: 35 }, pt: 2 }}>
                     <Box>
                     </Box>
-                    <Stack gap={2} sx={{ width: "100%", overflow: "hidden" }}>
+                    <Stack gap={2} sx={{ px: 2, width: "100%", overflow: "hidden" }}>
                         {/* <Link href={`/profile/${post.author.did}`}>
                             <Typography level="body-md" fontWeight={900} startDecorator={<IconArrowNarrowLeft />}>View user profile</Typography>
                         </Link> */}

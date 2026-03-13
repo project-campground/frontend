@@ -21,7 +21,7 @@ export default function GlobalNavbar({ page, loaded }: Props) {
                 <Stack direction="row" sx={{ m: 1 }}>
                     <NavbarButton href="/" isActive={!page || homePages.includes(page)}>
                         <Stack direction="row" sx={{ width: "100%" }} alignItems="center">
-                            <Typography component="svg" sx={{ height: 36, width: 36, stroke: "var(--svg-color)", transition: "stroke 0.4s", strokeWidth: 3 }}>
+                            <Typography component="svg" sx={{ height: 36, width: 36, color: "var(--svg-color)", transition: "color 0.4s" }}>
                                 <use href="#cg-logo" />
                             </Typography>
                         </Stack>

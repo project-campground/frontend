@@ -147,7 +147,7 @@ export function HydrateFallback() {
             </style>
             <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <div style={{  position: "relative", width: "128px", height: "128px" }}>
+                    <div style={{  position: "relative", width: "128px", height: "128px", color: "transparent" }}>
                         <div style={{ zIndex: 1, position: "absolute", top: 0, left: 0, right: 0, bottom: 0, strokeWidth: "2px", stroke: "var(--palette-secondary-500)", strokeLinecap: "round", strokeLinejoin: "round", animation: `stroke-width-animation 2s infinite` }}>
                             <SvgUse id="cg-logo" width="128px" height="128px" />
                         </div>

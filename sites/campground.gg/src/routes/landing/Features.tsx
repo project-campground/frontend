@@ -26,10 +26,10 @@ export default class Features extends React.Component<Props> {
                 </Box>
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, mb: 10 }} spacing="xl" className="LandingPage content landing-side-padding">
                     <FeatureCard
-                        title="features.campfires.title"
-                        description="features.campfires.description"
+                        title="features.bonfires.title"
+                        description="features.bonfires.description"
                         icon={<IconCampfireFilled />}
-                        href="/docs/features/campfires"
+                        href="/docs/features/bonfires"
                         imgSrc="/example-banner.svg"
                     />
                     <FeatureCard

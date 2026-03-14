@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { jsx } from "react/jsx-runtime";
 import type { StackProps } from "@mui/joy";
 
-export interface GroupProps extends React.PropsWithChildren, StackProps {
+export interface GroupProps extends StackProps {
     wrap?: boolean;
     withMobile?: boolean;
     withMobileReversed?: boolean;

@@ -1,7 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import LandingPageWrapper from "../components/landing/LandingPageWrapper";
-import { Link, Stack, Typography } from "@mui/joy";
+import { Button, Link, Stack, Typography } from "@mui/joy";
 import { IconDoorExit, IconMoodSadFilled } from "@tabler/icons-react";
 
 

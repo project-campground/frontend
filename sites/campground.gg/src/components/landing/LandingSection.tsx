@@ -1,4 +1,4 @@
-import { Grid, Link, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { IconArrowRight } from "@tabler/icons-react";
 import React, { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";

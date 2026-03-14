@@ -14,7 +14,6 @@ import "@fontsource/quicksand/500.css";
 import "@fontsource/quicksand/700.css";
 import './App.scss'
 import { IntlProvider } from './i18n';
-import { SessionProvider } from './session';
 import LandingIndex from './routes/landing/LandingIndex';
 import { CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import InitColorSchemeScript from '@mui/joy/InitColorSchemeScript';
@@ -22,10 +21,7 @@ import { theme } from "components";
 import Downloads from "./routes/landing/Downloads";
 import Soon from "./routes/Soon";
 import Features from "./routes/landing/Features";
-import Login from "./routes/Login";
-import Register from "./routes/Register";
 import NotFound from "./routes/NotFound";
-import ResetPassword from "./routes/ResetPassword";
 
 
 function App() {
@@ -41,18 +37,6 @@ function App() {
     {
       path: "/downloads",
       element: <Downloads />
-    },
-    {
-      path: "/login",
-      element: <Login />
-    },
-    {
-      path: "/register",
-      element: <Register />
-    },
-    {
-      path: "/reset-password",
-      element: <ResetPassword />
     },
     {
       path: "/blog",
@@ -78,11 +62,9 @@ function App() {
       <StyledEngineProvider injectFirst>
         <CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
           <CssBaseline />
-          <SessionProvider>
             <IntlProvider>
               <RouterProvider router={router} />
             </IntlProvider>
-          </SessionProvider>
         </CssVarsProvider>
       </StyledEngineProvider>
     </>

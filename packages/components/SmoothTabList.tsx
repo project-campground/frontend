@@ -6,7 +6,7 @@ import { jsx, Fragment } from "react/jsx-runtime";
 const SmoothTabListRoot = styled(TabList, {
     name: "SmoothTabList",
     slot: "root",
-})(({ theme }) => ({
+})(() => ({
     position: "relative",
     overflow: "hidden",
 }));

@@ -13,7 +13,7 @@ export const animatedGradient = keyframes`
     }
 `;
 
-export interface GradientTypographyProps extends React.PropsWithChildren, TypographyProps {
+export interface GradientTypographyProps extends TypographyProps {
     gradientAnimated?: boolean;
     colors?: string[] | undefined | null;
 };

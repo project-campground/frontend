@@ -1,4 +1,4 @@
-import { Stack, Box, Typography, styled } from "@mui/joy";
+import { Stack, Typography, styled } from "@mui/joy";
 import type { DefaultTypographySystem } from "@mui/joy/styles/types";
 import SvgLogo from "./svg/SvgLogo";
 import SvgUse from "./svg/SvgUse";
@@ -29,29 +29,29 @@ const sizeToPx: Record<Size, number> = {
 
 const BrandIconContainer = styled("span", {
     name: "BrandIconContainer",
-})(({ theme }) => ({
-    "& > img": {
+})(() => ({
+    "& > svg": {
         width: sizeToPx.md,
         height: sizeToPx.md,
         userSelect: "none",
     },
-    "&.BrandIconContainer-sizeMd > img": {
+    "&.BrandIconContainer-sizeMd > svg": {
         width: sizeToPx.md,
         height: sizeToPx.md,
     },
-    "&.BrandIconContainer-sizeSm > img": {
+    "&.BrandIconContainer-sizeSm > svg": {
         width: sizeToPx.sm,
         height: sizeToPx.sm,
     },
-    "&.BrandIconContainer-sizeXs > img": {
+    "&.BrandIconContainer-sizeXs > svg": {
         width: sizeToPx.xs,
         height: sizeToPx.xs,
     },
-    "&.BrandIconContainer-sizeLg > img": {
+    "&.BrandIconContainer-sizeLg > svg": {
         width: sizeToPx.lg,
         height: sizeToPx.lg,
     },
-    "&.BrandIconContainer-sizeXl > img": {
+    "&.BrandIconContainer-sizeXl > svg": {
         width: sizeToPx.xl,
         height: sizeToPx.xl,
     },
@@ -61,10 +61,7 @@ const Svg = styled("svg", {
     name: "BrandLogoSvg",
     slot: "svg",
 })(({ theme }) => ({
-    stroke: theme.vars.palette.primary[500],
-    strokeWidth: 3,
-    strokeLinecap: "butt",
-    strokeLinejoin: "round",
+    color: theme.vars.palette.primary[500],
 }));
 
 const normalizeName = (size: Size) => size[0].toUpperCase() + size.slice(1);

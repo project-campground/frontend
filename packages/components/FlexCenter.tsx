@@ -7,7 +7,7 @@ type Props = PropsWithChildren;
 const FlexCenterVertical = styled("div", {
     name: "FlexCenter",
     slot: "root",
-})(({ theme }) => ({
+})(() => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
@@ -17,7 +17,7 @@ const FlexCenterVertical = styled("div", {
 const FlexCenterHorizontal = styled("div", {
     name: "FlexCenter",
     slot: "sub",
-})(({ theme }) => ({
+})(() => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "column",

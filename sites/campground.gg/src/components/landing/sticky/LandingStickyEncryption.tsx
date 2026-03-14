@@ -77,7 +77,7 @@ class LandingStickyEncryptedMessage extends React.Component<Props, State> {
             <Card variant="plain" sx={{ width: cardWidth, ...sx }}>
                 <CardContent>
                     <Stack className="LandingStickyEncryptedMessage container" direction="row" spacing={2}>
-                        <Avatar color={color} variant="solid" size="lg">
+                        <Avatar color={color} variant="solid" size="lg" sx={{ borderRadius: "lg" }}>
                             {username[0]}
                         </Avatar>
                         <Stack spacing={0}>

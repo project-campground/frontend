@@ -67,11 +67,11 @@
             "title": "What are you waiting for?",
             "description": "Try Campground now, anywhere!"
         },
-        "campfires": {
-            "subtitle": "Campfires",
-            "title": "Organize channels with campfires",
-            "description": "May also be known as groups or sub-servers, campfires are server-like group of tents/channels with their own icons, banners and roles.",
-            "learnMore": "Learn more about Campfires"
+        "bonfires": {
+            "subtitle": "Bonfires",
+            "title": "Organize channels with bonfires",
+            "description": "May also be known as groups or sub-servers, bonfires are server-like group of tents/channels with their own icons, banners and roles.",
+            "learnMore": "Learn more about Bonfires"
         },
         "profiles": {
             "subtitle": "Profiles",
@@ -112,9 +112,9 @@
             "title": "Instances",
             "description": "Host your own Campground instances and create campsites on them"
         },
-        "campfires": {
-            "title": "Campfires",
-            "description": "Organize your campsites with campfires."
+        "bonfires": {
+            "title": "Bonfires",
+            "description": "Organize your campsites with bonfires."
         },
         "encryption": {
             "title": "E2E Encryption",

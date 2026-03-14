@@ -14,7 +14,7 @@ type Props = {
 
 const BonfireMenu = styled(Menu)(({ theme }) => ({
     "--ListItem-paddingY": "12px",
-    "--ListItemButton-marginInline": "8px",
+    "--List-gap": theme.spacing(0.5),
     "--ListItem-radius": theme.vars.radius.md, 
     // - 10 due to 5px padding
     width: 320 - 10,
@@ -48,7 +48,7 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                         </ListItemContent>
                     </MenuItem>
                 )}
-                <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[400]}` })} onClick={() => setCreateModalOpen(true)}>
+                <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[700]}` })} onClick={() => setCreateModalOpen(true)}>
                     <ListItemDecorator>
                         <IconPlus />
                     </ListItemDecorator>

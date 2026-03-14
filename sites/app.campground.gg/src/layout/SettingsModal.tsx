@@ -119,7 +119,7 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                             <Box sx={{ px: 3, py: 2, }}>
                                 <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
                             </Box>
-                            <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1 }} />
+                            <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1, width: "calc(100% + 2px)" }} />
                             <SettingsPageContent>
                                 <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: false, values, valid, changed })} />
                             </SettingsPageContent>

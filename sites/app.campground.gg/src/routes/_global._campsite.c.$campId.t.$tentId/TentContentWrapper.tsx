@@ -27,6 +27,7 @@ export const TentContentDivider = styled(Divider)(({ theme }) => ({
     left: "-1px",
     right: "-1px",
     zIndex: 200,
+    width: "calc(100% + 2px)"
     // position: "absolute",
 }));
 

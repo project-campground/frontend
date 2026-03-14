@@ -55,6 +55,21 @@ const theme = extendTheme({
     },
     cssVarPrefix: ``,
     typography: {
+        h1: {
+            letterSpacing: "0.05em",
+        },
+        h2: {
+            letterSpacing: "0.025em",
+        },
+        h3: {
+            letterSpacing: "0.025em",
+        },
+        "title-lg": {
+            letterSpacing: "0.025em",
+        },
+        "title-md": {
+            letterSpacing: "0.0125em",
+        },
         code: {
             padding: `2px 4px`,
             borderRadius: `var(--radius-md)`,

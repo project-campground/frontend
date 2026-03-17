@@ -103,7 +103,7 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
                         },
                     ]
                 },
-                props.campsite.owner === props.campsite.member.user.did && {
+                props.campsite.owner === props.campsite.me.user.did && {
                     id: "other",
                     header: "Other",
                     items: [

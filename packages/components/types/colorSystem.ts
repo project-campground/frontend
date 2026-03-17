@@ -4,14 +4,14 @@ import type { PaletteRange } from "@mui/joy/styles/types";
 export interface Palette {
     secondary: PaletteRange;
     info: PaletteRange;
-    debug: PaletteRange;
-    note: PaletteRange;
+    // debug: PaletteRange;
+    // note: PaletteRange;
 }
 export interface ColorPalettePropOverrides {
     secondary: true;
     info: true;
-    debug: true;
-    note: true;
+    // debug: true;
+    // note: true;
 }
 // Add new text colours
 export interface PaletteTextOverrides {

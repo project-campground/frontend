@@ -62,10 +62,14 @@ const PageSidebarItemButton = styled(Button, {
 })(({ theme }) => ({
     justifyContent: "start",
     border: `solid 1px transparent`,
-    transitionProperty: "background, color, box-shadow, border",
     "&.active": {
         border: `solid 1px ${theme.vars.palette.neutral.border}`,
         boxShadow: theme.vars.shadow.sm,
+    },
+    "&.active:active": {
+        backgroundColor: theme.vars.palette.background.body,
+        border: `solid 1px transparent`,
+        boxShadow: "0 0 0px transparent",
     },
     "&.MuiButton-colorDanger.active": {
         border: `solid 1px ${theme.vars.palette.danger.border}`,

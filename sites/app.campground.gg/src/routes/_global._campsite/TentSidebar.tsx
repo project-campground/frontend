@@ -17,7 +17,7 @@ import BonfireSettingsModal from "~/layout/bonfire/BonfireSettingsModal";
 import { type NavigateFunction } from "react-router";
 import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
-import InviteCreationModal from "./InviteCreationModal";
+import InviteCreationModal from "../../layout/InviteCreationModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
 import { CampsitePermissionConsts } from "~/util/permissions";
 
@@ -256,7 +256,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             session
                 .http
                 .members
-                .remove(this.props.campsite.id, this.props.campsite.member.user.did)
+                .remove(this.props.campsite.id, this.props.campsite.me.user.did)
                 .then((resp) => {
                     if (!resp.ok)
                         return floaters.notifyApiError(resp);
@@ -327,7 +327,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Bonfire Settings
                                         </ListItemContent>
                                     </MenuItem>}
-                                    {campsite.owner !== campsite.member.user.did && <MenuItem variant="plain" color="danger" onClick={this.leaveCampsite.bind(this)}>
+                                    {campsite.owner !== campsite.me.user.did && <MenuItem variant="plain" color="danger" onClick={this.leaveCampsite.bind(this)}>
                                         <ListItemDecorator>
                                             <IconDoorExit />
                                         </ListItemDecorator>

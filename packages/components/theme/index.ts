@@ -1,4 +1,4 @@
-import { extendTheme, type ColorPaletteProp, type ButtonOwnerState, type IconButtonOwnerState, type Theme, type Palette } from "@mui/joy";
+import { extendTheme, type ColorPaletteProp, type ButtonOwnerState, type IconButtonOwnerState, type MenuButtonOwnerState, type ListItemButtonOwnerState, type Theme, type Palette } from "@mui/joy";
 import { bodyFontFamily, displayFontFamily } from "./font";
 import lightColorScheme from "./light";
 import darkColorScheme from "./dark";
@@ -7,20 +7,33 @@ import "../types";
 const complementaryPalettes: Record<keyof Omit<Palette, "common" | "background" | "text" | "divider" | "focusVisible" | "mode">, keyof Palette> = {
     primary: "secondary",
     secondary: "primary",
-    success: "debug",
+    success: "success",
     warning: "danger",
     danger: "danger",
-    info: "note",
-    note: "debug",
-    debug: "info",
+    info: "info",
+    // note: "debug",
+    // debug: "info",
     neutral: "neutral",
 };
 
-const ButtonStyling: (props: { ownerState: ButtonOwnerState | IconButtonOwnerState, theme: Theme }) => any = ({ theme, ownerState: { variant, disabled, color, } }) => ({
-    transitionDuration: "0.3s",
-    transitionProperty: "background, background-color, color, box-shadow",
+const buttonAnimations = {
+    transitionDuration: "0.2s",
+    transitionProperty: "background, background-color, color, box-shadow, transform",
+    ":active": {
+        transform: "scale(0.925) translateY(2px)",
+    },
+    ":hover": {
+        transform: "scale(1.0125)",
+    },
+    // To not be ignored in modified buttons
+    "&:active:hover": {
+        transform: "scale(0.925) translateY(2px)",
+    }
+};
+const ButtonStyling: (props: { ownerState: ButtonOwnerState | IconButtonOwnerState | MenuButtonOwnerState | ListItemButtonOwnerState, theme: Theme }) => any = ({ theme, ownerState: { variant, disabled, color, } }) => ({
+    ...buttonAnimations,
     ...(variant === "glow" ? {
-        background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[300]}, ${theme.vars.palette.neutral[400]})` : `linear-gradient(30deg, ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]} ${!color || color === "primary" ? 0 : 20}%, ${theme.vars.palette[complementaryPalettes[color ?? "primary" as keyof typeof complementaryPalettes] as ColorPaletteProp][500]} ${!color || color === "primary" ? 100 : 130}%)`,
+        background: disabled ? `linear-gradient(30deg, ${theme.vars.palette.neutral[500]}, ${theme.vars.palette.neutral[600]})` : `linear-gradient(30deg, ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]} ${!color || color === "primary" ? 0 : 20}%, ${theme.vars.palette[complementaryPalettes[color ?? "primary" as keyof typeof complementaryPalettes] as ColorPaletteProp][500]} ${!color || color === "primary" ? 100 : 130}%)`,
         boxShadow: disabled ? theme.vars.shadow.md : `0px 0px 8px ${theme.vars.palette[(color ?? "primary") as ColorPaletteProp][500]}`,
         color: theme.vars.palette.common.black,
         ":not([disabled]):hover": {
@@ -91,6 +104,7 @@ const theme = extendTheme({
         insetSm: "inset 0 0 2px rgba(var(--shadowChannel) / var(--shadowOpacity))",
         insetMd: "inset 0 0 4px rgba(var(--shadowChannel) / var(--shadowOpacity))",
         insetLg: "inset 0 0 8px rgba(var(--shadowChannel) / var(--shadowOpacity))",
+        menu: "0 0 12px rgba(var(--shadowChannel) / calc(var(--shadowOpacity) * 2))",
     },
     components: {
         JoySkeleton: {
@@ -131,24 +145,18 @@ const theme = extendTheme({
                 }
             }
         },
-        JoyMenu: {
-            styleOverrides: {
-                root: ({ theme }) => ({
-                    "--List-padding": "var(--ListDivider-gap)",
-                    border: `solid 1px ${theme.palette.neutral.border}`,
-                    animation: "appear-animation-opacity ease-out 0.125s",
-                })
-            }
-        },
-        JoyMenuItem: {
-            styleOverrides: {
-                root: ({ theme }) => ({
-                    borderRadius: theme.vars.radius.md,
-                }),
-            },
-        },
         JoyModal: {
+            defaultProps: {
+                container: () => document.getElementById("root"),
+            },
             styleOverrides: {
+                root: {
+                    display: "grid",
+                    gridTemplateColumns: "1fr",
+                    gridTemplateRows: "1fr",
+                    alignItems: "center",
+                    justifyItems: "center",
+                },
                 backdrop: () => ({
                     backdropFilter: "none",
                 }),
@@ -158,26 +166,63 @@ const theme = extendTheme({
             styleOverrides: {
                 root: ({ theme }) => ({
                     animation: "appear-animation ease-out 0.125s",
+                    transform: "none",
+                    top: 0,
+                    left: 0,
+                    gridColumn: "1 / 2",
+                    gridRow: "1 / 2",
+                    position: "relative",
+                    overflow: "hidden",
                     [theme.breakpoints.up("md")]: {
                         "&.MuiModalDialog-layoutFullscreen": {
                             borderRadius: theme.vars.radius.xl,
-                            border: `solid 1px ${theme.vars.palette.neutral[950]}`,
                         }
                     },
                     [theme.breakpoints.only("md")]: {
                         "&.MuiModalDialog-layoutFullscreen": {
-                            margin: `32px 64px`,
+                            width: `calc(100% - 64px)`,
+                            height: `calc(100% - 32px)`,
                         }
                     },
                     [theme.breakpoints.up("lg")]: {
                         "&.MuiModalDialog-layoutFullscreen": {
-                            margin: `48px 96px`,
-                            borderRadius: theme.vars.radius.xl,
-                            border: `solid 1px ${theme.vars.palette.neutral[950]}`,
+                            width: `calc(100% - 96px)`,
+                            height: `calc(100% - 48px)`,
                         }
                     }
                 }),
             }
+        },
+        JoyMenu: {
+            defaultProps: {
+                container: () => document.getElementById("root"),
+            },
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    "--List-padding": "var(--ListDivider-gap)",
+                    border: `solid 1px var(--palette-neutral-border)`,
+                    animation: "appear-animation-opacity ease-out 0.125s",
+                    boxShadow: "var(--shadow-menu)",
+                })
+            }
+        },
+        JoyMenuItem: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    ...buttonAnimations,
+                    borderRadius: theme.vars.radius.md,
+                }),
+            },
+        },
+        JoyMenuButton: {
+            styleOverrides: {
+                root: ButtonStyling,
+            },
+        },
+        JoyListItemButton: {
+            styleOverrides: {
+                root: ButtonStyling,
+            },
         },
         JoyButton: {
             styleOverrides: {

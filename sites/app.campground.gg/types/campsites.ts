@@ -12,17 +12,17 @@ export interface CampsiteView {
     tags: string[];
     memberCount: number;
     owner: string;
-    createdBy: string;
-    createdAt: string;
-    updatedBy: string;
-    updatedAt: string;
 }
 export interface CampsiteViewBasic extends CampsiteView {
 }
 export interface CampsiteViewDetailed extends CampsiteView {
+    createdBy: string;
+    createdAt: string;
+    updatedBy: string;
+    updatedAt: string;
     bonfires: BonfireViewBasic[];
     roles: CampsiteRoleView[];
-    member: CampsiteMemberViewBasic;
+    me: CampsiteMemberViewBasic;
 }
 export interface CampsiteRoleView {
     id: string;

@@ -86,17 +86,17 @@ html, body, #root {
 @keyframes appear-animation {
     0% {
         opacity: 0%;
-        scale: 75%;
+        transform: scale(75%);
     }
     80% {
-        scale: 100%;
+        transform: scale(100%);
     }
     90% {
-        scale: 97.5%;
+        transform: scale(97.5%);
     }
     100% {
         opacity: 100%;
-        scale: 100%;
+        transform: scale(100%);
     }
 }
 @keyframes appear-animation-opacity {

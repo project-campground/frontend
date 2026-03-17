@@ -10,7 +10,6 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@dnd-kit/core": "^6.3.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@fontsource/nunito-sans": "^5.2.7",

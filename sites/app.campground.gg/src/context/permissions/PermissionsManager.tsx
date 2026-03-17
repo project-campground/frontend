@@ -34,13 +34,13 @@ export default class PermissionsManager {
         for (const perm in this._tentToPermissions)
             delete this._tentToPermissions[perm];
 
-        if (this.campsite.member.user.did === this.campsite.owner)
+        if (this.campsite.me.user.did === this.campsite.owner)
             return;
 
-        this.permissions = aggregateAllPermissions(this.campsite.member, this.campsite.roles, value?.permissions ?? []);
+        this.permissions = aggregateAllPermissions(this.campsite.me, this.campsite.roles, value?.permissions ?? []);
     }
     public getTentPermissions(categoryId: string | null | undefined, tentId: string) {
-        if (this.campsite.member.user.did === this.campsite.owner)
+        if (this.campsite.me.user.did === this.campsite.owner)
             return maxPermissions;
         else if (this._tentToPermissions[tentId])
             return this._tentToPermissions[tentId];

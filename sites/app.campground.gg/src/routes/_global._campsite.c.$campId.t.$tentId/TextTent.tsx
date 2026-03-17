@@ -162,7 +162,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
             bonfireId: this.props.tent.bonfireId,
             tentId: this.props.tent.id,
             content,
-            createdBy: { isMember: true, ...campsite.member },
+            createdBy: { isMember: true, ...campsite.me },
             createdAt: new Date().toISOString(),
             waiting: true,
         };

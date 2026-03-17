@@ -11,7 +11,6 @@ export interface ProfileView {
     banner: string | null;
 
     createdAt: string | null;
-    indexedAt: string | null;
 }
 export interface ProfileViewBasic extends ProfileView {
     

@@ -9,11 +9,11 @@ import Form from "~/components/form/Form";
 import { CampsitePermissionConsts, TentPermissionConsts } from "~/util/permissions";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
-import { DndContext } from "@dnd-kit/core";
 import ContentDeleteModal from "../ContentDeleteModal";
 import type { HttpResponseWithContent } from "api/HTTPResponse";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import TentMessage from "~/components/tents/TentMessage";
+import { DragDropProvider } from "~/draggable";
 
 type NewRole = CampsiteRoleView & { added: true; };
 type SettingsRole = CampsiteRoleView | NewRole;
@@ -53,14 +53,20 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
         if (roleMoved === movedTo)
             return;
 
+        const movedFromIndex = roles.findIndex((x) => x.id === roleMoved);
         const movedToIndex = roles.findIndex((x) => x.id === movedTo);
+        console.log({ movedFromIndex, movedToIndex, movedFrom: roles[movedFromIndex], movedTo: roles[movedToIndex] });
+
+        if (movedFromIndex + 1 === movedToIndex)
+            return;
+
         // Move a single role, because it is at the top or there is space between priorities that the role can be nudged to
         if (!movedToIndex || Math.abs(roles[movedToIndex - 1].priority - roles[movedToIndex].priority) > 1)
             return session
                 .http
                 .roles
                 .moveMany(campsite.id, {
-                    roleByPriority: { [roleMoved]: roles[movedToIndex]!.priority - 1 },
+                    rolesByPriority: { [roleMoved]: roles[movedToIndex]!.priority - 1 },
                 })
                 .then(onRolesMoved);
         
@@ -75,7 +81,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
             .http
             .roles
             .moveMany(campsite.id, {
-                roleByPriority: newPriorities,
+                rolesByPriority: newPriorities,
             })
             .then(onRolesMoved);
     }
@@ -112,7 +118,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
                         <IconPlus size={16} />
                     </IconButton>
                 </Group>
-                <DndContext onDragEnd={(event) => event.over && moveRole(event.active.id as string, event.over!.id as string)}>
+                <DragDropProvider onDropped={(draggedId, droppedId) => moveRole(draggedId, droppedId)}>
                     <Stack sx={{ height: "100%" }}>
                         {roles.map((role) =>
                             <React.Fragment key={role.id}>
@@ -121,7 +127,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
                             </React.Fragment>
                         )}
                     </Stack>
-                </DndContext>
+                </DragDropProvider>
             </Stack>
             <RolePage
                 role={openRole}

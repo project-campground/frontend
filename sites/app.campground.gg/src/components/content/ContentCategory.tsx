@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { RotatingCaret } from "./RotatingCaret";
 
 const CategoryContainer = styled(Stack)(() => ({
-    overflow: "hidden",
 }));
 
 type Props = React.PropsWithChildren & {
@@ -23,7 +22,7 @@ export default function ContentCategory({ header, children }: Props) {
                 </IconButton>
                 {header}
             </Group>
-            <Box sx={{ display: open ? "block" : "none"}}>
+            <Box sx={{ display: open ? "block" : "none" }}>
                 {children}
             </Box>
         </CategoryContainer>

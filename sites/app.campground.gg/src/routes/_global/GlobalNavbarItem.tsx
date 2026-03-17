@@ -5,8 +5,6 @@ export const GlobalNavbarItem = styled(Button)(({ theme }) => ({
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
     padding: 1,
     borderRadius: theme.vars.radius.lg,
-    transitionDuration: "0.4s",
-    transitionProperty: "background-color, border, color",
     "--svg-color": theme.vars.palette.neutral[400],
     cursor: "pointer",
     color: theme.vars.palette.text.tertiary,

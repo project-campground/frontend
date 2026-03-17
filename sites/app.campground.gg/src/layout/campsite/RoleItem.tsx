@@ -1,8 +1,8 @@
-import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { Box, Button, Chip, styled } from "@mui/joy";
 import { IconGripVertical } from "@tabler/icons-react";
 import { GradientTypography } from "components";
 import type { CampsiteRoleView } from "types/campsites";
+import { useDraggable, useDragging, useDroppable } from "~/draggable";
 import { getColorFromSet } from "~/util/color";
 
 export const RoleButton = styled(Button, {
@@ -17,7 +17,6 @@ export const RoleButton = styled(Button, {
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     border: "solid 1px transparent",
-    transitionProperty: "background, border, color, box-shadow",
     "&.RoleItem-active": {
         border: `solid 1px ${theme.vars.palette.neutral.border}`,
         boxShadow: theme.vars.shadow.sm,
@@ -48,10 +47,11 @@ export const RoleButton = styled(Button, {
 }));
 
 export default function RoleItem({ onClick, active, id, added, flags, name, color, colorSecondary, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "flags"> & { added?: true, immovable?: boolean; }) {
-    const {attributes, listeners, setNodeRef, transform} = immovable ? { transform: { x: 0, y: 0 } } : useDraggable({
-        id,
-    });
-    const style = transform ? { transform: `translate3d(0px, ${transform.y}px, 0)` } : undefined;
+    // const {ref} = useDraggable({
+    //     id,
+    //     disabled: immovable,
+    // });
+    const { attributes } = useDraggable({ id, disabled: immovable });
     const badge = (flags & 1) === 1
         ? <Chip color="primary" variant="soft">Default</Chip>
         : added
@@ -60,7 +60,7 @@ export default function RoleItem({ onClick, active, id, added, flags, name, colo
     const colors = getColorFromSet(color, colorSecondary);
 
     return (
-        <RoleButton onClick={onClick} colors={colors} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" {...listeners} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral" ref={setNodeRef} {...attributes} style={style}>
+        <RoleButton {...attributes} onClick={onClick} colors={colors} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" onPointerDown={(ev) => console.log("Down", ev)} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
             <GradientTypography colors={colors} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
                 {name}
             </GradientTypography>
@@ -69,26 +69,34 @@ export default function RoleItem({ onClick, active, id, added, flags, name, colo
 }
 const RoleItemGapDivider = styled(`div`)(({ theme }) => ({
     width: "100%",
-    height: 0,
+    height: 2,
     transitionDuration: "0.3s",
     transitionProperty: "height, opacity",
     border: `dashed 1px ${theme.vars.palette.neutral[400]}`,
     borderRadius: theme.vars.radius.md,
+    position: "relative",
     opacity: 0,
+    zIndex: 2,
     "&.over": {
-        opacity: 1,
-        // backgroundColor: theme.vars.palette.primary[500],
         height: 36,
+        opacity: 1,
     },
-    "&.full-height.over": {
-        height: "100%"
+    // To give more space to drag
+    "&.dragging::after": {
+        content: "''",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: -36,
+        backgroundColor: "transparent",
     }
 }));
 export function RoleItemGap({ id }: { id: string }) {
-    const {isOver, setNodeRef} = useDroppable({
-        id,
-    });
+    const { attributes, isOver, draggableOver } = useDroppable({ id });
+    const dragging = useDragging();
+
     return (
-        <RoleItemGapDivider ref={setNodeRef} className={`${isOver ? "over" : ""}`} />
+        <RoleItemGapDivider {...attributes} className={`${dragging ? "dragging " : ""}${isOver && draggableOver !== id ? "over" : ""}`} />
     );
 }

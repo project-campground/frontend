@@ -66,7 +66,7 @@ export const SettingsSidebar = styled(Stack)(({ theme }) => ({
     width: 300,
     minWidth: 300,
     position: "relative",
-    padding: `${theme.spacing(3)} ${theme.spacing(4)}`,
+    padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
     borderRadius: theme.vars.radius.lg,
     overflow: "hidden",
     gap: theme.spacing(2),
@@ -90,8 +90,8 @@ export default function SettingsModal<TPage extends string, TProps>({ header, on
                 </Group> */}
                 <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} flex={1} gap={0.5}>
                     <SettingsSidebar>
-                        <Typography level="title-lg">{header}</Typography>
-                        <Box flex={1} sx={{ overflowY: "auto" }}>
+                        <Typography level="title-lg" sx={{ mx: 1 }}>{header}</Typography>
+                        <Box flex={1} sx={{ overflowY: "auto", px: 1, }}>
                             <PageSidebar
                                 defaultActive={defaultPage}
                                 onClick={(item) => setPage(item as TPage)}

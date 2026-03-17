@@ -16,7 +16,6 @@ import { SvgDefs, SvgUse, theme } from "components";
 import { SessionProvider } from "./context/session";
 import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";
-import { DndContext } from "@dnd-kit/core";
 import { RightClickProvider } from "./context/mouse";
 import { KeyContext } from "./context/key";
 import { useState, type KeyboardEventHandler } from "react";
@@ -74,13 +73,13 @@ function AppComponent({ children }: React.PropsWithChildren) {
             <IntlProvider>
                 <SnackbarContextProvider>
                     <ContextSuiteProvider>
-                        <DndContext>
-                            <RightClickProvider>
-                                <Box id="root">
-                                    {children}
-                                </Box>
-                            </RightClickProvider>
-                        </DndContext>
+                        <RightClickProvider>
+                            <Box id="root">
+                                {children}
+                            </Box>
+                        </RightClickProvider>
+                        {/* <DndContext>
+                        </DndContext> */}
                     </ContextSuiteProvider>
                 </SnackbarContextProvider>
             </IntlProvider>

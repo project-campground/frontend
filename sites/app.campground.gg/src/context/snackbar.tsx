@@ -1,4 +1,4 @@
-import { IconButton, Snackbar, type ColorPaletteProp } from "@mui/joy";
+import { Alert, IconButton, Snackbar, type ColorPaletteProp } from "@mui/joy";
 import { IconX, IconExclamationCircleFilled, IconCircleCheckFilled, IconInfoCircleFilled } from "@tabler/icons-react";
 import type { HttpResponse, HttpResponseError } from "api/HTTPResponse";
 import { Group } from "components";
@@ -57,12 +57,18 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
                     <Snackbar
                         open
                         key={x.id}
-                        variant="soft"
+                        variant="outlined"
                         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                        onClose={close} color={x.color}
-                        startDecorator={x.startDecorator}
-                        endDecorator={<IconButton variant="soft" onClick={close} color={x.color}><IconX size={16} /></IconButton>}
+                        onClose={close}
+                        // color={x.color}
+                        startDecorator={
+                            <Alert size="sm" color={x.color} variant="soft" sx={{ border: `solid 1px var(--palette-${x.color ?? "neutral"}-border)` }}>
+                                {x.startDecorator}
+                            </Alert>
+                        }
+                        endDecorator={<IconButton variant="plain" onClick={close}><IconX size={16} /></IconButton>}
                         autoHideDuration={typeof x.text === "string" ? 500 + (x.text.length * 50) : 4000}
+                        sx={{ border: "solid 1px var(--palette-neutral-border)" }}
                     >
                         {x.text}
                     </Snackbar>

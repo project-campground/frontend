@@ -33,9 +33,10 @@ export default class FormFieldNumber extends AbstractFormField<"number", number 
 
     private get hasAllowedValue(): boolean {
         return !(
-            (typeof this.props.max !== "undefined" && (this.state.value ?? 0) > this.props.max) ||
+            this.state.value !== null &&
+            ((typeof this.props.max !== "undefined" && (this.state.value ?? 0) > this.props.max) ||
             (typeof this.props.min !== "undefined" && (this.state.value ?? 0) < this.props.min) ||
-            (this.props.allowFloating && Math.floor(this.state.value ?? 0) !== (this.state.value ?? 0))
+            (this.props.allowFloating && Math.floor(this.state.value ?? 0) !== (this.state.value ?? 0)))
         );
     }
 
@@ -63,7 +64,6 @@ export default class FormFieldNumber extends AbstractFormField<"number", number 
         const { startDecorator, endDecorator, placeholder, disabled } = this.props;
         const { state: { textValue, value } } = this;
 
-        console.log({ textValue, value });
         return (
             <Input
                 sx={{ pr: 0 }}

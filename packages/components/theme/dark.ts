@@ -16,8 +16,8 @@ const darkColorScheme: ColorSystemOptions = {
         warning: generateColorScheme("#fea01c", shades[950], shades[50]),
         success: generateColorScheme("#0cef43", shades[950], shades[50]),
         info: generateColorScheme("#6026ff", shades[950], shades[50]),
-        debug: generateColorScheme("#26f2ff", shades[950], shades[50]),
-        note: generateColorScheme("#ca1cfe", shades[950], shades[50]),
+        // debug: generateColorScheme("#26f2ff", shades[950], shades[50]),
+        // note: generateColorScheme("#ca1cfe", shades[950], shades[50]),
         background,
     }
 };

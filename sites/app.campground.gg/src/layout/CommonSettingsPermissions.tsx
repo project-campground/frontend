@@ -142,7 +142,7 @@ function reduceTristateFields(entries: [string, TristateValue][]) {
         (perms, [key, value]) =>
             value === "pass"
             ? perms
-            : (perms[value === "on" ? "allowed" : "denied"][key[0] === "t" ? "tent" : "campsite"] |= 1 << (parseInt(key.slice(1))), perms),
+            : (perms[value === "on" ? "allowed" : "denied"][key[0] === "c" ? "content" : "general"] |= 1 << (parseInt(key.slice(1))), perms),
         { allowed: { general: 0, content: 0 }, denied: { general: 0, content: 0 } } satisfies CampsitePermissionView["permissions"]
     );
 }
@@ -173,10 +173,10 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
         console.log(entries);
         const permissions = reduceTristateFields(entries);
         const hasChanged =
-            permissions.allowed.campsite !== defaultValues.permissions.allowed.general ||
-            permissions.allowed.tent !== defaultValues.permissions.allowed.content ||
-            permissions.denied.campsite !== defaultValues.permissions.denied.general ||
-            permissions.denied.tent !== defaultValues.permissions.denied.content;
+            permissions.allowed.general !== defaultValues.permissions.allowed.general ||
+            permissions.allowed.content !== defaultValues.permissions.allowed.content ||
+            permissions.denied.general !== defaultValues.permissions.denied.general ||
+            permissions.denied.content !== defaultValues.permissions.denied.content;
 
         combinedValues.permissions = permissions;
         return onChanged(isValid, hasChanged, { permissions, roleId: permission.roleId, userId: permission.userId });
@@ -189,30 +189,30 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
                 <Form
                     sections={[
                         {
-                            id: "campsite",
+                            id: "general",
                             header: "Campsite permissions",
                             layout: "divided",
                             fields: [
                                 {
-                                    id: "c1",
+                                    id: "g1",
                                     type: "tristate",
                                     label: "Manage Bonfires",
                                     description: "Allows members with this role to edit and delete bonfires.",
-                                    defaultValue: getTristateValue(combinedValues, "campsite", CampsitePermissionConsts.MANAGE_BONFIRES),
+                                    defaultValue: getTristateValue(combinedValues, "general", CampsitePermissionConsts.MANAGE_BONFIRES),
                                 },
                                 {
-                                    id: "c2",
+                                    id: "g2",
                                     type: "tristate",
                                     label: "Manage Tents",
                                     description: "Allows members with this role to edit and delete tents.",
-                                    defaultValue: getTristateValue(combinedValues, "campsite", CampsitePermissionConsts.MANAGE_TENTS),
+                                    defaultValue: getTristateValue(combinedValues, "general", CampsitePermissionConsts.MANAGE_TENTS),
                                 },
                                 {
-                                    id: "c3",
+                                    id: "g3",
                                     type: "tristate",
                                     label: "Manage Permissions",
                                     description: "Allows members with this role to edit permissions below their highest role.",
-                                    defaultValue: getTristateValue(combinedValues, "campsite", CampsitePermissionConsts.MANAGE_ROLES),
+                                    defaultValue: getTristateValue(combinedValues, "general", CampsitePermissionConsts.MANAGE_ROLES),
                                 },
                             ],
                         },
@@ -222,60 +222,60 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
                             layout: "divided",
                             fields: [
                                 {
-                                    id: "c10",
+                                    id: "g10",
                                     type: "tristate",
                                     label: "Create Invites",
                                     description: "Allows members with this role to create invites.",
-                                    defaultValue: getTristateValue(combinedValues, "campsite", CampsitePermissionConsts.CREATE_INVITES),
+                                    defaultValue: getTristateValue(combinedValues, "general", CampsitePermissionConsts.CREATE_INVITES),
                                 },
                             ],
                         },
                         {
-                            id: "tent",
+                            id: "gontent",
                             header: "Tent permissions",
                             layout: "divided",
                             fields: [
                                 {
-                                    id: "t0",
+                                    id: "c0",
                                     type: "tristate",
                                     label: "View Content",
                                     description: "Allows members to view tents and tent messages.",
-                                    defaultValue: getTristateValue(combinedValues, "tent", TentPermissionConsts.VIEW_CONTENT),
+                                    defaultValue: getTristateValue(combinedValues, "content", TentPermissionConsts.VIEW_CONTENT),
                                 },
                                 {
-                                    id: "t1",
+                                    id: "c1",
                                     type: "tristate",
                                     label: "Create Content",
                                     description: "Allows members with this role to send messages in tents.",
-                                    defaultValue: getTristateValue(combinedValues, "tent", TentPermissionConsts.CREATE_CONTENT),
+                                    defaultValue: getTristateValue(combinedValues, "content", TentPermissionConsts.CREATE_CONTENT),
                                 },
                                 {
-                                    id: "t2",
+                                    id: "c2",
                                     type: "tristate",
                                     label: "Pin Content",
                                     description: "Allows members with this role to pin messages in tents.",
-                                    defaultValue: getTristateValue(combinedValues, "tent", TentPermissionConsts.PIN_CONTENT),
+                                    defaultValue: getTristateValue(combinedValues, "content", TentPermissionConsts.PIN_CONTENT),
                                 },
                                 {
-                                    id: "t3",
+                                    id: "c3",
                                     type: "tristate",
                                     label: "Manage Content",
                                     description: "Allows members with this role to delete messages of other members.",
-                                    defaultValue: getTristateValue(combinedValues, "tent", TentPermissionConsts.MANAGE_CONTENT),
+                                    defaultValue: getTristateValue(combinedValues, "content", TentPermissionConsts.MANAGE_CONTENT),
                                 },
                                 {
-                                    id: "t4",
+                                    id: "c4",
                                     type: "tristate",
                                     label: "Mention @everyone and @here",
                                     description: "Allows members with this role to mention @everyone and @here.",
-                                    defaultValue: getTristateValue(combinedValues, "tent", TentPermissionConsts.MENTION_EVERYONE),
+                                    defaultValue: getTristateValue(combinedValues, "content", TentPermissionConsts.MENTION_EVERYONE),
                                 },
                                 {
-                                    id: "t5",
+                                    id: "c5",
                                     type: "tristate",
                                     label: "Create Private Content",
                                     description: "Allows members with this role to send private messages in this campsite.",
-                                    defaultValue: getTristateValue(combinedValues, "tent", TentPermissionConsts.CREATE_PRIVATE_CONTENT),
+                                    defaultValue: getTristateValue(combinedValues, "content", TentPermissionConsts.CREATE_PRIVATE_CONTENT),
                                 },
                             ],
                         },

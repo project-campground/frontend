@@ -22,8 +22,6 @@ export const TentItemButton = styled(ListItemButton, {
     slot: "root",
 })(({ theme }) => ({
     borderRadius: theme.vars.radius.sm,
-    transitionProperty: "background, box-shadow, border, color",
-    transitionDuration: "0.3s",
     border: "solid 1px transparent",
     color: theme.vars.palette.text.tertiary,
     ":hover": {

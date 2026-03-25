@@ -13,13 +13,15 @@ export default class HTTPClientMemberBanManager extends HTTPClientObjectManager 
         });
     }
     
-    create(campsite_id: string, actor: string) {
+    create(campsite_id: string, actor: string, body: { reason: string; }) {
+        console.log({ campsite_id, actor });
         return this.client.post<CampsiteBanView>({
             route: "gg.campground.membership.banMember",
             queries: {
                 campsite_id,
                 actor,
             },
+            body,
         });
     }
 

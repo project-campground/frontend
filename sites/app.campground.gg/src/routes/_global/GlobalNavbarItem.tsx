@@ -9,6 +9,7 @@ export const GlobalNavbarItem = styled(Button)(({ theme }) => ({
     cursor: "pointer",
     color: theme.vars.palette.text.tertiary,
     boxShadow: theme.vars.shadow.sm,
+    position: "relative",
     ":hover": {
         color: theme.vars.palette.text.primary,
         backgroundColor: theme.vars.palette.background.level2,
@@ -18,19 +19,17 @@ export const GlobalNavbarItem = styled(Button)(({ theme }) => ({
         color: theme.vars.palette.text.secondary,
         backgroundColor: theme.vars.palette.background.body,
         "--svg-color": theme.vars.palette.neutral[300],
+        boxShadow: "0 0 0 transparent",
+    },
+    "&.active:active": {
+        color: theme.vars.palette.text.secondary,
+        backgroundColor: theme.vars.palette.background.body,
+        "--svg-color": theme.vars.palette.neutral[200],
+        boxShadow: "0 0 0 transparent",
     },
     "&.active": {
         color: theme.vars.palette.text.secondary,
         backgroundColor: theme.vars.palette.background.level2,
         "--svg-color": theme.vars.palette.neutral[200],
-    }
-}));
-
-export const GlobalNavbarItemActive = styled(GlobalNavbarItem)(({ theme }) => ({
-    backgroundColor: theme.vars.palette.background.level3,
-    "--svg-color": theme.vars.palette.neutral[200],
-    ":hover": {
-        backgroundColor: theme.vars.palette.background.level4,
-        "--svg-color": theme.vars.palette.neutral[100],
-    }
+    },
 }));

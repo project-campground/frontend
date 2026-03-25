@@ -1,4 +1,4 @@
-import { Alert, Card, DialogContent, DialogTitle, ModalDialog, Sheet, Stack, Typography } from "@mui/joy";
+import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
 import type { HttpResponseError } from "api/HTTPResponse";
 import { useState } from "react";
@@ -47,6 +47,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
 
     return (
         <ModalDialog>
+            <ModalClose />
             <DialogTitle>Create tent</DialogTitle>
             <DialogContent>Create a new tent or tent category in this bonfire</DialogContent>
             <Form

@@ -9,13 +9,15 @@ import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { IconHammerOff } from "@tabler/icons-react";
+import { handleAnyRestErrorWith } from "~/util/rest";
 
 type State = {
 
 };
 
 export default class CampsiteSettingsBans extends React.Component<SettingsComponentProps<CampsiteSettingsProps>, State> {
-    static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
+    static contextType?: React.Context<CampsiteContextSuite> = CampsiteContextSuiteContext;
+    declare context: React.ContextType<typeof CampsiteContextSuiteContext>;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(bans: CampsiteBanView[], type: T, payload: TypeToPayload[T]): boolean {
         const ban = payload as CampsiteBanView;
@@ -36,7 +38,7 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
     }
 
     private async fetchBans(offset: number, limit: number) {
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
 
         return session
             .http
@@ -51,8 +53,18 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
     }
 
     private _onBansDeleteBind = this.onBansDelete.bind(this);
-    private onBansDelete(selected: CampsiteBanView[]) {
-        console.log("Deleting", selected);
+    private onBansDelete(bans: CampsiteBanView[]) {
+        return Promise.all(
+            bans.map((ban) =>
+                this
+                    .context
+                    .session
+                    .http
+                    .memberBans
+                    .delete(ban.campsiteId, ban.userId)
+                    .then(handleAnyRestErrorWith(this.context.floaters))
+            )
+        );
     }
 
     render(): React.ReactNode {

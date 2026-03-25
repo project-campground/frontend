@@ -14,7 +14,7 @@ type Props = {
     roles: CampsiteRoleView[];
 };
 
-export default function MemberList({ members, roles }: Props) {
+export default function MemberList({ campsiteId, members, roles }: Props) {
     const displayedRoles = roles.filter((x) => x.displaySeparately);
     const defaultRole = roles.find((x) => x.flags & 1)!;
     const [cardMember, setCardMember] = useState<{ x: number, y: number, member: CampsiteMemberViewBasic } | null>(null);
@@ -55,7 +55,7 @@ export default function MemberList({ members, roles }: Props) {
                         }>
                             <List sx={(theme) => ({ "--List-padding": 0, "--ListItem-paddingY": "0.5rem", "--ListItem-radius": theme.vars.radius.md, })}>
                                 {roleMembers.map(({ member }) =>
-                                    <MemberItem key={member.user.did} member={member} roles={roles} onClick={(ev) => displayMember(ev, member)} />
+                                    <MemberItem key={member.user.did} campsiteId={campsiteId} member={member} roles={roles} onClick={(ev) => displayMember(ev, member)} />
                                 )}
                             </List>
                         </ContentCategory>

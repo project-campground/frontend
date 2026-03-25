@@ -12,13 +12,14 @@ import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { Group } from "components";
 import FadingBox from "~/components/pages/FadingBox";
 import { type ContextSuite } from "~/context/context-suite";
-import { TentPermissionConsts } from "~/util/permissions";
+import { ContentPermissionConsts } from "~/util/permissions";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "../_global._campsite/context";
 import { PermissionsContext } from "~/context/permissions";
 import type { CampsiteRoleView } from "types/campsites";
 import { getColorFromSet } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
 import { type WSSubscription } from "api/WSClient";
+import { handleAnyRestErrorWith } from "~/util/rest";
 
 type Props = {
     campsiteId: string;
@@ -234,10 +235,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
             .http
             .messages
             .delete(this.props.tent.id, messageDeleted.id)
-            .then((resp) => {
-                if (!resp.ok)
-                    return (floaters.notifyError(`${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`), this.setState({ deleteMessage: null }));
-            });
+            .then(handleAnyRestErrorWith(floaters));
     }
 
     addMessageReply(message: TentMessageViewWithReplies) {
@@ -310,7 +308,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
                             removeAllReplies={this.removeAllMessageReplies.bind(this)}
                             replyMessages={this.state.replyMessages}
                             colorRoles={colorRoles}
-                            canCreate={Boolean(permissions.getTentPermissions(tent.categoryId, tent.id).content & TentPermissionConsts.CREATE_CONTENT)}
+                            canCreate={Boolean(permissions.getTentPermissions(tent.categoryId, tent.id).content & ContentPermissionConsts.CREATE_CONTENT)}
                         />
                     }
                 </PermissionsContext.Consumer>

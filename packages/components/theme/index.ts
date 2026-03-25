@@ -131,11 +131,20 @@ const theme = extendTheme({
                 },
             },
         },
+        JoyRadio: {
+            styleOverrides: {
+                action: {
+                    transition: "background 0.2s",
+                },
+            },
+        },
         JoyAvatar: {
             styleOverrides: {
                 root: ({ theme, ownerState: { size } }) => {
                     const sizeXAmount = (size?.split("x").length ?? 1) - 1;
                     return {
+                        fontFamily: "var(--fontFamily-display)",
+                        fontWeight: 700,
                         ...(size?.includes("x") ? {
                             fontSize: `${sizeXAmount / 2 + 1}rem`,
                             width: theme.spacing(7 + (sizeXAmount * 2)),
@@ -217,6 +226,15 @@ const theme = extendTheme({
         JoyMenuButton: {
             styleOverrides: {
                 root: ButtonStyling,
+            },
+        },
+        JoyListItem: {
+            styleOverrides: {
+                root: {
+                    "&.MuiListItem-variantSoft": {
+                        ...buttonAnimations,
+                    },
+                },
             },
         },
         JoyListItemButton: {

@@ -6,7 +6,7 @@ import TentIcon from "~/components/tents/TentIcon";
 import { useRightClick } from "~/context/mouse";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
 import { useCampsiteContext } from "./context";
-import { CampsitePermissionConsts } from "~/util/permissions";
+import { GeneralPermissionConsts } from "~/util/permissions";
 import { PseudoTentType } from "~/util/pseudoTents";
 
 type Props = {
@@ -54,7 +54,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
                         Open tent
                     </ListItemContent>
                 </MenuItem>
-                {!!(tentPermissions.general & CampsitePermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType)  && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
+                {!!(tentPermissions.general & GeneralPermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType)  && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
                     <ListItemDecorator>
                         <IconSettingsFilled />
                     </ListItemDecorator>
@@ -62,7 +62,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
                         Tent settings
                     </ListItemContent>
                 </MenuItem>}
-                {!!(tentPermissions.general & CampsitePermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType) && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
+                {!!(tentPermissions.general & GeneralPermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType) && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
                     <ListItemDecorator>
                         <IconTrashFilled />
                     </ListItemDecorator>

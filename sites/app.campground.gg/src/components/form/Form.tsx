@@ -132,7 +132,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                     </Stack>
                     {/* Form footer */}
                     <Stack className="Form-footer" direction="column" gap={1} sx={{ mt: 2 }}>
-                        <Group withMobileReversed gap={2} sx={{ width: "max-content" }}>
+                        <Group withMobileReversed gap={2} sx={{ width: "100%" }}>
                             {this.props.onCancel && <Button variant="plain" color="danger" onClick={this.props.onCancel} fullWidth>
                                 <FormattedMessage id={cancelText ?? "form.cancel"} />
                             </Button>}

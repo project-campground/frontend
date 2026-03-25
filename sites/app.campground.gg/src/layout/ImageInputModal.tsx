@@ -1,6 +1,8 @@
 import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack } from "@mui/joy";
 import Form from "../components/form/Form";
 import { Image } from "components";
+import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
+import { useContext } from "react";
 
 type Props = {
     allowTitle?: boolean;

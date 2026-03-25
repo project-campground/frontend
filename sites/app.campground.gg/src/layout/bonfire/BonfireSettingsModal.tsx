@@ -7,6 +7,7 @@ import BonfireSettingsDeletion from "./BonfireSettingsDeletion";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { useSnackbars } from "~/context/snackbar";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
+import { handleAnyRestErrorWith } from "~/util/rest";
 
 export type BonfireSettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<BonfireSettingsPage, (props: SettingsComponentProps<BonfireSettingsProps>) => ReactNode | ReactNode[]> = {
@@ -34,10 +35,7 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
                 .http
                 .permissions
                 .update({ role_id: roleId, actor: userId, bonfire_id: props.bonfireId }, { permissions })
-                .then((resp) => {
-                    if (!resp.ok)
-                        return snackbars.notifyApiError(resp);
-                }),
+                .then(handleAnyRestErrorWith(snackbars)),
         delete: () => null,
     };
 

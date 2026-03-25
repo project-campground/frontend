@@ -36,6 +36,14 @@ export default class HTTPClientMemberManager extends HTTPClientObjectManager {
             },
         });
     }
+    
+    update(campsite_id: string, actor: string, body: { nickname: string | undefined; }) {
+        return this.client.post<CampsiteMemberViewDetailed>({
+            route: "gg.campground.membership.updateMember",
+            queries: { campsite_id, actor },
+            body,
+        });
+    }
 
     remove(campsite_id: string, actor: string) {
         return this.client.post<null>({

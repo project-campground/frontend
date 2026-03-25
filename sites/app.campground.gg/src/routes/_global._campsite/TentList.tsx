@@ -12,7 +12,7 @@ import TentSettingsModal from "~/layout/tent/TentSettingsModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
 import CategorySettingsModal from "~/layout/category/CategorySettingsModal";
-import { CampsitePermissionConsts } from "~/util/permissions";
+import { GeneralPermissionConsts } from "~/util/permissions";
 
 type Props = {
     campsiteId: string;
@@ -96,7 +96,7 @@ export default class TentList extends React.Component<Props, State, Session> {
         const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected, campsiteId } } = this;
         const { permissions } = this.context as CampsiteContextSuite;
         const onModalClose = this.onModalClose.bind(this);
-        const canManageTents = !!(permissions.bonfire.general & CampsitePermissionConsts.MANAGE_TENTS);
+        const canManageTents = !!(permissions.bonfire.general & GeneralPermissionConsts.MANAGE_TENTS);
 
         return (
             <>

@@ -6,7 +6,7 @@ import ContentCategory from "~/components/content/ContentCategory";
 import { useRightClick } from "~/context/mouse";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
 import { useCampsiteContext } from "./context";
-import { CampsitePermissionConsts } from "~/util/permissions";
+import { GeneralPermissionConsts } from "~/util/permissions";
 
 type TentCategoryViewComponent = Pick<TentCategoryView, "id" | "name" | "description">;
 
@@ -19,7 +19,7 @@ type Props<T extends TentCategoryViewComponent> = React.PropsWithChildren & {
 export default function TentCategory<T extends TentCategoryViewComponent>({ onCreate, category, children, onSettingsOpen }: Props<T>) {
     const { permissions } = useCampsiteContext();
     const categoryPermissions = permissions.permissions.categories[category.id] ?? permissions.permissions.bonfire;
-    const canManageCategory = !!(categoryPermissions.general & CampsitePermissionConsts.MANAGE_TENTS);
+    const canManageCategory = !!(categoryPermissions.general & GeneralPermissionConsts.MANAGE_TENTS);
 
     const { listeners } = useRightClick({
         MenuComponent: () => (

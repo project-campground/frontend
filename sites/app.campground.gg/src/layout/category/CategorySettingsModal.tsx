@@ -9,6 +9,7 @@ import TentSettingsProfile from "./CategorySettingsProfile";
 import CategorySettingsDeletion from "./CategorySettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
+import { handleAnyRestErrorWith } from "~/util/rest";
 
 export type CategorySettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<CategorySettingsPage, typeof React.Component | ((props: SettingsComponentProps<CategorySettingsProps>) => ReactNode | ReactNode[])> = {
@@ -36,19 +37,13 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
                     name: fieldValues.name,
                     description: fieldValues.description,
                 })
-                .then((resp) => {
-                    if (!resp.ok)
-                        return snackbars.notifyApiError(resp);
-                }),
+                .then(handleAnyRestErrorWith(snackbars)),
         permissions: ({ roleId, userId, permissions }) =>
             session
                 .http
                 .permissions
                 .update({ role_id: roleId, actor: userId, category_id: props.categoryId }, { permissions })
-                .then((resp) => {
-                    if (!resp.ok)
-                        return snackbars.notifyApiError(resp);
-                }),
+                .then(handleAnyRestErrorWith(snackbars)),
         delete: () => null,
     }
 

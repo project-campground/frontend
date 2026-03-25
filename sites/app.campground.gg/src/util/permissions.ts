@@ -2,14 +2,30 @@ import type { CampsiteMemberViewBasic, CampsitePermissionView, CampsiteRoleView 
 import type { PermissionsDictionary, PermissionsStateDictionary } from "types/permissions";
 import { mapLookup, toLookup } from "./array";
 
+export const lowestPriority = 0x7FFFFFFF as const;
+export const highestPriority = -0x80000000 as const;
+
+export const isAboveUser = (against: CampsiteMemberViewBasic, asker: CampsiteMemberViewBasic, owner: string, roles: CampsiteRoleView[]) =>
+    asker.user.did !== against.user.did &&
+    against.user.did !== owner &&
+    (
+        asker.user.did === owner ||
+        getPriorityOfMember(asker, roles) > getPriorityOfMember(against, roles)
+    );
+export const getPriorityOfMember = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[]) =>
+    getHighestRole(member, roles)?.priority ?? lowestPriority;
+export const getHighestRole = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[]) =>
+    roles.find((x) => member.roles.includes(x.id));
+
+
 // To make it easier to edit later if it goes beyond ("allowed" and "denied") or ("campsite" and "tent")
 const permissionStateKeys: (keyof PermissionsStateDictionary)[] = ["allowed", "denied"]; 
 const permissionDictionaryKeys: (keyof PermissionsDictionary)[] = ["general", "content"];
 
 export const applyNestedPermissions = (ancestor: PermissionsDictionary, current: PermissionsStateDictionary): PermissionsDictionary =>
     ({
-        general: (ancestor.general & invertCampsitePermission(current.denied.general)) | current.allowed.general,
-        content: (ancestor.content & invertTentPermission(current.denied.content)) | current.allowed.content,
+        general: (ancestor.general & invertGeneralPermission(current.denied.general)) | current.allowed.general,
+        content: (ancestor.content & invertContentPermission(current.denied.content)) | current.allowed.content,
     });
 export const aggregateAnyPermissions = (values: PermissionsDictionary[]) =>
     values.reduce((val, perm) => {
@@ -66,11 +82,11 @@ export const aggregateAllPermissions = (member: CampsiteMemberViewBasic, roles: 
         tents: tentPerms
     };
 }
-export const invertTentPermission = (permission: number) =>
-    TentPermissionConsts.MAX - permission;
-export const invertCampsitePermission = (permission: number) =>
-    TentPermissionConsts.MAX - permission;
-export const TentPermissionConsts = {
+export const invertContentPermission = (permission: number) =>
+    ContentPermissionConsts.MAX - permission;
+export const invertGeneralPermission = (permission: number) =>
+    ContentPermissionConsts.MAX - permission;
+export const ContentPermissionConsts = {
     VIEW_CONTENT: 0b1,
     CREATE_CONTENT: 0b10,
     PIN_CONTENT: 0b100,
@@ -79,7 +95,7 @@ export const TentPermissionConsts = {
     CREATE_PRIVATE_CONTENT: 0b100000,
     MAX: 0b111111,
 } as const;
-export const CampsitePermissionConsts = {
+export const GeneralPermissionConsts = {
     MANAGE_CAMPSITE: 0b1,
     MANAGE_BONFIRES: 0b10,
     MANAGE_TENTS: 0b100,
@@ -95,8 +111,8 @@ export const CampsitePermissionConsts = {
     MAX: 0b111111111111,
 } as const;
 export const maxPermissions: PermissionsDictionary = {
-    general: CampsitePermissionConsts.MAX,
-    content: TentPermissionConsts.MAX,
+    general: GeneralPermissionConsts.MAX,
+    content: ContentPermissionConsts.MAX,
 };
 export const nullPermissions: PermissionsDictionary = {
     general: 0,

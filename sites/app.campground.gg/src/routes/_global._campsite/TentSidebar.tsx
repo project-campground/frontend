@@ -19,7 +19,8 @@ import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "../../layout/InviteCreationModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
-import { CampsitePermissionConsts } from "~/util/permissions";
+import { GeneralPermissionConsts } from "~/util/permissions";
+import { handleAnyRestErrorWith } from "~/util/rest";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -86,7 +87,7 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
     marginBottom: "auto"
 }));
 
-const anyManageCampsitePermission = CampsitePermissionConsts.MANAGE_CAMPSITE | CampsitePermissionConsts.BAN_MEMBERS | CampsitePermissionConsts.MANAGE_ROLES | CampsitePermissionConsts.MANAGE_INVITES;
+const anyManageCampsitePermission = GeneralPermissionConsts.MANAGE_CAMPSITE | GeneralPermissionConsts.BAN_MEMBERS | GeneralPermissionConsts.MANAGE_ROLES | GeneralPermissionConsts.MANAGE_INVITES;
 
 export default class TentSidebar extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
@@ -244,10 +245,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 .http
                 .bonfires
                 .delete(this.props.campsite.id, this.state.bonfireSelected.id)
-                .then((resp) => {
-                    if (!resp.ok)
-                        return floaters.notifyApiError(resp);
-                })
+                .then(handleAnyRestErrorWith(floaters))
         );
     }
     leaveCampsite() {
@@ -257,10 +255,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 .http
                 .members
                 .remove(this.props.campsite.id, this.props.campsite.me.user.did)
-                .then((resp) => {
-                    if (!resp.ok)
-                        return floaters.notifyApiError(resp);
-                })
+                .then(handleAnyRestErrorWith(floaters))
         );
     }
     render(): React.ReactNode {
@@ -303,7 +298,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                     <IconDots />
                                 </MenuButton>
                                 <Menu variant="soft">
-                                    {!!(permissions.role.general & CampsitePermissionConsts.CREATE_INVITES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
+                                    {!!(permissions.role.general & GeneralPermissionConsts.CREATE_INVITES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "invite-creation")}>
                                         <ListItemDecorator>
                                             <IconTicket />
                                         </ListItemDecorator>
@@ -319,7 +314,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             Campsite Settings
                                         </ListItemContent>
                                     </MenuItem>}
-                                    {!!(permissions.bonfire.general & CampsitePermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
+                                    {!!(permissions.bonfire.general & GeneralPermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
                                         <ListItemDecorator>
                                             <IconSettingsFilled />
                                         </ListItemDecorator>

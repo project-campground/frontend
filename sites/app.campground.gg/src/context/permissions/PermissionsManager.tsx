@@ -2,7 +2,7 @@ import type { CampsiteViewDetailed } from "types/campsites";
 import { CurrentTentListContext } from "./value";
 import type { GetTentsOutput } from "types/tent";
 import type { PermissionsDictionary } from "types/permissions";
-import { aggregateAllPermissions, invertCampsitePermission, invertTentPermission, maxPermissions, type AggregatedPermissions } from "~/util/permissions";
+import { aggregateAllPermissions, invertGeneralPermission, invertContentPermission, maxPermissions, type AggregatedPermissions } from "~/util/permissions";
 
 export const ownerPermissionsAggregated: AggregatedPermissions = {
     role: maxPermissions,
@@ -52,8 +52,8 @@ export default class PermissionsManager {
             return categoryPerms;
 
         return ((this._tentToPermissions[tentId] as PermissionsDictionary) = {
-            general: (categoryPerms.general & invertCampsitePermission(tentPermsState.denied.general)) | categoryPerms.general,
-            content: (categoryPerms.content & invertTentPermission(tentPermsState.denied.content)) | categoryPerms.content,
+            general: (categoryPerms.general & invertGeneralPermission(tentPermsState.denied.general)) | categoryPerms.general,
+            content: (categoryPerms.content & invertContentPermission(tentPermsState.denied.content)) | categoryPerms.content,
         });
     }
 }

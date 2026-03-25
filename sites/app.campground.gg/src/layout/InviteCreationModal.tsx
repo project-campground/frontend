@@ -24,7 +24,7 @@ export default function InviteCreationModal({ campsiteId }: Props) {
                     return (snackbars.notifyApiError(resp), "");
 
                 snackbars.notifySuccess("Successfully created and copied the invite.");
-                return resp.content.id;
+                return `${window.location.origin}/i/${resp.content.id}`;
             });
 
     return (

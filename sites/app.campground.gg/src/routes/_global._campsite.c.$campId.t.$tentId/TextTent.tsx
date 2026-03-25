@@ -434,8 +434,8 @@ function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, o
                 {canCreate
                 ? <MessageEditor placeholder={`Message #${tentName}`} onConfirm={onCreate} onClearReplies={removeAllReplies} />
                 : <MessageEditorContainer>
-                    <Box sx={{ px: "12px", py: "6px" }}>
-                        <Typography textColor="text.tertiary" startDecorator={<IconLockFilled />}>You do not have the permission to type in this tent.</Typography>
+                    <Box sx={{ px: "8px", py: "6px" }}>
+                        <Typography textColor="text.tertiary" startDecorator={<IconLockFilled />} gap={0.5}>You do not have the permission to type in this tent.</Typography>
                     </Box>
                 </MessageEditorContainer>}
             </Box>

@@ -9,7 +9,7 @@ export default class HTTPClientRoleManager extends HTTPClientObjectManager {
         });
     }
 
-    create(campsite_id: string, body: Pick<CampsiteRoleView, "name" | "permissions" | "mentionable" | "displaySeparately" | "color" | "colorSecondary">) {
+    create(campsite_id: string, body: Pick<CampsiteRoleView, "name" | "permissions" | "mentionable" | "displaySeparately" | "colors" | "motion">) {
         return this.client.post<CampsiteRoleView>({
             route: "gg.campground.campsite.createRole",
             queries: { campsite_id },
@@ -17,7 +17,7 @@ export default class HTTPClientRoleManager extends HTTPClientObjectManager {
         });
     }
     
-    update(campsite_id: string, role_id: string, body: { name?: string, color?: number; colorSecondary?: number; displaySeparately?: boolean; mentionable?: boolean; campsitePermissions?: number; tentPermissions?: number; }) {
+    update(campsite_id: string, role_id: string, body: Partial<Pick<CampsiteRoleView, "name" | "permissions" | "mentionable" | "displaySeparately" | "colors" | "motion">>) {
         return this.client.post<CampsiteRoleView>({
             route: "gg.campground.campsite.updateRole",
             queries: { campsite_id, role_id },

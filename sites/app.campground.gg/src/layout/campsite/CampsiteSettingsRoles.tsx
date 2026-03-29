@@ -1,10 +1,10 @@
 import { Alert, Box, Button, Card, IconButton, Stack, TabPanel, Tabs, Typography } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
-import type { CampsiteRoleView, CampsiteViewDetailed, GetRolesOutput } from "types/campsites";
+import type { CampsiteRoleMotion, CampsiteRoleView, CampsiteViewDetailed, GetRolesOutput } from "types/campsites";
 import RoleItem, { RoleItemGap } from "./RoleItem";
 import React, { useContext, useMemo, useState } from "react";
 import { Group, SmoothTabList } from "components";
-import { IconExclamationCircleFilled, IconListCheck, IconPaletteFilled, IconPlus, IconSettingsFilled } from "@tabler/icons-react";
+import { IconAccessPoint, IconAt, IconCampfireFilled, IconExclamationCircleFilled, IconHash, IconListCheck, IconPaletteFilled, IconPlus, IconRipple, IconSeparatorHorizontal, IconSettingsFilled, IconUserFilled, IconWaveSine, IconX } from "@tabler/icons-react";
 import Form from "~/components/form/Form";
 import { GeneralPermissionConsts, ContentPermissionConsts } from "~/util/permissions";
 import { useSession } from "~/context/session";
@@ -32,8 +32,8 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
             .roles
             .create(campsite.id, {
                 name: "New role",
-                color: 0,
-                colorSecondary: 0,
+                colors: [],
+                motion: "none",
                 displaySeparately: false,
                 mentionable: false,
                 permissions: {
@@ -138,16 +138,16 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
     )
 }
 
-type FormValues = Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "mentionable" | "displaySeparately" | "permissions">;
+type FormValues = Pick<CampsiteRoleView, "id" | "name" | "colors" | "motion" | "mentionable" | "displaySeparately" | "permissions">;
 type RolePageProps = { onRoleDelete: (role: SettingsRole) => unknown; role: SettingsRole; onChanged: (valid: boolean, changed: boolean, values: FormValues) => unknown; };
 type RolePageTabProps = { value: FormValues, role: SettingsRole; onChanged: (valid: boolean, values: Partial<FormValues>) => unknown; };
 
 function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
     const { defaultValues, combinedValues }: { defaultValues: Omit<FormValues, "id">, combinedValues: FormValues } = useMemo(() => ({
         defaultValues: {
-            color: role.color,
             name: role.name,
-            colorSecondary: role.colorSecondary,
+            colors: role.colors,
+            motion: role.motion,
             mentionable: role.mentionable,
             displaySeparately: role.displaySeparately,
             permissions: role.permissions,
@@ -155,8 +155,8 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
         combinedValues: {
             id: role.id,
             name: role.name,
-            color: role.color,
-            colorSecondary: role.colorSecondary,
+            colors: role.colors,
+            motion: role.motion,
             mentionable: role.mentionable,
             displaySeparately: role.displaySeparately,
             permissions: role.permissions,
@@ -205,7 +205,7 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
                     <RolePageDisplay role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 0)} />
                 </TabPanel>
                 <TabPanel value={1} sx={{ overflowY: "auto" }}>
-                    <RolePagePermissions role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 0)} />
+                    <RolePagePermissions role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 1)} />
                 </TabPanel>
                 <TabPanel value={2} sx={{ overflowY: "auto" }}>
                     <RolePageManage role={role} onRoleDelete={onRoleDelete} />
@@ -249,7 +249,7 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
                 {
                     id: "preview",
                     ReactiveHeader(values) {
-                        const colorRole = {...role, ...values};
+                        const colorRole = {...role, ...values };
                         return (
                             <Group withMobile gap={2} sx={{ flexDirection: { xs: "column", lg: "row" } }}>
                                 <Card data-joy-color-scheme="dark" sx={{ px: 1, py: 1, flex: 1 }}>
@@ -284,7 +284,7 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
                             id: "name",
                             type: "text",
                             header: "Role name",
-                            defaultValue: value.name,
+                            defaultValue: role.name,
                         },
                     ],
                 },
@@ -294,18 +294,18 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
                     gap: 4,
                     fields: [
                         {
-                            id: "color",
-                            type: "color",
-                            header: "Role color",
-                            defaultValue: value.color,
-                            allowAlpha: true,
-                        },
-                        {
-                            id: "colorSecondary",
-                            type: "color",
-                            header: "Secondary color",
-                            defaultValue: value.colorSecondary,
-                            allowAlpha: true,
+                            id: "colors",
+                            type: "array",
+                            header: "Role colors",
+                            defaultValue: role.colors,
+                            max: 5,
+                            field: {
+                                id: "color",
+                                type: "color",
+                                defaultValue: 0,
+                                required: true,
+                                allowAlpha: true,
+                            },
                         },
                     ],
                 },
@@ -313,17 +313,49 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
                     id: "attributes",
                     fields: [
                         {
+                            id: "motion",
+                            type: "radio",
+                            header: "Select the type of gradient animation",
+                            required: true,
+                            defaultValue: role.motion,
+                            design: "grid",
+                            options: [
+                                {
+                                    value: "none" satisfies CampsiteRoleMotion,
+                                    text: "None",
+                                    startDecorator: <IconX />
+                                },
+                                {
+                                    value: "linear" satisfies CampsiteRoleMotion,
+                                    text: "Linear",
+                                    startDecorator: <IconRipple />
+                                },
+                                {
+                                    value: "wave" satisfies CampsiteRoleMotion,
+                                    text: "Wave",
+                                    startDecorator: <IconWaveSine />
+                                },
+                                {
+                                    value: "radial" satisfies CampsiteRoleMotion,
+                                    text: "Radial",
+                                    startDecorator: <IconAccessPoint />
+                                },
+                            ]
+                        },
+                        {
                             id: "displaySeparately",
                             type: "switch",
                             label: "Display separately",
-                            defaultValue: value.displaySeparately,
+                            defaultValue: role.displaySeparately,
+                            startDecorator: <IconSeparatorHorizontal />,
                             description: "Displays the members that have this role separately from the rest of the members in the member list"
                         },
                         {
                             id: "mentionable",
                             type: "switch",
                             label: "Mentionable by anyone",
-                            defaultValue: value.mentionable,
+                            startDecorator: <IconAt />,
+                            defaultValue: role.mentionable,
                             description: "Allows any member with permission to create content to mention other members that have this role"
                         },
                     ]
@@ -368,10 +400,12 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
 
     return (
         <Form
+            gap={6}
             sections={[
                 {
                     id: "campsite",
                     header: "Campsite permissions",
+                    startDecorator: <IconCampfireFilled />,
                     layout: "divided",
                     fields: [
                         {
@@ -419,6 +453,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                 {
                     id: "membership",
                     header: "Membership permissions",
+                    startDecorator: <IconUserFilled />,
                     layout: "divided",
                     fields: [
                         {
@@ -446,22 +481,6 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                             checkedValue: GeneralPermissionConsts.BAN_MEMBERS,
                         },
                         {
-                            id: "c8",
-                            type: "switch",
-                            label: "Manage Their Own Identity",
-                            description: "Allows members with this role to change their nicknames and avatars in this campsite.",
-                            defaultValue: value.permissions.general & GeneralPermissionConsts.MANAGE_SELF_IDENTITY,
-                            checkedValue: GeneralPermissionConsts.MANAGE_SELF_IDENTITY,
-                        },
-                        {
-                            id: "c9",
-                            type: "switch",
-                            label: "Manage Identity of Others",
-                            description: "Allows members with this role to change nicknames and remove avatars of other members in this campsite.",
-                            defaultValue: value.permissions.general & GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY,
-                            checkedValue: GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY,
-                        },
-                        {
                             id: "c10",
                             type: "switch",
                             label: "Create Invites",
@@ -480,8 +499,33 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
                     ],
                 },
                 {
+                    id: "customization",
+                    header: "Customization permissions",
+                    startDecorator: <IconPaletteFilled />,
+                    layout: "divided",
+                    fields: [
+                        {
+                            id: "c8",
+                            type: "switch",
+                            label: "Manage Their Own Identity",
+                            description: "Allows members with this role to change their nicknames and avatars in this campsite.",
+                            defaultValue: value.permissions.general & GeneralPermissionConsts.MANAGE_SELF_IDENTITY,
+                            checkedValue: GeneralPermissionConsts.MANAGE_SELF_IDENTITY,
+                        },
+                        {
+                            id: "c9",
+                            type: "switch",
+                            label: "Manage Identity of Others",
+                            description: "Allows members with this role to change nicknames and remove avatars of other members in this campsite.",
+                            defaultValue: value.permissions.general & GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY,
+                            checkedValue: GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY,
+                        },
+                    ],
+                },
+                {
                     id: "tent",
                     header: "Tent permissions",
+                    startDecorator: <IconHash />,
                     layout: "divided",
                     fields: [
                         {

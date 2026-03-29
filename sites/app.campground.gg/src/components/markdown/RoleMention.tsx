@@ -19,8 +19,8 @@ const RoleMentionWrapper = styled("span", {
 
 const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId"> = {
     name: "Unknown role",
-    color: 0,
-    colorSecondary: 0,
+    colors: [],
+    motion: "none",
     displaySeparately: false,
     mentionable: false,
     permissions: {

@@ -12,7 +12,7 @@ import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
 import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
 import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 import ContentDisplayBlock from "../markdown/ContentDisplayBlock";
 
 const TentMessageWrapper = styled(Stack, {
@@ -139,7 +139,7 @@ export default function TentMessage({ unhoverable, waiting, error, onUserClick, 
 function TentMessageDefault({ message, colorRoles, onUserClick, waiting, error, children }: MessageTypeComponentProps) {
     const onAuthorClick = (ev: MouseEvent<HTMLDivElement>) => onUserClick?.(ev, message.createdBy);
     const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
-    const displayColors = getColorFromSet(colorRole?.color, colorRole?.colorSecondary);
+    const displayColors = colorToDecimal(colorRole?.colors);
 
     return (
         <>
@@ -148,7 +148,7 @@ function TentMessageDefault({ message, colorRoles, onUserClick, waiting, error, 
             </Box>
             <Stack flex={1}>
                 <Group gap={1} alignItems="center">
-                    <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} colors={displayColors} />
+                    <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} colors={displayColors} motion={colorRole?.motion} />
                     {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
                     <Typography level="body-sm">
                         <Datestamp long date={new Date(message.createdAt)}/>

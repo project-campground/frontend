@@ -1,7 +1,7 @@
 import { styled, type ButtonProps, type Radius } from "@mui/joy";
 import { IconX, type ReactNode } from "@tabler/icons-react";
 import type { CampsiteRoleView } from "types/campsites";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 
 const RoleDisplayBadge = styled("span", {
     name: "RoleDisplay",
@@ -80,7 +80,7 @@ const sizeToPadding = {
 };
 
 export default function RoleDisplay({ radius, role, size, startDecorator, endDecorator, onClick, onRemove }: Props) {
-    const colors = getColorFromSet(role.color, role.colorSecondary);
+    const colors = colorToDecimal(role.colors);
     const padding = sizeToPadding[size as "md" ?? "md"];
     return (
         <RoleDisplayBadge className={colors?.length ? "colored" : "uncolored"} colors={colors} onClick={onClick ? () => onClick(role) : undefined} sx={{ p: padding, borderRadius: radius, cursor: onClick ? "pointer" : undefined }}>

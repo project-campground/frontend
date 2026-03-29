@@ -3,7 +3,7 @@ import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group } from "components";
-import type { CampsiteMemberView, CampsiteRoleView } from "types/campsites";
+import type { CampsiteMemberView, CampsiteRoleMotion, CampsiteRoleView } from "types/campsites";
 import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";
@@ -12,6 +12,7 @@ type Props<T extends ProfileView> = {
     user: T;
     member?: CampsiteMemberView<T> | null;
     noAvatar?: boolean;
+    motion?: CampsiteRoleMotion;
     colors?: string[];
     size?: Size;
     avatarSize?: Size | "xl";
@@ -28,12 +29,12 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, user, size, avatarSize, alignItems, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, alignItems, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
     return (
         <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"} onClick={onClick}>
             {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
-            <GradientTypography gradientAnimated colors={colors} level={`title-${actualSize}`} fontWeight={700}>
+            <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
                 {member?.nickname ?? user.displayName}
             </GradientTypography>
             {

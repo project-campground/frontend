@@ -1,5 +1,5 @@
 import React, { ReactNode, type MouseEvent } from "react";
-import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance } from "./forms";
+import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance, FormFieldType } from "./forms";
 import { Button, Stack, styled, Typography, type ColorPaletteProp } from "@mui/joy";
 
 import { FormattedMessage } from "react-intl";
@@ -73,8 +73,23 @@ export default class Form extends React.Component<FormProps, FormState> {
         this.state = getFieldValuesAndRequirements(props);
     }
 
+    private static getFieldDefaultValueEntries(sections: FormSectionProps[]): [string, any][] {
+        return sections.flatMap((x) => x.fields).map((x) => [x.id, x.defaultValue]);
+    }
+
+    private static getFieldDefaultValues(sections: FormSectionProps[]): Record<string, any> {
+        return Object.fromEntries(this.getFieldDefaultValueEntries(sections));
+    }
+
     componentDidUpdate(prevProps: Readonly<FormProps>, _prevState: Readonly<FormState>, _snapshot?: any): void {
         if (prevProps.sections === this.props.sections)
+            return;
+
+        const newEntries = Form.getFieldDefaultValueEntries(this.props.sections);
+        const oldDefaults = Form.getFieldDefaultValues(prevProps.sections);
+
+        // Nothing to update
+        if (newEntries.every(([key, defaultValue]) => oldDefaults[key] === defaultValue))
             return;
 
         this.setState(getFieldValuesAndRequirements(this.props));
@@ -85,8 +100,9 @@ export default class Form extends React.Component<FormProps, FormState> {
         return this.props.onSubmit?.(ev, this.state.fieldValues);
     }
 
-    private onFieldChange(props: AnyFormFieldProps, field: FieldTypeToInstance[keyof FieldTypeToInstance], value: any): Promise<void> | void {
-        return this.setState(({ fieldValues, fieldRequirementFilled }) => (console.log({ fieldValues, fieldRequirementFilled }), {
+    private onFieldChange(props: AnyFormFieldProps, field: FieldTypeToInstance[FormFieldType], value: any): Promise<void> | void {
+        console.log({ field, value });
+        return this.setState(({ fieldValues, fieldRequirementFilled }) => ({
             fieldValues: {
                 ...fieldValues,
                 [props.id]: value
@@ -95,7 +111,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                 ...fieldRequirementFilled,
                 [props.id]: field.isValid
             }
-        }), () => this.props.onChange?.(this.allValid, this.state.fieldValues));
+        }), () => (console.log("Form field state change", this.state), this.props.onChange?.(this.allValid, this.state.fieldValues)));
     }
 
     private get allValid(): boolean {
@@ -105,6 +121,7 @@ export default class Form extends React.Component<FormProps, FormState> {
     public render(): ReactNode[] | ReactNode {
         const { header, sections, submitText, cancelText, children, ReactiveComponent, gap, submitColor, description, inlineReactiveComponent } = this.props;
         const { fieldValues } = this.state;
+        console.log("Field values", {...fieldValues});
 
         return (
             <FormRoot className={`Form-root${inlineReactiveComponent ? " Form-with-sidebar" : ""}`}>

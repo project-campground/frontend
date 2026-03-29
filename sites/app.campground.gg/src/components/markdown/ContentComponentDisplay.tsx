@@ -6,7 +6,7 @@ import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites
 import type { ContentComponent, ContentComponentType, SystemMessageComponent, SystemMessageType } from "types/content";
 import { UserDisplayNoModal } from "../UserDisplay";
 import type React from "react";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 
 type Props = {
     component: ContentComponent;
@@ -36,7 +36,8 @@ const SystemMessageComponentDisplayComponent: Record<SystemMessageType, (props: 
                     onClick={(ev) => onUserClick?.(ev, createdBy)}
                     user={createdBy.user}
                     member={createdBy}
-                    colors={getColorFromSet(authorColorRole?.color, authorColorRole?.colorSecondary)}
+                    motion={authorColorRole?.motion}
+                    colors={colorToDecimal(authorColorRole?.colors)}
                 />
                 {"created this tent."}
             </>

@@ -16,7 +16,7 @@ import { ContentPermissionConsts } from "~/util/permissions";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "../_global._campsite/context";
 import { PermissionsContext } from "~/context/permissions";
 import type { CampsiteRoleView } from "types/campsites";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
 import { type WSSubscription } from "api/WSClient";
 import { handleAnyRestErrorWith } from "~/util/rest";
@@ -284,7 +284,7 @@ export default class TextTent extends React.Component<Props, State, ContextSuite
 
         const { tent } = this.props;
         const { campsite } = this.context as CampsiteContextSuite;
-        const colorRoles = campsite.roles.filter((x) => x.color || x.colorSecondary);
+        const colorRoles = campsite.roles.filter((x) => x.colors.length);
 
         return (
             <Stack sx={{ height: "100%", overflow: "hidden" }}>
@@ -414,7 +414,7 @@ function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, o
                 <Typography level="body-md" textColor="text.tertiary">Replying to </Typography>
                 {replyMessages.map((msg, i) => {
                     const colorRole = colorRoles.find((role) => msg.createdBy.roles.includes(role.id));
-                    const colors = getColorFromSet(colorRole?.color, colorRole?.colorSecondary);
+                    const colors = colorToDecimal(colorRole?.colors);
                     return (
                         <Link color="neutral" alignItems="center" component="button" onClick={() => removeReply(msg)}>
                             <Group gap={0.5} alignItems="center">
@@ -422,6 +422,7 @@ function MessageInputWrapper({ colorRoles, canCreate, tentName, replyMessages, o
                                     key={`reply-${i}`}
                                     size="sm"
                                     colors={colors}
+                                    motion={colorRole?.motion}
                                     user={msg.createdBy.user}
                                     />
                                 <IconCircleXFilled size={16} />

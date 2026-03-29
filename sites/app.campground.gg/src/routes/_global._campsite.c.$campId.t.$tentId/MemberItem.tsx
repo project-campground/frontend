@@ -4,7 +4,7 @@ import { useState, type MouseEvent } from "react";
 import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites";
 import UserAvatar from "~/components/UserAvatar";
 import { useRightClick } from "~/context/mouse";
-import { decimalToHexColor, getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 import { useCampsiteContext } from "../_global._campsite/context";
 import { GeneralPermissionConsts, isAboveUser } from "~/util/permissions";
 import { IconHammer, IconSignature, IconUserMinus } from "@tabler/icons-react";
@@ -74,7 +74,7 @@ export default function MemberItem({ campsiteId, member, roles, onClick }: Props
             </>
         ),
     });
-    const colorRoles = roles.filter((x) => (x.color || x.colorSecondary) && member.roles.includes(x.id));
+    const colorRoles = roles.filter((x) => x.colors.length && member.roles.includes(x.id));
     const highestColorRole = colorRoles[0];
 
     return (
@@ -84,7 +84,7 @@ export default function MemberItem({ campsiteId, member, roles, onClick }: Props
                     <UserAvatar withStatus size="md" did={member.user.did} avatar={member.user.avatar} />
                 </ListItemDecorator>
                 <ListItemContent>
-                    <GradientTypography gradientAnimated colors={getColorFromSet(highestColorRole?.color, highestColorRole?.colorSecondary)} fontWeight={700} sx={{ width: "max-content", color: colorRoles.length ? decimalToHexColor(colorRoles[0].color || colorRoles[0].colorSecondary) : null }}>
+                    <GradientTypography motion={highestColorRole?.motion ?? "none"} colors={colorToDecimal(highestColorRole?.colors)} fontWeight={700}>
                         {member.nickname ?? member.user.displayName}
                     </GradientTypography>
                 </ListItemContent>

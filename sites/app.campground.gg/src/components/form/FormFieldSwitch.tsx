@@ -3,6 +3,7 @@ import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Switch, FormControl, Sheet, Stack, Typography, } from "@mui/joy";
 import type React from "react";
+import { Group } from "components";
 
 type SwitchType = "default" | "button";
 export interface FormFieldSwitchProps extends FormFieldProps<"switch", boolean | number>, FormFieldDecoratorProps {
@@ -37,14 +38,18 @@ export default class FormFieldSwitch extends AbstractFormField<"switch", boolean
     }
 
     private FieldText() {
-        const { label, description } = this.props;
+        const { label, description, startDecorator, endDecorator } = this.props;
 
         return (
             (label || description) &&
-            <Stack flex={1}>
-                <Typography level="title-md" fontWeight={700} textColor="text.secondary">{label}</Typography>
-                <Typography level="body-md" textColor="text.tertiary">{description}</Typography>
-            </Stack>
+            <Group gap={1} flex={1} mr={2}>
+                {startDecorator}
+                <Stack flex={1}>
+                    <Typography level="title-md" fontWeight={700} textColor="text.secondary">{label}</Typography>
+                    <Typography level="body-md" textColor="text.tertiary">{description}</Typography>
+                </Stack>
+                {endDecorator}
+            </Group>
         )
     }
 

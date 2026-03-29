@@ -3,7 +3,7 @@ import type { TentMessageViewBasic } from "types/content";
 import UserDisplay, { UserDisplaySkeleton } from "../UserDisplay";
 import { Skeleton, styled, Typography } from "@mui/joy";
 import type { CampsiteRoleView } from "types/campsites";
-import { decimalToHexColor } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 
 type Props = {
     message: TentMessageViewBasic;
@@ -22,11 +22,7 @@ const TentMessageReplyWrapper = styled(Group, {
 
 export default function TentMessageReply({ message, colorRoles }: Props) {
     const colorRole = colorRoles?.find((x) => message.createdBy.roles.includes(x.id));
-    const displayColors = colorRole?.color && colorRole?.colorSecondary
-        ? [decimalToHexColor(colorRole.color), decimalToHexColor(colorRole.colorSecondary)]
-        : colorRole?.color || colorRole?.colorSecondary
-        ? [decimalToHexColor(colorRole?.color || colorRole?.colorSecondary)]
-        : undefined;
+    const displayColors = colorToDecimal(colorRole?.colors);
 
     return (
         <TentMessageReplyWrapper>

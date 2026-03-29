@@ -3,7 +3,7 @@ import { IconGripVertical } from "@tabler/icons-react";
 import { GradientTypography } from "components";
 import type { CampsiteRoleView } from "types/campsites";
 import { useDraggable, useDragging, useDroppable } from "~/draggable";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 
 export const RoleButton = styled(Button, {
     name: "RoleItem",
@@ -46,7 +46,7 @@ export const RoleButton = styled(Button, {
     }
 }));
 
-export default function RoleItem({ onClick, active, id, added, flags, name, color, colorSecondary, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "color" | "colorSecondary" | "flags"> & { added?: true, immovable?: boolean; }) {
+export default function RoleItem({ onClick, active, id, added, flags, name, colors, motion, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "colors" | "motion" | "flags"> & { added?: true, immovable?: boolean; }) {
     // const {ref} = useDraggable({
     //     id,
     //     disabled: immovable,
@@ -57,11 +57,11 @@ export default function RoleItem({ onClick, active, id, added, flags, name, colo
         : added
         ? <Chip color="danger" variant="soft">NEW</Chip>
         : null;
-    const colors = getColorFromSet(color, colorSecondary);
+    const colorsHex = colorToDecimal(colors);
 
     return (
-        <RoleButton {...attributes} onClick={onClick} colors={colors} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" onPointerDown={(ev) => console.log("Down", ev)} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
-            <GradientTypography colors={colors} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
+        <RoleButton {...attributes} onClick={onClick} colors={colorsHex} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" onPointerDown={(ev) => console.log("Down", ev)} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
+            <GradientTypography colors={colorsHex} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
                 {name}
             </GradientTypography>
         </RoleButton>

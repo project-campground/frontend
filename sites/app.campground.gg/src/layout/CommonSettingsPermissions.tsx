@@ -2,7 +2,7 @@ import { CircularProgress, Dropdown, IconButton, ListItemContent, ListItemDecora
 import type { CampsitePermissionView, CampsitePermissionViewBasic, CampsiteRoleView } from "types/campsites";
 import { useContext, useMemo, useState } from "react";
 import { GradientTypography, Group } from "components";
-import { IconPlus } from "@tabler/icons-react";
+import { IconCampfireFilled, IconHash, IconPlus, IconUserFilled } from "@tabler/icons-react";
 import Form from "~/components/form/Form";
 import { GeneralPermissionConsts, ContentPermissionConsts } from "~/util/permissions";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
@@ -11,7 +11,7 @@ import PermissionItem from "./PermissionItem";
 import type { TristateValue } from "~/components/Tristate";
 import type { PermissionsDictionary } from "types/permissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 
 type CampsitePermissionViewSettings = Pick<CampsitePermissionViewBasic, "userId" | "roleId" | "permissions"> & { new?: true; };
 
@@ -104,7 +104,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                                         <IconPlus size={16} />
                                     </ListItemDecorator>
                                     <ListItemContent>
-                                        <GradientTypography colors={getColorFromSet(x.color, x.colorSecondary)}>
+                                        <GradientTypography colors={colorToDecimal(x.colors)}>
                                             {x.name}
                                         </GradientTypography>
                                     </ListItemContent>
@@ -187,10 +187,12 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
             <Typography px={2} level="title-lg">{role?.name ?? permission.userId}</Typography>
             <Stack sx={{ overflowY: "auto" }} p={2}>
                 <Form
+                    gap={6}
                     sections={[
                         {
                             id: "general",
                             header: "Campsite permissions",
+                            startDecorator: <IconCampfireFilled />,
                             layout: "divided",
                             fields: [
                                 {
@@ -219,6 +221,7 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
                         {
                             id: "membership",
                             header: "Membership permissions",
+                            startDecorator: <IconUserFilled />,
                             layout: "divided",
                             fields: [
                                 {
@@ -231,8 +234,9 @@ function PermissionsPage({ permission, role, onChanged }: PermissionsPageProps) 
                             ],
                         },
                         {
-                            id: "gontent",
+                            id: "content",
                             header: "Tent permissions",
+                            startDecorator: <IconHash />,
                             layout: "divided",
                             fields: [
                                 {

@@ -1,24 +1,22 @@
 import { FormControl, FormLabel } from "@mui/joy";
-import Form from "./Form";
-import type { AnyFormFieldProps, FieldTypeToComponent, FieldTypeToInstance } from "./forms";
+import type { AnyFormFieldProps, FieldTypeToComponent, FieldTypeToInstance, FormFieldType } from "./forms";
 
 type Props<TValue, TProps extends AnyFormFieldProps> = {
     FieldComponent: FieldTypeToComponent[keyof FieldTypeToComponent];
     disabled?: boolean;
-    onChange: (props: TProps, field: FieldTypeToInstance[keyof FieldTypeToInstance], value: TValue) => Promise<void> | void;
-    binding: Form;
+    onChange: (field: FieldTypeToInstance[FormFieldType], value: TValue) => Promise<void> | void;
     props: TProps;
 };
 
-export default function FormFieldWrapper<TValue, TProps extends AnyFormFieldProps>({ FieldComponent, onChange, binding, props, disabled }: Props<TValue, TProps>) {
+export default function FormFieldWrapper<TValue, TProps extends AnyFormFieldProps>({ FieldComponent, onChange, props, disabled }: Props<TValue, TProps>) {
     return (
         <FormControl className="FormField-container" required={props.required} sx={{ flex: props.flex }}>
             {props.header && <FormLabel>{props.header}</FormLabel>}
             <FieldComponent
                 {...props}
                 disabled={props.disabled || disabled}
-                onChange={onChange.bind(binding, props) as (field: any, value: any) => Promise<void> | void}
-                />
+                onChange={onChange}
+            />
             {props.footer}
         </FormControl>
     )

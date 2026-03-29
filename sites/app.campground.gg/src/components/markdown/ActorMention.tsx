@@ -3,7 +3,7 @@ import UserDisplay from "../UserDisplay";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import { useMemo, useState } from "react";
 import type { CampsiteMemberViewDetailed } from "types/campsites";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 
 type Props = {
     did: string;
@@ -36,7 +36,7 @@ export default function ActorMention({ did }: Props) {
                     .then((resp) => resp.ok ? setMember(resp.content) : null)
             );
         }, [did]);
-    const colorRole = member ? campsite.roles.find((x) => member.roles.includes(x.id) && (x.color || x.colorSecondary)) : null;
+    const colorRole = member ? campsite.roles.find((x) => member.roles.includes(x.id) && x.colors.length) : null;
 
     return (
         <ActorMentionWrapper>
@@ -54,7 +54,7 @@ export default function ActorMention({ did }: Props) {
                     banner: null,
                     createdAt: new Date().toISOString(),
                 }}
-                colors={getColorFromSet(colorRole?.color, colorRole?.colorSecondary)}
+                colors={colorToDecimal(colorRole?.colors)}
                 member={member}
                 campsiteRoles={campsite.roles}
             />

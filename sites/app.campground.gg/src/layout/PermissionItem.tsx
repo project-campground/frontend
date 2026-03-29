@@ -1,7 +1,7 @@
 import { Chip } from "@mui/joy";
 import { GradientTypography } from "components";
 import type { CampsitePermissionView, CampsiteRoleView } from "types/campsites";
-import { getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 import { RoleButton } from "./campsite/RoleItem";
 import { IconBadgeFilled } from "@tabler/icons-react";
 
@@ -13,7 +13,7 @@ export default function PermissionItem({ onClick, active, added, userId, roleId,
         : added
         ? <Chip color="danger" variant="soft">NEW</Chip>
         : null;
-    const colors = (role && getColorFromSet(role.color, role.colorSecondary)) ?? undefined;
+    const colors = (role && colorToDecimal(role.colors)) ?? undefined;
 
     return (
         <RoleButton startDecorator={<IconBadgeFilled />} onClick={onClick} colors={colors} className={active ? "active" : ""} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">

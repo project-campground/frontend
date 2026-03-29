@@ -1,3 +1,4 @@
+import type { GradientAnimation } from "components/GradientTypography";
 import type { PermissionsDictionary, PermissionsStateDictionary } from "./permissions";
 import type { TentCategoryView, TentViewBasic } from "./tent";
 import type { ProfileView, ProfileViewBasic, ProfileViewDetailed } from "./user";
@@ -24,6 +25,7 @@ export interface CampsiteViewDetailed extends CampsiteView {
     roles: CampsiteRoleView[];
     me: CampsiteMemberViewBasic;
 }
+export type CampsiteRoleMotion = GradientAnimation;
 export interface CampsiteRoleView {
     id: string;
     campsiteId: string;
@@ -32,8 +34,8 @@ export interface CampsiteRoleView {
     mentionable: boolean;
     permissions: PermissionsDictionary;
     priority: number;
-    color: number;
-    colorSecondary: number;
+    colors: number[];
+    motion: CampsiteRoleMotion;
     createdAt: string;
     createdBy: string;
     updatedAt: string;

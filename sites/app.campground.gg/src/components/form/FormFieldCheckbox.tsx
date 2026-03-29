@@ -3,6 +3,7 @@ import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Checkbox, Sheet, Stack, Typography, } from "@mui/joy";
 import type React from "react";
+import { Group } from "components";
 
 type CheckboxType = "default" | "button";
 export interface FormFieldCheckboxProps extends FormFieldProps<"checkbox", boolean>, FormFieldDecoratorProps {
@@ -35,14 +36,18 @@ export default class FormFieldCheckbox extends AbstractFormField<"checkbox", boo
     }
 
     private FieldText() {
-        const { label, description } = this.props;
+        const { label, description, startDecorator, endDecorator } = this.props;
 
         return (
             (label || description) &&
-            <Stack flex={1}>
-                <Typography level="title-md" fontWeight={700} textColor="text.secondary">{label}</Typography>
-                <Typography level="body-md" textColor="text.tertiary">{description}</Typography>
-            </Stack>
+            <Group gap={1} flex={1}>
+                {startDecorator}
+                <Stack flex={1}>
+                    <Typography level="title-md" fontWeight={700} textColor="text.secondary">{label}</Typography>
+                    <Typography level="body-md" textColor="text.tertiary">{description}</Typography>
+                </Stack>
+                {endDecorator}
+            </Group>
         )
     }
 

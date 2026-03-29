@@ -7,7 +7,7 @@ export interface DraggableProps {
 }
 export interface Draggable<T> {
     dragging: boolean;
-    attributes: DOMAttributes<T> & HTMLAttributes<T>;
+    attributes: Pick<DOMAttributes<T> & HTMLAttributes<T>, "draggable" | "onDragStart" | "onDragEnd">;
 }
 export function useDraggable<T>({ id, disabled }: DraggableProps): Draggable<T> {
     if (disabled)

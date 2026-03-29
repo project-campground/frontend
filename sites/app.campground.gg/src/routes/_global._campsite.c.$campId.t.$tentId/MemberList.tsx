@@ -2,7 +2,7 @@ import { Chip, List, Menu, Stack } from "@mui/joy";
 import type { CampsiteMemberViewBasic, CampsiteRoleView } from "types/campsites";
 import MemberItem from "./MemberItem";
 import ContentCategory from "~/components/content/ContentCategory";
-import { decimalToHexColor, getColorFromSet } from "~/util/color";
+import { colorToDecimal } from "~/util/color";
 import UserProfileCard from "~/layout/UserProfileCard";
 import { useState, type MouseEvent } from "react";
 import { GradientTypography } from "components";
@@ -47,7 +47,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
                     return (
                         <ContentCategory key={role.id} header={
                             <>
-                                <GradientTypography gradientAnimated colors={getColorFromSet(role.color, role.colorSecondary)} level="title-md" fontWeight={700} sx={{ width: "max-content", color: role.color || role.colorSecondary ? decimalToHexColor(role.color || role.colorSecondary) : null }}>
+                                <GradientTypography motion={role.motion} colors={colorToDecimal(role.colors)} level="title-md" fontWeight={700} sx={{ width: "max-content" }}>
                                     {role.name}
                                 </GradientTypography>
                                 <Chip variant="soft" sx={{ fontWeight: 700 }}>{roleMembers.length}</Chip>

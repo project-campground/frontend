@@ -10,3 +10,8 @@ export const mapLookup = <K extends string, T, V>(lookup: Record<K, T[]>, map: (
             .entries(lookup)
             .map(([key, value]) => [key, map(key as K, value as T[], lookup)])
     ) as Record<K, V>;
+export const moveIndexes = <T>(array: T[], i0: number, i1: number) => {
+    const smallerI = Math.min(i0, i1);
+    const biggerI = Math.max(i0, i1);
+    return [...array.slice(0, smallerI), array[biggerI], ...array.slice(smallerI + 1, biggerI), array[smallerI], ...array.slice(biggerI + 1)];
+}

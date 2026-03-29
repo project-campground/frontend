@@ -8,7 +8,7 @@ export interface DroppableProps {
 export interface Droppable<T> {
     isOver: boolean;
     draggableOver: string | null;
-    attributes: DOMAttributes<T> & HTMLAttributes<T>;
+    attributes: Pick<DOMAttributes<T> & HTMLAttributes<T>, "onDragEnter" | "onDragLeave" | "onDragOver" | "onDrop">;
 }
 export function useDroppable<T>({ id }: DroppableProps): Droppable<T> {
     const draggingContext = useDragDrop();
@@ -17,8 +17,10 @@ export function useDroppable<T>({ id }: DroppableProps): Droppable<T> {
         onDragEnter(ev) {
             const draggableId = ev.dataTransfer.getData("text/plain");
             setOver(draggableId);
+            console.log("Drag enter");
         },
         onDragLeave() {
+            console.log("Drag leave");
             setOver(null);
         },
         onDragOver(ev) {

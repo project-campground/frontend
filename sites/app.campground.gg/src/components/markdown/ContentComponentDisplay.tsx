@@ -1,9 +1,9 @@
 import { Typography } from "@mui/joy";
-import { IconHash, IconQuestionMark, type Icon, type IconProps } from "@tabler/icons-react";
+import { IconHash, IconQuestionMark, IconSignature, type Icon, type IconProps } from "@tabler/icons-react";
 import { Group } from "components";
 import type { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
-import type { ContentComponent, ContentComponentType, SystemMessageComponent, SystemMessageType } from "types/content";
+import type { ContentComponent, ContentComponentType, SystemMessageComponent, SystemMessageComponentTentNameUpdated, SystemMessageType } from "types/content";
 import { UserDisplayNoModal } from "../UserDisplay";
 import type React from "react";
 import { colorToDecimal } from "~/util/color";
@@ -43,9 +43,30 @@ const SystemMessageComponentDisplayComponent: Record<SystemMessageType, (props: 
             </>
         )
     },
+    "tentNameUpdated": ({ component, onUserClick, createdBy, colorRoles }) => {
+        const systemComponent = component as SystemMessageComponentTentNameUpdated;
+        const authorColorRole = colorRoles?.find((x) => createdBy.roles.includes(x.id));
+        return (
+            <>
+                <UserDisplayNoModal
+                    noAvatar
+                    onClick={(ev) => onUserClick?.(ev, createdBy)}
+                    user={createdBy.user}
+                    member={createdBy}
+                    motion={authorColorRole?.motion}
+                    colors={colorToDecimal(authorColorRole?.colors)}
+                />
+                {"updated the name of this tent from "}
+                <Typography level="title-md" fontWeight={700}>{systemComponent.previousName}</Typography>
+                {" to "}
+                <Typography level="title-md" fontWeight={700}>{systemComponent.newName}</Typography>
+            </>
+        )
+    },
 };
 const SystemMessageComponentIcon: Record<SystemMessageType, ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>> = {
     "tentCreated": IconHash,
+    "tentNameUpdated": IconSignature,
 };
 function SystemMessageComponentDisplay(props: Props) {
     const systemMessageType = (props.component as SystemMessageComponent).message;

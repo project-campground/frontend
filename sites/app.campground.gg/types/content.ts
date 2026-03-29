@@ -6,14 +6,18 @@ export type ContentComponentType = "system";
 export interface ContentComponentBase<TType extends ContentComponentType> {
     type: TType;
 }
-export type SystemMessageType = "tentCreated";
+export type SystemMessageType = "tentCreated" | "tentNameUpdated";
 interface SystemMessageComponentBase<TMessage extends SystemMessageType> extends ContentComponentBase<"system"> {
     message: TMessage;
 }
 export interface SystemMessageComponentTentCreated extends SystemMessageComponentBase<"tentCreated"> {
     tentName: string;
 }
-export type SystemMessageComponent = SystemMessageComponentTentCreated;
+export interface SystemMessageComponentTentNameUpdated extends SystemMessageComponentBase<"tentNameUpdated"> {
+    previousName: string;
+    newName: string;
+}
+export type SystemMessageComponent = SystemMessageComponentTentCreated | SystemMessageComponentTentNameUpdated;
 export type ContentComponent = SystemMessageComponent;
 
 export interface TentMessageView<T> {

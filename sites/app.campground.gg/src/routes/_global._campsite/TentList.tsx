@@ -105,9 +105,21 @@ export default class TentList extends React.Component<Props, State, Session> {
                         onSettingsOpen={this._setSettingsOpenBind}
                         tentSelected={tentSelected}
                         tents={[
-                            { id: "bulletin", campsiteId, name: "Bulletin Board", type: "bulletin" },
-                            { id: "members", campsiteId, name: "Members", type: "members" },
-                        ] as unknown[] as TentViewBasic[]}
+                            {
+                                id: "bulletin",
+                                campsiteId,
+                                name: "Bulletin Board",
+                                type: "bulletin",
+                                canView: true,
+                            },
+                            {
+                                id: "members",
+                                campsiteId,
+                                name: "Members",
+                                type: "members",
+                                canView: permissions.role.general & (GeneralPermissionConsts.KICK_MEMBERS | GeneralPermissionConsts.BAN_MEMBERS | GeneralPermissionConsts.MUTE_MEMBERS | GeneralPermissionConsts.GIVE_ROLES)
+                            },
+                        ].filter((x) => x.canView) as unknown[] as TentViewBasic[]}
                     />
                     <Divider />
                     {tentsUncategorized.length

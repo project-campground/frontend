@@ -27,7 +27,7 @@ const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId"> = {
         general: 0,
         content: 0,
     },
-    priority: 0,
+    position: 0,
     flags: 0,
     createdAt: new Date().toISOString(),
     createdBy: "did:null",

@@ -27,7 +27,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
     const onTentCreate = (body: Record<string, any>): unknown =>
         session.http
             .tents
-            .create(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, priority: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; priority: number; })
+            .create(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, position: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; position: number; })
             .then((r) => {
                 if (!r.ok)
                     return setError(r);
@@ -37,7 +37,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
     const onCategoryCreate = (name: string, description: string): unknown =>
         session.http
             .categories
-            .create(campsiteId, bonfireId, { name, description, priority: lowestPriorityCategory + 1 } as { name: string; description: string; priority: number; })
+            .create(campsiteId, bonfireId, { name, description, position: lowestPriorityCategory + 1 } as { name: string; description: string; position: number; })
             .then((r) => {
                 if (!r.ok)
                     return setError(r);

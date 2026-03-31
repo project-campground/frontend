@@ -7,6 +7,7 @@ import { useRightClick } from "~/context/mouse";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
 import { useCampsiteContext } from "./context";
 import { GeneralPermissionConsts } from "~/util/permissions";
+import { useDraggable, useDroppable } from "~/draggable";
 
 type TentCategoryViewComponent = Pick<TentCategoryView, "id" | "name" | "description">;
 
@@ -20,6 +21,18 @@ export default function TentCategory<T extends TentCategoryViewComponent>({ onCr
     const { permissions } = useCampsiteContext();
     const categoryPermissions = permissions.permissions.categories[category.id] ?? permissions.permissions.bonfire;
     const canManageCategory = !!(categoryPermissions.general & GeneralPermissionConsts.MANAGE_TENTS);
+
+    const { attributes: draggableAttributes } = useDraggable({
+        id: category.id,
+        group: "category",
+        disabled: !canManageCategory,
+    });
+    const { attributes: droppableAttributes, isOver } = useDroppable({
+        id: `c:${category.id}`,
+        disabled: !canManageCategory,
+        ignoreIds: [category.id],
+        group: "category",
+    });
 
     const { listeners } = useRightClick({
         MenuComponent: () => (
@@ -46,17 +59,22 @@ export default function TentCategory<T extends TentCategoryViewComponent>({ onCr
     });
 
     return (
-        <ContentCategory header={
-            <Group flex={1} {...listeners}>
-                <Stack flex={1}>
-                    <Typography level="title-md">{category.name}</Typography>
-                    {category.description && <Typography level="body-sm">{category.description}</Typography>}
-                </Stack>
-                {onCreate && canManageCategory && <IconButton sx={{ "--IconButton-size": "1.5rem" }} onClick={onCreate}>
-                    <IconPlus size="16px" />
-                </IconButton>}
-            </Group>
-        }>
+        <ContentCategory
+            isDraggingOver={isOver}
+            header={
+                // If it gets applied to the whole category, it can cause the tents that are being dragged to also invoke listeners of the category
+                // Which makes categories move, despite moving tents
+                <Group flex={1} {...listeners} {...draggableAttributes} {...droppableAttributes}>
+                    <Stack flex={1}>
+                        <Typography level="title-md">{category.name}</Typography>
+                        {category.description && <Typography level="body-sm">{category.description}</Typography>}
+                    </Stack>
+                    {onCreate && canManageCategory && <IconButton sx={{ "--IconButton-size": "1.5rem" }} onClick={onCreate}>
+                        <IconPlus size="16px" />
+                    </IconButton>}
+                </Group>
+            }
+        >
             {children}
         </ContentCategory>
     );

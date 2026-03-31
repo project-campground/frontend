@@ -17,7 +17,7 @@ export default class HTTPClientTentManager extends HTTPClientObjectManager {
         });
     }
     
-    create(campsite_id: string, bonfire_id: string, body: { type: number; name: string; description: string; priority: number; }) {
+    create(campsite_id: string, bonfire_id: string, body: { type: number; name: string; description: string; position: number; }) {
         return this.client.post<TentViewDetailed>({
             route: "gg.campground.tent.createTent",
             queries: { campsite_id, bonfire_id, },
@@ -33,7 +33,7 @@ export default class HTTPClientTentManager extends HTTPClientObjectManager {
         });
     }
     
-    move(tent_id: string, body: { bonfire_id?: string; category_id?: string; priority?: number; }) {
+    move(tent_id: string, body: { bonfireId?: string; categoryId?: string; position?: number; }) {
         return this.client.post<TentViewDetailed>({
             route: "gg.campground.tent.moveTent",
             queries: { tent_id, },

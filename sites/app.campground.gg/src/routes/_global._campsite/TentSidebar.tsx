@@ -115,7 +115,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         return this.props.bonfireSelected ? this.props.campsite.bonfires.find((x) => x.id === this.props.bonfireSelected) ?? this.defaultBonfire : this.defaultBonfire;
     }
     get defaultBonfire(): BonfireViewBasic {
-        return this.props.campsite.bonfires.sort((a, b) => a.priority - b.priority)[0]!;
+        return this.props.campsite.bonfires.sort((a, b) => a.position - b.position)[0]!;
     }
     componentDidMount(): void {
         if (this._initLock)
@@ -152,10 +152,19 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             case "TentCreated":
                 bonfireToTents.tents.push(payload as TentViewBasic);
                 break;
+            //@ts-ignore
             case "TentMoved":
+                const tent = payload as TentViewBasic;
+                // Move other tents
+                const otherTentsInCategory = bonfireToTents.tents.filter((x) => x.categoryId === tent.categoryId);
+
+                if (otherTentsInCategory.some((x) => x.id !== tent.id && x.position === tent.position)) {
+                    for (const tentToMove of otherTentsInCategory.filter((x) => x.id !== tent.id && x.position >= tent.position))
+                        tentToMove.position++;
+                }
             case "TentUpdated":
                 const tentModified = bonfireToTents.tents.findIndex((x) => x.id === (payload as TentViewBasic).id);
-                bonfireToTents.tents[tentModified] = payload as TentViewBasic;
+                Object.assign(bonfireToTents.tents[tentModified], payload);
                 break;
             case "TentDeleted":
                 const tentDeleted = bonfireToTents.tents.findIndex((x) => x.id === (payload as TentViewBasic).id);

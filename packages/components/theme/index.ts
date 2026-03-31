@@ -265,6 +265,7 @@ const theme = extendTheme({
                     backgroundColor: theme.vars.palette.background.body,
                     borderRadius: theme.vars.radius.md,
                     borderBottom: "none",
+                    boxShadow: "none",
                 })
             }
         },

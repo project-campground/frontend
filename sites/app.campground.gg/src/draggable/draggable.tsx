@@ -3,13 +3,14 @@ import { useDragDrop } from "./context";
 
 export interface DraggableProps {
     id: string;
+    group?: string;
     disabled?: boolean;
 }
 export interface Draggable<T> {
     dragging: boolean;
     attributes: Pick<DOMAttributes<T> & HTMLAttributes<T>, "draggable" | "onDragStart" | "onDragEnd">;
 }
-export function useDraggable<T>({ id, disabled }: DraggableProps): Draggable<T> {
+export function useDraggable<T>({ id, group, disabled }: DraggableProps): Draggable<T> {
     if (disabled)
         return { dragging: false, attributes: {}, };
     const draggingContext = useDragDrop();
@@ -19,7 +20,7 @@ export function useDraggable<T>({ id, disabled }: DraggableProps): Draggable<T> 
         draggable: "true",
         onDragStart(ev) {
             setDragging(true);
-            ev.dataTransfer.setData("text/plain", id);
+            ev.dataTransfer.setData("text/plain", `${id}\n${group}`);
             draggingContext.onDragStart(id);
         },
         onDragEnd() {

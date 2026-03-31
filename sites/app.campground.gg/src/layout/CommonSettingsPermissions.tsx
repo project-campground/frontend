@@ -117,7 +117,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                     {permissions
                         .filter((x) => x.roleId)
                         .map((x) => [x, roles.find((y) => y.id === x.roleId)] as [CampsitePermissionViewSettings, CampsiteRoleView | undefined])
-                        .sort((a, b) => (a[1]?.priority ?? 0) - (b[1]?.priority ?? 0))
+                        .sort((a, b) => (a[1]?.position ?? 0) - (b[1]?.position ?? 0))
                         .map(([permission, role]) =>
                             <PermissionItem key={`${permission.userId}:${permission.roleId}`} role={role} active={openPermission === permission} onClick={() => changeOpenPermission(permission)} {...permission} />
                         )

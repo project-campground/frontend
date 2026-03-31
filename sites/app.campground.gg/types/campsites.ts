@@ -33,7 +33,7 @@ export interface CampsiteRoleView {
     displaySeparately: boolean;
     mentionable: boolean;
     permissions: PermissionsDictionary;
-    priority: number;
+    position: number;
     colors: number[];
     motion: CampsiteRoleMotion;
     createdAt: string;
@@ -85,7 +85,7 @@ export interface BonfireView {
     description: string;
     avatarUri: string | null | undefined;
     bannerUri: string | null | undefined;
-    priority: number;
+    position: number;
     createdBy: string;
     createdAt: string;
     updatedBy: string;

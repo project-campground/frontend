@@ -61,16 +61,16 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
             return;
 
         // Move a single role, because it is at the top or there is space between priorities that the role can be nudged to
-        if (!movedToIndex || Math.abs(roles[movedToIndex - 1].priority - roles[movedToIndex].priority) > 1)
+        if (!movedToIndex || Math.abs(roles[movedToIndex - 1].position - roles[movedToIndex].position) > 1)
             return session
                 .http
                 .roles
                 .moveMany(campsite.id, {
-                    rolesByPriority: { [roleMoved]: roles[movedToIndex]!.priority - 1 },
+                    rolesByPosition: { [roleMoved]: roles[movedToIndex]!.position - 1 },
                 })
                 .then(onRolesMoved);
         
-        const newPriority = roles[movedToIndex].priority;
+        const newPriority = roles[movedToIndex].position;
         const rolesToAdditionallyMove = roles
             .slice(movedToIndex)
             .filter((x) => x.id !== roleMoved)
@@ -81,7 +81,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
             .http
             .roles
             .moveMany(campsite.id, {
-                rolesByPriority: newPriorities,
+                rolesByPosition: newPriorities,
             })
             .then(onRolesMoved);
     }

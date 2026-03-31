@@ -3,6 +3,8 @@ import { useDragDrop } from "./context";
 
 export interface DroppableProps {
     id: string;
+    disabled?: boolean;
+    group?: string;
     ignoreIds?: string[];
 }
 export interface Droppable<T> {
@@ -10,17 +12,20 @@ export interface Droppable<T> {
     draggableOver: string | null;
     attributes: Pick<DOMAttributes<T> & HTMLAttributes<T>, "onDragEnter" | "onDragLeave" | "onDragOver" | "onDrop">;
 }
-export function useDroppable<T>({ id }: DroppableProps): Droppable<T> {
+export function useDroppable<T>({ id, disabled, ignoreIds, group }: DroppableProps): Droppable<T> {
+    if (disabled)
+        return { isOver: false, draggableOver: null, attributes: {}, };
+
     const draggingContext = useDragDrop();
     const [over, setOver] = useState<string | null>(null);
     const attributes: Droppable<T>["attributes"] = useMemo(() => ({
         onDragEnter(ev) {
-            const draggableId = ev.dataTransfer.getData("text/plain");
+            const [draggableId, draggableGroup] = ev.dataTransfer.getData("text/plain").split("\n");
+            if (ignoreIds?.includes(draggableId) || (group && draggableGroup !== group))
+                return;
             setOver(draggableId);
-            console.log("Drag enter");
         },
         onDragLeave() {
-            console.log("Drag leave");
             setOver(null);
         },
         onDragOver(ev) {
@@ -29,8 +34,12 @@ export function useDroppable<T>({ id }: DroppableProps): Droppable<T> {
         onDrop(ev) {
             ev.preventDefault();
             setOver(null);
-            const draggableId = ev.dataTransfer.getData("text/plain");
-            return draggingContext.onDropped(draggableId, id);
+
+            const [draggableId, draggableGroup] = ev.dataTransfer.getData("text/plain").split("\n");
+            if (ignoreIds?.includes(draggableId) || (group && draggableGroup !== group))
+                return;
+
+            return draggingContext.onDropped(draggableId, id, group);
         },
     }), [id]);
     return {

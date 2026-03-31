@@ -9,7 +9,7 @@ export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
         });
     }
 
-    public create(campsite_id: string, body: { name: string, description: string; priority: number; }) {
+    public create(campsite_id: string, body: { name: string, description: string; position: number; }) {
         return this.client.post<BonfireViewDetailed>({
             route: "gg.campground.campsite.createBonfire",
             queries: { campsite_id },
@@ -17,7 +17,7 @@ export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
         });
     }
 
-    public update(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; priority?: number; avatarUri?: string; bannerUri?: string; }) {
+    public update(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; position?: number; avatarUri?: string; bannerUri?: string; }) {
         return this.client.post<BonfireViewBasic>({
             route: "gg.campground.campsite.updateBonfire",
             queries: { campsite_id, bonfire_id },

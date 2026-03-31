@@ -13,7 +13,7 @@ export const isAboveUser = (against: CampsiteMemberViewBasic, asker: CampsiteMem
         getPriorityOfMember(asker, roles) > getPriorityOfMember(against, roles)
     );
 export const getPriorityOfMember = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[]) =>
-    getHighestRole(member, roles)?.priority ?? lowestPriority;
+    getHighestRole(member, roles)?.position ?? lowestPriority;
 export const getHighestRole = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[]) =>
     roles.find((x) => member.roles.includes(x.id));
 

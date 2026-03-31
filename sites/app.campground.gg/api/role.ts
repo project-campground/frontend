@@ -25,7 +25,7 @@ export default class HTTPClientRoleManager extends HTTPClientObjectManager {
         });
     }
     
-    moveMany(campsite_id: string, body: { rolesByPriority: Record<string, number>; }) {
+    moveMany(campsite_id: string, body: { rolesByPosition: Record<string, number>; }) {
         return this.client.post<GetRolesOutput>({
             route: "gg.campground.campsite.moveRoles",
             queries: { campsite_id, },

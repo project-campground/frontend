@@ -8,6 +8,7 @@ import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
 import { useCampsiteContext } from "./context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { PseudoTentType } from "~/util/pseudoTents";
+import { useDraggable, useDroppable } from "~/draggable";
 
 type Props = {
     tent: TentView;
@@ -24,8 +25,23 @@ export const TentItemButton = styled(ListItemButton, {
     borderRadius: theme.vars.radius.sm,
     border: "solid 1px transparent",
     color: theme.vars.palette.text.tertiary,
+    position: "relative",
     ":hover": {
         color: theme.vars.palette.text.secondary,
+    },
+    "&::after": {
+        content: "''",
+        position: "absolute",
+        top: -2,
+        left: 0,
+        right: 0,
+        height: 2,
+        borderRadius: theme.vars.radius.md,
+        backgroundColor: "transparent",
+        transition: "background 0.3s",
+    },
+    "&.TentItem-over::after": {
+        backgroundColor: theme.vars.palette.primary[500],
     },
     "&.TentItem-active": {
         color: theme.vars.palette.text.tertiary,
@@ -43,6 +59,18 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
     const { permissions } = useCampsiteContext();
     const tentPermissions = permissions.getTentPermissions(tent.categoryId, tent.id);
     const navigateToTent = () => navigate(`/c/${tent.campsiteId}/t/${tent.id}`);
+    const { attributes: draggableAttributes } = useDraggable({
+        id: tent.id,
+        group: "tent",
+        disabled: (tentPermissions.general & GeneralPermissionConsts.MANAGE_TENTS) !== GeneralPermissionConsts.MANAGE_TENTS
+    });
+    const { attributes: droppableAttributes, isOver } = useDroppable({
+        id: `t:${tent.id}`,
+        disabled: (tentPermissions.general & GeneralPermissionConsts.MANAGE_TENTS) !== GeneralPermissionConsts.MANAGE_TENTS,
+        ignoreIds: [tent.id],
+        group: "tent",
+    });
+
     const { listeners } = useRightClick({
         MenuComponent: ({ tent }) => (
             <>
@@ -77,7 +105,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
 
     return (
         <ListItem {...listeners}>
-            <TentItemButton className={isActive ? "TentItem-active" : ""} onClick={navigateToTent}>
+            <TentItemButton {...draggableAttributes} {...droppableAttributes} className={[isActive && "TentItem-active", isOver && "TentItem-over"].filter((x) => x).join(", ")} onClick={navigateToTent}>
                 <ListItemDecorator>
                     <TentIcon type={tent.type} viewType={tent.viewType} />
                 </ListItemDecorator>

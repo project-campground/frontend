@@ -62,7 +62,7 @@ export default class CampsiteLayout extends React.Component<Props, State> {
             });
     }
     sortCampsiteRoles(campsite: Pick<CampsiteViewDetailed, "roles">) {
-        return campsite.roles.sort((a, b) => (a.flags & 1) == (b.flags & 1) ? (a.priority - b.priority) : a.flags);
+        return campsite.roles.sort((a, b) => (a.flags & 1) == (b.flags & 1) ? (a.position - b.position) : a.flags);
     }
     async componentDidMount(): Promise<void> {
         if (this._init)

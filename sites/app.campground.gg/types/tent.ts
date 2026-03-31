@@ -10,7 +10,7 @@ export interface TentView {
     type: TentType;
     viewType: number;
     
-    priority: number;
+    position: number;
 }
 export type TentType = "text";
 export interface TentViewBasic extends TentView {
@@ -28,7 +28,7 @@ export interface TentCategoryView {
     name: string;
     description: string;
     
-    priority: number;
+    position: number;
 
     createdBy: string;
     createdAt: string;

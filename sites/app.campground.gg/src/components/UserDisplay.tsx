@@ -1,8 +1,8 @@
-import { Dropdown, Menu, MenuButton, Skeleton, Typography } from "@mui/joy";
+import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
 import UserProfileCard from "../layout/UserProfileCard";
-import { GradientTypography, Group } from "components";
+import { GradientTypography, Group, TextBlock } from "components";
 import type { CampsiteMemberView, CampsiteRoleMotion, CampsiteRoleView } from "types/campsites";
 import type { MouseEvent } from "react";
 
@@ -17,7 +17,7 @@ type Props<T extends ProfileView> = {
     size?: Size;
     avatarSize?: Size | "xl";
     showHandle?: boolean;
-    alignItems?: "center" | "start" | "end";
+    align?: "top" | "center" | "bottom";
     noHoverBackground?: boolean;
     withStatus?: boolean;
     campsiteRoles?: CampsiteRoleView[];
@@ -29,20 +29,39 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, alignItems, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+const GapSpan = styled("span", {
+    name: "UserDisplay",
+    slot: "gap",
+})(() => ({
+    display: "inline-block",
+}));
+
+export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
     return (
-        <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"} onClick={onClick}>
-            {!noAvatar && <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />}
-            <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
-                {member?.nickname ?? user.displayName}
-            </GradientTypography>
+        <Typography level="body-md" onClick={onClick}>
+            {!noAvatar &&
+            <>
+                <TextBlock align={align}>
+                    <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
+                </TextBlock>
+                <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
+            </>
+            }
+            <TextBlock align={align}>
+                <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
+                    {member?.nickname ?? user.displayName}
+                </GradientTypography>
+            </TextBlock>
             {
                 showHandle && <>
-                    <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                    <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
+                    <TextBlock align={align}>
+                        <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                    </TextBlock>
                 </>
             }
-        </Group>
+        </Typography>
     );
 }
 

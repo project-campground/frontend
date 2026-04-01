@@ -1,9 +1,14 @@
-import { Box, styled } from "@mui/joy";
+import { styled } from "@mui/joy";
+import type { SxProps } from "@mui/joy/styles/types";
 
-const MarkdownWrapper = styled(Box, {
+const MarkdownWrapperArticle = styled("article", {
     name: "MarkdownWrapper",
     slot: "root"
 })(({ theme }) => ({
+    display: "block",
+    "&.MarkdownWrapper-inline": {
+        display: "inline-block",
+    },
     color: theme.vars.palette.text.secondary,
     "p": {
         display: "flex",
@@ -83,4 +88,15 @@ const MarkdownWrapper = styled(Box, {
     }
 }))
 
-export default MarkdownWrapper;
+type Props = React.PropsWithChildren & {
+    sx?: SxProps;
+    inline?: boolean;
+};
+
+export default function MarkdownWrapper({ children, sx, inline }: Props) {
+    return (
+        <MarkdownWrapperArticle className={inline ? "MarkdownWrapper-inline" : ""} sx={sx}>
+            {children}
+        </MarkdownWrapperArticle>
+    )
+}

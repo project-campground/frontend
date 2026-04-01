@@ -8,5 +8,6 @@ export { default as Group } from "./Group";
 export { default as FlexCenter } from "./FlexCenter";
 export { default as Image } from "./Image";
 export { default as SmoothTabList } from "./SmoothTabList";
+export { default as TextBlock } from "./TextBlock";
 export { default as GradientTypography } from "./GradientTypography";
 export { loremIpsum } from "./util";

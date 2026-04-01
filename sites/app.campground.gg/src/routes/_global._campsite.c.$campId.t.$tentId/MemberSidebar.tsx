@@ -29,7 +29,7 @@ export const RightSidebarBox = styled(Stack, {
     name: "CampsiteSidebar",
     slot: "wrapper",
 })(() => ({
-    width: 320,
+    maxWidth: 320,
     gap: 4,
     height: "100%",
     transition: "width 0.3s",

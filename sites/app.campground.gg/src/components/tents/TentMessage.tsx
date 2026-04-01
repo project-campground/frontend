@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
-import { Group, loremIpsum } from "components";
+import { Group, loremIpsum, TextBlock } from "components";
 import type { TentMessageType, TentMessageViewWithReplies } from "types/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 import MessageToolbar from "./MessageToolbar";
@@ -129,7 +129,7 @@ export default function TentMessage({ unhoverable, waiting, error, onUserClick, 
                         onConfirm={onEdit}
                         onCancel={() => setEditMode(false)}
                         />
-                        : <ContentDisplayBlock content={msgContent} components={message.components} createdBy={message.createdBy} onUserClick={onUserClick} colorRoles={colorRoles} />}
+                        : <ContentDisplayBlock inline content={msgContent} components={message.components} createdBy={message.createdBy} onUserClick={onUserClick} colorRoles={colorRoles} />}
                 </MessageComponent>
             </TentMessageContainer>
         </TentMessageWrapper>
@@ -179,21 +179,27 @@ function TentMessageDefault({ message, colorRoles, onUserClick, waiting, error, 
 }
 function TentMessageSystem({ message, children }: MessageTypeComponentProps) {
     return (
-        <Group wrap alignItems="center" gap={2}>
+        <div>
             {children}
-            <Typography level="body-sm">
-                <Datestamp long date={new Date(message.createdAt)}/>
-            </Typography>
+            {" "}
+            <TextBlock>
+                <Typography level="body-sm" ml={1}>
+                    <Datestamp long date={new Date(message.createdAt)}/>
+                </Typography>
+            </TextBlock>
+            {" "}
             {message.updatedAt &&
                 <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
-                    <Typography level="body-sm" textColor="text.tertiary">
-                        {"("}
-                        <IconPencil size={16} />
-                        {" edited)"}
-                    </Typography>
+                    <TextBlock>
+                        <Typography level="body-sm" textColor="text.tertiary">
+                            {"("}
+                            <IconPencil size={16} />
+                            {" edited)"}
+                        </Typography>
+                    </TextBlock>
                 </Tooltip>
             }
-        </Group>
+        </div>
     );
 }
 

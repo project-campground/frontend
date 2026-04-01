@@ -1,6 +1,6 @@
 import { Typography } from "@mui/joy";
 import { IconHash, IconQuestionMark, IconSignature, type Icon, type IconProps } from "@tabler/icons-react";
-import { Group } from "components";
+import { TextBlock } from "components";
 import type { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
 import type { ContentComponent, ContentComponentType, SystemMessageComponent, SystemMessageComponentTentNameUpdated, SystemMessageType } from "types/content";
@@ -31,15 +31,17 @@ const SystemMessageComponentDisplayComponent: Record<SystemMessageType, (props: 
         const authorColorRole = colorRoles?.find((x) => createdBy.roles.includes(x.id));
         return (
             <>
-                <UserDisplayNoModal
-                    noAvatar
-                    onClick={(ev) => onUserClick?.(ev, createdBy)}
-                    user={createdBy.user}
-                    member={createdBy}
-                    motion={authorColorRole?.motion}
-                    colors={colorToDecimal(authorColorRole?.colors)}
-                />
-                {"created this tent."}
+                <TextBlock>
+                    <UserDisplayNoModal
+                        noAvatar
+                        onClick={(ev) => onUserClick?.(ev, createdBy)}
+                        user={createdBy.user}
+                        member={createdBy}
+                        motion={authorColorRole?.motion}
+                        colors={colorToDecimal(authorColorRole?.colors)}
+                    />
+                </TextBlock>
+                {" created this tent."}
             </>
         )
     },
@@ -48,18 +50,24 @@ const SystemMessageComponentDisplayComponent: Record<SystemMessageType, (props: 
         const authorColorRole = colorRoles?.find((x) => createdBy.roles.includes(x.id));
         return (
             <>
-                <UserDisplayNoModal
-                    noAvatar
-                    onClick={(ev) => onUserClick?.(ev, createdBy)}
-                    user={createdBy.user}
-                    member={createdBy}
-                    motion={authorColorRole?.motion}
-                    colors={colorToDecimal(authorColorRole?.colors)}
-                />
-                {"updated the name of this tent from "}
-                <Typography level="title-md" fontWeight={700}>{systemComponent.previousName}</Typography>
+                <TextBlock>
+                    <UserDisplayNoModal
+                        noAvatar
+                        onClick={(ev) => onUserClick?.(ev, createdBy)}
+                        user={createdBy.user}
+                        member={createdBy}
+                        motion={authorColorRole?.motion}
+                        colors={colorToDecimal(authorColorRole?.colors)}
+                    />
+                </TextBlock>
+                {" updated the name of this tent from "}
+                <TextBlock>
+                    <Typography level="title-md" fontWeight={700}>{systemComponent.previousName}</Typography>
+                </TextBlock>
                 {" to "}
-                <Typography level="title-md" fontWeight={700}>{systemComponent.newName}</Typography>
+                <TextBlock>
+                    <Typography level="title-md" fontWeight={700}>{systemComponent.newName}</Typography>
+                </TextBlock>
             </>
         )
     },
@@ -74,13 +82,16 @@ function SystemMessageComponentDisplay(props: Props) {
     const Component = SystemMessageComponentDisplayComponent[systemMessageType] ?? "div";
 
     return (
-        <Group gap={5} alignItems="center">
-            <Typography textColor="text.tertiary" sx={{ lineHeight: 0, display: { xs: "none", md: "block" } }}>
-                <IconComponent />
-            </Typography>
-            <Typography textColor="text.secondary" sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 1.125, flexWrap: "wrap" }}>
+        <TextBlock>
+            <TextBlock hideOnMobile>
+                <Typography level="body-md" textColor="text.tertiary" mr={1}>
+                    <IconComponent />
+                </Typography>
+            </TextBlock>
+            {" "}
+            <TextBlock>
                 <Component {...props} />
-            </Typography>
-        </Group>
+            </TextBlock>
+        </TextBlock>
     );
 }

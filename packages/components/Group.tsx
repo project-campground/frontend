@@ -33,7 +33,7 @@ const GroupRoot = styled(Stack, {
 }));
 
 
-const Group = forwardRef<HTMLDivElement, GroupProps>(function GradientTypography(props, ref) {
+const Group = forwardRef<HTMLDivElement, GroupProps>(function Group(props, ref) {
     const { wrap, withMobile, withMobileReversed, className, ...other } = props;
     const ownerState = other;
 

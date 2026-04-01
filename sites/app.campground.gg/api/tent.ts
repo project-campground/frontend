@@ -33,7 +33,7 @@ export default class HTTPClientTentManager extends HTTPClientObjectManager {
         });
     }
     
-    move(tent_id: string, body: { bonfireId?: string; categoryId?: string; position?: number; }) {
+    move(tent_id: string, body: { bonfireId?: string | null; categoryId?: string | null; position?: number; }) {
         return this.client.post<TentViewDetailed>({
             route: "gg.campground.tent.moveTent",
             queries: { tent_id, },

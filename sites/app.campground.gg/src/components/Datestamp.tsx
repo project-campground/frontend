@@ -1,4 +1,4 @@
-import { Tooltip, Typography } from "@mui/joy";
+import { Tooltip, Typography, styled } from "@mui/joy";
 import ms from "ms";
 
 type DatestampType = "ago" | "before" | "after" | "none";
@@ -20,15 +20,23 @@ export const defaultDateOptions: Intl.DateTimeFormatOptions = {
     minute: "2-digit",
 };
 
+const DatestampRoot = styled("span", {
+    name: "Datestamp",
+    slot: "root",
+})(({ theme }) => ({
+    display: "inline-block",
+    verticalAlign: "center",
+}))
+
 export default function Datestamp({ prefix, dateOptions, type, displayDate, date, long }: Props) {
     const isInvalid = !date || Number.isNaN(date.getSeconds());
 
     if (isInvalid)
         return (
             <Tooltip title={"The provided date is invalid"}>
-                <Typography>
+                <DatestampRoot>
                     Invalid date
-                </Typography>
+                </DatestampRoot>
             </Tooltip>
         );
 
@@ -39,9 +47,9 @@ export default function Datestamp({ prefix, dateOptions, type, displayDate, date
 
     return (
         <Tooltip title={displayDate ? time : dateFormat} arrow>
-            <Typography>
+            <DatestampRoot>
                 {prefix}{displayDate ? dateFormat : time}
-            </Typography>
+            </DatestampRoot>
         </Tooltip>
     );
 }

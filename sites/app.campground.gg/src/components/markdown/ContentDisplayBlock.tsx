@@ -7,15 +7,16 @@ import type React from "react";
 
 type Props = {
     content: string;
+    inline?: boolean;
     components?: ContentComponent[];
     createdBy: CampsiteMemberViewAuthor;
     onUserClick?: (event: React.MouseEvent<HTMLDivElement>, user: CampsiteMemberViewAuthor) => unknown;
     colorRoles?: CampsiteRoleView[];
 };
 
-export default function ContentDisplayBlock({ content, components, createdBy, onUserClick, colorRoles }: Props) {
+export default function ContentDisplayBlock({ content, inline, components, createdBy, onUserClick, colorRoles }: Props) {
     return (
-        <MarkdownWrapper>
+        <MarkdownWrapper inline={inline}>
             {content && <LargeContentMarkdown>
                 {content}
             </LargeContentMarkdown>}

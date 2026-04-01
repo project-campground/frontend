@@ -153,7 +153,7 @@ function ProfilePostHeaderSkeleton() {
 function ProfilePostHeader({ bigger, author, createdAt }: { bigger: boolean; author: ProfilePostView["author"], createdAt: Date }) {
     return (
         <Stack gap={1} direction="row" flex={1}>
-            <UserDisplay withStatus showHandle noHoverBackground user={author} size={bigger ? "lg" : "md"} avatarSize={bigger ? "xl" : "lg"} alignItems="start" />
+            <UserDisplay withStatus showHandle noHoverBackground user={author} size={bigger ? "lg" : "md"} avatarSize={bigger ? "xl" : "lg"} align="top" />
             {!bigger && <Typography level="body-md" textColor="neutral.500">•</Typography>}
             {!bigger && <Datestamp date={createdAt} />}
         </Stack>

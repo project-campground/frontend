@@ -102,13 +102,16 @@ export default class TentList extends React.Component<Props, State, Session> {
         const { session } = this.context as CampsiteContextSuite;
         const movedToId = movedTo.slice(2);
         const movedToTent = movedTo.startsWith("b")
-            ? this.tentsCategorized.find((x) => x.category.id === movedToId)?.tents.slice(-1)?.[0]
+            ? movedToId === ""
+            // Since non-categorized bottom has ID "b:"
+            ? this.tentsUncategorized.slice(-1)[0]
+            : this.tentsCategorized.find((x) => x.category.id === movedToId)?.tents.slice(-1)?.[0]
             : this.props.tents.tents.find((x) => x.id === movedToId);
 
         return session.http
             .tents
             .move(movedId, {
-                categoryId: movedToTent?.categoryId ?? (movedTo.startsWith("b") ? movedTo.slice(2) : undefined),
+                categoryId: movedToTent?.categoryId ?? (movedTo.startsWith("b") ? movedTo.slice(2) : ""),
                 // If we are moving to the bottom, then it must be below the lowest tent(+ 1), but if tent is specified instead, we move it higher (- 1)
                 position: (movedToTent?.position ?? -1) + Number(movedTo.startsWith("b")),
             });
@@ -134,7 +137,7 @@ export default class TentList extends React.Component<Props, State, Session> {
 
         return (
             <>
-                <DragDropProvider onDropped={(movedId, droppedOnId, group) => (console.log({ movedId, droppedOnId, group}), group === "tent" ? this.moveTent(movedId, droppedOnId) : this.moveCategory(movedId, droppedOnId))}>
+                <DragDropProvider onDropped={(movedId, droppedOnId, group) => group === "tent" ? this.moveTent(movedId, droppedOnId) : this.moveCategory(movedId, droppedOnId)}>
                     <Stack gap={2}>
                         <TentCategorizedList
                             categoryId=""
@@ -177,11 +180,11 @@ export default class TentList extends React.Component<Props, State, Session> {
                                     />
                                 </TentCategory>
                             )}
-                            <TentBottomMover
+                            {!!this.state.sortedCategories.length && <TentBottomMover
                                 group="category"
                                 categoryId=""
                                 bottomTentId={this.state.sortedCategories.slice(-1)[0].id}
-                            />
+                            />}
                             <Stack gap={1}>
                                 {(tentsCategorized.length + tentsUncategorized.length)
                                 ? null

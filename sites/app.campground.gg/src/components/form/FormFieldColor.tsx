@@ -48,11 +48,7 @@ export default class FormFieldColor extends AbstractFormField<"color", number, F
     }
 
     public override get isValid(): boolean {
-        return this.isNotEmptyOrRequired;
-    }
-
-    private get isNotEmptyOrRequired(): boolean {
-        return !this.props.required || Boolean(this.state.value);
+        return true;
     }
 
     public override render(): ReactNode {

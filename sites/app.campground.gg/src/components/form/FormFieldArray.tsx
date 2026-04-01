@@ -29,7 +29,6 @@ export default class FormFieldArray extends AbstractFormField<"array", any[], Fo
     }
 
     public override get isValid(): boolean {
-        console.log("Is valid", this.state.valid, this.state.value)
         return this.state.valid.slice(0, this.state.value.length).every((x) => x)
             && ((this.props.max && this.state.value.length <= this.props.max) || !this.props.max)
             && ((this.props.min && this.state.value.length >= this.props.min) || !this.props.min);
@@ -71,7 +70,6 @@ export default class FormFieldArray extends AbstractFormField<"array", any[], Fo
         const { field } = this.props;
         const { state: { value } } = this;
         const FieldComponent = fieldTypeToComponent[field.type];
-        console.log("Value", value);
 
         return (
             <Stack gap={2}>

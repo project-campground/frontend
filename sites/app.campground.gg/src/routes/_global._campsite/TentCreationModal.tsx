@@ -116,12 +116,15 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                                 type: "text",
                                 header: "Name",
                                 required: true,
+                                max: 48,
+                                min: 3,
                             },
                             {
                                 id: "description",
                                 type: "textarea",
                                 header: "Topic",
                                 defaultValue: "",
+                                max: 200,
                             },
                         ]
                     },

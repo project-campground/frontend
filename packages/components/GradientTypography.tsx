@@ -33,7 +33,7 @@ export const animatedRadialGradient = keyframes`
     37.5% {
         background-position-y: 110%;
     }
-    37.55% {
+    37.501% {
         background-position-y: 0%;
     }
     50% {
@@ -43,7 +43,7 @@ export const animatedRadialGradient = keyframes`
     62.5% {
         background-position-y: 110%;
     }
-    62.55% {
+    62.501% {
         background-position-y: 0%;
     }
     75% {
@@ -88,7 +88,7 @@ const GradientTypographyRoot = styled(Typography, {
     },
     "&.GradientTypography-withColors.GradientTypography-motionRadial": {
         backgroundClip: "text",
-        background: `radial-gradient(var(--GradientTypography-gradient)) text`,
+        background: `radial-gradient(circle at center in oklch, var(--GradientTypography-gradient)) text`,
         backgroundSize: "200% 1000%",
     },
 }));

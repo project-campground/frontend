@@ -8,6 +8,8 @@ export interface FormFieldTextProps extends FormFieldProps<"text", string>, Form
     placeholder?: string;
     format?: RegExp;
     allowedValue?: string | null;
+    max?: number;
+    min?: number;
 }
 
 type State = {
@@ -28,9 +30,10 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
     }
 
     private get isFormatValid(): boolean {
-        // Special thanks to De Morgan for solving this mess
-        // !this.props.format || !!this.props.format!.exec(this.state.value)
-        return !(this.props.format && !this.props.format!.exec(this.state.value));
+        return !(
+            (this.props.min && this.state.value.length < this.props.min) ||
+            (this.props.format && !this.props.format!.exec(this.state.value))
+        );
     }
 
     private get hasAllowedValue(): boolean {
@@ -39,6 +42,9 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
 
     private onInputChange(ev: ChangeEvent<HTMLInputElement>) {
         const { value } = ev.target;
+
+        if (this.props.max && value.length > this.props.max)
+            return;
 
         this.setState({ value }, () => this.onChange(ev.target.value));
     }

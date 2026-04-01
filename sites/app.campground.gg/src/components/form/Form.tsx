@@ -101,7 +101,6 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     private onFieldChange(props: AnyFormFieldProps, field: FieldTypeToInstance[FormFieldType], value: any): Promise<void> | void {
-        console.log({ field, value });
         return this.setState(({ fieldValues, fieldRequirementFilled }) => ({
             fieldValues: {
                 ...fieldValues,
@@ -111,7 +110,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                 ...fieldRequirementFilled,
                 [props.id]: field.isValid
             }
-        }), () => (console.log("Form field state change", this.state), this.props.onChange?.(this.allValid, this.state.fieldValues)));
+        }), () => this.props.onChange?.(this.allValid, this.state.fieldValues));
     }
 
     private get allValid(): boolean {
@@ -121,7 +120,6 @@ export default class Form extends React.Component<FormProps, FormState> {
     public render(): ReactNode[] | ReactNode {
         const { header, sections, submitText, cancelText, children, ReactiveComponent, gap, submitColor, description, inlineReactiveComponent } = this.props;
         const { fieldValues } = this.state;
-        console.log("Field values", {...fieldValues});
 
         return (
             <FormRoot className={`Form-root${inlineReactiveComponent ? " Form-with-sidebar" : ""}`}>

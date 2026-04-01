@@ -6,6 +6,8 @@ import { Textarea } from "@mui/joy";
 export interface FormFieldTextAreaProps extends FormFieldProps<"textarea", string>, FormFieldDecoratorProps {
     placeholder?: string;
     format?: RegExp;
+    max?: number;
+    min?: number;
 }
 
 type State = {
@@ -26,13 +28,17 @@ export default class FormFieldTextArea extends AbstractFormField<"textarea", str
     }
 
     private get isFormatValid(): boolean {
-        // Special thanks to De Morgan for solving this mess
-        // !this.props.format || !!this.props.format!.exec(this.state.value)
-        return !(this.props.format && !this.props.format!.exec(this.state.value));
+        return !(
+            (this.props.min && this.state.value.length < this.props.min) ||
+            (this.props.format && !this.props.format!.exec(this.state.value))
+        );
     }
 
     private onInputChange(ev: ChangeEvent<HTMLTextAreaElement>) {
         const { value } = ev.target;
+
+        if (this.props.max && value.length > this.props.max)
+            return;
 
         this.setState({ value }, () => this.onChange(ev.target.value));
     }

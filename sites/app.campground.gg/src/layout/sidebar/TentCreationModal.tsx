@@ -5,9 +5,9 @@ import { useState } from "react";
 import type { TentCategoryView, TentViewDetailed } from "types/tent";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
-import { PseudoTentItem } from "./TentItem";
-import { TentStyledList } from "./TentList";
 import ContentCategory from "~/components/content/ContentCategory";
+import TentList from "~/components/tents/TentList";
+import { PseudoTentItem } from "~/components/tents/TentItem";
 
 type Props = {
     campsiteId: string;
@@ -61,7 +61,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                                     {description && <Typography level="body-sm">{what === "category" ? description : "Example description"}</Typography>}
                                 </Stack>
                             }>
-                                <TentStyledList>
+                                <TentList>
                                     <PseudoTentItem tent={{
                                         name: "Example tent #1",
                                         type: "text",
@@ -77,7 +77,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                                         type: "text",
                                         viewType: 0,
                                     }} />
-                                </TentStyledList>
+                                </TentList>
                             </ContentCategory>
                         </Card>
                     </Sheet>

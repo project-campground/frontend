@@ -5,6 +5,7 @@ export interface DroppableProps {
     id: string;
     disabled?: boolean;
     group?: string;
+    allowAnyGroup?: boolean;
     ignoreIds?: string[];
 }
 export interface Droppable<T> {
@@ -12,7 +13,7 @@ export interface Droppable<T> {
     draggableOver: string | null;
     attributes: Pick<DOMAttributes<T> & HTMLAttributes<T>, "onDragEnter" | "onDragLeave" | "onDragOver" | "onDrop">;
 }
-export function useDroppable<T>({ id, disabled, ignoreIds, group }: DroppableProps): Droppable<T> {
+export function useDroppable<T>({ id, disabled, ignoreIds, allowAnyGroup, group }: DroppableProps): Droppable<T> {
     if (disabled)
         return { isOver: false, draggableOver: null, attributes: {}, };
 
@@ -36,10 +37,10 @@ export function useDroppable<T>({ id, disabled, ignoreIds, group }: DroppablePro
             setOver(null);
 
             const [draggableId, draggableGroup] = ev.dataTransfer.getData("text/plain").split("\n");
-            if (ignoreIds?.includes(draggableId) || (group && draggableGroup !== group))
+            if (ignoreIds?.includes(draggableId) || !allowAnyGroup && (group && draggableGroup !== group))
                 return;
 
-            return draggingContext.onDropped(draggableId, id, group);
+            return draggingContext.onDropped(draggableId, id, group, draggableGroup);
         },
     }), [id]);
     return {

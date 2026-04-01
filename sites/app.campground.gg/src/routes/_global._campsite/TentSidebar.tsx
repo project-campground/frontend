@@ -8,10 +8,10 @@ import type { GetTentsOutput, TentCategoryView, TentViewBasic } from "types/tent
 import FadingBanner from "~/components/pages/FadingBanner";
 import GradientBanner from "~/components/pages/GradientBanner";
 import type { Session } from "~/context/session/types";
-import TentList, { TentStyledList } from "./TentList";
-import BonfireListMenu from "./BonfireListMenu";
-import { TentItemSkeleton } from "./TentItem";
-import { TentCategorySkeleton } from "./TentCategory";
+import TentSidebarList from "./TentSidebarList";
+import BonfireListMenu from "../../layout/sidebar/BonfireListMenu";
+import { TentItemSkeleton } from "../../components/tents/TentItem";
+import { TentCategorySkeleton } from "../../components/tents/TentCategory";
 import CampsiteSettingsModal from "~/layout/campsite/CampsiteSettingsModal";
 import BonfireSettingsModal from "~/layout/bonfire/BonfireSettingsModal";
 import { type NavigateFunction } from "react-router";
@@ -21,6 +21,8 @@ import InviteCreationModal from "../../layout/InviteCreationModal";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
+import TentList from "~/components/tents/TentList";
+import tentSidebarEventHandlers from "./sidebar-events";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -91,7 +93,7 @@ const anyManageCampsitePermission = GeneralPermissionConsts.MANAGE_CAMPSITE | Ge
 
 export default class TentSidebar extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
-    bonfiresToTents: Record<string, GetTentsOutput> = {};
+    public bonfiresToTents: Record<string, GetTentsOutput> = {};
     private _lock: boolean = false;
     private _initLock: boolean = false;
     private _wsSubscription: WSSubscription | null = null;
@@ -111,10 +113,10 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     setMenu(value: MenuOption | null) {
         this.setState({ menuOpen: value });
     }
-    get bonfireSelected(): BonfireViewBasic {
+    public get bonfireSelected(): BonfireViewBasic {
         return this.props.bonfireSelected ? this.props.campsite.bonfires.find((x) => x.id === this.props.bonfireSelected) ?? this.defaultBonfire : this.defaultBonfire;
     }
-    get defaultBonfire(): BonfireViewBasic {
+    public get defaultBonfire(): BonfireViewBasic {
         return this.props.campsite.bonfires.sort((a, b) => a.position - b.position)[0]!;
     }
     componentDidMount(): void {
@@ -132,60 +134,13 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             );
     }
     onWsEvent<T extends keyof TypeToPayload>(eventType: T, payload: TypeToPayload[T]) {
-        const bonfireToTents = this.bonfiresToTents[(payload as any).bonfireId];
-        if (!bonfireToTents)
+        const eventHandler = tentSidebarEventHandlers[eventType];
+
+        if (!eventHandler)
             return;
 
-        switch (eventType) {
-            case "BonfireDeleted":
-                this.bonfires = this.bonfires.filter((x) => x.id !== this.state.bonfireSelected.id);
+        eventHandler(payload, this.bonfiresToTents, this);
 
-                delete this.bonfiresToTents[(payload as BonfireViewBasic).id];
-
-                if (this.bonfireSelected.id !== (payload as BonfireViewBasic).id)
-                    return;
-
-                const cached = Object.keys(this.bonfiresToTents);
-
-                this.props.navigate(`/c/${this.props.campsite.id}/t/${cached.length ? this.bonfiresToTents[cached[0]].tents[0].id : `bulletin`}`);
-                break;
-            case "TentCreated":
-                bonfireToTents.tents.push(payload as TentViewBasic);
-                break;
-            //@ts-ignore
-            case "TentMoved":
-                const tent = payload as TentViewBasic;
-                // Move other tents
-                const otherTentsInCategory = bonfireToTents.tents.filter((x) => x.categoryId === tent.categoryId);
-
-                if (otherTentsInCategory.some((x) => x.id !== tent.id && x.position === tent.position)) {
-                    for (const tentToMove of otherTentsInCategory.filter((x) => x.id !== tent.id && x.position >= tent.position))
-                        tentToMove.position++;
-                }
-            case "TentUpdated":
-                const tentModified = bonfireToTents.tents.findIndex((x) => x.id === (payload as TentViewBasic).id);
-                Object.assign(bonfireToTents.tents[tentModified], payload);
-                break;
-            case "TentDeleted":
-                const tentDeleted = bonfireToTents.tents.findIndex((x) => x.id === (payload as TentViewBasic).id);
-                bonfireToTents.tents.splice(tentDeleted, 1);
-                break;
-            case "CategoryCreated":
-                bonfireToTents.categories.push(payload as TentCategoryView);
-                break;
-            case "CategoryMoved":
-            case "CategoryUpdated":
-                const categoryModified = bonfireToTents.categories.findIndex((x) => x.id === (payload as TentCategoryView).id);
-                bonfireToTents.categories[categoryModified] = payload as TentCategoryView;
-                break;
-            case "CategoryDeleted":
-                const categoryDeleted = bonfireToTents.categories.findIndex((x) => x.id === (payload as TentCategoryView).id);
-                bonfireToTents.categories.splice(categoryDeleted, 1);
-                console.log("Category deleted", categoryDeleted);
-                break;
-            default:
-                return;
-        }
         this.setState({});
     }
     componentWillUnmount(): void {
@@ -229,7 +184,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             
     }
     get topBonfire() {
-        return this.bonfires.sort((a, b) => a.priority - b.priority)[0];
+        return this.bonfires.sort((a, b) => a.position - b.position)[0];
     }
     get bonfires() {
         return this.props.campsite.bonfires;
@@ -277,7 +232,8 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         return (
             <TentSidebarBox>
-                <TentSidebarBannerWrapper >
+                {/* On drag enter opens the menu, so tents and categories could be dragged into them */}
+                <TentSidebarBannerWrapper onDragEnter={() => this.setMenu("bonfire-list")}>
                     <FadingBanner sx={{ opacity: 0.25 }}>
                         {bonfireSelected.bannerUri
                             ? <Image src={bonfireSelected.bannerUri} />
@@ -371,7 +327,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 <Box flex={1} sx={{ py: 2, px: 1 }}>
                     {loading || !tents
                     ? <TentListSkeleton />
-                    : <TentList
+                    : <TentSidebarList
                         campsiteId={campsite.id}
                         bonfireId={bonfireSelected.id}
                         tentSelected={tentSelected}
@@ -427,31 +383,31 @@ export function TentSidebarSkeleton() {
 function TentListSkeleton() {
     return (
         <>
-            <TentStyledList>
+            <TentList>
                 <TentItemSkeleton />
-            </TentStyledList>
+            </TentList>
             <Divider />
-            <TentStyledList>
+            <TentList>
                 <TentItemSkeleton />
                 <TentItemSkeleton />
                 <TentItemSkeleton />
                 <TentItemSkeleton />
-            </TentStyledList>
+            </TentList>
             <TentCategorySkeleton>
-                <TentStyledList>
+                <TentList>
                     <TentItemSkeleton />
                     <TentItemSkeleton />
                     <TentItemSkeleton />
                     <TentItemSkeleton />
-                </TentStyledList>
+                </TentList>
             </TentCategorySkeleton>
             <TentCategorySkeleton>
-                <TentStyledList>
+                <TentList>
                     <TentItemSkeleton />
                     <TentItemSkeleton />
                     <TentItemSkeleton />
                     <TentItemSkeleton />
-                </TentStyledList>
+                </TentList>
             </TentCategorySkeleton>
         </>
     );

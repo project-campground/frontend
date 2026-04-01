@@ -7,7 +7,7 @@ import ContentDeleteModal from "../../layout/ContentDeleteModal";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
 import { useContext, useState } from "react";
-import TentItem from "../_global._campsite/TentItem";
+import TentItem from "../../components/tents/TentItem";
 import { SnackbarContext } from "~/context/snackbar";
 
 export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: { sidebarOpen: boolean; sidebarToggle: (value: boolean) => unknown; tent: TentViewDetailed }) {

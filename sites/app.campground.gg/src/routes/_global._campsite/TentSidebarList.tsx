@@ -1,11 +1,10 @@
-import { Alert, Button, Divider, List, Modal, Stack, styled, Typography } from "@mui/joy";
+import { Alert, Button, Divider, Modal, Stack, Typography } from "@mui/joy";
 import { IconInfoCircleFilled, IconTent } from "@tabler/icons-react";
 import React from "react";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/tent";
 import type { Session } from "~/context/session/types";
-import TentCreationModal from "./TentCreationModal";
-import TentItem from "./TentItem";
-import TentCategory from "./TentCategory";
+import TentCreationModal from "../../layout/sidebar/TentCreationModal";
+import TentCategory from "../../components/tents/TentCategory";
 import type { NavigateFunction } from "react-router";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
 import TentSettingsModal from "~/layout/tent/TentSettingsModal";
@@ -15,6 +14,8 @@ import CategorySettingsModal from "~/layout/category/CategorySettingsModal";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { DragDropProvider } from "~/draggable";
 import TentBottomMover from "./TentBottomMover";
+import TentList from "~/components/tents/TentList";
+import TentItem from "~/components/tents/TentItem";
 
 type Props = {
     campsiteId: string;
@@ -32,26 +33,19 @@ type State = {
     sortedCategories: TentCategoryView[];
     settingsOpen: { category?: TentCategoryView; tent?: TentViewBasic, page?: TentSettingsPage | CategorySettingsPage; } | null;
 };
-export const TentStyledList = styled(List, {
-    name: "TentList",
-    slot: "root",
-})(({ theme }) => ({
-    "--ListItemDecorator-size": "32px",
-    gap: theme.spacing(0.5),
-}));
 
-function TentCategorizedList({ categoryId, addBottomMover, tents, tentSelected, onSettingsOpen: onTentSettingsOpen }: { categoryId: string, addBottomMover?: boolean; tents: TentViewBasic[], tentSelected?: string | null; onSettingsOpen: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown; }) {
+export function TentCategorizedList({ categoryId, addBottomMover, tents, tentSelected, onSettingsOpen: onTentSettingsOpen }: { categoryId: string, addBottomMover?: boolean; tents: TentViewBasic[], tentSelected?: string | null; onSettingsOpen: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown; }) {
     return (
-        <TentStyledList sx={{ "--List-padding": 0 }}>
+        <TentList sx={{ "--List-padding": 0 }}>
             {tents.map((x) =>
                 <TentItem key={x.id} tent={x} isActive={x.id === tentSelected} onSettingsOpen={onTentSettingsOpen} />
             )}
             {addBottomMover && <TentBottomMover categoryId={categoryId} bottomTentId={tents.slice(-1)[0]?.id} />}
-        </TentStyledList>
+        </TentList>
     )
 }
 
-export default class TentList extends React.Component<Props, State, Session> {
+export default class TentSidebarList extends React.Component<Props, State, Session> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
 
     constructor(props: Props, context: CampsiteContextSuite) {
@@ -139,6 +133,7 @@ export default class TentList extends React.Component<Props, State, Session> {
             <>
                 <DragDropProvider onDropped={(movedId, droppedOnId, group) => group === "tent" ? this.moveTent(movedId, droppedOnId) : this.moveCategory(movedId, droppedOnId)}>
                     <Stack gap={2}>
+                        {/* Pseudo-tents like bulletin board */}
                         <TentCategorizedList
                             categoryId=""
                             onSettingsOpen={this._setSettingsOpenBind}
@@ -161,6 +156,7 @@ export default class TentList extends React.Component<Props, State, Session> {
                             ].filter((x) => x.canView) as unknown[] as TentViewBasic[]}
                         />
                         <Divider />
+                        {/* Actual tents */}
                         <Stack>
                             <TentCategorizedList
                                 addBottomMover

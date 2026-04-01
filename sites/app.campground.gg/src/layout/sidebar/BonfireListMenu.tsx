@@ -1,8 +1,13 @@
-import { Avatar, ListItemContent, ListItemDecorator, Menu, MenuItem, Modal, Stack, styled, Typography } from "@mui/joy";
+import { ListItemContent, ListItemDecorator, Menu, MenuItem, Modal, styled, Typography } from "@mui/joy";
 import { IconPlus } from "@tabler/icons-react";
 import type { BonfireViewBasic } from "types/campsites";
 import BonfireCreationModal from "./BonfireCreationModal";
 import { useState } from "react";
+import BonfireItem from "./BonfireItem";
+import { DragDropProvider } from "~/draggable";
+import { useSession } from "~/context/session";
+import { handleAnyRestErrorWith } from "~/util/rest";
+import { useSnackbars } from "~/context/snackbar";
 
 type Props = {
     campsiteId: string;
@@ -21,33 +26,35 @@ const BonfireMenu = styled(Menu)(({ theme }) => ({
     left: `5px !important`
 }));
 
+const bonfireDescended = ["tent", "category"]
+
 export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBonfireOpen }: Props) {
     const [createModalOpen, setCreateModalOpen] = useState(false);
-    const lowestPriorityBonfire = bonfires.sort((a, b) => a.priority - b.priority).slice(-1)[0]?.priority ?? -1;
+    const lowestPriorityBonfire = bonfires.sort((a, b) => a.position - b.position).slice(-1)[0]?.position ?? -1;
     const onClose = () => setCreateModalOpen(false);
+    const session = useSession();
+    const floating = useSnackbars();
+
+    const onDropped = (draggedId: string, droppedId: string, _group?: string, draggableGroup?: string) => {
+        if (bonfireDescended.includes(draggableGroup as "tent" | "category"))
+            return session
+                .http
+                [draggableGroup === "tent" ? "tents" : "categories"]
+                .move(draggedId, {
+                    bonfireId: droppedId,
+                    categoryId: null,
+                })
+                .then(handleAnyRestErrorWith(floating));
+    };
 
     return (
         <>
             <BonfireMenu variant="soft" open={open} sx={{ top: `${top}px !important`, }}>
-                {bonfires.map((bonfire) =>
-                    <MenuItem key={bonfire.id} onClick={() => onBonfireOpen(bonfire)}>
-                        <ListItemDecorator sx={{ mr: 0.5 }}>
-                            <Avatar src={bonfire.avatarUri ?? undefined} size="md" color="primary" variant="solid" sx={{ borderRadius: "md", fontWeight: "bolder" }}>
-                                {bonfire.name[0]}
-                            </Avatar>
-                        </ListItemDecorator>
-                        <ListItemContent>
-                            <Stack>
-                                <Typography level="title-md" fontWeight="bolder" sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                    {bonfire.name}
-                                </Typography>
-                                <Typography level="body-md" sx={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                    {bonfire.description}
-                                </Typography>
-                            </Stack>
-                        </ListItemContent>
-                    </MenuItem>
-                )}
+                <DragDropProvider onDropped={onDropped}>
+                    {bonfires.map((bonfire) =>
+                        <BonfireItem bonfire={bonfire} onBonfireOpen={onBonfireOpen} />
+                    )}
+                </DragDropProvider>
                 <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[700]}` })} onClick={() => setCreateModalOpen(true)}>
                     <ListItemDecorator>
                         <IconPlus />

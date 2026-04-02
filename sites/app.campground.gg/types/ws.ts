@@ -28,6 +28,7 @@ export type TypeToPayload = {
 
     BonfireCreated: BonfireViewBasic;
     BonfireUpdated: BonfireViewBasic;
+    BonfireMoved: BonfireViewBasic;
     BonfireDeleted: BonfireViewBasic;
     
     CategoryCreated: TentCategoryView;

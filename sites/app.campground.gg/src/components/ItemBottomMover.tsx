@@ -1,10 +1,8 @@
 import { Box, styled } from "@mui/joy";
-import { GeneralPermissionConsts } from "~/util/permissions";
-import { useCampsiteContext } from "./context";
 import { useDroppable } from "~/draggable";
 
-const TentBottomMoverBox = styled(Box, {
-    name: "TentBottomMoverBox",
+const ItemBottomMoverBox = styled(Box, {
+    name: "ItemBottomMoverBox",
     slot: "root",
 })(({ theme }) => ({
     height: 12,
@@ -21,22 +19,21 @@ const TentBottomMoverBox = styled(Box, {
         backgroundColor: "transparent",
         transition: "background 0.3s",
     },
-    "&.TentBottomMover-over::before": {
+    "&.ItemBottomMover-over::before": {
         backgroundColor: theme.vars.palette.primary[500],
     },
 }));
 
-export default function TentBottomMover({ group, categoryId, bottomTentId }: { group?: "tent" | "category"; categoryId: string; bottomTentId?: string | undefined; }) {
-    const { permissions } = useCampsiteContext();
+export default function ItemBottomMover({ disabled, group, categoryId, bottomItemId }: { disabled?: boolean; group?: "bonfire" | "tent" | "category"; categoryId: string; bottomItemId?: string | undefined; }) {
     const { attributes: droppableAttributes, isOver } = useDroppable({
         id: `b:${categoryId}`,
-        disabled: (permissions.bonfire.general & GeneralPermissionConsts.MANAGE_TENTS) !== GeneralPermissionConsts.MANAGE_TENTS,
-        ignoreIds: bottomTentId ? [`t:${bottomTentId}`] : undefined,
+        disabled,
+        ignoreIds: bottomItemId ? [bottomItemId] : undefined,
         group: group ?? "tent",
     });
 
     return (
-        <TentBottomMoverBox
+        <ItemBottomMoverBox
             {...droppableAttributes}
             className={isOver ? "TentBottomMover-over" : ""}
         />

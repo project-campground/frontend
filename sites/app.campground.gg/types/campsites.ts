@@ -86,14 +86,15 @@ export interface BonfireView {
     avatarUri: string | null | undefined;
     bannerUri: string | null | undefined;
     position: number;
-    createdBy: string;
-    createdAt: string;
-    updatedBy: string;
-    updatedAt: string;
+    home: boolean;
 }
 export interface BonfireViewBasic extends BonfireView {
 }
 export interface BonfireViewDetailed extends BonfireView {
+    createdBy: string;
+    createdAt: string;
+    updatedBy: string;
+    updatedAt: string;
     categories: TentCategoryView[];
     tents: TentViewBasic[];
 }

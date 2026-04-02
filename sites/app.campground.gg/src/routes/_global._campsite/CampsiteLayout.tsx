@@ -13,6 +13,7 @@ import { PermissionsContext } from "~/context/permissions";
 import type { WSSubscription } from "api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import PermissionsManager from "~/context/permissions/PermissionsManager";
+import { makeRoomForItems } from "./sidebar-events";
 
 type Props = {
     campsiteId: string;
@@ -57,12 +58,18 @@ export default class CampsiteLayout extends React.Component<Props, State> {
                 if (!resp.ok)
                     return this.setState({ err: resp });
                 this.sortCampsiteRoles(resp.content);
+                this.sortCampsiteBonfires(resp.content);
                 this._permissionsManager = new PermissionsManager(resp.content);
                 return this.setState({ err: null, campsite: resp.content, init: true, loading: false });
             });
     }
     sortCampsiteRoles(campsite: Pick<CampsiteViewDetailed, "roles">) {
         return campsite.roles.sort((a, b) => (a.flags & 1) == (b.flags & 1) ? (a.position - b.position) : a.flags);
+    }
+    sortCampsiteBonfires(campsite: Pick<CampsiteViewDetailed, "bonfires">) { 
+        return campsite
+            .bonfires
+            .sort((a, b) => a.position - b.position);
     }
     async componentDidMount(): Promise<void> {
         if (this._init)
@@ -113,6 +120,9 @@ export default class CampsiteLayout extends React.Component<Props, State> {
             case "BonfireCreated":
                 this.setState({ campsite: Object.assign(this.state.campsite!, { bonfires: [...this.state.campsite!.bonfires, bonfire] }) });
                 return;
+            // @ts-ignore
+            case "BonfireMoved":
+                makeRoomForItems(bonfire, this.state.campsite!.bonfires.filter((x) => x.id !== bonfire.id));
             case "BonfireUpdated":
                 const modifiedBonfire = this.state.campsite!.bonfires.findIndex((x) => x.id === bonfire.id);
                 if (modifiedBonfire < 0)

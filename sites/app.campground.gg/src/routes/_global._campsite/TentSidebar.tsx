@@ -4,7 +4,7 @@ import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import React from "react";
 import type { BonfireViewBasic, CampsiteViewDetailed } from "types/campsites";
-import type { GetTentsOutput, TentCategoryView, TentViewBasic } from "types/tent";
+import type { GetTentsOutput } from "types/tent";
 import FadingBanner from "~/components/pages/FadingBanner";
 import GradientBanner from "~/components/pages/GradientBanner";
 import type { Session } from "~/context/session/types";
@@ -117,7 +117,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         return this.props.bonfireSelected ? this.props.campsite.bonfires.find((x) => x.id === this.props.bonfireSelected) ?? this.defaultBonfire : this.defaultBonfire;
     }
     public get defaultBonfire(): BonfireViewBasic {
-        return this.props.campsite.bonfires.sort((a, b) => a.position - b.position)[0]!;
+        return this.props.campsite.bonfires.find((x) => x.home)!;
     }
     componentDidMount(): void {
         if (this._initLock)

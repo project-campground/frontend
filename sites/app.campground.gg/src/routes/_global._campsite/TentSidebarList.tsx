@@ -13,7 +13,7 @@ import type { CategorySettingsPage } from "~/layout/category/CategorySettingsMod
 import CategorySettingsModal from "~/layout/category/CategorySettingsModal";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { DragDropProvider } from "~/draggable";
-import TentBottomMover from "./TentBottomMover";
+import ItemBottomMover from "../../components/ItemBottomMover";
 import TentList from "~/components/tents/TentList";
 import TentItem from "~/components/tents/TentItem";
 
@@ -40,7 +40,7 @@ export function TentCategorizedList({ categoryId, addBottomMover, tents, tentSel
             {tents.map((x) =>
                 <TentItem key={x.id} tent={x} isActive={x.id === tentSelected} onSettingsOpen={onTentSettingsOpen} />
             )}
-            {addBottomMover && <TentBottomMover categoryId={categoryId} bottomTentId={tents.slice(-1)[0]?.id} />}
+            {addBottomMover && <ItemBottomMover categoryId={categoryId} bottomItemId={`t:${tents.slice(-1)[0]?.id}`} />}
         </TentList>
     )
 }
@@ -176,10 +176,10 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
                                     />
                                 </TentCategory>
                             )}
-                            {!!this.state.sortedCategories.length && <TentBottomMover
+                            {!!this.state.sortedCategories.length && <ItemBottomMover
                                 group="category"
                                 categoryId=""
-                                bottomTentId={this.state.sortedCategories.slice(-1)[0].id}
+                                bottomItemId={`t:${this.state.sortedCategories.slice(-1)[0].id}`}
                             />}
                             <Stack gap={1}>
                                 {(tentsCategorized.length + tentsUncategorized.length)

@@ -17,10 +17,18 @@ export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
         });
     }
 
-    public update(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; position?: number; avatarUri?: string; bannerUri?: string; }) {
+    public update(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; avatarUri?: string; bannerUri?: string; }) {
         return this.client.post<BonfireViewBasic>({
             route: "gg.campground.campsite.updateBonfire",
             queries: { campsite_id, bonfire_id },
+            body,
+        });
+    }
+
+    public move(bonfire_id: string, body: { position?: number; }) {
+        return this.client.post<BonfireViewBasic>({
+            route: "gg.campground.campsite.moveBonfire",
+            queries: { bonfire_id },
             body,
         });
     }

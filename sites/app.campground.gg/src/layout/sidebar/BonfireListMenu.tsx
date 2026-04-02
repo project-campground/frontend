@@ -1,4 +1,4 @@
-import { ListItemContent, ListItemDecorator, Menu, MenuItem, Modal, styled, Typography } from "@mui/joy";
+import { ListItemContent, ListItemDecorator, Menu, MenuItem, Modal, styled, Typography, Divider } from "@mui/joy";
 import { IconPlus } from "@tabler/icons-react";
 import type { BonfireViewBasic } from "types/campsites";
 import BonfireCreationModal from "./BonfireCreationModal";
@@ -8,6 +8,7 @@ import { DragDropProvider } from "~/draggable";
 import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
+import ItemBottomMover from "~/components/ItemBottomMover";
 
 type Props = {
     campsiteId: string;
@@ -34,8 +35,10 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
     const onClose = () => setCreateModalOpen(false);
     const session = useSession();
     const floating = useSnackbars();
+    const regularBonfires = bonfires.filter((x) => !x.home);
 
     const onDropped = (draggedId: string, droppedId: string, _group?: string, draggableGroup?: string) => {
+        console.log({ draggedId, droppedId, draggableGroup });
         if (bonfireDescended.includes(draggableGroup as "tent" | "category"))
             return session
                 .http
@@ -45,15 +48,31 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                     categoryId: null,
                 })
                 .then(handleAnyRestErrorWith(floating));
+        const bonfireMovedToPosition = droppedId === "b:" ? (regularBonfires.slice(-1)[0]?.position ?? -1) + 1 : bonfires.find((x) => x.id === droppedId)?.position;
+
+        return typeof bonfireMovedToPosition !== "undefined" && (
+            session
+                .http
+                .bonfires
+                .move(draggedId, {
+                    position: bonfireMovedToPosition
+                })
+                .then(handleAnyRestErrorWith(floating))
+        );
     };
 
     return (
         <>
             <BonfireMenu variant="soft" open={open} sx={{ top: `${top}px !important`, }}>
                 <DragDropProvider onDropped={onDropped}>
-                    {bonfires.map((bonfire) =>
+                    {bonfires.filter((x) => x.home).map((bonfire) =>
                         <BonfireItem bonfire={bonfire} onBonfireOpen={onBonfireOpen} />
                     )}
+                    <Divider sx={{ mt: "var(--List-gap)" }} />
+                    {regularBonfires.map((bonfire) =>
+                        <BonfireItem bonfire={bonfire} onBonfireOpen={onBonfireOpen} />
+                    )}
+                    <ItemBottomMover categoryId="" group="bonfire" bottomItemId={regularBonfires.slice(-1)[0]?.id} />
                 </DragDropProvider>
                 <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[700]}` })} onClick={() => setCreateModalOpen(true)}>
                     <ListItemDecorator>

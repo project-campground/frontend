@@ -119,7 +119,7 @@ const tentSidebarEventHandlers: Partial<{ [K in keyof TypeToPayload]: (payload: 
 
 export default tentSidebarEventHandlers;
 
-function makeRoomForItems<T extends { id: string; position: number; }>(payload: T, others: Array<T>) {
+export function makeRoomForItems<T extends { id: string; position: number; }>(payload: T, others: Array<T>) {
     if (others?.some((x) => x.id !== payload.id && x.position === payload.position)) {
         for (const item of others.filter((x) => x.position >= payload.position))
             item.position++;

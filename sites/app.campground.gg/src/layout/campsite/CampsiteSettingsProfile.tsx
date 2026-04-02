@@ -4,7 +4,7 @@ import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteViewDetailed } from "types/campsites";
 import { useMemo } from "react";
 
-export default function CampsiteSettingsProfile({ onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
+export default function CampsiteSettingsProfile({ setResetHandler, onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const defaultValues = useMemo(() => ({
         bannerUri: campsite.bannerUri ?? undefined,
         avatarUri: campsite.avatarUri ?? undefined,
@@ -19,6 +19,7 @@ export default function CampsiteSettingsProfile({ onValuesChanged, settingsProps
     return (
         <Box sx={{ width: 500 }}>
             <Form
+                ref={(form) => (form && setResetHandler(form.resetValues.bind(form)), undefined)}
                 sections={[
                     {
                         id: "banner",

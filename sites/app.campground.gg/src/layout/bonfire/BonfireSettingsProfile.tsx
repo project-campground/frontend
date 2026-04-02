@@ -4,7 +4,7 @@ import type { SettingsComponentProps } from "../SettingsModal";
 import type { BonfireViewBasic } from "types/campsites";
 import { useMemo } from "react";
 
-export default function BonfireSettingsProfile({ onValuesChanged, settingsProps: { bonfire } }: SettingsComponentProps<{ bonfire: BonfireViewBasic }>) {
+export default function BonfireSettingsProfile({ setResetHandler, onValuesChanged, settingsProps: { bonfire } }: SettingsComponentProps<{ bonfire: BonfireViewBasic }>) {
     const defaultValues = useMemo(() => ({
         name: bonfire.name,
         description: bonfire.description,
@@ -17,6 +17,7 @@ export default function BonfireSettingsProfile({ onValuesChanged, settingsProps:
         <>
             <Box sx={{ maxWidth: 500 }}>
                 <Form
+                    ref={(form) => setResetHandler(() => form?.resetValues.bind(form))}
                     sections={[
                         {
                             id: "banner",

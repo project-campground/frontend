@@ -4,7 +4,7 @@ import type { SettingsComponentProps } from "../SettingsModal";
 import { useMemo } from "react";
 import type { CategorySettingsProps } from "./CategorySettingsModal";
 
-export default function CategorySettingsProfile({ onValuesChanged, settingsProps: { category } }: SettingsComponentProps<CategorySettingsProps>) {
+export default function CategorySettingsProfile({ setResetHandler, onValuesChanged, settingsProps: { category } }: SettingsComponentProps<CategorySettingsProps>) {
     const defaultValues = useMemo(() => ({
         name: category.name,
         description: category.description,
@@ -15,6 +15,7 @@ export default function CategorySettingsProfile({ onValuesChanged, settingsProps
         <>
             <Box sx={{ maxWidth: 500 }}>
                 <Form
+                    ref={(form) => setResetHandler(() => form?.resetValues.bind(form))}
                     sections={[
                         {
                             id: "basic",

@@ -1,5 +1,5 @@
 import { Stack, styled, Typography } from "@mui/joy";
-import { type AnyFormFieldProps, fieldTypeToComponent, type FieldTypeToInstance, type FormFieldType, type FormSectionProps } from "./forms";
+import { type AbstractAnyFormField, type AnyFormFieldProps, fieldTypeToComponent, type FieldTypeToInstance, type FormFieldType, type FormSectionProps } from "./forms";
 import FormFieldWrapper from "./FormFieldWrapper";
 import Form from "./Form";
 
@@ -8,6 +8,7 @@ type Props = {
     fieldBinding: Form;
     disabled?: boolean;
     fieldValues: Record<string, any>;
+    addFieldRef: (field: AbstractAnyFormField) => void;
     onFieldChange: (props: AnyFormFieldProps, field: FieldTypeToInstance[FormFieldType], value: any) => Promise<void> | void;
 }
 
@@ -39,7 +40,7 @@ const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
     },
 }));
 
-export default function FormSection({ onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, startDecorator, endDecorator, hide, header, fields, layout, alignItems, gap } }: Props) {
+export default function FormSection({ addFieldRef, onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, startDecorator, endDecorator, hide, header, fields, layout, alignItems, gap } }: Props) {
     return (
         <FormSectionStack gap={2} className={`FormSection container${disabled ? " disabled" : ""}${layout ? ` ${layout}` : ""}${hide ? " hide" : ""}`}>
             {header && <Typography className="FormSection header" level="title-lg" fontWeight={700} startDecorator={startDecorator} endDecorator={endDecorator}>{header}</Typography>}
@@ -48,6 +49,7 @@ export default function FormSection({ onFieldChange, fieldBinding, fieldValues, 
                 {fields.map((field) =>
                     <FormFieldWrapper
                         key={field.id}
+                        addFieldRef={addFieldRef}
                         FieldComponent={fieldTypeToComponent[field.type]}
                         onChange={onFieldChange.bind(fieldBinding,  field)}
                         binding={fieldBinding}

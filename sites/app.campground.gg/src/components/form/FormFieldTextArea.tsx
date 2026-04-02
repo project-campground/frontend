@@ -44,14 +44,13 @@ export default class FormFieldTextArea extends AbstractFormField<"textarea", str
     }
 
     public override render(): ReactNode {
-        const { startDecorator, endDecorator, defaultValue, placeholder } = this.props;
+        const { startDecorator, endDecorator, placeholder } = this.props;
         const { isFormatValid, state: { value } } = this;
 
         return (
             <Textarea
                 minRows={2}
                 placeholder={placeholder}
-                defaultValue={defaultValue}
                 value={value}
                 startDecorator={startDecorator}
                 endDecorator={endDecorator}

@@ -1,5 +1,5 @@
 import React, { ReactNode, type MouseEvent } from "react";
-import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance, FormFieldType } from "./forms";
+import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance, FormFieldType, AbstractAnyFormField } from "./forms";
 import { Button, Stack, styled, Typography, type ColorPaletteProp } from "@mui/joy";
 
 import { FormattedMessage } from "react-intl";
@@ -7,19 +7,23 @@ import FormSection from "./FormSection";
 import { Group } from "components";
 
 export type FormProps = {
-    header?: ReactNode | ReactNode[];
-    description?: ReactNode | ReactNode[];
     sections: FormSectionProps[];
     gap?: number;
-    submitText?: string;
-    submitColor?: ColorPaletteProp;
-    cancelText?: string;
+
+    header?: ReactNode | ReactNode[];
+    description?: ReactNode | ReactNode[];
     children?: ReactNode[] | ReactNode;
-    onSubmit?: (ev: MouseEvent<HTMLAnchorElement>, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
+
     onChange?: (isValid: boolean, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
-    onCancel?: (ev: MouseEvent<HTMLAnchorElement>) => unknown;
     ReactiveComponent?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
     inlineReactiveComponent?: boolean;
+    
+    submitText?: string;
+    cancelText?: string;
+    submitColor?: ColorPaletteProp;
+    onSubmit?: (ev: MouseEvent<HTMLAnchorElement>, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
+    onCancel?: (ev: MouseEvent<HTMLAnchorElement>) => unknown;
+
 };
 type FormState = {
     fieldValues: Record<string, any>;
@@ -67,6 +71,8 @@ const FormContent = styled(Stack, {
 }));
 
 export default class Form extends React.Component<FormProps, FormState> {
+    private _fieldRefs: Record<string, AbstractAnyFormField> = {};
+
     constructor(props: FormProps) {
         super(props);
 
@@ -92,7 +98,18 @@ export default class Form extends React.Component<FormProps, FormState> {
         if (newEntries.every(([key, defaultValue]) => oldDefaults[key] === defaultValue))
             return;
 
+        this.resetValues();
+    }
+    
+    public resetValues() {
         this.setState(getFieldValuesAndRequirements(this.props));
+        for (const fieldKey in this._fieldRefs) {
+            this._fieldRefs[fieldKey].resetValue();
+        }
+    }
+
+    private addFieldRef(field: AbstractAnyFormField) {
+        this._fieldRefs[field.props.id] = field;
     }
 
     public onButtonSubmit(ev: MouseEvent<HTMLAnchorElement>) {
@@ -136,6 +153,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                     <Stack className="Form-sections" gap={gap ?? 4}>
                         {sections.map(section =>
                             <FormSection
+                                addFieldRef={this.addFieldRef.bind(this)}
                                 key={section.id}
                                 fieldBinding={this}
                                 section={section}

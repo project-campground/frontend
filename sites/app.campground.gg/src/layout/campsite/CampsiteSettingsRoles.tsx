@@ -18,7 +18,7 @@ import { DragDropProvider } from "~/draggable";
 type NewRole = CampsiteRoleView & { added: true; };
 type SettingsRole = CampsiteRoleView | NewRole;
 
-export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
+export default function CampsiteSettingsRoles({ setResetHandler, onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const { updateCampsite } = useContext(CampsiteContextSuiteContext);
     const roles = useMemo<SettingsRole[]>(() =>
         campsite.roles,
@@ -108,6 +108,9 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
                 setOpenRole(roles[roleIndex + 1]);
             });
     }
+    const resetValueHandlers: Array<() => void> = [null!, null!];
+    const resetValues = () => resetValueHandlers.forEach((x) => x?.());
+    setResetHandler(resetValues);
 
     return (
         <Group sx={{ width: "100%", height: "100%", }} gap={2}>
@@ -130,6 +133,7 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
                 </DragDropProvider>
             </Stack>
             <RolePage
+                addResetHandler={(index, resetValueHandler) => resetValueHandlers[index] = resetValueHandler}
                 role={openRole}
                 onChanged={onValuesChanged}
                 onRoleDelete={deleteRole}
@@ -139,10 +143,10 @@ export default function CampsiteSettingsRoles({ onValuesChanged, settingsProps: 
 }
 
 type FormValues = Pick<CampsiteRoleView, "id" | "name" | "colors" | "motion" | "mentionable" | "displaySeparately" | "permissions">;
-type RolePageProps = { onRoleDelete: (role: SettingsRole) => unknown; role: SettingsRole; onChanged: (valid: boolean, changed: boolean, values: FormValues) => unknown; };
-type RolePageTabProps = { value: FormValues, role: SettingsRole; onChanged: (valid: boolean, values: Partial<FormValues>) => unknown; };
+type RolePageProps = { addResetHandler: (index: number, resetValueHandler: () => void) => void; onRoleDelete: (role: SettingsRole) => unknown; role: SettingsRole; onChanged: (valid: boolean, changed: boolean, values: FormValues) => unknown; };
+type RolePageTabProps = { addResetHandler: (resetValueHandler: () => void) => void; value: FormValues, role: SettingsRole; onChanged: (valid: boolean, values: Partial<FormValues>) => unknown; };
 
-function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
+function RolePage({ addResetHandler, onRoleDelete, role, onChanged }: RolePageProps) {
     const { defaultValues, combinedValues }: { defaultValues: Omit<FormValues, "id">, combinedValues: FormValues } = useMemo(() => ({
         defaultValues: {
             name: role.name,
@@ -202,10 +206,10 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
                     ]}
                 />
                 <TabPanel value={0} sx={{ overflowY: "auto" }}>
-                    <RolePageDisplay role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 0)} />
+                    <RolePageDisplay addResetHandler={addResetHandler.bind(null, 0)} role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 0)} />
                 </TabPanel>
                 <TabPanel value={1} sx={{ overflowY: "auto" }}>
-                    <RolePagePermissions role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 1)} />
+                    <RolePagePermissions addResetHandler={addResetHandler.bind(null, 1)} role={role} value={combinedValues} onChanged={onTabValuesChanged.bind(null, 1)} />
                 </TabPanel>
                 <TabPanel value={2} sx={{ overflowY: "auto" }}>
                     <RolePageManage role={role} onRoleDelete={onRoleDelete} />
@@ -215,7 +219,7 @@ function RolePage({ onRoleDelete, role, onChanged }: RolePageProps) {
     );
 }
 
-function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
+function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTabProps) {
     const fakeMessage = {
         id: "",
         campsiteId: "",
@@ -245,6 +249,7 @@ function RolePageDisplay({ role, value, onChanged }: RolePageTabProps) {
 
     return (
         <Form
+            ref={(form) => (form && addResetHandler(form.resetValues.bind(form)), undefined)}
             sections={[
                 {
                     id: "preview",
@@ -389,7 +394,7 @@ function RolePageManage({ role, onRoleDelete }: { role: SettingsRole; onRoleDele
     );
 }
 
-function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
+function RolePagePermissions({ addResetHandler, value, onChanged }: RolePageTabProps) {
     const onValuesChanged = (isValid: boolean, values: Record<string, number>) => {
         const entries = Object.entries(values);
         const tentPermissions = entries.filter(([key]) => key[0] === "t").reduce((all, [_, current]) => all | current, 0);
@@ -400,6 +405,7 @@ function RolePagePermissions({ value, onChanged }: RolePageTabProps) {
 
     return (
         <Form
+            ref={(form) => (form && addResetHandler(form.resetValues.bind(form)), undefined)}
             gap={6}
             sections={[
                 {

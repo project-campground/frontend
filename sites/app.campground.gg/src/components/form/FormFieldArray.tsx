@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
-import { fieldTypeToComponent, type FieldTypeToComponent, type FieldTypeToInstance, type FormFieldDecoratorProps, type FormFieldProps, type FormFieldType, type FormFieldTypeToProps } from "./forms";
+import { fieldTypeToComponent, type AbstractAnyFormField, type FieldTypeToComponent, type FieldTypeToInstance, type FormFieldDecoratorProps, type FormFieldProps, type FormFieldType, type FormFieldTypeToProps } from "./forms";
 import { Card, Stack, Button, IconButton, styled } from "@mui/joy";
 import { IconGripVertical, IconPlus, IconX } from "@tabler/icons-react";
 import FormFieldWrapper from "./FormFieldWrapper";
@@ -20,6 +20,8 @@ type State = {
 };
 
 export default class FormFieldArray extends AbstractFormField<"array", any[], FormFieldArrayProps, State> {
+    private _fieldRefs: AbstractAnyFormField[] = [];
+
     constructor(props: FormFieldArrayProps) {
         super(props, [], { valid: Array(props.defaultValue?.length ?? 0).fill(FormFieldArray.isDefaultValid(props.field)) });
     }
@@ -32,6 +34,13 @@ export default class FormFieldArray extends AbstractFormField<"array", any[], Fo
         return this.state.valid.slice(0, this.state.value.length).every((x) => x)
             && ((this.props.max && this.state.value.length <= this.props.max) || !this.props.max)
             && ((this.props.min && this.state.value.length >= this.props.min) || !this.props.min);
+    }
+
+    public override resetValue(): void {
+        for (const fieldRef of this._fieldRefs)
+            fieldRef.resetValue();
+
+        super.resetValue();
     }
 
     private onSubFieldChange(index: number, field: FieldTypeToInstance[FormFieldType], value: any) {
@@ -71,6 +80,7 @@ export default class FormFieldArray extends AbstractFormField<"array", any[], Fo
         const { state: { value } } = this;
         const FieldComponent = fieldTypeToComponent[field.type];
 
+        this._fieldRefs = [];
         return (
             <Stack gap={2}>
                 <Stack gap={1}>
@@ -85,6 +95,7 @@ export default class FormFieldArray extends AbstractFormField<"array", any[], Fo
                                 index={i}
                                 onSubFieldChange={this.onSubFieldChange.bind(this, i)}
                                 onRemove={this.onRemoveField.bind(this, i)}
+                                addFieldRef={(field) => this._fieldRefs[i] = field}
                             />
                         )}
                     </DragDropProvider>
@@ -113,7 +124,7 @@ const FormFieldArrayItemCard = styled(Card)(({ theme }) => ({
     }
 }))
 
-function FormFieldArrayItem({ onRemove, index, FieldComponent, field, defaultValue, onSubFieldChange }: { onRemove: () => unknown, index: number, onSubFieldChange: (field: FieldTypeToInstance[FormFieldType], value: any) => void, defaultValue: any, FieldComponent: FieldTypeToComponent[keyof FieldTypeToComponent], field: FormFieldArrayProps["field"] }) {
+function FormFieldArrayItem({ onRemove, index, FieldComponent, field, defaultValue, onSubFieldChange, addFieldRef }: { addFieldRef: (field: AbstractAnyFormField) => void, onRemove: () => unknown, index: number, onSubFieldChange: (field: FieldTypeToInstance[FormFieldType], value: any) => void, defaultValue: any, FieldComponent: FieldTypeToComponent[keyof FieldTypeToComponent], field: FormFieldArrayProps["field"] }) {
     const { attributes: draggableAttributes } = useDraggable({
         id: index.toString(),
     });
@@ -128,6 +139,7 @@ function FormFieldArrayItem({ onRemove, index, FieldComponent, field, defaultVal
                 <FormFieldWrapper
                     FieldComponent={FieldComponent}
                     props={{ ...field, defaultValue }}
+                    addFieldRef={addFieldRef}
                     onChange={onSubFieldChange}
                 />
                 <IconButton variant="plain" size="sm" onClick={onRemove}>

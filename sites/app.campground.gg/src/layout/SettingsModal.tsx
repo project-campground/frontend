@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
 import { Group } from "components";
-import React, { useState } from "react";
+import React from "react";
 import PageSidebar, { type PageSidebarSection } from "~/components/pages/PageSidebar";
 
 type Props<TPage extends string, TProps> = {
@@ -13,6 +13,7 @@ type Props<TPage extends string, TProps> = {
 };
 export type SettingsComponentProps<T> = {
     settingsProps: T;
+    setResetHandler: (onReset: () => unknown) => void;
     onValuesChanged: (isValid: boolean, notDefault: boolean, values: Record<string, any>) => unknown;
 };
 
@@ -73,60 +74,98 @@ export const SettingsSidebar = styled(Stack)(({ theme }) => ({
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
 }));
 
-export default function SettingsModal<TPage extends string, TProps>({ header, onSubmit, settingsProps, settingsPages, defaultPage, sections }: Props<TPage, TProps>) {
-    const [page, setPage] = useState(defaultPage);
-    const Component = settingsPages[page];
-    const [values, setValues] = useState({ values: {} as Record<string, any>, valid: false, changed: false, submitting: false });
-    const pageInfo = sections.flatMap((x) => x.items).find((x) => x.id === page);
+type State<TPage extends string> = {
+    page: TPage;
+    submitting: boolean;
+    changed: boolean;
+    valid: boolean;
+    values: Record<string, any>,
+};
 
-    return (
-        <ModalDialog layout="fullscreen" sx={{ padding: 0, bgcolor: "background.body" }}>
-            <ModalClose />
-            <Stack sx={{ width: "100%", height: "100%", overflow: "hidden", px: 0.5, py: 0.5 }}>
-                {/* <Group sx={{ px: 3, py: 1 }} gap={1}>
-                    <Breadcrumbs>
-                        <Typography level="title-lg">{pageInfo?.name ?? page}</Typography>
-                        </Breadcrumbs>
-                </Group> */}
-                <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} flex={1} gap={0.5}>
-                    <SettingsSidebar>
-                        <Typography level="title-lg" sx={{ mx: 1 }}>{header}</Typography>
-                        <Box flex={1} sx={{ overflowY: "auto", px: 1, }}>
-                            <PageSidebar
-                                defaultActive={defaultPage}
-                                onClick={(item) => setPage(item as TPage)}
-                                sections={sections}
-                            />
-                        </Box>
-                        <SubmitBox className={values.changed ? "visible" : ""}>
-                            <Typography>You have unsaved changes</Typography>
-                            <Group gap={2}>
-                                <Button variant="plain" color="neutral">
-                                    Cancel
-                                </Button>
-                                <Button variant="glow" color="success" disabled={!values.valid} onClick={() => {
-                                    setValues({ ...values, submitting: true })
-                                    return onSubmit(page, values.values)
-                                        .then(() => {
-                                            setValues({ ...values, valid: false, changed: false, submitting: false })
-                                        })
-                                }}>{values.submitting ? <CircularProgress color="neutral" /> : "Save changes"}</Button>
-                            </Group>
-                        </SubmitBox>
-                    </SettingsSidebar>
-                    <Box flex={1}>
-                        <SettingsPage>
-                            <Box sx={{ px: 3, py: 2, }}>
-                                <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
+export default class SettingsModal<TPage extends string, TProps> extends React.Component<Props<TPage, TProps>, State<TPage>> {
+    private _resetHandler: null | (() => unknown) = null;
+
+    constructor(props: Props<TPage, TProps>) {
+        super(props);
+
+        this.state = {
+            page: props.defaultPage,
+            values: {},
+            valid: false,
+            changed: false,
+            submitting: false,
+        };
+    }
+
+    get Component() {
+        return this.props.settingsPages[this.state.page];
+    }
+    get currentPageInfo() {
+        return this.props.sections.flatMap((x) => x.items).find((x) => x.id === this.state.page);
+    }
+    resetValues() {
+        this._resetHandler?.();
+        this.setState({ values: {}, valid: false, changed: false, submitting: false, });
+    }
+    
+    render() {
+        const { Component, currentPageInfo: pageInfo } = this;
+        const { header, onSubmit, settingsProps, sections, defaultPage } = this.props;
+        const { page, values, valid, changed, submitting } = this.state;
+    
+        return (
+            <ModalDialog layout="fullscreen" sx={{ padding: 0, bgcolor: "background.body" }}>
+                <ModalClose />
+                <Stack sx={{ width: "100%", height: "100%", overflow: "hidden", px: 0.5, py: 0.5 }}>
+                    {/* <Group sx={{ px: 3, py: 1 }} gap={1}>
+                        <Breadcrumbs>
+                            <Typography level="title-lg">{pageInfo?.name ?? page}</Typography>
+                            </Breadcrumbs>
+                    </Group> */}
+                    <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} flex={1} gap={0.5}>
+                        <SettingsSidebar>
+                            <Typography level="title-lg" sx={{ mx: 1 }}>{header}</Typography>
+                            <Box flex={1} sx={{ overflowY: "auto", px: 1, }}>
+                                <PageSidebar
+                                    defaultActive={defaultPage}
+                                    onClick={(item) => this.setState({ page: item as TPage })}
+                                    sections={sections}
+                                />
                             </Box>
-                            <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1, width: "calc(100% + 2px)" }} />
-                            <SettingsPageContent>
-                                <Component settingsProps={settingsProps} onValuesChanged={(valid, changed, values) => setValues({ submitting: false, values, valid, changed })} />
-                            </SettingsPageContent>
-                        </SettingsPage>
-                    </Box>
-                </Group>
-            </Stack>
-        </ModalDialog>
-    )
+                            <SubmitBox className={changed ? "visible" : ""}>
+                                <Typography>You have unsaved changes</Typography>
+                                <Group gap={2}>
+                                    <Button variant="plain" color="neutral" onClick={this.resetValues.bind(this)}>
+                                        Cancel
+                                    </Button>
+                                    <Button variant="glow" color="success" disabled={!valid} onClick={async () => {
+                                        this.setState({ ...values, submitting: true })
+                                        return onSubmit(page, values)
+                                            .then(() => {
+                                                this.setState({ ...values, valid: false, changed: false, submitting: false })
+                                            })
+                                    }}>{submitting ? <CircularProgress color="neutral" /> : "Save changes"}</Button>
+                                </Group>
+                            </SubmitBox>
+                        </SettingsSidebar>
+                        <Box flex={1}>
+                            <SettingsPage>
+                                <Box sx={{ px: 3, py: 2, }}>
+                                    <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
+                                </Box>
+                                <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1, width: "calc(100% + 2px)" }} />
+                                <SettingsPageContent>
+                                    <Component
+                                        settingsProps={settingsProps}
+                                        setResetHandler={(handler) => (this._resetHandler = handler, undefined)}
+                                        onValuesChanged={(valid, changed, values) => this.setState({ submitting: false, values, valid, changed })}
+                                    />
+                                </SettingsPageContent>
+                            </SettingsPage>
+                        </Box>
+                    </Group>
+                </Stack>
+            </ModalDialog>
+        )
+    }
 }

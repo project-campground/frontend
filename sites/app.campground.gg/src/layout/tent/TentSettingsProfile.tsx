@@ -4,7 +4,7 @@ import type { SettingsComponentProps } from "../SettingsModal";
 import { useMemo } from "react";
 import type { TentSettingsProps } from "./TentSettingsModal";
 
-export default function TentSettingsProfile({ onValuesChanged, settingsProps: { tent } }: SettingsComponentProps<TentSettingsProps>) {
+export default function TentSettingsProfile({ onValuesChanged, setResetHandler, settingsProps: { tent } }: SettingsComponentProps<TentSettingsProps>) {
     const defaultValues = useMemo(() => ({
         name: tent.name,
         description: tent.description,
@@ -16,6 +16,7 @@ export default function TentSettingsProfile({ onValuesChanged, settingsProps: { 
         <>
             <Box sx={{ maxWidth: 500 }}>
                 <Form
+                    ref={(form) => setResetHandler(() => form?.resetValues.bind(form))}
                     sections={[
                         {
                             id: "basic",

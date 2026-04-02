@@ -31,4 +31,8 @@ export default abstract class AbstractFormField<TType extends FormFieldType, TVa
         return this.props.onChange && this.props.onChange(this as unknown as FieldTypeToInstance[TType], value);
     }
 
+    public resetValue() {
+        this.setState({ value: this.props.defaultValue ?? this.valueFallback });
+    }
+
 }

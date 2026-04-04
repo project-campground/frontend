@@ -288,7 +288,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             <IconCampfire />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            <FormattedMessageGlobal id="app.tents.campsite.settings" />
+                                            <FormattedMessageGlobal id="app.campsites.settings" />
                                         </ListItemContent>
                                     </MenuItem>}
                                     {!!(permissions.bonfire.general & GeneralPermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
@@ -296,7 +296,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             <IconSettingsFilled />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            <FormattedMessageGlobal id="app.tents.bonfire.settings" />
+                                            <FormattedMessageGlobal id="app.bonfires.settings" />
                                         </ListItemContent>
                                     </MenuItem>}
                                     {campsite.owner !== campsite.me.user.did && <MenuItem variant="plain" color="danger" onClick={this.leaveCampsite.bind(this)}>

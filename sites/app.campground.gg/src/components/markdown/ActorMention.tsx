@@ -2,7 +2,7 @@ import { styled } from "@mui/joy";
 import UserDisplay from "../UserDisplay";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import { useMemo, useState } from "react";
-import type { CampsiteMemberViewDetailed } from "types/campsites";
+import type { MemberViewDetailed } from "types/membership";
 import { colorToDecimal } from "~/util/color";
 
 type Props = {
@@ -27,7 +27,7 @@ const ActorMentionWrapper = styled("span", {
 
 export default function ActorMention({ did }: Props) {
     const { campsite, session } = useCampsiteContext();
-        const [member, setMember] = useState<CampsiteMemberViewDetailed | null>(null);
+        const [member, setMember] = useState<MemberViewDetailed | null>(null);
         useMemo(() => {
             return (
                 session

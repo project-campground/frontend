@@ -1,4 +1,6 @@
-import type { CampsiteMemberViewDetailed, GetMembersDetailedOutput, GetMembersOutput } from "types/campsites";
+import type { MemberViewDetailed } from "types/membership";
+import type { GetMembersDetailedOutput } from "types/membership";
+import type { GetMembersOutput } from "types/membership";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientMemberManager extends HTTPClientObjectManager {
@@ -28,7 +30,7 @@ export default class HTTPClientMemberManager extends HTTPClientObjectManager {
     }
 
     get(campsite_id: string, actor: string) {
-        return this.client.get<CampsiteMemberViewDetailed>({
+        return this.client.get<MemberViewDetailed>({
             route: "gg.campground.membership.getMember",
             queries: {
                 campsite_id,
@@ -38,7 +40,7 @@ export default class HTTPClientMemberManager extends HTTPClientObjectManager {
     }
     
     update(campsite_id: string, actor: string, body: { nickname: string | undefined; }) {
-        return this.client.post<CampsiteMemberViewDetailed>({
+        return this.client.post<MemberViewDetailed>({
             route: "gg.campground.membership.updateMember",
             queries: { campsite_id, actor },
             body,
@@ -57,7 +59,7 @@ export default class HTTPClientMemberManager extends HTTPClientObjectManager {
 
     addRole(campsite_id: string, role_id: string, body: { memberIds: string[]; }) {
         return this.client.post<number>({
-            route: "gg.campground.membership.addMemberRoles",
+            route: "gg.campground.role.addMemberRoles",
             queries: { campsite_id, role_id },
             body,
         });
@@ -65,7 +67,7 @@ export default class HTTPClientMemberManager extends HTTPClientObjectManager {
     
     removeRole(campsite_id: string, role_id: string, body: { memberIds: string[]; }) {
         return this.client.post<number>({
-            route: "gg.campground.membership.removeMemberRoles",
+            route: "gg.campground.role.removeMemberRoles",
             queries: { campsite_id, role_id },
             body,
         });

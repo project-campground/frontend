@@ -1,5 +1,7 @@
 import { CircularProgress, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
-import type { CampsitePermissionView, CampsitePermissionViewBasic, CampsiteRoleView } from "types/campsites";
+import type { CampsitePermissionViewBasic } from "types/permissions";
+import type { CampsitePermissionView } from "types/permissions";
+import type { RoleView } from "types/roles";
 import { useContext, useMemo, useState } from "react";
 import { GradientTypography, Group } from "components";
 import { IconCampfireFilled, IconHash, IconPlus, IconUserFilled } from "@tabler/icons-react";
@@ -71,7 +73,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
             });
     }, []);
 
-    const onCreateRolePermission = (role: CampsiteRoleView) => {
+    const onCreateRolePermission = (role: RoleView) => {
         const newPermission = createNewPermission({ roleId: role.id });
         const newPermissionList = openPermission.new && openPermission.roleId !== defaultRole.id ? permissions.filter((x) => x.userId !== openPermission.userId || x.roleId !== openPermission.roleId) : permissions;
         setPermissions(newPermissionList.concat(newPermission));
@@ -120,7 +122,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
                 <Stack sx={{ height: "100%" }}>
                     {permissions
                         .filter((x) => x.roleId)
-                        .map((x) => [x, roles.find((y) => y.id === x.roleId)] as [CampsitePermissionViewSettings, CampsiteRoleView | undefined])
+                        .map((x) => [x, roles.find((y) => y.id === x.roleId)] as [CampsitePermissionViewSettings, RoleView | undefined])
                         .sort((a, b) => (a[1]?.position ?? 0) - (b[1]?.position ?? 0))
                         .map(([permission, role]) =>
                             <PermissionItem key={`${permission.userId}:${permission.roleId}`} role={role} active={openPermission === permission} onClick={() => changeOpenPermission(permission)} {...permission} />
@@ -139,7 +141,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
 }
 
 type FormValues = Pick<CampsitePermissionViewSettings, "permissions">;
-type PermissionsPageProps = { onDelete: () => unknown; permission: CampsitePermissionViewSettings; role: CampsiteRoleView | null; onChanged: (valid: boolean, changed: boolean, values: FormValues & { roleId?: string, userId?: string; }) => unknown; };
+type PermissionsPageProps = { onDelete: () => unknown; permission: CampsitePermissionViewSettings; role: RoleView | null; onChanged: (valid: boolean, changed: boolean, values: FormValues & { roleId?: string, userId?: string; }) => unknown; };
 
 function reduceTristateFields(entries: [string, TristateValue][]) {
     return entries.reduce(

@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { Group, loremIpsum, TextBlock } from "components";
-import type { TentMessageType, TentMessageViewWithReplies } from "types/content";
+import type { TentMessageType, MessageViewWithReplies } from "types/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 import MessageToolbar from "./MessageToolbar";
 import { useState, type MouseEvent, type ReactNode } from "react";
@@ -11,7 +11,8 @@ import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
 import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
-import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
+import type { MemberViewAuthor } from "types/membership";
+import type { RoleView } from "types/roles";
 import { colorToDecimal } from "~/util/color";
 import ContentDisplayBlock from "../markdown/ContentDisplayBlock";
 import { FormattedMessage } from "react-intl";
@@ -70,12 +71,12 @@ type Props = {
     waiting?: boolean;
     error?: string;
     hideToolbar?: boolean;
-    message: TentMessageViewWithReplies;
-    colorRoles?: CampsiteRoleView[];
+    message: MessageViewWithReplies;
+    colorRoles?: RoleView[];
     isBeingRepliedTo?: boolean;
-    onUserClick?: (ev: MouseEvent<HTMLDivElement>, user: CampsiteMemberViewAuthor) => unknown;
-    onDelete: (message: TentMessageViewWithReplies, prompt: boolean) => unknown;
-    addReply: (message: TentMessageViewWithReplies) => unknown;
+    onUserClick?: (ev: MouseEvent<HTMLDivElement>, user: MemberViewAuthor) => unknown;
+    onDelete: (message: MessageViewWithReplies, prompt: boolean) => unknown;
+    addReply: (message: MessageViewWithReplies) => unknown;
 };
 type MessageTypeComponentProps = Pick<Props, "message" | "colorRoles" | "waiting" | "error" | "onUserClick"> & React.PropsWithChildren;
 

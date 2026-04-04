@@ -1,4 +1,4 @@
-import type { CampsiteMemberViewAuthor } from "./campsites";
+import type { MemberViewAuthor } from "./membership";
 
 export type TentMessageType = "default" | "system";
 
@@ -20,7 +20,7 @@ export interface SystemMessageComponentTentNameUpdated extends SystemMessageComp
 export type SystemMessageComponent = SystemMessageComponentTentCreated | SystemMessageComponentTentNameUpdated;
 export type ContentComponent = SystemMessageComponent;
 
-export interface TentMessageView<T> {
+export interface MessageView<T> {
     id: string;
     campsiteId: string;
     bonfireId: string;
@@ -31,15 +31,15 @@ export interface TentMessageView<T> {
     replyingTo: T[];
     components?: ContentComponent[];
 
-    createdBy: CampsiteMemberViewAuthor;
+    createdBy: MemberViewAuthor;
     createdAt: string;
     updatedAt?: string | null;
 }
-export interface TentMessageViewBasic extends TentMessageView<string> {
+export interface MessageViewBasic extends MessageView<string> {
 }
-export interface TentMessageViewWithReplies extends TentMessageView<TentMessageViewBasic> {
+export interface MessageViewWithReplies extends MessageView<MessageViewBasic> {
     replyingToCount: number;
 }
-export interface GetTentMessagesOutput {
-    messages: TentMessageViewWithReplies[];
+export interface TentMessagesOutput {
+    messages: MessageViewWithReplies[];
 }

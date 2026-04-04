@@ -8,10 +8,8 @@ import {
 } from "@mui/joy";
 import { GradientTypography } from "components";
 import { useState, type MouseEvent } from "react";
-import type {
-    CampsiteMemberViewBasic,
-    CampsiteRoleView,
-} from "types/campsites";
+import type { MemberViewBasic } from "types/membership";
+import type { RoleView } from "types/roles";
 import UserAvatar from "~/components/UserAvatar";
 import { useRightClick } from "~/context/mouse";
 import { colorToDecimal } from "~/util/color";
@@ -29,8 +27,8 @@ type ModalType = "nickname" | "ban";
 
 type Props = {
     campsiteId: string;
-    member: CampsiteMemberViewBasic;
-    roles: CampsiteRoleView[];
+    member: MemberViewBasic;
+    roles: RoleView[];
     onClick: (ev: MouseEvent<HTMLDivElement>) => unknown;
 };
 

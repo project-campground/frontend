@@ -1,5 +1,5 @@
 import { Avatar, ListItemContent, ListItemDecorator, MenuItem, Stack, Typography, styled } from "@mui/joy";
-import type { BonfireViewBasic } from "types/campsites";
+import type { BonfireViewBasic } from "types/bonfires";
 import { useDraggable, useDroppable } from "~/draggable";
 
 type Props = {

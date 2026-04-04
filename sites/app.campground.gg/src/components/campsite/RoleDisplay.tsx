@@ -1,6 +1,6 @@
 import { styled, type ButtonProps, type Radius } from "@mui/joy";
 import { IconX, type ReactNode } from "@tabler/icons-react";
-import type { CampsiteRoleView } from "types/campsites";
+import type { RoleView } from "types/roles";
 import { colorToDecimal } from "~/util/color";
 
 const RoleDisplayBadge = styled("span", {
@@ -66,13 +66,13 @@ const RoleDisplayName = styled("span", {
 }));
 
 type Props = {
-    role: CampsiteRoleView;
+    role: RoleView;
     radius?: keyof Radius;
     size?: ButtonProps["size"];
     startDecorator?: ReactNode[] | ReactNode;
     endDecorator?: ReactNode[] | ReactNode;
-    onClick?: (role: CampsiteRoleView) => unknown;
-    onRemove?: (role: CampsiteRoleView) => unknown;
+    onClick?: (role: RoleView) => unknown;
+    onRemove?: (role: RoleView) => unknown;
 };
 const sizeToPadding = {
     "sm": "0px 6px",

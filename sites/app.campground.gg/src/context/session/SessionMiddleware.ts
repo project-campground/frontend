@@ -1,4 +1,4 @@
-import HTTPClient from "api/HTTPClient";
+import HTTPClient from "~/api/HTTPClient";
 import type { SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from "./types";
 import { defaultAppBackendUrl } from "api.config";
 

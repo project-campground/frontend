@@ -1,6 +1,6 @@
 import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
-import type { HttpResponseError } from "api/HTTPResponse";
+import type { HttpResponseError } from "~/api/HTTPResponse";
 import { useState } from "react";
 import type { TentCategoryView, TentViewDetailed } from "types/tent";
 import Form from "~/components/form/Form";

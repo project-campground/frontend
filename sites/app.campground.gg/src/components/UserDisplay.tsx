@@ -3,16 +3,18 @@ import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileView } from "types/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group, TextBlock } from "components";
-import type { CampsiteMemberView, CampsiteRoleMotion, CampsiteRoleView } from "types/campsites";
+import type { MemberView } from "types/membership";
+import type { RoleMotion } from "types/roles";
+import type { RoleView } from "types/roles";
 import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";
 
 type Props<T extends ProfileView> = {
     user: T;
-    member?: CampsiteMemberView<T> | null;
+    member?: MemberView<T> | null;
     noAvatar?: boolean;
-    motion?: CampsiteRoleMotion;
+    motion?: RoleMotion;
     colors?: string[];
     size?: Size;
     avatarSize?: Size | "xl";
@@ -20,7 +22,7 @@ type Props<T extends ProfileView> = {
     align?: "top" | "center" | "bottom";
     noHoverBackground?: boolean;
     withStatus?: boolean;
-    campsiteRoles?: CampsiteRoleView[];
+    campsiteRoles?: RoleView[];
 };
 
 const sizeToGap: Record<Size, number> = {

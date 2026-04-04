@@ -1,15 +1,15 @@
 import { Stack, styled, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
-import type { HttpResponseError } from "api/HTTPResponse";
+import type { HttpResponseError } from "~/api/HTTPResponse";
 import React from "react";
 import type { TentViewDetailed } from "types/tent";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import type {
-    CampsiteMemberViewBasic,
     CampsiteViewDetailed,
 } from "types/campsites";
+import type { MemberViewBasic } from "types/membership";
 import MemberList from "./MemberList";
 import { CampsiteContextSuiteContext } from "../_global._campsite/context";
 import { SmoothTabList } from "components";
@@ -27,7 +27,7 @@ type State = {
     end: boolean;
     error: HttpResponseError | null;
     tab: number;
-    members: CampsiteMemberViewBasic[];
+    members: MemberViewBasic[];
 };
 
 export const RightSidebarBox = styled(Stack, {

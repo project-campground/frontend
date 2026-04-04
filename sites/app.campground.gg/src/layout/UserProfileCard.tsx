@@ -5,7 +5,8 @@ import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useNavigate } from "react-router";
-import type { CampsiteMemberView, CampsiteRoleView } from "types/campsites";
+import type { MemberView } from "types/membership";
+import type { RoleView } from "types/roles";
 import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
@@ -15,8 +16,8 @@ import { FormattedMessageGlobal } from "~/i18n";
 
 type Props<T extends ProfileView> = {
     user?: ProfileView;
-    member?: CampsiteMemberView<T> | null;
-    campsiteRoles?: CampsiteRoleView[];
+    member?: MemberView<T> | null;
+    campsiteRoles?: RoleView[];
     did: string;
 };
 

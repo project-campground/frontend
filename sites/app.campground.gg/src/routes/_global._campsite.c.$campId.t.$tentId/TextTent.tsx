@@ -8,11 +8,11 @@ import {
     styled,
     Typography,
 } from "@mui/joy";
-import type { HttpResponseError } from "api/HTTPResponse";
+import type { HttpResponseError } from "~/api/HTTPResponse";
 import React from "react";
 import type {
-    TentMessageViewBasic,
-    TentMessageViewWithReplies,
+    MessageViewBasic,
+    MessageViewWithReplies,
 } from "types/content";
 import type { TentViewDetailed } from "types/tent";
 import MessageEditor, {
@@ -42,10 +42,10 @@ import {
     type CampsiteContextSuite,
 } from "../_global._campsite/context";
 import { PermissionsContext } from "~/context/permissions";
-import type { CampsiteRoleView } from "types/campsites";
+import type { RoleView } from "types/roles";
 import { colorToDecimal } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
-import { type WSSubscription } from "api/WSClient";
+import { type WSSubscription } from "~/api/WSClient";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { FormattedMessage } from "react-intl";
 
@@ -54,7 +54,7 @@ type Props = {
     tent: TentViewDetailed;
 };
 
-export type TextTentMessage = TentMessageViewWithReplies & {
+export type TextTentMessage = MessageViewWithReplies & {
     waiting?: true;
     error?: string;
 };
@@ -64,8 +64,8 @@ type State = {
     loading: boolean;
     error: HttpResponseError | null;
     isEnd: boolean;
-    deleteMessage: TentMessageViewWithReplies | null;
-    replyMessages: TentMessageViewWithReplies[];
+    deleteMessage: MessageViewWithReplies | null;
+    replyMessages: MessageViewWithReplies[];
 };
 
 export default class TextTent extends React.Component<
@@ -112,7 +112,7 @@ export default class TextTent extends React.Component<
 
     private onWebSocketEvent(type: string, payload: any) {
         const { session } = this.context as CampsiteContextSuite;
-        const message = payload as TentMessageViewBasic;
+        const message = payload as MessageViewBasic;
         if (message.tentId !== this.props.tent.id) return;
         switch (type) {
             case "MessageCreated":
@@ -232,7 +232,7 @@ export default class TextTent extends React.Component<
                     ({
                         ...x,
                         replyingTo: x.replyingTo.map((y) => y.id),
-                    }) as TentMessageViewBasic,
+                    }) as MessageViewBasic,
             ),
             replyingToCount: replyMessages.length,
             campsiteId: this.props.tent.bonfireId,
@@ -295,7 +295,7 @@ export default class TextTent extends React.Component<
         );
     }
 
-    onMessageDelete(message: TentMessageViewWithReplies, prompt: boolean) {
+    onMessageDelete(message: MessageViewWithReplies, prompt: boolean) {
         if (prompt) return this.setState({ deleteMessage: message });
 
         return this.deleteMessage(message);
@@ -323,7 +323,7 @@ export default class TextTent extends React.Component<
         );
     }
 
-    async deleteMessage(messageDeleted: TentMessageViewWithReplies) {
+    async deleteMessage(messageDeleted: MessageViewWithReplies) {
         const { floaters } = this.context as CampsiteContextSuite;
 
         // To not do random useless requests and keep them
@@ -342,7 +342,7 @@ export default class TextTent extends React.Component<
             .then(handleAnyRestErrorWith(floaters));
     }
 
-    addMessageReply(message: TentMessageViewWithReplies) {
+    addMessageReply(message: MessageViewWithReplies) {
         if (this.state.replyMessages.length >= 5) return;
         else if (this.state.replyMessages.includes(message))
             return this.setState({
@@ -356,7 +356,7 @@ export default class TextTent extends React.Component<
         });
     }
 
-    removeMessageReply(message: TentMessageViewWithReplies) {
+    removeMessageReply(message: MessageViewWithReplies) {
         return this.setState({
             replyMessages: this.state.replyMessages.filter(
                 (x) => x !== message,
@@ -455,16 +455,16 @@ const MessageLimitStack = styled(Stack)(() => ({
 }));
 
 type MessageListProps = {
-    colorRoles: CampsiteRoleView[];
+    colorRoles: RoleView[];
     isEnd: boolean;
     messages: TextTentMessage[];
-    replyMessages: TentMessageViewWithReplies[];
+    replyMessages: MessageViewWithReplies[];
     onMessagesLoad: () => unknown;
     onMessageDelete: (
-        message: TentMessageViewWithReplies,
+        message: MessageViewWithReplies,
         prompt: boolean,
     ) => unknown;
-    addReply: (message: TentMessageViewWithReplies) => unknown;
+    addReply: (message: MessageViewWithReplies) => unknown;
 };
 
 function MessageList({
@@ -585,11 +585,11 @@ function MessageInputWrapper({
     removeReply,
     removeAllReplies,
 }: {
-    colorRoles: CampsiteRoleView[];
+    colorRoles: RoleView[];
     canCreate: boolean;
     tentName: string;
-    replyMessages: TentMessageViewWithReplies[];
-    removeReply: (message: TentMessageViewWithReplies) => unknown;
+    replyMessages: MessageViewWithReplies[];
+    removeReply: (message: MessageViewWithReplies) => unknown;
     removeAllReplies: () => unknown;
     onCreate: (content: string) => Promise<unknown>;
 }) {

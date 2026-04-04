@@ -4,7 +4,7 @@ import React from "react";
 import DataDisplay from "~/components/pages/DataDisplay";
 import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
-import type { CampsiteBanView } from "types/membership";
+import type { MemberBanView } from "types/membership";
 import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
@@ -20,8 +20,8 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
     static contextType?: React.Context<CampsiteContextSuite> = CampsiteContextSuiteContext;
     declare context: React.ContextType<typeof CampsiteContextSuiteContext>;
 
-    private onWebSocketEvent<T extends keyof TypeToPayload>(bans: CampsiteBanView[], type: T, payload: TypeToPayload[T]): boolean {
-        const ban = payload as CampsiteBanView;
+    private onWebSocketEvent<T extends keyof TypeToPayload>(bans: MemberBanView[], type: T, payload: TypeToPayload[T]): boolean {
+        const ban = payload as MemberBanView;
 
         if (ban.campsiteId !== this.props.settingsProps.campsite.id)
             return false;
@@ -54,7 +54,7 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
     }
 
     private _onBansDeleteBind = this.onBansDelete.bind(this);
-    private onBansDelete(bans: CampsiteBanView[]) {
+    private onBansDelete(bans: MemberBanView[]) {
         return Promise.all(
             bans.map((ban) =>
                 this
@@ -136,22 +136,22 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
     }
 }
 
-function TargetComponent({ item: ban }: { item: CampsiteBanView }) {
+function TargetComponent({ item: ban }: { item: MemberBanView }) {
     return (
         <UserDisplayNoModal user={ban.user} />
     );
 }
-function CreatedByComponent({ item: ban }: { item: CampsiteBanView }) {
+function CreatedByComponent({ item: ban }: { item: MemberBanView }) {
     return (
         <Typography>{ban.createdBy}</Typography>
     );
 }
-function CreatedAtComponent({ item: ban }: { item: CampsiteBanView }) {
+function CreatedAtComponent({ item: ban }: { item: MemberBanView }) {
     return (
         <Datestamp long date={new Date(ban.createdAt)} />
     );
 }
-function ReasonComponent({ item: ban }: { item: CampsiteBanView }) {
+function ReasonComponent({ item: ban }: { item: MemberBanView }) {
     return (
         <Typography sx={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} level="body-md" textColor={ban.reason ? "text.tertiary" : "text.quartary"}>{ban.reason ?? "No max limit"}</Typography>
     );

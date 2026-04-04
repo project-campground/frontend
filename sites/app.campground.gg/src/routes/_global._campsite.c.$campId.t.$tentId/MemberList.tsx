@@ -1,8 +1,6 @@
 import { Chip, List, Menu, Stack } from "@mui/joy";
-import type {
-    CampsiteMemberViewBasic,
-    CampsiteRoleView,
-} from "types/campsites";
+import type { MemberViewBasic } from "types/membership";
+import type { RoleView } from "types/roles";
 import MemberItem from "./MemberItem";
 import ContentCategory from "~/components/content/ContentCategory";
 import { colorToDecimal } from "~/util/color";
@@ -13,8 +11,8 @@ import { GradientTypography } from "components";
 type Props = {
     campsiteId: string;
     memberCount: number;
-    members: CampsiteMemberViewBasic[];
-    roles: CampsiteRoleView[];
+    members: MemberViewBasic[];
+    roles: RoleView[];
 };
 
 export default function MemberList({ campsiteId, members, roles }: Props) {
@@ -23,7 +21,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
     const [cardMember, setCardMember] = useState<{
         x: number;
         y: number;
-        member: CampsiteMemberViewBasic;
+        member: MemberViewBasic;
     } | null>(null);
 
     // Make sure it always exists
@@ -45,7 +43,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
         });
     const displayMember = (
         ev: MouseEvent<HTMLDivElement>,
-        member: CampsiteMemberViewBasic,
+        member: MemberViewBasic,
     ) =>
         cardMember
             ? setCardMember(null)

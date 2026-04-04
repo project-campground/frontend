@@ -1,7 +1,11 @@
-import type { CampsiteRoleView, CampsiteViewBasic } from "./campsites";
-import type { ProfileViewBasic } from "./user";
+import type { RoleView } from "./roles";
+import type {
+    ProfileView,
+    ProfileViewBasic,
+    ProfileViewDetailed,
+} from "./user";
 
-export interface CampsiteBanView {
+export interface MemberBanView {
     user: ProfileViewBasic;
     userId: string;
     campsiteId: string;
@@ -12,32 +16,34 @@ export interface CampsiteBanView {
     updatedBy: string;
 }
 
-export interface CampsiteInviteView {
-    id: string;
-    allowedAmount?: number | null | undefined;
-    expiresAt?: string | null | undefined;
-    createdAt: string;
-    createdBy: ProfileViewBasic;
-    used: number;
-}
-
-export interface CampsiteInviteViewBasic extends CampsiteInviteView {
-    campsiteId: string;
-}
-
-export interface CampsiteInviteViewDetailed extends CampsiteInviteView {
-    campsite: CampsiteViewBasic;
-}
-
 export interface MemberRolesModified {
-    role: CampsiteRoleView;
+    role: RoleView;
     members: string[];
 }
 
-export interface GetInvitesOutput {
-    invites: CampsiteInviteViewBasic[];
-}
-
 export interface GetBansOutput {
-    memberBans: CampsiteBanView[];
+    memberBans: MemberBanView[];
+}
+export interface GetMembersOutput {
+    members: MemberViewBasic[];
+}
+export interface GetMembersDetailedOutput {
+    members: MemberViewDetailed[];
+}
+export interface MemberViewBasic
+    extends MemberView<ProfileViewBasic> {}
+export interface MemberView<TUser extends ProfileView> {
+    user: TUser;
+    nickname: string | null | undefined;
+    roles: string[];
+}
+export interface MemberViewAuthor
+    extends MemberView<ProfileViewBasic> {
+    isMember: boolean;
+}
+export interface MemberViewDetailed
+    extends MemberView<ProfileViewDetailed> {
+    campsiteId: string;
+    usedInviteId: string;
+    joinedAt: string;
 }

@@ -1,17 +1,18 @@
-import type { BonfireViewBasic, BonfireViewDetailed } from "types/campsites";
+import type { BonfireViewDetailed } from "types/bonfires";
+import type { BonfireViewBasic } from "types/bonfires";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
     public get(campsite_id: string, bonfire_id: string) {
         return this.client.get<BonfireViewDetailed>({
-            route: "gg.campground.campsite.getBonfire",
+            route: "gg.campground.bonfire.getBonfire",
             queries: { campsite_id, bonfire_id, },
         });
     }
 
     public create(campsite_id: string, body: { name: string, description: string; position: number; }) {
         return this.client.post<BonfireViewDetailed>({
-            route: "gg.campground.campsite.createBonfire",
+            route: "gg.campground.bonfire.createBonfire",
             queries: { campsite_id },
             body,
         });
@@ -19,7 +20,7 @@ export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
 
     public update(campsite_id: string, bonfire_id: string, body: { name?: string, description?: string; avatarUri?: string; bannerUri?: string; }) {
         return this.client.post<BonfireViewBasic>({
-            route: "gg.campground.campsite.updateBonfire",
+            route: "gg.campground.bonfire.updateBonfire",
             queries: { campsite_id, bonfire_id },
             body,
         });
@@ -27,7 +28,7 @@ export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
 
     public move(bonfire_id: string, body: { position?: number; }) {
         return this.client.post<BonfireViewBasic>({
-            route: "gg.campground.campsite.moveBonfire",
+            route: "gg.campground.bonfire.moveBonfire",
             queries: { bonfire_id },
             body,
         });
@@ -35,7 +36,7 @@ export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
 
     public delete(campsite_id: string, bonfire_id: string) {
         return this.client.post<BonfireViewBasic>({
-            route: "gg.campground.campsite.deleteBonfire",
+            route: "gg.campground.bonfire.deleteBonfire",
             queries: { campsite_id, bonfire_id },
         });
     }

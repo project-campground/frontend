@@ -1,7 +1,7 @@
 import { Box, Button, Chip, styled } from "@mui/joy";
 import { IconGripVertical } from "@tabler/icons-react";
 import { GradientTypography } from "components";
-import type { CampsiteRoleView } from "types/campsites";
+import type { RoleView } from "types/roles";
 import { useDraggable, useDragging, useDroppable } from "~/draggable";
 import { colorToDecimal } from "~/util/color";
 
@@ -46,7 +46,7 @@ export const RoleButton = styled(Button, {
     }
 }));
 
-export default function RoleItem({ onClick, active, id, added, flags, name, colors, motion, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<CampsiteRoleView, "id" | "name" | "colors" | "motion" | "flags"> & { added?: true, immovable?: boolean; }) {
+export default function RoleItem({ onClick, active, id, added, flags, name, colors, motion, immovable }: { active?: boolean; onClick?: () => unknown; } & Pick<RoleView, "id" | "name" | "colors" | "motion" | "flags"> & { added?: true, immovable?: boolean; }) {
     // const {ref} = useDraggable({
     //     id,
     //     disabled: immovable,

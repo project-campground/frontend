@@ -1,5 +1,5 @@
-import HTTPClient from "api/HTTPClient";
-import type WSClient from "api/WSClient";
+import HTTPClient from "~/api/HTTPClient";
+import type WSClient from "~/api/WSClient";
 
 export interface Session {
     auth: SessionAuth;

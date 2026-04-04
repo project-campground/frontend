@@ -1,7 +1,7 @@
 import { Box } from "@mui/joy";
 import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
-import type { BonfireViewBasic } from "types/campsites";
+import type { BonfireViewBasic } from "types/bonfires";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";

@@ -1,5 +1,5 @@
 import HTTPClientObjectManager from "./base";
-import type { CampsiteBanView, GetBansOutput } from "types/membership";
+import type { MemberBanView, GetBansOutput } from "types/membership";
 
 export default class HTTPClientMemberBanManager extends HTTPClientObjectManager {
     getMany(campsite_id: string, offset: number = 0, limit: number = 50) {
@@ -15,7 +15,7 @@ export default class HTTPClientMemberBanManager extends HTTPClientObjectManager 
     
     create(campsite_id: string, actor: string, body: { reason: string; }) {
         console.log({ campsite_id, actor });
-        return this.client.post<CampsiteBanView>({
+        return this.client.post<MemberBanView>({
             route: "gg.campground.membership.banMember",
             queries: {
                 campsite_id,
@@ -26,7 +26,7 @@ export default class HTTPClientMemberBanManager extends HTTPClientObjectManager 
     }
 
     delete(campsite_id: string, actor: string) {
-        return this.client.post<CampsiteBanView>({
+        return this.client.post<MemberBanView>({
             route: "gg.campground.membership.deleteMemberBan",
             queries: {
                 campsite_id,

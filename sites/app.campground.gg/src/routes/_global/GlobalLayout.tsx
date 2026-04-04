@@ -4,7 +4,7 @@ import GlobalNavbar from "./GlobalNavbar";
 import type { Me } from "types/me";
 import { MeContext, SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
-import type { WSSubscription } from "api/WSClient";
+import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteViewBasic } from "types/campsites";
 

@@ -1,7 +1,7 @@
 import { styled } from "@mui/joy";
 import RoleDisplay from "../campsite/RoleDisplay";
 import { useCampsite } from "~/routes/_global._campsite/context";
-import type { CampsiteRoleView } from "types/campsites";
+import type { RoleView } from "types/roles";
 import { IconAt } from "@tabler/icons-react";
 import { useIntl } from "react-intl";
 
@@ -18,7 +18,7 @@ const RoleMentionWrapper = styled("span", {
     alignItems: "center",
 }));
 
-const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId" | "name"> = {
+const defaultUnknownRole: Omit<RoleView, "id" | "campsiteId" | "name"> = {
     colors: [],
     motion: "none",
     displaySeparately: false,

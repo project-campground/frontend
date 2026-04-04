@@ -1,6 +1,6 @@
 import { DialogContent, DialogTitle, ModalClose, ModalDialog } from "@mui/joy";
 import Form from "../components/form/Form";
-import type { CampsiteMemberViewBasic } from "types/campsites";
+import type { MemberViewBasic } from "types/membership";
 import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith as handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
@@ -8,7 +8,7 @@ import { FormattedMessage } from "react-intl";
 
 type Props = {
     campsiteId: string;
-    member: CampsiteMemberViewBasic;
+    member: MemberViewBasic;
     onClose: () => unknown;
 };
 

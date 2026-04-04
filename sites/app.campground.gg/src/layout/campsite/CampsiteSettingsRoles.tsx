@@ -1,6 +1,9 @@
 import { Alert, Box, Button, Card, IconButton, Stack, TabPanel, Tabs, Typography } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
-import type { CampsiteRoleMotion, CampsiteRoleView, CampsiteViewDetailed, GetRolesOutput } from "types/campsites";
+import type { CampsiteViewDetailed } from "types/campsites";
+import type { GetRolesOutput } from "types/roles";
+import type { RoleMotion } from "types/roles";
+import type { RoleView } from "types/roles";
 import RoleItem, { RoleItemGap } from "./RoleItem";
 import React, { useContext, useMemo, useState } from "react";
 import { Group, SmoothTabList } from "components";
@@ -10,15 +13,15 @@ import { GeneralPermissionConsts, ContentPermissionConsts } from "~/util/permiss
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import ContentDeleteModal from "../ContentDeleteModal";
-import type { HttpResponseWithContent } from "api/HTTPResponse";
+import type { HttpResponseWithContent } from "~/api/HTTPResponse";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import TentMessage from "~/components/tents/TentMessage";
 import { DragDropProvider } from "~/draggable";
 import { FormattedMessage, useIntl } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 
-type NewRole = CampsiteRoleView & { added: true; };
-type SettingsRole = CampsiteRoleView | NewRole;
+type NewRole = RoleView & { added: true; };
+type SettingsRole = RoleView | NewRole;
 
 export default function CampsiteSettingsRoles({ setResetHandler, onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const { updateCampsite } = useContext(CampsiteContextSuiteContext);
@@ -146,7 +149,7 @@ export default function CampsiteSettingsRoles({ setResetHandler, onValuesChanged
     )
 }
 
-type FormValues = Pick<CampsiteRoleView, "id" | "name" | "colors" | "motion" | "mentionable" | "displaySeparately" | "permissions">;
+type FormValues = Pick<RoleView, "id" | "name" | "colors" | "motion" | "mentionable" | "displaySeparately" | "permissions">;
 type RolePageProps = { addResetHandler: (index: number, resetValueHandler: () => void) => void; onRoleDelete: (role: SettingsRole) => unknown; role: SettingsRole; onChanged: (valid: boolean, changed: boolean, values: FormValues) => unknown; };
 type RolePageTabProps = { addResetHandler: (resetValueHandler: () => void) => void; value: FormValues, role: SettingsRole; onChanged: (valid: boolean, values: Partial<FormValues>) => unknown; };
 
@@ -360,7 +363,7 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                             design: "grid",
                             options: [
                                 {
-                                    value: "none" satisfies CampsiteRoleMotion,
+                                    value: "none" satisfies RoleMotion,
                                     text: <FormattedMessage
                                         id="app.roles.motion.none"
                                         defaultMessage="Unanimated"
@@ -369,7 +372,7 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                                     startDecorator: <IconX />
                                 },
                                 {
-                                    value: "linear" satisfies CampsiteRoleMotion,
+                                    value: "linear" satisfies RoleMotion,
                                     text: <FormattedMessage
                                         id="app.roles.motion.linear"
                                         defaultMessage="Linear"
@@ -378,7 +381,7 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                                     startDecorator: <IconRipple />
                                 },
                                 {
-                                    value: "wave" satisfies CampsiteRoleMotion,
+                                    value: "wave" satisfies RoleMotion,
                                     text: <FormattedMessage
                                         id="app.roles.motion.wave"
                                         defaultMessage="Wave"
@@ -387,7 +390,7 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                                     startDecorator: <IconWaveSine />
                                 },
                                 {
-                                    value: "radial" satisfies CampsiteRoleMotion,
+                                    value: "radial" satisfies RoleMotion,
                                     text: <FormattedMessage
                                         id="app.roles.motion.radial"
                                         defaultMessage="Radial"

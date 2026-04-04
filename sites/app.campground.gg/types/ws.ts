@@ -1,6 +1,9 @@
-import type { BonfireViewBasic, CampsitePermissionViewDetailed, CampsiteViewBasic } from "./campsites";
-import type { TentMessageViewBasic } from "./content";
-import type { CampsiteBanView, CampsiteInviteViewBasic, MemberRolesModified } from "./membership";
+import type { CampsiteViewBasic } from "./campsites";
+import type { BonfireViewBasic } from "./bonfires";
+import type { CampsitePermissionViewDetailed } from "./permissions";
+import type { MessageViewBasic } from "./content";
+import type { MemberBanView, MemberRolesModified } from "./membership";
+import type { CampsiteInviteViewBasic } from "./invites";
 import type { PermissionsDictionary, PermissionsStateDictionary } from "./permissions";
 import type { TentCategoryView, TentViewBasic } from "./tent";
 
@@ -20,8 +23,8 @@ export type TypeToPayload = {
     MemberRolesAdded: MemberRolesModified;
     MemberRolesRemoved: MemberRolesModified;
 
-    MemberBanCreated: CampsiteBanView;
-    MemberBanDeleted: CampsiteBanView;
+    MemberBanCreated: MemberBanView;
+    MemberBanDeleted: MemberBanView;
 
     InviteCreated: CampsiteInviteViewBasic;
     InviteDeleted: CampsiteInviteViewBasic;
@@ -44,5 +47,5 @@ export type TypeToPayload = {
     PermissionUpdated: CampsitePermissionViewDetailed;
     PermissionView: PermissionViewPayload;
 
-    MessageCreated: TentMessageViewBasic;
+    MessageCreated: MessageViewBasic;
 };

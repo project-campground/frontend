@@ -16,10 +16,8 @@ import {
     useCampsite,
     type CampsiteContextSuite,
 } from "../_global._campsite/context";
-import type {
-    CampsiteMemberViewDetailed,
-    CampsiteRoleView,
-} from "types/campsites";
+import type { MemberViewDetailed } from "types/membership";
+import type { RoleView } from "types/roles";
 import RoleDisplay from "~/components/campsite/RoleDisplay";
 import Datestamp from "~/components/Datestamp";
 import { useSession } from "~/context/session";
@@ -46,7 +44,7 @@ export default class MemberTent extends React.Component<
         CampsiteContextSuiteContext;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(
-        members: CampsiteMemberViewDetailed[],
+        members: MemberViewDetailed[],
         type: T,
         payload: TypeToPayload[T],
     ): boolean {
@@ -145,38 +143,38 @@ export default class MemberTent extends React.Component<
     }
 }
 
-function NameComponent({ item: member }: { item: CampsiteMemberViewDetailed }) {
+function NameComponent({ item: member }: { item: MemberViewDetailed }) {
     return <UserDisplayNoModal user={member.user} size="md" />;
 }
 function JoinedComponent({
     item: member,
 }: {
-    item: CampsiteMemberViewDetailed;
+    item: MemberViewDetailed;
 }) {
     return <Datestamp long date={new Date(member.joinedAt)} />;
 }
 function CreatedComponent({
     item: member,
 }: {
-    item: CampsiteMemberViewDetailed;
+    item: MemberViewDetailed;
 }) {
     return <Datestamp long date={new Date(member.user.indexedAt)} />;
 }
 function RolesComponent({
     item: member,
 }: {
-    item: CampsiteMemberViewDetailed;
+    item: MemberViewDetailed;
 }) {
     const campsite = useCampsite();
     const session = useSession();
     const roles = campsite.roles;
     const userRoles = roles.filter((x) => member.roles.includes(x.id));
     const nonUserRoles = roles.filter((x) => !member.roles.includes(x.id));
-    const onRoleAdd = (role: CampsiteRoleView) =>
+    const onRoleAdd = (role: RoleView) =>
         session.http.members.addRole(campsite.id, role.id, {
             memberIds: [member.user.did],
         });
-    const onRoleRemove = (role: CampsiteRoleView) =>
+    const onRoleRemove = (role: RoleView) =>
         session.http.members.removeRole(campsite.id, role.id, {
             memberIds: [member.user.did],
         });

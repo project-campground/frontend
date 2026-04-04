@@ -1,6 +1,6 @@
 import HTTPClientObjectManager from "./base";
 import type { GetTentsOutput, TentViewDetailed } from "types/tent";
-import type { TentMessageViewBasic } from "types/content";
+import type { MessageViewBasic } from "types/content";
 
 export default class HTTPClientTentManager extends HTTPClientObjectManager {
     getMany(campsite_id: string, bonfire_id: string) {
@@ -42,7 +42,7 @@ export default class HTTPClientTentManager extends HTTPClientObjectManager {
     }
     
     delete(tent_id: string) {
-        return this.client.post<TentMessageViewBasic>({
+        return this.client.post<MessageViewBasic>({
             route: "gg.campground.tent.deleteTent",
             queries: { tent_id, },
         });

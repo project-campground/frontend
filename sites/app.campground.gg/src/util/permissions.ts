@@ -1,20 +1,22 @@
-import type { CampsiteMemberViewBasic, CampsitePermissionView, CampsiteRoleView } from "types/campsites";
+import type { CampsitePermissionView } from "types/permissions";
+import type { MemberViewBasic } from "types/membership";
+import type { RoleView } from "types/roles";
 import type { PermissionsDictionary, PermissionsStateDictionary } from "types/permissions";
 import { mapLookup, toLookup } from "./array";
 
 export const lowestPriority = 0x7FFFFFFF as const;
 export const highestPriority = -0x80000000 as const;
 
-export const isAboveUser = (against: CampsiteMemberViewBasic, asker: CampsiteMemberViewBasic, owner: string, roles: CampsiteRoleView[]) =>
+export const isAboveUser = (against: MemberViewBasic, asker: MemberViewBasic, owner: string, roles: RoleView[]) =>
     asker.user.did !== against.user.did &&
     against.user.did !== owner &&
     (
         asker.user.did === owner ||
         getPriorityOfMember(asker, roles) > getPriorityOfMember(against, roles)
     );
-export const getPriorityOfMember = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[]) =>
+export const getPriorityOfMember = (member: MemberViewBasic, roles: RoleView[]) =>
     getHighestRole(member, roles)?.position ?? lowestPriority;
-export const getHighestRole = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[]) =>
+export const getHighestRole = (member: MemberViewBasic, roles: RoleView[]) =>
     roles.find((x) => member.roles.includes(x.id));
 
 
@@ -33,7 +35,7 @@ export const aggregateAnyPermissions = (values: PermissionsDictionary[]) =>
             val[key] |= perm[key] as number;
         return val;
     }, { content: 0, general: 0 });
-export const aggregateRolePermissions = (roles: CampsiteRoleView[]) =>
+export const aggregateRolePermissions = (roles: RoleView[]) =>
     aggregateAnyPermissions(
         roles.map((x) => x.permissions),
     );
@@ -54,7 +56,7 @@ export type AggregatedPermissions = {
     categories: Record<string, PermissionsDictionary>;
     tents: Record<string, PermissionsStateDictionary>;
 };
-export const aggregateAllPermissions = (member: CampsiteMemberViewBasic, roles: CampsiteRoleView[], permissions: CampsitePermissionView[]): AggregatedPermissions => {
+export const aggregateAllPermissions = (member: MemberViewBasic, roles: RoleView[], permissions: CampsitePermissionView[]): AggregatedPermissions => {
     const rolePerms = aggregateRolePermissions(
         roles
             .filter((x) => member.roles.includes(x.id))

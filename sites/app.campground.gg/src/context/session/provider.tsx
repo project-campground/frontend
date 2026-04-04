@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import type { AuthCredentials, SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from './types';
-import HTTPClient from 'api/HTTPClient';
+import HTTPClient from '~/api/HTTPClient';
 import { useNavigate } from 'react-router';
 import { defaultAppBackendUrl } from 'api.config';
 import { SessionContext } from '.';
-import WSClient from 'api/WSClient';
+import WSClient from '~/api/WSClient';
 
 export function SessionProvider({ children }: React.PropsWithChildren) {
     const navigate = useNavigate();

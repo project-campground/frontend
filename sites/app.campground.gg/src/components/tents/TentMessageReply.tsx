@@ -1,13 +1,13 @@
 import { Group, loremIpsum } from "components";
-import type { TentMessageViewBasic } from "types/content";
+import type { MessageViewBasic } from "types/content";
 import UserDisplay, { UserDisplaySkeleton } from "../UserDisplay";
 import { Skeleton, styled, Typography } from "@mui/joy";
-import type { CampsiteRoleView } from "types/campsites";
+import type { RoleView } from "types/roles";
 import { colorToDecimal } from "~/util/color";
 
 type Props = {
-    message: TentMessageViewBasic;
-    colorRoles?: CampsiteRoleView[];
+    message: MessageViewBasic;
+    colorRoles?: RoleView[];
 };
 
 const TentMessageReplyWrapper = styled(Group, {

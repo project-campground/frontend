@@ -2,7 +2,8 @@ import { Typography } from "@mui/joy";
 import { IconHash, IconQuestionMark, IconSignature, type Icon, type IconProps } from "@tabler/icons-react";
 import { TextBlock } from "components";
 import type { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
-import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
+import type { MemberViewAuthor } from "types/membership";
+import type { RoleView } from "types/roles";
 import type { ContentComponent, ContentComponentType, SystemMessageComponent, SystemMessageComponentTentNameUpdated, SystemMessageType } from "types/content";
 import { UserDisplayNoModal } from "../UserDisplay";
 import type React from "react";
@@ -11,9 +12,9 @@ import { FormattedMessage } from "react-intl";
 
 type Props = {
     component: ContentComponent;
-    createdBy: CampsiteMemberViewAuthor;
-    colorRoles?: CampsiteRoleView[];
-    onUserClick?: (event: React.MouseEvent<HTMLDivElement>, user: CampsiteMemberViewAuthor) => unknown;
+    createdBy: MemberViewAuthor;
+    colorRoles?: RoleView[];
+    onUserClick?: (event: React.MouseEvent<HTMLDivElement>, user: MemberViewAuthor) => unknown;
 };
 
 const ContentComponentDisplayComponent: Record<ContentComponentType, (props: Props) => ReactNode[] | ReactNode> = {

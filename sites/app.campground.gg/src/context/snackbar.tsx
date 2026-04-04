@@ -1,6 +1,6 @@
 import { Alert, IconButton, Snackbar, type ColorPaletteProp } from "@mui/joy";
 import { IconX, IconExclamationCircleFilled, IconCircleCheckFilled, IconInfoCircleFilled } from "@tabler/icons-react";
-import type { HttpResponse, HttpResponseError } from "api/HTTPResponse";
+import type { HttpResponse, HttpResponseError } from "~/api/HTTPResponse";
 import { Group } from "components";
 import React, { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 

@@ -1,10 +1,12 @@
 import HTTPClientObjectManager from "./base";
-import type { CampsiteInviteViewBasic, CampsiteInviteViewDetailed, GetInvitesOutput } from "types/membership";
+import type { GetInvitesOutput } from "types/invites";
+import type { CampsiteInviteViewDetailed } from "types/invites";
+import type { CampsiteInviteViewBasic } from "types/invites";
 
 export default class HTTPClientInviteManager extends HTTPClientObjectManager {
     get(invite_id: string) {
         return this.client.get<CampsiteInviteViewDetailed>({
-            route: "gg.campground.membership.getInvite",
+            route: "gg.campground.invite.getInvite",
             queries: {
                 invite_id,
             },
@@ -13,7 +15,7 @@ export default class HTTPClientInviteManager extends HTTPClientObjectManager {
 
     getMany(campsite_id: string, offset: number = 0, limit: number = 50) {
         return this.client.get<GetInvitesOutput>({
-            route: "gg.campground.membership.getInvites",
+            route: "gg.campground.invite.getInvites",
             queries: {
                 campsite_id,
                 offset,
@@ -24,7 +26,7 @@ export default class HTTPClientInviteManager extends HTTPClientObjectManager {
     
     use(invite_id: string) {
         return this.client.post<null>({
-            route: "gg.campground.membership.useInvite",
+            route: "gg.campground.invite.useInvite",
             queries: {
                 invite_id,
             },
@@ -33,7 +35,7 @@ export default class HTTPClientInviteManager extends HTTPClientObjectManager {
     
     create(campsite_id: string, body: Pick<CampsiteInviteViewBasic, "allowedAmount" | "expiresAt">) {
         return this.client.post<CampsiteInviteViewBasic>({
-            route: "gg.campground.membership.createInvite",
+            route: "gg.campground.invite.createInvite",
             queries: {
                 campsite_id,
             },
@@ -43,7 +45,7 @@ export default class HTTPClientInviteManager extends HTTPClientObjectManager {
     
     delete(campsite_id: string, invite_id: string) {
         return this.client.post<CampsiteInviteViewBasic>({
-            route: "gg.campground.membership.deleteInvite",
+            route: "gg.campground.invite.deleteInvite",
             queries: {
                 campsite_id,
                 invite_id,

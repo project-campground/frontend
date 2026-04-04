@@ -4,6 +4,8 @@ import type { FormFieldProps } from "./forms";
 import { Chip, Input, Stack, type ColorPaletteProp, type VariantProp, } from "@mui/joy";
 import { Group } from "components";
 import { IconPlus, IconX } from "@tabler/icons-react";
+import { IntlContext } from "react-intl";
+import type React from "react";
 
 export interface FormFieldTagsProps extends FormFieldProps<"tags", string[]> {
     color?: ColorPaletteProp;
@@ -15,8 +17,8 @@ type State = {
 };
 
 export default class FormFieldTags extends AbstractFormField<"tags", string[], FormFieldTagsProps, State> {
-    constructor(props: FormFieldTagsProps) {
-        super(props, []);
+    constructor(props: FormFieldTagsProps, context: React.ContextType<typeof IntlContext>) {
+        super(props, [], {}, context);
     }
 
     private onInputChange(value: string[]) {
@@ -54,14 +56,24 @@ export default class FormFieldTags extends AbstractFormField<"tags", string[], F
                     {value.map((x) =>
                         <Chip key={x} variant={variantOrDefault} color={colorOrDefault} onClick={this.removeValue.bind(this, x)}>{x} <IconX size={12} /></Chip>
                     )}
-                    <Input
-                        startDecorator={<IconPlus />}
-                        placeholder="Tag name"
-                        variant={variantOrDefault}
-                        color={colorOrDefault}
-                        sx={{ width: 150, borderRadius: "1.5rem" }}
-                        onKeyUp={(ev) => ev.key === "Enter" && (ev.target as HTMLInputElement).value && (this.addValue((ev.target as HTMLInputElement).value), (ev.target as HTMLInputElement).value = "")}
-                    />
+                    <IntlContext.Consumer>
+                        {(intl) =>
+                            <Input
+                                startDecorator={<IconPlus />}
+                                placeholder={
+                                    intl.formatMessage({
+                                        id: "form.tagPlaceholder",
+                                        defaultMessage: "Add tag",
+                                        description: "Placeholder used for adding tags in forms"
+                                    })
+                                }
+                                variant={variantOrDefault}
+                                color={colorOrDefault}
+                                sx={{ width: 150, borderRadius: "1.5rem" }}
+                                onKeyUp={(ev) => ev.key === "Enter" && (ev.target as HTMLInputElement).value && (this.addValue((ev.target as HTMLInputElement).value), (ev.target as HTMLInputElement).value = "")}
+                            />
+                        }
+                    </IntlContext.Consumer>
                 </Group>
             </Stack>
         );

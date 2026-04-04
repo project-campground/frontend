@@ -9,7 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { IntlProvider } from './context/i18n';
+import { IntlProvider } from './i18n/provider';
 // import { SessionProvider } from './session';
 import { Box, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { SvgDefs, SvgUse, theme } from "components";

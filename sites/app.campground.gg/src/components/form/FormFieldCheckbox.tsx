@@ -7,8 +7,8 @@ import { Group } from "components";
 
 type CheckboxType = "default" | "button";
 export interface FormFieldCheckboxProps extends FormFieldProps<"checkbox", boolean>, FormFieldDecoratorProps {
-    label?: string;
-    description?: string;
+    label?: ReactNode[] | ReactNode;
+    description?: ReactNode[] | ReactNode;
     design?: CheckboxType;
 }
 

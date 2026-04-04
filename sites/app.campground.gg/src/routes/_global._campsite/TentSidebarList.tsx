@@ -1,6 +1,6 @@
 import { Alert, Button, Divider, Modal, Stack, Typography } from "@mui/joy";
 import { IconInfoCircleFilled, IconTent } from "@tabler/icons-react";
-import React from "react";
+import React, { type ReactNode } from "react";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/tent";
 import type { Session } from "~/context/session/types";
 import TentCreationModal from "../../layout/sidebar/TentCreationModal";
@@ -16,6 +16,8 @@ import { DragDropProvider } from "~/draggable";
 import ItemBottomMover from "../../components/ItemBottomMover";
 import TentList from "~/components/tents/TentList";
 import TentItem from "~/components/tents/TentItem";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     campsiteId: string;
@@ -34,7 +36,11 @@ type State = {
     settingsOpen: { category?: TentCategoryView; tent?: TentViewBasic, page?: TentSettingsPage | CategorySettingsPage; } | null;
 };
 
-export function TentCategorizedList({ categoryId, addBottomMover, tents, tentSelected, onSettingsOpen: onTentSettingsOpen }: { categoryId: string, addBottomMover?: boolean; tents: TentViewBasic[], tentSelected?: string | null; onSettingsOpen: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown; }) {
+type TentSidebarItem = Omit<TentViewBasic, "name"> & {
+    name: ReactNode[] | ReactNode;
+};
+
+export function TentCategorizedList({ categoryId, addBottomMover, tents, tentSelected, onSettingsOpen: onTentSettingsOpen }: { categoryId: string, addBottomMover?: boolean; tents: TentSidebarItem[], tentSelected?: string | null; onSettingsOpen: (props: { tent?: TentViewBasic, category?: TentCategoryView, page?: TentSettingsPage }) => unknown; }) {
     return (
         <TentList sx={{ "--List-padding": 0 }}>
             {tents.map((x) =>
@@ -142,14 +148,14 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
                                 {
                                     id: "bulletin",
                                     campsiteId,
-                                    name: "Bulletin Board",
+                                    name: <FormattedMessageGlobal id="app.tents.bulletin" />,
                                     type: "bulletin",
                                     canView: true,
                                 },
                                 {
                                     id: "members",
                                     campsiteId,
-                                    name: "Members",
+                                    name: <FormattedMessageGlobal id="app.members" />,
                                     type: "members",
                                     canView: permissions.role.general & (GeneralPermissionConsts.KICK_MEMBERS | GeneralPermissionConsts.BAN_MEMBERS | GeneralPermissionConsts.MUTE_MEMBERS | GeneralPermissionConsts.GIVE_ROLES)
                                 },
@@ -187,12 +193,16 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
                                 : <Alert variant="soft" color="neutral" startDecorator={<IconInfoCircleFilled />}>
                                     <Stack>
                                         <Typography>
-                                            This bonfire has no visible tents.
+                                            <FormattedMessage
+                                                id="app.bonfires.noTents"
+                                                defaultMessage="This bonfire has no visible tents"
+                                                description="Note telling user that the bonfire contains no visible tents for them"
+                                            />
                                         </Typography>
                                     </Stack>
                                 </Alert>}
                                 {canManageTents && <Button startDecorator={<IconTent />} color="neutral" variant="outlined" sx={{ borderWidth: 3, borderStyle: "dashed" }} onClick={() => this.setState({ createModalOpen: true })}>
-                                    Create tent
+                                    <FormattedMessageGlobal id="app.tents.create" />
                                 </Button>}
                             </Stack>
                         </Stack>

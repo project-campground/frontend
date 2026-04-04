@@ -10,6 +10,8 @@ import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
 import GradientBanner from "../components/pages/GradientBanner";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props<T extends ProfileView> = {
     user?: ProfileView;
@@ -77,7 +79,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                 <Stack mt={1}>
                     <Typography level="body-sm" textColor="text.tertiary">
                         <Skeleton loading={isLoading}>
-                            0 mutual friends {"\u2022"} 0 mutual camps
+                            0 mutual friends {"\u2022"} 0 mutual campsites
                         </Skeleton>
                     </Typography>
                 </Stack>
@@ -90,7 +92,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                 </Stack>
             </Box>
             {roles && <Stack sx={{ mb: 1 }} gap={2}>
-                <ContentCategory header={"Roles"}>
+                <ContentCategory header={<FormattedMessageGlobal id="app.roles" />}>
                     <Group wrap gap={1}>
                         {roles.map((role) =>
                             <RoleDisplay key={role.id} role={role}/>
@@ -106,7 +108,11 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                     <ListItemContent>
                         <Typography textColor="inherit">
                             <Skeleton loading={isLoading}>
-                                View profile
+                                <FormattedMessage
+                                    id="app.actors.viewProfile"
+                                    defaultMessage="View profile"
+                                    description="Menu button for viewing user's profile"
+                                />
                             </Skeleton>
                         </Typography>
                     </ListItemContent>
@@ -120,7 +126,11 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                             <ListItemContent>
                                 <Typography textColor="inherit">
                                     <Skeleton loading={isLoading}>
-                                        Settings
+                                        <FormattedMessage
+                                            id="app.settings"
+                                            defaultMessage="Settings"
+                                            description="Menu button for settings, as well as settings title"
+                                        />
                                     </Skeleton>
                                 </Typography>
                             </ListItemContent>
@@ -132,7 +142,11 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                             <ListItemContent>
                                 <Typography textColor="inherit">
                                     <Skeleton loading={isLoading}>
-                                        Logout
+                                        <FormattedMessage
+                                            id="form.logout"
+                                            defaultMessage="Logout"
+                                            description="Menu button for logging out of the account"
+                                        />
                                     </Skeleton>
                                 </Typography>
                             </ListItemContent>
@@ -146,7 +160,11 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                             <ListItemContent>
                                 <Typography textColor="inherit">
                                     <Skeleton loading={isLoading}>
-                                        Add friend
+                                        <FormattedMessage
+                                            id="app.actors.addFriend"
+                                            defaultMessage="Add friend"
+                                            description="Menu button for adding user as a friend"
+                                        />
                                     </Skeleton>
                                 </Typography>
                             </ListItemContent>
@@ -158,7 +176,11 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                             <ListItemContent>
                                 <Typography textColor="inherit">
                                     <Skeleton loading={isLoading}>
-                                        Block
+                                        <FormattedMessage
+                                            id="app.actors.block"
+                                            defaultMessage="Block"
+                                            description="Menu button for blocking the user"
+                                        />
                                     </Skeleton>
                                 </Typography>
                             </ListItemContent>

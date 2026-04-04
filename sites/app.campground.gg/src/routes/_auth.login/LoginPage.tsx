@@ -4,6 +4,7 @@ import Form from "../../components/form/Form";
 import { Alert, Link } from "@mui/joy";
 import { useSession } from "~/context/session";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export default function LoginPage() {
     const session = useSession();
@@ -36,7 +37,7 @@ export default function LoginPage() {
                             id: "identifier",
                             // inputType: "email",
                             placeholder: "example@example.com",
-                            header: <FormattedMessage id="info.handleOrEmail" />,
+                            header: <FormattedMessageGlobal id="info.handleOrEmail" />,
                             format: /^(?:([A-Za-z0-9._%+-]+)@)?((?:[A-Za-z0-9-]+[.])+[A-Za-z]{2,})$/,
                             required: true
                         },
@@ -45,9 +46,13 @@ export default function LoginPage() {
                             id: "password",
                             inputType: "password",
                             placeholder: "Password here",
-                            header: <FormattedMessage id="info.password" />,
+                            header: <FormattedMessageGlobal id="info.password" />,
                             footer: <Link color="neutral" textColor="neutral.300" level="body-md" href="/reset-password">
-                                        <FormattedMessage id="form.resetPassword" />
+                                        <FormattedMessage
+                                            id="form.resetPassword"
+                                            defaultMessage="Forgot password? Change it"
+                                            description="Reset password link in login page"
+                                        />
                                     </Link>,
                             required: true
                         }
@@ -55,10 +60,16 @@ export default function LoginPage() {
                 }
             ]}
             onSubmit={onSubmit}
-            submitText="form.login"
+            submitText={
+                <FormattedMessageGlobal id="form.login" />
+            }
         >
             <Link color="neutral" textColor="neutral.300" level="body-md" href="/register">
-                <FormattedMessage id="form.noAccount" />
+                <FormattedMessage
+                    id="form.noAccount"
+                    defaultMessage="No account? Create one"
+                    description="Link for navigating to registration page in login page"
+                />
             </Link>
             {error && <Alert color="danger" startDecorator={<IconExclamationCircleFilled />}>{error.message}</Alert>}
         </Form>

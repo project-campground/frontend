@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from "react";
 import HTTPError from "~/util/HTTPError";
 import PagePlaceholder, { PagePlaceholderIcon } from "./pages/PagePlaceholder";
 import { Typography } from "@mui/joy";
+import { TextBlock } from "components";
 
 interface ErrorBoundaryError {
     message: string;
@@ -26,10 +27,17 @@ export default class ErrorBoundary extends React.Component<PropsWithChildren, St
         if (error)
             return (
                 <PagePlaceholder icon={PagePlaceholderIcon.Error} title={
-                    <span>
-                        {error.status ? <Typography textColor="text.tertiary" sx={{ mr: 1.5 }}>{error.status}</Typography> : null}
-                        <span>{error.header}</span>
-                    </span>
+                    <TextBlock>
+                        {error.status
+                            ? <TextBlock>
+                                <Typography textColor="text.tertiary" sx={{ mr: 1.5 }}>{error.status}</Typography>
+                            </TextBlock>
+                            : null
+                        }
+                        <TextBlock>
+                            {error.header}
+                        </TextBlock>
+                    </TextBlock>
                 }>
                     {error.message}
                 </PagePlaceholder>

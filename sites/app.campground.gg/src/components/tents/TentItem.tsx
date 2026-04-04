@@ -1,5 +1,5 @@
 import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, styled, Typography } from "@mui/joy";
-import { IconEyeFilled, IconHash, IconSettingsFilled, IconTrashFilled } from "@tabler/icons-react";
+import { IconEyeFilled, IconHash, IconSettingsFilled, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import type { TentCategoryView, TentView } from "types/tent"
 import TentIcon from "~/components/tents/TentIcon";
@@ -9,9 +9,15 @@ import { useCampsiteContext } from "../../routes/_global._campsite/context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { PseudoTentType } from "~/util/pseudoTents";
 import { useDraggable, useDroppable } from "~/draggable";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
+
+type TentItemView = Omit<TentView, "name"> & {
+    name: ReactNode[] | ReactNode;
+};
 
 type Props = {
-    tent: TentView;
+    tent: TentItemView;
     unclickable?: boolean;
     disableMenu?: boolean;
     isActive?: boolean;
@@ -79,7 +85,11 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
                         <IconEyeFilled />
                     </ListItemDecorator>
                     <ListItemContent>
-                        Open tent
+                        <FormattedMessage
+                            id="app.tents.open"
+                            defaultMessage="Open tent"
+                            description="The menu button for opening tents"
+                        />
                     </ListItemContent>
                 </MenuItem>
                 {!!(tentPermissions.general & GeneralPermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType)  && onTentSettingsOpen && <MenuItem onClick={() => onTentSettingsOpen({ tent })}>
@@ -87,7 +97,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
                         <IconSettingsFilled />
                     </ListItemDecorator>
                     <ListItemContent>
-                        Tent settings
+                        <FormattedMessageGlobal id="app.tents.settings" />
                     </ListItemContent>
                 </MenuItem>}
                 {!!(tentPermissions.general & GeneralPermissionConsts.MANAGE_TENTS) && !PseudoTentType.includes(tent.id as PseudoTentType) && onTentSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onTentSettingsOpen({ tent, page: "delete" })}>
@@ -95,7 +105,7 @@ export default function TentItem({ isActive, tent, onSettingsOpen: onTentSetting
                         <IconTrashFilled />
                     </ListItemDecorator>
                     <ListItemContent>
-                        Delete tent
+                        <FormattedMessageGlobal id="app.tents.delete" />
                     </ListItemContent>
                 </MenuItem>}
             </>

@@ -3,6 +3,8 @@ import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import { useMemo } from "react";
 import type { CategorySettingsProps } from "./CategorySettingsModal";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export default function CategorySettingsProfile({ setResetHandler, onValuesChanged, settingsProps: { category } }: SettingsComponentProps<CategorySettingsProps>) {
     const defaultValues = useMemo(() => ({
@@ -23,7 +25,11 @@ export default function CategorySettingsProfile({ setResetHandler, onValuesChang
                                 {
                                     type: "text",
                                     id: "name",
-                                    header: "Tent Name",
+                                    header: <FormattedMessage
+                                        id="app.tentCategories.settings.name"
+                                        defaultMessage="Category name"
+                                        description="The header of the category name field in settings"
+                                    />,
                                     required: true,
                                     defaultValue: category.name,
                                     flex: 1,
@@ -31,7 +37,7 @@ export default function CategorySettingsProfile({ setResetHandler, onValuesChang
                                 {
                                     type: "textarea",
                                     id: "description",
-                                    header: "Topic",
+                                    header: <FormattedMessageGlobal id="info.topic" />,
                                     defaultValue: category.description,
                                 },
                             ]

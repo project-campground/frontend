@@ -5,6 +5,7 @@ import SimpleNotification from "../SimpleNotification";
 import VerifiedIcon from "../VerifiedIcon";
 import { useNavigate } from "react-router";
 import type { SxProps } from "@mui/joy/styles/types";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     avatar?: string;
@@ -43,7 +44,14 @@ export default function NavbarCamp({ id, avatar, name, memberCount, isVerified, 
                         <Typography level="body-md" textColor="neutral.300" lineHeight={1}>
                             <IconUsers size={12} />
                         </Typography>
-                        <Typography level="body-sm" lineHeight={1} fontSize={12}>{memberCount} members</Typography>
+                        <Typography level="body-sm" lineHeight={1} fontSize={12}>
+                            <FormattedMessageGlobal
+                                id="app.campsites.members"
+                                values={{
+                                    count: memberCount,
+                                }}
+                            />
+                        </Typography>
                     </Stack>
                 </Stack>
             </Stack>

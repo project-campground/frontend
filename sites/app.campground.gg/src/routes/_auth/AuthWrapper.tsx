@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
 import { Box, Sheet, Stack, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
-import { FormattedMessage } from "react-intl";
 import AuthNavbar from "./AuthNavbar";
+import { FormattedMessageGlobal, type globalIntlDeclarations } from "~/i18n";
 
 type Props = {
-    header: string;
+    header: keyof typeof globalIntlDeclarations;
     sx?: SxProps;
     bodySx?: SxProps;
     children: ReactNode[] | ReactNode;
@@ -56,7 +56,7 @@ export default class AuthWrapper extends React.Component<Props> {
                                 <Stack className="SigninWrapper form-wrapper" gap={2} sx={{ px: 12, py: 10 }}>
                                     <Stack className="SigninWrapper header" direction="row">
                                         <Typography level="h3">
-                                            <FormattedMessage id={header} />
+                                            <FormattedMessageGlobal id={header} />
                                         </Typography>
                                     </Stack>
                                     <Box className="SigninWrapper form-container">

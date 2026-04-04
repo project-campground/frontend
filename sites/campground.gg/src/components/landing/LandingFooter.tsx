@@ -38,7 +38,7 @@ export default class LandingFooter extends React.Component<Props> {
                     </LandingFooterSection>
                     <LandingFooterSection header="global.brand">
                         <LandingFooterItem href="/brandkit" icon={<IconAffiliateFilled />}>
-                            <FormattedMessage id="landing.brandkit" />
+                            <FormattedMessage id="landing.brandKit" />
                         </LandingFooterItem>
                         <LandingFooterItem href="/team" icon={<IconUsersGroup />}>
                             <FormattedMessage id="landing.team" />

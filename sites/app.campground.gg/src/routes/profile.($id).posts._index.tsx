@@ -4,7 +4,7 @@ import { redirect } from "react-router";
 
 export function meta(_routes: Route.MetaArgs) {
     return [
-        { title: "Campground — Camp" },
+        { title: "Campground — Profile" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }

@@ -6,6 +6,7 @@ import ImageInputModal from "../../layout/ImageInputModal";
 import { IconPencil } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
 import { FlexCenter, Image } from "components";
+import { FormattedMessage } from "react-intl";
 
 export interface FormFieldImageProps extends FormFieldProps<"image", string | null> {
     borderRadius?: keyof Radius;
@@ -84,7 +85,13 @@ export default class FormFieldImage extends AbstractFormField<"image", string | 
                         ? <FieldImage radius={borderRadius ?? "sm"} src={value} />
                         : <ImagePlaceholder variant="solid" sx={{ borderRadius }}>
                             <FlexCenter>
-                                <Typography>Upload image</Typography>
+                                <Typography>
+                                    <FormattedMessage
+                                        id="form.uploadImage"
+                                        defaultMessage="Upload image"
+                                        description="Hint or button for uploading images"
+                                    />
+                                </Typography>
                             </FlexCenter>
                         </ImagePlaceholder>}
                     </AspectRatio>

@@ -1,8 +1,7 @@
 import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack } from "@mui/joy";
 import Form from "../components/form/Form";
 import { Image } from "components";
-import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
-import { useContext } from "react";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     allowTitle?: boolean;
@@ -17,8 +16,14 @@ export default function ImageInputModal({ allowTitle, currentValue, currentTitle
     return (
         <ModalDialog>
             <ModalClose />
-            <DialogTitle>Upload image</DialogTitle>
-            <DialogContent>Upload an image or submit URL of the image.</DialogContent>
+            <DialogTitle><FormattedMessage id="form.uploadImage" /></DialogTitle>
+            <DialogContent>
+                <FormattedMessage
+                    id="form.uploadImage.description"
+                    defaultMessage="Upload an image or paste the URL of it"
+                    description="Description of modal instructing to upload an image or submit its URL"
+                />
+            </DialogContent>
             <Stack alignItems="center">
                 {currentValue && <Image src={currentValue} mh={200} mw={400} />}
             </Stack>
@@ -31,7 +36,11 @@ export default function ImageInputModal({ allowTitle, currentValue, currentTitle
                             {
                                 id: "title",
                                 type: "text",
-                                header: "Image Title",
+                                header: <FormattedMessage
+                                    id="form.uploadImage.title"
+                                    defaultMessage="Image title"
+                                    description="Prompt for the title of the image in image uploading modal"
+                                />,
                                 placeholder: "a.png",
                                 defaultValue: currentTitle ?? undefined,
                             }
@@ -43,7 +52,11 @@ export default function ImageInputModal({ allowTitle, currentValue, currentTitle
                             {
                                 id: "url",
                                 type: "text",
-                                header: "Image URL",
+                                header: <FormattedMessage
+                                    id="form.uploadImage.url"
+                                    defaultMessage="Image URL"
+                                    description="Prompt for the URL of the image in image uploading modal"
+                                />,
                                 placeholder: "https://example.com",
                                 defaultValue: currentValue ?? undefined,
                                 required: true,
@@ -53,8 +66,9 @@ export default function ImageInputModal({ allowTitle, currentValue, currentTitle
                 ]}
                 onSubmit={(_, values) => (onClose(), onSubmit(values.url, values.title))}
                 onCancel={() => (onClose(), onRemove?.())}
-                cancelText="Remove image"
-                submitText="Upload image"
+                submitText={
+                    <FormattedMessage id="form.uploadImage" />
+                }
             />
         </ModalDialog>
     )

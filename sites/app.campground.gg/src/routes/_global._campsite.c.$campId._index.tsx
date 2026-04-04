@@ -4,6 +4,7 @@ import { sessionRouterContext } from "~/context/session";
 import { loginRequiredMiddleware } from "~/middleware/login";
 import { authMiddleware } from "~/middleware/auth";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
+import { FormattedMessage } from "react-intl";
 
 export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
     loginRequiredMiddleware,
@@ -26,14 +27,20 @@ export async function clientLoader({ params: { campId }, context }: Route.Client
 export default function Index({ loaderData: { status } }: Route.ComponentProps) {
     if (status === 404)
         return (
-            <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title="Campsite not found">
-                This campsite could not be found. Try typing a valid campsite identifier.
+            <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title={
+                <FormattedMessage
+                    id="app.campsites.notFound"
+                    defaultMessage="Campsite not found"
+                    description="User cannot view the campsite"
+                />
+            }>
+                <FormattedMessage
+                    id="app.campsites.notFound.description"
+                    defaultMessage="It seems that this campsite does not exist."
+                    description="User cannot view the campsite"
+                />
             </PagePlaceholder>
         );
 
-    return (
-        <PagePlaceholder icon={PagePlaceholderIcon.Empty} title="No available tents">
-            It seems that you do not have the permission to view any of the tents.
-        </PagePlaceholder>
-    );
+    return null;
 }

@@ -3,6 +3,7 @@ import RoleDisplay from "../campsite/RoleDisplay";
 import { useCampsite } from "~/routes/_global._campsite/context";
 import type { CampsiteRoleView } from "types/campsites";
 import { IconAt } from "@tabler/icons-react";
+import { useIntl } from "react-intl";
 
 type Props = {
     id: string;
@@ -17,8 +18,7 @@ const RoleMentionWrapper = styled("span", {
     alignItems: "center",
 }));
 
-const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId"> = {
-    name: "Unknown role",
+const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId" | "name"> = {
     colors: [],
     motion: "none",
     displaySeparately: false,
@@ -37,7 +37,17 @@ const defaultUnknownRole: Omit<CampsiteRoleView, "id" | "campsiteId"> = {
 
 export default function RoleMention({ id }: Props) {
     const campsite = useCampsite();
-    const role = campsite.roles.find((x) => x.id === id) ?? {...defaultUnknownRole, id, campsiteId: campsite.id};
+    const intl = useIntl();
+    const role = campsite.roles.find((x) => x.id === id) ?? {
+        ...defaultUnknownRole,
+        id,
+        name: intl.formatMessage({
+            id: "app.roles.unknown",
+            defaultMessage: "Unknown role",
+            description: "The title of the role when the role has not been found in role mention"
+        }),
+        campsiteId: campsite.id
+    };
 
     return (
         <RoleMentionWrapper>

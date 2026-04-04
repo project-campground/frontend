@@ -3,6 +3,8 @@ import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { BonfireViewBasic } from "types/campsites";
 import { useMemo } from "react";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export default function BonfireSettingsProfile({ setResetHandler, onValuesChanged, settingsProps: { bonfire } }: SettingsComponentProps<{ bonfire: BonfireViewBasic }>) {
     const defaultValues = useMemo(() => ({
@@ -24,13 +26,21 @@ export default function BonfireSettingsProfile({ setResetHandler, onValuesChange
                             fields: [
                                 {
                                     type: "image",
-                                    header: "Banner",
+                                    header: <FormattedMessage
+                                        id="global.banner" 
+                                        defaultMessage="Banner"
+                                        description="The banner of campsites, bonfires and users"
+                                    />,
                                     id: "bannerUri",
                                     borderRadius: "md",
                                     width: 310,
                                     sizeRatio: 3.647,
                                     defaultValue: defaultValues.bannerUri,
-                                    footer: "The banner shows up at the top of the tent list",
+                                    footer: <FormattedMessage
+                                        id="app.bonfires.settings.bannerNote"
+                                        defaultMessage="The banner shows up at the top of the tent list"
+                                        description="Notifying that bonfire's banner shows up at the top of tent list"
+                                    />,
                                 },
                             ]
                         },
@@ -52,7 +62,7 @@ export default function BonfireSettingsProfile({ setResetHandler, onValuesChange
                                 {
                                     type: "text",
                                     id: "name",
-                                    header: "Bonfire Name",
+                                    header: <FormattedMessageGlobal id="app.bonfires.settings.name" />,
                                     required: true,
                                     defaultValue: bonfire.name,
                                     flex: 1,
@@ -66,7 +76,7 @@ export default function BonfireSettingsProfile({ setResetHandler, onValuesChange
                                 {
                                     type: "textarea",
                                     id: "description",
-                                    header: "Description",
+                                    header: <FormattedMessageGlobal id="info.description" />,
                                     defaultValue: bonfire.description,
                                 },
                             ]

@@ -1,17 +1,17 @@
 import { Button, List, Stack, styled, type ColorPaletteProp } from "@mui/joy";
-import React from "react";
+import React, { type ReactNode } from "react";
 import ContentCategory from "../content/ContentCategory";
 
 export interface PageSidebarSection {
     id: string;
-    header: React.ReactNode | React.ReactNode[];
+    header: ReactNode[] | ReactNode;
     items: PageSidebarItem[];
 };
 export interface PageSidebarItem {
     id: string;
-    name: React.ReactNode | React.ReactNode[];
-    startDecorator?: React.ReactNode | React.ReactNode[];
-    endDecorator?: React.ReactNode | React.ReactNode[];
+    name: ReactNode[] | ReactNode;
+    startDecorator?: ReactNode[] | ReactNode;
+    endDecorator?: ReactNode[] | ReactNode;
     color?: ColorPaletteProp;
 };
 type Props = {

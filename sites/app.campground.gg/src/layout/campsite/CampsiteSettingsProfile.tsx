@@ -3,6 +3,8 @@ import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteViewDetailed } from "types/campsites";
 import { useMemo } from "react";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export default function CampsiteSettingsProfile({ setResetHandler, onValuesChanged, settingsProps: { campsite } }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const defaultValues = useMemo(() => ({
@@ -26,13 +28,21 @@ export default function CampsiteSettingsProfile({ setResetHandler, onValuesChang
                         fields: [
                             {
                                 type: "image",
-                                header: "Banner",
+                                header: <FormattedMessage
+                                    id="global.banner" 
+                                    defaultMessage="Banner"
+                                    description="The banner of campsites, bonfires and users"
+                                />,
                                 id: "bannerUri",
                                 borderRadius: "md",
                                 width: 310,
                                 sizeRatio: 3.647,
                                 defaultValue: defaultValues.bannerUri,
-                                footer: "The banner shows up at the top of the tent list",
+                                footer: <FormattedMessage
+                                    id="app.campsites.settings.bannerNote"
+                                    defaultMessage="The banner shows up in Bulletin Board"
+                                    description="Notifying that campsite's banner shows up in the bulletin board"
+                                />,
                             },
                         ]
                     },
@@ -54,7 +64,7 @@ export default function CampsiteSettingsProfile({ setResetHandler, onValuesChang
                             {
                                 type: "text",
                                 id: "name",
-                                header: "Campsite Name",
+                                header: <FormattedMessageGlobal id="app.campsites.name" />,
                                 required: true,
                                 defaultValue: campsite.name,
                                 flex: 1,
@@ -68,7 +78,7 @@ export default function CampsiteSettingsProfile({ setResetHandler, onValuesChang
                             {
                                 type: "textarea",
                                 id: "description",
-                                header: "Description",
+                                header: <FormattedMessageGlobal id="info.description" />,
                                 defaultValue: campsite.description,
                             },
                         ]
@@ -86,7 +96,11 @@ export default function CampsiteSettingsProfile({ setResetHandler, onValuesChang
                             {
                                 type: "tags",
                                 id: "tags",
-                                header: "Tags",
+                                header: <FormattedMessage
+                                    id="info.tags.plural"
+                                    defaultMessage="Tags"
+                                    description="Plural form of campsite tags or other content tags"
+                                />,
                                 defaultValue: campsite.tags ?? [],
                             }
                         ]

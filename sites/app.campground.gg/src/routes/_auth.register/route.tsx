@@ -3,7 +3,7 @@ import RegisterPage from "./RegisterPage";
 
 export function meta(_routes: Route.MetaArgs) {
     return [
-        { title: "Campground — Camp" },
+        { title: "Campground — Register" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }

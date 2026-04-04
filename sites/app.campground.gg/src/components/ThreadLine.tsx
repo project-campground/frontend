@@ -76,8 +76,6 @@ export function ThreadLineWrapper({ children, }: { children: React.ReactElement[
                 {children[0]}
             </Box>
             <Stack>
-                {/* <WrapperLine sx={{ gridColumn: "line / content" }}>
-                </WrapperLine> */}
                 {children.slice(1)}
             </Stack>
         </Stack>

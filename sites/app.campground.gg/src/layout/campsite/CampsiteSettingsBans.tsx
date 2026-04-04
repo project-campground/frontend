@@ -10,6 +10,7 @@ import Datestamp from "~/components/Datestamp";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { IconHammerOff } from "@tabler/icons-react";
 import { handleAnyRestErrorWith } from "~/util/rest";
+import { FormattedMessage } from "react-intl";
 
 type State = {
 
@@ -74,13 +75,58 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
                 itemsPerPage={50}
                 maxItems={null}
                 columns={[
-                    { id: "id", name: "Banned User", width: 240, Component: TargetComponent },
-                    { id: "reason", name: "Reason", Component: ReasonComponent, screenSize: "lg" },
-                    { id: "createdBy", name: "Banned By", width: 240, Component: CreatedByComponent },
-                    { id: "createdAt", name: "Banned At", width: 120, Component: CreatedAtComponent, screenSize: "xl" },
+                    {
+                        id: "actor",
+                        name: <FormattedMessage
+                            id="app.bans.actor"
+                            defaultMessage="Banned user"
+                            description="Who was banned in the ban list"
+                        />,
+                        width: 240,
+                        Component: TargetComponent
+                    },
+                    {
+                        id: "reason",
+                        name: <FormattedMessage
+                            id="app.bans.reason"
+                            defaultMessage="Reason"
+                            description="Reason for the ban in the ban list"
+                        />,
+                        Component: ReasonComponent,
+                        screenSize: "lg"
+                    },
+                    {
+                        id: "createdBy",
+                        name: <FormattedMessage
+                            id="app.bans.by"
+                            defaultMessage="Banned by"
+                            description="Banned by who in the ban list"
+                        />,
+                        width: 240,
+                        Component: CreatedByComponent
+                    },
+                    {
+                        id: "createdAt",
+                        name: <FormattedMessage
+                            id="app.bans.at"
+                            defaultMessage="Banned at"
+                            description="Banned when in the ban list"
+                        />,
+                        width: 120,
+                        Component: CreatedAtComponent,
+                        screenSize: "xl"
+                    },
                 ]}
                 menu={[
-                    { startDecorator: <IconHammerOff />, content: "Unban users", onClick: this._onBansDeleteBind }
+                    {
+                        startDecorator: <IconHammerOff />,
+                        content: <FormattedMessage
+                            id="app.bans.unban"
+                            defaultMessage="Unban users"
+                            description="Unban multiple or one user button in the ban list"
+                        />,
+                        onClick: this._onBansDeleteBind
+                    }
                 ]}
                 HeaderComponent={TargetComponent}
                 fetch={this.fetchBans.bind(this)}

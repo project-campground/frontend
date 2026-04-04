@@ -4,12 +4,12 @@ import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { ListItemDecorator, Option, Select, type SelectOption } from "@mui/joy";
 
 export interface FormFieldSelectItem {
-    value: string | boolean | number;
-    text: React.ReactNode;
-    startDecorator?: React.ReactNode;
-    endDecorator?: React.ReactNode;
+    value: string | boolean | number | null;
+    text: ReactNode[] | ReactNode;
+    startDecorator?: ReactNode[] | ReactNode;
+    endDecorator?: ReactNode[] | ReactNode;
 }
-export interface FormFieldSelectProps extends FormFieldProps<"select", string | boolean | number>, FormFieldDecoratorProps {
+export interface FormFieldSelectProps extends FormFieldProps<"select", string | boolean | number | null>, FormFieldDecoratorProps {
     options: FormFieldSelectItem[];
     placeholder?: string;
 }
@@ -18,10 +18,9 @@ type State = {
     value: string | number | boolean | null;
 };
 
-export default class FormFieldSelect extends AbstractFormField<"select", number | boolean | string, FormFieldSelectProps, State> {
+export default class FormFieldSelect extends AbstractFormField<"select", number | boolean | string | null, FormFieldSelectProps, State> {
     constructor(props: FormFieldSelectProps) {
-        super(props);
-        this.state = { value: this.props.defaultValue ?? null };
+        super(props, null);
     }
 
     public override get isValid(): boolean {
@@ -43,7 +42,7 @@ export default class FormFieldSelect extends AbstractFormField<"select", number 
         return this.renderOption(option?.value, optionRecord);
     }
     
-    private renderOption(value: string | number | boolean | undefined, option: FormFieldSelectItem | undefined) {
+    private renderOption(value: string | number | boolean | undefined | null, option: FormFieldSelectItem | undefined) {
         // console.log({ value, option });
         return (
             <>

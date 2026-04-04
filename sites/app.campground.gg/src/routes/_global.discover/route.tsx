@@ -1,7 +1,6 @@
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
-import type { Route } from "./+types/route";
 
-export function meta(routes: Route.MetaArgs) {
+export function meta() {
     return [
         { title: "Campground — Discover" },
         { name: "description", content: "Gather around the fire, friends" },

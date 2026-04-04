@@ -7,6 +7,7 @@ import FadingBanner from "~/components/pages/FadingBanner";
 import Form from "~/components/form/Form";
 import { PagePlaceholderIcon, textToIcon } from "~/components/pages/PagePlaceholder";
 import { useSession } from "~/context/session";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export default function CampsiteCreation() {
     const session = useSession();
@@ -64,7 +65,11 @@ export default function CampsiteCreation() {
             <Box sx={{ minWidth: { sm: "100%", md: 512 }, maxWidth: { sm: "100%", md: 512 }, height: { sm: "100%", md: "auto" } }}>
                 <Sheet sx={{ px: 6, py: 4, height: { sm: "100%", md: "auto" }, borderRadius: "lg", boxShadow: "lg" }}>
                     <Form
-                        header="Create a Campsite"
+                        header={
+                            <FormattedMessageGlobal
+                                id="app.campsites.create"
+                            />
+                        }
                         sections={[
                             {
                                 id: "display",
@@ -83,7 +88,9 @@ export default function CampsiteCreation() {
                                                     <Typography level="body-lg" textColor="neutral.300" lineHeight={1}>
                                                         <IconUsers size={16} />
                                                     </Typography>
-                                                    <Typography level="body-md" lineHeight={1} fontSize={12}>1 member</Typography>
+                                                    <Typography level="body-md" lineHeight={1} fontSize={12}>
+                                                        <FormattedMessageGlobal id="app.campsites.members" values={{ count: 1 }} />
+                                                    </Typography>
                                                 </Stack>
                                             </Stack>
                                         </Stack>
@@ -106,7 +113,7 @@ export default function CampsiteCreation() {
                                     {
                                         type: "text",
                                         id: "name",
-                                        header: "Campsite Name",
+                                        header: <FormattedMessageGlobal id="app.campsites.name" />,
                                         required: true,
                                         flex: 1,
                                     },
@@ -118,14 +125,14 @@ export default function CampsiteCreation() {
                                     {
                                         type: "textarea",
                                         id: "description",
-                                        header: "Description",
+                                        header: <FormattedMessageGlobal id="info.description" />,
                                         required: true,
                                     },
                                 ]
                             },
                         ]}
                         onSubmit={onSubmit}
-                        submitText="Create"
+                        submitText={<FormattedMessageGlobal id="app.campsites.create" />}
                     >
                         {error && <Alert color="danger">{error.errorHeader}: {error.errorDescription}</Alert>}
                     </Form>

@@ -1,10 +1,12 @@
 import { Box, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
 import { Group } from "components";
-import React from "react";
+import React, { type ReactNode } from "react";
+import { FormattedMessage } from "react-intl";
 import PageSidebar, { type PageSidebarSection } from "~/components/pages/PageSidebar";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props<TPage extends string, TProps> = {
-    header: string;
+    header: ReactNode[] | ReactNode;
     settingsProps: TProps;
     sections: PageSidebarSection[];
     defaultPage: TPage;
@@ -117,11 +119,6 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
             <ModalDialog layout="fullscreen" sx={{ padding: 0, bgcolor: "background.body" }}>
                 <ModalClose />
                 <Stack sx={{ width: "100%", height: "100%", overflow: "hidden", px: 0.5, py: 0.5 }}>
-                    {/* <Group sx={{ px: 3, py: 1 }} gap={1}>
-                        <Breadcrumbs>
-                            <Typography level="title-lg">{pageInfo?.name ?? page}</Typography>
-                            </Breadcrumbs>
-                    </Group> */}
                     <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} flex={1} gap={0.5}>
                         <SettingsSidebar>
                             <Typography level="title-lg" sx={{ mx: 1 }}>{header}</Typography>
@@ -133,10 +130,16 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
                                 />
                             </Box>
                             <SubmitBox className={changed ? "visible" : ""}>
-                                <Typography>You have unsaved changes</Typography>
+                                <Typography>
+                                    <FormattedMessage
+                                        id="app.settings.unsavedChanges"
+                                        defaultMessage="You have unsaved changes"
+                                        description="The text that appears in the pop up when you change values in settings"
+                                    />
+                                </Typography>
                                 <Group gap={2}>
                                     <Button variant="plain" color="neutral" onClick={this.resetValues.bind(this)}>
-                                        Cancel
+                                        <FormattedMessageGlobal id="common.cancel" />
                                     </Button>
                                     <Button variant="glow" color="success" disabled={!valid} onClick={async () => {
                                         this.setState({ ...values, submitting: true })
@@ -144,7 +147,15 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
                                             .then(() => {
                                                 this.setState({ ...values, valid: false, changed: false, submitting: false })
                                             })
-                                    }}>{submitting ? <CircularProgress color="neutral" /> : "Save changes"}</Button>
+                                    }}>
+                                        {submitting
+                                            ? <CircularProgress color="neutral" />
+                                            : <FormattedMessage
+                                                id="app.settings.save"
+                                                defaultMessage="Save changes"
+                                                description="Button for saving changes in settings"
+                                            />
+                                        }</Button>
                                 </Group>
                             </SubmitBox>
                         </SettingsSidebar>

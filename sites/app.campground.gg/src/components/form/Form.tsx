@@ -5,6 +5,7 @@ import { Button, Stack, styled, Typography, type ColorPaletteProp } from "@mui/j
 import { FormattedMessage } from "react-intl";
 import FormSection from "./FormSection";
 import { Group } from "components";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export type FormProps = {
     sections: FormSectionProps[];
@@ -18,8 +19,8 @@ export type FormProps = {
     ReactiveComponent?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
     inlineReactiveComponent?: boolean;
     
-    submitText?: string;
-    cancelText?: string;
+    submitText?: ReactNode[] | ReactNode;
+    cancelText?: ReactNode[] | ReactNode;
     submitColor?: ColorPaletteProp;
     onSubmit?: (ev: MouseEvent<HTMLAnchorElement>, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
     onCancel?: (ev: MouseEvent<HTMLAnchorElement>) => unknown;
@@ -167,10 +168,14 @@ export default class Form extends React.Component<FormProps, FormState> {
                     <Stack className="Form-footer" direction="column" gap={1} sx={{ mt: 2 }}>
                         <Group withMobileReversed gap={2} sx={{ width: "100%" }}>
                             {this.props.onCancel && <Button variant="plain" color="danger" onClick={this.props.onCancel} fullWidth>
-                                <FormattedMessage id={cancelText ?? "form.cancel"} />
+                                {cancelText ?? <FormattedMessageGlobal id="common.cancel" />}
                             </Button>}
                             {this.props.onSubmit && <Button onClick={this.onButtonSubmit.bind(this)} variant="glow" color={submitColor ?? "primary"} fullWidth disabled={!this.allValid}>
-                                <FormattedMessage id={submitText ?? "form.submit"} />
+                                {submitText ?? <FormattedMessage
+                                    id="form.submit"
+                                    defaultMessage="Submit"
+                                    description="Submit button for submitting form values"
+                                />}
                             </Button>}
                         </Group>
                         { children }

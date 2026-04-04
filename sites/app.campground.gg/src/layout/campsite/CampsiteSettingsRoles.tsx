@@ -14,6 +14,8 @@ import type { HttpResponseWithContent } from "api/HTTPResponse";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import TentMessage from "~/components/tents/TentMessage";
 import { DragDropProvider } from "~/draggable";
+import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type NewRole = CampsiteRoleView & { added: true; };
 type SettingsRole = CampsiteRoleView | NewRole;
@@ -116,7 +118,9 @@ export default function CampsiteSettingsRoles({ setResetHandler, onValuesChanged
         <Group sx={{ width: "100%", height: "100%", }} gap={2}>
             <Stack sx={{ width: { xs: 128, lg: 256 }, height: "100%" }} gap={2}>
                 <Group alignItems="center" gap={1}>
-                    <Typography level="title-lg" flex={1}>Roles</Typography>
+                    <Typography level="title-lg" flex={1}>
+                        <FormattedMessageGlobal id="app.roles" />
+                    </Typography>
                     <IconButton size="sm" onClick={createNewRole}>
                         <IconPlus size={16} />
                     </IconButton>
@@ -190,17 +194,25 @@ function RolePage({ addResetHandler, onRoleDelete, role, onChanged }: RolePagePr
                     tabs={[
                         {
                             id: 0,
-                            name: "Display",
+                            name: <FormattedMessage
+                                id="app.roles.display"
+                                defaultMessage="Display"
+                                description="Display tab in role settings"
+                            />,
                             startDecorator: <IconPaletteFilled />,
                         },
                         {
                             id: 1,
-                            name: "Permissions",
+                            name: <FormattedMessageGlobal id="app.permissions.plural" />,
                             startDecorator: <IconListCheck />,
                         },
                         {
                             id: 2,
-                            name: "Manage",
+                            name: <FormattedMessage
+                                id="app.roles.manage"
+                                defaultMessage="Manage"
+                                description="Manage role tab in role settings"
+                            />,
                             startDecorator: <IconSettingsFilled />,
                         },
                     ]}
@@ -220,6 +232,8 @@ function RolePage({ addResetHandler, onRoleDelete, role, onChanged }: RolePagePr
 }
 
 function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTabProps) {
+    const intl = useIntl();
+
     const fakeMessage = {
         id: "",
         campsiteId: "",
@@ -227,14 +241,22 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
         tentId: "",
         replyingTo: [],
         replyingToCount: 0,
-        content: "This is an example text.",
+        content: intl.formatMessage({
+            id: "app.messages.example",
+            defaultMessage: "This is an example text.",
+            description: "An example message text in roles settings page",
+        }),
         createdAt: new Date().toISOString(),
         createdBy: {
             isMember: true,
             nickname: null,
             user: {
                 did: "",
-                displayName: "Example User",
+                displayName: intl.formatMessage({
+                    id: "app.actors.example",
+                    defaultMessage: "Example user",
+                    description: "Username of an example user in roles settings page",
+                }),
                 handle: "",
                 description: "",
                 tagline: "",
@@ -288,7 +310,11 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                         {
                             id: "name",
                             type: "text",
-                            header: "Role name",
+                            header: <FormattedMessage
+                                id="app.roles.name"
+                                defaultMessage="Role name"
+                                description="The name field of the roles settings page"
+                            />,
                             defaultValue: role.name,
                         },
                     ],
@@ -301,7 +327,11 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                         {
                             id: "colors",
                             type: "array",
-                            header: "Role colors",
+                            header: <FormattedMessage
+                                id="app.roles.colors"
+                                defaultMessage="Role colors"
+                                description="The colors field of the roles settings page"
+                            />,
                             defaultValue: role.colors,
                             max: 5,
                             field: {
@@ -320,29 +350,49 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                         {
                             id: "motion",
                             type: "radio",
-                            header: "Select the type of gradient animation",
+                            header: <FormattedMessage
+                                id="app.roles.colors"
+                                defaultMessage="Select the type of gradient color animation"
+                                description="The animation field in role settings page"
+                            />,
                             required: true,
                             defaultValue: role.motion,
                             design: "grid",
                             options: [
                                 {
                                     value: "none" satisfies CampsiteRoleMotion,
-                                    text: "None",
+                                    text: <FormattedMessage
+                                        id="app.roles.motion.none"
+                                        defaultMessage="Unanimated"
+                                        description="Unanimated option for roles gradient color animation"
+                                    />,
                                     startDecorator: <IconX />
                                 },
                                 {
                                     value: "linear" satisfies CampsiteRoleMotion,
-                                    text: "Linear",
+                                    text: <FormattedMessage
+                                        id="app.roles.motion.linear"
+                                        defaultMessage="Linear"
+                                        description="Linear animation option for roles gradient color animation"
+                                    />,
                                     startDecorator: <IconRipple />
                                 },
                                 {
                                     value: "wave" satisfies CampsiteRoleMotion,
-                                    text: "Wave",
+                                    text: <FormattedMessage
+                                        id="app.roles.motion.wave"
+                                        defaultMessage="Wave"
+                                        description="Wave animation option for roles gradient color animation"
+                                    />,
                                     startDecorator: <IconWaveSine />
                                 },
                                 {
                                     value: "radial" satisfies CampsiteRoleMotion,
-                                    text: "Radial",
+                                    text: <FormattedMessage
+                                        id="app.roles.motion.radial"
+                                        defaultMessage="Radial"
+                                        description="Radial animation option for roles gradient color animation"
+                                    />,
                                     startDecorator: <IconAccessPoint />
                                 },
                             ]
@@ -350,18 +400,34 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                         {
                             id: "displaySeparately",
                             type: "switch",
-                            label: "Display separately",
+                            label: <FormattedMessage
+                                id="app.roles.separately"
+                                defaultMessage="Display separately"
+                                description="Display separately setting in role settings"
+                            />,
                             defaultValue: role.displaySeparately,
                             startDecorator: <IconSeparatorHorizontal />,
-                            description: "Displays the members that have this role separately from the rest of the members in the member list"
+                            description: <FormattedMessage
+                                id="app.roles.separately.description"
+                                defaultMessage="Displays the members that have this role separately from the rest of the members in the member list"
+                                description="Display separately setting's description in role settings"
+                            />,
                         },
                         {
                             id: "mentionable",
                             type: "switch",
-                            label: "Mentionable by anyone",
+                            label: <FormattedMessage
+                            id="app.roles.mentionable"
+                            defaultMessage="Mentionable by anyone"
+                            description="Mentionable by anyone setting in role settings"
+                            />,
                             startDecorator: <IconAt />,
                             defaultValue: role.mentionable,
-                            description: "Allows any member with permission to create content to mention other members that have this role"
+                            description: <FormattedMessage
+                                id="app.roles.mentionable.description"
+                                defaultMessage="Allows any member with permission to create content to mention other members that have this role"
+                                description="Mentionable by anyone setting's description in role settings"
+                            />,
                         },
                     ]
                 }

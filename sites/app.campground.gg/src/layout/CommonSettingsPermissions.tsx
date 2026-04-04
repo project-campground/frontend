@@ -12,6 +12,8 @@ import type { TristateValue } from "~/components/Tristate";
 import type { PermissionsDictionary } from "types/permissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { colorToDecimal } from "~/util/color";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type CampsitePermissionViewSettings = Pick<CampsitePermissionViewBasic, "userId" | "roleId" | "permissions"> & { new?: true; };
 
@@ -92,7 +94,9 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
         <Group sx={{ width: "100%", height: "100%", }} gap={2}>
             <Stack sx={{ width: { xs: 128, lg: 256 }, height: "100%" }} gap={2}>
                 <Group alignItems="center" gap={1}>
-                    <Typography level="title-lg" flex={1}>Permissions</Typography>
+                    <Typography level="title-lg" flex={1}>
+                        <FormattedMessageGlobal id="app.permissions.plural" />,
+                    </Typography>
                     <Dropdown>
                         <MenuButton slots={{ root: IconButton }} slotProps={{ root: { size: "sm" } }}>
                             <IconPlus size={16} />

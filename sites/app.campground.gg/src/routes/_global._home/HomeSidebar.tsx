@@ -25,16 +25,6 @@ export default class HomeSidebar extends React.Component<Props> {
         const { page: active } = this.props;
         return (
             <Stack direction="row">
-                {/* <PageSidebar>
-                    <Typography level="title-sm" textColor="text.quartary" fontWeight={900}>Campground</Typography>
-                    <PageSidebarList>
-                        {pages.map((page) =>
-                            <PageSidebarItem color={page.color} active={page.href === active} href={page.href} icon={page.icon}>
-                                {page.text}
-                            </PageSidebarItem>
-                        )}
-                    </PageSidebarList>
-                </PageSidebar> */}
             </Stack>
         );
     }

@@ -87,7 +87,7 @@ const TristateButton = styled(IconButton)(({ theme, color }) => ({
 }));
 
 const Tristate = React.forwardRef<HTMLDivElement, TristateProps>(function Tristate(props, ref) {
-    const { value, defaultValue, variant, label, onChange, ...other } = props;
+    const { value, defaultValue, variant, label, onChange } = props;
     
     const ownerState = { ...props, variant };
     const [triValue, setTriValue] = value ? [value] : useState(value ?? defaultValue ?? "pass");
@@ -97,7 +97,7 @@ const Tristate = React.forwardRef<HTMLDivElement, TristateProps>(function Trista
     };
 
     return (
-        <TristateRoot ref={ref} ownerState={ownerState} {...other}>
+        <TristateRoot ref={ref} ownerState={ownerState}>
             <TristateBox ownerState={ownerState} size="md">
                 <TristateBoxBackground ownerState={ownerState} className={triValue} />
                 <TristateButton className={triValue === "off" ? "checked" : ""} onClick={onValueChange.bind(null, "off")} variant="plain" color="danger">

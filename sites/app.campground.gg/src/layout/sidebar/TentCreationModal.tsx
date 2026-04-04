@@ -8,6 +8,8 @@ import { useSession } from "~/context/session";
 import ContentCategory from "~/components/content/ContentCategory";
 import TentList from "~/components/tents/TentList";
 import { PseudoTentItem } from "~/components/tents/TentItem";
+import { FormattedMessageGlobal } from "~/i18n";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     campsiteId: string;
@@ -48,8 +50,16 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
     return (
         <ModalDialog>
             <ModalClose />
-            <DialogTitle>Create tent</DialogTitle>
-            <DialogContent>Create a new tent or tent category in this bonfire</DialogContent>
+            <DialogTitle>
+                <FormattedMessageGlobal id="app.tents.create" />
+            </DialogTitle>
+            <DialogContent>
+                <FormattedMessage
+                    id="app.tents.create.description"
+                    defaultMessage="Create a new tent or tent category in this bonfire"
+                    description="Tent creation modal description"
+                />
+            </DialogContent>
             <Form
                 inlineReactiveComponent
                 ReactiveComponent={({ what, name, description }) =>
@@ -89,19 +99,31 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                             {
                                 id: "what",
                                 type: "radio",
-                                header: "Select what to create",
+                                header: <FormattedMessage
+                                    id="app.tents.create.what"
+                                    defaultMessage="What to create"
+                                    description="What to create: tent or tent category"
+                                />,
                                 required: true,
                                 defaultValue: "tent",
                                 design: "grid",
                                 options: [
                                     {
                                         value: "tent",
-                                        text: "Tent",
+                                        text: <FormattedMessage
+                                            id="app.tents.singular"
+                                            defaultMessage="Tent"
+                                            description="Tent in singular form for tent creation modal"
+                                        />,
                                         startDecorator: <IconTent />
                                     },
                                     {
                                         value: "category",
-                                        text: "Category",
+                                        text: <FormattedMessage
+                                            id="app.tentCategories.singular"
+                                            defaultMessage="Category"
+                                            description="Tent category in singular form for tent creation modal"
+                                        />,
                                         startDecorator: <IconCategory />
                                     },
                                 ]
@@ -114,7 +136,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                             {
                                 id: "name",
                                 type: "text",
-                                header: "Name",
+                                header: <FormattedMessageGlobal id="info.name" />,
                                 required: true,
                                 max: 48,
                                 min: 3,
@@ -122,7 +144,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                             {
                                 id: "description",
                                 type: "textarea",
-                                header: "Topic",
+                                header: <FormattedMessageGlobal id="info.description" />,
                                 defaultValue: "",
                                 max: 200,
                             },
@@ -136,14 +158,18 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                             {
                                 id: "type",
                                 type: "radio",
-                                header: "Select the type of tent",
+                                header: <FormattedMessage
+                                    id="app.tents.create.type"
+                                    defaultMessage="Select the type of tent's content"
+                                    description="Header for tent type selection"
+                                />,
                                 required: true,
                                 defaultValue: 0,
                                 design: "grid",
                                 options: [
                                     {
                                         value: 0,
-                                        text: "Text",
+                                        text: <FormattedMessageGlobal id="app.tents.text" />,
                                         startDecorator: <IconHash />
                                     },
                                 ]

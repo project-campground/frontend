@@ -7,6 +7,7 @@ import type { ContentComponent, ContentComponentType, SystemMessageComponent, Sy
 import { UserDisplayNoModal } from "../UserDisplay";
 import type React from "react";
 import { colorToDecimal } from "~/util/color";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     component: ContentComponent;
@@ -31,17 +32,23 @@ const SystemMessageComponentDisplayComponent: Record<SystemMessageType, (props: 
         const authorColorRole = colorRoles?.find((x) => createdBy.roles.includes(x.id));
         return (
             <>
-                <TextBlock>
-                    <UserDisplayNoModal
-                        noAvatar
-                        onClick={(ev) => onUserClick?.(ev, createdBy)}
-                        user={createdBy.user}
-                        member={createdBy}
-                        motion={authorColorRole?.motion}
-                        colors={colorToDecimal(authorColorRole?.colors)}
-                    />
-                </TextBlock>
-                {" created this tent."}
+                <FormattedMessage
+                    id="app.system.tentCreated"
+                    defaultMessage="{member} has created this tent."
+                    description="Member has created the currently viewed tent"
+                    values={{
+                        member: <TextBlock>
+                            <UserDisplayNoModal
+                                noAvatar
+                                onClick={(ev) => onUserClick?.(ev, createdBy)}
+                                user={createdBy.user}
+                                member={createdBy}
+                                motion={authorColorRole?.motion}
+                                colors={colorToDecimal(authorColorRole?.colors)}
+                            />
+                        </TextBlock>
+                    }}
+                />
             </>
         )
     },
@@ -50,24 +57,29 @@ const SystemMessageComponentDisplayComponent: Record<SystemMessageType, (props: 
         const authorColorRole = colorRoles?.find((x) => createdBy.roles.includes(x.id));
         return (
             <>
-                <TextBlock>
-                    <UserDisplayNoModal
-                        noAvatar
-                        onClick={(ev) => onUserClick?.(ev, createdBy)}
-                        user={createdBy.user}
-                        member={createdBy}
-                        motion={authorColorRole?.motion}
-                        colors={colorToDecimal(authorColorRole?.colors)}
-                    />
-                </TextBlock>
-                {" updated the name of this tent from "}
-                <TextBlock>
-                    <Typography level="title-md" fontWeight={700}>{systemComponent.previousName}</Typography>
-                </TextBlock>
-                {" to "}
-                <TextBlock>
-                    <Typography level="title-md" fontWeight={700}>{systemComponent.newName}</Typography>
-                </TextBlock>
+                <FormattedMessage
+                    id="app.system.tentNameUpdated"
+                    defaultMessage="{member} has changed the name of this tent from {oldName} to {newName}."
+                    description="Member has modified the name of the currently viewed tent"
+                    values={{
+                        member: <TextBlock>
+                            <UserDisplayNoModal
+                                noAvatar
+                                onClick={(ev) => onUserClick?.(ev, createdBy)}
+                                user={createdBy.user}
+                                member={createdBy}
+                                motion={authorColorRole?.motion}
+                                colors={colorToDecimal(authorColorRole?.colors)}
+                            />
+                        </TextBlock>,
+                        oldName: <TextBlock>
+                            <Typography level="title-md" fontWeight={700}>{systemComponent.previousName}</Typography>
+                        </TextBlock>,
+                        newName: <TextBlock>
+                            <Typography level="title-md" fontWeight={700}>{systemComponent.newName}</Typography>
+                        </TextBlock>,
+                    }}
+                />
             </>
         )
     },

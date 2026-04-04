@@ -1,5 +1,6 @@
 import { ButtonGroup, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, styled } from "@mui/joy";
 import { IconArrowForwardUp, IconDots, IconMoodPlus, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
+import { FormattedMessage } from "react-intl";
 import { useKeyContext } from "~/context/key";
 
 type Props = {
@@ -57,7 +58,11 @@ export default function MessageToolbar({ onlyAllowDeletion, onEdit, addReply, on
                                     <IconTrash />
                                 </ListItemDecorator>
                                 <ListItemContent>
-                                    Delete message
+                                    <FormattedMessage
+                                        id="app.messages.delete"
+                                        defaultMessage="Delete message"
+                                        description="Message deletion button"
+                                    />
                                 </ListItemContent>
                             </MenuItem>
                         </Menu>

@@ -4,6 +4,7 @@ import type { CampsiteMemberViewBasic } from "types/campsites";
 import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith as handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     campsiteId: string;
@@ -24,8 +25,18 @@ export default function ChangeNicknameModal({ campsiteId, member, onClose }: Pro
     return (
         <ModalDialog>
             <ModalClose />
-            <DialogTitle>Change member nickname</DialogTitle>
-            <DialogContent>Nickname will be displayed for all members only on this campsite.</DialogContent>
+            <DialogTitle>
+                <FormattedMessage
+                    id="app.members.nickname.change"
+                />
+            </DialogTitle>
+            <DialogContent>
+                <FormattedMessage
+                    id="app.members.nickname.change.description"
+                    defaultMessage="The nickname will be displayed only on this campsite for every member to see"
+                    description="Note about the nickname change in change nickname modal"
+                />
+            </DialogContent>
             <Form
                 sections={[
                     {
@@ -34,7 +45,11 @@ export default function ChangeNicknameModal({ campsiteId, member, onClose }: Pro
                             {
                                 id: "nickname",
                                 type: "text",
-                                header: "Member nickname",
+                                header: <FormattedMessage
+                                    id="app.members.nickname"
+                                    defaultMessage="Member nickname"
+                                    description="The title of nickname change field"
+                                />,
                                 placeholder: member.user.displayName ?? member.user.handle,
                                 defaultValue: member.nickname ?? undefined,
                             }
@@ -43,8 +58,11 @@ export default function ChangeNicknameModal({ campsiteId, member, onClose }: Pro
                 ]}
                 onSubmit={(_, values) => (onClose(), onSubmit(values.nickname ?? ""))}
                 onCancel={() => onClose()}
-                cancelText="Cancel"
-                submitText="Change nickname"
+                submitText={
+                    <FormattedMessage
+                        id="app.members.nickname.change"
+                    />
+                }
             />
         </ModalDialog>
     )

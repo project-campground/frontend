@@ -8,6 +8,8 @@ import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { useSnackbars } from "~/context/snackbar";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export type BonfireSettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<BonfireSettingsPage, (props: SettingsComponentProps<BonfireSettingsProps>) => ReactNode | ReactNode[]> = {
@@ -41,7 +43,7 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
 
     return (
         <SettingsModal<BonfireSettingsPage, BonfireSettingsProps>
-            header="Bonfire Settings"
+            header={<FormattedMessageGlobal id="app.bonfires.settings" />}
             settingsProps={props}
             settingsPages={settingsPages}
             defaultPage="profile"
@@ -53,7 +55,11 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
                     items: [
                         {
                             id: "profile",
-                            name: "Bonfire profile",
+                            name: <FormattedMessage
+                                id="app.bonfires.settings.profile"
+                                defaultMessage="Bonfire profile"
+                                description="The bonfire profile settings tab"
+                            />,
                             startDecorator: <IconLayoutBoardFilled />
                         },
                     ]
@@ -64,7 +70,7 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
                     items: [
                         {
                             id: "permissions",
-                            name: "Permissions",
+                            name: <FormattedMessageGlobal id="app.permissions.plural" />,
                             startDecorator: <IconListCheck />
                         },
                     ]
@@ -75,7 +81,7 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
                     items: [
                         {
                             id: "delete",
-                            name: "Delete bonfire",
+                            name: <FormattedMessageGlobal id="app.bonfires.delete" />,
                             color: "danger",
                             startDecorator: <IconTrashFilled />
                         }

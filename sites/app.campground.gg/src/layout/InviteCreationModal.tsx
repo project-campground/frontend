@@ -1,8 +1,10 @@
 import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack } from "@mui/joy";
+import { useIntl } from "react-intl";
 import CopyInput from "~/components/CopyInput";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
+import { globalIntlDeclarations } from "~/i18n";
 
 type Props = {
     campsiteId: string;
@@ -12,6 +14,7 @@ type FormValue = { allowedAmount: number | null; };
 
 export default function InviteCreationModal({ campsiteId }: Props) {
     const session = useSession();
+    const intl = useIntl();
     const snackbars = useSnackbars();
     let values: FormValue = { allowedAmount: null };
 
@@ -23,7 +26,6 @@ export default function InviteCreationModal({ campsiteId }: Props) {
                 if (!resp.ok)
                     return (snackbars.notifyApiError(resp), "");
 
-                snackbars.notifySuccess("Successfully created and copied the invite.");
                 return `${window.location.origin}/i/${resp.content.id}`;
             });
 
@@ -31,9 +33,22 @@ export default function InviteCreationModal({ campsiteId }: Props) {
         <ModalDialog>
             <ModalClose />
             <Stack gap={1}>
-                <DialogTitle>Create invite</DialogTitle>
-                <DialogContent>Create a new invite for this campsite</DialogContent>
-                <CopyInput onCopy={onInviteCreate} placeholder="Invite code" />
+                <DialogTitle>
+                    {intl.formatMessage({
+                        id: "app.invites.create",
+                    })}
+                </DialogTitle>
+                <DialogContent>
+                    {intl.formatMessage({
+                        id: "app.invites.create.description",
+                        defaultMessage: "Create invite links to this campsite",
+                        description: "The description of invite creation modal",
+                    })}
+                </DialogContent>
+                <CopyInput
+                    onCopy={onInviteCreate}
+                    placeholder={intl.formatMessage(globalIntlDeclarations["app.invites.code"])}
+                />
                 <Form
                     sections={[
                         {
@@ -42,8 +57,8 @@ export default function InviteCreationModal({ campsiteId }: Props) {
                                 {
                                     id: "allowedAmount",
                                     type: "number",
-                                    header: "Allowed amount",
-                                    placeholder: "Infinite",
+                                    header: intl.formatMessage(globalIntlDeclarations["app.invites.allowedAmount"]),
+                                    placeholder: intl.formatMessage(globalIntlDeclarations["common.infinite"]),
                                     max: 1000,
                                     min: 1,
                                 },

@@ -37,7 +37,11 @@ export default class LandingNavbar extends React.Component<Props> {
                             <FormattedMessage id="global.download" />
                         </LandingNavbarItem>
                         <LandingNavbarPrimary href="/login">
-                            <FormattedMessage id="form.login" />
+                            <FormattedMessage
+                                id="form.login"
+                                defaultMessage="Login"
+                                description="Login button and page title"
+                            />
                         </LandingNavbarPrimary>
                     </Stack>
                 </Stack>

@@ -9,6 +9,8 @@ import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type State = {
 
@@ -19,7 +21,7 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(invites: CampsiteInviteViewBasic[], type: T, payload: TypeToPayload[T]): boolean {
         const invite = payload as CampsiteInviteViewBasic;
-        switch(type) {
+        switch (type) {
             case "InviteCreated":
                 if (invites.length > 50)
                     return false;
@@ -50,10 +52,23 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
                 return { ...resp, content: resp.content.invites };
             });
     }
-
+        
     private _onInvitesDeleteBind = this.onInvitesDelete.bind(this);
     private onInvitesDelete(selected: CampsiteInviteViewBasic[]) {
-        console.log("Deleting", selected);
+        const { session, floaters } = this.context as CampsiteContextSuite;
+
+        return Promise.all(
+            selected.map((invite) =>
+                session
+                    .http
+                    .invites
+                    .delete(invite.campsiteId, invite.id)
+                    .then((resp) => {
+                        if (!resp.ok)
+                            return floaters.notifyApiError(resp);
+                    })
+            )
+        );
     }
 
     render(): React.ReactNode {
@@ -63,15 +78,58 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
                 itemsPerPage={50}
                 maxItems={null}
                 columns={[
-                    { id: "id", name: "Identifier", Component: IdComponent },
-                    { id: "createdBy", name: "Created By", width: 240, Component: CreatedByComponent },
-                    { id: "createdAt", name: "Created At", width: 120, Component: CreatedAtComponent, screenSize: "lg", },
-                    { id: "expires", name: "Expires At", width: 120, Component: ExpiresComponent, screenSize: "lg", },
-                    { id: "maxUses", name: "Max Uses", width: 120, Component: MaxUsesComponent, screenSize: "xl" },
-                    { id: "used", name: "Times Used", width: 120, Component: UsedComponent, screenSize: "xl" },
+                    { id: "id", name: <FormattedMessageGlobal id="app.invites.code" />, Component: IdComponent },
+                    {
+                        id: "createdBy",
+                        name: <FormattedMessageGlobal id="app.common.createdBy" />,
+                        width: 240,
+                        Component: CreatedByComponent
+                    },
+                    {
+                        id: "createdAt",
+                        name: <FormattedMessageGlobal id="app.common.createdAt" />,
+                        width: 120,
+                        Component: CreatedAtComponent,
+                        screenSize: "lg",
+                    },
+                    {
+                        id: "expires",
+                        name: <FormattedMessageGlobal id="app.common.expiresAt" />,
+                        width: 120,
+                        Component: ExpiresComponent,
+                        screenSize: "lg",
+                    },
+                    {
+                        id: "maxUses",
+                        name: <FormattedMessageGlobal id="app.invites.allowedAmount" />,
+                        width: 120,
+                        Component: MaxUsesComponent,
+                        screenSize: "xl"
+                    },
+                    {
+                        id: "used",
+                        name: <FormattedMessage
+                            id="app.invites.used"
+                            defaultMessage="Times used"
+                            description="The amount of times invite has been used in invite list"
+                        />,
+                        width: 120,
+                        Component: UsedComponent,
+                        screenSize: "xl"
+                    },
                 ]}
                 menu={[
-                    { startDecorator: <IconTrashFilled />, content: "Delete invites", onClick: this._onInvitesDeleteBind, variant: "plain", color: "danger" }
+                    {
+                        startDecorator: <IconTrashFilled />,
+                        content: <FormattedMessage
+                            id="app.invites.delete"
+                            defaultMessage="Delete invites"
+                            description="Menu button for deleting multiple invites in the invite list"
+                        />,
+                        onClick: this._onInvitesDeleteBind,
+                        variant: "plain",
+                        color: "danger"
+                    }
                 ]}
                 HeaderComponent={IdComponent}
                 fetch={this.fetchInvites.bind(this)}
@@ -88,9 +146,7 @@ function IdComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
 }
 function ExpiresComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
     return (
-        invite.expiresAt
-        ? <Datestamp long date={new Date(invite.expiresAt)} />
-        : <Typography level="body-md" textColor="text.quartary">Never</Typography>
+        <Datestamp when long date={invite.expiresAt ? new Date(invite.expiresAt) : null} />
     );
 }
 function CreatedByComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
@@ -105,11 +161,15 @@ function CreatedAtComponent({ item: invite }: { item: CampsiteInviteViewBasic })
 }
 function MaxUsesComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
     return (
-        <Typography level="body-md" textColor={invite.allowedAmount ? "text.tertiary" : "text.quartary"}>{invite.allowedAmount ?? "No max limit"}</Typography>
+        <Typography level="body-md" textColor={invite.allowedAmount ? "text.tertiary" : "text.quartary"}>
+            {invite.allowedAmount ?? <FormattedMessageGlobal id="common.infinite" />}
+        </Typography>
     );
 }
 function UsedComponent({ item: invite }: { item: CampsiteInviteViewBasic }) {
     return (
-        <Typography level="body-md" textColor={invite.used ? "text.tertiary" : "text.quartary"}>{invite.used || "Invite has not been used"}</Typography>
+        <Typography level="body-md" textColor={invite.used ? "text.tertiary" : "text.quartary"}>
+            {invite.used}
+        </Typography>
     );
 }

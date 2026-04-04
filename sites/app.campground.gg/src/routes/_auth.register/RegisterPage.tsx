@@ -3,6 +3,7 @@ import { Link, Stack, Typography } from "@mui/joy";
 import { IconAt } from "@tabler/icons-react";
 import { FormattedMessage } from "react-intl";
 import Form from "../../components/form/Form";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export type Props = {
 
@@ -43,14 +44,14 @@ export default class RegisterPage extends React.Component<Props, State> {
                                 type: "text",
                                 id: "username",
                                 placeholder: "Username Here",
-                                header: <FormattedMessage id="info.username" />,
+                                header: <FormattedMessageGlobal id="info.username" />,
                                 required: true
                             },
                             {
                                 type: "text",
                                 id: "tagline",
                                 placeholder: "Tag_Here",
-                                header: <FormattedMessage id="info.tagline" />,
+                                header: <FormattedMessageGlobal id="info.tagline" />,
                                 format: /^([A-Za-z0-9$_.-]+)$/,
                                 startDecorator:
                                     <Stack direction="row" alignItems="center">
@@ -66,7 +67,7 @@ export default class RegisterPage extends React.Component<Props, State> {
                                 id: "email",
                                 inputType: "email",
                                 placeholder: "example@example.com",
-                                header: <FormattedMessage id="info.email" />,
+                                header: <FormattedMessageGlobal id="info.email" />,
                                 format: /^([A-Za-z0-9._%+-]+)@((?:[A-Za-z0-9-]+[.])+[A-Za-z]{2,})$/,
                                 required: true
                             },
@@ -75,7 +76,7 @@ export default class RegisterPage extends React.Component<Props, State> {
                                 id: "password",
                                 inputType: "password",
                                 placeholder: "Password here",
-                                header: <FormattedMessage id="info.password" />,
+                                header: <FormattedMessageGlobal id="info.password" />,
                                 required: true
                             },
                             {
@@ -83,7 +84,7 @@ export default class RegisterPage extends React.Component<Props, State> {
                                 id: "confirmPassword",
                                 inputType: "password",
                                 placeholder: "Password here",
-                                header: <FormattedMessage id="info.confirmPassword" />,
+                                header: <FormattedMessageGlobal id="info.password.confirm" />,
                                 required: true
                             }
                         ]
@@ -93,7 +94,11 @@ export default class RegisterPage extends React.Component<Props, State> {
                 submitText="form.register"
             >
                 <Link color="neutral" textColor="neutral.300" level="body-md" href="/login">
-                    <FormattedMessage id="form.hasAccount" />
+                    <FormattedMessage
+                        id="form.hasAccount"
+                        defaultMessage="Already have an account? Try logging in"
+                        description="Link to login page in registration page"
+                    />
                 </Link>
             </Form>
         );

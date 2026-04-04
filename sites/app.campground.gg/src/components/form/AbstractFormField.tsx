@@ -8,8 +8,8 @@ interface AbstractFormFieldState<T> {
 export default abstract class AbstractFormField<TType extends FormFieldType, TValue, TProps extends FormFieldProps<TType, TValue>, TState extends AbstractFormFieldState<TValue> = AbstractFormFieldState<TValue>> extends React.Component<TProps, TState> {
     private valueFallback: TValue;
 
-    constructor(props: TProps, valueFallback: TValue, state: Omit<TState, "value"> = {} as Omit<TState, "value">) {
-        super(props);
+    constructor(props: TProps, valueFallback: TValue, state: Omit<TState, "value"> = {} as Omit<TState, "value">, context?: any) {
+        super(props, context);
 
         this.valueFallback = valueFallback;
         (this.state as any) = {

@@ -7,8 +7,8 @@ import { Group } from "components";
 
 type SwitchType = "default" | "button";
 export interface FormFieldSwitchProps extends FormFieldProps<"switch", boolean | number>, FormFieldDecoratorProps {
-    label?: string;
-    description?: string;
+    label?: ReactNode[] | ReactNode;
+    description?: ReactNode[] | ReactNode;
     design?: SwitchType;
     checkedValue?: number;
 }
@@ -33,7 +33,6 @@ export default class FormFieldSwitch extends AbstractFormField<"switch", boolean
     private onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
         const value = ev.target.checked;
         const checkedValue = this.props.checkedValue ? (Number(value) as 1 | 0) * this.props.checkedValue : value;
-        console.log("Input change", { id: this.props.id, checkedValue });
         this.setState({ value: checkedValue }, () => this.onChange(checkedValue));
     }
 

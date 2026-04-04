@@ -3,6 +3,8 @@ import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../SettingsModal";
 import { useMemo } from "react";
 import type { TentSettingsProps } from "./TentSettingsModal";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export default function TentSettingsProfile({ onValuesChanged, setResetHandler, settingsProps: { tent } }: SettingsComponentProps<TentSettingsProps>) {
     const defaultValues = useMemo(() => ({
@@ -24,7 +26,11 @@ export default function TentSettingsProfile({ onValuesChanged, setResetHandler, 
                                 {
                                     type: "text",
                                     id: "name",
-                                    header: "Tent Name",
+                                    header: <FormattedMessage
+                                        id="app.tents.settings.name"
+                                        defaultMessage="Tent name"
+                                        description="The header of the tent name field in settings"
+                                    />,
                                     required: true,
                                     defaultValue: tent.name,
                                     flex: 1,
@@ -32,7 +38,7 @@ export default function TentSettingsProfile({ onValuesChanged, setResetHandler, 
                                 {
                                     type: "textarea",
                                     id: "description",
-                                    header: "Topic",
+                                    header: <FormattedMessageGlobal id="info.topic" />,
                                     defaultValue: tent.description,
                                 },
                             ]

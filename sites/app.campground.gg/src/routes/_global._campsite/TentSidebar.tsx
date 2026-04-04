@@ -23,6 +23,8 @@ import { GeneralPermissionConsts } from "~/util/permissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import TentList from "~/components/tents/TentList";
 import tentSidebarEventHandlers from "./sidebar-events";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     campsite: CampsiteViewDetailed;
@@ -240,7 +242,13 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                             : <GradientBanner />}
                     </FadingBanner>
                     <ClickableBox onClick={toggleGroupMenu}>
-                        <Typography>Click to see bonfire list</Typography>
+                        <Typography>
+                            <FormattedMessage
+                                id="app.bonfires.bannerClick"
+                                defaultMessage="Click to see bonfire list"
+                                description="Hint that you can press on tent list banner to open bonfire list"
+                            />
+                        </Typography>
                     </ClickableBox>
                     <Group alignItems="center" sx={{ px: 1.5, height: 45 }}>
                         <TentSidebarBonfireDisplayBox onClick={toggleGroupMenu}>
@@ -268,7 +276,11 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             <IconTicket />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            Create invites
+                                            <FormattedMessage
+                                                id="app.invites.create"
+                                                defaultMessage="Create invite"
+                                                description="Menu item for creating campsite invites"
+                                            />
                                         </ListItemContent>
                                     </MenuItem>}
                                     {!!(permissions.role.general & anyManageCampsitePermission) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>
@@ -276,7 +288,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             <IconCampfire />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            Campsite Settings
+                                            <FormattedMessageGlobal id="app.tents.campsite.settings" />
                                         </ListItemContent>
                                     </MenuItem>}
                                     {!!(permissions.bonfire.general & GeneralPermissionConsts.MANAGE_BONFIRES) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "bonfire-settings")}>
@@ -284,7 +296,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             <IconSettingsFilled />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            Bonfire Settings
+                                            <FormattedMessageGlobal id="app.tents.bonfire.settings" />
                                         </ListItemContent>
                                     </MenuItem>}
                                     {campsite.owner !== campsite.me.user.did && <MenuItem variant="plain" color="danger" onClick={this.leaveCampsite.bind(this)}>
@@ -292,7 +304,11 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                                             <IconDoorExit />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            Leave campsite
+                                            <FormattedMessage
+                                                id="app.tents.leaveCampsite"
+                                                defaultMessage="Leave campsite"
+                                                description="Menu item for leaving a campsite"
+                                            />
                                         </ListItemContent>
                                     </MenuItem>}
                                 </Menu>

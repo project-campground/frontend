@@ -4,6 +4,7 @@ import type { CampsiteMemberViewBasic } from "types/campsites";
 import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith as handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
+import { FormattedMessage, useIntl } from "react-intl";
 
 type Props = {
     campsiteId: string;
@@ -14,6 +15,7 @@ type Props = {
 export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
     const session = useSession();
     const floating = useSnackbars();
+    const intl = useIntl();
     const onSubmit = (reason: string) =>
         session
             .http
@@ -24,8 +26,18 @@ export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
     return (
         <ModalDialog>
             <ModalClose />
-            <DialogTitle>Ban member</DialogTitle>
-            <DialogContent>The user will be kicked from this campsite and permanently banned until their ban is removed.</DialogContent>
+            <DialogTitle>
+                <FormattedMessage
+                    id="app.members.ban"
+                />
+            </DialogTitle>
+            <DialogContent>
+                <FormattedMessage
+                    id="app.members.ban.description"
+                    defaultMessage="The member will lose all their roles, be kicked from the campsite and be unable to join back until their ban is lifted."
+                    description="Note about what the user ban will imply when banning a user"
+                />
+            </DialogContent>
             <Form
                 sections={[
                     {
@@ -34,16 +46,25 @@ export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
                             {
                                 id: "reason",
                                 type: "text",
-                                header: "Ban reason",
-                                placeholder: "Have been a bad member",
+                                header: intl.formatMessage({
+                                    id: "app.bans.reason"
+                                }),
+                                placeholder: intl.formatMessage({
+                                    id: "app.bans.reason.example",
+                                    defaultMessage: "Have been spamming",
+                                    description: "Example of a ban reason when banning user",
+                                }),
                             }
                         ],
                     },
                 ]}
                 onSubmit={(_, values) => (onClose(), onSubmit(values.reason))}
                 onCancel={() => onClose()}
-                cancelText="Cancel"
-                submitText="Ban member"
+                submitText={
+                    <FormattedMessage
+                        id="app.members.ban"
+                    />
+                }
                 submitColor="danger"
             />
         </ModalDialog>

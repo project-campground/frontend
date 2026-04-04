@@ -3,9 +3,9 @@ import type { Route } from "./+types/route";
 import CampsiteInvite from "./CampsiteInvite";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 
-export function meta(routes: Route.MetaArgs) {
+export function meta() {
     return [
-        { title: "Campground — Invite" },
+        { title: "Campground — Campsite invite" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }

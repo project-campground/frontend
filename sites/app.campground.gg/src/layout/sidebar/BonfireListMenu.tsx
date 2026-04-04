@@ -9,6 +9,7 @@ import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
 import ItemBottomMover from "~/components/ItemBottomMover";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     campsiteId: string;
@@ -80,7 +81,11 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                     </ListItemDecorator>
                     <ListItemContent>
                         <Typography level="title-md" fontWeight="bolder">
-                            Add new bonfire
+                            <FormattedMessage
+                                id="tent.bonfires.create"
+                                defaultMessage="Create bonfire"
+                                description="Bonfire creation button in the bonfire list"
+                            />
                         </Typography>
                     </ListItemContent>
                 </MenuItem>

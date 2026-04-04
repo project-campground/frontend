@@ -8,6 +8,8 @@ import type { CategorySettingsPage } from "~/layout/category/CategorySettingsMod
 import { useCampsiteContext } from "../../routes/_global._campsite/context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { useDraggable, useDroppable } from "~/draggable";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type TentCategoryViewComponent = Pick<TentCategoryView, "id" | "name" | "description">;
 
@@ -42,7 +44,9 @@ export default function TentCategory<T extends TentCategoryViewComponent>({ onCr
                         <IconSettingsFilled />
                     </ListItemDecorator>
                     <ListItemContent>
-                        Category settings
+                        <FormattedMessageGlobal
+                            id="app.tentCategories.settings"
+                        />
                     </ListItemContent>
                 </MenuItem>}
                 {canManageCategory && onSettingsOpen && <MenuItem color="danger" variant="plain" onClick={() => onSettingsOpen({ category, page: "delete" })}>
@@ -50,7 +54,7 @@ export default function TentCategory<T extends TentCategoryViewComponent>({ onCr
                         <IconTrashFilled />
                     </ListItemDecorator>
                     <ListItemContent>
-                        Delete category
+                        <FormattedMessageGlobal id="app.tentCategories.delete" />
                     </ListItemContent>
                 </MenuItem>}
             </>

@@ -3,6 +3,7 @@ import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkle
 import type { HttpResponseError } from "api/HTTPResponse";
 import { Group, Image } from "components";
 import { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router";
 import type { CampsiteInviteViewDetailed } from "types/membership";
 import FadingBanner from "~/components/pages/FadingBanner";
@@ -92,13 +93,27 @@ export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inv
                     </Stack>
                     <Stack gap={2} sx={{ px: 4, pb: 4 }}>
                         <Stack alignItems="center" gap={2}>
-                            <Typography>Do you want to accept invite to this campsite?</Typography>
+                            <Typography>
+                                <FormattedMessage
+                                    id="app.invites.confirm"
+                                    defaultMessage="Do you want to accept invite to this campsite?"
+                                    description="Asks user whether they want to accept the invite"
+                                />
+                            </Typography>
                             <Group withMobileReversed gap={2}>
                                 <Button variant="plain" color="neutral" onClick={() => navigate("/")}>
-                                    Deny invite
+                                    <FormattedMessage
+                                        id="app.invites.deny"
+                                        defaultMessage="Deny invite"
+                                        description="Button for denying an invite"
+                                    />
                                 </Button>
                                 <Button variant="glow" color="primary" onClick={onAccept}>
-                                    Accept invite
+                                    <FormattedMessage
+                                        id="app.invites.accept"
+                                        defaultMessage="Accept invite"
+                                        description="Button for accepting an invite"
+                                    />
                                 </Button>
                             </Group>
                         </Stack>

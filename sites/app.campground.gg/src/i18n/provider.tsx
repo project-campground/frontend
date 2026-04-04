@@ -2,7 +2,7 @@ import {IntlProvider as ReactIntlProvider} from 'react-intl';
 import React from 'react';
 import { loadLocale } from '.';
 import { flattenMessages } from './util';
-import { useSession } from '../session';
+import { useSession } from '../context/session';
 
 export function IntlProvider({ children }: React.PropsWithChildren) {
     const session = useSession();

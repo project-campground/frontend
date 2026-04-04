@@ -3,7 +3,7 @@ import LoginPage from "./LoginPage";
 
 export function meta(_routes: Route.MetaArgs) {
     return [
-        { title: "Campground — Camp" },
+        { title: "Campground — Login" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }

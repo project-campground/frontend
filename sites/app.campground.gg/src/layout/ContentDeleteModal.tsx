@@ -1,4 +1,5 @@
 import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Modal, ModalDialog, Sheet, styled } from "@mui/joy";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     title: string;
@@ -32,10 +33,10 @@ export default function ContentDeleteModal({ title, open, ContentRender, onClose
                 </Sheet>
                 <DialogActions>
                     <Button color="danger" variant="solid" onClick={onConfirm}>
-                        Delete
+                        <FormattedMessageGlobal id="common.delete" />
                     </Button>
                     <Link color="neutral" onClick={onClose}>
-                        Cancel
+                        <FormattedMessageGlobal id="common.cancel" />
                     </Link>
                 </DialogActions>
             </ModalDialog>

@@ -1,9 +1,8 @@
-import type { Route } from "./+types/route";
 import CampsiteCreation from "./CampsiteCreation";
 
-export function meta(routes: Route.MetaArgs) {
+export function meta() {
     return [
-        { title: "Campground — Home" },
+        { title: "Campground — Create a Campsite" },
         { name: "description", content: "Gather around the fire, friends" },
     ];
 }

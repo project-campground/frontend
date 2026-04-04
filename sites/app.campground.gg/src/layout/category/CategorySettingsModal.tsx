@@ -10,6 +10,8 @@ import CategorySettingsDeletion from "./CategorySettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { handleAnyRestErrorWith } from "~/util/rest";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export type CategorySettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<CategorySettingsPage, typeof React.Component | ((props: SettingsComponentProps<CategorySettingsProps>) => ReactNode | ReactNode[])> = {
@@ -49,7 +51,7 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
 
     return (
         <SettingsModal<CategorySettingsPage, CategorySettingsProps>
-            header="Category Settings"
+            header={<FormattedMessageGlobal id="app.tentCategories.settings" />}
             settingsProps={props}
             settingsPages={settingsPages}
             defaultPage={props.defaultPage ?? "profile"}
@@ -61,12 +63,16 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
                     items: [
                         {
                             id: "profile",
-                            name: "Category profile",
+                            name: <FormattedMessage
+                                id="app.tentCategories.settings.profile"
+                                defaultMessage="Category profile"
+                                description="The category profile settings tab"
+                            />,
                             startDecorator: <IconLayoutBoardFilled />
                         },
                         {
                             id: "permissions",
-                            name: "Permissions",
+                            name: <FormattedMessageGlobal id="app.permissions.plural" />,
                             startDecorator: <IconListCheck />
                         },
                     ]
@@ -77,7 +83,7 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
                     items: [
                         {
                             id: "delete",
-                            name: "Delete category",
+                            name: <FormattedMessageGlobal id="app.tentCategories.delete" />,
                             color: "danger",
                             startDecorator: <IconTrashFilled />
                         }

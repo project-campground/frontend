@@ -1,6 +1,8 @@
 import { Button, Input } from "@mui/joy";
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import { useSnackbars } from "~/context/snackbar";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     text?: string;
@@ -14,20 +16,29 @@ export default function CopyInput({ text: copyText, placeholder, onCopy }: Props
 
     const floating = useSnackbars();
     const [text, setText] = useState(copyText || placeholder);
+    const intl = useIntl();
 
     const onClick = async () => {
         const fetched = copyText ?? await onCopy!();
         navigator.clipboard.writeText(fetched);
-        console.log("Fetched", { fetched });
         setText(fetched);
-        floating.notifySuccess("Successfully copied!");
+        floating.notifySuccess(
+            intl.formatMessage({
+                id: "common.copy.successful",
+                defaultMessage: "Successfully copied!",
+                description: "User has successfully copied a value",
+            })
+        );
     }
-    console.log("Text", { text });
 
     return (
         <Input
             value={text}
-            endDecorator={<Button variant="glow" onClick={onClick}>Copy</Button>}
+            endDecorator={
+                <Button variant="glow" onClick={onClick}>
+                    <FormattedMessageGlobal id="common.copy" />
+                </Button>
+            }
         />
     );
 }

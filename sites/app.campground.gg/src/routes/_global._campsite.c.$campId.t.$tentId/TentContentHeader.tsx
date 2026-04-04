@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import { useContext, useState } from "react";
 import TentItem from "../../components/tents/TentItem";
 import { SnackbarContext } from "~/context/snackbar";
+import { PseudoTentType } from "~/util/pseudoTents";
+import { FormattedMessage } from "react-intl";
 
 export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: { sidebarOpen: boolean; sidebarToggle: (value: boolean) => unknown; tent: TentViewDetailed }) {
     const session = useSession();
@@ -33,7 +35,7 @@ export default function TentContentHeader({ tent, sidebarToggle, sidebarOpen }: 
             <Group gap={1} flex={1}>
                 <TentIcon type={tent.type} viewType={tent.viewType} />
                 <Typography level="title-lg" fontWeight={900}>
-                    {tent.name}
+                    {PseudoTentType.includes(tent.id as PseudoTentType) ? <FormattedMessage id={tent.name} /> : tent.name}
                 </Typography>
             </Group>
             <Group gap={1}>

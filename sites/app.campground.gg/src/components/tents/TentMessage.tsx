@@ -14,6 +14,7 @@ import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
 import type { CampsiteMemberViewAuthor, CampsiteRoleView } from "types/campsites";
 import { colorToDecimal } from "~/util/color";
 import ContentDisplayBlock from "../markdown/ContentDisplayBlock";
+import { FormattedMessage } from "react-intl";
 
 const TentMessageWrapper = styled(Stack, {
     name: "TentMessage",
@@ -163,9 +164,14 @@ function TentMessageDefault({ message, colorRoles, onUserClick, waiting, error, 
                     {message.updatedAt &&
                         <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
                             <Typography level="body-sm" textColor="text.tertiary">
-                                {"("}
-                                <IconPencil size={16} />
-                                {" edited)"}
+                                <FormattedMessage
+                                    id="app.messages.edited"
+                                    defaultMessage="({icon} edited)"
+                                    description="Hint at the top of the message that the message was edited"
+                                    values={{
+                                        icon: <IconPencil size={16} />
+                                    }}
+                                />
                             </Typography>
                         </Tooltip>
                     }
@@ -187,18 +193,6 @@ function TentMessageSystem({ message, children }: MessageTypeComponentProps) {
                     <Datestamp long date={new Date(message.createdAt)}/>
                 </Typography>
             </TextBlock>
-            {" "}
-            {message.updatedAt &&
-                <Tooltip title={new Date(message.updatedAt).toLocaleString("en-US", defaultDateOptions)}>
-                    <TextBlock>
-                        <Typography level="body-sm" textColor="text.tertiary">
-                            {"("}
-                            <IconPencil size={16} />
-                            {" edited)"}
-                        </Typography>
-                    </TextBlock>
-                </Tooltip>
-            }
         </div>
     );
 }

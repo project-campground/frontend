@@ -10,6 +10,8 @@ import TentSettingsDeletion from "./TentSettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { handleAnyRestErrorWith } from "~/util/rest";
+import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 export type TentSettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<TentSettingsPage, typeof React.Component | ((props: SettingsComponentProps<TentSettingsProps>) => ReactNode | ReactNode[])> = {
@@ -49,7 +51,7 @@ export default function TentSettingsModal(props: TentSettingsProps) {
 
     return (
         <SettingsModal<TentSettingsPage, TentSettingsProps>
-            header="Tent Settings"
+            header={<FormattedMessageGlobal id="app.tents.settings" />}
             settingsProps={props}
             settingsPages={settingsPages}
             defaultPage={props.defaultPage ?? "profile"}
@@ -60,13 +62,16 @@ export default function TentSettingsModal(props: TentSettingsProps) {
                     header: props.tent.name,
                     items: [
                         {
-                            id: "profile",
-                            name: "Tent profile",
+                            id: "profile",name: <FormattedMessage
+                                id="app.tents.settings.profile"
+                                defaultMessage="Tent profile"
+                                description="The tent profile settings tab"
+                            />,
                             startDecorator: <IconLayoutBoardFilled />
                         },
                         {
                             id: "permissions",
-                            name: "Permissions",
+                            name: <FormattedMessageGlobal id="app.permissions.plural" />,
                             startDecorator: <IconListCheck />
                         },
                     ]
@@ -77,7 +82,7 @@ export default function TentSettingsModal(props: TentSettingsProps) {
                     items: [
                         {
                             id: "delete",
-                            name: "Delete tent",
+                            name: <FormattedMessageGlobal id="app.tents.delete" />,
                             color: "danger",
                             startDecorator: <IconTrashFilled />
                         }

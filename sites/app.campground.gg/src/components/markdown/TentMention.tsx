@@ -4,6 +4,7 @@ import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import { useNavigate } from "react-router";
 import { pseudoTents, PseudoTentType } from "~/util/pseudoTents";
 import { useMemo, useState } from "react";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     id: string;
@@ -48,7 +49,11 @@ export default function TentMention({ id }: Props) {
         <TentMentionWrapper onClick={() => navigate(`/c/${(tent as { campsiteId?: string; })?.campsiteId ?? campsite.id}/t/${id}`)}>
             <TentIcon type={tent?.type ?? "unknown"} viewType={tent?.viewType ?? 0} size={20} />
             <Typography>
-                {tent?.name ?? "Unknown tent"}
+                {tent?.name ?? <FormattedMessage
+                    id="app.tents.unknown"
+                    defaultMessage="Unknown tent"
+                    description="The name of the tent in tent mentions when the tent could not be found"
+                />}
             </Typography>
         </TentMentionWrapper>
     );

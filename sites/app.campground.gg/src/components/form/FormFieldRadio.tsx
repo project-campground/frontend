@@ -5,7 +5,7 @@ import { List, ListItem, Radio, RadioGroup, Stack, styled, Typography, } from "@
 
 export interface FormFieldRadioItem {
     value: string | boolean | number;
-    text: string;
+    text: ReactNode[] | ReactNode;
     startDecorator?: React.ReactNode;
     endDecorator?: React.ReactNode;
 }

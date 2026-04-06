@@ -1,240 +1,632 @@
 {
-    "global": {
-        "support": "Support",
-        "download": "Download",
-        "themeToggle": "Toggle color scheme",
-        "api": "API",
-        "docs": "Docs",
-        "blog": "Blog",
-        "discover": "Discover",
-        "campsites": "Campsites",
-        "campers": "Campers",
-        "instances": "Instances",
-        "socialMedia": "Social media",
-        "resources": "Resources",
-        "openBrowser": "Open in Browser"
-    },
-    "info": {
-        "username": "Username",
-        "tagline": "Tag",
-        "taglineOrEmail": "Tag or Email",
-        "email": "Email",
-        "password": "Password",
-        "confirmPassword": "Confirm password"
-    },
-    "form": {
-        "login": "Sign in",
-        "register": "Sign up",
-        "noAccount": "Don't have an account? Register",
-        "hasAccount": "Already have an account? Login",
-        "resetPasswordTitle": "Reset password",
-        "resetPassword": "Forgot your password? Change it",
-        "submit": "Submit"
-    },
-    "placeholder": {
-        "underConstruction": {
-            "title": "Under Construction",
-            "description": "Sorry, this section is still under construction. Come back later!"
-        },
-        "notFound": {
-            "title": "404 Not Found",
-            "description": "This page could not be found."
-        },
-        "goBackToHome": "Go back to home page"
-    },
-    "landing": {
-        "home": "Home",
-        "about": "About",
-        "features": "Features",
-        "team": "The team",
-        "brandkit": "Brand kit",
-        "download": {
-            "win": "Download for Windows",
-            "osx": "Download for OSX",
-            "linux": "Download for Linux",
-            "debian": "Download for Debian",
-            "android": "Download for Android",
-            "ios": "Download for iOS"
-        }
-    },
-    "home": {
-        "title": "Gather around the fire, friends",
-        "description": "Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!",
-        "download": "Download Campground",
-        "open": "Open Campground",
-        "bottom": {
-            "title": "What are you waiting for?",
-            "description": "Try Campground now, anywhere!"
-        },
-        "campfires": {
-            "subtitle": "Campfires",
-            "title": "Organize channels with campfires",
-            "description": "May also be known as groups or sub-servers, campfires are server-like group of tents/channels with their own icons, banners and roles.",
-            "learnMore": "Learn more about Campfires"
-        },
-        "profiles": {
-            "subtitle": "Profiles",
-            "title": "Highly customizable profiles",
-            "description": "Create posts and media, discover others, link game and more with Campground's highly customizable profiles.",
-            "learnMore": "Learn more about Profiles"
-        },
-        "lists": {
-            "subtitle": "Lists",
-            "title": "To-do list tents",
-            "description": "Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more.",
-            "learnMore": "Learn more about Lists"
-        },
-        "encryption": {
-            "subtitle": "Encryption",
-            "title": "E2EE Private messaging",
-            "description": "Secure your messages with end-to-end encryption for direct messages. Feel safe with Campground.",
-            "learnMore": "Learn more about Encryption"
-        },
-        "selfHost": {
-            "subtitle": "Self-hosting",
-            "title": "Self-host your campsites",
-            "description": "Create your own instance and manage YOUR OWN content. No one else, just you and your communities.",
-            "learnMore": "Learn more about Self-hosting"
-        },
-        "themes": {
-            "subtitle": "Themes",
-            "title": "Customize the looks",
-            "description": "Change the way application looks with highly customizable themes with CSS. Do not like how app looks? Change it!",
-            "learnMore": "Learn more about Themes"
-        }
-    },
-    "features": {
-        "title": "See all of Campgrounds features",
-        "description": "Campfires? List tents? Calendar tents? Profiles? All here for you to check out and learn!",
-        "learnMore": "Learn more about {feature}",
-        "instances": {
-            "title": "Instances",
-            "description": "Host your own Campground instances and create campsites on them"
-        },
-        "campfires": {
-            "title": "Campfires",
-            "description": "Organize your campsites with campfires."
-        },
-        "encryption": {
-            "title": "E2E Encryption",
-            "description": "Learn about direct messages encryption."
-        },
-        "calendarTents": {
-            "title": "Calendar tents",
-            "description": "Keep track of events with calendar tents."
-        },
-        "listTents": {
-            "title": "List tents",
-            "description": "Create and complete tasks in tents."
-        },
-        "docTents": {
-            "title": "Document tents",
-            "description": "Create documents in your tents."
-        }
-    },
-    "downloads": {
-        "title": "Get Campground",
-        "description": "Download Campground on your current device. Everywhere, anywhere; on your phone, on your desktop.",
-        "wrongDevice": "Wrong device? Scroll down to other downloads.",
-        "desktop": "Different desktop device?",
-        "desktopDescription": "Get Campground on any desktop device.",
-        "mobile": "Or maybe on your phone?",
-        "mobileDescription": "Make sure everyone can reach you no matter where you are!"
-    },
-    "languages": {
-        "af-ZA": "Afrikaans",
-        "ar-SA": "Arabic",
-        "ca-ES": "Catalan",
-        "cs-CZ": "Czech",
-        "da-DK": "Danish",
-        "de-DE": "German",
-        "el-GR": "Greek",
-        "fi-FI": "Finnish",
-        "fr-FR": "French",
-        "en-US": "English (US)",
-        "es-ES": "Spanish",
-        "he-IL": "Hebrew",
-        "hu-HU": "Hungarian",
-        "it-IT": "Italian",
-        "ja-JP": "Japanese",
-        "ko-KR": "Korean",
-        "nl-NL": "Dutch",
-        "no-NO": "Norwegian",
-        "pl-PL": "Polish",
-        "pt-BR": "Portuguese (Brazil)",
-        "pt-PT": "Portuguese (Portugal)",
-        "ro-RO": "Romanian",
-        "ru-RU": "Russian",
-        "sr-SP": "Serbian",
-        "sv-SE": "Swedish",
-        "tr-TR": "Turkish",
-        "uk-UA": "Ukrainian",
-        "vi-VN": "Vietnamese",
-        "zh-CN": "Simplified Chinese (China)",
-        "zh-TW": "Simplified Chinese (Taiwan)"
-    },
-    "client": {
-        "common": {
-            "yes": "Yes",
-            "no": "No",
-            "cancel": "Cancel",
-            "retry": "Retry",
-            "abort": "Abort",
-            "ok": "OK",
-            "delete": "Delete",
-            "remove": "Remove"
-        },
-        "login": {
-            "handle": "Handle",
-            "password": "Password",
-            "signinButton": "Sign in",
-            "resetPassword": "Reset password",
-            "reactivateUserHandle": "Activate handle",
-            "errors": {
-                "connectionFailed": "Login failed due to network connection problems.",
-                "incorrectCredentials": "The handle or password provided is incorrect.",
-                "passwordResetDisabled": "The administrator had disabled password reset functionality. Contact them on %s to ask for a new password.",
-                "handleDisabled": "Your handle was disabled. You can enable it by clicking 'Activate handle' button.",
-                "handleDisabledWithReason": "Your handle was disabled by administrator. Reason: %s",
-                "handleBanned": "Your handle was banned.",
-                "handleBannedWithReason": "Your handle was banned. Reason: %s",
-                "handleTempBannedWithReason": "Your handle was banned till %s. Reason: %s"
-            }
-        },
-        "profileView": {
-            "avatar": "Avatar",
-            "status": "Status"
-        },
-        "settingsView": {
-            "title": "Manage profile",
-            "common": {
-                "title": "Common",
-                "changePassword": "Change password",
-                "changeDName": "Change display name",
-                "removeAvatar": "Remove avatar",
-                "uploadAvatar": "Upload new avatar"
-            },
-            "connections": {
-                "title": "Connections",
-                "description": "Manage social media connections",
-                "add": "Add connection",
-                "label": "Connection label",
-                "content": "Content"
-            }
-        },
-        "presence": {
-            "offline": "Offline",
-            "invisible": "Invisible",
-            "away": "Away",
-            "dnd": "Do Not Disturb",
-            "online": "Online"
-        },
-        "activityPresence": {
-            "game": "Playing %s",
-            "listening": "Listening to %s",
-            "streaming": "Streaming %s",
-            "streamingDesktop": "Sharing their screen",
-            "streamingDetailed": "Streaming %s on %s"
-        }
-    }
+  "app.actors.addFriend": {
+    "description": "Menu button for adding user as a friend",
+    "message": "Add friend"
+  },
+  "app.actors.block": {
+    "description": "Menu button for blocking the user",
+    "message": "Block"
+  },
+  "app.actors.example": {
+    "description": "Username of an example user in roles settings page",
+    "message": "Example user"
+  },
+  "app.actors.viewProfile": {
+    "description": "Menu button for viewing user's profile",
+    "message": "View profile"
+  },
+  "app.bans.actor": {
+    "description": "Who was banned in the ban list",
+    "message": "Banned user"
+  },
+  "app.bans.at": {
+    "description": "Banned when in the ban list",
+    "message": "Banned at"
+  },
+  "app.bans.by": {
+    "description": "Banned by who in the ban list",
+    "message": "Banned by"
+  },
+  "app.bans.plural": {
+    "description": "The campsite user bans in plural form",
+    "message": "Bans"
+  },
+  "app.bans.reason": {
+    "description": "Reason for the ban in the ban list",
+    "message": "Reason"
+  },
+  "app.bans.reason.example": {
+    "description": "Example of a ban reason when banning user",
+    "message": "Have been spamming"
+  },
+  "app.bans.unban": {
+    "description": "Unban multiple or one user button in the ban list",
+    "message": "Unban users"
+  },
+  "app.bonfires.bannerClick": {
+    "description": "Hint that you can press on tent list banner to open bonfire list",
+    "message": "Click to see bonfire list"
+  },
+  "app.bonfires.create": {
+    "description": "The menu button for creating bonfires",
+    "message": "Create bonfire"
+  },
+  "app.bonfires.delete": {
+    "description": "The menu button for deleting bonfires",
+    "message": "Delete bonfire"
+  },
+  "app.bonfires.delete.inputName": {
+    "description": "The header of the input that requires typing out bonfire's name to allow deleting it.",
+    "message": "The name of the bonfire"
+  },
+  "app.bonfires.noTents": {
+    "description": "Note telling user that the bonfire contains no visible tents for them",
+    "message": "This bonfire has no visible tents"
+  },
+  "app.bonfires.settings": {
+    "description": "The menu button for opening bonfire settings and the title of bonfire settings",
+    "message": "Campsite settings"
+  },
+  "app.bonfires.settings.bannerNote": {
+    "description": "Notifying that bonfire's banner shows up at the top of tent list",
+    "message": "The banner shows up at the top of the tent list"
+  },
+  "app.bonfires.settings.delete.warning": {
+    "description": "The warning about the consequences of deleting bonfire",
+    "message": "Deleting this bonfire will result in permanent deletion of all of its messages, tents and content. If you are sure you want to delete this bonfire, type the name of the bonfire and press ''{buttonText}''."
+  },
+  "app.bonfires.settings.name": {
+    "description": "The header of the bonfire name field in settings",
+    "message": "Bonfire name"
+  },
+  "app.bonfires.settings.profile": {
+    "description": "The bonfire profile settings tab",
+    "message": "Bonfire profile"
+  },
+  "app.bulletin.campsiteInfo": {
+    "description": "The title of the campsite info field at the right side of Bulletin Board",
+    "message": "Campsite info"
+  },
+  "app.campsites.Create": {
+    "description": "The campsite creation page title",
+    "message": "Create a Campsite"
+  },
+  "app.campsites.delete": {
+    "description": "The settings page for deleting campsite",
+    "message": "Delete campsite"
+  },
+  "app.campsites.delete.warning": {
+    "description": "The warning about the consequences of deleting campsite",
+    "message": "Deleting this campsite will result in permanent deletion of all of its messages, tents, bonfires, content and will force all members to leave. If you are sure you want to delete this campsite, type the name of the campsite and press ''{buttonText}''."
+  },
+  "app.campsites.members": {
+    "description": "Displays the amount of members campsite has",
+    "message": "{count, number} {count, plural, one { member } other { members }}"
+  },
+  "app.campsites.name": {
+    "description": "The header of the campsite name field in settings",
+    "message": "Campsite name"
+  },
+  "app.campsites.notFound": {
+    "description": "User cannot view the campsite",
+    "message": "Campsite not found"
+  },
+  "app.campsites.notFound.description": {
+    "description": "User cannot view the campsite",
+    "message": "It seems that this campsite does not exist."
+  },
+  "app.campsites.settings": {
+    "description": "The menu button for opening campsite settings and the title of campsite settings",
+    "message": "Campsite settings"
+  },
+  "app.campsites.settings.bannerNote": {
+    "description": "Notifying that campsite's banner shows up in the bulletin board",
+    "message": "The banner shows up in Bulletin Board"
+  },
+  "app.campsites.settings.delete.inputName": {
+    "description": "The header of the input that requires typing out campsite's name to allow deleting it.",
+    "message": "The name of the campsite"
+  },
+  "app.campsites.settings.profile": {
+    "description": "The campsite profile settings tab",
+    "message": "Campsite profile"
+  },
+  "app.common.createdAt": {
+    "description": "Member joined sometime ago",
+    "message": "Joined at"
+  },
+  "app.common.createdBy": {
+    "description": "Content created by who",
+    "message": "Created by"
+  },
+  "app.common.expiresAt": {
+    "description": "Content expires",
+    "message": "Expires"
+  },
+  "app.createdAt": {
+    "description": "Specific date that something was created/sent at",
+    "message": "Created {time}"
+  },
+  "app.invites.accept": {
+    "description": "Button for accepting an invite",
+    "message": "Accept invite"
+  },
+  "app.invites.allowedAmount": {
+    "description": "The amount of times the invite can be used",
+    "message": "Allowed times of use"
+  },
+  "app.invites.code": {
+    "description": "The placeholder for yet uncreated invite code or invite code in the invite list",
+    "message": "Invite code"
+  },
+  "app.invites.confirm": {
+    "description": "Asks user whether they want to accept the invite",
+    "message": "Do you want to accept invite to this campsite?"
+  },
+  "app.invites.create": {
+    "description": "Menu item for creating campsite invites",
+    "message": "Create invite"
+  },
+  "app.invites.create.description": {
+    "description": "The description of invite creation modal",
+    "message": "Create invite links to this campsite"
+  },
+  "app.invites.delete": {
+    "description": "Menu button for deleting multiple invites in the invite list",
+    "message": "Delete invites"
+  },
+  "app.invites.deny": {
+    "description": "Button for denying an invite",
+    "message": "Deny invite"
+  },
+  "app.invites.plural": {
+    "description": "The campsite invites in plural form",
+    "message": "Invites"
+  },
+  "app.invites.used": {
+    "description": "The amount of times invite has been used in invite list",
+    "message": "Times used"
+  },
+  "app.members": {
+    "description": "Members pseudo-tent name, members tab in the right sidebar",
+    "message": "Members"
+  },
+  "app.members.ban": {
+  },
+  "app.members.ban.description": {
+    "description": "Note about what the user ban will imply when banning a user",
+    "message": "The member will lose all their roles, be kicked from the campsite and be unable to join back until their ban is lifted."
+  },
+  "app.members.kick": {
+  },
+  "app.members.nickname": {
+    "description": "The title of nickname change field",
+    "message": "Member nickname"
+  },
+  "app.members.nickname.change": {
+  },
+  "app.members.nickname.change.description": {
+    "description": "Note about the nickname change in change nickname modal",
+    "message": "The nickname will be displayed only on this campsite for every member to see"
+  },
+  "app.members.singular": {
+    "description": "Singular form of campsite member",
+    "message": "Member"
+  },
+  "app.messages.delete": {
+    "description": "Message deletion button",
+    "message": "Delete message"
+  },
+  "app.messages.edited": {
+    "description": "Hint at the top of the message that the message was edited",
+    "message": "({icon} edited)"
+  },
+  "app.messages.end": {
+    "description": "The very top of the tent that gives user a note that there are no more messages",
+    "message": "This is the beginning of this tent. There are no more messages in this tent."
+  },
+  "app.messages.example": {
+    "description": "An example message text in roles settings page",
+    "message": "This is an example text."
+  },
+  "app.messages.noPermission": {
+    "description": "Tells user they lack permission to write in the text tent",
+    "message": "You do not have the permission to type in this tent."
+  },
+  "app.permissions.plural": {
+    "description": "Permissions in settings as plural",
+    "message": "Permissions"
+  },
+  "app.roles": {
+    "description": "Roles header in settings and whatnot in plural form",
+    "message": "Roles"
+  },
+  "app.roles.colors": {
+    "description": "The animation field in role settings page",
+    "message": "Select the type of gradient color animation"
+  },
+  "app.roles.display": {
+    "description": "Display tab in role settings",
+    "message": "Display"
+  },
+  "app.roles.manage": {
+    "description": "Manage role tab in role settings",
+    "message": "Manage"
+  },
+  "app.roles.mentionable": {
+    "description": "Mentionable by anyone setting in role settings",
+    "message": "Mentionable by anyone"
+  },
+  "app.roles.mentionable.description": {
+    "description": "Mentionable by anyone setting's description in role settings",
+    "message": "Allows any member with permission to create content to mention other members that have this role"
+  },
+  "app.roles.motion.linear": {
+    "description": "Linear animation option for roles gradient color animation",
+    "message": "Linear"
+  },
+  "app.roles.motion.none": {
+    "description": "Unanimated option for roles gradient color animation",
+    "message": "Unanimated"
+  },
+  "app.roles.motion.radial": {
+    "description": "Radial animation option for roles gradient color animation",
+    "message": "Radial"
+  },
+  "app.roles.motion.wave": {
+    "description": "Wave animation option for roles gradient color animation",
+    "message": "Wave"
+  },
+  "app.roles.name": {
+    "description": "The name field of the roles settings page",
+    "message": "Role name"
+  },
+  "app.roles.separately": {
+    "description": "Display separately setting in role settings",
+    "message": "Display separately"
+  },
+  "app.roles.separately.description": {
+    "description": "Display separately setting's description in role settings",
+    "message": "Displays the members that have this role separately from the rest of the members in the member list"
+  },
+  "app.roles.unknown": {
+    "description": "The title of the role when the role has not been found in role mention",
+    "message": "Unknown role"
+  },
+  "app.settings": {
+    "description": "Menu button for settings, as well as settings title",
+    "message": "Settings"
+  },
+  "app.settings.other": {
+    "description": "Other settings pages and content",
+    "message": "Other"
+  },
+  "app.settings.save": {
+    "description": "Button for saving changes in settings",
+    "message": "Save changes"
+  },
+  "app.settings.unsavedChanges": {
+    "description": "The text that appears in the pop up when you change values in settings",
+    "message": "You have unsaved changes"
+  },
+  "app.system.tentCreated": {
+    "description": "Member has created the currently viewed tent",
+    "message": "{member} has created this tent."
+  },
+  "app.system.tentNameUpdated": {
+    "description": "Member has modified the name of the currently viewed tent",
+    "message": "{member} has changed the name of this tent from {oldName} to {newName}."
+  },
+  "app.tentCategories.create": {
+    "description": "The menu button for creating tent categories",
+    "message": "Create category"
+  },
+  "app.tentCategories.delete": {
+    "description": "The menu button for deleting tent categories",
+    "message": "Delete category"
+  },
+  "app.tentCategories.settings": {
+    "description": "The menu button for opening tent category settings and the title of category settings",
+    "message": "Category settings"
+  },
+  "app.tentCategories.settings.deleteInputName": {
+    "description": "The header of the input that requires typing out tent category's name to allow deleting it.",
+    "message": "The name of the category"
+  },
+  "app.tentCategories.settings.deleteWarning": {
+    "description": "The warning about the consequences of deleting tent category",
+    "message": "Deleting this tent category will result in permanent deletion of all of its messages, tents and content. If you are sure you want to delete this tent category, type the name of the category and press ''{buttonText}''."
+  },
+  "app.tentCategories.settings.name": {
+    "description": "The header of the category name field in settings",
+    "message": "Category name"
+  },
+  "app.tentCategories.settings.profile": {
+    "description": "The category profile settings tab",
+    "message": "Category profile"
+  },
+  "app.tentCategories.singular": {
+    "description": "Tent category in singular form for tent creation modal",
+    "message": "Category"
+  },
+  "app.tents.bulletin": {
+    "description": "Bulletin Board pseudo-tent name",
+    "message": "Bulletin Board"
+  },
+  "app.tents.create": {
+    "description": "Create tent button at the bottom of tent list, as well as the title of tent creation modal",
+    "message": "Create tent"
+  },
+  "app.tents.create.description": {
+    "description": "Tent creation modal description",
+    "message": "Create a new tent or tent category in this bonfire"
+  },
+  "app.tents.create.type": {
+    "description": "Header for tent type selection",
+    "message": "Select the type of tent's content"
+  },
+  "app.tents.create.what": {
+    "description": "What to create: tent or tent category",
+    "message": "What to create"
+  },
+  "app.tents.delete": {
+    "description": "The menu button for deleting tent",
+    "message": "Delete tent"
+  },
+  "app.tents.delete.inputName": {
+    "description": "The header of the input that requires typing out tent's name to allow deleting it.",
+    "message": "The name of the tent"
+  },
+  "app.tents.delete.warning": {
+    "description": "The warning about the consequences of deleting tent",
+    "message": "Deleting this tent will result in permanent deletion of all of its permissions, messages and content. If you are sure you want to delete this tent, type the name of the tent and press ''{buttonText}''."
+  },
+  "app.tents.leaveCampsite": {
+    "description": "Menu item for leaving a campsite",
+    "message": "Leave campsite"
+  },
+  "app.tents.open": {
+    "description": "The menu button for opening tents",
+    "message": "Open tent"
+  },
+  "app.tents.settings": {
+    "description": "The menu button for opening tent settings and the title of tent settings",
+    "message": "Tent settings"
+  },
+  "app.tents.settings.name": {
+    "description": "The header of the tent name field in settings",
+    "message": "Tent name"
+  },
+  "app.tents.settings.profile": {
+    "description": "The tent profile settings tab",
+    "message": "Tent profile"
+  },
+  "app.tents.singular": {
+    "description": "Tent in singular form for tent creation modal",
+    "message": "Tent"
+  },
+  "app.tents.text": {
+    "description": "Text tent type",
+    "message": "Text"
+  },
+  "app.tents.unknown": {
+    "description": "The name of the tent in tent mentions when the tent could not be found",
+    "message": "Unknown tent"
+  },
+  "app.threads": {
+    "description": "Message threads tab in the right sidebar",
+    "message": "Threads"
+  },
+  "app.time.ago": {
+    "description": "When something happened 'ago'",
+    "message": "{time} ago"
+  },
+  "app.time.in": {
+    "description": "When something will happen in specific time",
+    "message": "In {time}"
+  },
+  "app.time.invalid": {
+    "description": "The provided date to timestamp component is invalid in some way",
+    "message": "Invalid date"
+  },
+  "app.time.never": {
+    "description": "The provided date to timestamp component is empty and is usually used to indicate that something never happened",
+    "message": "Never"
+  },
+  "app.time.none": {
+    "description": "Unformatted timestamp",
+    "message": "{time}"
+  },
+  "app.time.now": {
+    "description": "When something happened just now (less than a minute ago)",
+    "message": "Just now"
+  },
+  "common.cancel": {
+    "description": "Cancelling an action in settings, modals and content",
+    "message": "Cancel"
+  },
+  "common.copy": {
+    "description": "Text of button for copying text",
+    "message": "Copy"
+  },
+  "common.copy.successful": {
+    "description": "User has successfully copied a value",
+    "message": "Successfully copied!"
+  },
+  "common.delete": {
+    "description": "Delete content",
+    "message": "Delete"
+  },
+  "common.infinite": {
+    "description": "Infinite amount of something. Used in invite creation placeholder when assigning the amount of times invite can be used",
+    "message": "Infinite"
+  },
+  "downloads.description": {
+  },
+  "downloads.desktop": {
+  },
+  "downloads.desktopDescription": {
+  },
+  "downloads.mobile": {
+  },
+  "downloads.mobileDescription": {
+  },
+  "downloads.title": {
+  },
+  "downloads.wrongDevice": {
+  },
+  "features.description": {
+  },
+  "features.learnMore": {
+  },
+  "features.title": {
+  },
+  "form.confirmDelete": {
+    "description": "Button for confirming deletion of content",
+    "message": "Confirm deletion"
+  },
+  "form.hasAccount": {
+    "description": "Link to login page in registration page",
+    "message": "Already have an account? Try logging in"
+  },
+  "form.login": {
+    "description": "Login button and page title",
+    "message": "Login"
+  },
+  "form.logout": {
+    "description": "Menu button for logging out of the account",
+    "message": "Logout"
+  },
+  "form.noAccount": {
+    "description": "Link for navigating to registration page in login page",
+    "message": "No account? Create one"
+  },
+  "form.resetPassword": {
+    "description": "Reset password link in login page",
+    "message": "Forgot password? Change it"
+  },
+  "form.submit": {
+    "description": "Submit button for submitting form values",
+    "message": "Submit"
+  },
+  "form.tagPlaceholder": {
+    "description": "Placeholder used for adding tags in forms",
+    "message": "Add tag"
+  },
+  "form.uploadImage": {
+    "description": "Hint or button for uploading images",
+    "message": "Upload image"
+  },
+  "form.uploadImage.description": {
+    "description": "Description of modal instructing to upload an image or submit its URL",
+    "message": "Upload an image or paste the URL of it"
+  },
+  "form.uploadImage.title": {
+    "description": "Prompt for the title of the image in image uploading modal",
+    "message": "Image title"
+  },
+  "form.uploadImage.url": {
+    "description": "Prompt for the URL of the image in image uploading modal",
+    "message": "Image URL"
+  },
+  "global.api": {
+  },
+  "global.banner": {
+    "description": "The banner of campsites, bonfires and users",
+    "message": "Banner"
+  },
+  "global.blog": {
+  },
+  "global.campers": {
+  },
+  "global.campsites": {
+  },
+  "global.docs": {
+  },
+  "global.download": {
+  },
+  "global.instances": {
+  },
+  "global.openBrowser": {
+  },
+  "global.support": {
+  },
+  "home.bottom.description": {
+  },
+  "home.bottom.title": {
+  },
+  "home.description": {
+  },
+  "home.title": {
+  },
+  "info.description": {
+    "description": "Description in campsites, bonfires and elsewhere",
+    "message": "Description"
+  },
+  "info.handle": {
+    "description": "User handles",
+    "message": "Handle"
+  },
+  "info.handleOrEmail": {
+    "description": "User handles or email as login detail",
+    "message": "Handle or Email"
+  },
+  "info.name": {
+    "description": "The name of the content, objects, tents, etc.",
+    "message": "Name"
+  },
+  "info.password": {
+    "description": "Password as a login detail",
+    "message": "Password"
+  },
+  "info.password.confirm": {
+    "description": "Confirm a password when registering or changing password",
+    "message": "Confirm password"
+  },
+  "info.password.placeholder": {
+    "description": "Placeholder in the password field when registering",
+    "message": "Password here"
+  },
+  "info.tags.plural": {
+    "description": "Plural form of campsite tags or other content tags",
+    "message": "Tags"
+  },
+  "info.title": {
+    "description": "The title of the content, objects, tents, etc.",
+    "message": "Title"
+  },
+  "info.topic": {
+    "description": "Topic header in settings and tents",
+    "message": "Topic"
+  },
+  "info.username": {
+    "description": "Display name of the user",
+    "message": "Username"
+  },
+  "landing.brandKit": {
+  },
+  "landing.download.debian": {
+  },
+  "landing.features": {
+  },
+  "landing.team": {
+  },
+  "placeholder.goBackToHome": {
+  },
+  "placeholder.notFound.description": {
+  },
+  "placeholder.notFound.title": {
+  },
+  "placeholder.underConstruction.description": {
+  },
+  "placeholder.underConstruction.title": {
+  },
+  "tent.bonfires.create": {
+    "description": "Bonfire creation button in the bonfire list",
+    "message": "Create bonfire"
+  },
+  "tent.bonfires.create.description": {
+    "description": "Description for bonfire creation modal",
+    "message": "Create a new bonfire in this campsite"
+  }
 }

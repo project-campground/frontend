@@ -10,9 +10,7 @@ type Props = {
 };
 
 export default class LandingBareboneWrapper extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
 
     render() {
         const { sx, bodySx, children } = this.props;

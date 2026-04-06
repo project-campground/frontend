@@ -1,0 +1,274 @@
+{
+    "languages": {
+        "af-ZA": "Afrikaans",
+        "ar-SA": "Arabic",
+        "ca-ES": "Catalan",
+        "cs-CZ": "Czech",
+        "da-DK": "Danish",
+        "de-DE": "German",
+        "el-GR": "Greek",
+        "fi-FI": "Finnish",
+        "fr-FR": "French",
+        "en-US": "English (US)",
+        "es-ES": "Spanish",
+        "he-IL": "Hebrew",
+        "hu-HU": "Hungarian",
+        "it-IT": "Italian",
+        "ja-JP": "Japanese",
+        "ko-KR": "Korean",
+        "nl-NL": "Dutch",
+        "no-NO": "Norwegian",
+        "pl-PL": "Polish",
+        "pt-BR": "Portuguese (Brazil)",
+        "pt-PT": "Portuguese (Portugal)",
+        "ro-RO": "Romanian",
+        "ru-RU": "Russian",
+        "sr-SP": "Serbian",
+        "sv-SE": "Swedish",
+        "tr-TR": "Turkish",
+        "uk-UA": "Ukrainian",
+        "vi-VN": "Vietnamese",
+        "zh-CN": "Simplified Chinese (China)",
+        "zh-TW": "Simplified Chinese (Taiwan)"
+    },
+
+    "info": {
+        "username": "Username",
+        "title": "Title",
+        "uniqueTitle": "Name",
+        "handle": "Handle",
+        "about": "About me",
+        "avatar": "Avatar",
+        "tags": {
+            "add": "Add a tag",
+            "singular": "Tag",
+            "plural": "Tags"
+        },
+        "banner": "Banner",
+        "description": "Description",
+        "information": "Information",
+        "tagline": "Tag",
+        "handleOrEmail": "Handle or Email",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm password"
+    },
+    
+    "common": {
+        "yes": "Yes",
+        "no": "No",
+        "add": "Add",
+        "cancel": "Cancel",
+        "retry": "Retry",
+        "abort": "Abort",
+        "ok": "Okay",
+        "delete": "Delete",
+        "remove": "Remove",
+        "edit": "Edit",
+        "submit": "Submit",
+        "download": "Download",
+        "copy": "Copy",
+        "infinite": "Infinite"
+    },
+
+    "login": {
+        "login": "Sign in",
+        "register": "Sign up",
+        "noAccount": "Don't have an account? Register",
+        "hasAccount": "Already have an account? Login",
+        "resetPasswordTitle": "Reset password",
+        "resetPassword": "Forgot your password? Change it",
+
+        "reactivateUserHandle": "Activate handle",
+
+        "errors": {
+            "connectionFailed": "Login failed due to network connection problems.",
+            "incorrectCredentials": "The handle or password provided is incorrect.",
+            "passwordResetDisabled": "The administrator had disabled password reset functionality. Contact them on %s to ask for a new password.",
+            "handleDisabled": "Your handle was disabled. You can enable it by clicking 'Activate handle' button.",
+            "handleDisabledWithReason": "Your handle was disabled by administrator. Reason: %s",
+            "handleBanned": "Your handle was banned.",
+            "handleBannedWithReason": "Your handle was banned. Reason: %s",
+            "handleTempBannedWithReason": "Your handle was banned till %s. Reason: %s"
+        }
+    },
+
+    "global": {
+        "support": "Support",
+        "changeTheme": "Change theme",
+        "api": "API",
+        "docs": "Docs",
+        "blog": "Blog",
+        "discover": "Discover",
+        "discovery": "Discovery",
+        "campsites": "Campsites",
+        "campers": "Campers",
+        "instances": "Instances",
+        "socialMedia": "Social media",
+        "resources": "Resources",
+        "openBrowser": "Open in Browser"
+    },
+
+    "placeholder": {
+        "underConstruction": {
+            "title": "Under Construction",
+            "description": "Sorry, this section is still under construction. Come back later!"
+        },
+        "notFound": {
+            "title": "404 Not Found",
+            "description": "This page could not be found."
+        },
+        "goBackToHome": "Go back to home page"
+    },
+
+    "landing": {
+        "nav": {
+            "home": "Home",
+            "about": "About",
+            "features": "Features",
+            "team": "The team",
+            "brandKit": "Brand kit"
+        },
+        "home": {
+            "title": "Gather around the fire, friends",
+            "description": "Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!",
+            "download": "Download Campground",
+            "open": "Open Campground",
+            "bottom": {
+                "title": "What are you waiting for?",
+                "description": "Try Campground now, anywhere!"
+            },
+            "bonfires": {
+                "subtitle": "Bonfires",
+                "title": "Organize channels with bonfires",
+                "description": "May also be known as groups or sub-servers, bonfires are server-like group of tents/channels with their own icons, banners and roles.",
+                "learnMore": "Learn more about Bonfires"
+            },
+            "profiles": {
+                "subtitle": "Profiles",
+                "title": "Highly customizable profiles",
+                "description": "Create posts and media, discover others, link game and more with Campground's highly customizable profiles.",
+                "learnMore": "Learn more about Profiles"
+            },
+            "lists": {
+                "subtitle": "Lists",
+                "title": "To-do list tents",
+                "description": "Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more.",
+                "learnMore": "Learn more about Lists"
+            },
+            "encryption": {
+                "subtitle": "Encryption",
+                "title": "E2EE Private messaging",
+                "description": "Secure your messages with end-to-end encryption for direct messages. Feel safe with Campground.",
+                "learnMore": "Learn more about Encryption"
+            },
+            "selfHost": {
+                "subtitle": "Self-hosting",
+                "title": "Self-host your campsites",
+                "description": "Create your own instance and manage YOUR OWN content. No one else, just you and your communities.",
+                "learnMore": "Learn more about Self-hosting"
+            },
+            "themes": {
+                "subtitle": "Themes",
+                "title": "Customize the looks",
+                "description": "Change the way application looks with highly customizable themes with CSS. Do not like how app looks? Change it!",
+                "learnMore": "Learn more about Themes"
+            }
+        },
+        "features": {
+            "title": "See all of Campgrounds features",
+            "description": "Campfires? List tents? Calendar tents? Profiles? All here for you to check out and learn!",
+            "learnMore": "Learn more about {feature}",
+            "instances": {
+                "title": "Instances",
+                "description": "Host your own Campground instances and create campsites on them"
+            },
+            "bonfires": {
+                "title": "Bonfires",
+                "description": "Organize your campsites with bonfires."
+            },
+            "encryption": {
+                "title": "E2E Encryption",
+                "description": "Learn about direct messages encryption."
+            },
+            "calendarTents": {
+                "title": "Calendar tents",
+                "description": "Keep track of events with calendar tents."
+            },
+            "listTents": {
+                "title": "List tents",
+                "description": "Create and complete tasks in tents."
+            },
+            "docTents": {
+                "title": "Document tents",
+                "description": "Create documents in your tents."
+            }
+        },
+        "downloads": {
+            "title": "Get Campground",
+            "description": "Download Campground on your current device. Everywhere, anywhere; on your phone, on your desktop.",
+            "wrongDevice": "Wrong device? Scroll down to other downloads.",
+            "desktop": "Different desktop device?",
+            "desktopDescription": "Get Campground on any desktop device.",
+            "mobile": "Or maybe on your phone?",
+            "mobileDescription": "Make sure everyone can reach you no matter where you are!",
+            "platform": {
+                "win": "Download for Windows",
+                "osx": "Download for OSX",
+                "linux": "Download for Linux",
+                "debian": "Download for Debian",
+                "android": "Download for Android",
+                "ios": "Download for iOS"
+            }
+        }
+    },
+
+    "client": {
+        "createdAt": "Created at {at}",
+        "datestamp": {
+            "now": "Just now",
+            "invalidDate": "The provided date is invalid",
+            "ago": "{time} ago"
+        },
+        "campsites": {
+            "members": "{count} members",
+            "settings": {
+                "members": "Campsite members",
+                "name": "Campsite name",
+                "other": "Other",
+                "profile": "Campsite profile",
+                "roles": "Roles",
+                "invites": "Invites",
+                "bans": "User bans",
+                "delete": "Delete campsite"
+            }
+        },
+        "tents": {
+            "createInvite": "Create invites",
+            "campsiteSettings": "Campsite settings",
+            "bonfireSettings": "Bonfire settings",
+            "leaveCampsite": "Leave campsite",
+            "bulletin": "Bulletin Board",
+            "members": "Members",
+            "create": "Create tent"
+        },
+        "bulletin": {
+            "campsiteInfo": "Campsite Information"
+        },
+        "members": {
+            "changeNickname": "Change nickname",
+            "mute": "Timeout member",
+            "kick": "Kick member",
+            "ban": "Ban member",
+            "unban": "Remove ban"
+        },
+        "settings": {
+            "save": "Save changes",
+            "unsavedChanges": "You have unsaved changes"
+        },
+        "system": {
+            "tentNameUpdated": "{member} updated the name of this tent from {oldName} to {newName}.",
+            "tentCreated": "{member} created this tent."
+        }
+    }
+}

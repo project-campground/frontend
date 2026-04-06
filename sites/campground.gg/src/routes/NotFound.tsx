@@ -1,18 +1,16 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import LandingPageWrapper from "../components/landing/LandingPageWrapper";
-import { Link, Stack, Typography } from "@mui/joy";
+import { Button, Link, Stack, Typography } from "@mui/joy";
 import { IconDoorExit, IconMoodAngryFilled } from "@tabler/icons-react";
-import PrimaryButton from "../components/PrimaryButton";
+
 
 export type Props = {
 
 };
 
 export default class NotFound extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
             <LandingPageWrapper>
@@ -27,9 +25,9 @@ export default class NotFound extends React.Component<Props> {
                         <FormattedMessage id="placeholder.notFound.description" />
                     </Typography>
                     <Link underline="none" href="/" sx={{ mt: 2 }}>
-                        <PrimaryButton startDecorator={<IconDoorExit />}>
+                        <Button variant="glow" color="primary" component="button" startDecorator={<IconDoorExit />}>
                             <FormattedMessage id="placeholder.goBackToHome" />
-                        </PrimaryButton>
+                        </Button>
                     </Link>
                 </Stack>
             </LandingPageWrapper>

@@ -8,9 +8,7 @@ type Props = {
 };
 
 export default class LandingPageWrapper extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
 
     render() {
         const { children } = this.props;

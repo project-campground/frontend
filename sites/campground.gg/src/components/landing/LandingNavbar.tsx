@@ -1,5 +1,5 @@
 import React from "react";
-import BrandLogo from "../BrandLogo";
+import { BrandLogo } from "components";
 import LandingNavbarItem from "./LandingNavbarItem";
 import { FormattedMessage } from "react-intl";
 import { Box, Link, Stack } from "@mui/joy";
@@ -10,12 +10,10 @@ export type Props = {
 };
 
 export default class LandingNavbar extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         return (
-            <Box sx={(theme) => ({ position: "sticky", top: 0, zIndex: 20, backgroundColor: theme.vars.palette.background.transparent })}>
+            <Box sx={(theme) => ({ position: "sticky", top: 0, zIndex: 20, backgroundColor: theme.vars.palette.background.transparent0 })}>
                 <Stack direction="row" component="nav" className="LandingNavbar container landing-side-padding-nav" sx={{ py: 1 }}>
                     <Stack direction="row" className="LandingNavbar menu" alignItems="center" flex={1} gap={0}>
                         <Link component="a" href="/" color="neutral" className="LandingNavbarItem container" underline="none" sx={{ px: 2, py: 0.5 }}>
@@ -39,7 +37,11 @@ export default class LandingNavbar extends React.Component<Props> {
                             <FormattedMessage id="global.download" />
                         </LandingNavbarItem>
                         <LandingNavbarPrimary href="/login">
-                            <FormattedMessage id="form.login" />
+                            <FormattedMessage
+                                id="form.login"
+                                defaultMessage="Login"
+                                description="Login button and page title"
+                            />
                         </LandingNavbarPrimary>
                     </Stack>
                 </Stack>

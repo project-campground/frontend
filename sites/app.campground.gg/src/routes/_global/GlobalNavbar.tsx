@@ -1,0 +1,51 @@
+import { Box, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
+import NavbarCamp from "~/components/pages/NavbarCamp";
+import GlobalNavProfile from "./GlobalNavProfile";
+import NavbarButton from "~/components/pages/NavbarButton";
+import { IconCompassFilled, IconPlus } from "@tabler/icons-react";
+import { useMeContext } from "~/context/session";
+
+type Props = {
+    loaded: boolean;
+    page: string | undefined | null;
+};
+
+const homePages = ["friends"]
+
+export default function GlobalNavbar({ page, loaded }: Props) {
+    const me = useMeContext();
+
+    return (
+        <Box sx={{ width: "100%" }}>
+            <Stack direction="row" sx={{ width: "100%" }} alignItems="center">
+                <Stack direction="row" sx={{ m: 1 }}>
+                    <NavbarButton href="/" isActive={!page || homePages.includes(page)}>
+                        <Stack direction="row" sx={{ width: "100%" }} alignItems="center">
+                            <Typography component="svg" sx={{ height: 36, width: 36, color: "var(--svg-color)", transition: "color 0.4s" }}>
+                                <use href="#cg-logo" />
+                            </Typography>
+                        </Stack>
+                    </NavbarButton>
+                </Stack>
+                <Divider orientation="vertical" sx={{ width: 2, mt: 1, mb: 1, }} />
+                <Box sx={{ overflowX: "auto", overflowY: "hidden" }} flex={1}>
+                    <Stack direction="row" sx={{ flex: 1, m: 1, }} gap={1}>
+                        {me?.campsites.map((x) =>
+                            <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
+                        )}
+                        {!loaded && <CircularProgress />}
+                        {me && <NavbarButton href="/c/create" isActive={page === "create"}>
+                            <IconPlus />
+                        </NavbarButton>}
+                        <NavbarButton href="/discover" isActive={page === "discover"}>
+                            <IconCompassFilled />
+                        </NavbarButton>
+                    </Stack>
+                </Box>
+                <Stack direction="row" sx={{ m: 1 }}>
+                    <GlobalNavProfile />
+                </Stack>
+            </Stack>
+        </Box>
+    );
+}

@@ -3,10 +3,10 @@ import { FormattedMessage } from "react-intl";
 import LandingPageWrapper from "../../components/landing/LandingPageWrapper";
 import { IconBrandDebian, IconCamper, IconCampfire, IconCheckbox, IconLock, IconPalette, IconServer } from "@tabler/icons-react";
 import { Box, Button, Grid, Link, Sheet, Stack, Typography } from "@mui/joy";
-import PrimaryButton from "../../components/PrimaryButton";
+
 import LandingSection from "../../components/landing/LandingSection";
 import ObservabilityDisplay from "../../components/ObservabilityDisplay";
-import LandingStickyCampfires from "../../components/landing/sticky/LandingStickyCampfire";
+import LandingStickyBonfires from "../../components/landing/sticky/LandingStickyBonfire";
 import LandingStickySelfHosts from "../../components/landing/sticky/LandingStickySelfHosts";
 import LandingStickyEncryption from "../../components/landing/sticky/LandingStickyEncryption";
 import LandingStickyProfile from "../../components/landing/sticky/LandingStickyProfile";
@@ -18,9 +18,6 @@ export type Props = {
 };
 
 export default class LandingIndex extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
     render() {
         return (
             <LandingPageWrapper>
@@ -43,9 +40,9 @@ export default class LandingIndex extends React.Component<Props> {
                             <Stack direction="column" gap={1.5}>
                                 <Stack direction="row" className="LandingPage motto-buttons" gap={1}>
                                     <Link underline="none" href="/download" tabIndex={-1}>
-                                        <PrimaryButton size="lg" variant="solid" startDecorator={<IconBrandDebian />}>
+                                        <Button variant="glow" color="primary" component="button" size="lg" startDecorator={<IconBrandDebian />}>
                                             <FormattedMessage id="landing.download.debian" />
-                                        </PrimaryButton>
+                                        </Button>
                                     </Link>
                                     <Button variant="outlined" size="lg" component="a" href="/">
                                         <FormattedMessage id="global.openBrowser" />
@@ -60,12 +57,12 @@ export default class LandingIndex extends React.Component<Props> {
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "5fr 4fr" }} columnGap={5} spacing="xl" className="LandingPage feature-grid landing-side-padding">
                     <LandingSection
                         id="campfires"
-                        subtitle="home.campfires.subtitle"
+                        subtitle="home.bonfires.subtitle"
                         icon={<IconCampfire />}
-                        title="home.campfires.title"
-                        description="home.campfires.description"
-                        learnMore="home.campfires.learnMore"
-                        learnMoreHref="/docs/features/campfires"
+                        title="home.bonfires.title"
+                        description="home.bonfires.description"
+                        learnMore="home.bonfires.learnMore"
+                        learnMoreHref="/docs/features/bonfires"
                     />
                     <LandingSection
                         id="selfHost"
@@ -115,7 +112,7 @@ export default class LandingIndex extends React.Component<Props> {
                     <Box gridColumn={2} gridRow="1 / 6">
                         <Box sx={{ userSelect: "none", position: "sticky", top: 120, zIndex: 8 }}>
                             <ObservabilityDisplay observeQuery="#campfires" threshold={1}>
-                                {{ elementId: "campfires", node: <LandingStickyCampfires /> }}
+                                {{ elementId: "campfires", node: <LandingStickyBonfires /> }}
                                 {{ elementId: "selfHost", node: <LandingStickySelfHosts /> }}
                                 {{ elementId: "encryption", node: <LandingStickyEncryption /> }}
                                 {{ elementId: "profiles", node: <LandingStickyProfile /> }}

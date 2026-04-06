@@ -1,4 +1,7 @@
 # Campground
+
+- To get started, navigate to [Getting Started section](#getting-started).
+
 ## Summary
 Campground is a free, self-hosted, and open source chat application.
 This direction will provide users:
@@ -23,7 +26,7 @@ A social media platform in which a user can decide to host their own section or 
 One example of a federated platform is Mastodon
 
 ### Campsite
-An instance of a community that is hosted within our application. This would be similar to a Discord Server/Guild or a Guilded Server. Campsites can contain a Bulletin Board (profile via bluesky), Campers (from a user registry) and Campfires (categories).
+An instance of a community that is hosted within our application. This would be similar to a Discord Server/Guild or a Guilded Server. Campsites can contain a Bulletin Board (profile via bluesky), Campers (from a user registry) and Bonfires (similar to groups in Guilded).
 
 ### Home
 The campsite that a camper has registered their user data with.
@@ -35,9 +38,9 @@ When a camper is removed from a campsite, their camper data is not deleted from 
 The campsite overview, similar to Guilded's server overview section.
 This will contain announcements, active tents, and a "getting started" section for the campsite.
 
-### Campfire
+### Bonfire
 A section of tents, most similar to how Guilded “Groups” work.
-Campfires will contain An image descriptor, a text descriptor, and tents.
+Bonfires will contain An image descriptor, a text descriptor, and tents.
 
 ### Tent
 A communication section that can fall under one of the below types:
@@ -67,23 +70,19 @@ Added friends
 A feature most similar to “server discovery” on Discord and Guilded. A simple directory of Campsites that have opted to be listed in the Community Board.
 
 ## Technology Stack
-- [Golang](https://go.dev/) - Backend Library
+- [Rust](https://rust-lang.org/) - Backend Library
 
 An open-source programming language backed by Google.
 
 
-- [Next.JS](https://nextjs.org/) for [React](https://react.dev/) - Frontend Core Library
+- [React Router](https://reactrouter.com/) for [React](https://react.dev/) - Frontend Core Library
 
 A React-based framework for building web applications.
 
-Our app is bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [MUI JoyUI](https://mui.com/) for [React](https://react.dev/) - Frontend Components Library
 
-
-- [Mantine](https://mantine.dev/) for [React](https://react.dev/) - Frontend Components Library
-
-A library of components that we can customise and implement within Next.JS.
+A library of components that we can customise and implement within React Router.
 
 
 - [React Native](https://reactnative.dev/) - Mobile Frontend
@@ -91,9 +90,9 @@ A library of components that we can customise and implement within Next.JS.
 A framework that allows us to create native Android and iOS apps using React code.
 
 
-- [SurrealDB](https://surrealdb.com/) - Database
+- [PostgreSQL](https://www.postgresql.org/) - Database
 
-A multi-model database system that allows a SQL-based language to be used
+A database system that allows a SQL-based language to be used
 
 
 - [SeaweedFS](https://github.com/seaweedfs/seaweedfs) - File Server
@@ -114,10 +113,6 @@ The protocol that Signal uses for communication between users directly.
 - [Crowdin](https://crowdin.com/) - Translations
 
 An open-source software that makes it easier for translators to contribute without requiring them to have technical knowledge and also making it easier to collaborate.
-
-
-## Design System
-We will be utilizing Material 3 for our design system.
 
 ## Branching Strategy / Testing Flow
 We will be utilising the preferred branching strategy for Git repositories:
@@ -218,8 +213,38 @@ The moment this is ever removed from our motto, we don't deserve any user base. 
 When given the choice between losing support of deprecated systems or holding back the advancement of alternative or newer systems, we will choose the latter. For example, if support for Windows 7 ends on a dependency, but the update also enables better Linux support, we would opt to end Windows 7 support.
 
 ## Getting Started
+
+### Front-end Webapp
+
+**Prerequisites:**
+- Running [back-end](https://github.com/project-campground/backend/tree/2026/campsites#getting-started)
+- Running [PDS](https://github.com/project-campground/backend/tree/2026/campsites#getting-started)
+
+```bash
+cd ./sites/campground.gg
+
+# Create config file
+cp config.example.json config.json
+
+# Optional: Edit the config using any editor
+nano ./config.json
+# or
+code ./config.json
+
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+### Landing page
 How to run the development server on [http://localhost:3000](http://localhost:3000):
 ```bash
+cd ./sites/campground.gg
+
 npm run dev
 # or
 yarn dev
@@ -229,15 +254,3 @@ pnpm dev
 bun dev
 ```
 Entry page: `app/page.tsx`
-
-## Learn More
-To learn more about Next.js, take a look at the following resources:
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

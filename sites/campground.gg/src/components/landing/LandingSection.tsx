@@ -1,8 +1,8 @@
-import { Grid, Link, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { IconArrowRight } from "@tabler/icons-react";
 import React, { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
-import PrimaryButton from "../PrimaryButton";
+
 
 type Props = {
     id: string;
@@ -15,9 +15,7 @@ type Props = {
 };
 
 export default class LandingSection extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
 
     render() {
         const { id, subtitle, title, description, learnMore, learnMoreHref, icon } = this.props;
@@ -42,9 +40,9 @@ export default class LandingSection extends React.Component<Props> {
                         </Typography>
                     </Stack>
                     <Link href={learnMoreHref} underline="none" tabIndex={-1} sx={{ mt: 2 }}>
-                        <PrimaryButton endDecorator={<IconArrowRight />}>
+                        <Button variant="glow" color="primary" component="button" endDecorator={<IconArrowRight />}>
                             <FormattedMessage id={learnMore} />
-                        </PrimaryButton>
+                        </Button>
                     </Link>
                 </Stack>
             </Grid>

@@ -11,9 +11,7 @@ export type Props = {
 };
 
 export default class LandingNavbarItem extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render(): React.ReactNode {
         const { variant, color, children, href } = this.props;
         return (

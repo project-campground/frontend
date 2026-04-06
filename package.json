@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "extract": "formatjs extract 'sites/*campground.gg/src/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/en-US.json --format='crowdin' --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
+  },
+  "devDependencies": {
+    "@formatjs/cli": "^6.14.1"
+  }
+}

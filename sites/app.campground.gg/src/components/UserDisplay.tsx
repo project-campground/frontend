@@ -1,0 +1,112 @@
+import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
+import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
+import type { ProfileView } from "types/user";
+import UserProfileCard from "../layout/UserProfileCard";
+import { GradientTypography, Group, TextBlock } from "components";
+import type { MemberView } from "types/membership";
+import type { RoleMotion } from "types/roles";
+import type { RoleView } from "types/roles";
+import type { MouseEvent } from "react";
+
+type Size = "sm" | "md" | "lg";
+
+type Props<T extends ProfileView> = {
+    user: T;
+    member?: MemberView<T> | null;
+    noAvatar?: boolean;
+    motion?: RoleMotion;
+    colors?: string[];
+    size?: Size;
+    avatarSize?: Size | "xl";
+    showHandle?: boolean;
+    align?: "top" | "center" | "bottom";
+    noHoverBackground?: boolean;
+    withStatus?: boolean;
+    campsiteRoles?: RoleView[];
+};
+
+const sizeToGap: Record<Size, number> = {
+    sm: 1,
+    md: 1.5,
+    lg: 2,
+};
+
+const GapSpan = styled("span", {
+    name: "UserDisplay",
+    slot: "gap",
+})(() => ({
+    display: "inline-block",
+}));
+
+export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+    const actualSize = size ?? "md";
+    return (
+        <Typography level="body-md" onClick={onClick}>
+            {!noAvatar &&
+            <>
+                <TextBlock align={align}>
+                    <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
+                </TextBlock>
+                <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
+            </>
+            }
+            <TextBlock align={align}>
+                <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
+                    {member?.nickname ?? user.displayName}
+                </GradientTypography>
+            </TextBlock>
+            {
+                showHandle && <>
+                    <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
+                    <TextBlock align={align}>
+                        <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                    </TextBlock>
+                </>
+            }
+        </Typography>
+    );
+}
+
+export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
+    return (
+        <>
+            <Dropdown>
+                <MenuButton variant="plain" sx={{ px: 0, py: 0, minHeight: "min-content", ":hover": { backgroundColor: props.noHoverBackground ? "transparent" : undefined } }}>
+                    <UserDisplayNoModal {...props} />
+                </MenuButton>
+                <Menu variant="soft">
+                    <UserProfileCard
+                        did={props.user.did}
+                        user={props.user}
+                        member={props.member}
+                        campsiteRoles={props.campsiteRoles}
+                    />
+                </Menu>
+            </Dropdown>
+        </>
+    );
+}
+
+export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props<ProfileView>, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
+    const actualSize = size ?? "md";
+
+    return (
+        <Group gap={sizeToGap[actualSize]} alignItems={alignItems ?? "center"}>
+            {!noAvatar && <UserAvatarSkeleton withStatus={withStatus} size={avatarSize ?? actualSize} />}
+            <Typography level={`title-${actualSize}`} fontWeight={700}>
+                <Skeleton loading>
+                    Example user
+                </Skeleton>
+            </Typography>
+            {
+                showHandle && <>
+                    <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">
+                        <Skeleton loading>
+                            @example
+                        </Skeleton>
+                    </Typography>
+                </>
+            }
+        </Group>
+    );
+}

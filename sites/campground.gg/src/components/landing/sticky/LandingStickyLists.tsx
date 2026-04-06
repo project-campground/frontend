@@ -47,7 +47,7 @@ type Props = {
 function LandingStickyListSubItem(props: Props) {
     return (
         <Stack direction="row">
-            <Box sx={(theme) => ({ mt: -8, ml: 3, height: 112, width: 30, borderBottomLeftRadius: 12, borderBottom: `solid 3px ${theme.vars.palette.neutral[500]}`, borderLeft: `solid 3px ${theme.vars.palette.neutral[500]}` })}>
+            <Box sx={(theme) => ({ mt: -8, ml: 3, height: 112, width: 30, borderBottomLeftRadius: 12, borderBottom: `solid 3px ${theme.vars.palette.neutral[400]}`, borderLeft: `solid 3px ${theme.vars.palette.neutral[400]}` })}>
 
             </Box>
             <LandingStickyListItem {...props} />
@@ -56,9 +56,7 @@ function LandingStickyListSubItem(props: Props) {
 }
 
 class LandingStickyListItem extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+
     render() {
         const { sx, noCompletionAnimation, animationDelay, title, description } = this.props;
 

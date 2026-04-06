@@ -1,6 +1,6 @@
 import { Box } from "@mui/joy";
 import { Group } from "components";
-import React from "react";
+import React, { type ContextType } from "react";
 // import type { CampsiteViewDetailed } from "types/campsites";
 import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
 import { CampsiteContextSuiteContext, CurrentTentContext, TentContext } from "./context";
@@ -8,7 +8,7 @@ import type { CampsiteViewDetailed } from "types/campsites";
 import type { BonfireViewBasic } from "types/bonfires";
 import type { Session } from "~/context/session/types";
 import type { HttpResponseError } from "~/api/HTTPResponse";
-import { ContextSuiteContext, type ContextSuite } from "~/context/context-suite";
+import { ContextSuiteContext } from "~/context/context-suite";
 import type { NavigateFunction } from "react-router";
 import { PermissionsContext } from "~/context/permissions";
 import type { WSSubscription } from "~/api/WSClient";
@@ -31,9 +31,11 @@ type State = {
 };
 
 export default class CampsiteLayout extends React.Component<Props, State> {
+    static contextType?: React.Context<any> | undefined = ContextSuiteContext;
+    declare context: ContextType<typeof ContextSuiteContext>;
+
     private _currentTent: CurrentTentContext;
     private _permissionsManager: PermissionsManager = null!;
-    static contextType?: React.Context<any> | undefined = ContextSuiteContext;
     _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
     private _init: boolean = false;
     private _wsSubscription: WSSubscription | null = null;
@@ -51,7 +53,7 @@ export default class CampsiteLayout extends React.Component<Props, State> {
     }
 
     async fetchCampsite() {
-        return (this.context as ContextSuite)
+        return this.context
             .session
             .http
             .campsites.get(this.props.campsiteId)
@@ -92,13 +94,14 @@ export default class CampsiteLayout extends React.Component<Props, State> {
         return this.fetchCampsite();
     }
     componentWillUnmount(): void {
-        (this.context as ContextSuite)
+        this
+            .context
             .session
             .ws
             .unsubscribe(this._wsSubscription!);
     }
     setCampsiteForWebSocket() {
-        const ws = (this.context as ContextSuite).session.ws;
+        const ws = this.context.session.ws;
         ws.setCampsite(this.props.campsiteId);
         this._wsSubscription = ws.subscribe(message =>
             message.op === 1 && this.onWsMessage(message.t, message.payload)
@@ -144,7 +147,6 @@ export default class CampsiteLayout extends React.Component<Props, State> {
         this.setState({ campsite: Object.assign(this.state.campsite!, data) });
     }
     render(): React.ReactNode {
-        const context = this.context as ContextSuite;
         const { children, navigate } = this.props;
         const { init, loading, bonfireSelected, tentSelected, campsite } = this.state;
 
@@ -161,7 +163,7 @@ export default class CampsiteLayout extends React.Component<Props, State> {
             <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} gap={1}>
                 <TentContext.Provider value={this._currentTent}>
                     <PermissionsContext.Provider value={this._permissionsManager}>
-                        <CampsiteContextSuiteContext.Provider value={{ ...context, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
+                        <CampsiteContextSuiteContext.Provider value={{ ...this.context, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
                             <Box>
                                 <TentSidebar
                                     campsite={campsite!}

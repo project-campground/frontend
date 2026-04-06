@@ -1,9 +1,8 @@
 import { Stack } from "@mui/joy";
-import React, { ReactNode } from "react";
+import React, { ReactNode, type ContextType } from "react";
 import GlobalNavbar from "./GlobalNavbar";
 import type { Me } from "types/me";
 import { MeContext, SessionContext } from "~/context/session";
-import type { Session } from "~/context/session/types";
 import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteViewBasic } from "types/campsites";
@@ -19,6 +18,7 @@ type State = {
 
 export default class GlobalLayout extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined = SessionContext;
+    declare context: ContextType<typeof SessionContext>;
     private _init: boolean = false;
     state = {
         loaded: false,
@@ -30,17 +30,16 @@ export default class GlobalLayout extends React.Component<Props, State> {
             return;
 
         this._init = true;
-        const session = (this.context as Session);
 
-        if (!session.auth.authenticated)
+        if (!this.context.auth.authenticated)
             return this.setState({ loaded: true });
 
-        this._wsSubscription = session.ws.subscribe(msg =>
+        this._wsSubscription = this.context.ws.subscribe(msg =>
             msg.op === 1 &&
             this.onWsMessage(msg.t, msg.payload)
         );
 
-        return session.http
+        return this.context.http
             .getMe()
             .then((resp) => {
                 if (!resp.ok) {
@@ -53,8 +52,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
             });
     }
     componentWillUnmount(): void {
-        const session = this.context as Session;
-        session.ws.unsubscribe(this._wsSubscription!);
+        this.context.ws.unsubscribe(this._wsSubscription!);
     }
     onWsMessage<T extends keyof TypeToPayload>(type: T, payload: TypeToPayload[T]) {
         switch(type) {

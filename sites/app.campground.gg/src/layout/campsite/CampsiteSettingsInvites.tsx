@@ -18,6 +18,7 @@ type State = {
 
 export default class CampsiteSettingsInvites extends React.Component<SettingsComponentProps<CampsiteSettingsProps>, State> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
+    declare context: React.ContextType<typeof CampsiteContextSuiteContext>;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(invites: CampsiteInviteViewBasic[], type: T, payload: TypeToPayload[T]): boolean {
         const invite = payload as CampsiteInviteViewBasic;
@@ -39,7 +40,7 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
     }
 
     private async fetchInvites(offset: number, limit: number) {
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
 
         return session
             .http
@@ -55,7 +56,7 @@ export default class CampsiteSettingsInvites extends React.Component<SettingsCom
         
     private _onInvitesDeleteBind = this.onInvitesDelete.bind(this);
     private onInvitesDelete(selected: CampsiteInviteViewBasic[]) {
-        const { session, floaters } = this.context as CampsiteContextSuite;
+        const { session, floaters } = this.context;
 
         return Promise.all(
             selected.map((invite) =>

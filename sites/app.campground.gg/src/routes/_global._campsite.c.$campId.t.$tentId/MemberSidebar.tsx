@@ -1,7 +1,7 @@
 import { Stack, styled, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/HTTPResponse";
-import React from "react";
+import React, { type ContextType } from "react";
 import type { TentViewDetailed } from "types/tent";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 import { SessionContext } from "~/context/session";
@@ -55,10 +55,11 @@ export const RightSidebarList = styled(Stack, {
 
 export default class MemberSidebar extends React.Component<
     Props,
-    State,
-    Session
+    State
 > {
     static contextType?: React.Context<any> | undefined = SessionContext;
+    declare context: ContextType<typeof SessionContext>;
+
     private init: boolean = false;
     state: State = {
         loading: true,
@@ -108,7 +109,7 @@ export default class MemberSidebar extends React.Component<
         });
     }
     async fetchMembers(offset: number) {
-        return (this.context as Session).http.members.getMany(
+        return this.context.http.members.getMany(
             this.props.campsiteId,
             offset,
         );

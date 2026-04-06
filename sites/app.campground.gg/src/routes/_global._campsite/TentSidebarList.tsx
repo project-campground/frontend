@@ -1,6 +1,6 @@
 import { Alert, Button, Divider, Modal, Stack, Typography } from "@mui/joy";
 import { IconInfoCircleFilled, IconTent } from "@tabler/icons-react";
-import React, { type ReactNode } from "react";
+import React, { type ContextType, type ReactNode } from "react";
 import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/tent";
 import type { Session } from "~/context/session/types";
 import TentCreationModal from "../../layout/sidebar/TentCreationModal";
@@ -51,8 +51,9 @@ export function TentCategorizedList({ categoryId, addBottomMover, tents, tentSel
     )
 }
 
-export default class TentSidebarList extends React.Component<Props, State, Session> {
+export default class TentSidebarList extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
+    declare context: ContextType<typeof CampsiteContextSuiteContext>;
 
     constructor(props: Props, context: CampsiteContextSuite) {
         super(props, context);
@@ -99,7 +100,7 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
         this.setState({ settingsOpen: props });
     }
     private moveTent(movedId: string, movedTo: string) {
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
         const movedToId = movedTo.slice(2);
         const movedToTent = movedTo.startsWith("b")
             ? movedToId === ""
@@ -117,7 +118,7 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
             });
     }
     private moveCategory(movedId: string, movedTo: string) {
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
         const movedToId = movedTo.slice(2);
         const movedToCategory = movedTo.startsWith("b")
             ? this.state.sortedCategories.slice(-1)[0]
@@ -131,7 +132,7 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
     }
     render() {
         const { lowestPriorityTent, lowestPriorityCategory, tentsUncategorized, tentsCategorized, props: { tentSelected, campsiteId } } = this;
-        const { permissions } = this.context as CampsiteContextSuite;
+        const { permissions } = this.context;
         const onModalClose = this.onModalClose.bind(this);
         const canManageTents = !!(permissions.bonfire.general & GeneralPermissionConsts.MANAGE_TENTS);
 
@@ -225,7 +226,7 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
                         tentId={this.state.settingsOpen.tent.id}
                         tent={this.state.settingsOpen.tent}
                         defaultPage={this.state.settingsOpen.page}
-                        permissions={(this.context as CampsiteContextSuite).permissions}
+                        permissions={this.context.permissions}
                     />
                 </Modal>}
                 {this.state.settingsOpen?.category && <Modal open onClose={() => this.setState({ settingsOpen: null })}>
@@ -233,7 +234,7 @@ export default class TentSidebarList extends React.Component<Props, State, Sessi
                         categoryId={this.state.settingsOpen.category.id}
                         category={this.state.settingsOpen.category}
                         defaultPage={this.state.settingsOpen.page}
-                        permissions={(this.context as CampsiteContextSuite).permissions}
+                        permissions={this.context.permissions}
                     />
                 </Modal>}
             </>

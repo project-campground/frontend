@@ -9,11 +9,8 @@ import {
     Typography,
 } from "@mui/joy";
 import type { HttpResponseError } from "~/api/HTTPResponse";
-import React from "react";
-import type {
-    MessageViewBasic,
-    MessageViewWithReplies,
-} from "types/content";
+import React, { type ContextType } from "react";
+import type { MessageViewBasic, MessageViewWithReplies } from "types/content";
 import type { TentViewDetailed } from "types/tent";
 import MessageEditor, {
     MessageEditorContainer,
@@ -68,13 +65,11 @@ type State = {
     replyMessages: MessageViewWithReplies[];
 };
 
-export default class TextTent extends React.Component<
-    Props,
-    State,
-    ContextSuite
-> {
+export default class TextTent extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined =
         CampsiteContextSuiteContext;
+    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+
     state: State = {
         messages: [],
         loading: true,

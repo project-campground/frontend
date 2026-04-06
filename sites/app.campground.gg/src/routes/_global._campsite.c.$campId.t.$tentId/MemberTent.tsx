@@ -6,7 +6,7 @@ import {
     Menu,
     MenuButton,
 } from "@mui/joy";
-import React from "react";
+import React, { type ContextType } from "react";
 import type { TentViewDetailed } from "types/tent";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { Group } from "components";
@@ -35,13 +35,10 @@ type Props = {
 
 type State = {};
 
-export default class MemberTent extends React.Component<
-    Props,
-    State,
-    ContextSuite
-> {
+export default class MemberTent extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined =
         CampsiteContextSuiteContext;
+    declare context: ContextType<typeof CampsiteContextSuiteContext>;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(
         members: MemberViewDetailed[],
@@ -77,7 +74,7 @@ export default class MemberTent extends React.Component<
     }
 
     async fetchMembers(offset: number, _limit: number) {
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
 
         return session.http.members
             .getManyDetailed(this.props.campsiteId, offset)
@@ -90,7 +87,7 @@ export default class MemberTent extends React.Component<
 
     render(): React.ReactNode {
         const {} = this.props;
-        const { campsite } = this.context as CampsiteContextSuite;
+        const { campsite } = this.context;
 
         return (
             <DataDisplay
@@ -146,25 +143,13 @@ export default class MemberTent extends React.Component<
 function NameComponent({ item: member }: { item: MemberViewDetailed }) {
     return <UserDisplayNoModal user={member.user} size="md" />;
 }
-function JoinedComponent({
-    item: member,
-}: {
-    item: MemberViewDetailed;
-}) {
+function JoinedComponent({ item: member }: { item: MemberViewDetailed }) {
     return <Datestamp long date={new Date(member.joinedAt)} />;
 }
-function CreatedComponent({
-    item: member,
-}: {
-    item: MemberViewDetailed;
-}) {
+function CreatedComponent({ item: member }: { item: MemberViewDetailed }) {
     return <Datestamp long date={new Date(member.user.indexedAt)} />;
 }
-function RolesComponent({
-    item: member,
-}: {
-    item: MemberViewDetailed;
-}) {
+function RolesComponent({ item: member }: { item: MemberViewDetailed }) {
     const campsite = useCampsite();
     const session = useSession();
     const roles = campsite.roles;

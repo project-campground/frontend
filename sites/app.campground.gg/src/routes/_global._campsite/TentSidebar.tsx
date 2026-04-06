@@ -2,7 +2,7 @@ import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDe
 import { IconCampfire, IconDoorExit, IconDots, IconSettingsFilled, IconTicket } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/HTTPResponse";
 import { Group, Image } from "components";
-import React from "react";
+import React, { type ContextType } from "react";
 import type { CampsiteViewDetailed } from "types/campsites";
 import type { BonfireViewBasic } from "types/bonfires";
 import type { GetTentsOutput } from "types/tent";
@@ -94,8 +94,10 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
 
 const anyManageCampsitePermission = GeneralPermissionConsts.MANAGE_CAMPSITE | GeneralPermissionConsts.BAN_MEMBERS | GeneralPermissionConsts.MANAGE_ROLES | GeneralPermissionConsts.MANAGE_INVITES;
 
-export default class TentSidebar extends React.Component<Props, State, Session> {
+export default class TentSidebar extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
+    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+
     public bonfiresToTents: Record<string, GetTentsOutput> = {};
     private _lock: boolean = false;
     private _initLock: boolean = false;
@@ -128,7 +130,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
 
         this._initLock = true;
 
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
         this._wsSubscription = session
             .ws
             .subscribe((msg) =>
@@ -150,7 +152,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         if (!this._wsSubscription)
             return;
 
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context;
         return (
             session
                 .ws
@@ -170,7 +172,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             return this.setState({ loading: false });
 
         this._lock = true;
-        return (this.context as CampsiteContextSuite)
+        return this.context
             .session
             .http
             .tents.getMany(this.props.campsite.id, bonfireSelected.id)
@@ -179,7 +181,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                     return this.setState({ error: x });
 
                 this.bonfiresToTents[bonfireSelected.id] = x.content;
-                (this.context as CampsiteContextSuite).permissions.tentList.setNewValue(x.content);
+                this.context.permissions.tentList.setNewValue(x.content);
                 this._lock = false;
 
                 return this.setState({ loading: false });
@@ -197,7 +199,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     }
     setBonfireSelected(bonfire: BonfireViewBasic) {
         if (this.bonfiresToTents[bonfire.id])
-            (this.context as CampsiteContextSuite).permissions.tentList.setNewValue(this.bonfiresToTents[bonfire.id]);
+            this.context.permissions.tentList.setNewValue(this.bonfiresToTents[bonfire.id]);
         this.setState({ bonfireSelected: bonfire, menuOpen: null, loading: true });
     }
     onBonfireDeleted() {
@@ -205,7 +207,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
             return;
 
         this.setState({ menuOpen: null });
-        const { floaters, session } = (this.context as CampsiteContextSuite);
+        const { floaters, session } = this.context;
 
         return (
             session
@@ -216,7 +218,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
         );
     }
     leaveCampsite() {
-        const { floaters, session } = (this.context as CampsiteContextSuite);
+        const { floaters, session } = this.context;
         return (
             session
                 .http
@@ -227,11 +229,10 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
     }
     render(): React.ReactNode {
         const { campsite, tentSelected } = this.props;
-        // const bonfireOrDefault = campsite.bonfires.find((x) => x.id === bonfireSelected) ??
         const { loading, menuOpen, bonfireSelected } = this.state;
         const tents = this.bonfiresToTents[bonfireSelected.id];
         const toggleGroupMenu = this.toggleGroupMenu.bind(this);
-        const { permissions } = (this.context as CampsiteContextSuite);
+        const { permissions } = this.context;
 
         return (
             <TentSidebarBox>
@@ -335,7 +336,7 @@ export default class TentSidebar extends React.Component<Props, State, Session> 
                 <Modal open={menuOpen === "bonfire-settings"} onClose={this.setMenu.bind(this, null)}>
                     <BonfireSettingsModal
                         bonfireId={bonfireSelected.id}
-                        permissions={(this.context as CampsiteContextSuite).permissions}
+                        permissions={this.context.permissions}
                         canDeleteBonfire={campsite.bonfires.length > 1}
                         bonfire={bonfireSelected}
                         onBonfireDeleted={this.onBonfireDeleted.bind(this)}

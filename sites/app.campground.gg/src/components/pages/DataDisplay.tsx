@@ -52,6 +52,7 @@ const MediumScreens = styled(`div`, {
 
 export default class DataDisplay<T> extends React.Component<Props<T>, State<T>> {
     static contextType?: React.Context<ContextSuite> | undefined = ContextSuiteContext;
+    declare context: React.ContextType<typeof ContextSuiteContext>;
     public state: State<T> = {
         page: 0,
         items: [],
@@ -90,12 +91,14 @@ export default class DataDisplay<T> extends React.Component<Props<T>, State<T>> 
     }
     public componentWillUnmount(): void {
         if (this._wsSubscription)
-            (this.context as ContextSuite).session.ws
+            this.context
+                .session
+                .ws
                 .unsubscribe(this._wsSubscription);
     }
 
     private subscribeToWs() {
-        const { session } = this.context as ContextSuite;
+        const { session } = this.context;
 
         this._wsSubscription = session.ws
             .subscribe(ws =>
@@ -104,7 +107,7 @@ export default class DataDisplay<T> extends React.Component<Props<T>, State<T>> 
     }
 
     private async fetchData() {
-        const { floaters } = this.context as ContextSuite;
+        const { floaters } = this.context;
 
         this.props.fetch(this.state.page * this.props.itemsPerPage, this.props.itemsPerPage)
             .then((resp) => {

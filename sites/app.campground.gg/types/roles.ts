@@ -5,8 +5,8 @@ export interface RoleView {
     id: string;
     campsiteId: string;
     name: string;
-    displaySeparately: boolean;
-    mentionable: boolean;
+    raised: boolean;
+    pingable: boolean;
     permissions: PermissionsDictionary;
     position: number;
     colors: number[];

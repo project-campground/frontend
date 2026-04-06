@@ -39,8 +39,8 @@ export default function CampsiteSettingsRoles({ setResetHandler, onValuesChanged
                 name: "New role",
                 colors: [],
                 motion: "none",
-                displaySeparately: false,
-                mentionable: false,
+                raised: false,
+                pingable: false,
                 permissions: {
                     general: 0,
                     content: 0,
@@ -149,7 +149,7 @@ export default function CampsiteSettingsRoles({ setResetHandler, onValuesChanged
     )
 }
 
-type FormValues = Pick<RoleView, "id" | "name" | "colors" | "motion" | "mentionable" | "displaySeparately" | "permissions">;
+type FormValues = Pick<RoleView, "id" | "name" | "colors" | "motion" | "pingable" | "raised" | "permissions">;
 type RolePageProps = { addResetHandler: (index: number, resetValueHandler: () => void) => void; onRoleDelete: (role: SettingsRole) => unknown; role: SettingsRole; onChanged: (valid: boolean, changed: boolean, values: FormValues) => unknown; };
 type RolePageTabProps = { addResetHandler: (resetValueHandler: () => void) => void; value: FormValues, role: SettingsRole; onChanged: (valid: boolean, values: Partial<FormValues>) => unknown; };
 
@@ -159,8 +159,8 @@ function RolePage({ addResetHandler, onRoleDelete, role, onChanged }: RolePagePr
             name: role.name,
             colors: role.colors,
             motion: role.motion,
-            mentionable: role.mentionable,
-            displaySeparately: role.displaySeparately,
+            pingable: role.pingable,
+            raised: role.raised,
             permissions: role.permissions,
         },
         combinedValues: {
@@ -168,8 +168,8 @@ function RolePage({ addResetHandler, onRoleDelete, role, onChanged }: RolePagePr
             name: role.name,
             colors: role.colors,
             motion: role.motion,
-            mentionable: role.mentionable,
-            displaySeparately: role.displaySeparately,
+            pingable: role.pingable,
+            raised: role.raised,
             permissions: role.permissions,
         }
     }), [role.id]);
@@ -401,14 +401,14 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                             ]
                         },
                         {
-                            id: "displaySeparately",
+                            id: "raised",
                             type: "switch",
                             label: <FormattedMessage
                                 id="app.roles.separately"
                                 defaultMessage="Display separately"
                                 description="Display separately setting in role settings"
                             />,
-                            defaultValue: role.displaySeparately,
+                            defaultValue: role.raised,
                             startDecorator: <IconSeparatorHorizontal />,
                             description: <FormattedMessage
                                 id="app.roles.separately.description"
@@ -417,7 +417,7 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                             />,
                         },
                         {
-                            id: "mentionable",
+                            id: "pingable",
                             type: "switch",
                             label: <FormattedMessage
                             id="app.roles.mentionable"
@@ -425,7 +425,7 @@ function RolePageDisplay({ addResetHandler, role, value, onChanged }: RolePageTa
                             description="Mentionable by anyone setting in role settings"
                             />,
                             startDecorator: <IconAt />,
-                            defaultValue: role.mentionable,
+                            defaultValue: role.pingable,
                             description: <FormattedMessage
                                 id="app.roles.mentionable.description"
                                 defaultMessage="Allows any member with permission to create content to mention other members that have this role"

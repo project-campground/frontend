@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function MemberList({ campsiteId, members, roles }: Props) {
-    const displayedRoles = roles.filter((x) => x.displaySeparately);
+    const displayedRoles = roles.filter((x) => x.raised);
     const defaultRole = roles.find((x) => x.flags & 1)!;
     const [cardMember, setCardMember] = useState<{
         x: number;
@@ -25,7 +25,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
     } | null>(null);
 
     // Make sure it always exists
-    if (!defaultRole.displaySeparately) displayedRoles.push(defaultRole);
+    if (!defaultRole.raised) displayedRoles.push(defaultRole);
 
     const sortedMembers = members
         .sort((a, b) =>

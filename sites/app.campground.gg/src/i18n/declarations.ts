@@ -470,6 +470,11 @@ const globalIntlDeclarations = {
         description: "Header for tent permissions in the permission list"
     }),
     // Invites
+    "app.invites.create": defineMessage({
+        id: "app.invites.create",
+        defaultMessage: "Create invite",
+        description: "Invite creation menu item",
+    }),
     "app.invites.allowedAmount": defineMessage({
         id: "app.invites.allowedAmount",
         defaultMessage: "Allowed times of use",

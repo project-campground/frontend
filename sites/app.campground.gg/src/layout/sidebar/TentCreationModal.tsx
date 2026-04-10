@@ -1,7 +1,7 @@
-import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography, FormControl, FormLabel } from "@mui/joy";
+import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography, FormControl, FormLabel, Button } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/HTTPResponse";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import type { TentCategoryView, TentViewDetailed } from "types/tent";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
@@ -18,6 +18,7 @@ import GridList from "~/components/content/GridList";
 import FormFieldRadioGridOption from "~/components/form/FormFieldRadioGridOption";
 import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldTextArea from "~/components/form/FormFieldTextArea";
+import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
 
 type Props = {
     campsiteId: string;
@@ -26,12 +27,12 @@ type Props = {
     categories: TentCategoryView[];
     lowestPriorityTent: number;
     lowestPriorityCategory: number;
-    onClose: () => Promise<void> | void;
     onTentCreated: (tent: TentViewDetailed) => void | unknown;
 };
 
-export default function TentCreationModal({ campsiteId, bonfireId, categoryId, onClose, lowestPriorityTent, lowestPriorityCategory }: Props) {
+export default function TentCreationModal({ campsiteId, bonfireId, categoryId, lowestPriorityTent, lowestPriorityCategory }: Props) {
     const session = useSession();
+    const modalClose = useContext(CloseModalContext);
     const [error, setError] = useState<HttpResponseError | null>(null);
 
     const onTentCreate = (body: Record<string, any>): unknown =>
@@ -42,7 +43,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                 if (!r.ok)
                     return setError(r);
 
-                return onClose();
+                return modalClose?.({}, "closeClick");
             });
     const onCategoryCreate = (name: string, description: string): unknown =>
         session.http
@@ -52,7 +53,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                 if (!r.ok)
                     return setError(r);
 
-                return onClose();
+                return modalClose?.({}, "closeClick");
             });
 
     return (
@@ -162,6 +163,9 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
                         <FormSubmit>
                             <FormattedMessageGlobal id="common.create" />
                         </FormSubmit>
+                        <Button color="neutral" variant="plain" onClick={() => modalClose?.({}, "closeClick")}>
+                            <FormattedMessageGlobal id="common.cancel" />
+                        </Button>
                     </FormSection>
                     <FormSection>
                         {error && <Alert color="danger" variant="soft">{error.status} {error.errorHeader}: {error.errorDescription}</Alert>}

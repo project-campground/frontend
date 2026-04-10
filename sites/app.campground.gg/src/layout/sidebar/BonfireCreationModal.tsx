@@ -14,10 +14,9 @@ import { FormattedMessageGlobal } from "~/i18n";
 type Props = {
     campsiteId: string;
     lowestPriorityBonfire: number;
-    onClose: () => Promise<void> | void;
 };
 
-export default function BonfireCreationModal({ campsiteId, onClose, lowestPriorityBonfire }: Props) {
+export default function BonfireCreationModal({ campsiteId, lowestPriorityBonfire }: Props) {
     const session = useSession();
     const snackbars = useSnackbars();
     const modalClose = useContext(CloseModalContext);
@@ -30,7 +29,7 @@ export default function BonfireCreationModal({ campsiteId, onClose, lowestPriori
                 if (!resp.ok)
                     return snackbars.notifyApiError(resp);
 
-                return onClose();
+                return modalClose?.({}, "closeClick");
             });
 
     return (

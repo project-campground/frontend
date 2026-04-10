@@ -19,7 +19,7 @@ import { type NavigateFunction } from "react-router";
 import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "../../layout/InviteCreationModal";
-import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
+import { CampsiteContextSuiteContext } from "./context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import TentList from "~/components/tents/TentList";
@@ -278,11 +278,7 @@ export default class TentSidebar extends React.Component<Props, State> {
                                             <IconTicket />
                                         </ListItemDecorator>
                                         <ListItemContent>
-                                            <FormattedMessage
-                                                id="app.invites.create"
-                                                defaultMessage="Create invite"
-                                                description="Menu item for creating campsite invites"
-                                            />
+                                            <FormattedMessageGlobal id="app.invites.create" />
                                         </ListItemContent>
                                     </MenuItem>}
                                     {!!(permissions.role.general & anyManageCampsitePermission) && <MenuItem variant="soft" onClick={this.setMenu.bind(this, "campsite-settings")}>

@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function MemberList({ campsiteId, members, roles }: Props) {
-    const displayedRoles = roles.filter((x) => x.raised);
+    const displayedRoles = roles.filter((role) => role.raised);
     const defaultRole = roles.find((x) => x.flags & 1)!;
     const [cardMember, setCardMember] = useState<{
         x: number;
@@ -41,6 +41,9 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
 
             return { member, displayedRole };
         });
+    const groupRoles = displayedRoles
+        .map((role) => ({ role, members: sortedMembers.filter((x) => x.displayedRole === role) }))
+        .filter((x) => x.members.length);
     const displayMember = (
         ev: MouseEvent<HTMLDivElement>,
         member: MemberViewBasic,
@@ -48,10 +51,10 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
         cardMember
             ? setCardMember(null)
             : setCardMember({
-                  member,
-                  x: document.body.clientWidth - 320,
-                  y: ev.clientY + 8,
-              });
+                    member,
+                    x: document.body.clientWidth - 320,
+                    y: ev.clientY + 8,
+                });
 
     return (
         <>
@@ -70,10 +73,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
                 </Menu>
             )}
             <Stack gap={2}>
-                {displayedRoles.map((role) => {
-                    const roleMembers = sortedMembers.filter(
-                        (x) => x.displayedRole == role,
-                    );
+                {groupRoles.map(({ role, members }) => {
                     return (
                         <ContentCategory
                             key={role.id}
@@ -92,7 +92,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
                                         variant="soft"
                                         sx={{ fontWeight: 700 }}
                                     >
-                                        {roleMembers.length}
+                                        {members.length}
                                     </Chip>
                                 </>
                             }
@@ -104,7 +104,7 @@ export default function MemberList({ campsiteId, members, roles }: Props) {
                                     "--ListItem-radius": theme.vars.radius.md,
                                 })}
                             >
-                                {roleMembers.map(({ member }) => (
+                                {members.map(({ member }) => (
                                     <MemberItem
                                         key={member.user.did}
                                         campsiteId={campsiteId}

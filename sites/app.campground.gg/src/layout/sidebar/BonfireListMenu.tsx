@@ -1,4 +1,13 @@
-import { ListItemContent, ListItemDecorator, Menu, MenuItem, Modal, styled, Typography, Divider } from "@mui/joy";
+import {
+    ListItemContent,
+    ListItemDecorator,
+    Menu,
+    MenuItem,
+    Modal,
+    styled,
+    Typography,
+    Divider,
+} from "@mui/joy";
 import { IconPlus } from "@tabler/icons-react";
 import type { BonfireViewBasic } from "types/bonfires";
 import BonfireCreationModal from "./BonfireCreationModal";
@@ -22,41 +31,56 @@ type Props = {
 const BonfireMenu = styled(Menu)(({ theme }) => ({
     "--ListItem-paddingY": "12px",
     "--List-gap": theme.spacing(0.5),
-    "--ListItem-radius": theme.vars.radius.md, 
+    "--ListItem-radius": theme.vars.radius.md,
     // - 10 due to 5px padding
     width: 320 - 10,
-    left: `5px !important`
+    left: `5px !important`,
 }));
 
-const bonfireDescended = ["tent", "category"]
+const bonfireDescended = ["tent", "category"];
 
-export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBonfireOpen }: Props) {
+export default function BonfireListMenu({
+    campsiteId,
+    top,
+    open,
+    bonfires,
+    onBonfireOpen,
+}: Props) {
     const [createModalOpen, setCreateModalOpen] = useState(false);
-    const lowestPriorityBonfire = bonfires.sort((a, b) => a.position - b.position).slice(-1)[0]?.position ?? -1;
+    const lowestPriorityBonfire =
+        bonfires.sort((a, b) => a.position - b.position).slice(-1)[0]
+            ?.position ?? -1;
     const onClose = () => setCreateModalOpen(false);
     const session = useSession();
     const floating = useSnackbars();
     const regularBonfires = bonfires.filter((x) => !x.home);
 
-    const onDropped = (draggedId: string, droppedId: string, _group?: string, draggableGroup?: string) => {
+    const onDropped = (
+        draggedId: string,
+        droppedId: string,
+        _group?: string,
+        draggableGroup?: string,
+    ) => {
         console.log({ draggedId, droppedId, draggableGroup });
         if (bonfireDescended.includes(draggableGroup as "tent" | "category"))
-            return session
-                .http
-                [draggableGroup === "tent" ? "tents" : "categories"]
+            return session.http[
+                draggableGroup === "tent" ? "tents" : "categories"
+            ]
                 .move(draggedId, {
                     bonfireId: droppedId,
                     categoryId: null,
                 })
                 .then(handleAnyRestErrorWith(floating));
-        const bonfireMovedToPosition = droppedId === "b:" ? (regularBonfires.slice(-1)[0]?.position ?? -1) + 1 : bonfires.find((x) => x.id === droppedId)?.position;
+        const bonfireMovedToPosition =
+            droppedId === "b:"
+                ? (regularBonfires.slice(-1)[0]?.position ?? -1) + 1
+                : bonfires.find((x) => x.id === droppedId)?.position;
 
-        return typeof bonfireMovedToPosition !== "undefined" && (
-            session
-                .http
-                .bonfires
+        return (
+            typeof bonfireMovedToPosition !== "undefined" &&
+            session.http.bonfires
                 .move(draggedId, {
-                    position: bonfireMovedToPosition
+                    position: bonfireMovedToPosition,
                 })
                 .then(handleAnyRestErrorWith(floating))
         );
@@ -64,18 +88,39 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
 
     return (
         <>
-            <BonfireMenu variant="soft" open={open} sx={{ top: `${top}px !important`, }}>
+            <BonfireMenu
+                variant="soft"
+                open={open}
+                sx={{ top: `${top}px !important` }}
+            >
                 <DragDropProvider onDropped={onDropped}>
-                    {bonfires.filter((x) => x.home).map((bonfire) =>
-                        <BonfireItem bonfire={bonfire} onBonfireOpen={onBonfireOpen} />
-                    )}
+                    {bonfires
+                        .filter((x) => x.home)
+                        .map((bonfire) => (
+                            <BonfireItem
+                                bonfire={bonfire}
+                                onBonfireOpen={onBonfireOpen}
+                            />
+                        ))}
                     <Divider sx={{ mt: "var(--List-gap)" }} />
-                    {regularBonfires.map((bonfire) =>
-                        <BonfireItem bonfire={bonfire} onBonfireOpen={onBonfireOpen} />
-                    )}
-                    <ItemBottomMover categoryId="" group="bonfire" bottomItemId={regularBonfires.slice(-1)[0]?.id} />
+                    {regularBonfires.map((bonfire) => (
+                        <BonfireItem
+                            bonfire={bonfire}
+                            onBonfireOpen={onBonfireOpen}
+                        />
+                    ))}
+                    <ItemBottomMover
+                        categoryId=""
+                        group="bonfire"
+                        bottomItemId={regularBonfires.slice(-1)[0]?.id}
+                    />
                 </DragDropProvider>
-                <MenuItem sx={(theme) => ({ border: `dashed 1px ${theme.vars.palette.neutral[700]}` })} onClick={() => setCreateModalOpen(true)}>
+                <MenuItem
+                    sx={(theme) => ({
+                        border: `dashed 1px ${theme.vars.palette.neutral[700]}`,
+                    })}
+                    onClick={() => setCreateModalOpen(true)}
+                >
                     <ListItemDecorator>
                         <IconPlus />
                     </ListItemDecorator>
@@ -91,7 +136,10 @@ export default function BonfireListMenu({ campsiteId, top, open, bonfires, onBon
                 </MenuItem>
             </BonfireMenu>
             <Modal open={createModalOpen} onClose={onClose}>
-                <BonfireCreationModal campsiteId={campsiteId} lowestPriorityBonfire={lowestPriorityBonfire} onClose={onClose} />
+                <BonfireCreationModal
+                    campsiteId={campsiteId}
+                    lowestPriorityBonfire={lowestPriorityBonfire}
+                />
             </Modal>
         </>
     );

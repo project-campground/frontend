@@ -37,7 +37,7 @@ export default function InviteCreationModal({ campsiteId }: Props) {
             <Stack gap={1}>
                 <DialogTitle>
                     {intl.formatMessage({
-                        id: "app.invites.create",
+                        ...globalIntlDeclarations["app.invites.create"]
                     })}
                 </DialogTitle>
                 <DialogContent>

@@ -180,7 +180,7 @@
     "message": "Do you want to accept invite to this campsite?"
   },
   "app.invites.create": {
-    "description": "Menu item for creating campsite invites",
+    "description": "Invite creation menu item",
     "message": "Create invite"
   },
   "app.invites.create.desc": {

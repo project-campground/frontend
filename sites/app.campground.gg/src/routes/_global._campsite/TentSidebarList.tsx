@@ -216,7 +216,6 @@ export default class TentSidebarList extends React.Component<Props, State> {
                         categories={this.state.sortedCategories}
                         onTentCreated={this.props.onTentCreated}
                         categoryId={this.state.modalCategoryId}
-                        onClose={onModalClose}
                         lowestPriorityTent={lowestPriorityTent}
                         lowestPriorityCategory={lowestPriorityCategory}
                     />

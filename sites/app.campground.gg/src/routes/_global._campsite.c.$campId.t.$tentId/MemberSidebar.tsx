@@ -13,7 +13,6 @@ import type { MemberViewBasic } from "types/membership";
 import MemberList from "./MemberList";
 import { CampsiteContextSuiteContext } from "../_global._campsite/context";
 import { SmoothTabList } from "components";
-import type { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
@@ -123,7 +122,7 @@ export default class MemberSidebar extends React.Component<
                 {tent.description && (
                     <RightSidebarList sx={{ px: 2, py: 1.5 }}>
                         <Typography level="title-md" fontWeight={700}>
-                            Tent topic
+                            <FormattedMessageGlobal id="info.topic" />
                         </Typography>
                         <MarkdownWrapper>{tent.description}</MarkdownWrapper>
                     </RightSidebarList>

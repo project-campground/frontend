@@ -1,6 +1,5 @@
-import { Alert } from "@mui/joy";
+import { Alert, Stack, Button, Typography } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
-import Form from "~/components/form/Form";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import type { TentSettingsProps } from "./TentSettingsModal";
 import { useSession } from "~/context/session";
@@ -18,56 +17,39 @@ export default function TentSettingsDeletion({
     const modalClose = useContext(CloseModalContext);
 
     return (
-        <Form
-            header="Campsite deletion"
-            description={
-                <Alert
-                    variant="soft"
-                    color="danger"
-                    startDecorator={<IconExclamationCircleFilled />}
-                >
-                    <FormattedMessage
-                        id="app.tents.delete.warning"
-                        defaultMessage="Deleting this tent will result in permanent deletion of all of its permissions, messages and content. If you are sure you want to delete this tent, type the name of the tent and press ''{buttonText}''."
-                        description="The warning about the consequences of deleting tent"
-                        values={{
-                            buttonText: (
-                                <FormattedMessageGlobal id="form.confirmDelete" />
-                            ),
-                        }}
+        <Stack gap={2} alignItems="start">
+            <Typography>
+                <FormattedMessageGlobal id="app.tents.delete" />
+            </Typography>
+            <Alert
+                variant="soft"
+                color="danger"
+                startDecorator={<IconExclamationCircleFilled />}
+            >
+                <FormattedMessage
+                    id="app.tents.delete.warning"
+                    defaultMessage="Deleting this tent will result in permanent deletion of all of its permissions, messages and content. If you are sure you want to delete this tent, type the name of the tent and press ''{buttonText}''."
+                    description="The warning about the consequences of deleting tent"
+                    values={{
+                        buttonText: (
+                            <FormattedMessageGlobal id="form.confirmDelete" />
+                        ),
+                    }}
                     />
-                </Alert>
-            }
-            sections={[
-                {
-                    id: "confirm",
-                    fields: [
-                        {
-                            id: "name",
-                            header: (
-                                <FormattedMessage
-                                    id="app.tents.delete.inputName"
-                                    description="The header of the input that requires typing out tent's name to allow deleting it."
-                                    defaultMessage="The name of the tent"
-                                />
-                            ),
-                            type: "text",
-                            required: true,
-                            placeholder: tent.name,
-                            allowedValue: tent.name,
-                        },
-                    ],
-                },
-            ]}
-            submitText={<FormattedMessageGlobal id="form.confirmDelete" />}
-            submitColor="danger"
-            onSubmit={(ev) =>
-                session.http.tents.delete(tent.id).then((resp) => {
-                    if (!resp.ok) return floating.notifyApiError(resp);
-
-                    return modalClose?.(ev, "closeClick");
-                })
-            }
-        />
+            </Alert>
+            <Button
+                variant="glow"
+                color="danger"
+                onClick={(ev) =>
+                    session.http.tents.delete(tent.id).then((resp) => {
+                        if (!resp.ok) return floating.notifyApiError(resp);
+                        
+                        return modalClose?.(ev, "closeClick");
+                    })
+                }
+            >
+                <FormattedMessageGlobal id="form.confirmDelete" />
+            </Button>
+        </Stack>
     );
 }

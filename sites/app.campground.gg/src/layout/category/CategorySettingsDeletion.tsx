@@ -1,6 +1,5 @@
-import { Alert } from "@mui/joy";
+import { Alert, Stack, Button, Typography } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
-import Form from "~/components/form/Form";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import type { CategorySettingsProps } from "./CategorySettingsModal";
 import { useSession } from "~/context/session";
@@ -18,56 +17,34 @@ export default function CategorySettingsDeletion({
     const modalClose = useContext(CloseModalContext);
 
     return (
-        <Form
-            header="Campsite deletion"
-            description={
-                <Alert
-                    variant="soft"
-                    color="danger"
-                    startDecorator={<IconExclamationCircleFilled />}
-                >
-                    <FormattedMessage
-                        id="app.tentCategories.settings.deleteWarning"
-                        defaultMessage="Deleting this tent category will result in permanent deletion of all of its messages, tents and content. If you are sure you want to delete this tent category, type the name of the category and press ''{buttonText}''."
-                        description="The warning about the consequences of deleting tent category"
-                        values={{
-                            buttonText: (
-                                <FormattedMessageGlobal id="form.confirmDelete" />
-                            ),
-                        }}
-                    />
-                </Alert>
-            }
-            sections={[
-                {
-                    id: "confirm",
-                    fields: [
-                        {
-                            id: "name",
-                            header: (
-                                <FormattedMessage
-                                    id="app.tentCategories.settings.deleteInputName"
-                                    description="The header of the input that requires typing out tent category's name to allow deleting it."
-                                    defaultMessage="The name of the category"
-                                />
-                            ),
-                            type: "text",
-                            required: true,
-                            placeholder: category.name,
-                            allowedValue: category.name,
-                        },
-                    ],
-                },
-            ]}
-            submitText={<FormattedMessageGlobal id="form.confirmDelete" />}
-            submitColor="danger"
-            onSubmit={(ev) =>
+        <Stack gap={2} alignItems="start">
+            <Typography>
+                <FormattedMessageGlobal id="app.tentCategories.delete" />
+            </Typography>
+            <Alert
+                variant="soft"
+                color="danger"
+                startDecorator={<IconExclamationCircleFilled />}
+            >
+                <FormattedMessage
+                    id="app.tentCategories.settings.deleteWarning"
+                    defaultMessage="Deleting this tent category will result in permanent deletion of all of its messages, tents and content. If you are sure you want to delete this tent category, type the name of the category and press ''{buttonText}''."
+                    description="The warning about the consequences of deleting tent category"
+                    values={{
+                        buttonText: (
+                            <FormattedMessageGlobal id="form.confirmDelete" />
+                        ),
+                    }}
+                />
+            </Alert>
+            <Button variant="glow" color="danger" onClick={(ev) =>
                 session.http.categories.delete(category.id).then((resp) => {
                     if (!resp.ok) return floating.notifyApiError(resp);
-
                     return modalClose?.(ev, "closeClick");
                 })
-            }
-        />
+            }>
+                <FormattedMessageGlobal id="form.confirmDelete" />
+            </Button>
+        </Stack>
     );
 }

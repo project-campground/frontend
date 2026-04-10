@@ -105,7 +105,8 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
     get currentPageInfo() {
         return this.props.sections.flatMap((x) => x.items).find((x) => x.id === this.state.page);
     }
-    resetValues() {
+
+    resetValues = () => {
         this._resetHandler?.();
         this.setState({ values: {}, valid: false, changed: false, submitting: false, });
     }
@@ -138,7 +139,7 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
                                     />
                                 </Typography>
                                 <Group gap={2}>
-                                    <Button variant="plain" color="neutral" onClick={this.resetValues.bind(this)}>
+                                    <Button variant="plain" color="neutral" onClick={this.resetValues}>
                                         <FormattedMessageGlobal id="common.cancel" />
                                     </Button>
                                     <Button variant="glow" color="success" disabled={!valid} onClick={async () => {

@@ -1,63 +1,59 @@
 import { Stack, styled, Typography } from "@mui/joy";
-import { type AbstractAnyFormField, type AnyFormFieldProps, fieldTypeToComponent, type FieldTypeToInstance, type FormFieldType, type FormSectionProps } from "./forms";
-import FormFieldWrapper from "./FormFieldWrapper";
-import Form from "./Form";
+import type { ReactNode } from "react";
 
-type Props = {
-    section: FormSectionProps;
-    fieldBinding: Form;
+type Props = React.PropsWithChildren & {
+    header?: ReactNode | ReactNode[];
+    layout?: "footer" | "stack" | "inline" | "grid-3" | "divided";
+    startDecorator?: ReactNode | ReactNode[];
+    endDecorator?: ReactNode | ReactNode[];
+    alignItems?: AlignSetting;
+    gap?: number;
+    hide?: boolean;
     disabled?: boolean;
-    fieldValues: Record<string, any>;
-    addFieldRef: (field: AbstractAnyFormField) => void;
-    onFieldChange: (props: AnyFormFieldProps, field: FieldTypeToInstance[FormFieldType], value: any) => Promise<void> | void;
 }
 
 const FormSectionStack = styled(Stack)(() => ({
-    "&.disabled": {
+    "&.FormSection-disabled": {
         opacity: 0.65,
     },
-    "&.hide": {
+    "&.FormSection-hide": {
         display: "none",
     },
 }));
 const FormSectionFieldStack = styled(Stack)(({ theme }) => ({
-    "&.inline": {
+    "&.FormSection-layoutInline": {
         flexDirection: "row",
         flexWrap: "wrap",
     },
-    "&.grid-3": {
+    "&.FormSection-layoutFooter": {
+        flexDirection: "row-reverse",
+        flexWrap: "wrap",
+    },
+    "&.FormSection-layoutGrid-3": {
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr",
     },
-    "&.divided > .FormField-container:not(:first-of-type)": {
+    "&.FormSection-layoutDivided > .MuiFormControl-root:not(:first-of-type)": {
         borderTop: `solid 1px ${theme.vars.palette.neutral[800]}`,
         paddingTop: 12,
     },
-    [theme.breakpoints.down("lg")]: {
-        "&.inline": {
+    [theme.breakpoints.down("md")]: {
+        "&.FormSection-layoutInline": {
+            flexDirection: "column",
+        },
+        "&.FormSection-layoutFooter": {
             flexDirection: "column",
         },
     },
 }));
 
-export default function FormSection({ addFieldRef, onFieldChange, fieldBinding, fieldValues, disabled, section: { ReactiveHeader, startDecorator, endDecorator, hide, header, fields, layout, alignItems, gap } }: Props) {
+export default function FormSection({ disabled, startDecorator, endDecorator, hide, header, layout, children, alignItems, gap }: Props) {
     return (
-        <FormSectionStack gap={2} className={`FormSection container${disabled ? " disabled" : ""}${layout ? ` ${layout}` : ""}${hide ? " hide" : ""}`}>
-            {header && <Typography className="FormSection header" level="title-lg" fontWeight={700} startDecorator={startDecorator} endDecorator={endDecorator}>{header}</Typography>}
-            {ReactiveHeader && <ReactiveHeader {...fieldValues}/>}
-            {fields.length ? <FormSectionFieldStack className={`FormSection fields ${layout ?? ""}`} gap={gap ?? 2} sx={{ alignItems }}>
-                {fields.map((field) =>
-                    <FormFieldWrapper
-                        key={field.id}
-                        addFieldRef={addFieldRef}
-                        FieldComponent={fieldTypeToComponent[field.type]}
-                        onChange={onFieldChange.bind(fieldBinding,  field)}
-                        binding={fieldBinding}
-                        props={field}
-                        disabled={disabled}
-                    />
-                )}
-            </FormSectionFieldStack> : null}
+        <FormSectionStack gap={2} className={`FormSection-container${disabled ? " FormSection-disabled" : ""}${hide ? " FormSection-hide" : ""}`}>
+            {header && <Typography className="FormSection-header" level="title-lg" fontWeight={700} startDecorator={startDecorator} endDecorator={endDecorator}>{header}</Typography>}
+            <FormSectionFieldStack className={`FormSection-fields ${layout ? `FormSection-layout${layout[0].toUpperCase()}${layout.slice(1)}` : ""}`} gap={gap ?? 2} sx={{ alignItems }}>
+                {children}
+            </FormSectionFieldStack>
         </FormSectionStack>
     )
 }

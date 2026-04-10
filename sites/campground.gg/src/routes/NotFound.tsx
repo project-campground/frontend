@@ -22,7 +22,7 @@ export default class NotFound extends React.Component<Props> {
                         <FormattedMessage id="placeholder.notFound.title" />
                     </Typography>
                     <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
-                        <FormattedMessage id="placeholder.notFound.description" />
+                        <FormattedMessage id="placeholder.notFound.desc" />
                     </Typography>
                     <Link underline="none" href="/" sx={{ mt: 2 }}>
                         <Button variant="glow" color="primary" component="button" startDecorator={<IconDoorExit />}>

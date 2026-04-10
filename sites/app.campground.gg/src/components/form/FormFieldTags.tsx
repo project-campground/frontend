@@ -5,9 +5,9 @@ import { Chip, Input, Stack, type ColorPaletteProp, type VariantProp, } from "@m
 import { Group } from "components";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { IntlContext } from "react-intl";
-import type React from "react";
+import type { FormContext } from "./context";
 
-export interface FormFieldTagsProps extends FormFieldProps<"tags", string[]> {
+export interface FormFieldTagsProps extends FormFieldProps<string[]> {
     color?: ColorPaletteProp;
     variant?: VariantProp;
 }
@@ -16,13 +16,13 @@ type State = {
     value: string[];
 };
 
-export default class FormFieldTags extends AbstractFormField<"tags", string[], FormFieldTagsProps, State> {
-    constructor(props: FormFieldTagsProps, context: React.ContextType<typeof IntlContext>) {
-        super(props, [], {}, context);
+export default class FormFieldTags extends AbstractFormField<string[], FormFieldTagsProps, State> {
+    constructor(props: FormFieldTagsProps, context: FormContext) {
+        super(props, context, [], {});
     }
 
     private onInputChange(value: string[]) {
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => value && this.onValueChange());
     }
 
     public override get isValid(): boolean {

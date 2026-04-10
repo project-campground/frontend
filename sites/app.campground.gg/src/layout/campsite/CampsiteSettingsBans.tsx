@@ -122,7 +122,7 @@ export default class CampsiteSettingsBans extends React.Component<SettingsCompon
                         startDecorator: <IconHammerOff />,
                         content: <FormattedMessage
                             id="app.bans.unban"
-                            defaultMessage="Unban users"
+                            defaultMessage="Remove bans from users"
                             description="Unban multiple or one user button in the ban list"
                         />,
                         onClick: this._onBansDeleteBind

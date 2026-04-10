@@ -2,7 +2,7 @@ import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteSettingsProps } from "./CampsiteSettingsModal";
 import React from "react";
 import DataDisplay from "~/components/pages/DataDisplay";
-import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "~/routes/_global._campsite/context";
+import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteInviteViewBasic } from "types/invites";
 import { Typography } from "@mui/joy";

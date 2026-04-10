@@ -6,9 +6,10 @@ import ImageInputModal from "../../layout/ImageInputModal";
 import { IconPencil } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
 import { FlexCenter, Image } from "components";
-import { FormattedMessage } from "react-intl";
+import type { FormContext } from "./context";
+import { FormattedMessageGlobal } from "~/i18n";
 
-export interface FormFieldImageProps extends FormFieldProps<"image", string | null> {
+export interface FormFieldImageProps extends FormFieldProps<string | null> {
     borderRadius?: keyof Radius;
     sizeRatio: number;
     width: number;
@@ -49,15 +50,15 @@ const FieldImage = styled(Image)<{ radius: keyof Radius; }>(({ radius, theme }) 
     }
 }));
 
-export default class FormFieldImage extends AbstractFormField<"image", string | null, FormFieldImageProps, State> {
-    constructor(props: FormFieldImageProps) {
-        super(props, "");
+export default class FormFieldImage extends AbstractFormField<string | null, FormFieldImageProps, State> {
+    constructor(props: FormFieldImageProps, context: FormContext) {
+        super(props, context, "");
         this.state = { open: false, value: props.defaultValue ?? null };
     }
 
     private onInputChange(value: string | null) {
         console.log({ value });
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => value && this.onValueChange());
     }
 
     public override get isValid(): boolean {
@@ -86,11 +87,7 @@ export default class FormFieldImage extends AbstractFormField<"image", string | 
                         : <ImagePlaceholder variant="solid" sx={{ borderRadius }}>
                             <FlexCenter>
                                 <Typography>
-                                    <FormattedMessage
-                                        id="form.uploadImage"
-                                        defaultMessage="Upload image"
-                                        description="Hint or button for uploading images"
-                                    />
+                                    <FormattedMessageGlobal id="form.uploadImage" />
                                 </Typography>
                             </FlexCenter>
                         </ImagePlaceholder>}

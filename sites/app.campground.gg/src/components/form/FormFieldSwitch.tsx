@@ -4,9 +4,10 @@ import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Switch, FormControl, Sheet, Stack, Typography, } from "@mui/joy";
 import type React from "react";
 import { Group } from "components";
+import type { FormContext } from "./context";
 
 type SwitchType = "default" | "button";
-export interface FormFieldSwitchProps extends FormFieldProps<"switch", boolean | number>, FormFieldDecoratorProps {
+export interface FormFieldSwitchProps extends FormFieldProps<boolean | number>, FormFieldDecoratorProps {
     label?: ReactNode[] | ReactNode;
     description?: ReactNode[] | ReactNode;
     design?: SwitchType;
@@ -17,9 +18,9 @@ type State = {
     value: boolean | number;
 };
 
-export default class FormFieldSwitch extends AbstractFormField<"switch", boolean | number, FormFieldSwitchProps, State> {
-    constructor(props: FormFieldSwitchProps) {
-        super(props, props.checkedValue ? 0 : false);
+export default class FormFieldSwitch extends AbstractFormField<boolean | number, FormFieldSwitchProps, State> {
+    constructor(props: FormFieldSwitchProps, context: FormContext) {
+        super(props, context, props.checkedValue ? 0 : false);
     }
 
     public override get isValid(): boolean {
@@ -33,7 +34,7 @@ export default class FormFieldSwitch extends AbstractFormField<"switch", boolean
     private onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
         const value = ev.target.checked;
         const checkedValue = this.props.checkedValue ? (Number(value) as 1 | 0) * this.props.checkedValue : value;
-        this.setState({ value: checkedValue }, () => this.onChange(checkedValue));
+        this.setState({ value: checkedValue }, () => this.onValueChange());
     }
 
     private FieldText() {

@@ -3,9 +3,10 @@ import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Sheet, Stack, Typography, } from "@mui/joy";
 import Tristate, { type TristateValue } from "../Tristate";
+import type { FormContext } from "./context";
 
 type TristateType = "default" | "button";
-export interface FormFieldTristateProps extends FormFieldProps<"tristate", TristateValue>, FormFieldDecoratorProps {
+export interface FormFieldTristateProps extends FormFieldProps<TristateValue>, FormFieldDecoratorProps {
     label?: string;
     description?: string;
     design?: TristateType;
@@ -15,10 +16,9 @@ type State = {
     value: TristateValue;
 };
 
-export default class FormFieldTristate extends AbstractFormField<"tristate", TristateValue, FormFieldTristateProps, State> {
-    constructor(props: FormFieldTristateProps) {
-        super(props, "pass");
-        this.state = { value: props.defaultValue ?? "pass" };
+export default class FormFieldTristate extends AbstractFormField<TristateValue, FormFieldTristateProps, State> {
+    constructor(props: FormFieldTristateProps, context: FormContext) {
+        super(props, context, "pass");
     }
 
     public override get isValid(): boolean {
@@ -30,7 +30,7 @@ export default class FormFieldTristate extends AbstractFormField<"tristate", Tri
     }
 
     private onInputChange(value: TristateValue) {
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => value && this.onValueChange());
     }
 
     private FieldText() {

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { ListItemDecorator, Option, Select, type SelectOption } from "@mui/joy";
+import type { FormContext } from "./context";
 
 export interface FormFieldSelectItem {
     value: string | boolean | number | null;
@@ -9,7 +10,7 @@ export interface FormFieldSelectItem {
     startDecorator?: ReactNode[] | ReactNode;
     endDecorator?: ReactNode[] | ReactNode;
 }
-export interface FormFieldSelectProps extends FormFieldProps<"select", string | boolean | number | null>, FormFieldDecoratorProps {
+export interface FormFieldSelectProps extends FormFieldProps<string | boolean | number | null>, FormFieldDecoratorProps {
     options: FormFieldSelectItem[];
     placeholder?: string;
 }
@@ -18,9 +19,9 @@ type State = {
     value: string | number | boolean | null;
 };
 
-export default class FormFieldSelect extends AbstractFormField<"select", number | boolean | string | null, FormFieldSelectProps, State> {
-    constructor(props: FormFieldSelectProps) {
-        super(props, null);
+export default class FormFieldSelect extends AbstractFormField<number | boolean | string | null, FormFieldSelectProps, State> {
+    constructor(props: FormFieldSelectProps, context: FormContext) {
+        super(props, context, null);
     }
 
     public override get isValid(): boolean {
@@ -32,7 +33,7 @@ export default class FormFieldSelect extends AbstractFormField<"select", number 
     }
 
     private onInputChange(value: string | number | boolean | null) {
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => value && this.onValueChange());
     }
 
     private renderValue(option: SelectOption<string | number | boolean> | null) {

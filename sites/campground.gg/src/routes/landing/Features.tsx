@@ -20,21 +20,21 @@ export default class Features extends React.Component<Props> {
                             <FormattedMessage id="features.title" />
                         </Typography>
                         <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
-                            <FormattedMessage id="features.description" />
+                            <FormattedMessage id="features.desc" />
                         </Typography>
                     </Stack>
                 </Box>
                 <Grid container sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, mb: 10 }} spacing="xl" className="LandingPage content landing-side-padding">
                     <FeatureCard
                         title="features.bonfires.title"
-                        description="features.bonfires.description"
+                        description="features.bonfires.desc"
                         icon={<IconCampfireFilled />}
                         href="/docs/features/bonfires"
                         imgSrc="/example-banner.svg"
                     />
                     <FeatureCard
                         title="features.instances.title"
-                        description="features.instances.description"
+                        description="features.instances.desc"
                         icon={<IconServer />}
                         href="/docs/features/instances"
                         imgSrc="/example-banner.svg"
@@ -42,7 +42,7 @@ export default class Features extends React.Component<Props> {
                     />
                     <FeatureCard
                         title="features.encryption.title"
-                        description="features.encryption.description"
+                        description="features.encryption.desc"
                         icon={<IconLockFilled />}
                         href="/docs/features/encryption"
                         imgSrc="/example-banner.svg"
@@ -50,7 +50,7 @@ export default class Features extends React.Component<Props> {
                     />
                     <FeatureCard
                         title="features.calendarTents.title"
-                        description="features.calendarTents.description"
+                        description="features.calendarTents.desc"
                         icon={<IconCalendarFilled />}
                         href="/docs/features/calendar-tents"
                         imgSrc="/example-banner.svg"
@@ -58,7 +58,7 @@ export default class Features extends React.Component<Props> {
                     />
                     <FeatureCard
                         title="features.listTents.title"
-                        description="features.listTents.description"
+                        description="features.listTents.desc"
                         icon={<IconCheckbox />}
                         href="/docs/features/list-tents"
                         imgSrc="/example-banner.svg"
@@ -66,7 +66,7 @@ export default class Features extends React.Component<Props> {
                     />
                     <FeatureCard
                         title="features.docTents.title"
-                        description="features.docTents.description"
+                        description="features.docTents.desc"
                         icon={<IconFileTextFilled />}
                         href="/docs/features/doc-tents"
                         imgSrc="/example-banner.svg"

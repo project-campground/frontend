@@ -33,7 +33,7 @@ export default class LandingIndex extends React.Component<Props> {
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
                                     <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
-                                        <FormattedMessage id="home.description" />
+                                        <FormattedMessage id="home.desc" />
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -60,7 +60,7 @@ export default class LandingIndex extends React.Component<Props> {
                         subtitle="home.bonfires.subtitle"
                         icon={<IconCampfire />}
                         title="home.bonfires.title"
-                        description="home.bonfires.description"
+                        description="home.bonfires.desc"
                         learnMore="home.bonfires.learnMore"
                         learnMoreHref="/docs/features/bonfires"
                     />
@@ -69,7 +69,7 @@ export default class LandingIndex extends React.Component<Props> {
                         subtitle="home.selfHost.subtitle"
                         icon={<IconServer />}
                         title="home.selfHost.title"
-                        description="home.selfHost.description"
+                        description="home.selfHost.desc"
                         learnMore="home.selfHost.learnMore"
                         learnMoreHref="/docs/features/instances"
                     />
@@ -78,7 +78,7 @@ export default class LandingIndex extends React.Component<Props> {
                         subtitle="home.encryption.subtitle"
                         icon={<IconLock />}
                         title="home.encryption.title"
-                        description="home.encryption.description"
+                        description="home.encryption.desc"
                         learnMore="home.encryption.learnMore"
                         learnMoreHref="/docs/features/encryption"
                     />
@@ -87,7 +87,7 @@ export default class LandingIndex extends React.Component<Props> {
                         subtitle="home.profiles.subtitle"
                         icon={<IconCamper />}
                         title="home.profiles.title"
-                        description="home.profiles.description"
+                        description="home.profiles.desc"
                         learnMore="home.profiles.learnMore"
                         learnMoreHref="/docs/features/profiles"
                     />
@@ -96,7 +96,7 @@ export default class LandingIndex extends React.Component<Props> {
                         subtitle="home.lists.subtitle"
                         icon={<IconCheckbox />}
                         title="home.lists.title"
-                        description="home.lists.description"
+                        description="home.lists.desc"
                         learnMore="home.lists.learnMore"
                         learnMoreHref="/docs/features/list-tents"
                     />
@@ -105,7 +105,7 @@ export default class LandingIndex extends React.Component<Props> {
                         subtitle="home.themes.subtitle"
                         icon={<IconPalette />}
                         title="home.themes.title"
-                        description="home.themes.description"
+                        description="home.themes.desc"
                         learnMore="home.themes.learnMore"
                         learnMoreHref="/docs/features/themes"
                     />
@@ -176,7 +176,7 @@ class LandingBottomSection extends React.Component {
                             <FormattedMessage id="home.bottom.title" />
                         </Typography>
                         <Typography level="title-lg" zIndex={6}>
-                            <FormattedMessage id="home.bottom.description" />
+                            <FormattedMessage id="home.bottom.desc" />
                         </Typography>
                     </Stack>
                     <Stack direction="row" className="LandingBottomSection buttons" gap={1}>

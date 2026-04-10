@@ -97,7 +97,7 @@ export default function CommonSettingsPermissions({ onValuesChanged, settingsPro
             <Stack sx={{ width: { xs: 128, lg: 256 }, height: "100%" }} gap={2}>
                 <Group alignItems="center" gap={1}>
                     <Typography level="title-lg" flex={1}>
-                        <FormattedMessageGlobal id="app.permissions.plural" />,
+                        <FormattedMessageGlobal id="app.permissions.plural" />
                     </Typography>
                     <Dropdown>
                         <MenuButton slots={{ root: IconButton }} slotProps={{ root: { size: "sm" } }}>

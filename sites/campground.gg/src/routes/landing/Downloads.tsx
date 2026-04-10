@@ -26,7 +26,7 @@ export default class Downloads extends React.Component<Props> {
                                 </Grid>
                                 <Grid sx={{ mr: 6 }}>
                                     <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
-                                        <FormattedMessage id="downloads.description" />
+                                        <FormattedMessage id="downloads.desc" />
                                     </Typography>
                                 </Grid>
                             </Grid>

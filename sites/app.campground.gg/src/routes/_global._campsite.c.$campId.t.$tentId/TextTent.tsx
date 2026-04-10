@@ -45,6 +45,7 @@ import TentMessageDivider from "~/components/tents/TentMessageDivider";
 import { type WSSubscription } from "~/api/WSClient";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     campsiteId: string;
@@ -429,7 +430,12 @@ export default class TextTent extends React.Component<Props, State> {
                     )}
                 </PermissionsContext.Consumer>
                 <ContentDeleteModal
-                    title="message"
+                    nominativeCase={
+                        <FormattedMessageGlobal id="app.messages.nominativeCase" />
+                    }
+                    accusativeCase={
+                        <FormattedMessageGlobal id="app.messages.accusativeCase" />
+                    }
                     open={Boolean(this.state.deleteMessage)}
                     ContentRender={this.MessageDeleteRender.bind(this)}
                     onConfirm={() =>

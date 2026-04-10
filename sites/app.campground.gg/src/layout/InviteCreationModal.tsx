@@ -1,7 +1,9 @@
-import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack } from "@mui/joy";
+import { DialogContent, DialogTitle, ModalClose, ModalDialog, Stack, FormControl, FormLabel } from "@mui/joy";
 import { useIntl } from "react-intl";
 import CopyInput from "~/components/CopyInput";
 import Form from "~/components/form/Form";
+import FormFieldNumber from "~/components/form/FormFieldNumber";
+import FormSection from "~/components/form/FormSection";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import { globalIntlDeclarations } from "~/i18n";
@@ -40,7 +42,7 @@ export default function InviteCreationModal({ campsiteId }: Props) {
                 </DialogTitle>
                 <DialogContent>
                     {intl.formatMessage({
-                        id: "app.invites.create.description",
+                        id: "app.invites.create.desc",
                         defaultMessage: "Create invite links to this campsite",
                         description: "The description of invite creation modal",
                     })}
@@ -49,24 +51,23 @@ export default function InviteCreationModal({ campsiteId }: Props) {
                     onCopy={onInviteCreate}
                     placeholder={intl.formatMessage(globalIntlDeclarations["app.invites.code"])}
                 />
-                <Form
-                    sections={[
-                        {
-                            id: "info",
-                            fields: [
-                                {
-                                    id: "allowedAmount",
-                                    type: "number",
-                                    header: intl.formatMessage(globalIntlDeclarations["app.invites.allowedAmount"]),
-                                    placeholder: intl.formatMessage(globalIntlDeclarations["common.infinite"]),
-                                    max: 1000,
-                                    min: 1,
-                                },
-                            ]
-                        },
-                    ]}
-                    onChange={(isValid, newValues) => isValid && (values = newValues as FormValue)}
-                />
+                <Form onChange={(isValid, newValues) => isValid && (values = newValues as FormValue)}>
+                    <FormSection>
+                        <FormControl>
+                            <FormLabel>
+                                {intl.formatMessage(globalIntlDeclarations["app.invites.allowedAmount"])}
+                            </FormLabel>
+                            <FormFieldNumber
+                                id="allowedAmount"
+                                max={1000}
+                                min={1}
+                                placeholder={
+                                    intl.formatMessage(globalIntlDeclarations["common.infinite"])
+                                }
+                            />
+                        </FormControl>
+                    </FormSection>
+                </Form>
             </Stack>
         </ModalDialog>
     )

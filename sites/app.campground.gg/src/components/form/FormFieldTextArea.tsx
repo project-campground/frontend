@@ -2,8 +2,9 @@ import type { ChangeEvent, ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Textarea } from "@mui/joy";
+import type { FormContext } from "./context";
 
-export interface FormFieldTextAreaProps extends FormFieldProps<"textarea", string>, FormFieldDecoratorProps {
+export interface FormFieldTextAreaProps extends FormFieldProps<string>, FormFieldDecoratorProps {
     placeholder?: string;
     format?: RegExp;
     max?: number;
@@ -14,9 +15,9 @@ type State = {
     value: string;
 };
 
-export default class FormFieldTextArea extends AbstractFormField<"textarea", string, FormFieldTextAreaProps, State> {
-    constructor(props: FormFieldTextAreaProps) {
-        super(props, "");
+export default class FormFieldTextArea extends AbstractFormField<string, FormFieldTextAreaProps, State> {
+    constructor(props: FormFieldTextAreaProps, context: FormContext) {
+        super(props, context, "");
     }
 
     public override get isValid(): boolean {
@@ -40,7 +41,7 @@ export default class FormFieldTextArea extends AbstractFormField<"textarea", str
         if (this.props.max && value.length > this.props.max)
             return;
 
-        this.setState({ value }, () => this.onChange(ev.target.value));
+        this.setState({ value }, () => this.onValueChange());
     }
 
     public override render(): ReactNode {

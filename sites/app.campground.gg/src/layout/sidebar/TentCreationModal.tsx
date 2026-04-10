@@ -1,4 +1,4 @@
-import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography } from "@mui/joy";
+import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography, FormControl, FormLabel } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/HTTPResponse";
 import { useState } from "react";
@@ -10,6 +10,14 @@ import TentList from "~/components/tents/TentList";
 import { PseudoTentItem } from "~/components/tents/TentItem";
 import { FormattedMessageGlobal } from "~/i18n";
 import { FormattedMessage } from "react-intl";
+import { FormContext } from "~/components/form/context";
+import FormSection from "~/components/form/FormSection";
+import FormSubmit from "~/components/form/FormSubmit";
+import FormFieldRadio from "~/components/form/FormFieldRadio";
+import GridList from "~/components/content/GridList";
+import FormFieldRadioGridOption from "~/components/form/FormFieldRadioGridOption";
+import FormFieldText from "~/components/form/FormFieldText";
+import FormFieldTextArea from "~/components/form/FormFieldTextArea";
 
 type Props = {
     campsiteId: string;
@@ -55,132 +63,142 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, o
             </DialogTitle>
             <DialogContent>
                 <FormattedMessage
-                    id="app.tents.create.description"
+                    id="app.tents.create.desc"
                     defaultMessage="Create a new tent or tent category in this bonfire"
                     description="Tent creation modal description"
                 />
             </DialogContent>
             <Form
-                inlineReactiveComponent
-                ReactiveComponent={({ what, name, description }) =>
-                    <Sheet sx={{ bgcolor: "background.body", borderRadius: "md", p: 2 }}>
-                        <Card variant="outlined" sx={{ width: 300 }}>
-                            <ContentCategory header={
-                                <Stack flex={1}>
-                                    <Typography level="title-md">{what === "category" ? name : "Example category"}</Typography>
-                                    {description && <Typography level="body-sm">{what === "category" ? description : "Example description"}</Typography>}
-                                </Stack>
-                            }>
-                                <TentList>
-                                    <PseudoTentItem tent={{
-                                        name: "Example tent #1",
-                                        type: "text",
-                                        viewType: 0,
-                                    }} />
-                                    <PseudoTentItem isActive={what === "tent"} tent={{
-                                        name: what === "tent" ? name : "Example tent #2",
-                                        type: "text",
-                                        viewType: 0,
-                                    }} />
-                                    <PseudoTentItem tent={{
-                                        name: "Example tent #3",
-                                        type: "text",
-                                        viewType: 0,
-                                    }} />
-                                </TentList>
-                            </ContentCategory>
-                        </Card>
-                    </Sheet>
-                }
-                sections={[
-                    {
-                        id: "type",
-                        fields: [
-                            {
-                                id: "what",
-                                type: "radio",
-                                header: <FormattedMessage
+                inlineContent
+                onSubmit={(_, { what, ...values }) => what === "category" ? onCategoryCreate(values.name, values.description) : onTentCreate(values)}
+            >
+                <FormSection>
+                    <FormSection>
+                        <FormControl>
+                            <FormLabel>
+                                <FormattedMessage
                                     id="app.tents.create.what"
                                     defaultMessage="What to create"
                                     description="What to create: tent or tent category"
-                                />,
-                                required: true,
-                                defaultValue: "tent",
-                                design: "grid",
-                                options: [
-                                    {
-                                        value: "tent",
-                                        text: <FormattedMessage
+                                />
+                            </FormLabel>
+                            <FormFieldRadio required id="what" defaultValue="tent">
+                                <GridList>
+                                    <FormFieldRadioGridOption
+                                        startDecorator={<IconTent />}
+                                        value="tent"
+                                    >
+                                        <FormattedMessage
                                             id="app.tents.singular"
                                             defaultMessage="Tent"
                                             description="Tent in singular form for tent creation modal"
-                                        />,
-                                        startDecorator: <IconTent />
-                                    },
-                                    {
-                                        value: "category",
-                                        text: <FormattedMessage
+                                        />
+                                    </FormFieldRadioGridOption>
+                                    <FormFieldRadioGridOption
+                                        startDecorator={<IconCategory />}
+                                        value="category"
+                                    >
+                                        <FormattedMessage
                                             id="app.tentCategories.singular"
                                             defaultMessage="Category"
                                             description="Tent category in singular form for tent creation modal"
-                                        />,
-                                        startDecorator: <IconCategory />
-                                    },
-                                ]
-                            },
-                        ],
-                    },
-                    {
-                        id: "info",
-                        fields: [
-                            {
-                                id: "name",
-                                type: "text",
-                                header: <FormattedMessageGlobal id="info.name" />,
-                                required: true,
-                                max: 48,
-                                min: 3,
-                            },
-                            {
-                                id: "description",
-                                type: "textarea",
-                                header: <FormattedMessageGlobal id="info.description" />,
-                                defaultValue: "",
-                                max: 200,
-                            },
-                        ]
-                    },
-                    {
-                        id: "tent",
-                        header: "Tent settings",
-                        disableOn: ({ what }) => what !== "tent",
-                        fields: [
-                            {
-                                id: "type",
-                                type: "radio",
-                                header: <FormattedMessage
-                                    id="app.tents.create.type"
-                                    defaultMessage="Select the type of tent's content"
-                                    description="Header for tent type selection"
-                                />,
-                                required: true,
-                                defaultValue: 0,
-                                design: "grid",
-                                options: [
-                                    {
-                                        value: 0,
-                                        text: <FormattedMessageGlobal id="app.tents.text" />,
-                                        startDecorator: <IconHash />
-                                    },
-                                ]
-                            },
-                        ]
+                                        />
+                                    </FormFieldRadioGridOption>
+                                </GridList>
+                            </FormFieldRadio>
+                        </FormControl>
+                    </FormSection>
+                    <FormSection>
+                        <FormControl>
+                            <FormLabel>
+                                <FormattedMessageGlobal id="info.name" />
+                            </FormLabel>
+                            <FormFieldText
+                                required
+                                id="name"
+                                max={48}
+                                min={3}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>
+                                <FormattedMessageGlobal id="info.topic" />
+                            </FormLabel>
+                            <FormFieldTextArea
+                                required
+                                id="description"
+                                defaultValue=""
+                                max={200}
+                            />
+                        </FormControl>
+                    </FormSection>
+                    <FormContext.Consumer>
+                        {({ values: { what } }) =>
+                            <FormSection disabled={what === "category"}>
+                                <FormControl>
+                                    <FormLabel>
+                                        <FormattedMessage
+                                            id="app.tents.create.type"
+                                            defaultMessage="Select the type of tent's content"
+                                            description="Header for tent type selection"
+                                        />
+                                    </FormLabel>
+                                    <FormFieldRadio required disabled id="type" defaultValue={0}>
+                                        <GridList>
+                                            <FormFieldRadioGridOption
+                                                disabled={what === "category"}
+                                                startDecorator={<IconHash />}
+                                                value={0}
+                                            >
+                                                <FormattedMessageGlobal id="app.tents.text" />
+                                            </FormFieldRadioGridOption>
+                                        </GridList>
+                                    </FormFieldRadio>
+                                </FormControl>
+                            </FormSection>
+                        }
+                    </FormContext.Consumer>
+                    <FormSection layout="footer">
+                        <FormSubmit>
+                            <FormattedMessageGlobal id="common.create" />
+                        </FormSubmit>
+                    </FormSection>
+                    <FormSection>
+                        {error && <Alert color="danger" variant="soft">{error.status} {error.errorHeader}: {error.errorDescription}</Alert>}
+                    </FormSection>
+                </FormSection>
+                <FormContext.Consumer>
+                    {({ values: { description, what, name } }) =>    
+                        <Sheet sx={{ bgcolor: "background.body", borderRadius: "md", p: 2 }}>
+                            <Card variant="outlined" sx={{ width: 300 }}>
+                                <ContentCategory header={
+                                    <Stack flex={1}>
+                                        <Typography level="title-md">{what === "category" ? name : "Example category"}</Typography>
+                                        {description && <Typography level="body-sm">{what === "category" ? description : "Example description"}</Typography>}
+                                    </Stack>
+                                }>
+                                    <TentList>
+                                        <PseudoTentItem tent={{
+                                            name: "Example tent #1",
+                                            type: "text",
+                                            viewType: 0,
+                                        }} />
+                                        <PseudoTentItem isActive={what === "tent"} tent={{
+                                            name: what === "tent" ? name : "Example tent #2",
+                                            type: "text",
+                                            viewType: 0,
+                                        }} />
+                                        <PseudoTentItem tent={{
+                                            name: "Example tent #3",
+                                            type: "text",
+                                            viewType: 0,
+                                        }} />
+                                    </TentList>
+                                </ContentCategory>
+                            </Card>
+                        </Sheet>
                     }
-                ]}
-                onSubmit={(_, { what, ...values }) => what === "category" ? onCategoryCreate(values.name, values.description) : onTentCreate(values)}
-                submitText="Create"
-            >
-                {error && <Alert color="danger" variant="soft">{error.status} {error.errorHeader}: {error.errorDescription}</Alert>}
+                </FormContext.Consumer>
             </Form>
         </ModalDialog>
     )

@@ -5,8 +5,9 @@ import { Box, Dropdown, MenuButton, Stack, styled } from "@mui/joy";
 import { Group } from "components";
 import ColorPickerMenu from "../../layout/ColorPickerMenu";
 import { mixColors } from "components/theme/color";
+import type { FormContext } from "./context";
 
-export interface FormFieldColorProps extends FormFieldProps<"color", number> {
+export interface FormFieldColorProps extends FormFieldProps<number> {
     allowAlpha?: boolean;
 }
 
@@ -38,13 +39,13 @@ const preselectedColors = [
 const dark = 0x0e0b16;
 const preselectedColorsDarker = preselectedColors.map((x) => mixColors(x, dark, 0.5));
 
-export default class FormFieldColor extends AbstractFormField<"color", number, FormFieldColorProps, State> {
-    constructor(props: FormFieldColorProps) {
-        super(props, 0);
+export default class FormFieldColor extends AbstractFormField<number, FormFieldColorProps, State> {
+    constructor(props: FormFieldColorProps, context: FormContext) {
+        super(props, context, 0);
     }
 
     private onInputChange(value: number) {
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => value && this.onValueChange());
     }
 
     public override get isValid(): boolean {

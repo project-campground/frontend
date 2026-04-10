@@ -1,4 +1,4 @@
-import { Alert } from "@mui/joy";
+import { Alert, FormControl, FormLabel } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
 import type { CampsiteViewDetailed } from "types/campsites";
 import Form from "~/components/form/Form";
@@ -10,6 +10,9 @@ import { useContext } from "react";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import FormSection from "~/components/form/FormSection";
+import FormSubmit from "~/components/form/FormSubmit";
+import FormFieldText from "~/components/form/FormFieldText";
 
 export default function CampsiteSettingsDeletion({
     settingsProps: { campsite },
@@ -28,8 +31,10 @@ export default function CampsiteSettingsDeletion({
 
     return (
         <Form
-            header="Campsite deletion"
-            description={
+            header={<FormattedMessageGlobal id="app.campsites.delete" />}
+            onSubmit={onDelete}
+        >
+            <FormSection>
                 <Alert
                     variant="soft"
                     color="danger"
@@ -46,31 +51,29 @@ export default function CampsiteSettingsDeletion({
                         }}
                     />
                 </Alert>
-            }
-            sections={[
-                {
-                    id: "confirm",
-                    fields: [
-                        {
-                            id: "name",
-                            header: (
-                                <FormattedMessage
-                                    id="app.campsites.settings.delete.inputName"
-                                    description="The header of the input that requires typing out campsite's name to allow deleting it."
-                                    defaultMessage="The name of the campsite"
-                                />
-                            ),
-                            type: "text",
-                            required: true,
-                            placeholder: campsite.name,
-                            allowedValue: campsite.name,
-                        },
-                    ],
-                },
-            ]}
-            submitText={<FormattedMessageGlobal id="form.confirmDelete" />}
-            submitColor="danger"
-            onSubmit={onDelete}
-        />
+            </FormSection>
+            <FormSection>
+                <FormControl required>
+                    <FormLabel>
+                        <FormattedMessage
+                            id="app.campsites.settings.delete.inputName"
+                            description="The header of the input that requires typing out campsite's name to allow deleting it."
+                            defaultMessage="The name of the campsite"
+                        />
+                    </FormLabel>
+                    <FormFieldText
+                        required
+                        id="name"
+                        placeholder={campsite.name}
+                        allowedValue={campsite.name}
+                    />
+                </FormControl>
+            </FormSection>
+            <FormSection>
+                <FormSubmit color="danger" variant="glow" sx={{ width: "max-content" }}>
+                    <FormattedMessageGlobal id="form.confirmDelete" />
+                </FormSubmit>
+            </FormSection>
+        </Form>
     );
 }

@@ -1,10 +1,22 @@
-import { DialogContent, DialogTitle, ModalClose, ModalDialog } from "@mui/joy";
+import {
+    DialogContent,
+    DialogTitle,
+    ModalClose,
+    ModalDialog,
+    FormControl,
+    FormLabel,
+    Button,
+} from "@mui/joy";
 import Form from "../components/form/Form";
 import type { MemberViewBasic } from "types/membership";
 import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith as handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
 import { FormattedMessage, useIntl } from "react-intl";
+import FormSection from "~/components/form/FormSection";
+import FormSubmit from "~/components/form/FormSubmit";
+import FormFieldText from "~/components/form/FormFieldText";
+import { FormattedMessageGlobal, globalIntlDeclarations } from "~/i18n";
 
 type Props = {
     campsiteId: string;
@@ -17,56 +29,57 @@ export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
     const floating = useSnackbars();
     const intl = useIntl();
     const onSubmit = (reason: string) =>
-        session
-            .http
-            .memberBans
+        session.http.memberBans
             .create(campsiteId, member.user.did, { reason })
-            .then(handleAnyRestErrorWith(floating))
+            .then(handleAnyRestErrorWith(floating));
 
     return (
         <ModalDialog>
             <ModalClose />
             <DialogTitle>
-                <FormattedMessage
-                    id="app.members.ban"
-                />
+                <FormattedMessageGlobal id="app.members.ban" />
             </DialogTitle>
             <DialogContent>
                 <FormattedMessage
-                    id="app.members.ban.description"
+                    id="app.members.ban.desc"
                     defaultMessage="The member will lose all their roles, be kicked from the campsite and be unable to join back until their ban is lifted."
                     description="Note about what the user ban will imply when banning a user"
                 />
             </DialogContent>
             <Form
-                sections={[
-                    {
-                        id: "reason",
-                        fields: [
-                            {
-                                id: "reason",
-                                type: "text",
-                                header: intl.formatMessage({
-                                    id: "app.bans.reason"
-                                }),
-                                placeholder: intl.formatMessage({
-                                    id: "app.bans.reason.example",
-                                    defaultMessage: "Have been spamming",
-                                    description: "Example of a ban reason when banning user",
-                                }),
-                            }
-                        ],
-                    },
-                ]}
                 onSubmit={(_, values) => (onClose(), onSubmit(values.reason))}
-                onCancel={() => onClose()}
-                submitText={
-                    <FormattedMessage
-                        id="app.members.ban"
-                    />
-                }
-                submitColor="danger"
-            />
+            >
+                <FormSection>
+                    <FormControl>
+                        <FormLabel>
+                            {intl.formatMessage({
+                                ...globalIntlDeclarations["app.bans.reason"]
+                            })}
+                        </FormLabel>
+                        <FormFieldText
+                            id="reason"
+                            placeholder={intl.formatMessage({
+                                id: "app.bans.reason.example",
+                                defaultMessage: "Have been spamming",
+                                description:
+                                    "Example of a ban reason when banning user",
+                            })}
+                        />
+                    </FormControl>
+                </FormSection>
+                <FormSection layout="footer">
+                    <FormSubmit color="danger">
+                        <FormattedMessageGlobal id="app.members.ban" />
+                    </FormSubmit>
+                    <Button
+                        variant="plain"
+                        color="neutral"
+                        onClick={() => onClose()}
+                    >
+                        <FormattedMessageGlobal id="common.cancel" />
+                    </Button>
+                </FormSection>
+            </Form>
         </ModalDialog>
-    )
+    );
 }

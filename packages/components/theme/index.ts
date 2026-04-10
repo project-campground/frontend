@@ -284,6 +284,7 @@ const theme = extendTheme({
         JoyTabPanel: {
             styleOverrides: {
                 root: () => ({
+                    overflow: "auto",
                     flex: 1,
                 })
             }

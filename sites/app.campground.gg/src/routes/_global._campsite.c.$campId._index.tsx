@@ -35,7 +35,7 @@ export default function Index({ loaderData: { status } }: Route.ComponentProps) 
                 />
             }>
                 <FormattedMessage
-                    id="app.campsites.notFound.description"
+                    id="app.campsites.notFound.desc"
                     defaultMessage="It seems that this campsite does not exist."
                     description="User cannot view the campsite"
                 />

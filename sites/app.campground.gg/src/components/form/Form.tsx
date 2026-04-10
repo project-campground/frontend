@@ -1,60 +1,41 @@
 import React, { ReactNode, type MouseEvent } from "react";
-import type { FormSectionProps, AnyFormFieldProps, FieldTypeToInstance, FormFieldType, AbstractAnyFormField } from "./forms";
-import { Button, Stack, styled, Typography, type ColorPaletteProp } from "@mui/joy";
+import { Stack, styled, Typography } from "@mui/joy";
+import clsx from "clsx";
 
-import { FormattedMessage } from "react-intl";
-import FormSection from "./FormSection";
-import { Group } from "components";
-import { FormattedMessageGlobal } from "~/i18n";
+import { FormContext, type ResetValueHandler } from "./context";
 
 export type FormProps = {
-    sections: FormSectionProps[];
     gap?: number;
 
+    hideOverflow?: boolean;
+    inlineContent?: boolean;
     header?: ReactNode | ReactNode[];
     description?: ReactNode | ReactNode[];
     children?: ReactNode[] | ReactNode;
 
-    onChange?: (isValid: boolean, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
-    ReactiveComponent?: (values: Record<string, any>) => (ReactNode[] | ReactNode);
-    inlineReactiveComponent?: boolean;
-    
-    submitText?: ReactNode[] | ReactNode;
-    cancelText?: ReactNode[] | ReactNode;
-    submitColor?: ColorPaletteProp;
-    onSubmit?: (ev: MouseEvent<HTMLAnchorElement>, fieldValues: Record<string, any>) => Promise<unknown> | unknown;
-    onCancel?: (ev: MouseEvent<HTMLAnchorElement>) => unknown;
+    onChange?: (
+        isValid: boolean,
+        fieldValues: Record<string, any>,
+    ) => Promise<unknown> | unknown;
 
+    onSubmit?: (
+        ev: MouseEvent | undefined,
+        fieldValues: Record<string, any>,
+    ) => Promise<unknown> | unknown;
 };
 type FormState = {
     fieldValues: Record<string, any>;
-    fieldRequirementFilled: Record<string, boolean | undefined>;
+    fieldRequirementFilled: Record<string, boolean>;
 };
 
-const getFieldValuesAndRequirements = (props: FormProps) => ({
-    fieldValues:
-        Object.fromEntries(
-            props
-                .sections
-                .flatMap(x => x.fields)
-                .map(x => [x.id, x.defaultValue])
-                .filter((x) => typeof x[1] !== "undefined" && x[1] !== null)
-        ),
-    fieldRequirementFilled:
-        Object.fromEntries(
-            props
-                .sections
-                .flatMap(x => x.fields)
-                .map(x => [x.id, !x.required || (typeof x.defaultValue !== "undefined" && x.defaultValue !== null)]))
-});
-
-const FormRoot = styled("form", {
+export const FormRoot = styled("form", {
     name: "Form",
     slot: "root",
 })(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     gap: theme.spacing(3),
+    height: "100%",
     "&.Form-with-sidebar": {
         flexDirection: "row",
         flexWrap: "wrap",
@@ -63,125 +44,133 @@ const FormRoot = styled("form", {
         },
     },
 }));
-const FormContent = styled(Stack, {
+export const FormContent = styled(Stack, {
     name: "Form",
     slot: "content",
 })(({ theme }) => ({
+    height: "100%",
     gap: theme.spacing(3),
     flex: 1,
 }));
+export const FormBody = styled(Stack, {
+    name: "Form",
+    slot: "body",
+})(({ theme }) => ({
+    flexDirection: "column",
+    gap: theme.spacing(5),
+    flex: 1,
+    "&.Form-body-overflowHidden": {
+        overflow: "hidden",
+    },
+    "&.Form-body-inlineContent": {
+        flexDirection: "row",
+    },
+    [theme.breakpoints.down("md")]: {
+        flexDirection: "column",
+    },
+}));
 
 export default class Form extends React.Component<FormProps, FormState> {
-    private _fieldRefs: Record<string, AbstractAnyFormField> = {};
+    private _resetValueHandlers: Record<string | number, ResetValueHandler> = {};
 
     constructor(props: FormProps) {
         super(props);
 
-        this.state = getFieldValuesAndRequirements(props);
+        this.state = { fieldValues: {}, fieldRequirementFilled: {} };
     }
 
-    private static getFieldDefaultValueEntries(sections: FormSectionProps[]): [string, any][] {
-        return sections.flatMap((x) => x.fields).map((x) => [x.id, x.defaultValue]);
+    public get values() {
+        return this.state.fieldValues;
+    }
+    public get validFields() {
+        return this.state.fieldRequirementFilled;
     }
 
-    private static getFieldDefaultValues(sections: FormSectionProps[]): Record<string, any> {
-        return Object.fromEntries(this.getFieldDefaultValueEntries(sections));
+    public reset = () => {
+        for (const resetValueHandler of Object.values(this._resetValueHandlers))
+            resetValueHandler();
     }
 
-    componentDidUpdate(prevProps: Readonly<FormProps>, _prevState: Readonly<FormState>, _snapshot?: any): void {
-        if (prevProps.sections === this.props.sections)
-            return;
-
-        const newEntries = Form.getFieldDefaultValueEntries(this.props.sections);
-        const oldDefaults = Form.getFieldDefaultValues(prevProps.sections);
-
-        // Nothing to update
-        if (newEntries.every(([key, defaultValue]) => oldDefaults[key] === defaultValue))
-            return;
-
-        this.resetValues();
-    }
-    
-    public resetValues() {
-        this.setState(getFieldValuesAndRequirements(this.props));
-        for (const fieldKey in this._fieldRefs) {
-            this._fieldRefs[fieldKey].resetValue();
-        }
-    }
-
-    private addFieldRef(field: AbstractAnyFormField) {
-        this._fieldRefs[field.props.id] = field;
-    }
-
-    public onButtonSubmit(ev: MouseEvent<HTMLAnchorElement>) {
-        ev.preventDefault();
+    public onSubmit = (ev?: MouseEvent) => {
+        ev?.preventDefault();
         return this.props.onSubmit?.(ev, this.state.fieldValues);
-    }
+    };
 
-    private onFieldChange(props: AnyFormFieldProps, field: FieldTypeToInstance[FormFieldType], value: any): Promise<void> | void {
-        return this.setState(({ fieldValues, fieldRequirementFilled }) => ({
-            fieldValues: {
-                ...fieldValues,
-                [props.id]: value
-            },
-            fieldRequirementFilled: {
-                ...fieldRequirementFilled,
-                [props.id]: field.isValid
-            }
-        }), () => this.props.onChange?.(this.allValid, this.state.fieldValues));
-    }
+    public onAddResetHandler = (id: string | number, resetHandler: ResetValueHandler) => {
+        return this._resetValueHandlers[id] = resetHandler;
+    };
 
-    private get allValid(): boolean {
-        return Object.values(this.state.fieldRequirementFilled).every(x => x);
+    public onFieldChange: any = (
+        id: string | number,
+        isValid: boolean,
+        value: any,
+    ): any =>
+        this.setState(
+            ({ fieldValues, fieldRequirementFilled }) => ({
+                fieldValues: {
+                    ...fieldValues,
+                    [id]: value,
+                },
+                fieldRequirementFilled: {
+                    ...fieldRequirementFilled,
+                    [id]: isValid,
+                },
+            }),
+            () => (
+                console.log({ id, isValid, value }),
+                this.props.onChange?.(
+                    this.allFieldsValid,
+                    this.state.fieldValues,
+                )
+            ),
+        );
+
+    public get allFieldsValid(): boolean {
+        return Object.values(this.state.fieldRequirementFilled).every((x) => x);
     }
 
     public render(): ReactNode[] | ReactNode {
-        const { header, sections, submitText, cancelText, children, ReactiveComponent, gap, submitColor, description, inlineReactiveComponent } = this.props;
-        const { fieldValues } = this.state;
+        const { header, children, gap, description, inlineContent, hideOverflow } =
+            this.props;
 
         return (
-            <FormRoot className={`Form-root${inlineReactiveComponent ? " Form-with-sidebar" : ""}`}>
+            <FormRoot className="Form-root">
                 <FormContent className="Form-content">
-                    <Stack gap={2}>
-                        {header && <Typography level="title-lg" fontWeight={700}>
-                            {header}
-                        </Typography>}
-                        {description && <Typography level="body-md">
-                            {description}
-                        </Typography>}
-                    </Stack>
-                    {/* Sections */}
-                    <Stack className="Form-sections" gap={gap ?? 4}>
-                        {sections.map(section =>
-                            <FormSection
-                                addFieldRef={this.addFieldRef.bind(this)}
-                                key={section.id}
-                                fieldBinding={this}
-                                section={section}
-                                onFieldChange={this.onFieldChange}
-                                disabled={section.hide ?? section.disableOn?.(fieldValues)}
-                                fieldValues={fieldValues}
-                            />
+                    <Stack gap={2} className="Form-head">
+                        {header && (
+                            <Typography level="title-lg" fontWeight={700}>
+                                {header}
+                            </Typography>
+                        )}
+                        {description && (
+                            <Typography level="body-md">
+                                {description}
+                            </Typography>
                         )}
                     </Stack>
-                    {/* Form footer */}
-                    <Stack className="Form-footer" direction="column" gap={1} sx={{ mt: 2 }}>
-                        <Group withMobileReversed gap={2} sx={{ width: "100%" }}>
-                            {this.props.onCancel && <Button variant="plain" color="danger" onClick={this.props.onCancel} fullWidth>
-                                {cancelText ?? <FormattedMessageGlobal id="common.cancel" />}
-                            </Button>}
-                            {this.props.onSubmit && <Button onClick={this.onButtonSubmit.bind(this)} variant="glow" color={submitColor ?? "primary"} fullWidth disabled={!this.allValid}>
-                                {submitText ?? <FormattedMessage
-                                    id="form.submit"
-                                    defaultMessage="Submit"
-                                    description="Submit button for submitting form values"
-                                />}
-                            </Button>}
-                        </Group>
-                        { children }
-                    </Stack>
+                    {/* Sections */}
+                    <FormContext.Provider
+                        value={{
+                            onResetValues: this.onAddResetHandler,
+                            onSubmit: this.onSubmit,
+                            allValid: this.allFieldsValid,
+                            values: this.values,
+                            validFields: this.validFields,
+                            onFieldChange: this.onFieldChange,
+                        }}
+                    >
+                        <FormBody
+                            className={clsx(
+                                "Form-body",
+                                inlineContent && "Form-body-inlineContent",
+                                hideOverflow && "Form-body-overflowHidden"
+                            )}
+                            gap={gap}
+                        >
+                            {children}
+                        </FormBody>
+                    </FormContext.Provider>
                 </FormContent>
-                {ReactiveComponent && <ReactiveComponent {...fieldValues} />}
             </FormRoot>
         );
     }

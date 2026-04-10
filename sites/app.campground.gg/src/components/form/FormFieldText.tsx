@@ -2,8 +2,9 @@ import type { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Input } from "@mui/joy";
+import type { FormContext } from "./context";
 
-export interface FormFieldTextProps extends FormFieldProps<"text", string>, FormFieldDecoratorProps {
+export interface FormFieldTextProps extends FormFieldProps<string>, FormFieldDecoratorProps {
     inputType?: HTMLInputTypeAttribute;
     placeholder?: string;
     format?: RegExp;
@@ -16,9 +17,9 @@ type State = {
     value: string;
 };
 
-export default class FormFieldText extends AbstractFormField<"text", string, FormFieldTextProps, State> {
-    constructor(props: FormFieldTextProps) {
-        super(props, "");
+export default class FormFieldText extends AbstractFormField<string, FormFieldTextProps, State> {
+    constructor(props: FormFieldTextProps, context: FormContext) {
+        super(props, context, "", {});
     }
 
     public override get isValid(): boolean {
@@ -46,7 +47,7 @@ export default class FormFieldText extends AbstractFormField<"text", string, For
         if (this.props.max && value.length > this.props.max)
             return;
 
-        this.setState({ value }, () => this.onChange(ev.target.value));
+        this.setState({ value }, () => this.onValueChange());
     }
 
     public override render(): ReactNode {

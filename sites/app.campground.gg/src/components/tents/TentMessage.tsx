@@ -153,7 +153,7 @@ function TentMessageDefault({ message, colorRoles, onUserClick, waiting, error, 
                     <UserDisplayNoModal noAvatar onClick={onAuthorClick} user={message.createdBy.user} member={message.createdBy} colors={displayColors} motion={colorRole?.motion} />
                     {/* <Typography level="title-md" fontWeight={700}>{message.createdBy}</Typography> */}
                     <Typography level="body-sm">
-                        <Datestamp long date={new Date(message.createdAt)}/>
+                        <Datestamp when long date={new Date(message.createdAt)} />
                     </Typography>
                     {waiting && !error && <CircularProgress size="sm" />}
                     {error && <Tooltip title={error}>
@@ -191,7 +191,7 @@ function TentMessageSystem({ message, children }: MessageTypeComponentProps) {
             {" "}
             <TextBlock>
                 <Typography level="body-sm" ml={1}>
-                    <Datestamp long date={new Date(message.createdAt)}/>
+                    <Datestamp when long date={new Date(message.createdAt)}/>
                 </Typography>
             </TextBlock>
         </div>

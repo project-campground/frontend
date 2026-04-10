@@ -4,8 +4,9 @@ import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Button, ButtonGroup, Input } from "@mui/joy";
 import { Group } from "components";
 import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react";
+import type { FormContext } from "./context";
 
-export interface FormFieldNumberProps extends FormFieldProps<"number", number | null>, FormFieldDecoratorProps {
+export interface FormFieldNumberProps extends FormFieldProps<number | null>, FormFieldDecoratorProps {
     placeholder?: string;
     min?: number;
     max?: number;
@@ -18,9 +19,9 @@ type State = {
     value: number | null;
 };
 
-export default class FormFieldNumber extends AbstractFormField<"number", number | null, FormFieldNumberProps, State> {
-    constructor(props: FormFieldNumberProps) {
-        super(props, null);
+export default class FormFieldNumber extends AbstractFormField<number | null, FormFieldNumberProps, State> {
+    constructor(props: FormFieldNumberProps, context: FormContext) {
+        super(props, context, null, { textValue: "" });
     }
 
     public override get isValid(): boolean {
@@ -44,7 +45,7 @@ export default class FormFieldNumber extends AbstractFormField<"number", number 
         const { value } = ev.target;
         const numValue = value.length < 1 ? null : parseFloat(value);
 
-        this.setState({ textValue: value, value: numValue }, () => this.onChange(numValue));
+        this.setState({ textValue: value, value: numValue }, () => this.onValueChange());
     }
 
 

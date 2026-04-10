@@ -4,9 +4,10 @@ import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Checkbox, Sheet, Stack, Typography, } from "@mui/joy";
 import type React from "react";
 import { Group } from "components";
+import type { FormContext } from "./context";
 
 type CheckboxType = "default" | "button";
-export interface FormFieldCheckboxProps extends FormFieldProps<"checkbox", boolean>, FormFieldDecoratorProps {
+export interface FormFieldCheckboxProps extends FormFieldProps<boolean>, FormFieldDecoratorProps {
     label?: ReactNode[] | ReactNode;
     description?: ReactNode[] | ReactNode;
     design?: CheckboxType;
@@ -16,10 +17,9 @@ type State = {
     value: boolean;
 };
 
-export default class FormFieldCheckbox extends AbstractFormField<"checkbox", boolean, FormFieldCheckboxProps, State> {
-    constructor(props: FormFieldCheckboxProps) {
-        super(props, false);
-        this.state = { value: props.defaultValue ?? false };
+export default class FormFieldCheckbox extends AbstractFormField<boolean, FormFieldCheckboxProps, State> {
+    constructor(props: FormFieldCheckboxProps, context: FormContext) {
+        super(props, context, false);
     }
 
     public override get isValid(): boolean {
@@ -32,7 +32,7 @@ export default class FormFieldCheckbox extends AbstractFormField<"checkbox", boo
 
     private onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
         const value = ev.target.checked;
-        this.setState({ value }, () => this.onChange(value));
+        this.setState({ value }, () => this.onValueChange());
     }
 
     private FieldText() {

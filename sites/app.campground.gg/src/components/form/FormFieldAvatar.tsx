@@ -5,8 +5,9 @@ import { Avatar, Modal, type ColorPaletteProp, type Radius, type VariantProp, } 
 import ImageInputModal from "../../layout/ImageInputModal";
 import { IconPencil, IconPhotoPlus } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
+import type { FormContext } from "./context";
 
-export interface FormFieldAvatarProps extends FormFieldProps<"avatar", string | null> {
+export interface FormFieldAvatarProps extends FormFieldProps<string | null> {
     borderRadius?: keyof Radius;
     color?: ColorPaletteProp;
     variant?: VariantProp;
@@ -19,15 +20,14 @@ type State = {
     open: boolean;
 };
 
-export default class FormFieldAvatar extends AbstractFormField<"avatar", string | null, FormFieldAvatarProps, State> {
-    constructor(props: FormFieldAvatarProps) {
-        super(props, "");
+export default class FormFieldAvatar extends AbstractFormField<string | null, FormFieldAvatarProps, State> {
+    constructor(props: FormFieldAvatarProps, context: FormContext) {
+        super(props, context, "");
         this.state = { open: false, value: props.defaultValue ?? null };
     }
 
     private onInputChange(value: string | null) {
-        console.log({ value });
-        this.setState({ value }, () => value && this.onChange(value));
+        this.setState({ value }, () => this.onValueChange());
     }
 
     public override get isValid(): boolean {

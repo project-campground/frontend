@@ -22,7 +22,7 @@ export default class Soon extends React.Component<Props> {
                         <FormattedMessage id="placeholder.underConstruction.title" />
                     </Typography>
                     <Typography className="LandingPage motto-subtext" level="body-lg" textAlign="justify">
-                        <FormattedMessage id="placeholder.underConstruction.description" />
+                        <FormattedMessage id="placeholder.underConstruction.desc" />
                     </Typography>
                     <Link underline="none" href="/" sx={{ mt: 2 }}>
                         <Button variant="glow" color="primary" component="button" startDecorator={<IconDoorExit />}>

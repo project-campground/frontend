@@ -1,17 +1,18 @@
 import React, { ChangeEvent } from "react";
-import { Link, Stack, Typography } from "@mui/joy";
+import { Link, Stack, Typography, FormControl, FormLabel } from "@mui/joy";
 import { IconAt } from "@tabler/icons-react";
 import { FormattedMessage } from "react-intl";
 import Form from "../../components/form/Form";
 import { FormattedMessageGlobal } from "~/i18n";
+import FormSection from "~/components/form/FormSection";
+import FormSubmit from "~/components/form/FormSubmit";
+import FormFieldText from "~/components/form/FormFieldText";
 
-export type Props = {
-
-};
+export type Props = {};
 type PasswordState = {
     password: string;
     confirmPassword: string;
-}
+};
 export type State = PasswordState & {
     wrongConfirmPassword: boolean;
 };
@@ -19,87 +20,132 @@ export type State = PasswordState & {
 export default class RegisterPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = { wrongConfirmPassword: false, password: "", confirmPassword: "" };
+        this.state = {
+            wrongConfirmPassword: false,
+            password: "",
+            confirmPassword: "",
+        };
     }
-    onSubmit(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, fieldValues: Record<string, any>) {
-        event.preventDefault();
+    onSubmit(
+        event: React.MouseEvent<Element, MouseEvent> | undefined,
+        fieldValues: Record<string, any>,
+    ) {
+        event?.preventDefault();
 
         console.log(fieldValues);
     }
-    onPasswordInputChange(property: "password" | "confirmPassword", e: ChangeEvent<HTMLInputElement>) {
+    onPasswordInputChange(
+        property: "password" | "confirmPassword",
+        e: ChangeEvent<HTMLInputElement>,
+    ) {
         const { password, confirmPassword } = this.state;
 
-        const newState: Partial<State> = { password, confirmPassword, [property]: e.target.value };
+        const newState: Partial<State> = {
+            password,
+            confirmPassword,
+            [property]: e.target.value,
+        };
 
-        this.setState({ ...newState, wrongConfirmPassword: newState.password !== newState.confirmPassword } as State);
+        this.setState({
+            ...newState,
+            wrongConfirmPassword:
+                newState.password !== newState.confirmPassword,
+        } as State);
     }
     render() {
         return (
-            <Form
-                sections={[
-                    {
-                        id: "register",
-                        fields: [
-                            {
-                                type: "text",
-                                id: "username",
-                                placeholder: "Username Here",
-                                header: <FormattedMessageGlobal id="info.username" />,
-                                required: true
-                            },
-                            {
-                                type: "text",
-                                id: "tagline",
-                                placeholder: "Tag_Here",
-                                header: <FormattedMessageGlobal id="info.tagline" />,
-                                format: /^([A-Za-z0-9$_.-]+)$/,
-                                startDecorator:
-                                    <Stack direction="row" alignItems="center">
-                                        <Typography textColor="neutral.400" lineHeight={0} height="100%">
-                                            <IconAt />
-                                        </Typography>
-                                    </Stack>
-                                ,
-                                required: true
-                            },
-                            {
-                                type: "text",
-                                id: "email",
-                                inputType: "email",
-                                placeholder: "example@example.com",
-                                header: <FormattedMessageGlobal id="info.email" />,
-                                format: /^([A-Za-z0-9._%+-]+)@((?:[A-Za-z0-9-]+[.])+[A-Za-z]{2,})$/,
-                                required: true
-                            },
-                            {
-                                type: "text",
-                                id: "password",
-                                inputType: "password",
-                                placeholder: "Password here",
-                                header: <FormattedMessageGlobal id="info.password" />,
-                                required: true
-                            },
-                            {
-                                type: "text",
-                                id: "confirmPassword",
-                                inputType: "password",
-                                placeholder: "Password here",
-                                header: <FormattedMessageGlobal id="info.password.confirm" />,
-                                required: true
+            <Form onSubmit={this.onSubmit.bind(this)}>
+                <FormSection>
+                    <FormControl required>
+                        <FormLabel>
+                            <FormattedMessageGlobal id="info.username" />
+                        </FormLabel>
+                        <FormFieldText
+                            required
+                            id="username"
+                            placeholder="Username Here"
+                        />
+                    </FormControl>
+                    <FormControl required>
+                        <FormLabel>
+                            <FormattedMessageGlobal id="info.handle" />
+                        </FormLabel>
+                        <FormFieldText
+                            required
+                            id="handle"
+                            placeholder="Handle_Here"
+                            format={/^([A-Za-z0-9$_.-]+)$/}
+                            startDecorator={
+                                <Stack direction="row" alignItems="center">
+                                    <Typography
+                                        textColor="neutral.400"
+                                        lineHeight={0}
+                                        height="100%"
+                                    >
+                                        <IconAt />
+                                    </Typography>
+                                </Stack>
                             }
-                        ]
-                    }
-                ]}
-                onSubmit={this.onSubmit}
-                submitText="form.register"
-            >
-                <Link color="neutral" textColor="neutral.300" level="body-md" href="/login">
-                    <FormattedMessage
-                        id="form.hasAccount"
-                        defaultMessage="Already have an account? Try logging in"
-                        description="Link to login page in registration page"
-                    />
-                </Link>
+                        />
+                    </FormControl>
+                    <FormControl required>
+                        <FormLabel>
+                            <FormattedMessageGlobal id="info.email" />
+                        </FormLabel>
+                        <FormFieldText
+                            required
+                            id="email"
+                            inputType="email"
+                            placeholder="example@example.com"
+                            format={
+                                /^([A-Za-z0-9._%+-]+)@((?:[A-Za-z0-9-]+[.])+[A-Za-z]{2,})$/
+                            }
+                        />
+                    </FormControl>
+                </FormSection>
+                <FormSection>
+                    <FormControl required>
+                        <FormLabel>
+                            <FormattedMessageGlobal id="info.password" />
+                        </FormLabel>
+                        <FormFieldText
+                            required
+                            id="password"
+                            inputType="password"
+                            placeholder="Password here"
+                        />
+                    </FormControl>
+                    <FormControl required>
+                        <FormLabel>
+                            <FormattedMessageGlobal id="info.password.confirm" />
+                        </FormLabel>
+                        <FormFieldText
+                            required
+                            id="confirmPassword"
+                            inputType="password"
+                            placeholder="Password here"
+                        />
+                    </FormControl>
+                </FormSection>
+                <FormSection>
+                    <FormSubmit>
+                        <FormattedMessageGlobal id="form.register" />
+                    </FormSubmit>
+                </FormSection>
+                <FormSection layout="footer">
+                    <Link
+                        color="neutral"
+                        textColor="neutral.300"
+                        level="body-md"
+                        href="/login"
+                    >
+                        <FormattedMessage
+                            id="form.hasAccount"
+                            defaultMessage="Already have an account? Try logging in"
+                            description="Link to login page in registration page"
+                        />
+                    </Link>
+                </FormSection>
             </Form>
         );
     }

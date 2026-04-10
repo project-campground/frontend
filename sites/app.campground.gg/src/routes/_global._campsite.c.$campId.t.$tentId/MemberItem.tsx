@@ -21,7 +21,7 @@ import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
 import BanMemberModal from "~/layout/BanMemberModal";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type ModalType = "nickname" | "ban";
 
@@ -74,7 +74,7 @@ export default function MemberItem({
                             <IconSignature />
                         </ListItemDecorator>
                         <ListItemContent>
-                            <FormattedMessage id="app.members.nickname.change" />
+                            <FormattedMessageGlobal id="app.members.nickname.change" />
                         </ListItemContent>
                     </MenuItem>
                 )}
@@ -91,7 +91,7 @@ export default function MemberItem({
                                 <IconUserMinus />
                             </ListItemDecorator>
                             <ListItemContent>
-                                <FormattedMessage id="app.members.kick" />
+                                <FormattedMessageGlobal id="app.members.kick" />
                             </ListItemContent>
                         </MenuItem>
                     )}
@@ -106,7 +106,7 @@ export default function MemberItem({
                                 <IconHammer />
                             </ListItemDecorator>
                             <ListItemContent>
-                                <FormattedMessage id="app.members.ban" />
+                                <FormattedMessageGlobal id="app.members.ban" />
                             </ListItemContent>
                         </MenuItem>
                     )}
@@ -139,14 +139,14 @@ export default function MemberItem({
                     </GradientTypography>
                 </ListItemContent>
             </ListItemButton>
-            <Modal open={openModal === "nickname"}>
+            <Modal open={openModal === "nickname"} onClose={closeModal}>
                 <ChangeNicknameModal
                     campsiteId={campsiteId}
                     member={member}
                     onClose={closeModal}
                 />
             </Modal>
-            <Modal open={openModal === "ban"}>
+            <Modal open={openModal === "ban"} onClose={closeModal}>
                 <BanMemberModal
                     campsiteId={campsiteId}
                     member={member}

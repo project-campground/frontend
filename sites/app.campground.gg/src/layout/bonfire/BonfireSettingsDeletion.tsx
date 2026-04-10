@@ -1,18 +1,23 @@
-import { Alert } from "@mui/joy";
+import { Alert, FormControl, FormLabel } from "@mui/joy";
 import type { SettingsComponentProps } from "../SettingsModal";
 import Form from "~/components/form/Form";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";
 import type { BonfireSettingsProps } from "./BonfireSettingsModal";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import FormSection from "~/components/form/FormSection";
+import FormSubmit from "~/components/form/FormSubmit";
+import FormFieldText from "~/components/form/FormFieldText";
 
 export default function BonfireSettingsDeletion({
     settingsProps: { bonfire, onBonfireDeleted },
 }: SettingsComponentProps<BonfireSettingsProps>) {
     return (
         <Form
-            header="Campsite deletion"
-            description={
+            header={<FormattedMessageGlobal id="app.bonfires.delete" />}
+            onSubmit={onBonfireDeleted}
+        >
+            <FormSection>
                 <Alert
                     variant="soft"
                     color="danger"
@@ -29,31 +34,29 @@ export default function BonfireSettingsDeletion({
                         }}
                     />
                 </Alert>
-            }
-            sections={[
-                {
-                    id: "confirm",
-                    fields: [
-                        {
-                            id: "name",
-                            header: (
-                                <FormattedMessage
-                                    id="app.bonfires.delete.inputName"
-                                    description="The header of the input that requires typing out bonfire's name to allow deleting it."
-                                    defaultMessage="The name of the bonfire"
-                                />
-                            ),
-                            type: "text",
-                            required: true,
-                            placeholder: bonfire.name,
-                            allowedValue: bonfire.name,
-                        },
-                    ],
-                },
-            ]}
-            submitText={<FormattedMessageGlobal id="form.confirmDelete" />}
-            submitColor="danger"
-            onSubmit={onBonfireDeleted}
-        />
+            </FormSection>
+            <FormSection>
+                <FormControl>
+                    <FormLabel>
+                        <FormattedMessage
+                            id="app.bonfires.delete.inputName"
+                            description="The header of the input that requires typing out bonfire's name to allow deleting it."
+                            defaultMessage="The name of the bonfire"
+                        />
+                    </FormLabel>
+                    <FormFieldText
+                        required
+                        id="name"
+                        placeholder={bonfire.name}
+                        allowedValue={bonfire.name}
+                    />
+                </FormControl>
+            </FormSection>
+            <FormSection>
+                <FormSubmit color="danger" sx={{ width: "max-content" }}>
+                    <FormattedMessageGlobal id="form.confirmDelete" />
+                </FormSubmit>
+            </FormSection>
+        </Form>
     );
 }

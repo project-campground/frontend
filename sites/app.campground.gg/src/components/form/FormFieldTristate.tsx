@@ -7,8 +7,8 @@ import type { FormContext } from "./context";
 
 type TristateType = "default" | "button";
 export interface FormFieldTristateProps extends FormFieldProps<TristateValue>, FormFieldDecoratorProps {
-    label?: string;
-    description?: string;
+    label?: ReactNode[] | ReactNode;
+    description?: ReactNode[] | ReactNode;
     design?: TristateType;
 }
 

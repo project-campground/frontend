@@ -170,7 +170,7 @@ function RolePage({ ref, onRoleDelete, role, onChanged }: RolePageProps) {
     const defaultPermissionList = Object.keys(defaultValues.permissions) as (keyof FormValues["permissions"])[];
 
     const onValuesChanged = (valid: boolean, values: Record<string, any>) => {
-        Object.assign(combinedValues, values);
+        Object.assign(combinedValues, Object.assign({}, values));
 
         const permissionsChanged = defaultPermissionList.some((x) => combinedValues.permissions[x] !== defaultValues.permissions[x]);
         const anyValueChanged = permissionsChanged || defaultValueList.some((x) => combinedValues[x as typeof defaultValueList[number]] !== defaultValues[x as typeof defaultValueList[number]]);
@@ -180,7 +180,7 @@ function RolePage({ ref, onRoleDelete, role, onChanged }: RolePageProps) {
 
     return (
         <Stack flex={1} gap={2} sx={{ overflow: "hidden", height: "100%" }}>
-            <Form ref={ref} header={role.name} onChange={onValuesChanged}>
+            <Form ref={ref} header={role.name} onChange={onValuesChanged} hideOverflow>
                 <Tabs sx={{ height: "100%" }}>
                     <SmoothTabList
                         tabs={[

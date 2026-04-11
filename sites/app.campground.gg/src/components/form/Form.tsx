@@ -116,13 +116,11 @@ export default class Form extends React.Component<FormProps, FormState> {
                     [id]: isValid,
                 },
             }),
-            () => (
-                console.log({ id, isValid, value }),
+            () => 
                 this.props.onChange?.(
                     this.allFieldsValid,
                     this.state.fieldValues,
-                )
-            ),
+                ),
         );
 
     public get allFieldsValid(): boolean {

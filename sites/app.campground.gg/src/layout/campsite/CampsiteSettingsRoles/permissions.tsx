@@ -14,16 +14,21 @@ import FormSection from "~/components/form/FormSection";
 import FormFieldObject from "~/components/form/FormFieldObject";
 import { FormControl, Divider } from "@mui/joy";
 import FormFieldSwitch from "~/components/form/FormFieldSwitch";
-import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 
 export default function RolePagePermissions({
     defaultValues,
 }: RolePageTabProps) {
     return (
-        <FormFieldObject id="permissions">
+        <FormFieldObject
+            id="permissions"
+            defaultValue={defaultValues.permissions}
+        >
             <FormSection>
-                <FormFieldFlags id="general">
+                <FormFieldFlags
+                    id="general"
+                    defaultValue={defaultValues.permissions.general}
+                >
                     <FormSection
                         layout="divided"
                         startDecorator={<IconCampfireFilled />}
@@ -204,11 +209,7 @@ export default function RolePagePermissions({
                         layout="divided"
                         startDecorator={<IconPaletteFilled />}
                         header={
-                            <FormattedMessage
-                                id="app.permissions.customization"
-                                defaultMessage="Customization permissions"
-                                description="Header for customization permissions in the permission list"
-                            />
+                            <FormattedMessageGlobal id="app.permissions.customization" />
                         }
                     >
                         <FormControl>
@@ -216,8 +217,12 @@ export default function RolePagePermissions({
                                 id={
                                     GeneralPermissionConsts.MANAGE_SELF_IDENTITY
                                 }
-                                label="Manage Their Own Identity"
-                                description="Allows members with this role to change their nicknames and avatars in this campsite."
+                                label={
+                                    <FormattedMessageGlobal id="app.permissions.manageSelfIdentity" />
+                                }
+                                description={
+                                    <FormattedMessageGlobal id="app.permissions.manageSelfIdentity.desc" />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.general &
                                         GeneralPermissionConsts.MANAGE_SELF_IDENTITY) ==
@@ -230,8 +235,12 @@ export default function RolePagePermissions({
                                 id={
                                     GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY
                                 }
-                                label="Manage Identity of Others"
-                                description="Allows members with this role to change nicknames and remove avatars of other members in this campsite."
+                                label={
+                                    <FormattedMessageGlobal id="app.permissions.manageOthersIdentity" />
+                                }
+                                description={
+                                    <FormattedMessageGlobal id="app.permissions.manageOthersIdentity.desc" />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.general &
                                         GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY) ==
@@ -246,85 +255,134 @@ export default function RolePagePermissions({
                 <FormattedMessageGlobal id="app.permissions.tentDivider" />
             </Divider>
             <FormSection>
-                <FormFieldFlags id="content">
+                <FormFieldFlags
+                    id="content"
+                    defaultValue={defaultValues.permissions.content}
+                >
                     <FormSection
                         layout="divided"
                         startDecorator={<IconHash />}
                         header={
-                            <FormattedMessage
+                            <FormattedMessageGlobal
                                 id="app.permissions.tent"
-                                defaultMessage="Tent permissions"
-                                description="Header for tent permissions in the permission list"
                             />
                         }
                     >
                         <FormControl>
                             <FormFieldSwitch
                                 id={ContentPermissionConsts.VIEW_CONTENT}
-                                label="View Content"
-                                description="Allows members to view tents and tent messages."
+                                label={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.viewContent"
+                                    />
+                                }
+                                description={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.viewContent.desc"
+                                    />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.content &
                                         ContentPermissionConsts.VIEW_CONTENT) ==
-                                    ContentPermissionConsts.VIEW_CONTENT
-                                }
-                            />
+                                        ContentPermissionConsts.VIEW_CONTENT
+                                    }
+                                    />
                         </FormControl>
                         <FormControl>
                             <FormFieldSwitch
                                 id={ContentPermissionConsts.CREATE_CONTENT}
-                                label="Create Content"
-                                description="Allows members with this role to send messages in tents."
+                                label={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.createContent"
+                                    />
+                                }
+                                description={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.createContent.desc"
+                                    />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.content &
                                         ContentPermissionConsts.CREATE_CONTENT) ==
                                     ContentPermissionConsts.CREATE_CONTENT
                                 }
-                            />
+                                />
                         </FormControl>
                         <FormControl>
                             <FormFieldSwitch
                                 id={ContentPermissionConsts.PIN_CONTENT}
-                                label="Pin Content"
-                                description="Allows members with this role to pin messages in tents."
+                                label={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.pinContent"
+                                    />
+                                }
+                                description={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.pinContent.desc"
+                                    />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.content &
                                         ContentPermissionConsts.PIN_CONTENT) ==
-                                    ContentPermissionConsts.PIN_CONTENT
-                                }
-                            />
+                                        ContentPermissionConsts.PIN_CONTENT
+                                    }
+                                    />
                         </FormControl>
                         <FormControl>
                             <FormFieldSwitch
                                 id={ContentPermissionConsts.MANAGE_CONTENT}
-                                label="Manage Content"
-                                description="Allows members with this role to delete messages of other members."
+                                label={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.manageContent"
+                                    />
+                                }
+                                description={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.manageContent.desc"
+                                    />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.content &
                                         ContentPermissionConsts.MANAGE_CONTENT) ==
-                                    ContentPermissionConsts.MANAGE_CONTENT
-                                }
-                            />
+                                        ContentPermissionConsts.MANAGE_CONTENT
+                                    }
+                                    />
                         </FormControl>
                         <FormControl>
                             <FormFieldSwitch
                                 id={ContentPermissionConsts.MENTION_EVERYONE}
-                                label="Mention @everyone and @here"
-                                description="Allows members with this role to mention @everyone and @here."
+                                label={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.mentionEveryone"
+                                    />
+                                }
+                                description={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.mentionEveryone.desc"
+                                    />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.content &
                                         ContentPermissionConsts.MENTION_EVERYONE) ==
-                                    ContentPermissionConsts.MENTION_EVERYONE
-                                }
-                            />
+                                        ContentPermissionConsts.MENTION_EVERYONE
+                                    }
+                                    />
                         </FormControl>
                         <FormControl>
                             <FormFieldSwitch
                                 id={
                                     ContentPermissionConsts.CREATE_PRIVATE_CONTENT
                                 }
-                                label="Create Private Content"
-                                description="Allows members with this role to send private messages in this campsite."
+                                label={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.createPrivateContent"
+                                    />
+                                }
+                                description={
+                                    <FormattedMessageGlobal
+                                        id="app.permissions.createPrivateContent.desc"
+                                    />
+                                }
                                 defaultValue={
                                     (defaultValues.permissions.content &
                                         ContentPermissionConsts.CREATE_PRIVATE_CONTENT) ==

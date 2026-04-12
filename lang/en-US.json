@@ -31,10 +31,6 @@
     "description": "Banned by who in the ban list",
     "message": "Banned by"
   },
-  "app.bans.plural": {
-    "description": "The campsite user bans in plural form",
-    "message": "Bans"
-  },
   "app.bans.reason": {
     "description": "Reason for the ban in the ban list",
     "message": "Reason"
@@ -163,6 +159,10 @@
     "description": "Campsite settings discovery section header",
     "message": "Discovery"
   },
+  "app.invites": {
+    "description": "Invite menu item in campsite settings",
+    "message": "Invites"
+  },
   "app.invites.accept": {
     "description": "Button for accepting an invite",
     "message": "Accept invite"
@@ -194,10 +194,6 @@
   "app.invites.deny": {
     "description": "Button for denying an invite",
     "message": "Deny invite"
-  },
-  "app.invites.plural": {
-    "description": "The campsite invites in plural form",
-    "message": "Invites"
   },
   "app.invites.used": {
     "description": "The amount of times invite has been used in invite list",
@@ -261,11 +257,19 @@
   },
   "app.permissions.banMembers.desc": {
     "description": "Describes what 'Ban Members' permission does",
-    "message": "Allows members with this role to remove other members with lower rank/roles from this campsite and disallow from them joining again or allow them to join again."
+    "message": "Allows members with this permission to remove other members with lower rank/roles from this campsite and disallow from them joining again or allow them to join again."
   },
   "app.permissions.campsites": {
     "description": "Header for campsite permissions in the permission list",
     "message": "Campsite permissions"
+  },
+  "app.permissions.createContent": {
+    "description": "Header for create content permission in the permission list",
+    "message": "Create Content"
+  },
+  "app.permissions.createContent.desc": {
+    "description": "Describes what 'Create Content' permission does",
+    "message": "Allows members to create messages in tents."
   },
   "app.permissions.createInvites": {
     "description": "Header for creating invites permission in the permission list",
@@ -273,7 +277,15 @@
   },
   "app.permissions.createInvites.desc": {
     "description": "Describes what 'Managing Invites' permission does",
-    "message": "Allows members with this role to delete campsite's invites."
+    "message": "Allows members with this permission to delete campsite's invites."
+  },
+  "app.permissions.createPrivateContent": {
+    "description": "Header for create private content permission in the permission list",
+    "message": "Create Private Content"
+  },
+  "app.permissions.createPrivateContent.desc": {
+    "description": "Describes what 'Create Private Content' permission does",
+    "message": "Allows members to create private messages in tents."
   },
   "app.permissions.customization": {
     "description": "Header for customization permissions in the permission list",
@@ -285,7 +297,7 @@
   },
   "app.permissions.giveRoles.desc": {
     "description": "Describes what 'Give Roles' permission does",
-    "message": "Allows members with this role to give and remove roles that are lower than their highest role from other members."
+    "message": "Allows members with this permission to give and remove roles that are lower than their highest role from other members."
   },
   "app.permissions.kickMembers": {
     "description": "Header for muting members permission in the permission list",
@@ -293,7 +305,7 @@
   },
   "app.permissions.kickMembers.desc": {
     "description": "Describes what 'Kick Members' permission does",
-    "message": "Allows members with this role to remove other members with lower rank/roles from this campsite."
+    "message": "Allows members with this permission to remove other members with lower rank/roles from this campsite."
   },
   "app.permissions.manageBonfires": {
     "description": "Header for managing bonfires permission in the permission list",
@@ -301,7 +313,7 @@
   },
   "app.permissions.manageBonfires.desc": {
     "description": "Describes what 'Manage Bonfires' permission does",
-    "message": "Allows members with this role to edit and delete bonfires."
+    "message": "Allows members with this permission to edit and delete bonfires."
   },
   "app.permissions.manageCampsites": {
     "description": "Header for managing campsites permission in the permission list",
@@ -309,11 +321,27 @@
   },
   "app.permissions.manageCampsites.desc": {
     "description": "Describes what 'Manage Campsite' permission does",
-    "message": "Allows members with this role to edit the name of this campsite and other details."
+    "message": "Allows members with this permission to edit the name of this campsite and other details."
+  },
+  "app.permissions.manageContent": {
+    "description": "Header for manage content permission in the permission list",
+    "message": "Manage Content"
+  },
+  "app.permissions.manageContent.desc": {
+    "description": "Describes what 'Manage Content' permission does",
+    "message": "Allows members to delete messages in tents of other members."
   },
   "app.permissions.manageInvites": {
     "description": "Header for managing invites permission in the permission list",
     "message": "Manage Invites"
+  },
+  "app.permissions.managePermissions": {
+    "description": "Header for managing permissions permission in the permission list",
+    "message": "Manage Permissions"
+  },
+  "app.permissions.managePermissions.desc": {
+    "description": "Describes what 'Manage Permissions' permission does",
+    "message": "Allows members with this permission to edit permissions below their highest role."
   },
   "app.permissions.manageRoles": {
     "description": "Header for managing roles permission in the permission list",
@@ -321,7 +349,15 @@
   },
   "app.permissions.manageRoles.desc": {
     "description": "Describes what 'Manage Roles' permission does",
-    "message": "Allows members with this role to edit and delete roles below their highest role."
+    "message": "Allows members with this permission to edit and delete roles below their highest role."
+  },
+  "app.permissions.manageSelfIdentity": {
+    "description": "Header for managing campsite-wide profile permission of other people in the permission list",
+    "message": "Manage Identity of Others"
+  },
+  "app.permissions.manageSelfIdentity.desc": {
+    "description": "Describes what 'Managing Identity of Others' permission does",
+    "message": "Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members."
   },
   "app.permissions.manageTents": {
     "description": "Header for managing tents permission in the permission list",
@@ -329,11 +365,19 @@
   },
   "app.permissions.manageTents.desc": {
     "description": "Describes what 'Manage Tents' permission does",
-    "message": "Allows members with this role to edit and delete tents."
+    "message": "Allows members with this permission to edit and delete tents."
   },
   "app.permissions.membership": {
     "description": "Header for membership permissions in the permission list",
     "message": "Membership permissions"
+  },
+  "app.permissions.mentionEveryone": {
+    "description": "Header for mention @everyone and @here permission in the permission list",
+    "message": "Mention @everyone and @here"
+  },
+  "app.permissions.mentionEveryone.desc": {
+    "description": "Describes what 'Mention @everyone and @here' permission does",
+    "message": "Allows members to mention everyone."
   },
   "app.permissions.muteMembers": {
     "description": "Header for muting members permission in the permission list",
@@ -341,7 +385,15 @@
   },
   "app.permissions.muteMembers.desc": {
     "description": "Describes what 'Timeout Members' permission does",
-    "message": "Allows members with this role to disallow other members from creating content."
+    "message": "Allows members with this permission to disallow other members from creating content."
+  },
+  "app.permissions.pinContent": {
+    "description": "Header for pin content permission in the permission list",
+    "message": "Pin Content"
+  },
+  "app.permissions.pinContent.desc": {
+    "description": "Describes what 'Pin Content' permission does",
+    "message": "Allows members to pin messages in tents."
   },
   "app.permissions.plural": {
     "description": "Permissions in settings as plural",
@@ -354,6 +406,14 @@
   "app.permissions.tentDivider": {
     "description": "Divider in the permission list that separates tent-only permissions from campsite-wide permissions",
     "message": "Tent only"
+  },
+  "app.permissions.viewContent": {
+    "description": "Header for view content permission in the permission list",
+    "message": "View Content"
+  },
+  "app.permissions.viewContent.desc": {
+    "description": "Describes what 'View Content' permission does",
+    "message": "Allows members to see tents in the tent list, view tents and tent messages."
   },
   "app.roles": {
     "description": "Roles header in settings and whatnot in plural form",
@@ -428,8 +488,8 @@
     "message": "Settings"
   },
   "app.settings.other": {
-    "description": "Other settings pages and content",
-    "message": "Other"
+    "description": "Section for deleting campsites, tents, etc.",
+    "message": "Other settings"
   },
   "app.settings.save": {
     "description": "Button for saving changes in settings",
@@ -468,7 +528,7 @@
     "message": "Category name"
   },
   "app.tentCategories.settings.profile": {
-    "description": "The category profile settings tab",
+    "description": "The tent category profile settings tab",
     "message": "Category profile"
   },
   "app.tentCategories.singular": {

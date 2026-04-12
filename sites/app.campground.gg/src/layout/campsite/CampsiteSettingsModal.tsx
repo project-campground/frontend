@@ -120,11 +120,7 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
                     <FormattedMessageGlobal id="app.invites" />
                 </PageSidebarItem>
                 <PageSidebarItem id="bans" startDecorator={<IconHammer />}>
-                    <FormattedMessage
-                        id="app.bans"
-                        defaultMessage="Bans"
-                        description="The campsite user bans in plural form"
-                    />
+                    <FormattedMessageGlobal id="app.bans" />
                 </PageSidebarItem>
             </PageSidebarSection>
             {props.campsite.owner === props.campsite.me.user.did && (

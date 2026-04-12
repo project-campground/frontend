@@ -174,12 +174,14 @@ const globalIntlDeclarations = {
     "app.roles.accusativeCase": defineMessage({
         id: "app.roles.accusativeCase",
         defaultMessage: "role",
-        description: "Role in accusative case for role deletion: ''Delete this **role**''",
+        description:
+            "Role in accusative case for role deletion: ''Delete this **role**''",
     }),
     "app.roles.nominativeCase": defineMessage({
         id: "app.roles.nominativeCase",
         defaultMessage: "role",
-        description: "Role in nominative case for role deletion: ''The **role** is being deleted''",
+        description:
+            "Role in nominative case for role deletion: ''The **role** is being deleted''",
     }),
     // Members
     "app.members": defineMessage({
@@ -191,44 +193,41 @@ const globalIntlDeclarations = {
     "app.members.ban": defineMessage({
         id: "app.members.ban",
         defaultMessage: "Ban member",
-        description:
-            "Ban member menu item",
+        description: "Ban member menu item",
     }),
     "app.members.kick": defineMessage({
         id: "app.members.kick",
         defaultMessage: "Kick member",
-        description:
-        "Kick member menu item",
+        description: "Kick member menu item",
     }),
     "app.members.nickname.change": defineMessage({
         id: "app.members.nickname.change",
         defaultMessage: "Change nickname",
-        description:
-            "Members name changing modal header and menu item",
-        }),
-        
+        description: "Members name changing modal header and menu item",
+    }),
+
     "app.bans": defineMessage({
         id: "app.bans",
         defaultMessage: "Member bans",
-        description:
-            "Member bans header",
-        }),
-        "app.bans.reason": defineMessage({
-            id: "app.bans.reason",
+        description: "Member bans header",
+    }),
+    "app.bans.reason": defineMessage({
+        id: "app.bans.reason",
         defaultMessage: "Ban reason",
-        description:
-            "Reason for a member ban",
+        description: "Reason for a member ban",
     }),
     // Tents
     "app.tents.accusativeCase": defineMessage({
         id: "app.tents.accusativeCase",
         defaultMessage: "tent",
-        description: "Tent in accusative case for tent deletion: ''Delete this **tent**''",
+        description:
+            "Tent in accusative case for tent deletion: ''Delete this **tent**''",
     }),
     "app.tents.nominativeCase": defineMessage({
         id: "app.tents.nominativeCase",
         defaultMessage: "tent",
-        description: "Tent in nominative case for tent deletion: ''The **tent** is being deleted''",
+        description:
+            "Tent in nominative case for tent deletion: ''The **tent** is being deleted''",
     }),
     "app.tents.text": defineMessage({
         id: "app.tents.text",
@@ -261,12 +260,14 @@ const globalIntlDeclarations = {
     "app.messages.accusativeCase": defineMessage({
         id: "app.tents.accusativeCase",
         defaultMessage: "message",
-        description: "Message in accusative case for message deletion: ''Delete this **message**''",
+        description:
+            "Message in accusative case for message deletion: ''Delete this **message**''",
     }),
     "app.messages.nominativeCase": defineMessage({
         id: "app.tents.nominativeCase",
         defaultMessage: "message",
-        description: "Message in nominative case for message deletion: ''The **message** is being deleted''",
+        description:
+            "Message in nominative case for message deletion: ''The **message** is being deleted''",
     }),
     // Tent categories
     "app.tentCategories.settings": defineMessage({
@@ -378,214 +379,248 @@ const globalIntlDeclarations = {
     "app.permissions.manageTents": defineMessage({
         id: "app.permissions.manageTents",
         defaultMessage: "Manage Tents",
-        description: "Header for managing tents permission in the permission list"
+        description:
+            "Header for managing tents permission in the permission list",
     }),
     "app.permissions.manageTents.desc": defineMessage({
         id: "app.permissions.manageTents.desc",
-        defaultMessage: "Allows members with this permission to edit and delete tents.",
-        description: "Describes what 'Manage Tents' permission does"
+        defaultMessage:
+            "Allows members with this permission to edit and delete tents.",
+        description: "Describes what 'Manage Tents' permission does",
     }),
 
     "app.permissions.managePermissions": defineMessage({
         id: "app.permissions.managePermissions",
         defaultMessage: "Manage Permissions",
-        description: "Header for managing permissions permission in the permission list"
+        description:
+            "Header for managing permissions permission in the permission list",
     }),
     "app.permissions.managePermissions.desc": defineMessage({
         id: "app.permissions.managePermissions.desc",
-        defaultMessage: "Allows members with this permission to edit permissions below their highest role.",
-        description: "Describes what 'Manage Permissions' permission does"
+        defaultMessage:
+            "Allows members with this permission to edit permissions below their highest role.",
+        description: "Describes what 'Manage Permissions' permission does",
     }),
 
     "app.permissions.manageRoles": defineMessage({
         id: "app.permissions.manageRoles",
         defaultMessage: "Manage Roles",
-        description: "Header for managing roles permission in the permission list"
+        description:
+            "Header for managing roles permission in the permission list",
     }),
     "app.permissions.manageRoles.desc": defineMessage({
         id: "app.permissions.manageRoles.desc",
-        defaultMessage: "Allows members with this permission to edit and delete roles below their highest role.",
-        description: "Describes what 'Manage Roles' permission does"
+        defaultMessage:
+            "Allows members with this permission to edit and delete roles below their highest role.",
+        description: "Describes what 'Manage Roles' permission does",
     }),
 
     "app.permissions.giveRoles": defineMessage({
         id: "app.permissions.giveRoles",
         defaultMessage: "Give Roles",
-        description: "Header for managing roles permission in the permission list"
+        description:
+            "Header for managing roles permission in the permission list",
     }),
     "app.permissions.giveRoles.desc": defineMessage({
         id: "app.permissions.giveRoles.desc",
-        defaultMessage: "Allows members with this permission to give and remove roles that are lower than their highest role from other members.",
-        description: "Describes what 'Give Roles' permission does"
+        defaultMessage:
+            "Allows members with this permission to give and remove roles that are lower than their highest role from other members.",
+        description: "Describes what 'Give Roles' permission does",
     }),
 
     "app.permissions.membership": defineMessage({
         id: "app.permissions.membership",
         defaultMessage: "Membership permissions",
-        description: "Header for membership permissions in the permission list"
+        description: "Header for membership permissions in the permission list",
     }),
 
     "app.permissions.muteMembers": defineMessage({
         id: "app.permissions.muteMembers",
         defaultMessage: "Timeout Members",
-        description: "Header for muting members permission in the permission list"
+        description:
+            "Header for muting members permission in the permission list",
     }),
     "app.permissions.muteMembers.desc": defineMessage({
         id: "app.permissions.muteMembers.desc",
-        defaultMessage: "Allows members with this permission to disallow other members from creating content.",
-        description: "Describes what 'Timeout Members' permission does"
+        defaultMessage:
+            "Allows members with this permission to disallow other members from creating content.",
+        description: "Describes what 'Timeout Members' permission does",
     }),
 
     "app.permissions.kickMembers": defineMessage({
         id: "app.permissions.kickMembers",
         defaultMessage: "Kick Members",
-        description: "Header for muting members permission in the permission list"
+        description:
+            "Header for muting members permission in the permission list",
     }),
     "app.permissions.kickMembers.desc": defineMessage({
         id: "app.permissions.kickMembers.desc",
-        defaultMessage: "Allows members with this permission to remove other members with lower rank/roles from this campsite.",
-        description: "Describes what 'Kick Members' permission does"
+        defaultMessage:
+            "Allows members with this permission to remove other members with lower rank/roles from this campsite.",
+        description: "Describes what 'Kick Members' permission does",
     }),
 
     "app.permissions.banMembers": defineMessage({
         id: "app.permissions.banMembers",
         defaultMessage: "Ban Members",
-        description: "Header for banning members permission in the permission list"
+        description:
+            "Header for banning members permission in the permission list",
     }),
     "app.permissions.banMembers.desc": defineMessage({
         id: "app.permissions.banMembers.desc",
-        defaultMessage: "Allows members with this permission to remove other members with lower rank/roles from this campsite and disallow from them joining again or allow them to join again.",
-        description: "Describes what 'Ban Members' permission does"
+        defaultMessage:
+            "Allows members with this permission to remove other members with lower rank/roles from this campsite and disallow from them joining again or allow them to join again.",
+        description: "Describes what 'Ban Members' permission does",
     }),
 
     "app.permissions.createInvites": defineMessage({
         id: "app.permissions.createInvites",
         defaultMessage: "Create Invites",
-        description: "Header for creating invites permission in the permission list"
+        description:
+            "Header for creating invites permission in the permission list",
     }),
     "app.permissions.createInvites.desc": defineMessage({
         id: "app.permissions.createInvites.desc",
-        defaultMessage: "Allows members with this permission to create invites to this campsite.",
-        description: "Describes what 'Create Invites' permission does"
+        defaultMessage:
+            "Allows members with this permission to create invites to this campsite.",
+        description: "Describes what 'Create Invites' permission does",
     }),
 
     "app.permissions.manageInvites": defineMessage({
         id: "app.permissions.manageInvites",
         defaultMessage: "Manage Invites",
-        description: "Header for managing invites permission in the permission list"
+        description:
+            "Header for managing invites permission in the permission list",
     }),
     "app.permissions.manageInvites.desc": defineMessage({
         id: "app.permissions.createInvites.desc",
-        defaultMessage: "Allows members with this permission to delete campsite's invites.",
-        description: "Describes what 'Managing Invites' permission does"
+        defaultMessage:
+            "Allows members with this permission to delete campsite's invites.",
+        description: "Describes what 'Managing Invites' permission does",
     }),
-    
+
     "app.permissions.customization": defineMessage({
         id: "app.permissions.customization",
         defaultMessage: "Customization permissions",
-        description: "Header for customization permissions in the permission list"
+        description:
+            "Header for customization permissions in the permission list",
     }),
 
     "app.permissions.manageSelfIdentity": defineMessage({
         id: "app.permissions.manageSelfIdentity",
         defaultMessage: "Manage Their Own Identity",
-        description: "Header for managing their campsite-wide profile permission in the permission list"
+        description:
+            "Header for managing their campsite-wide profile permission in the permission list",
     }),
     "app.permissions.manageSelfIdentity.desc": defineMessage({
         id: "app.permissions.manageSelfIdentity.desc",
-        defaultMessage: "Allows members with this permission to change their own nickname and avatar that is only displayed in this campsite.",
-        description: "Describes what 'Managing Their Own Identity' permission does"
+        defaultMessage:
+            "Allows members with this permission to change their own nickname and avatar that is only displayed in this campsite.",
+        description:
+            "Describes what 'Managing Their Own Identity' permission does",
     }),
 
     "app.permissions.manageOthersIdentity": defineMessage({
         id: "app.permissions.manageSelfIdentity",
         defaultMessage: "Manage Identity of Others",
-        description: "Header for managing campsite-wide profile permission of other people in the permission list"
+        description:
+            "Header for managing campsite-wide profile permission of other people in the permission list",
     }),
     "app.permissions.manageOthersIdentity.desc": defineMessage({
         id: "app.permissions.manageSelfIdentity.desc",
-        defaultMessage: "Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members.",
-        description: "Describes what 'Managing Identity of Others' permission does"
+        defaultMessage:
+            "Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members.",
+        description:
+            "Describes what 'Managing Identity of Others' permission does",
     }),
-    
+
     "app.permissions.tentDivider": defineMessage({
         id: "app.permissions.tentDivider",
         defaultMessage: "Tent only",
-        description: "Divider in the permission list that separates tent-only permissions from campsite-wide permissions"
+        description:
+            "Divider in the permission list that separates tent-only permissions from campsite-wide permissions",
     }),
-    
+
     "app.permissions.tent": defineMessage({
         id: "app.permissions.tent",
         defaultMessage: "Tent permissions",
-        description: "Header for tent permissions in the permission list"
+        description: "Header for tent permissions in the permission list",
     }),
 
     "app.permissions.viewContent": defineMessage({
         id: "app.permissions.viewContent",
         defaultMessage: "View Content",
-        description: "Header for view content permission in the permission list"
+        description:
+            "Header for view content permission in the permission list",
     }),
     "app.permissions.viewContent.desc": defineMessage({
         id: "app.permissions.viewContent.desc",
-        defaultMessage: "Allows members to see tents in the tent list, view tents and tent messages.",
-        description: "Describes what 'View Content' permission does"
+        defaultMessage:
+            "Allows members to see tents in the tent list, view tents and tent messages.",
+        description: "Describes what 'View Content' permission does",
     }),
 
     "app.permissions.createContent": defineMessage({
         id: "app.permissions.createContent",
         defaultMessage: "Create Content",
-        description: "Header for create content permission in the permission list"
+        description:
+            "Header for create content permission in the permission list",
     }),
     "app.permissions.createContent.desc": defineMessage({
         id: "app.permissions.createContent.desc",
         defaultMessage: "Allows members to create messages in tents.",
-        description: "Describes what 'Create Content' permission does"
+        description: "Describes what 'Create Content' permission does",
     }),
-    
+
     "app.permissions.pinContent": defineMessage({
         id: "app.permissions.pinContent",
         defaultMessage: "Pin Content",
-        description: "Header for pin content permission in the permission list"
+        description: "Header for pin content permission in the permission list",
     }),
     "app.permissions.pinContent.desc": defineMessage({
         id: "app.permissions.pinContent.desc",
         defaultMessage: "Allows members to pin messages in tents.",
-        description: "Describes what 'Pin Content' permission does"
+        description: "Describes what 'Pin Content' permission does",
     }),
-    
+
     "app.permissions.manageContent": defineMessage({
         id: "app.permissions.manageContent",
         defaultMessage: "Manage Content",
-        description: "Header for manage content permission in the permission list"
+        description:
+            "Header for manage content permission in the permission list",
     }),
     "app.permissions.manageContent.desc": defineMessage({
         id: "app.permissions.manageContent.desc",
-        defaultMessage: "Allows members to delete messages in tents of other members.",
-        description: "Describes what 'Manage Content' permission does"
+        defaultMessage:
+            "Allows members to delete messages in tents of other members.",
+        description: "Describes what 'Manage Content' permission does",
     }),
 
     "app.permissions.mentionEveryone": defineMessage({
         id: "app.permissions.mentionEveryone",
         defaultMessage: "Mention @everyone and @here",
-        description: "Header for mention @everyone and @here permission in the permission list"
+        description:
+            "Header for mention @everyone and @here permission in the permission list",
     }),
     "app.permissions.mentionEveryone.desc": defineMessage({
         id: "app.permissions.mentionEveryone.desc",
         defaultMessage: "Allows members to mention everyone.",
-        description: "Describes what 'Mention @everyone and @here' permission does"
+        description:
+            "Describes what 'Mention @everyone and @here' permission does",
     }),
 
     "app.permissions.createPrivateContent": defineMessage({
         id: "app.permissions.createPrivateContent",
         defaultMessage: "Create Private Content",
-        description: "Header for create private content permission in the permission list"
+        description:
+            "Header for create private content permission in the permission list",
     }),
     "app.permissions.createPrivateContent.desc": defineMessage({
         id: "app.permissions.createPrivateContent.desc",
         defaultMessage: "Allows members to create private messages in tents.",
-        description: "Describes what 'Create Private Content' permission does"
+        description: "Describes what 'Create Private Content' permission does",
     }),
-    
+
     // Invites
     "app.invites": defineMessage({
         id: "app.invites",

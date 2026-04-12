@@ -68,7 +68,7 @@ export default function RolePageDisplay({
         <Stack gap={2}>
             <FormSection>
                 <FormContext.Consumer>
-                    {(values) => {
+                    {({ values }) => {
                         const colorRole = { ...role, ...values };
                         return (
                             <Group

@@ -139,7 +139,11 @@ export default function CampsiteSettingsRoles({
         <SettingsPageWrapper
             startDecorator={<IconBadgesFilled />}
             endDecorator={
-                <IconButton size="sm" onClick={createNewRole} sx={{ "--IconButton-size": "1.5rem" }}>
+                <IconButton
+                    size="sm"
+                    onClick={createNewRole}
+                    sx={{ "--IconButton-size": "1.5rem" }}
+                >
                     <IconPlus size={16} />
                 </IconButton>
             }
@@ -228,7 +232,7 @@ function RolePage({ ref, onRoleDelete, role, onChanged }: RolePageProps) {
             [role.id],
         );
     const defaultValueList = Object.keys(defaultValues).filter(
-        (x) => x !== "permissions",
+        (x) => x !== "permissions" && x !== "colors",
     ) as (keyof Omit<FormValues, "id" | "permissions">)[];
     const defaultPermissionList = Object.keys(
         defaultValues.permissions,
@@ -241,7 +245,13 @@ function RolePage({ ref, onRoleDelete, role, onChanged }: RolePageProps) {
             (x) =>
                 combinedValues.permissions[x] !== defaultValues.permissions[x],
         );
+        const colorsChanged =
+            defaultValues.colors.length !== combinedValues.colors.length ||
+            defaultValues.colors.some(
+                (defaultColor, i) => combinedValues.colors[i] !== defaultColor,
+            );
         const anyValueChanged =
+            colorsChanged ||
             permissionsChanged ||
             defaultValueList.some(
                 (x) =>

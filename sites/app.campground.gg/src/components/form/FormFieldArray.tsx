@@ -8,6 +8,12 @@ import { DragDropProvider, useDraggable, useDroppable } from "~/draggable";
 import { moveIndexes } from "~/util/array";
 import { FormContext, type ResetValueHandler } from "./context";
 
+type Item = {
+    valid: boolean;
+    value: any;
+    id: number;
+};
+
 export interface FormFieldArrayProps<
     TValue,
     TProps extends FormFieldProps<TValue>,
@@ -25,8 +31,8 @@ export interface FormFieldArrayProps<
 }
 
 type State = {
+    items: Item[];
     value: any[];
-    valid: boolean[];
 };
 
 export default class FormFieldArray<
@@ -37,20 +43,47 @@ export default class FormFieldArray<
     FormFieldArrayProps<TValue, TProps>,
     State
 > {
-    private _resetValueHandlers: Record<string | number, ResetValueHandler> = {};
+    private _resetValueHandlers: Record<string | number, ResetValueHandler> =
+        {};
     constructor(
         props: FormFieldArrayProps<TValue, TProps>,
         context: FormContext,
     ) {
         super(props, context, [], {
-            valid: Array(props.defaultValue?.length ?? 0).fill(
-                FormFieldArray.isDefaultValid<TValue, TProps>(props.fieldProps),
+            items: FormFieldArray.createDefaultItems<TValue, TProps>(
+                props.defaultValue,
+                props.fieldProps,
             ),
         });
     }
 
     public get subFieldProps() {
         return this.props.fieldProps;
+    }
+
+    private static getItemId() {
+        return Math.floor(Math.random() * 90000) + 10000;
+    }
+    private static createDefaultItems<
+        TValue,
+        TProps extends FormFieldProps<TValue>,
+    >(defaultValue: any[] | undefined | null, fieldProps: Omit<TProps, "id">) {
+        return (
+            defaultValue?.map((value) =>
+                FormFieldArray.createItem(
+                    value,
+                    FormFieldArray.isDefaultValid<TValue, TProps>(fieldProps),
+                ),
+            ) ?? []
+        );
+    }
+
+    private static createItem(value: any, valid: boolean) {
+        return {
+            id: this.getItemId(),
+            value,
+            valid,
+        } satisfies Item;
     }
 
     private static isDefaultValid<
@@ -66,9 +99,9 @@ export default class FormFieldArray<
 
     public override get isValid(): boolean {
         return (
-            this.state.valid
+            this.state.items
                 .slice(0, this.state.value.length)
-                .every((x) => x) &&
+                .every((x) => x.valid) &&
             ((this.props.max && this.state.value.length <= this.props.max) ||
                 !this.props.max) &&
             ((this.props.min && this.state.value.length >= this.props.min) ||
@@ -76,32 +109,31 @@ export default class FormFieldArray<
         );
     }
 
-    private onSubFieldChange = (index: number, isValid: boolean, value: any) =>
-        this.state.value[index] === value && this.state.valid[index] === isValid
-        ? null
-        : this.setState(
+    private onSubFieldChange = (id: number, isValid: boolean, value: any) => {
+        const item = this.state.items.find((x) => x.id === id);
+
+        if (!item || (item.value === value && item.value === isValid)) return;
+
+        Object.assign(item, { valid: isValid, value });
+
+        this.setState(
             {
-                value: [
-                    ...this.state.value.slice(0, index),
-                    value,
-                    ...this.state.value.slice(index + 1),
-                ],
-                valid: [
-                    ...this.state.valid.slice(0, index),
-                    isValid,
-                    ...this.state.valid.slice(index + 1),
-                ],
+                value: this.state.items.map((x) => x.value),
             },
             () => this.onValueChange(),
         );
+    };
 
     private addField() {
         this.setState({
             value: [...this.state.value, this.subFieldProps.defaultValue],
-            valid: [
-                ...this.state.valid,
-                FormFieldArray.isDefaultValid<TValue, TProps>(
-                    this.props.fieldProps,
+            items: [
+                ...this.state.items,
+                FormFieldArray.createItem(
+                    this.subFieldProps.defaultValue,
+                    FormFieldArray.isDefaultValid<TValue, TProps>(
+                        this.props.fieldProps,
+                    ),
                 ),
             ],
         });
@@ -118,8 +150,8 @@ export default class FormFieldArray<
                     draggedIndex,
                     droppedAtIndex,
                 ),
-                valid: moveIndexes(
-                    this.state.valid,
+                items: moveIndexes(
+                    this.state.items,
                     draggedIndex,
                     droppedAtIndex,
                 ),
@@ -129,15 +161,17 @@ export default class FormFieldArray<
     }
 
     private onRemoveField(index: number) {
+        delete this._resetValueHandlers[index];
+
         this.setState(
             {
                 value: [
                     ...this.state.value.slice(0, index),
                     ...this.state.value.slice(index + 1),
                 ],
-                valid: [
-                    ...this.state.valid.slice(0, index),
-                    ...this.state.valid.slice(index + 1),
+                items: [
+                    ...this.state.items.slice(0, index),
+                    ...this.state.items.slice(index + 1),
                 ],
             },
             () => this.onValueChange(),
@@ -147,19 +181,27 @@ export default class FormFieldArray<
     private onSubmit = () => {};
 
     public override resetValue() {
-        for (const resetValueHandler of Object.values(this._resetValueHandlers))
-            resetValueHandler();
-        super.resetValue();
-    };
+        for (const { id } of this.state.items) this.onRemoveField(id);
+        this.setState({
+            value: this.props.defaultValue ?? [],
+            items: FormFieldArray.createDefaultItems<TValue, TProps>(
+                this.props.defaultValue,
+                this.props.fieldProps,
+            ),
+        });
+    }
 
-    public onAddResetHandler = (id: string | number, resetHandler: ResetValueHandler) => {
-        return this._resetValueHandlers[id] = resetHandler;
+    public onAddResetHandler = (
+        id: string | number,
+        resetHandler: ResetValueHandler,
+    ) => {
+        return (this._resetValueHandlers[id] = resetHandler);
     };
 
     public override render(): ReactNode {
         const { FieldComponent, fieldProps } = this.props;
         const {
-            state: { value },
+            state: { items, value },
         } = this;
 
         return (
@@ -169,10 +211,9 @@ export default class FormFieldArray<
                         onResetValues: this.onAddResetHandler,
                         allValid: this.isValid,
                         values: this.state.value,
-                        validFields: this.state.valid as Record<
-                            number,
-                            boolean
-                        >,
+                        validFields: Object.fromEntries(
+                            items.map(({ id, valid }) => [id, valid]),
+                        ) as Record<number, boolean>,
                         onSubmit: this.onSubmit,
                         onFieldChange: this.onSubFieldChange,
                     }}
@@ -186,13 +227,13 @@ export default class FormFieldArray<
                                 )
                             }
                         >
-                            {value.map((x, i) => (
+                            {items.map((x, i) => (
                                 <FormFieldArrayItem
-                                    key={`${i}~${JSON.stringify(x)}`}
+                                    key={x.id}
+                                    id={x.id}
                                     FieldComponent={FieldComponent}
                                     fieldProps={fieldProps}
-                                    defaultValue={x}
-                                    index={i}
+                                    defaultValue={x.value}
                                     onRemove={this.onRemoveField.bind(this, i)}
                                 />
                             ))}
@@ -236,7 +277,7 @@ const FormFieldArrayItemCard = styled(Card)(({ theme }) => ({
 
 function FormFieldArrayItem<TValue, TProps extends FormFieldProps<TValue>>({
     onRemove,
-    index,
+    id,
     FieldComponent,
     fieldProps: { defaultValue: _, ...fieldProps },
     defaultValue,
@@ -245,18 +286,18 @@ function FormFieldArrayItem<TValue, TProps extends FormFieldProps<TValue>>({
     "FieldComponent" | "fieldProps"
 > & {
     onRemove: () => unknown;
-    index: number;
+    id: number;
     defaultValue: any;
 }) {
     const { attributes: draggableAttributes } = useDraggable({
-        id: index.toString(),
+        id: id.toString(),
     });
     const { attributes: droppableAttributes, isOver } = useDroppable({
-        id: index.toString(),
+        id: id.toString(),
     });
 
     const props = {
-        id: index,
+        id,
         defaultValue,
         ...fieldProps,
     } as Readonly<TProps>;

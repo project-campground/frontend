@@ -104,7 +104,8 @@ export default class Form extends React.Component<FormProps, FormState> {
         id: string | number,
         isValid: boolean,
         value: any,
-    ): any =>
+    ): any => {
+        console.log({ id, isValid, value: Array.isArray(value) ? [...value] : value });
         this.setState(
             ({ fieldValues, fieldRequirementFilled }) => ({
                 fieldValues: {
@@ -122,6 +123,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                     this.state.fieldValues,
                 ),
         );
+    }
 
     public get allFieldsValid(): boolean {
         return Object.values(this.state.fieldRequirementFilled).every((x) => x);

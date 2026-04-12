@@ -16,10 +16,11 @@ import type { CampsitePermissionViewBasic } from "types/permissions";
 import type { CampsitePermissionView } from "types/permissions";
 import type { RoleView } from "types/roles";
 import { useContext, useMemo, useState } from "react";
-import { GradientTypography, Group } from "components";
+import { GradientTypography } from "components";
 import {
     IconCampfireFilled,
     IconHash,
+    IconListCheck,
     IconPlus,
     IconUserFilled,
 } from "@tabler/icons-react";
@@ -29,7 +30,7 @@ import {
     ContentPermissionConsts,
 } from "~/util/permissions";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
-import type { SettingsComponentProps } from "./SettingsModal";
+import type { SettingsComponentProps } from "./settings";
 import PermissionItem from "./PermissionItem";
 import type { TristateValue } from "~/components/Tristate";
 import type { PermissionsDictionary } from "types/permissions";
@@ -40,7 +41,10 @@ import { FormattedMessageGlobal } from "~/i18n";
 import FormFieldObject from "~/components/form/FormFieldObject";
 import FormSection from "~/components/form/FormSection";
 import FormFieldTristate from "~/components/form/FormFieldTristate";
-import FormFieldTristateFlags, { type FormFieldTristateFlagsValue } from "~/components/form/FormFieldTristateFlags";
+import FormFieldTristateFlags, {
+    type FormFieldTristateFlagsValue,
+} from "~/components/form/FormFieldTristateFlags";
+import SettingsPageWrapper from "./settings/page";
 
 type CampsitePermissionViewSettings = Pick<
     CampsitePermissionViewBasic,
@@ -73,11 +77,7 @@ function createNewPermission({
 
 export default function CommonSettingsPermissions({
     onValuesChanged,
-    settingsProps: {
-        tentId,
-        bonfireId,
-        categoryId
-    },
+    settingsProps: { tentId, bonfireId, categoryId },
 }: SettingsComponentProps<{
     permissions: PermissionsManager;
     tentId?: string;
@@ -87,7 +87,9 @@ export default function CommonSettingsPermissions({
     const {
         campsite: { roles },
         // TODO!!!!
-        permissions: { tentList: { value: tentListValue } },
+        permissions: {
+            tentList: { value: tentListValue },
+        },
         session,
         floaters,
     } = useContext(CampsiteContextSuiteContext);
@@ -112,15 +114,17 @@ export default function CommonSettingsPermissions({
             .then((resp) => {
                 if (!resp.ok) return floaters.notifyApiError(resp);
 
-                const permissionsReceived = (
-                    resp.content.permissions as CampsitePermissionViewBasic[]
-                );
-                const permissionsList = permissionsReceived.concat(tentListValue
-                    ?.permissions
-                    .filter((x) => bonfireId
-                    ? x.bonfireId === bonfireId && !x.categoryId && !x.tentId
-                    : x.categoryId === categoryId || x.tentId === tentId)
-                    ?? []
+                const permissionsReceived = resp.content
+                    .permissions as CampsitePermissionViewBasic[];
+                const permissionsList = permissionsReceived.concat(
+                    tentListValue?.permissions.filter((x) =>
+                        bonfireId
+                            ? x.bonfireId === bonfireId &&
+                              !x.categoryId &&
+                              !x.tentId
+                            : x.categoryId === categoryId ||
+                              x.tentId === tentId,
+                    ) ?? [],
                 );
 
                 const defaultRolePermission = permissionsList.find(
@@ -175,56 +179,59 @@ export default function CommonSettingsPermissions({
             );
     };
 
-    if (loading) return <CircularProgress />;
+    if (loading)
+        return (
+            <SettingsPageWrapper
+                startDecorator={<IconListCheck />}
+                header={<FormattedMessageGlobal id="app.permissions.plural" />}
+            >
+                <CircularProgress />
+            </SettingsPageWrapper>
+        );
 
-    const existingRoleIds =
-        permissions
-            .filter((x) => x.roleId)
-            .map((x) => x.roleId);
-
-    console.log({ existingRoleIds, roles, permissions });
+    const existingRoleIds = permissions
+        .filter((x) => x.roleId)
+        .map((x) => x.roleId);
 
     return (
-        <Group sx={{ width: "100%", height: "100%" }} gap={2}>
+        <SettingsPageWrapper
+            startDecorator={<IconListCheck />}
+            header={<FormattedMessageGlobal id="app.permissions.plural" />}
+            endDecorator={
+                <Dropdown>
+                    <MenuButton
+                        slots={{ root: IconButton }}
+                        slotProps={{ root: { size: "sm", sx: { "--IconButton-size": "1.5rem" } } }}
+                    >
+                        <IconPlus size={16} />
+                    </MenuButton>
+                    <Menu variant="soft">
+                        {roles
+                            .filter((x) => !existingRoleIds.includes(x.id))
+                            .map((x) => (
+                                <MenuItem
+                                    key={x.id}
+                                    onClick={() => onCreateRolePermission(x)}
+                                >
+                                    <ListItemDecorator>
+                                        <IconPlus size={16} />
+                                    </ListItemDecorator>
+                                    <ListItemContent>
+                                        <GradientTypography
+                                            colors={colorToDecimal(x.colors)}
+                                        >
+                                            {x.name}
+                                        </GradientTypography>
+                                    </ListItemContent>
+                                </MenuItem>
+                            ))}
+                    </Menu>
+                </Dropdown>
+            }
+            direction="row"
+            gap={2}
+        >
             <Stack sx={{ width: { xs: 128, lg: 256 }, height: "100%" }} gap={2}>
-                <Group alignItems="center" gap={1}>
-                    <Typography level="title-lg" flex={1}>
-                        <FormattedMessageGlobal id="app.permissions.plural" />
-                    </Typography>
-                    <Dropdown>
-                        <MenuButton
-                            slots={{ root: IconButton }}
-                            slotProps={{ root: { size: "sm" } }}
-                        >
-                            <IconPlus size={16} />
-                        </MenuButton>
-                        <Menu variant="soft">
-                            {roles
-                                .filter((x) => !existingRoleIds.includes(x.id))
-                                .map((x) => (
-                                    <MenuItem
-                                        key={x.id}
-                                        onClick={() =>
-                                            onCreateRolePermission(x)
-                                        }
-                                    >
-                                        <ListItemDecorator>
-                                            <IconPlus size={16} />
-                                        </ListItemDecorator>
-                                        <ListItemContent>
-                                            <GradientTypography
-                                                colors={colorToDecimal(
-                                                    x.colors,
-                                                )}
-                                            >
-                                                {x.name}
-                                            </GradientTypography>
-                                        </ListItemContent>
-                                    </MenuItem>
-                                ))}
-                        </Menu>
-                    </Dropdown>
-                </Group>
                 <Stack sx={{ height: "100%" }}>
                     {permissions
                         .filter((x) => x.roleId)
@@ -251,6 +258,7 @@ export default function CommonSettingsPermissions({
                 </Stack>
             </Stack>
             <PermissionsPage
+                isBonfire={!!bonfireId}
                 role={
                     (openPermission.roleId &&
                         roles.find((x) => x.id === openPermission.roleId)) ||
@@ -260,12 +268,13 @@ export default function CommonSettingsPermissions({
                 onChanged={onValuesChanged}
                 onDelete={() => null}
             />
-        </Group>
+        </SettingsPageWrapper>
     );
 }
 
 type FormValuesResult = Pick<CampsitePermissionViewSettings, "permissions">;
 type PermissionsPageProps = {
+    isBonfire: boolean;
     onDelete: () => unknown;
     permission: CampsitePermissionViewSettings;
     role: RoleView | null;
@@ -276,7 +285,9 @@ type PermissionsPageProps = {
     ) => unknown;
 };
 
-function reducePermissionFields(entries: [keyof PermissionsDictionary, FormFieldTristateFlagsValue][]) {
+function reducePermissionFields(
+    entries: [keyof PermissionsDictionary, FormFieldTristateFlagsValue][],
+) {
     return entries.reduce(
         (perms, [key, value]) => (
             Object.assign(perms.allowed, { [key]: value.allowed }),
@@ -306,11 +317,15 @@ function PermissionsPage({
     permission,
     role,
     onChanged,
+    isBonfire,
 }: PermissionsPageProps) {
     const {
         defaultValues,
         combinedValues,
-    }: { defaultValues: FormValuesResult; combinedValues: FormValuesResult & { hasEverChanged: boolean; }; } = useMemo(
+    }: {
+        defaultValues: FormValuesResult;
+        combinedValues: FormValuesResult & { hasEverChanged: boolean };
+    } = useMemo(
         () => ({
             defaultValues: {
                 permissions: permission.permissions,
@@ -326,23 +341,31 @@ function PermissionsPage({
         [permission.roleId, permission.userId],
     );
 
-    const onValuesChanged = (
-        isValid: boolean,
-        values: Record<string, any>,
-    ) => {
-        const entries = Object.entries(values.permissions) as [keyof PermissionsDictionary, FormFieldTristateFlagsValue][];
+    const onValuesChanged = (isValid: boolean, values: Record<string, any>) => {
+        const entries = Object.entries(values.permissions) as [
+            keyof PermissionsDictionary,
+            FormFieldTristateFlagsValue,
+        ][];
 
         const formValues = { permissions: reducePermissionFields(entries) };
         const hasChanged = entries
-            .map(([key, value]) =>
-                defaultValues.permissions.allowed[key] !== value.allowed ||
-                defaultValues.permissions.denied[key] !== value.denied
+            .map(
+                ([key, value]) =>
+                    defaultValues.permissions.allowed[key] !== value.allowed ||
+                    defaultValues.permissions.denied[key] !== value.denied,
             )
             .some((x) => x);
 
-        Object.assign(combinedValues, formValues, { hasEverChanged: combinedValues.hasEverChanged || hasChanged });
+        Object.assign(combinedValues, formValues, {
+            hasEverChanged: combinedValues.hasEverChanged || hasChanged,
+        });
 
-        console.log(combinedValues.hasEverChanged, hasChanged, combinedValues, defaultValues);
+        console.log(
+            combinedValues.hasEverChanged,
+            hasChanged,
+            combinedValues,
+            defaultValues,
+        );
         if (combinedValues.hasEverChanged)
             return onChanged(isValid, hasChanged, {
                 ...formValues,
@@ -351,22 +374,19 @@ function PermissionsPage({
             });
     };
 
-    const permissionDefault = useMemo(() => ({
-        general: {
-            allowed:
-                defaultValues.permissions.allowed
-                    .general,
-            denied: defaultValues.permissions.denied
-                .general,
-        },
-        content: {
-            allowed:
-                defaultValues.permissions.allowed
-                    .content,
-            denied: defaultValues.permissions.denied
-                .content,
-        } 
-    }), [permission.roleId, permission.userId])
+    const permissionDefault = useMemo(
+        () => ({
+            general: {
+                allowed: defaultValues.permissions.allowed.general,
+                denied: defaultValues.permissions.denied.general,
+            },
+            content: {
+                allowed: defaultValues.permissions.allowed.content,
+                denied: defaultValues.permissions.denied.content,
+            },
+        }),
+        [permission.roleId, permission.userId],
+    );
 
     return (
         <Stack flex={1} gap={2} sx={{ overflow: "hidden", height: "100%" }}>
@@ -374,10 +394,7 @@ function PermissionsPage({
                 {role?.name ?? permission.userId}
             </Typography>
             <Stack sx={{ overflowY: "auto" }} p={2}>
-                <Form
-                    gap={6}
-                    onChange={onValuesChanged}
-                >
+                <Form gap={6} onChange={onValuesChanged}>
                     <FormFieldObject
                         id="permissions"
                         defaultValue={permissionDefault}
@@ -394,24 +411,26 @@ function PermissionsPage({
                                         <FormattedMessageGlobal id="app.permissions.campsites" />
                                     }
                                 >
-                                    <FormControl>
-                                        <FormFieldTristate
-                                            id={
-                                                GeneralPermissionConsts.MANAGE_BONFIRES
-                                            }
-                                            label={
-                                                <FormattedMessageGlobal id="app.permissions.manageBonfires" />
-                                            }
-                                            description={
-                                                <FormattedMessageGlobal id="app.permissions.manageBonfires.desc" />
-                                            }
-                                            defaultValue={getTristateValue(
-                                                combinedValues,
-                                                "general",
-                                                GeneralPermissionConsts.MANAGE_BONFIRES,
-                                            )}
-                                        />
-                                    </FormControl>
+                                    {isBonfire && (
+                                        <FormControl>
+                                            <FormFieldTristate
+                                                id={
+                                                    GeneralPermissionConsts.MANAGE_BONFIRES
+                                                }
+                                                label={
+                                                    <FormattedMessageGlobal id="app.permissions.manageBonfires" />
+                                                }
+                                                description={
+                                                    <FormattedMessageGlobal id="app.permissions.manageBonfires.desc" />
+                                                }
+                                                defaultValue={getTristateValue(
+                                                    combinedValues,
+                                                    "general",
+                                                    GeneralPermissionConsts.MANAGE_BONFIRES,
+                                                )}
+                                            />
+                                        </FormControl>
+                                    )}
                                     <FormControl>
                                         <FormFieldTristate
                                             id={
@@ -502,14 +521,10 @@ function PermissionsPage({
                                                 ContentPermissionConsts.VIEW_CONTENT
                                             }
                                             label={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.viewContent"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.viewContent" />
                                             }
                                             description={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.viewContent.desc"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.viewContent.desc" />
                                             }
                                             defaultValue={getTristateValue(
                                                 combinedValues,
@@ -524,14 +539,10 @@ function PermissionsPage({
                                                 ContentPermissionConsts.CREATE_CONTENT
                                             }
                                             label={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.createContent"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.createContent" />
                                             }
                                             description={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.createContent.desc"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.createContent.desc" />
                                             }
                                             defaultValue={getTristateValue(
                                                 combinedValues,
@@ -546,14 +557,10 @@ function PermissionsPage({
                                                 ContentPermissionConsts.PIN_CONTENT
                                             }
                                             label={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.pinContent"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.pinContent" />
                                             }
                                             description={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.pinContent.desc"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.pinContent.desc" />
                                             }
                                             defaultValue={getTristateValue(
                                                 combinedValues,
@@ -568,14 +575,10 @@ function PermissionsPage({
                                                 ContentPermissionConsts.MANAGE_CONTENT
                                             }
                                             label={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.manageContent"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.manageContent" />
                                             }
                                             description={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.manageContent.desc"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.manageContent.desc" />
                                             }
                                             defaultValue={getTristateValue(
                                                 combinedValues,
@@ -590,14 +593,10 @@ function PermissionsPage({
                                                 ContentPermissionConsts.MENTION_EVERYONE
                                             }
                                             label={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.mentionEveryone"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.mentionEveryone" />
                                             }
                                             description={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.mentionEveryone.desc"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.mentionEveryone.desc" />
                                             }
                                             defaultValue={getTristateValue(
                                                 combinedValues,
@@ -612,14 +611,10 @@ function PermissionsPage({
                                                 ContentPermissionConsts.CREATE_PRIVATE_CONTENT
                                             }
                                             label={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.createPrivateContent"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.createPrivateContent" />
                                             }
                                             description={
-                                                <FormattedMessageGlobal
-                                                    id="app.permissions.createPrivateContent.desc"
-                                                />
+                                                <FormattedMessageGlobal id="app.permissions.createPrivateContent.desc" />
                                             }
                                             defaultValue={getTristateValue(
                                                 combinedValues,

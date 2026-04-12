@@ -10,7 +10,6 @@ export const RoleButton = styled(Button, {
     slot: "root",
 })<{ colors?: string[]; }>(({ theme, colors, }) => ({
     position: "relative",
-    paddingInline: "0.5rem",
     width: "100%",
     justifyContent: "start",
     overflow: "hidden",
@@ -60,7 +59,7 @@ export default function RoleItem({ onClick, active, id, added, flags, name, colo
     const colorsHex = colorToDecimal(colors);
 
     return (
-        <RoleButton {...attributes} onClick={onClick} colors={colorsHex} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} startDecorator={immovable ? <Box sx={{ width: 20, }}></Box> : <IconGripVertical size="20px" onPointerDown={(ev) => console.log("Down", ev)} />} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
+        <RoleButton {...attributes} onClick={onClick} colors={colorsHex} className={`RoleItem-role${active ? " RoleItem-active" : ""}`} endDecorator={badge} variant={active ? "soft" : "plain"} color="neutral">
             <GradientTypography colors={colorsHex} sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
                 {name}
             </GradientTypography>

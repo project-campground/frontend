@@ -1,8 +1,7 @@
 import { IconLayoutBoardFilled, IconListCheck, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
-import SettingsModal, { type SettingsComponentProps } from "../SettingsModal";
+import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
-import type { PageSidebarSection } from "~/components/pages/PageSidebar";
 import type React from "react";
 import type { TentCategoryView } from "types/tent";
 import TentSettingsProfile from "./CategorySettingsProfile";
@@ -12,6 +11,8 @@ import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import PageSidebarItem from "~/components/pages/PageSidebarItem";
+import PageSidebarSection from "~/components/pages/PageSidebarSection";
 
 export type CategorySettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<CategorySettingsPage, typeof React.Component | ((props: SettingsComponentProps<CategorySettingsProps>) => ReactNode | ReactNode[])> = {
@@ -56,39 +57,36 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
             settingsPages={settingsPages}
             defaultPage={props.defaultPage ?? "profile"}
             onSubmit={async (page, values) => callbacks[page](values)}
-            sections={[
-                {
-                    id: "overview",
-                    header: props.category.name,
-                    items: [
-                        {
-                            id: "profile",
-                            name: <FormattedMessage
-                                id="app.tentCategories.settings.profile"
-                                defaultMessage="Category profile"
-                                description="The category profile settings tab"
-                            />,
-                            startDecorator: <IconLayoutBoardFilled />
-                        },
-                        {
-                            id: "permissions",
-                            name: <FormattedMessageGlobal id="app.permissions.plural" />,
-                            startDecorator: <IconListCheck />
-                        },
-                    ]
-                },
-                {
-                    id: "other",
-                    header: "Other",
-                    items: [
-                        {
-                            id: "delete",
-                            name: <FormattedMessageGlobal id="app.tentCategories.delete" />,
-                            color: "danger",
-                            startDecorator: <IconTrashFilled />
-                        }
-                    ]
-                },
-            ].filter(Boolean) as PageSidebarSection[]} />
+        >
+            <PageSidebarSection header={props.category.name}>
+                <PageSidebarItem
+                    id="profile"
+                    startDecorator={<IconLayoutBoardFilled />}
+                >
+                    <FormattedMessage
+                        id="app.tentCategories.settings.profile"
+                        defaultMessage="Category profile"
+                        description="The tent category profile settings tab"
+                    />
+                </PageSidebarItem>
+                <PageSidebarItem
+                    id="permissions"
+                    startDecorator={<IconListCheck />}
+                >
+                    <FormattedMessageGlobal id="app.permissions.plural" />
+                </PageSidebarItem>
+            </PageSidebarSection>
+            <PageSidebarSection
+                header={<FormattedMessageGlobal id="app.settings.other" />}
+            >
+                <PageSidebarItem
+                    id="delete"
+                    startDecorator={<IconTrashFilled />}
+                    color="danger"
+                >
+                    <FormattedMessageGlobal id="app.tentCategories.delete" />
+                </PageSidebarItem>
+            </PageSidebarSection>
+        </SettingsModal>
     )
 }

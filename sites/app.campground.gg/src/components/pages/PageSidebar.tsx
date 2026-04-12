@@ -1,23 +1,16 @@
-import { Button, List, Stack, styled, type ColorPaletteProp } from "@mui/joy";
-import React, { type ReactNode } from "react";
-import ContentCategory from "../content/ContentCategory";
+import { Stack } from "@mui/joy";
+import React, { createContext, useContext, type PropsWithChildren } from "react";
 
-export interface PageSidebarSection {
-    id: string;
-    header: ReactNode[] | ReactNode;
-    items: PageSidebarItem[];
-};
-export interface PageSidebarItem {
-    id: string;
-    name: ReactNode[] | ReactNode;
-    startDecorator?: ReactNode[] | ReactNode;
-    endDecorator?: ReactNode[] | ReactNode;
-    color?: ColorPaletteProp;
-};
-type Props = {
+export interface PageSidebarContext {
+    activeItem: string;
+    setActiveItem: (itemId: string) => void;
+}
+export const PageSidebarContext = createContext<PageSidebarContext>(null!);
+export const usePageSidebar = () => useContext(PageSidebarContext);
+
+interface Props extends PropsWithChildren {
     defaultActive: string;
-    sections: PageSidebarSection[];
-    onClick: (id: string) => unknown;
+    onItemChange: (id: string) => unknown;
 };
 type State = {
     activeId: string;
@@ -28,58 +21,20 @@ export default class PageSidebar extends React.Component<Props, State> {
         super(props, context);
         this.state = { activeId: this.props.defaultActive };
     }
-    onClick(id: string) {
+    setActiveItem = (id: string) => {
+        if (id === this.state.activeId)
+            return;
+
         this.setState({ activeId: id });
-        this.props.onClick(id);
+        this.props.onItemChange(id);
     }
     render(): React.ReactNode {
-        const onClick = this.onClick.bind(this);
         return (
-            <Stack gap={2}>
-                {this.props.sections.map((x) =>
-                    <PageSidebarSectionComponent key={x.id} activeItem={this.state.activeId} {...x} onClick={onClick} />
-                )}
-            </Stack>
+            <PageSidebarContext.Provider value={{ activeItem: this.state.activeId, setActiveItem: this.setActiveItem }}>
+                <Stack gap={2}>
+                    {this.props.children}
+                </Stack>
+            </PageSidebarContext.Provider>
         );
     }
-}
-
-function PageSidebarSectionComponent(props: PageSidebarSection & { activeItem: string; onClick: (id: string) => unknown }) {
-    return (
-        <ContentCategory header={props.header}>
-            <List>
-                {props.items.map((x) =>
-                    <PageSidebarItemComponent key={x.id} active={x.id === props.activeItem} {...x} onClick={() => props.onClick(x.id)} />
-                )}
-            </List>
-        </ContentCategory>
-    )
-}
-
-const PageSidebarItemButton = styled(Button, {
-    name: "PageSidebarItem",
-    slot: "root",
-})(({ theme }) => ({
-    justifyContent: "start",
-    border: `solid 1px transparent`,
-    "&.active": {
-        border: `solid 1px ${theme.vars.palette.neutral.border}`,
-        boxShadow: theme.vars.shadow.sm,
-    },
-    "&.active:active": {
-        backgroundColor: theme.vars.palette.background.body,
-        border: `solid 1px transparent`,
-        boxShadow: "0 0 0px transparent",
-    },
-    "&.MuiButton-colorDanger.active": {
-        border: `solid 1px ${theme.vars.palette.danger.border}`,
-    },
-}));
-
-function PageSidebarItemComponent(props: PageSidebarItem & { active: boolean; onClick: () => unknown }) {
-    return (
-        <PageSidebarItemButton onClick={props.onClick} className={props.active ? "active" : ""} variant={props.active ? "soft" : "plain"} color={props.color ?? "neutral"} startDecorator={props.startDecorator} endDecorator={props.endDecorator}>
-            {props.name}
-        </PageSidebarItemButton>
-    )
 }

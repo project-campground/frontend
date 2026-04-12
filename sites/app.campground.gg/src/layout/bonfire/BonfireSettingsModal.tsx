@@ -1,6 +1,6 @@
 import { IconLayoutBoardFilled, IconListCheck, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
 import type { BonfireViewBasic } from "types/bonfires";
-import SettingsModal, { type SettingsComponentProps } from "../SettingsModal";
+import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import BonfireSettingsProfile from "./BonfireSettingsProfile";
 import BonfireSettingsDeletion from "./BonfireSettingsDeletion";
@@ -10,6 +10,8 @@ import CommonSettingsPermissions from "../CommonSettingsPermissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import PageSidebarSection from "~/components/pages/PageSidebarSection";
+import PageSidebarItem from "~/components/pages/PageSidebarItem";
 
 export type BonfireSettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<BonfireSettingsPage, (props: SettingsComponentProps<BonfireSettingsProps>) => ReactNode | ReactNode[]> = {
@@ -48,45 +50,36 @@ export default function BonfireSettingsModal(props: BonfireSettingsProps) {
             settingsPages={settingsPages}
             defaultPage="profile"
             onSubmit={async (page, values) => callbacks[page](values)}
-            sections={[
-                {
-                    id: "overview",
-                    header: props.bonfire.name,
-                    items: [
-                        {
-                            id: "profile",
-                            name: <FormattedMessage
-                                id="app.bonfires.settings.profile"
-                                defaultMessage="Bonfire profile"
-                                description="The bonfire profile settings tab"
-                            />,
-                            startDecorator: <IconLayoutBoardFilled />
-                        },
-                    ]
-                },
-                {
-                    id: "roles",
-                    header: "Roles",
-                    items: [
-                        {
-                            id: "permissions",
-                            name: <FormattedMessageGlobal id="app.permissions.plural" />,
-                            startDecorator: <IconListCheck />
-                        },
-                    ]
-                },
-                {
-                    id: "other",
-                    header: "Other",
-                    items: [
-                        {
-                            id: "delete",
-                            name: <FormattedMessageGlobal id="app.bonfires.delete" />,
-                            color: "danger",
-                            startDecorator: <IconTrashFilled />
-                        }
-                    ]
-                },
-            ]} />
+        >
+            <PageSidebarSection header={props.bonfire   .name}>
+                <PageSidebarItem
+                    id="profile"
+                    startDecorator={<IconLayoutBoardFilled />}
+                >
+                    <FormattedMessage
+                        id="app.bonfires.settings.profile"
+                        defaultMessage="Bonfire profile"
+                        description="The bonfire profile settings tab"
+                    />
+                </PageSidebarItem>
+                <PageSidebarItem
+                    id="permissions"
+                    startDecorator={<IconListCheck />}
+                >
+                    <FormattedMessageGlobal id="app.permissions.plural" />
+                </PageSidebarItem>
+            </PageSidebarSection>
+            <PageSidebarSection
+                header={<FormattedMessageGlobal id="app.settings.other" />}
+            >
+                <PageSidebarItem
+                    id="delete"
+                    startDecorator={<IconTrashFilled />}
+                    color="danger"
+                >
+                    <FormattedMessageGlobal id="app.bonfires.delete" />
+                </PageSidebarItem>
+            </PageSidebarSection>
+        </SettingsModal>
     )
 }

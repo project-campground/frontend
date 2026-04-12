@@ -1,16 +1,16 @@
 import { Box, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
 import { Group } from "components";
-import React, { type ReactNode } from "react";
+import React, { type PropsWithChildren, type ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
-import PageSidebar, { type PageSidebarSection } from "~/components/pages/PageSidebar";
+import PageSidebar from "~/components/pages/PageSidebar";
 import { FormattedMessageGlobal } from "~/i18n";
 
-type Props<TPage extends string, TProps> = {
+type Props<TPage extends string, TProps> = PropsWithChildren & {
     header: ReactNode[] | ReactNode;
     settingsProps: TProps;
-    sections: PageSidebarSection[];
+    // sections: PageSidebarSection[];
     defaultPage: TPage;
-    settingsPages: SettingsPages<TProps>;
+    settingsPages: SettingsPages<TPage, TProps>;
     onSubmit: (page: TPage, values: Record<string, any>) => Promise<unknown>;
 };
 export type SettingsComponentProps<T> = {
@@ -19,7 +19,8 @@ export type SettingsComponentProps<T> = {
     onValuesChanged: (isValid: boolean, notDefault: boolean, values: Record<string, any>) => unknown;
 };
 
-type SettingsPages<TProps> = Record<string, typeof React.Component | ((props: SettingsComponentProps<TProps>) => React.ReactNode | React.ReactNode[])>;
+export type SettingsPageProps<TProps> = { new(props: any, context?: any): React.Component } | ((props: SettingsComponentProps<TProps>) => React.ReactNode | React.ReactNode[]);
+export type SettingsPages<TPage extends string, TProps> = Record<TPage, SettingsPageProps<TProps>>;
 
 const SubmitBox = styled(Sheet)(({ theme }) => ({
     position: "absolute",
@@ -81,7 +82,7 @@ type State<TPage extends string> = {
     submitting: boolean;
     changed: boolean;
     valid: boolean;
-    values: Record<string, any>,
+    values: Record<string, any>;
 };
 
 export default class SettingsModal<TPage extends string, TProps> extends React.Component<Props<TPage, TProps>, State<TPage>> {
@@ -102,9 +103,6 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
     get Component() {
         return this.props.settingsPages[this.state.page];
     }
-    get currentPageInfo() {
-        return this.props.sections.flatMap((x) => x.items).find((x) => x.id === this.state.page);
-    }
 
     resetValues = () => {
         this._resetHandler?.();
@@ -112,8 +110,8 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
     }
     
     render() {
-        const { Component, currentPageInfo: pageInfo } = this;
-        const { header, onSubmit, settingsProps, sections, defaultPage } = this.props;
+        const { Component } = this;
+        const { header, onSubmit, settingsProps, children, defaultPage } = this.props;
         const { page, values, valid, changed, submitting } = this.state;
     
         return (
@@ -126,9 +124,10 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
                             <Box flex={1} sx={{ overflowY: "auto", px: 1, }}>
                                 <PageSidebar
                                     defaultActive={defaultPage}
-                                    onClick={(item) => this.setState({ page: item as TPage })}
-                                    sections={sections}
-                                />
+                                    onItemChange={(item) => this.setState({ page: item as TPage })}
+                                >
+                                    {children}
+                                </PageSidebar>
                             </Box>
                             <SubmitBox className={changed ? "visible" : ""}>
                                 <Typography>
@@ -161,19 +160,11 @@ export default class SettingsModal<TPage extends string, TProps> extends React.C
                             </SubmitBox>
                         </SettingsSidebar>
                         <Box flex={1}>
-                            <SettingsPage>
-                                <Box sx={{ px: 3, py: 2, }}>
-                                    <Typography level="title-lg" startDecorator={pageInfo?.startDecorator} endDecorator={pageInfo?.endDecorator}>{pageInfo?.name ?? page}</Typography>
-                                </Box>
-                                <Divider sx={{ bgcolor: "background.body", height: 2, left: -1, right: -1, width: "calc(100% + 2px)" }} />
-                                <SettingsPageContent>
-                                    <Component
-                                        settingsProps={settingsProps}
-                                        setResetHandler={(handler) => (this._resetHandler = handler, undefined)}
-                                        onValuesChanged={(valid, changed, values) => this.setState({ submitting: false, values, valid, changed })}
-                                    />
-                                </SettingsPageContent>
-                            </SettingsPage>
+                            <Component
+                                settingsProps={settingsProps}
+                                setResetHandler={(handler) => (this._resetHandler = handler, undefined)}
+                                onValuesChanged={(valid, changed, values) => this.setState({ submitting: false, values, valid, changed })}
+                            />
                         </Box>
                     </Group>
                 </Stack>

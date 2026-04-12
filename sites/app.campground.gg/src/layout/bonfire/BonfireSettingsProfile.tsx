@@ -1,6 +1,6 @@
 import { Box, FormControl, FormLabel, FormHelperText } from "@mui/joy";
 import Form from "~/components/form/Form";
-import type { SettingsComponentProps } from "../SettingsModal";
+import type { SettingsComponentProps } from "../settings";
 import type { BonfireViewBasic } from "types/bonfires";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
@@ -10,6 +10,8 @@ import FormFieldImage from "~/components/form/FormFieldImage";
 import FormFieldAvatar from "~/components/form/FormFieldAvatar";
 import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldTextArea from "~/components/form/FormFieldTextArea";
+import SettingsPageWrapper from "../settings/page";
+import { IconLayoutBoardFilled } from "@tabler/icons-react";
 
 export default function BonfireSettingsProfile({
     setResetHandler,
@@ -32,10 +34,16 @@ export default function BonfireSettingsProfile({
         );
 
     return (
-        <>
+        <SettingsPageWrapper
+            startDecorator={<IconLayoutBoardFilled />}
+            header={bonfire.name}
+        >
             <Box sx={{ maxWidth: 500 }}>
                 <Form
-                    ref={(form) => (form as Form | undefined) && setResetHandler(form!.reset)}
+                    ref={(form) =>
+                        (form as Form | undefined) &&
+                        setResetHandler(form!.reset)
+                    }
                     onChange={(isValid, values) =>
                         onValuesChanged(
                             isValid,
@@ -105,6 +113,6 @@ export default function BonfireSettingsProfile({
                     </FormSection>
                 </Form>
             </Box>
-        </>
+        </SettingsPageWrapper>
     );
 }

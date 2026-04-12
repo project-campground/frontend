@@ -1,6 +1,9 @@
-import { Alert, Stack, Button, Typography } from "@mui/joy";
-import type { SettingsComponentProps } from "../SettingsModal";
-import { IconExclamationCircleFilled } from "@tabler/icons-react";
+import { Alert, Button } from "@mui/joy";
+import type { SettingsComponentProps } from "../settings";
+import {
+    IconExclamationCircleFilled,
+    IconTrashFilled,
+} from "@tabler/icons-react";
 import type { CategorySettingsProps } from "./CategorySettingsModal";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
@@ -8,6 +11,7 @@ import { useContext } from "react";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import SettingsPageWrapper from "../settings/page";
 
 export default function CategorySettingsDeletion({
     settingsProps: { category },
@@ -17,10 +21,12 @@ export default function CategorySettingsDeletion({
     const modalClose = useContext(CloseModalContext);
 
     return (
-        <Stack gap={2} alignItems="start">
-            <Typography>
-                <FormattedMessageGlobal id="app.tentCategories.delete" />
-            </Typography>
+        <SettingsPageWrapper
+            startDecorator={<IconTrashFilled />}
+            header={<FormattedMessageGlobal id="app.tentCategories.delete" />}
+            gap={2}
+            alignItems="start"
+        >
             <Alert
                 variant="soft"
                 color="danger"
@@ -37,14 +43,18 @@ export default function CategorySettingsDeletion({
                     }}
                 />
             </Alert>
-            <Button variant="glow" color="danger" onClick={(ev) =>
-                session.http.categories.delete(category.id).then((resp) => {
-                    if (!resp.ok) return floating.notifyApiError(resp);
-                    return modalClose?.(ev, "closeClick");
-                })
-            }>
+            <Button
+                variant="glow"
+                color="danger"
+                onClick={(ev) =>
+                    session.http.categories.delete(category.id).then((resp) => {
+                        if (!resp.ok) return floating.notifyApiError(resp);
+                        return modalClose?.(ev, "closeClick");
+                    })
+                }
+            >
                 <FormattedMessageGlobal id="form.confirmDelete" />
             </Button>
-        </Stack>
+        </SettingsPageWrapper>
     );
 }

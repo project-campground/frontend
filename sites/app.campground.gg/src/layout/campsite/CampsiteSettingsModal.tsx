@@ -1,21 +1,35 @@
-import { IconBadgesFilled, IconHammer, IconLayoutBoardFilled, IconTicket, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
+import {
+    IconBadgesFilled,
+    IconHammer,
+    IconLayoutBoardFilled,
+    IconTicket,
+    IconTrashFilled,
+    type ReactNode,
+} from "@tabler/icons-react";
 import type { CampsiteViewDetailed } from "types/campsites";
 import CampsiteSettingsProfile from "~/layout/campsite/CampsiteSettingsProfile";
-import SettingsModal, { type SettingsComponentProps } from "../SettingsModal";
+import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import CampsiteSettingsRoles from "./CampsiteSettingsRoles";
 import { useSnackbars } from "~/context/snackbar";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import CampsiteSettingsDeletion from "./CampsiteSettingsDeletion";
-import type { PageSidebarSection } from "~/components/pages/PageSidebar";
 import CampsiteSettingsInvites from "./CampsiteSettingsInvites";
 import type React from "react";
 import CampsiteSettingsBans from "./CampsiteSettingsBans";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import PageSidebarItem from "~/components/pages/PageSidebarItem";
+import PageSidebarSection from "~/components/pages/PageSidebarSection";
 
 type Page = "profile" | "bans" | "invites" | "roles" | "delete";
-const settingsPages: Record<Page, typeof React.Component | ((props: SettingsComponentProps<CampsiteSettingsProps>) => ReactNode | ReactNode[])> = {
+const settingsPages: Record<
+    Page,
+    | typeof React.Component
+    | ((
+          props: SettingsComponentProps<CampsiteSettingsProps>,
+      ) => ReactNode | ReactNode[])
+> = {
     profile: CampsiteSettingsProfile,
     roles: CampsiteSettingsRoles,
     invites: CampsiteSettingsInvites,
@@ -31,39 +45,41 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
     const session = useSession();
     const snackbars = useSnackbars();
     const { updateCampsite } = useCampsiteContext();
-    const callbacks: Record<Page, (fieldValues: Record<string, any>) => unknown> = {
+    const callbacks: Record<
+        Page,
+        (fieldValues: Record<string, any>) => unknown
+    > = {
         profile: (fieldValues) =>
-            session
-                .http
-                .campsites
+            session.http.campsites
                 .update(props.campsite.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
                     avatarUri: fieldValues.avatarUri ?? "",
                     bannerUri: fieldValues?.bannerUri ?? "",
                     tags: fieldValues.tags,
-                    vanityUrl: fieldValues.vanityUrl ?? ""
+                    vanityUrl: fieldValues.vanityUrl ?? "",
                 })
                 .then((resp) => {
-                    if (!resp.ok)
-                        return snackbars.notifyApiError(resp);
+                    if (!resp.ok) return snackbars.notifyApiError(resp);
 
                     return updateCampsite(resp.content);
                 }),
         roles: ({ id, ...fieldValues }) =>
-            session.http.roles.update(props.campsite.id, id as string, fieldValues)
+            session.http.roles
+                .update(props.campsite.id, id as string, fieldValues)
                 .then((resp) => {
-                    if (!resp.ok)
-                        return snackbars.notifyApiError(resp);
+                    if (!resp.ok) return snackbars.notifyApiError(resp);
 
-                    const modifiedRole = props.campsite.roles.find((x) => x.id === resp.content.id);
+                    const modifiedRole = props.campsite.roles.find(
+                        (x) => x.id === resp.content.id,
+                    );
                     if (modifiedRole)
                         return Object.assign(modifiedRole, resp.content);
                 }),
         bans: () => null,
         invites: () => null,
         delete: () => null,
-    }
+    };
 
     return (
         <SettingsModal<Page, CampsiteSettingsProps>
@@ -72,71 +88,58 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
             settingsPages={settingsPages}
             defaultPage="profile"
             onSubmit={async (page, values) => callbacks[page](values)}
-            sections={[
-                {
-                    id: "overview",
-                    header: props.campsite.name,
-                    items: [
-                        {
-                            id: "profile",
-                            name: <FormattedMessage
-                                id="app.campsites.settings.profile"
-                                defaultMessage="Campsite profile"
-                                description="The campsite profile settings tab"
-                            />,
-                            startDecorator: <IconLayoutBoardFilled />
-                        },
-                    ]
-                },
-                {
-                    id: "members",
-                    header: <FormattedMessage
+        >
+            <PageSidebarSection header={props.campsite.name}>
+                <PageSidebarItem
+                    id="profile"
+                    startDecorator={<IconLayoutBoardFilled />}
+                >
+                    <FormattedMessage
+                        id="app.campsites.settings.profile"
+                        defaultMessage="Campsite profile"
+                        description="The campsite profile settings tab"
+                    />
+                </PageSidebarItem>
+            </PageSidebarSection>
+            <PageSidebarSection
+                header={
+                    <FormattedMessage
                         id="global.campers"
                         defaultMessage="Campers"
                         description="Campsite members"
-                    />,
-                    items: [
-                        {
-                            id: "roles",
-                            name: <FormattedMessageGlobal id="app.roles" />,
-                            startDecorator: <IconBadgesFilled />
-                        },
-                        {
-                            id: "invites", 
-                            name: <FormattedMessage
-                                id="app.invites.plural"
-                                defaultMessage="Invites"
-                                description="The campsite invites in plural form"
-                            />,
-                            startDecorator: <IconTicket />
-                        },
-                        {
-                            id: "bans", 
-                            name: <FormattedMessage
-                                id="app.bans.plural"
-                                defaultMessage="Bans"
-                                description="The campsite user bans in plural form"
-                            />,
-                            startDecorator: <IconHammer />
-                        },
-                    ]
-                },
-                props.campsite.owner === props.campsite.me.user.did && {
-                    id: "other",
-                    header: <FormattedMessage
-                        id="app.settings.other"
-                        defaultMessage="Other"
-                        description="Other settings pages and content"
-                    />,
-                    items: [
-                        {
-                            id: "delete",
-                            name: <FormattedMessageGlobal id="app.campsites.delete" />,
-                            color: "danger",
-                            startDecorator: <IconTrashFilled />
-                        }
-                    ]
-                },
-            ].filter(Boolean) as PageSidebarSection[]} />
-    )
+                    />
+                }
+            >
+                <PageSidebarItem
+                    id="roles"
+                    startDecorator={<IconBadgesFilled />}
+                >
+                    <FormattedMessageGlobal id="app.roles" />
+                </PageSidebarItem>
+                <PageSidebarItem id="invites" startDecorator={<IconTicket />}>
+                    <FormattedMessageGlobal id="app.invites" />
+                </PageSidebarItem>
+                <PageSidebarItem id="bans" startDecorator={<IconHammer />}>
+                    <FormattedMessage
+                        id="app.bans"
+                        defaultMessage="Bans"
+                        description="The campsite user bans in plural form"
+                    />
+                </PageSidebarItem>
+            </PageSidebarSection>
+            {props.campsite.owner === props.campsite.me.user.did && (
+                <PageSidebarSection
+                    header={<FormattedMessageGlobal id="app.settings.other" />}
+                >
+                    <PageSidebarItem
+                        id="delete"
+                        startDecorator={<IconTrashFilled />}
+                        color="danger"
+                    >
+                        <FormattedMessageGlobal id="app.campsites.delete" />
+                    </PageSidebarItem>
+                </PageSidebarSection>
+            )}
+        </SettingsModal>
+    );
 }

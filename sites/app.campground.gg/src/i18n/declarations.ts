@@ -159,6 +159,12 @@ const globalIntlDeclarations = {
         defaultMessage: "Threads",
         description: "Message threads tab in the right sidebar",
     }),
+    // Settings
+    "app.settings.other": defineMessage({
+        id: "app.settings.other",
+        defaultMessage: "Other settings",
+        description: "Section for deleting campsites, tents, etc.",
+    }),
     // Roles
     "app.roles": defineMessage({
         id: "app.roles",
@@ -581,6 +587,11 @@ const globalIntlDeclarations = {
     }),
     
     // Invites
+    "app.invites": defineMessage({
+        id: "app.invites",
+        defaultMessage: "Invites",
+        description: "Invite menu item in campsite settings",
+    }),
     "app.invites.create": defineMessage({
         id: "app.invites.create",
         defaultMessage: "Create invite",

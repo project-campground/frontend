@@ -1,11 +1,12 @@
-import { Stack } from "@mui/joy";
+import { Stack, Modal } from "@mui/joy";
 import React, { ReactNode, type ContextType } from "react";
 import GlobalNavbar from "./GlobalNavbar";
 import type { Me } from "types/me";
-import { MeContext, SessionContext } from "~/context/session";
+import { AccountContext, SessionContext } from "~/context/session";
 import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import type { CampsiteViewBasic } from "types/campsites";
+import UserSettingsModal from "~/layout/user/UserSettingsModal";
 
 type Props = {
     page: string | undefined | null;
@@ -14,6 +15,7 @@ type Props = {
 
 type State = {
     loaded: boolean;
+    userSettingsOpen: boolean;
 }
 
 export default class GlobalLayout extends React.Component<Props, State> {
@@ -22,6 +24,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
     private _init: boolean = false;
     state = {
         loaded: false,
+        userSettingsOpen: false,
     };
     private _me: Me | null = null;
     private _wsSubscription: WSSubscription | null = null;
@@ -80,19 +83,24 @@ export default class GlobalLayout extends React.Component<Props, State> {
         }
         this.setState({});
     }
+    openUserSettings = () =>
+        this.setState({ userSettingsOpen: true });
     render() {
         const { page, children } = this.props;
         const { _me } = this;
-        const { loaded } = this.state;
+        const { loaded, userSettingsOpen } = this.state;
 
         return (
             <Stack alignItems="stretch" sx={{ flexDirection: { xs: "column-reverse", sm: "column-reverse", md: "column" }, width: "100%", height: "100%", overflow: "hidden" }}>
-                <MeContext.Provider value={_me}>
+                <AccountContext.Provider value={_me && { me: _me, openUserSettings: this.openUserSettings }}>
                     <GlobalNavbar page={page} loaded={loaded} />
                     <Stack sx={{ flex: 1, height: "100%", overflow: "hidden" }}>
                         { children }
                     </Stack>
-                </MeContext.Provider>
+                    <Modal open={userSettingsOpen} onClose={() => this.setState({ userSettingsOpen: false })}>
+                        <UserSettingsModal />
+                    </Modal>
+                </AccountContext.Provider>
             </Stack>
         )
     }

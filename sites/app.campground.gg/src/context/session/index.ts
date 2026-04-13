@@ -8,7 +8,12 @@ import type { Me } from 'types/me';
 
 export const SessionContext = createContext<Session>(null!);
 export const sessionRouterContext = createRouterContext<SessionMiddleware>(null!);
-export const MeContext = createContext<Me | null>(null);
+export interface AccountContext {
+    me: Me;
+    openUserSettings: () => void;
+}
+export const AccountContext = createContext<AccountContext | null>(null);
 
 export const useSession = () => useContext(SessionContext);
-export const useMeContext = () => useContext(MeContext);
+export const useMeContext = () => useContext(AccountContext)?.me;
+export const useAccount = () => useContext(AccountContext);

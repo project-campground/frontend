@@ -165,6 +165,12 @@ const globalIntlDeclarations = {
         defaultMessage: "Other settings",
         description: "Section for deleting campsites, tents, etc.",
     }),
+    // User settings
+    "app.user.settings": defineMessage({
+        id: "app.user.settings",
+        defaultMessage: "User settings",
+        description: "Header of user settings",
+    }),
     // Roles
     "app.roles": defineMessage({
         id: "app.roles",

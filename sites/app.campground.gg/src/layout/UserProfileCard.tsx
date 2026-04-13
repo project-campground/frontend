@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { ProfileView } from "types/user";
 import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
-import { useSession } from "~/context/session";
+import { useAccount, useSession } from "~/context/session";
 import { useNavigate } from "react-router";
 import type { MemberView } from "types/membership";
 import type { RoleView } from "types/roles";
@@ -28,6 +28,7 @@ const UserProfileCardWrapper = styled(Box)(() => ({
 
 export default function UserProfileCard<T extends ProfileView>({ did, user, member, campsiteRoles }: Props<T>) {
     const session = useSession();
+    const account = useAccount();
     const [fetchedUser, setFetchedUser] = useState(user);
     const [isFetching, setIsFetching] = useState(false);
     const navigate = useNavigate();
@@ -120,7 +121,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                 </MenuItem>
                 {session.auth.authenticated && session.auth.user.did === did
                     ? <>
-                        <MenuItem variant="plain">
+                        <MenuItem variant="plain" onClick={account?.openUserSettings}>
                             <ListItemDecorator>
                                 <IconSettingsFilled />
                             </ListItemDecorator>

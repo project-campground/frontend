@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/joy";
 import ProfileFeed from "./ProfileFeed";
 import ProfileAbout from "./ProfileAbout";
-import type { ProfileView } from "types/user";
+import type { ProfileView } from "types/campground/user";
 import ProfileGames from "./ProfileGames";
 import ProfileLayout from "./ProfileLayout";
 import ErrorBoundary from "~/components/ErrorBoundary";

@@ -1,4 +1,4 @@
-import type { ProfilePostViewBasic, ProfilePostViewDetailed, ProfilePostViewParented } from "types/user";
+import type { ProfilePostViewBasic, ProfilePostViewDetailed, ProfilePostViewParented } from "types/campground/user";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientProfilePostManager extends HTTPClientObjectManager {

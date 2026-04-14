@@ -2,7 +2,7 @@ import { styled } from "@mui/joy";
 import UserDisplay from "../UserDisplay";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import { useMemo, useState } from "react";
-import type { MemberViewDetailed } from "types/membership";
+import type { MemberViewDetailed } from "types/campground/membership";
 import { colorToDecimal } from "~/util/color";
 
 type Props = {

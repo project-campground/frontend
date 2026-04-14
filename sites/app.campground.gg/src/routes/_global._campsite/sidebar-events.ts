@@ -1,4 +1,4 @@
-import type { GetTentsOutput } from "types/tent";
+import type { GetTentsOutput } from "types/campground/tent";
 import type { TypeToPayload } from "types/ws";
 import type TentSidebar from "./TentSidebar";
 

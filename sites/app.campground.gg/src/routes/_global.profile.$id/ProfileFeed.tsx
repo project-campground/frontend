@@ -1,5 +1,5 @@
 import { Box, Stack, Tabs } from "@mui/joy";
-import type { ProfileView, ProfilePostViewParented } from "types/user";
+import type { ProfileView, ProfilePostViewParented } from "types/campground/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import ProfilePostCreator from "~/routes/_global.profile.$id/ProfilePostCreator";
 import { useSession } from "~/context/session";

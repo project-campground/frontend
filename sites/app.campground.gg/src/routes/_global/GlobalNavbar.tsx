@@ -3,7 +3,7 @@ import NavbarCamp from "~/components/pages/NavbarCamp";
 import GlobalNavProfile from "./GlobalNavProfile";
 import NavbarButton from "~/components/pages/NavbarButton";
 import { IconCompassFilled, IconPlus } from "@tabler/icons-react";
-import { useMeContext } from "~/context/session";
+import { useMeContext } from "~/context/account";
 
 type Props = {
     loaded: boolean;

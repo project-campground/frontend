@@ -4,7 +4,7 @@ import React from "react";
 import DataDisplay from "~/components/pages/DataDisplay";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
-import type { CampsiteInviteViewBasic } from "types/invites";
+import type { CampsiteInviteViewBasic } from "types/campground/invites";
 import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { IconTicket, IconTrashFilled } from "@tabler/icons-react";

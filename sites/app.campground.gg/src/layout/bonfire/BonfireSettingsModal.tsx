@@ -1,5 +1,5 @@
 import { IconLayoutBoardFilled, IconListCheck, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
-import type { BonfireViewBasic } from "types/bonfires";
+import type { BonfireViewBasic } from "types/campground/bonfires";
 import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import BonfireSettingsProfile from "./BonfireSettingsProfile";

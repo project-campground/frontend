@@ -1,5 +1,5 @@
 import HTTPClientObjectManager from "./base";
-import type { TentMessagesOutput, MessageViewBasic } from "types/content";
+import type { TentMessagesOutput, MessageViewBasic } from "types/campground/content";
 
 export default class HTTPClientMessageManager extends HTTPClientObjectManager {
     getMany(tent_id: string, offset: number = 0, limit: number = 50) {

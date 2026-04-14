@@ -1,7 +1,7 @@
 import { Chip } from "@mui/joy";
 import { GradientTypography } from "components";
-import type { CampsitePermissionView } from "types/permissions";
-import type { RoleView } from "types/roles";
+import type { CampsitePermissionView } from "types/campground/permissions";
+import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 import { RoleButton } from "./campsite/RoleItem";
 import { IconBadgeFilled } from "@tabler/icons-react";

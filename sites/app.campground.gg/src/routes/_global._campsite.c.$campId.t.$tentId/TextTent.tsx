@@ -8,10 +8,10 @@ import {
     styled,
     Typography,
 } from "@mui/joy";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import React, { type ContextType } from "react";
-import type { MessageViewBasic, MessageViewWithReplies } from "types/content";
-import type { TentViewDetailed } from "types/tent";
+import type { MessageViewBasic, MessageViewWithReplies } from "types/campground/content";
+import type { TentViewDetailed } from "types/campground/tent";
 import MessageEditor, {
     MessageEditorContainer,
 } from "~/components/editor/MessageEditor";
@@ -39,7 +39,7 @@ import {
     type CampsiteContextSuite,
 } from "../_global._campsite/context";
 import { PermissionsContext } from "~/context/permissions";
-import type { RoleView } from "types/roles";
+import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
 import { type WSSubscription } from "~/api/WSClient";

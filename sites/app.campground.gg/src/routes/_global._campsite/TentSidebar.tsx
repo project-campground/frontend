@@ -1,11 +1,11 @@
 import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDoorExit, IconDots, IconSettingsFilled, IconTicket } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { Group, Image } from "components";
 import React, { type ContextType } from "react";
-import type { CampsiteViewDetailed } from "types/campsites";
-import type { BonfireViewBasic } from "types/bonfires";
-import type { GetTentsOutput } from "types/tent";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
+import type { BonfireViewBasic } from "types/campground/bonfires";
+import type { GetTentsOutput } from "types/campground/tent";
 import FadingBanner from "~/components/pages/FadingBanner";
 import GradientBanner from "~/components/pages/GradientBanner";
 import type { Session } from "~/context/session/types";

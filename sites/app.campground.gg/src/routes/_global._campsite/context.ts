@@ -1,6 +1,6 @@
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import { createContext, useContext } from "react";
-import type { CampsiteViewDetailed } from "types/campsites";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
 import { ContextBase } from "~/context/session/base";
 import type { ContextSuite } from "~/context/context-suite";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";

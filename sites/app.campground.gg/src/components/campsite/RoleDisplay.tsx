@@ -1,6 +1,6 @@
 import { styled, type ButtonProps, type Radius } from "@mui/joy";
 import { IconX, type ReactNode } from "@tabler/icons-react";
-import type { RoleView } from "types/roles";
+import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 
 const RoleDisplayBadge = styled("span", {

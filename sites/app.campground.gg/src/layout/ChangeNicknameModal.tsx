@@ -9,7 +9,7 @@ import {
     FormLabel,
 } from "@mui/joy";
 import Form from "../components/form/Form";
-import type { MemberViewBasic } from "types/membership";
+import type { MemberViewBasic } from "types/campground/membership";
 import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith as handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";

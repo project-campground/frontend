@@ -7,7 +7,7 @@ import {
     MenuButton,
 } from "@mui/joy";
 import React, { type ContextType } from "react";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { Group } from "components";
 import { type ContextSuite } from "~/context/context-suite";
@@ -16,14 +16,14 @@ import {
     useCampsite,
     type CampsiteContextSuite,
 } from "../_global._campsite/context";
-import type { MemberViewDetailed } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewDetailed } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import RoleDisplay from "~/components/campsite/RoleDisplay";
 import Datestamp from "~/components/Datestamp";
 import { useSession } from "~/context/session";
 import { IconPlus } from "@tabler/icons-react";
 import type { TypeToPayload } from "types/ws";
-import type { MemberRolesModified } from "types/membership";
+import type { MemberRolesModified } from "types/campground/membership";
 import DataDisplay from "~/components/pages/DataDisplay";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";

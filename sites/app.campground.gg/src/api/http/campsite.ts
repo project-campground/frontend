@@ -1,4 +1,4 @@
-import type { CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput } from "types/campsites";
+import type { CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput } from "types/campground/campsites";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientCampsiteManager extends HTTPClientObjectManager {

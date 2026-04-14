@@ -1,6 +1,6 @@
 import { IconUserFilled, type ReactNode } from "@tabler/icons-react";
 import SettingsModal, { type SettingsComponentProps } from "../settings";
-import { useAccount } from "~/context/session";
+import { useAccount } from "~/context/account";
 import type React from "react";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";

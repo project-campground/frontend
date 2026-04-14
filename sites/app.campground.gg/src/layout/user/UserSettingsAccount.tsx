@@ -4,7 +4,7 @@ import type { SettingsComponentProps } from "../settings";
 import React, { type ContextType } from "react";
 import SettingsPageWrapper from "../settings/page";
 import { IconUserFilled } from "@tabler/icons-react";
-import { AccountContext } from "~/context/session";
+import { AccountContext } from "~/context/account";
 
 type DefaultValues = {
     

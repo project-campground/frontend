@@ -1,15 +1,15 @@
 import { Stack, styled, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import React, { type ContextType } from "react";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
 import type {
     CampsiteViewDetailed,
-} from "types/campsites";
-import type { MemberViewBasic } from "types/membership";
+} from "types/campground/campsites";
+import type { MemberViewBasic } from "types/campground/membership";
 import MemberList from "./MemberList";
 import { CampsiteContextSuiteContext } from "../_global._campsite/context";
 import { SmoothTabList } from "components";

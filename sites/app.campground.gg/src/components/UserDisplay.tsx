@@ -1,11 +1,11 @@
 import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
-import type { ProfileView } from "types/user";
+import type { ProfileView } from "types/campground/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group, TextBlock } from "components";
-import type { MemberView } from "types/membership";
-import type { RoleMotion } from "types/roles";
-import type { RoleView } from "types/roles";
+import type { MemberView } from "types/campground/membership";
+import type { RoleMotion } from "types/campground/roles";
+import type { RoleView } from "types/campground/roles";
 import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";

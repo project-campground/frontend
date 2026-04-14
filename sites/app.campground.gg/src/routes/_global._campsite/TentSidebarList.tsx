@@ -1,7 +1,7 @@
 import { Alert, Button, Divider, Modal, Stack, Typography } from "@mui/joy";
 import { IconInfoCircleFilled, IconTent } from "@tabler/icons-react";
 import React, { type ContextType, type ReactNode } from "react";
-import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/tent";
+import type { GetTentsOutput, TentCategoryView, TentViewBasic, TentViewDetailed } from "types/campground/tent";
 import type { Session } from "~/context/session/types";
 import TentCreationModal from "../../layout/sidebar/TentCreationModal";
 import TentCategory from "../../components/tents/TentCategory";

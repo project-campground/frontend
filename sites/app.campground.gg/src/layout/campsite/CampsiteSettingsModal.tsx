@@ -6,7 +6,7 @@ import {
     IconTrashFilled,
     type ReactNode,
 } from "@tabler/icons-react";
-import type { CampsiteViewDetailed } from "types/campsites";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
 import CampsiteSettingsProfile from "~/layout/campsite/CampsiteSettingsProfile";
 import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";

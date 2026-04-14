@@ -1,7 +1,7 @@
 import { IconButton, Typography } from "@mui/joy";
 import { IconLayoutSidebar, IconLayoutSidebarFilled } from "@tabler/icons-react";
 import { Group } from "components";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import TentIcon from "~/components/tents/TentIcon";
 import { PseudoTentType } from "~/util/pseudoTents";
 import { FormattedMessage } from "react-intl";

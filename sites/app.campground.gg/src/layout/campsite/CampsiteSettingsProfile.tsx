@@ -1,7 +1,7 @@
 import { Box } from "@mui/joy";
 import Form from "~/components/form/Form";
 import type { SettingsComponentProps } from "../settings";
-import type { CampsiteViewDetailed } from "types/campsites";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";

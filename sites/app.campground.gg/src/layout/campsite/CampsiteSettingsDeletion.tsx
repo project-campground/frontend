@@ -1,6 +1,6 @@
 import { Alert, FormControl, FormLabel } from "@mui/joy";
 import type { SettingsComponentProps } from "../settings";
-import type { CampsiteViewDetailed } from "types/campsites";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
 import Form from "~/components/form/Form";
 import {
     IconExclamationCircleFilled,

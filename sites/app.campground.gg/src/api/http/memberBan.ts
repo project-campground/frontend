@@ -1,5 +1,5 @@
 import HTTPClientObjectManager from "./base";
-import type { MemberBanView, GetBansOutput } from "types/membership";
+import type { MemberBanView, GetBansOutput } from "types/campground/membership";
 
 export default class HTTPClientMemberBanManager extends HTTPClientObjectManager {
     getMany(campsite_id: string, offset: number = 0, limit: number = 50) {

@@ -1,7 +1,7 @@
 import { styled } from "@mui/joy";
 import RoleDisplay from "../campsite/RoleDisplay";
 import { useCampsite } from "~/routes/_global._campsite/context";
-import type { RoleView } from "types/roles";
+import type { RoleView } from "types/campground/roles";
 import { IconAt } from "@tabler/icons-react";
 import { useIntl } from "react-intl";
 

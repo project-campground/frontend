@@ -1,3 +1,13 @@
+export interface CampgroundProfileRecord {
+    displayName: string | null;
+    labels: any[];
+    tagline: string | null;
+    location: string | null;
+    createdAt: string;
+    description: string | null;
+    socialConnections: any[];
+    avatar: string | null;
+}
 export interface ProfileView {
     did: string;
     handle: string;

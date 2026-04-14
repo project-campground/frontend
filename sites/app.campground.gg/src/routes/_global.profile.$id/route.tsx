@@ -18,7 +18,7 @@ export const clientMiddleware: Route.ClientMiddlewareFunction[] = [
 export async function clientLoader({ context, params: { id } }: Route.ClientLoaderArgs) {
     const session = context.get(sessionRouterContext);
 
-    const userRequest = await session.http.fetchProfile(id);
+    const userRequest = await session.http.getProfile(id);
 
     const { errorDescription, errorHeader, content, ok, status } = userRequest;
 

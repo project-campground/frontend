@@ -1,9 +1,9 @@
-import type { ContentComponent } from "types/content";
+import type { ContentComponent } from "types/campground/content";
 import MarkdownWrapper from "./MarkdownWrapper";
 import { LargeContentMarkdown } from "./Markdown";
 import { ContentComponentDisplay } from "./ContentComponentDisplay";
-import type { MemberViewAuthor } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewAuthor } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import type React from "react";
 
 type Props = {

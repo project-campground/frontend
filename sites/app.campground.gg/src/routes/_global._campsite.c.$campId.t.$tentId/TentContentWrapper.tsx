@@ -1,5 +1,5 @@
 import { Divider, Sheet, styled } from "@mui/joy";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import TentContentHeader from "./TentContentHeader";
 
 type Props = React.PropsWithChildren & {

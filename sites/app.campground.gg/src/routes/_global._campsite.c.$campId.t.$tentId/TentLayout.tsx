@@ -1,5 +1,5 @@
-import type { CampsiteViewDetailed } from "types/campsites";
-import type { TentViewDetailed } from "types/tent";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
+import type { TentViewDetailed } from "types/campground/tent";
 import TentContentWrapper from "./TentContentWrapper";
 import { ComponentByTentType } from "./tents";
 import MemberSidebar from "./MemberSidebar";

@@ -1,12 +1,13 @@
 import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
-import type { ProfileView } from "types/user";
+import type { ProfileView } from "types/campground/user";
 import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
-import { useAccount, useSession } from "~/context/session";
+import { useSession } from "~/context/session";
+import { useAccount } from "~/context/account";
 import { useNavigate } from "react-router";
-import type { MemberView } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberView } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
@@ -35,7 +36,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
 
     useEffect(() => {
         async function fetchUser() {
-            const fetched = await session.http.fetchProfile(did);
+            const fetched = await session.http.getProfile(did);
             setFetchedUser(fetched?.content!);
         }
         if (!user && !isFetching) {

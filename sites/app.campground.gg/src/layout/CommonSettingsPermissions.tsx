@@ -12,9 +12,9 @@ import {
     Stack,
     Typography,
 } from "@mui/joy";
-import type { CampsitePermissionViewBasic } from "types/permissions";
-import type { CampsitePermissionView } from "types/permissions";
-import type { RoleView } from "types/roles";
+import type { CampsitePermissionViewBasic } from "types/campground/permissions";
+import type { CampsitePermissionView } from "types/campground/permissions";
+import type { RoleView } from "types/campground/roles";
 import { useContext, useMemo, useState } from "react";
 import { GradientTypography } from "components";
 import {
@@ -33,7 +33,7 @@ import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context"
 import type { SettingsComponentProps } from "./settings";
 import PermissionItem from "./PermissionItem";
 import type { TristateValue } from "~/components/Tristate";
-import type { PermissionsDictionary } from "types/permissions";
+import type { PermissionsDictionary } from "types/campground/permissions";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
 import { colorToDecimal } from "~/util/color";
 import { FormattedMessage } from "react-intl";

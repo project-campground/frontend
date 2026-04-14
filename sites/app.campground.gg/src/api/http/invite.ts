@@ -1,7 +1,7 @@
 import HTTPClientObjectManager from "./base";
-import type { GetInvitesOutput } from "types/invites";
-import type { CampsiteInviteViewDetailed } from "types/invites";
-import type { CampsiteInviteViewBasic } from "types/invites";
+import type { GetInvitesOutput } from "types/campground/invites";
+import type { CampsiteInviteViewDetailed } from "types/campground/invites";
+import type { CampsiteInviteViewBasic } from "types/campground/invites";
 
 export default class HTTPClientInviteManager extends HTTPClientObjectManager {
     get(invite_id: string) {

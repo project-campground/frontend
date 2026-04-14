@@ -1,8 +1,8 @@
 import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography, FormControl, FormLabel, Button } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { useContext, useState } from "react";
-import type { TentCategoryView, TentViewDetailed } from "types/tent";
+import type { TentCategoryView, TentViewDetailed } from "types/campground/tent";
 import Form from "~/components/form/Form";
 import { useSession } from "~/context/session";
 import ContentCategory from "~/components/content/ContentCategory";

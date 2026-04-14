@@ -3,7 +3,7 @@ import { IconLogin } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import UserAvatar from "~/components/UserAvatar";
 import UserProfileCard from "~/layout/UserProfileCard";
-import { useMeContext } from "~/context/session";
+import { useMeContext } from "~/context/account";
 
 export default function GlobalNavProfile() {
     const me = useMeContext();

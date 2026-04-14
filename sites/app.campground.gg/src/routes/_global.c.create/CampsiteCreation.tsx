@@ -19,7 +19,7 @@ import {
     IconStar,
     IconUsers,
 } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import FadingBanner from "~/components/pages/FadingBanner";

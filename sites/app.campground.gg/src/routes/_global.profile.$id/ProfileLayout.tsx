@@ -2,7 +2,7 @@ import { AspectRatio, Box, Stack, Typography } from "@mui/joy";
 import React, { type ReactNode } from "react";
 import UserAvatar from "~/components/UserAvatar";
 import VerifiedIcon from "~/components/VerifiedIcon";
-import type { ProfileView } from "types/user";
+import type { ProfileView } from "types/campground/user";
 
 type Props = {
     user: ProfileView;

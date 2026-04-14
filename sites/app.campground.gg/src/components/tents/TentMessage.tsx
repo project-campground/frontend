@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { Group, loremIpsum, TextBlock } from "components";
-import type { TentMessageType, MessageViewWithReplies } from "types/content";
+import type { TentMessageType, MessageViewWithReplies } from "types/campground/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 import MessageToolbar from "./MessageToolbar";
 import { useState, type MouseEvent, type ReactNode } from "react";
@@ -11,8 +11,8 @@ import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
 import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
-import type { MemberViewAuthor } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewAuthor } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 import ContentDisplayBlock from "../markdown/ContentDisplayBlock";
 import { FormattedMessage } from "react-intl";

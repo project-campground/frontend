@@ -11,8 +11,8 @@ import {
     Typography,
 } from "@mui/joy";
 import { useCampsite } from "../_global._campsite/context";
-import type { CampsiteViewDetailed } from "types/campsites";
-import type { TentViewDetailed } from "types/tent";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
+import type { TentViewDetailed } from "types/campground/tent";
 import { IconCake, IconUsers } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import { Group, Image } from "components";

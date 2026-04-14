@@ -1,8 +1,8 @@
 import { IconButton, Stack, TabPanel, Tabs } from "@mui/joy";
 import type { SettingsComponentProps } from "../../settings";
-import type { CampsiteViewDetailed } from "types/campsites";
-import type { GetRolesOutput } from "types/roles";
-import type { RoleView } from "types/roles";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
+import type { GetRolesOutput } from "types/campground/roles";
+import type { RoleView } from "types/campground/roles";
 import RoleItem, { RoleItemGap } from "../RoleItem";
 import React, { useContext, useMemo, useState } from "react";
 import { SmoothTabList } from "components";
@@ -14,7 +14,7 @@ import {
     IconSettingsFilled,
 } from "@tabler/icons-react";
 import Form from "~/components/form/Form";
-import type { HttpResponseWithContent } from "~/api/HTTPResponse";
+import type { HttpResponseWithContent } from "~/api/http/HTTPResponse";
 import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
 import { DragDropProvider } from "~/draggable";
 import { FormattedMessage } from "react-intl";

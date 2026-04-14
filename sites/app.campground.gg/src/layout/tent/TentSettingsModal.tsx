@@ -8,7 +8,7 @@ import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import type React from "react";
-import type { TentViewBasic } from "types/tent";
+import type { TentViewBasic } from "types/campground/tent";
 import TentSettingsProfile from "./TentSettingsProfile";
 import TentSettingsDeletion from "./TentSettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";

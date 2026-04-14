@@ -1,5 +1,5 @@
-import type { GetPermissionsOutput } from "types/permissions";
-import type { CampsitePermissionView } from "types/permissions";
+import type { GetPermissionsOutput } from "types/campground/permissions";
+import type { CampsitePermissionView } from "types/campground/permissions";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientPermissionManager extends HTTPClientObjectManager {

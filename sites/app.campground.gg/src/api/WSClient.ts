@@ -1,7 +1,7 @@
 import { decodeSequence, encode } from "cbor2";
 import type { KeyValueEncoded } from "cbor2/sorts";
 import { stringify } from "uuid";
-import type HTTPClient from "./HTTPClient";
+import type HTTPClient from "./http/HTTPClient";
 import type { TypeToPayload } from "types/ws";
 
 type Config = {

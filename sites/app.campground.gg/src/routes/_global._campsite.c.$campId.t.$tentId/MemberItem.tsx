@@ -8,8 +8,8 @@ import {
 } from "@mui/joy";
 import { GradientTypography } from "components";
 import { useState, type MouseEvent } from "react";
-import type { MemberViewBasic } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewBasic } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import UserAvatar from "~/components/UserAvatar";
 import { useRightClick } from "~/context/mouse";
 import { colorToDecimal } from "~/util/color";

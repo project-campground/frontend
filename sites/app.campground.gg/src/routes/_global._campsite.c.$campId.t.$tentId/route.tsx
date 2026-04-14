@@ -6,7 +6,7 @@ import { TentContext, useCampsite } from "../_global._campsite/context";
 import TentLayout from "./TentLayout";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import { redirect } from "react-router";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import { pseudoTents, type PseudoTentType } from "../../util/pseudoTents";
 
 export function meta({ loaderData: { tentId, tent } }: Route.MetaArgs) {

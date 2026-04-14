@@ -1,7 +1,7 @@
 import { CardContent, Link, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
-import type { ProfileView } from "types/user";
+import type { ProfileView } from "types/campground/user";
 import UserAvatar from "../../components/UserAvatar";
 import { Group } from "components";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";

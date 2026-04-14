@@ -1,5 +1,5 @@
-import type { GetRolesOutput } from "types/roles";
-import type { RoleView } from "types/roles";
+import type { GetRolesOutput } from "types/campground/roles";
+import type { RoleView } from "types/campground/roles";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientRoleManager extends HTTPClientObjectManager {

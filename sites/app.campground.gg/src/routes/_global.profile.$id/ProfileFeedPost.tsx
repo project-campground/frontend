@@ -1,7 +1,7 @@
 import { Alert, Box } from "@mui/joy";
 import { useState } from "react";
 import { IconTrashFilled } from "@tabler/icons-react";
-import type { EitherProfilePostView, ProfilePostViewParented } from "types/user";
+import type { EitherProfilePostView, ProfilePostViewParented } from "types/campground/user";
 import ProfilePost, { appearAnimation, ProfilePostSkeleton } from "./ProfilePost";
 import { ThreadLineItem, ThreadLineWrapper } from "~/components/ThreadLine";
 

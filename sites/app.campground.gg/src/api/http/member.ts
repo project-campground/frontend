@@ -1,6 +1,6 @@
-import type { MemberViewDetailed } from "types/membership";
-import type { GetMembersDetailedOutput } from "types/membership";
-import type { GetMembersOutput } from "types/membership";
+import type { MemberViewDetailed } from "types/campground/membership";
+import type { GetMembersDetailedOutput } from "types/campground/membership";
+import type { GetMembersOutput } from "types/campground/membership";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientMemberManager extends HTTPClientObjectManager {

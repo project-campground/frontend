@@ -3,7 +3,7 @@ import { useState } from "react";
 import UserDisplay, { UserDisplaySkeleton } from "~/components/UserDisplay";
 import { IconMessage, IconPencil, IconTrashFilled } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import type { EitherProfilePostView, ProfilePostView } from "types/user";
+import type { EitherProfilePostView, ProfilePostView } from "types/campground/user";
 import Link from "~/components/Link";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 import { LargeContentMarkdown } from "~/components/markdown/Markdown";

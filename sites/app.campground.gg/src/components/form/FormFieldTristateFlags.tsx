@@ -5,7 +5,7 @@ import { FormContext, type ResetValueHandler } from "./context";
 import { FormBody } from "./Form";
 import clsx from "clsx";
 import type { TristateValue } from "../Tristate";
-import type { PermissionsStateDictionary } from "types/permissions";
+import type { PermissionsStateDictionary } from "types/campground/permissions";
 
 export type FormFieldTristateFlagsValue = Record<keyof PermissionsStateDictionary, number>;
 

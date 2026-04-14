@@ -1,17 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import type { AuthCredentials, SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from './types';
-import HTTPClient from '~/api/HTTPClient';
+import type { AuthCredentials, SessionAuth, SessionAuthed, SessionAuthRefresh } from './types';
+import HTTPClient from '~/api/http/HTTPClient';
 import { useNavigate } from 'react-router';
 import { defaultAppBackendUrl } from 'api.config';
 import { SessionContext } from '.';
 import WSClient from '~/api/WSClient';
+import PreferenceManager from "~/api/preferences/PreferenceManager";
 
 export function SessionProvider({ children }: React.PropsWithChildren) {
     const navigate = useNavigate();
     const localStorageAuth = useMemo(() => localStorage.getItem("auth"), []);
-    const localStorageSettings = useMemo(() => localStorage.getItem("settings"), []);
     const [auth, setAuthUnsafe] = useState<SessionAuth>(localStorageAuth ? JSON.parse(localStorageAuth) : { authenticated: false });
-    const [settings, setSettingsUnsafe] = useState<SessionSettings>(localStorageSettings ? JSON.parse(localStorageSettings) : { locale: "en-US" });
     const refreshLogin = (refresh: SessionAuthRefresh) =>
         setAuth({ authenticated: true, user: { ...refresh, email: (auth as SessionAuthed).user?.email, emailConfirmed: (auth as SessionAuthed).user?.emailConfirmed } });
     const http = useMemo(() =>
@@ -23,10 +22,6 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     const setAuth = (value: SessionAuth) => {
         setAuthUnsafe(value);
         localStorage.setItem("auth", JSON.stringify(value));
-    };
-    const setSettings = (value: SessionSettings) => {
-        setSettingsUnsafe(value);
-        localStorage.setItem("settings", JSON.stringify(value));
     };
 
     const login = async (details: AuthCredentials) =>
@@ -52,16 +47,22 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
             webSocket.initWithoutAuth();
         return webSocket;
     }, [auth.authenticated]);
+    const preferences = useMemo(() => {
+        const preferences = new PreferenceManager(http, auth.authenticated);
+
+        preferences.init();
+
+        return preferences;
+    }, [auth.authenticated]);
 
     const value = useMemo(() => ({
         auth,
         http,
-        settings,
-        setSettings,
+        preferences,
         login,
         logout,
         ws
-    }), [auth, settings]);
+    }), [auth]);
 
     return (
         <SessionContext.Provider value={value}>

@@ -9,7 +9,7 @@ import {
     Divider,
 } from "@mui/joy";
 import { IconPlus } from "@tabler/icons-react";
-import type { BonfireViewBasic } from "types/bonfires";
+import type { BonfireViewBasic } from "types/campground/bonfires";
 import BonfireCreationModal from "./BonfireCreationModal";
 import { useState } from "react";
 import BonfireItem from "./BonfireItem";

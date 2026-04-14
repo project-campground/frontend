@@ -1,6 +1,6 @@
-import type { PermissionsDictionary, PermissionsStateDictionary } from "types/permissions";
+import type { PermissionsDictionary, PermissionsStateDictionary } from "types/campground/permissions";
 import { ContextBase } from "../session/base";
-import type { GetTentsOutput } from "types/tent";
+import type { GetTentsOutput } from "types/campground/tent";
 
 export class CurrentTentListContext extends ContextBase<GetTentsOutput> {
 }

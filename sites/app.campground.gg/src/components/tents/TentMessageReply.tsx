@@ -1,8 +1,8 @@
 import { Group, loremIpsum } from "components";
-import type { MessageViewBasic } from "types/content";
+import type { MessageViewBasic } from "types/campground/content";
 import UserDisplay, { UserDisplaySkeleton } from "../UserDisplay";
 import { Skeleton, styled, Typography } from "@mui/joy";
-import type { RoleView } from "types/roles";
+import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 
 type Props = {

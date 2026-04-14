@@ -1,6 +1,7 @@
-import HTTPClient from "~/api/HTTPClient";
-import type { SessionAuth, SessionAuthed, SessionAuthRefresh, SessionSettings } from "./types";
+import HTTPClient from "~/api/http/HTTPClient";
+import type { SessionAuth, SessionAuthed, SessionAuthRefresh } from "./types";
 import { defaultAppBackendUrl } from "api.config";
+import type { CampgroundPreferences } from "~/api/preferences/PreferenceManager";
 
 type JsonParsed<T> = { parsed: false; content: null; } | { parsed: true; content: T; };
 
@@ -20,12 +21,12 @@ function getFromStorageOrDefault<T>(storage: Storage, key: string, _default: T) 
 
 export default class SessionMiddleware {
     auth: SessionAuth;
-    settings: SessionSettings;
+    preferences: CampgroundPreferences;
     http: HTTPClient;
 
     constructor(storage: Storage) {
         this.auth = getFromStorageOrDefault<SessionAuth>(storage, "auth", { authenticated: false });
-        this.settings = getFromStorageOrDefault(storage, "settings", { locale: "en-US" });
+        this.preferences = getFromStorageOrDefault(storage, "settings", { locale: { language: "en-US" } });
 
         // In-case it wasn't done in-client
         const onRefresh = (refresh: SessionAuthRefresh) => {

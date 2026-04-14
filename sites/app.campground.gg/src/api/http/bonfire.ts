@@ -1,5 +1,5 @@
-import type { BonfireViewDetailed } from "types/bonfires";
-import type { BonfireViewBasic } from "types/bonfires";
+import type { BonfireViewDetailed } from "types/campground/bonfires";
+import type { BonfireViewBasic } from "types/campground/bonfires";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientBonfireManager extends HTTPClientObjectManager {

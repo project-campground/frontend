@@ -1,5 +1,5 @@
 import HTTPClientObjectManager from "./base";
-import type { TentCategoryView } from "types/tent";
+import type { TentCategoryView } from "types/campground/tent";
 
 export default class HTTPClientCategoryManager extends HTTPClientObjectManager {
     create(campsite_id: string, bonfire_id: string, body: { name: string; description: string; position: number; }) {

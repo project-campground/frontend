@@ -1,19 +1,16 @@
-import HTTPClient from "~/api/HTTPClient";
+import HTTPClient from "~/api/http/HTTPClient";
+import type PreferenceManager from "~/api/preferences/PreferenceManager";
 import type WSClient from "~/api/WSClient";
 
 export interface Session {
     auth: SessionAuth;
-    settings: SessionSettings;
+    preferences: PreferenceManager;
     http: HTTPClient;
     ws: WSClient;
     login(details: AuthCredentials): Promise<void>;
     logout(): void;
-    setSettings(value: SessionSettings | ((prevState: SessionSettings) => SessionSettings)): void;
 }
 export type Locale = "en-US";
-export interface SessionSettings {
-    locale: Locale;
-}
 export type SessionAuth = SessionAuthed | SessionUnauthed;
 interface SessionAuthState<T extends boolean> {
     authenticated: T;

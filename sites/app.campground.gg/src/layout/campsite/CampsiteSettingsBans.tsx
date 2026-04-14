@@ -7,7 +7,7 @@ import {
     type CampsiteContextSuite,
 } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
-import type { MemberBanView } from "types/membership";
+import type { MemberBanView } from "types/campground/membership";
 import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { UserDisplayNoModal } from "~/components/UserDisplay";

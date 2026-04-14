@@ -3,7 +3,7 @@ import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import type React from "react";
-import type { TentCategoryView } from "types/tent";
+import type { TentCategoryView } from "types/campground/tent";
 import TentSettingsProfile from "./CategorySettingsProfile";
 import CategorySettingsDeletion from "./CategorySettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";

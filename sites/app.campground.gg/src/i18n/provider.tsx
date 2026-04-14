@@ -8,16 +8,16 @@ export function IntlProvider({ children }: React.PropsWithChildren) {
     const session = useSession();
     const [messages, setMessages] = React.useState<Record<string, string>>();
 
-    console.log("Locale", session?.settings?.locale);
+    console.log("Locale", session.preferences.locale);
     React.useEffect(() => {
         console.log("Loading locale");
-        loadLocale(session?.settings?.locale || "en-US").then((messages) => {
+        loadLocale(session.preferences.locale).then((messages) => {
             setMessages(flattenMessages(messages));
         });
-    }, [session.settings.locale]);
+    }, [session.preferences.locale]);
 
     return (
-        <ReactIntlProvider defaultLocale='en-US' locale={session?.settings?.locale || "en-US"} messages={messages}>
+        <ReactIntlProvider defaultLocale='en-US' locale={session.preferences.locale} messages={messages}>
             {children}
         </ReactIntlProvider>
     );

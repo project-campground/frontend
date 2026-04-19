@@ -8,24 +8,23 @@ export interface CampgroundProfileRecord {
     socialConnections: any[];
     avatar: string | null;
 }
-export interface ProfileView {
+export interface ProfileViewEmpty {
     did: string;
     handle: string;
+}
+export interface ProfileViewBasic extends ProfileViewEmpty {
     displayName: string | null;
-
+    
     description: string | null;
     tagline: string | null;
     location: string | null;
-
+    
     avatar: string | null;
     banner: string | null;
-
+    
     createdAt: string | null;
 }
-export interface ProfileViewBasic extends ProfileView {
-    
-}
-export interface ProfileViewDetailed extends ProfileView {
+export interface ProfileViewDetailed extends ProfileViewBasic {
     description: string;
     indexedAt: string;
 }
@@ -37,7 +36,7 @@ export interface ProfilePostView {
     createdAt: string;
     indexedAt: string | null;
     updatedAt: string | null;
-    author: ProfileView;
+    author: ProfileViewEmpty;
 };
 export interface ProfilePostViewWithParent extends ProfilePostView {
     parent: ProfilePostViewBasic | null;

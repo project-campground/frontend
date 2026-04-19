@@ -8,9 +8,9 @@ import type {
     HttpResponseOkWithContent,
     HttpResponseWithContent,
 } from "./HTTPResponse";
-import type { ProfileView } from "types/campground/user";
+import type { ProfileViewEmpty } from "types/campground/user";
 import type { HTTPRefreshLogin } from "./HTTPErrorHandler";
-import type { SessionAuthRefresh } from "~/context/session/types";
+import type { SessionAuthRefresh, SessionBasic } from "~/context/session/types";
 import type {
     AtprotoRecord,
     AtprotoValueBase,
@@ -32,6 +32,7 @@ import HTTPClientMemberBanManager from "./memberBan";
 import HTTPClientPreferenceManager from "./preference";
 import type { GetSession } from "types/atproto/session";
 import HTTPClientAccountManager from "./account";
+import type { DescribedServer } from "types/atproto/server";
 
 type HTTPMethodXRPC = "GET" | "POST";
 type HTTPMethod =
@@ -44,6 +45,7 @@ type HTTPMethod =
 
 export interface RequestPrefixed {
     url: string;
+    mode?: RequestMode;
     routePrefix: string;
 }
 export interface HTTPClientConfig extends RequestPrefixed {
@@ -132,6 +134,38 @@ export default class HTTPClient {
         });
     }
 
+    public static describeServer(
+        requestConfig: Partial<RequestPrefixed> = {},
+    ) {
+        return HTTPClient.atprotoFetch<DescribedServer>({
+            method: "GET",
+            route: "com.atproto.server.describeServer",
+            ...requestConfig,
+        });
+    }
+
+    public static register(
+        props: {
+            email?: string;
+            handle: string;
+            inviteCode?: string;
+            verificationCode?: string;
+            verificationPhone?: string;
+            recoveryKey?: string;
+            password?: string;
+            did?: string;
+        },
+        requestConfig: Partial<RequestPrefixed> = {},
+    ) {
+        return HTTPClient.atprotoFetch<SessionBasic & { didDoc: any }>({
+            method: "POST",
+            route: `com.atproto.server.createAccount`,
+            body: props,
+            ...requestConfig,
+        });
+    }
+
+
     private static convertValueToArray([key, value]: [string, any]) {
         return Array.isArray(value)
             ? value
@@ -161,6 +195,7 @@ export default class HTTPClient {
             method,
             body,
             request,
+            mode,
             headers,
         } = { ...this._default, ...config };
 
@@ -173,6 +208,7 @@ export default class HTTPClient {
         const response = await fetch(resolvedUrl, {
             method,
             body: body ? JSON.stringify(body) : null,
+            mode,
             headers: {
                 "Content-Type": "application/json",
                 ...headers,
@@ -372,7 +408,7 @@ export default class HTTPClient {
     }
 
     public getProfile(actor: string) {
-        return this.get<ProfileView>({
+        return this.get<ProfileViewEmpty>({
             route: `gg.campground.actor.getProfile`,
             queries: {
                 actor,

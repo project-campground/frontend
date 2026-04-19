@@ -44,6 +44,16 @@ const globalIntlDeclarations = {
         defaultMessage: "Username",
         description: "Display name of the user",
     }),
+    "info.pds": defineMessage({
+        id: "info.pds",
+        defaultMessage: "Personal server",
+        description: "Longer name for PDS",
+    }),
+    "info.inviteCode": defineMessage({
+        id: "info.inviteCode",
+        defaultMessage: "Registration invite code",
+        description: "Invite code for registration",
+    }),
     "info.password": defineMessage({
         id: "info.password",
         defaultMessage: "Password",
@@ -56,7 +66,7 @@ const globalIntlDeclarations = {
     }),
     "info.password.confirm": defineMessage({
         id: "info.password.confirm",
-        defaultMessage: "Confirm password",
+        defaultMessage: "Re-enter password",
         description: "Confirm a password when registering or changing password",
     }),
     "info.handle": defineMessage({

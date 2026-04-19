@@ -1,7 +1,7 @@
 import { CardContent, Link, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
-import type { ProfileView } from "types/campground/user";
+import type { ProfileViewEmpty } from "types/campground/user";
 import UserAvatar from "../../components/UserAvatar";
 import { Group } from "components";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";
@@ -9,7 +9,7 @@ import { IconPencil } from "@tabler/icons-react";
 import { ProfilePostCard } from "./ProfilePost";
 
 type Props = {
-    user: ProfileView;
+    user: ProfileViewEmpty;
     content?: string;
     placeholder?: string;
     sx?: SxProps;

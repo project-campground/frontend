@@ -1,6 +1,6 @@
 import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
-import type { ProfileView } from "types/campground/user";
+import type { ProfileViewEmpty } from "types/campground/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group, TextBlock } from "components";
 import type { MemberView } from "types/campground/membership";
@@ -10,7 +10,7 @@ import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";
 
-type Props<T extends ProfileView> = {
+type Props<T extends ProfileViewEmpty> = {
     user: T;
     member?: MemberView<T> | null;
     noAvatar?: boolean;
@@ -38,7 +38,7 @@ const GapSpan = styled("span", {
     display: "inline-block",
 }));
 
-export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
     return (
         <Typography level="body-md" onClick={onClick}>
@@ -67,7 +67,7 @@ export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus,
     );
 }
 
-export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
+export default function UserDisplay<T extends ProfileViewEmpty>(props: Props<T>) {
     return (
         <>
             <Dropdown>
@@ -87,7 +87,7 @@ export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
     );
 }
 
-export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props<ProfileView>, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
+export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props<ProfileViewEmpty>, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
     const actualSize = size ?? "md";
 
     return (

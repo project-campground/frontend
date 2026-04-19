@@ -1,9 +1,9 @@
-import type { CampgroundProfileRecord, ProfileView } from "types/campground/user";
+import type { CampgroundProfileRecord, ProfileViewEmpty } from "types/campground/user";
 import HTTPClientObjectManager from "./base";
 
 export default class HTTPClientProfileManager extends HTTPClientObjectManager {
     public get(actor: string) {
-        return this.client.get<ProfileView>({
+        return this.client.get<ProfileViewEmpty>({
             route: `gg.campground.actor.getProfile`,
             queries: {
                 actor,

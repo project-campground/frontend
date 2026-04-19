@@ -7,6 +7,7 @@ export interface Session {
     preferences: PreferenceManager;
     http: HTTPClient;
     ws: WSClient;
+    setAuth(details: SessionAuth): void;
     login(details: AuthCredentials): Promise<void>;
     logout(): void;
 }
@@ -17,6 +18,7 @@ interface SessionAuthState<T extends boolean> {
 }
 export interface SessionAuthed extends SessionAuthState<true> {
     user: SessionAuthUser;
+    server: string;
 }
 export interface SessionUnauthed extends SessionAuthState<false> { }
 
@@ -25,19 +27,17 @@ export interface AuthCredentials {
     password: string;
 }
 
-export interface SessionAuthUser {
+export interface SessionBasic {
     did: string;
     handle: string;
+    accessJwt: string;
+    refreshJwt: string;
+}
+export interface SessionAuthUser extends SessionBasic {
     email: string;
     emailConfirmed: boolean;
-    accessJwt: string;
-    refreshJwt: string;
     active: boolean;
 }
-export interface SessionAuthRefresh {
-    did: string;
-    handle: string;
-    accessJwt: string;
-    refreshJwt: string;
+export interface SessionAuthRefresh extends SessionBasic {
     active: boolean;
 }

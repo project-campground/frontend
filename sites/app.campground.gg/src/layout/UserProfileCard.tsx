@@ -1,6 +1,6 @@
 import { Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
-import type { ProfileView } from "types/campground/user";
+import type { ProfileViewEmpty } from "types/campground/user";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useAccount } from "~/context/account";
@@ -14,8 +14,8 @@ import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 import UserHeader from "~/components/users/UserHeader";
 
-type Props<T extends ProfileView> = {
-    user?: ProfileView;
+type Props<T extends ProfileViewEmpty> = {
+    user?: ProfileViewEmpty;
     member?: MemberView<T> | null;
     campsiteRoles?: RoleView[];
     did: string;
@@ -26,7 +26,7 @@ const UserProfileCardWrapper = styled(Box)(() => ({
     width: 320 - 12 - 2,
 }));
 
-export default function UserProfileCard<T extends ProfileView>({ did, user, member, campsiteRoles }: Props<T>) {
+export default function UserProfileCard<T extends ProfileViewEmpty>({ did, user, member, campsiteRoles }: Props<T>) {
     const session = useSession();
     const account = useAccount();
     const [fetchedUser, setFetchedUser] = useState(user);

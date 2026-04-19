@@ -1,6 +1,6 @@
 import type { RoleView } from "./roles";
 import type {
-    ProfileView,
+    ProfileViewEmpty,
     ProfileViewBasic,
     ProfileViewDetailed,
 } from "./user";
@@ -32,7 +32,7 @@ export interface GetMembersDetailedOutput {
 }
 export interface MemberViewBasic
     extends MemberView<ProfileViewBasic> {}
-export interface MemberView<TUser extends ProfileView> {
+export interface MemberView<TUser extends ProfileViewEmpty> {
     user: TUser;
     nickname: string | null | undefined;
     roles: string[];

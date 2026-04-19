@@ -1,5 +1,5 @@
 import { Box, Stack, Tabs } from "@mui/joy";
-import type { ProfileView, ProfilePostViewParented } from "types/campground/user";
+import type { ProfileViewEmpty, ProfilePostViewParented } from "types/campground/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 import ProfilePostCreator from "~/routes/_global.profile.$id/ProfilePostCreator";
 import { useSession } from "~/context/session";
@@ -13,7 +13,7 @@ import { useAccount } from "~/context/account";
 import { FormattedMessage } from "react-intl";
 
 type Props = {
-    user: ProfileView;
+    user: ProfileViewEmpty;
 };
 
 export default function ProfileFeed({ user }: Props) {

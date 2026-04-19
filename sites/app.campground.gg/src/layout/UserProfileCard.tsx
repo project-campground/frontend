@@ -130,11 +130,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                             <ListItemContent>
                                 <Typography textColor="inherit">
                                     <Skeleton loading={isLoading}>
-                                        <FormattedMessage
-                                            id="form.logout"
-                                            defaultMessage="Logout"
-                                            description="Menu button for logging out of the account"
-                                        />
+                                        <FormattedMessageGlobal id="form.logout" />
                                     </Skeleton>
                                 </Typography>
                             </ListItemContent>

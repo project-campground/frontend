@@ -8,7 +8,7 @@ export const useMeContext = () => {
 
     return account?.authenticated ? account.me : null; 
 };
-export const useAccount = () => useContext(AccountContext);
+export const useAccount = <T extends boolean = false>() => useContext(AccountContext) as (T extends true ? AccountContextAuthenticated : AccountContext);
 export const AccountContext = createContext<AccountContext | null>(null);
 export type AccountContext = AccountContextAuthenticated | AccountContextUnauthenticated;
 export interface AccountContextAuthenticated {

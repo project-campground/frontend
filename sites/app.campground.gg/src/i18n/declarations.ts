@@ -115,6 +115,11 @@ const globalIntlDeclarations = {
         defaultMessage: "Login",
         description: "Login button and page title",
     }),
+    "form.logout": defineMessage({
+        id: "form.logout",
+        defaultMessage: "Logout",
+        description: "Logout button and page title",
+    }),
     "form.register": defineMessage({
         id: "form.register",
         defaultMessage: "Register",

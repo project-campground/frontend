@@ -9,30 +9,30 @@ import { IconArticleFilled, IconFlameFilled } from "@tabler/icons-react";
 import HTTPError from "~/util/HTTPError";
 import { ProfilePostSkeleton } from "./ProfilePost";
 import { SmoothTabList } from "components";
+import { useAccount } from "~/context/account";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
     user: ProfileView;
-    isSelf: boolean;
 };
 
-export default function ProfileFeed({ user, isSelf }: Props) {
+export default function ProfileFeed({ user }: Props) {
     const session = useSession();
+    const account = useAccount<true>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [fetchReplies, setFetchReplies] = useState<boolean>(false);
     const [postList, setPostList] = useState<ProfilePostViewParented[]>([]);
     const [error, setError] = useState<HTTPError | null>(null);
-
-    if (error)
-        throw error;
+    const isSelf = session.auth.authenticated && session.auth.user.did === user.did;
 
     useEffect(() => {
         setIsLoading(true);
         session.http.profilePosts.getMany(user.did, fetchReplies)
             .then((posts) => {
-                if (posts.ok)
-                    setPostList(posts.content.posts);
-                else
-                    setError(new HTTPError(posts.errorDescription, posts.status, posts.errorHeader));
+                if (!posts.ok)
+                    return setError(new HTTPError(posts.errorDescription, posts.status, posts.errorHeader));
+                
+                setPostList(posts.content.posts);
                 setIsLoading(false);
             });
     }, [fetchReplies]);
@@ -67,6 +67,23 @@ export default function ProfileFeed({ user, isSelf }: Props) {
             .catch((e) => console.error("Got an error while editing a post", e));
     };
 
+    if (error?.status === 404)
+        return (
+            <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title={
+                <FormattedMessage
+                    id="app.profiles.deactivated.header"
+                    defaultMessage="Profile does not exist"
+                    description="Deactivated account profile error header"
+                />
+            }>
+                <FormattedMessage
+                    id="app.profiles.deactivated.description"
+                    defaultMessage="The user has deactivated their account or profile does not exist."
+                    description="Deactivated account profile error description"
+                />
+            </PagePlaceholder>
+        );
+
     return (
         <Box sx={{ px: 2 }}>
             {/* <Typography level="h3" sx={{ mb: 2 }}>Feed</Typography> */}
@@ -98,7 +115,7 @@ export default function ProfileFeed({ user, isSelf }: Props) {
                     </Stack>
                 </>
                 : <>
-                    {!fetchReplies && session.http && isSelf && <ProfilePostCreator user={user} onPost={onPostCreated} sx={{ mb: 2 }} />}
+                    {!fetchReplies && isSelf && (account.account.active || typeof account.account.active === "undefined") && <ProfilePostCreator user={user} onPost={onPostCreated} sx={{ mb: 2 }} />}
                     <Stack gap={2}>
                         {postList.map((x, i) =>
                             <ProfileFeedPost

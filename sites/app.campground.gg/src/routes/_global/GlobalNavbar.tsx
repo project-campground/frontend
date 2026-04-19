@@ -1,9 +1,9 @@
-import { Box, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
+import { Box, CircularProgress, Divider, Stack, Typography, Alert } from "@mui/joy";
 import NavbarCamp from "~/components/pages/NavbarCamp";
 import GlobalNavProfile from "./GlobalNavProfile";
 import NavbarButton from "~/components/pages/NavbarButton";
-import { IconCompassFilled, IconPlus } from "@tabler/icons-react";
-import { useMeContext } from "~/context/account";
+import { IconCompassFilled, IconExclamationCircleFilled, IconPlus } from "@tabler/icons-react";
+import { useAccount } from "~/context/account";
 
 type Props = {
     loaded: boolean;
@@ -13,7 +13,7 @@ type Props = {
 const homePages = ["friends"]
 
 export default function GlobalNavbar({ page, loaded }: Props) {
-    const me = useMeContext();
+    const account = useAccount();
 
     return (
         <Box sx={{ width: "100%" }}>
@@ -27,21 +27,25 @@ export default function GlobalNavbar({ page, loaded }: Props) {
                         </Stack>
                     </NavbarButton>
                 </Stack>
-                <Divider orientation="vertical" sx={{ width: 2, mt: 1, mb: 1, }} />
-                <Box sx={{ overflowX: "auto", overflowY: "hidden" }} flex={1}>
-                    <Stack direction="row" sx={{ flex: 1, m: 1, }} gap={1}>
-                        {me?.campsites.map((x) =>
-                            <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
-                        )}
-                        {!loaded && <CircularProgress />}
-                        {me && <NavbarButton href="/c/create" isActive={page === "create"}>
-                            <IconPlus />
-                        </NavbarButton>}
-                        <NavbarButton href="/discover" isActive={page === "discover"}>
-                            <IconCompassFilled />
-                        </NavbarButton>
-                    </Stack>
-                </Box>
+                {account.authenticated && !account.account.active
+                ? <Alert sx={{ flex: 1, borderRadius: "lg" }} variant="soft" color="danger" startDecorator={<IconExclamationCircleFilled />}>Your account is inactive</Alert>
+                : <>
+                    <Divider orientation="vertical" sx={{ width: 2, mt: 1, mb: 1, }} />
+                    <Box sx={{ overflowX: "auto", overflowY: "hidden" }} flex={1}>
+                        <Stack direction="row" sx={{ flex: 1, m: 1, }} gap={1}>
+                            {account.authenticated && account.me.campsites.map((x) =>
+                                <NavbarCamp key={x.id} id={x.id} avatar={x.avatarUri ?? undefined} name={x.name} memberCount={x.memberCount} isActive={page === x.id} />
+                            )}
+                            {!loaded && <CircularProgress />}
+                            {account.authenticated && <NavbarButton href="/c/create" isActive={page === "create"}>
+                                <IconPlus />
+                            </NavbarButton>}
+                            <NavbarButton href="/discover" isActive={page === "discover"}>
+                                <IconCompassFilled />
+                            </NavbarButton>
+                        </Stack>
+                    </Box>
+                </>}
                 <Stack direction="row" sx={{ m: 1 }}>
                     <GlobalNavProfile />
                 </Stack>

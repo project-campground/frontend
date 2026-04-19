@@ -29,14 +29,13 @@ export async function clientLoader({ context, params: { id } }: Route.ClientLoad
         errorDescription,
         ok,
         user: content,
-        isSelf: session.auth.authenticated && session.auth.user.did === content?.did,
     };
 }
 
-export default function Index({ loaderData: { status, ok, isSelf, user, errorHeader, errorDescription } }: Route.ComponentProps) {
+export default function Index({ loaderData: { status, ok, user, errorHeader, errorDescription } }: Route.ComponentProps) {
     return (
         ok
-        ? <ProfileView user={user!} isSelf={isSelf} />
+        ? <ProfileView user={user!} />
         : status === 404
         ? <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title="Cannot find that user">
             There is no such user with that DID. Have you entered the wrong DID?

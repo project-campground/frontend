@@ -1,4 +1,4 @@
-import { Stack, Modal } from "@mui/joy";
+import { Stack, Modal, Button } from "@mui/joy";
 import React, { ReactNode, type ContextType } from "react";
 import GlobalNavbar from "./GlobalNavbar";
 import { SessionContext } from "~/context/session";
@@ -9,6 +9,10 @@ import type { CampsiteViewBasic } from "types/campground/campsites";
 import UserSettingsModal from "~/layout/user/UserSettingsModal";
 import type { Me } from "types/campground/me";
 import type { GetSession } from "types/atproto/session";
+import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
+import { FormattedMessage } from "react-intl";
+import { IconLogout2 } from "@tabler/icons-react";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
     page: string | undefined | null;
@@ -17,6 +21,7 @@ type Props = {
 
 type State = {
     loaded: boolean;
+    errorLoading?: string;
     userSettingsOpen: boolean;
 };
 
@@ -29,7 +34,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
     private _me: Me | null = null;
     private _pdsSession: GetSession | null = null;
 
-    state = {
+    state: State = {
         loaded: false,
         userSettingsOpen: false,
     };
@@ -54,6 +59,10 @@ export default class GlobalLayout extends React.Component<Props, State> {
             this.context.http.getSession(),
             this.context.http.getMe(),
         ]).then((resps) => {
+            // Deleted account
+            if (resps[0].status === 400)
+                return this.onGetSessionError(resps[0].errorDescription!);
+
             const badResp = (
                 resps.slice(0, 2) as [(typeof resps)[0], (typeof resps)[1]]
             ).find((x) => !x.ok);
@@ -70,6 +79,11 @@ export default class GlobalLayout extends React.Component<Props, State> {
 
             return this.setState({ loaded: true });
         });
+    }
+    onGetSessionError(message: string) {
+        this.setState({
+            errorLoading: message
+        })
     }
     componentWillUnmount(): void {
         this.context.ws.unsubscribe(this._wsSubscription!);
@@ -113,7 +127,31 @@ export default class GlobalLayout extends React.Component<Props, State> {
     render() {
         const { page, children } = this.props;
         const { _me, _pdsSession } = this;
-        const { loaded, userSettingsOpen } = this.state;
+        const { loaded, userSettingsOpen, errorLoading } = this.state;
+
+        if (errorLoading)
+            return (
+                <PagePlaceholder icon={PagePlaceholderIcon.Error} title={
+                    <FormattedMessage
+                        id="app.sessionError.header"
+                        defaultMessage="Error while getting session"
+                        description="The title of the error when there is a session error"
+                    />
+                }>
+                    {errorLoading.startsWith("Could not find user")
+                    ? <FormattedMessage
+                        id="app.sessionError.notFound"
+                        defaultMessage="The logged in account does not exist and has been likely deleted."
+                        description="The description for session error when the account that user logged into does not exist."
+                    />
+                    : errorLoading}
+                    <Stack mt={2} alignItems="center">
+                        <Button variant="glow" startDecorator={<IconLogout2 />} onClick={this.context.logout}>
+                            <FormattedMessageGlobal id="form.logout" />
+                        </Button>
+                    </Stack>
+                </PagePlaceholder>
+            )
 
         return (
             <Stack
@@ -140,7 +178,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
                                       openUserSettings: this.openUserSettings,
                                   }
                                 : { authenticated: false }
-                            : null
+                            : { authenticated: false }
                     }
                 >
                     <GlobalNavbar page={page} loaded={loaded} />

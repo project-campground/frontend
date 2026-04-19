@@ -166,10 +166,20 @@ const globalIntlDeclarations = {
         description: "Section for deleting campsites, tents, etc.",
     }),
     // User settings
-    "app.user.settings": defineMessage({
-        id: "app.user.settings",
+    "app.users.settings": defineMessage({
+        id: "app.users.settings",
         defaultMessage: "User settings",
         description: "Header of user settings",
+    }),
+    "app.users.settings.deactivate": defineMessage({
+        id: "app.users.settings.deactivate",
+        defaultMessage: "Deactivate account",
+        description: "The account deactivation page in user settings"
+    }),
+    "app.users.settings.reactivate": defineMessage({
+        id: "app.users.settings.reactivate",
+        defaultMessage: "Reactivate account",
+        description: "The account reactivation button in user settings"
     }),
     // Roles
     "app.roles": defineMessage({

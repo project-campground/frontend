@@ -17,17 +17,19 @@ const complementaryPalettes: Record<keyof Omit<Palette, "common" | "background" 
 };
 
 const buttonAnimations = {
+    "--click-transform": "scale(0.925) translateY(2px)",
+    "--hover-transform": "scale(1.0125)",
     transitionDuration: "0.2s",
     transitionProperty: "background, background-color, color, box-shadow, transform",
     ":active": {
-        transform: "scale(0.925) translateY(2px)",
+        transform: "var(--click-transform)",
     },
     ":hover": {
-        transform: "scale(1.0125)",
+        transform: "var(--hover-transform)",
     },
     // To not be ignored in modified buttons
     "&:active:hover": {
-        transform: "scale(0.925) translateY(2px)",
+        transform: "var(--click-transform)",
     }
 };
 const ButtonStyling: (props: { ownerState: ButtonOwnerState | IconButtonOwnerState | MenuButtonOwnerState | ListItemButtonOwnerState, theme: Theme }) => any = ({ theme, ownerState: { variant, disabled, color, } }) => ({

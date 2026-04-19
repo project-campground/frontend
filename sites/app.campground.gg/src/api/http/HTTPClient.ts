@@ -31,6 +31,7 @@ import HTTPClientMemberManager from "./member";
 import HTTPClientMemberBanManager from "./memberBan";
 import HTTPClientPreferenceManager from "./preference";
 import type { GetSession } from "types/atproto/session";
+import HTTPClientAccountManager from "./account";
 
 type HTTPMethodXRPC = "GET" | "POST";
 type HTTPMethod =
@@ -74,6 +75,8 @@ export default class HTTPClient {
 
     private _config: HTTPClientConfig;
     private _onRefreshLogin?: HTTPRefreshLogin;
+    public account = new HTTPClientAccountManager(this);
+
     public profilePosts = new HTTPClientProfilePostManager(this);
 
     public campsites = new HTTPClientCampsiteManager(this);
@@ -284,6 +287,16 @@ export default class HTTPClient {
             request: { headers: { "atproto-proxy": "" } },
             ...request,
         });
+    }
+    public fetchPDSAuthed<T>(
+        method: HTTPMethodXRPC,
+        nsid: string,
+        request: Omit<RequestConfig, "route" | "method">,
+    ) {
+        if (!this.actorDid)
+            throw new Error("This ATProtocol route requires authentication");
+
+        return this.fetchPDS<T>(method, nsid, request);
     }
     public getRecord<T extends AtprotoValueBase>(config: {
         repo: string;

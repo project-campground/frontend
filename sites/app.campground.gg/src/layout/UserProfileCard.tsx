@@ -1,7 +1,6 @@
-import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
+import { Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
 import type { ProfileView } from "types/campground/user";
-import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useAccount } from "~/context/account";
@@ -11,9 +10,9 @@ import type { RoleView } from "types/campground/roles";
 import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
-import GradientBanner from "../components/pages/GradientBanner";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import UserHeader from "~/components/users/UserHeader";
 
 type Props<T extends ProfileView> = {
     user?: ProfileView;
@@ -51,21 +50,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
 
     return (
         <UserProfileCardWrapper>
-            <Box>
-                <AspectRatio ratio={3} sx={{ borderRadius: "sm" }}>
-                    {isLoading
-                    ? <Skeleton loading sx={{ zIndex: 0 }}>
-                    </Skeleton>
-                    : <GradientBanner color="primary" sx={{ zIndex: "inherit", width: "100%", height: "100%", }}>
-
-                    </GradientBanner>}
-                </AspectRatio>
-            </Box>
-            <Box sx={{ mt: -6, px: 1.5, zIndex: 2 }}>
-                {isLoading
-                ? <UserAvatarSkeleton withStatus size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level2}` })} />
-                : <UserAvatar withStatus did={fetchedUser!.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.neutral.softBg}` })} />}
-            </Box>
+            <UserHeader did={did} isLoading={isLoading} avatar={fetchedUser?.avatar} banner={fetchedUser?.banner} />
             <Box sx={{ px: 1.5, py: 1 }}>
                 <Stack>
                     <Typography level="title-lg" fontWeight={900}>
@@ -120,9 +105,9 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                         </Typography>
                     </ListItemContent>
                 </MenuItem>
-                {session.auth.authenticated && session.auth.user.did === did
+                {session.auth.authenticated && session.auth.user.did === did && account?.authenticated
                     ? <>
-                        <MenuItem variant="plain" onClick={account?.openUserSettings}>
+                        <MenuItem variant="plain" onClick={account.openUserSettings}>
                             <ListItemDecorator>
                                 <IconSettingsFilled />
                             </ListItemDecorator>

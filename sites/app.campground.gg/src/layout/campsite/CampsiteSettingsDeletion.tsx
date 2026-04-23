@@ -7,7 +7,6 @@ import {
     IconTrashFilled,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import { useContext } from "react";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
@@ -17,16 +16,17 @@ import FormSection from "~/components/form/FormSection";
 import FormSubmit from "~/components/form/FormSubmit";
 import FormFieldText from "~/components/form/FormFieldText";
 import SettingsPageWrapper from "../settings/page";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 export default function CampsiteSettingsDeletion({
     settingsProps: { campsite },
 }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const navigate = useNavigate();
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const snackbars = useSnackbars();
     const modalClose = useContext(CloseModalContext);
     const onDelete = () =>
-        session.http.campsites.delete(campsite.id).then((resp) => {
+        api.campsites.delete(campsite.id).then((resp) => {
             if (!resp.ok) return snackbars.notifyApiError(resp);
 
             modalClose?.({}, "closeClick");

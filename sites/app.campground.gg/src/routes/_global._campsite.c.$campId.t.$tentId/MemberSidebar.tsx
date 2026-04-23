@@ -2,23 +2,18 @@ import { Stack, styled, Tabs, Typography } from "@mui/joy";
 import { IconListTree, IconUsers } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import React, { type ContextType } from "react";
-import type { TentViewDetailed } from "types/campground/tent";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
-import { SessionContext } from "~/context/session";
 import type { Session } from "~/context/session/types";
-import type {
-    CampsiteViewDetailed,
-} from "types/campground/campsites";
 import type { MemberViewBasic } from "types/campground/membership";
 import MemberList from "./MemberList";
-import { CampsiteContextSuiteContext } from "../_global._campsite/context";
+import { CampsiteContext } from "../_global._campsite/context";
 import { SmoothTabList } from "components";
 import { FormattedMessageGlobal } from "~/i18n";
+import type { TentViewBasic } from "types/campground/tent";
 
 type Props = {
     campsiteId: string;
-    campsite: CampsiteViewDetailed;
-    tent: TentViewDetailed;
+    tent: TentViewBasic;
     closed?: boolean;
 } & React.PropsWithChildren;
 type State = {
@@ -56,8 +51,8 @@ export default class MemberSidebar extends React.Component<
     Props,
     State
 > {
-    static contextType?: React.Context<any> | undefined = SessionContext;
-    declare context: ContextType<typeof SessionContext>;
+    static contextType?: React.Context<any> | undefined = CampsiteContext;
+    declare context: ContextType<typeof CampsiteContext>;
 
     private init: boolean = false;
     state: State = {
@@ -108,7 +103,7 @@ export default class MemberSidebar extends React.Component<
         });
     }
     async fetchMembers(offset: number) {
-        return this.context.http.members.getMany(
+        return this.context.api.members.getMany(
             this.props.campsiteId,
             offset,
         );
@@ -154,16 +149,16 @@ export default class MemberSidebar extends React.Component<
                             ]}
                         />
                     </Tabs>
-                    <CampsiteContextSuiteContext.Consumer>
+                    <CampsiteContext.Consumer>
                         {(ctx) => (
                             <MemberList
                                 campsiteId={this.props.campsiteId}
-                                memberCount={this.props.campsite.memberCount}
+                                memberCount={this.context.campsite.memberCount}
                                 members={this.state.members}
                                 roles={ctx.campsite.roles}
                             />
                         )}
-                    </CampsiteContextSuiteContext.Consumer>
+                    </CampsiteContext.Consumer>
                 </RightSidebarList>
             </RightSidebarBox>
         );

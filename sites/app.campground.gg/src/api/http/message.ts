@@ -1,7 +1,7 @@
-import HTTPClientObjectManager from "./base";
 import type { TentMessagesOutput, MessageViewBasic } from "types/campground/content";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientMessageManager extends HTTPClientObjectManager {
+export default class HTTPMessageManager extends HTTPBackendObjectManager {
     getMany(tent_id: string, offset: number = 0, limit: number = 50) {
         return this.client.get<TentMessagesOutput>({
             route: "gg.campground.message.getMessages",

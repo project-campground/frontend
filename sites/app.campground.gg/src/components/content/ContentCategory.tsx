@@ -24,13 +24,15 @@ const CategoryContainer = styled(Stack, {
     },
 }));
 
-type Props = React.PropsWithChildren & HTMLAttributes<HTMLDivElement> & {
+type ContentCategoryPropsOnly = {
+    defaultOpen?: boolean;
     header: React.ReactNode | React.ReactNode[];
     isDraggingOver?: boolean;
 };
+type Props = React.PropsWithChildren & Omit<HTMLAttributes<HTMLDivElement>, keyof ContentCategoryPropsOnly> & ContentCategoryPropsOnly;
 
-export default function ContentCategory({ header, children, isDraggingOver, ...attributes }: Props) {
-    const [open, setOpen] = useState(true);
+export default function ContentCategory({ header, defaultOpen, children, isDraggingOver, ...attributes }: Props) {
+    const [open, setOpen] = useState(defaultOpen ?? true);
     const className = [open && "CategoryContainer-open", isDraggingOver && "CategoryContainer-over"].filter((x) => x).join(" ");
 
     return (

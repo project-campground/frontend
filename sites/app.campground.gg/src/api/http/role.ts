@@ -1,8 +1,8 @@
 import type { GetRolesOutput } from "types/campground/roles";
 import type { RoleView } from "types/campground/roles";
-import HTTPClientObjectManager from "./base";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientRoleManager extends HTTPClientObjectManager {
+export default class HTTPRoleManager extends HTTPBackendObjectManager {
     getMany(campsite_id: string) {
         return this.client.post<GetRolesOutput>({
             route: "gg.campground.role.getRoles",

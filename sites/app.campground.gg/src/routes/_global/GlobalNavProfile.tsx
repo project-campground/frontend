@@ -3,30 +3,39 @@ import { IconLogin } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import UserAvatar from "~/components/UserAvatar";
 import UserProfileCard from "~/layout/UserProfileCard";
-import { useMeContext } from "~/context/account";
+import { useAccount } from "~/context/account";
 
 export default function GlobalNavProfile() {
-    const me = useMeContext();
+    const account = useAccount();
     const navigate = useNavigate();
 
     return (
         <Dropdown>
             <MenuButton slots={{
-                root: me ? IconButton : Button
+                root: account.authenticated ? IconButton : Button
             }} slotProps={{
-                root: me ? {} : { variant: "glow", color: "primary", startDecorator: <IconLogin />, onClick: () => navigate("/login") }
+                root: account.authenticated ? {} : { variant: "glow", color: "primary", startDecorator: <IconLogin />, onClick: () => navigate("/login") }
             }}>
-                {me
-                ? <UserAvatar withStatus did={me.profile.did} size="lg" avatar={me.profile.avatar} />
+                {account.authenticated
+                ? <UserAvatar withStatus did={account.account.did} size="lg" avatar={account.me.avatar} />
                 // : <Avatar size="lg" color="neutral" variant="solid" sx={{ borderRadius: "lg", width: 48, height: 48 }}>
                 //     <IconLogin />
                 // </Avatar>}
                 : "Login"}
             </MenuButton>
             <Menu placement="bottom" variant="soft">
-                {me && <UserProfileCard
-                    did={me.profile.did}
-                    user={me.profile}
+                {account.authenticated && <UserProfileCard
+                    did={account.account.did}
+                    user={{
+                        did: account.account.did,
+                        handle: account.account.handle,
+                        displayName: account.me.displayName ?? account.account.handle,
+                        description: account.me.description ?? "",
+                        tagline: account.me.tagline,
+                        location: account.me.location,
+                        createdAt: account.me.createdAt,
+                        avatar: account.me.avatar,
+                    }}
                 />}
             </Menu>
         </Dropdown>

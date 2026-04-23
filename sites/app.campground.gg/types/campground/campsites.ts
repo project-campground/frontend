@@ -16,6 +16,9 @@ export interface CampsiteView {
 }
 export interface CampsiteViewBasic extends CampsiteView {
 }
+export interface CampsiteViewWithDomain extends CampsiteViewBasic {
+    _domain: string;
+}
 export interface CampsiteViewDetailed extends CampsiteView {
     createdBy: string;
     createdAt: string;

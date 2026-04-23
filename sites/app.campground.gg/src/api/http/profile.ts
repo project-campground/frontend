@@ -1,51 +1,13 @@
-import type { CampgroundProfileRecord, ProfileViewEmpty } from "types/campground/user";
-import HTTPClientObjectManager from "./base";
+import type { ProfileViewDetailed } from "types/campground/user";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientProfileManager extends HTTPClientObjectManager {
+export default class HTTPProfileManager extends HTTPBackendObjectManager {
     public get(actor: string) {
-        return this.client.get<ProfileViewEmpty>({
+        return this.client.get<ProfileViewDetailed>({
             route: `gg.campground.actor.getProfile`,
             queries: {
                 actor,
             },
-        });
-    }
-
-    public create(record: CampgroundProfileRecord) {
-        if (!this.client.actorDid)
-            throw new Error("Operation not allowed while unauthenticated");
-        
-        return this.client.putRecord({
-            repo: this.client.actorDid,
-            collection: "gg.campground.actor.profile",
-            rkey: "self",
-            record,
-        });
-    }
-    
-    public update(record: Partial<CampgroundProfileRecord>) {
-        if (!this.client.actorDid)
-            throw new Error("Operation not allowed while unauthenticated");
-        
-        return this.client.putRecord({
-            repo: this.client.actorDid,
-            collection: "gg.campground.actor.profile",
-            rkey: "self",
-            record: {
-                ...record,
-                "updatedAt": new Date().toISOString(),
-            },
-        });
-    }
-    
-    public delete() {
-        if (!this.client.actorDid)
-            throw new Error("Operation not allowed while unauthenticated");
-
-        return this.client.deleteRecord({
-            repo: this.client.actorDid,
-            collection: "gg.campground.actor.profile",
-            rkey: "self",
         });
     }
 }

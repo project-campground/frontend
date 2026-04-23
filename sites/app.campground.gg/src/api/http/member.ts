@@ -1,9 +1,9 @@
 import type { MemberViewDetailed } from "types/campground/membership";
 import type { GetMembersDetailedOutput } from "types/campground/membership";
 import type { GetMembersOutput } from "types/campground/membership";
-import HTTPClientObjectManager from "./base";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientMemberManager extends HTTPClientObjectManager {
+export default class HTTPMemberManager extends HTTPBackendObjectManager {
     getMany(campsite_id: string, offsetOrIds: string[] | number) {
         return this.client.get<GetMembersOutput>({
             route: "gg.campground.membership.getMembers",

@@ -29,7 +29,7 @@ import {
     GeneralPermissionConsts,
     ContentPermissionConsts,
 } from "~/util/permissions";
-import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
+import { CampsiteContext } from "~/routes/_global._campsite/context";
 import type { SettingsComponentProps } from "./settings";
 import PermissionItem from "./PermissionItem";
 import type { TristateValue } from "~/components/Tristate";
@@ -86,13 +86,12 @@ export default function CommonSettingsPermissions({
 }>) {
     const {
         campsite: { roles },
-        // TODO!!!!
+        api,
         permissions: {
             tentList: { value: tentListValue },
         },
-        session,
         floaters,
-    } = useContext(CampsiteContextSuiteContext);
+    } = useContext(CampsiteContext);
     const defaultRole = roles.find((x) => (x.flags & 1) === 1)!;
     const [permissions, setPermissions] = useState(
         [] as CampsitePermissionViewSettings[],
@@ -101,7 +100,7 @@ export default function CommonSettingsPermissions({
     const [openPermission, setOpenPermission] =
         useState<CampsitePermissionViewSettings>(null!);
     useMemo(() => {
-        session.http.permissions
+        api.permissions
             .get({
                 non_self: true,
                 tent_id: tentId,

@@ -31,7 +31,7 @@ export default function ActorMention({ did }: Props) {
         useMemo(() => {
             return (
                 session
-                    .http
+                    .atproto
                     .members.get(campsite.id, did)
                     .then((resp) => resp.ok ? setMember(resp.content) : null)
             );

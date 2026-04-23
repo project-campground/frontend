@@ -49,6 +49,16 @@ const globalIntlDeclarations = {
         defaultMessage: "Personal server",
         description: "Longer name for PDS",
     }),
+    "info.appview": defineMessage({
+        id: "info.appview",
+        defaultMessage: "Campsite Server",
+        description: "Descriptive name for appview",
+    }),
+    "info.additionalConfig": defineMessage({
+        id: "info.additionalConfig",
+        defaultMessage: "Additional settings",
+        description: "Additional settings/configuration section",
+    }),
     "info.inviteCode": defineMessage({
         id: "info.inviteCode",
         defaultMessage: "Registration invite code",
@@ -269,6 +279,11 @@ const globalIntlDeclarations = {
         id: "app.tents.bulletin",
         defaultMessage: "Bulletin Board",
         description: "Bulletin Board pseudo-tent name",
+    }),
+    "app.tents.members": defineMessage({
+        id: "app.tents.members",
+        defaultMessage: "Members",
+        description: "Members pseudo-tent name",
     }),
     "app.tents.settings": defineMessage({
         id: "app.tents.settings",

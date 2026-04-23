@@ -1,6 +1,6 @@
 import { Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
-import type { ProfileViewEmpty } from "types/campground/user";
+import type { ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
 import { useAccount } from "~/context/account";
@@ -13,9 +13,10 @@ import { Group } from "components";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 import UserHeader from "~/components/users/UserHeader";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 type Props<T extends ProfileViewEmpty> = {
-    user?: ProfileViewEmpty;
+    user?: Partial<ProfileViewDetailed> & T;
     member?: MemberView<T> | null;
     campsiteRoles?: RoleView[];
     did: string;
@@ -29,13 +30,14 @@ const UserProfileCardWrapper = styled(Box)(() => ({
 export default function UserProfileCard<T extends ProfileViewEmpty>({ did, user, member, campsiteRoles }: Props<T>) {
     const session = useSession();
     const account = useAccount();
-    const [fetchedUser, setFetchedUser] = useState(user);
+    const campsite = useCampsiteContext();
+    const [fetchedUser, setFetchedUser] = useState<(Partial<ProfileViewDetailed> & T) | undefined>(user);
     const [isFetching, setIsFetching] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchUser() {
-            const fetched = await session.http.getProfile(did);
+            const fetched = await campsite?.api.profiles.get(did);
             setFetchedUser(fetched?.content!);
         }
         if (!user && !isFetching) {

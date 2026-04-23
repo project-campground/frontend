@@ -16,7 +16,7 @@ export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inv
     const [error, setError] = useState<HttpResponseError | null>(null);
     const onAccept = () =>
         session
-            .http
+            .atproto
             .invites
             .use(inviteId)
             .then((resp) => {

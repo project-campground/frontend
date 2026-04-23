@@ -1,11 +1,11 @@
-import HTTPClient from "~/api/http/HTTPClient";
+import HTTPAtprotoClient from "~/api/http/HTTPAtprotoClient";
 import type PreferenceManager from "~/api/preferences/PreferenceManager";
 import type WSClient from "~/api/WSClient";
 
 export interface Session {
     auth: SessionAuth;
     preferences: PreferenceManager;
-    http: HTTPClient;
+    atproto: HTTPAtprotoClient;
     ws: WSClient;
     setAuth(details: SessionAuth): void;
     login(details: AuthCredentials): Promise<void>;

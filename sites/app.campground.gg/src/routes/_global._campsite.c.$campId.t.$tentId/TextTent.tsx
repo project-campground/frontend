@@ -10,7 +10,10 @@ import {
 } from "@mui/joy";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import React, { type ContextType } from "react";
-import type { MessageViewBasic, MessageViewWithReplies } from "types/campground/content";
+import type {
+    MessageViewBasic,
+    MessageViewWithReplies,
+} from "types/campground/content";
 import type { TentViewDetailed } from "types/campground/tent";
 import MessageEditor, {
     MessageEditorContainer,
@@ -34,11 +37,7 @@ import { Group } from "components";
 import FadingBox from "~/components/pages/FadingBox";
 import { type ContextSuite } from "~/context/context-suite";
 import { ContentPermissionConsts } from "~/util/permissions";
-import {
-    CampsiteContextSuiteContext,
-    type CampsiteContextSuite,
-} from "../_global._campsite/context";
-import { PermissionsContext } from "~/context/permissions";
+import { CampsiteContext } from "../_global._campsite/context";
 import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 import TentMessageDivider from "~/components/tents/TentMessageDivider";
@@ -67,9 +66,8 @@ type State = {
 };
 
 export default class TextTent extends React.Component<Props, State> {
-    static contextType?: React.Context<any> | undefined =
-        CampsiteContextSuiteContext;
-    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+    static contextType?: React.Context<any> | undefined = CampsiteContext;
+    declare context: ContextType<typeof CampsiteContext>;
 
     state: State = {
         messages: [],
@@ -88,7 +86,7 @@ export default class TextTent extends React.Component<Props, State> {
         if (this._initLock) return;
 
         this._initLock = true;
-        const session = (this.context as CampsiteContextSuite).session;
+        const session = (this.context as CampsiteContext).session;
         this._wsSubscription = session.ws.subscribe((ev) => {
             if (ev.op !== 1) return;
 
@@ -107,7 +105,7 @@ export default class TextTent extends React.Component<Props, State> {
     }
 
     private onWebSocketEvent(type: string, payload: any) {
-        const { session } = this.context as CampsiteContextSuite;
+        const { session } = this.context as CampsiteContext;
         const message = payload as MessageViewBasic;
         if (message.tentId !== this.props.tent.id) return;
         switch (type) {
@@ -170,11 +168,10 @@ export default class TextTent extends React.Component<Props, State> {
     }
 
     async fetchMessages(offset: number = 0) {
-        const { session } = this.context as CampsiteContextSuite;
-
+        const { api } = this.context;
         const { tent } = this.props;
 
-        return session.http.messages.getMany(tent.id, offset).then((resp) => {
+        return api.messages.getMany(tent.id, offset).then((resp) => {
             if (!resp.ok) return this.setState({ error: resp, loading: false });
 
             return resp.content.messages; // this.setState({ messages: resp.content.messages, isEnd: resp.content.messages.length < 50, loading: false });
@@ -211,13 +208,13 @@ export default class TextTent extends React.Component<Props, State> {
     componentWillUnmount(): void {
         if (!this._wsSubscription) return;
 
-        (this.context as CampsiteContextSuite).session.ws.unsubscribe(
+        (this.context as CampsiteContext).session.ws.unsubscribe(
             this._wsSubscription,
         );
     }
 
     async onMessageCreate(content: string): Promise<unknown> {
-        const { session, campsite } = this.context as CampsiteContextSuite;
+        const { campsite, api } = this.context as CampsiteContext;
         const replyMessages = this.state.replyMessages;
 
         // For user's messages to not randomly appear after a year (not literally)
@@ -245,7 +242,7 @@ export default class TextTent extends React.Component<Props, State> {
         });
         this.pseudoMessages.push(fakeMessage.id);
 
-        return session.http.messages
+        return api.messages
             .create(this.props.tent.id, {
                 content,
                 replies: replyMessages.map((x) => x.id),
@@ -320,7 +317,7 @@ export default class TextTent extends React.Component<Props, State> {
     }
 
     async deleteMessage(messageDeleted: MessageViewWithReplies) {
-        const { floaters } = this.context as CampsiteContextSuite;
+        const { floaters, api } = this.context;
 
         // To not do random useless requests and keep them
         if (this.pseudoMessages.includes(messageDeleted.id))
@@ -333,7 +330,7 @@ export default class TextTent extends React.Component<Props, State> {
 
         this.setState({ deleteMessage: null });
 
-        return (this.context as ContextSuite).session.http.messages
+        return api.messages
             .delete(this.props.tent.id, messageDeleted.id)
             .then(handleAnyRestErrorWith(floaters));
     }
@@ -392,7 +389,7 @@ export default class TextTent extends React.Component<Props, State> {
             );
 
         const { tent } = this.props;
-        const { campsite } = this.context as CampsiteContextSuite;
+        const { campsite } = this.context as CampsiteContext;
         const colorRoles = campsite.roles.filter((x) => x.colors.length);
 
         return (
@@ -408,27 +405,20 @@ export default class TextTent extends React.Component<Props, State> {
                         addReply={this.addMessageReply.bind(this)}
                     />
                 </Box>
-                <PermissionsContext.Consumer>
-                    {(permissions) => (
-                        <MessageInputWrapper
-                            tentName={tent.name}
-                            onCreate={this.onMessageCreate.bind(this)}
-                            removeReply={this.removeMessageReply.bind(this)}
-                            removeAllReplies={this.removeAllMessageReplies.bind(
-                                this,
-                            )}
-                            replyMessages={this.state.replyMessages}
-                            colorRoles={colorRoles}
-                            canCreate={Boolean(
-                                permissions.getTentPermissions(
-                                    tent.categoryId,
-                                    tent.id,
-                                ).content &
-                                    ContentPermissionConsts.CREATE_CONTENT,
-                            )}
-                        />
+                <MessageInputWrapper
+                    tentName={tent.name}
+                    onCreate={this.onMessageCreate.bind(this)}
+                    removeReply={this.removeMessageReply.bind(this)}
+                    removeAllReplies={this.removeAllMessageReplies.bind(this)}
+                    replyMessages={this.state.replyMessages}
+                    colorRoles={colorRoles}
+                    canCreate={Boolean(
+                        this.context.permissions.getTentPermissions(
+                            tent.categoryId,
+                            tent.id,
+                        ).content & ContentPermissionConsts.CREATE_CONTENT,
                     )}
-                </PermissionsContext.Consumer>
+                />
                 <ContentDeleteModal
                     nominativeCase={
                         <FormattedMessageGlobal id="app.messages.nominativeCase" />

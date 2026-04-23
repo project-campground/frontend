@@ -31,7 +31,7 @@ function ProfilePostViewReplies({ session, onReply, onCommentUpdated, onCommentD
     return [
         me &&
             <ThreadLineItem>
-                <ProfilePostCreator user={me.profile} onPost={onReply} placeholder="Have something to say?" sx={{ mb: 0.5, mt: 1 }} />
+                <ProfilePostCreator user={me} onPost={onReply} placeholder="Have something to say?" sx={{ mb: 0.5, mt: 1 }} />
             </ThreadLineItem>,
         replies.length && replies.map((x) => (
             <ThreadLineItem>
@@ -65,7 +65,7 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
-        return session.http.profilePosts.create(newPost)
+        return session.atproto.profilePostRecords.create(newPost)
             .then((x) =>
                 x.ok
                 ? (
@@ -80,11 +80,11 @@ export default function ProfilePostView({ post, parentPost, parentPostDeleted }:
     }
 
     const onPostDeleted = (uri: string) =>
-        session.http.profilePosts.delete(uri)
+        session.atproto.profilePostRecords.delete(uri)
             .then((x) => x.ok)
             .catch((e) => (console.error("Got an error while deleting a post", e), false));
     const onPostUpdated = (uri: string, content: string) =>
-        session.http.profilePosts.update(uri, { content })
+        session.atproto.profilePostRecords.update(uri, { content })
             .then((x) => x.ok)
             .catch((e) => (console.error("Got an error while editing a post", e), false));
 

@@ -8,7 +8,7 @@ import TentCategory from "../../components/tents/TentCategory";
 import type { NavigateFunction } from "react-router";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
 import TentSettingsModal from "~/layout/tent/TentSettingsModal";
-import { CampsiteContextSuiteContext, type CampsiteContextSuite } from "./context";
+import { CampsiteContext, type CampsiteContext } from "./context";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
 import CategorySettingsModal from "~/layout/category/CategorySettingsModal";
 import { GeneralPermissionConsts } from "~/util/permissions";
@@ -52,10 +52,10 @@ export function TentCategorizedList({ categoryId, addBottomMover, tents, tentSel
 }
 
 export default class TentSidebarList extends React.Component<Props, State> {
-    static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
-    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+    static contextType?: React.Context<any> | undefined = CampsiteContext;
+    declare context: ContextType<typeof CampsiteContext>;
 
-    constructor(props: Props, context: CampsiteContextSuite) {
+    constructor(props: Props, context: CampsiteContext) {
         super(props, context);
 
         this.state = {
@@ -109,7 +109,7 @@ export default class TentSidebarList extends React.Component<Props, State> {
             : this.tentsCategorized.find((x) => x.category.id === movedToId)?.tents.slice(-1)?.[0]
             : this.props.tents.tents.find((x) => x.id === movedToId);
 
-        return session.http
+        return session.atproto
             .tents
             .move(movedId, {
                 categoryId: movedToTent?.categoryId ?? (movedTo.startsWith("b") ? movedTo.slice(2) : ""),
@@ -124,7 +124,7 @@ export default class TentSidebarList extends React.Component<Props, State> {
             ? this.state.sortedCategories.slice(-1)[0]
             : this.state.sortedCategories.find((x) => x.id === movedToId);
 
-        return session.http
+        return session.atproto
             .categories
             .move(movedId, {
                 position: movedToCategory?.position ?? -1,

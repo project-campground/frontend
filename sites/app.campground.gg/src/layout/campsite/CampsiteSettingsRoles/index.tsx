@@ -4,7 +4,7 @@ import type { CampsiteViewDetailed } from "types/campground/campsites";
 import type { GetRolesOutput } from "types/campground/roles";
 import type { RoleView } from "types/campground/roles";
 import RoleItem, { RoleItemGap } from "../RoleItem";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { SmoothTabList } from "components";
 import {
     IconBadgesFilled,
@@ -15,7 +15,7 @@ import {
 } from "@tabler/icons-react";
 import Form from "~/components/form/Form";
 import type { HttpResponseWithContent } from "~/api/http/HTTPResponse";
-import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 import { DragDropProvider } from "~/draggable";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
@@ -32,9 +32,7 @@ export default function CampsiteSettingsRoles({
     onValuesChanged,
     settingsProps: { campsite },
 }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
-    const { session, updateCampsite, floaters } = useContext(
-        CampsiteContextSuiteContext,
-    );
+    const { api, updateCampsite, floaters } = useCampsiteContext();
     const roles = useMemo<SettingsRole[]>(
         () => campsite.roles,
         [campsite, campsite.roles],
@@ -42,7 +40,7 @@ export default function CampsiteSettingsRoles({
     const [openRole, setOpenRole] = useState(roles.slice(-1)[0]);
 
     const createNewRole = () =>
-        session.http.roles
+        api.roles
             .create(campsite.id, {
                 name: "New role",
                 colors: [],
@@ -69,12 +67,6 @@ export default function CampsiteSettingsRoles({
 
         const movedFromIndex = roles.findIndex((x) => x.id === roleMoved);
         const movedToIndex = roles.findIndex((x) => x.id === movedTo);
-        console.log({
-            movedFromIndex,
-            movedToIndex,
-            movedFrom: roles[movedFromIndex],
-            movedTo: roles[movedToIndex],
-        });
 
         if (movedFromIndex + 1 === movedToIndex) return;
 
@@ -85,7 +77,7 @@ export default function CampsiteSettingsRoles({
                 roles[movedToIndex - 1].position - roles[movedToIndex].position,
             ) > 1
         )
-            return session.http.roles
+            return api.roles
                 .moveMany(campsite.id, {
                     rolesByPosition: {
                         [roleMoved]: roles[movedToIndex]!.position - 1,
@@ -103,7 +95,7 @@ export default function CampsiteSettingsRoles({
             { [roleMoved]: newPriority },
         );
 
-        return session.http.roles
+        return api.roles
             .moveMany(campsite.id, {
                 rolesByPosition: newPriorities,
             })
@@ -123,16 +115,14 @@ export default function CampsiteSettingsRoles({
     const deleteRole = async (roleToDelete: SettingsRole) => {
         const roleIndex = roles.indexOf(roleToDelete);
 
-        return session.http.roles
-            .delete(campsite.id, roleToDelete.id)
-            .then((resp) => {
-                if (!resp.ok) return floaters.notifyApiError(resp);
+        return api.roles.delete(campsite.id, roleToDelete.id).then((resp) => {
+            if (!resp.ok) return floaters.notifyApiError(resp);
 
-                updateCampsite({
-                    roles: roles.filter((x) => x.id !== roleToDelete.id),
-                });
-                setOpenRole(roles[roleIndex + 1]);
+            updateCampsite({
+                roles: roles.filter((x) => x.id !== roleToDelete.id),
             });
+            setOpenRole(roles[roleIndex + 1]);
+        });
     };
 
     return (

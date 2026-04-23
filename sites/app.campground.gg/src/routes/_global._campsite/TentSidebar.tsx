@@ -19,7 +19,7 @@ import { type NavigateFunction } from "react-router";
 import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "../../layout/InviteCreationModal";
-import { CampsiteContextSuiteContext } from "./context";
+import { CampsiteContext } from "./context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import TentList from "~/components/tents/TentList";
@@ -95,8 +95,8 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
 const anyManageCampsitePermission = GeneralPermissionConsts.MANAGE_CAMPSITE | GeneralPermissionConsts.BAN_MEMBERS | GeneralPermissionConsts.MANAGE_ROLES | GeneralPermissionConsts.MANAGE_INVITES;
 
 export default class TentSidebar extends React.Component<Props, State> {
-    static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
-    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+    static contextType?: React.Context<any> | undefined = CampsiteContext;
+    declare context: ContextType<typeof CampsiteContext>;
 
     public bonfiresToTents: Record<string, GetTentsOutput> = {};
     private _lock: boolean = false;
@@ -137,6 +137,8 @@ export default class TentSidebar extends React.Component<Props, State> {
                 msg.op === 1 &&
                 this.onWsEvent(msg.t as keyof TypeToPayload, msg.payload)
             );
+        // FIXME
+        this.setState({});
     }
     onWsEvent<T extends keyof TypeToPayload>(eventType: T, payload: TypeToPayload[T]) {
         const eventHandler = tentSidebarEventHandlers[eventType];
@@ -173,9 +175,9 @@ export default class TentSidebar extends React.Component<Props, State> {
 
         this._lock = true;
         return this.context
-            .session
-            .http
-            .tents.getMany(this.props.campsite.id, bonfireSelected.id)
+            .api
+            .tents
+            .getMany(this.props.campsite.id, bonfireSelected.id)
             .then((x) => {
                 if (!x.ok)
                     return this.setState({ error: x });
@@ -207,21 +209,19 @@ export default class TentSidebar extends React.Component<Props, State> {
             return;
 
         this.setState({ menuOpen: null });
-        const { floaters, session } = this.context;
+        const { floaters, api } = this.context;
 
         return (
-            session
-                .http
+            api
                 .bonfires
                 .delete(this.props.campsite.id, this.state.bonfireSelected.id)
                 .then(handleAnyRestErrorWith(floaters))
         );
     }
     leaveCampsite() {
-        const { floaters, session } = this.context;
+        const { floaters, api } = this.context;
         return (
-            session
-                .http
+            api
                 .members
                 .remove(this.props.campsite.id, this.props.campsite.me.user.did)
                 .then(handleAnyRestErrorWith(floaters))

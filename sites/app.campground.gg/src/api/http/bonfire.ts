@@ -1,8 +1,8 @@
 import type { BonfireViewDetailed } from "types/campground/bonfires";
 import type { BonfireViewBasic } from "types/campground/bonfires";
-import HTTPClientObjectManager from "./base";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientBonfireManager extends HTTPClientObjectManager {
+export default class HTTPBonfireManager extends HTTPBackendObjectManager {
     public get(campsite_id: string, bonfire_id: string) {
         return this.client.get<BonfireViewDetailed>({
             route: "gg.campground.bonfire.getBonfire",

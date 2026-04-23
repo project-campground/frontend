@@ -22,11 +22,11 @@ export async function clientLoader({ context, params: { id, postId } }: Route.Cl
 
     const session = context.get(sessionRouterContext);
 
-    const postRequest = await session.http.profilePosts.get(id, postId);
+    const postRequest = await session.http.profilePostRecords.get(id, postId);
     console.log({ postRequest });
     
     const { errorDescription, errorHeader, content, ok, status } = postRequest;
-    const parentPostRequest = ok && content.parentUri ? await session.http.profilePosts.get(id, content.parentUri.split("/")[4]) : null;
+    const parentPostRequest = ok && content.parentUri ? await session.http.profilePostRecords.get(id, content.parentUri.split("/")[4]) : null;
 
     return {
         id,

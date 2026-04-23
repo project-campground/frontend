@@ -1,8 +1,9 @@
 import { decodeSequence, encode } from "cbor2";
 import type { KeyValueEncoded } from "cbor2/sorts";
 import { stringify } from "uuid";
-import type HTTPClient from "./http/HTTPClient";
+import type HTTPAtprotoClient from "./http/HTTPAtprotoClient";
 import type { TypeToPayload } from "types/ws";
+import { defaultBackendDomain } from "api.config";
 
 type Config = {
     url: string;
@@ -61,10 +62,10 @@ export default class WSClient {
     public unsubscribe(subscription: WSSubscription) {
         this._subscriptions = this._subscriptions.filter((x) => x !== subscription);
     }
-    public initWithAuth(restClient: HTTPClient) {
+    public initWithAuth(restClient: HTTPAtprotoClient) {
         this._client.onopen = async () => {
             console.log("WebSocket Open");
-            const serviceAuth = await restClient.getServiceAuth({ lxm: "gg.campground.websocket.subscribe" });
+            const serviceAuth = await restClient.getServiceAuth({ aud: `did:web:${defaultBackendDomain}`, lxm: "gg.campground.websocket.subscribe" });
             this._client.send(
                 encode({
                     op: 0,

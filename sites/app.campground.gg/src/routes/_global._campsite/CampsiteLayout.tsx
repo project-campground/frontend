@@ -3,20 +3,21 @@ import { Group } from "components";
 import React, { type ContextType } from "react";
 // import type { CampsiteViewDetailed } from "types/campsites";
 import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
-import { CampsiteContextSuiteContext, CurrentTentContext, TentContext } from "./context";
+import { CampsiteContext, CurrentTentContext, TentContext } from "./context";
 import type { CampsiteViewDetailed } from "types/campground/campsites";
 import type { BonfireViewBasic } from "types/campground/bonfires";
 import type { Session } from "~/context/session/types";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { ContextSuiteContext } from "~/context/context-suite";
 import type { NavigateFunction } from "react-router";
-import { PermissionsContext } from "~/context/permissions";
 import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import PermissionsManager from "~/context/permissions/PermissionsManager";
 import { makeRoomForItems } from "./sidebar-events";
+import HTTPBackendClient from "~/api/http/HTTPBackendClient";
 
 type Props = {
+    backendDomain: string;
     campsiteId: string;
     navigate: NavigateFunction;
 } & React.PropsWithChildren;
@@ -36,6 +37,7 @@ export default class CampsiteLayout extends React.Component<Props, State> {
 
     private _currentTent: CurrentTentContext;
     private _permissionsManager: PermissionsManager = null!;
+    private _apiClient: HTTPBackendClient;
     _updateCampsiteDataBind: (data: Partial<CampsiteViewDetailed>) => unknown;
     private _init: boolean = false;
     private _wsSubscription: WSSubscription | null = null;
@@ -45,6 +47,7 @@ export default class CampsiteLayout extends React.Component<Props, State> {
         // tentSidebarOpen false by default, so it wouldn't be auto-open on mobile
         this.state = { err: null, campsite: null, init: false, loading: true, bonfireSelected: null, tentSelected: null };
 
+        this._apiClient = new HTTPBackendClient(this.context.session, this.props.backendDomain);
         this._currentTent = new CurrentTentContext(null);
         this._updateCampsiteDataBind = this.updateCampsiteData.bind(this);
         this._currentTent.subscribeToChanges((newValue) =>
@@ -53,10 +56,10 @@ export default class CampsiteLayout extends React.Component<Props, State> {
     }
 
     async fetchCampsite() {
-        return this.context
-            .session
-            .http
-            .campsites.get(this.props.campsiteId)
+        return this
+            ._apiClient
+            .campsites
+            .get(this.props.campsiteId)
             .then((resp) => {
                 if (!resp.ok)
                     return this.setState({ err: resp });
@@ -83,8 +86,11 @@ export default class CampsiteLayout extends React.Component<Props, State> {
         return this.fetchCampsite();
     }
     async componentDidUpdate(prevProps: Readonly<Props>, _prevState: Readonly<State>, _snapshot?: Session | undefined): Promise<void> {
-        if (prevProps.campsiteId == this.props.campsiteId)
+        console.log({ context: this.context, _snapshot });
+        if (prevProps.campsiteId === this.props.campsiteId)
             return;
+        else if (prevProps.backendDomain !== this.props.backendDomain)
+            this._apiClient = new HTTPBackendClient(this.context.session, this.props.backendDomain);
 
         // To see campsite events
         this.setCampsiteForWebSocket();
@@ -162,19 +168,17 @@ export default class CampsiteLayout extends React.Component<Props, State> {
         return (
             <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} gap={1}>
                 <TentContext.Provider value={this._currentTent}>
-                    <PermissionsContext.Provider value={this._permissionsManager}>
-                        <CampsiteContextSuiteContext.Provider value={{ ...this.context, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
-                            <Box>
-                                <TentSidebar
-                                    campsite={campsite!}
-                                    bonfireSelected={bonfireSelected}
-                                    tentSelected={tentSelected}
-                                    navigate={navigate}
-                                />
-                            </Box>
-                            {children}
-                        </CampsiteContextSuiteContext.Provider>
-                    </PermissionsContext.Provider>
+                    <CampsiteContext.Provider value={{ ...this.context, api: this._apiClient, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
+                        <Box>
+                            <TentSidebar
+                                campsite={campsite!}
+                                bonfireSelected={bonfireSelected}
+                                tentSelected={tentSelected}
+                                navigate={navigate}
+                            />
+                        </Box>
+                        {children}
+                    </CampsiteContext.Provider>
                 </TentContext.Provider>
             </Group>
         );

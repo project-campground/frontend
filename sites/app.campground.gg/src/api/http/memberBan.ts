@@ -1,7 +1,7 @@
-import HTTPClientObjectManager from "./base";
 import type { MemberBanView, GetBansOutput } from "types/campground/membership";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientMemberBanManager extends HTTPClientObjectManager {
+export default class HTTPMemberBanManager extends HTTPBackendObjectManager {
     getMany(campsite_id: string, offset: number = 0, limit: number = 50) {
         return this.client.get<GetBansOutput>({
             route: "gg.campground.membership.getMemberBans",

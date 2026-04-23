@@ -1,8 +1,8 @@
-import HTTPClientObjectManager from "./base";
 import type { GetTentsOutput, TentViewDetailed } from "types/campground/tent";
 import type { MessageViewBasic } from "types/campground/content";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientTentManager extends HTTPClientObjectManager {
+export default class HTTPTentManager extends HTTPBackendObjectManager {
     getMany(campsite_id: string, bonfire_id: string) {
         return this.client.get<GetTentsOutput>({
             route: "gg.campground.tent.getTents",

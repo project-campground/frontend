@@ -1,8 +1,8 @@
 import type { GetPermissionsOutput } from "types/campground/permissions";
 import type { CampsitePermissionView } from "types/campground/permissions";
-import HTTPClientObjectManager from "./base";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientPermissionManager extends HTTPClientObjectManager {
+export default class HTTPPermissionManager extends HTTPBackendObjectManager {
     get(queries: ({ tent_id: string; } | { category_id: string; } | { bonfire_id: string; }) & { non_self?: boolean }) {
         return this.client.get<GetPermissionsOutput>({
             route: "gg.campground.permission.getPermissions",

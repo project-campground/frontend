@@ -20,11 +20,11 @@ export default function UserSettingsFreeze({}: SettingsComponentProps<{}>) {
     const snackbars = useSnackbars();
     const account = useAccount();
     const onFreeze = () =>
-        session.http.account.deactivate({}).then((resp) => {
+        session.atproto.account.deactivate({}).then((resp) => {
             if (!resp.ok) return snackbars.notifyApiError(resp);
         });
     const onUnfreeze = () =>
-        session.http.account.activate().then((resp) => {
+        session.atproto.account.activate().then((resp) => {
             if (!resp.ok) return snackbars.notifyApiError(resp);
         });
     const deactivated = account?.authenticated && !account.account.active;
@@ -82,8 +82,8 @@ export default function UserSettingsFreeze({}: SettingsComponentProps<{}>) {
                         <FormFieldText
                             required
                             id="handle"
-                            placeholder={account?.authenticated ? account.me?.profile.handle.split("/")[2] : undefined}
-                            allowedValue={account?.authenticated ? account.me?.profile.handle.split("/")[2] : null}
+                            placeholder={account?.authenticated ? account.account?.handle.split("/")[2] : undefined}
+                            allowedValue={account?.authenticated ? account.account?.handle.split("/")[2] : null}
                         />
                     </FormControl>
                 </FormSection>}

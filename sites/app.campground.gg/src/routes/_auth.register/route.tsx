@@ -1,4 +1,4 @@
-import HTTPClient from "~/api/http/HTTPClient";
+import HTTPAtprotoClient from "~/api/http/HTTPAtprotoClient";
 import type { Route } from "./+types/route";
 import RegisterPage from "./RegisterPage";
 import { defaultAppApiUrl } from "api.config";
@@ -17,7 +17,7 @@ export default function Index() {
     const [serverDescription, setServerDescription] = useState<DescribedServer | null>(null);
     useMemo(
         () =>
-            HTTPClient.describeServer({
+            HTTPAtprotoClient.describeServer({
                 url: defaultAppApiUrl,
             }).then((resp) => {
                 if (!resp.ok) return null;

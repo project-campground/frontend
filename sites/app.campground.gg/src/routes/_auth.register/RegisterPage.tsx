@@ -10,7 +10,7 @@ import FormFieldText from "~/components/form/FormFieldText";
 import { FormContext } from "~/components/form/context";
 import { useSession } from "~/context/session";
 import { defaultAppApiUrl } from "api.config";
-import HTTPClient from "~/api/http/HTTPClient";
+import HTTPAtprotoClient from "~/api/http/HTTPAtprotoClient";
 import type { DescribedServer } from "types/atproto/server";
 import { useNavigate } from "react-router";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
@@ -40,7 +40,7 @@ export default function RegisterPage({ defaultDescribedServer }: Props) {
     ) => {
         event?.preventDefault();
 
-        const account = await HTTPClient.register({
+        const account = await HTTPAtprotoClient.register({
             ...(fieldValues as any),
             handle: `${handle}${serverDescription.availableUserDomains[0]}`,
         });
@@ -63,7 +63,7 @@ export default function RegisterPage({ defaultDescribedServer }: Props) {
     const checkIfDomainIsPds = async (domain: string) => {
         const isLocalhost = domain.split(":")[0].split(".").slice(-1)[0] === "localhost";
 
-        return HTTPClient.describeServer({
+        return HTTPAtprotoClient.describeServer({
             url: `http${isLocalhost ? "" : "s"}://${domain}`,
         })
             .then((resp) => {

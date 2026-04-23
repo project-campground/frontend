@@ -1,38 +1,27 @@
 import {
     defaultXrpcPrefix,
     defaultAppApiUrl,
-    defaultBackendDomain,
 } from "api.config";
 import type {
     HttpResponseError,
     HttpResponseOkWithContent,
     HttpResponseWithContent,
 } from "./HTTPResponse";
-import type { ProfileViewEmpty } from "types/campground/user";
 import type { HTTPRefreshLogin } from "./HTTPErrorHandler";
 import type { SessionAuthRefresh, SessionBasic } from "~/context/session/types";
 import type {
     AtprotoRecord,
-    AtprotoValueBase,
     GetRecordListResponse,
     PutRecordResponse,
 } from "types/atproto/record";
-import type { Me } from "types/campground/me";
-import HTTPClientTentManager from "./tent";
-import HTTPClientCampsiteManager from "./campsite";
-import HTTPClientBonfireManager from "./bonfire";
-import HTTPClientMessageManager from "./message";
-import HTTPClientPermissionManager from "./permission";
-import HTTPClientProfilePostManager from "./profilePost";
-import HTTPClientRoleManager from "./role";
-import HTTPClientCategoryManager from "./category";
-import HTTPClientInviteManager from "./invite";
-import HTTPClientMemberManager from "./member";
-import HTTPClientMemberBanManager from "./memberBan";
-import HTTPClientPreferenceManager from "./preference";
+import HTTPPreferenceManager from "./preference";
 import type { GetSession } from "types/atproto/session";
-import HTTPClientAccountManager from "./account";
+import HTTPAccountManager from "./account";
 import type { DescribedServer } from "types/atproto/server";
+import HTTPProfilePostRecordManager from "./profilePostRecord";
+import HTTPBackendClient from "./HTTPBackendClient";
+import type { CampsiteViewBasic, CreateCampsiteOutput } from "types/campground/campsites";
+import HTTPProfileRecordManager from "./profileRecord";
 
 type HTTPMethodXRPC = "GET" | "POST";
 type HTTPMethod =
@@ -48,8 +37,7 @@ export interface RequestPrefixed {
     mode?: RequestMode;
     routePrefix: string;
 }
-export interface HTTPClientConfig extends RequestPrefixed {
-    atprotoProxy: string;
+export interface HTTPConfig extends RequestPrefixed {
     auth?: string;
     refreshAuth?: string;
     userDid?: string;
@@ -65,43 +53,28 @@ export interface RequestConfig {
     queries?: Record<string, QueryType | QueryType[]>;
 }
 
-export default class HTTPClient {
-    private static _default: HTTPClientConfig = {
+export default class HTTPAtprotoClient {
+    private static _default: HTTPConfig = {
         url: defaultAppApiUrl,
         routePrefix: defaultXrpcPrefix,
         // auth: `...`,
         // refreshAuth: `...`,
         // userDid: `...`,
-        atprotoProxy: `did:web:${defaultBackendDomain.replace(":", "%3A")}#campground_appview`,
     };
 
-    private _config: HTTPClientConfig;
+    private _config: HTTPConfig;
     private _onRefreshLogin?: HTTPRefreshLogin;
-    public account = new HTTPClientAccountManager(this);
 
-    public profilePosts = new HTTPClientProfilePostManager(this);
-
-    public campsites = new HTTPClientCampsiteManager(this);
-
-    public members = new HTTPClientMemberManager(this);
-    public roles = new HTTPClientRoleManager(this);
-    public memberBans = new HTTPClientMemberBanManager(this);
-    public invites = new HTTPClientInviteManager(this);
-
-    public bonfires = new HTTPClientBonfireManager(this);
-    public categories = new HTTPClientCategoryManager(this);
-    public tents = new HTTPClientTentManager(this);
-
-    public permissions = new HTTPClientPermissionManager(this);
-    public messages = new HTTPClientMessageManager(this);
-
-    public preference = new HTTPClientPreferenceManager(this);
+    public account = new HTTPAccountManager(this);
+    public profileRecords = new HTTPProfileRecordManager(this);
+    public profilePostRecords = new HTTPProfilePostRecordManager(this);
+    public preference = new HTTPPreferenceManager(this);
 
     constructor(
-        config: Partial<HTTPClientConfig>,
+        config: Partial<HTTPConfig>,
         onRefreshLogin?: HTTPRefreshLogin,
     ) {
-        this._config = { ...HTTPClient._default, ...config };
+        this._config = { ...HTTPAtprotoClient._default, ...config };
         this._onRefreshLogin = onRefreshLogin;
     }
 
@@ -126,7 +99,7 @@ export default class HTTPClient {
         auth: { identifier: string; password: string },
         requestConfig: Partial<RequestPrefixed> = {},
     ) {
-        return HTTPClient.atprotoFetch({
+        return HTTPAtprotoClient.atprotoFetch({
             method: "POST",
             route: "com.atproto.server.createSession",
             body: { ...auth, allowTakenDown: true },
@@ -134,10 +107,8 @@ export default class HTTPClient {
         });
     }
 
-    public static describeServer(
-        requestConfig: Partial<RequestPrefixed> = {},
-    ) {
-        return HTTPClient.atprotoFetch<DescribedServer>({
+    public static describeServer(requestConfig: Partial<RequestPrefixed> = {}) {
+        return HTTPAtprotoClient.atprotoFetch<DescribedServer>({
             method: "GET",
             route: "com.atproto.server.describeServer",
             ...requestConfig,
@@ -157,14 +128,13 @@ export default class HTTPClient {
         },
         requestConfig: Partial<RequestPrefixed> = {},
     ) {
-        return HTTPClient.atprotoFetch<SessionBasic & { didDoc: any }>({
+        return HTTPAtprotoClient.atprotoFetch<SessionBasic & { didDoc: any }>({
             method: "POST",
             route: `com.atproto.server.createAccount`,
             body: props,
             ...requestConfig,
         });
     }
-
 
     private static convertValueToArray([key, value]: [string, any]) {
         return Array.isArray(value)
@@ -215,7 +185,11 @@ export default class HTTPClient {
             },
             ...request,
         });
-        const responseBody = response.body ? await response.json() : null;
+
+        // Not using response.json() directly, since PDS seems to give empty strings instead
+        const responseBodyRaw = response.body ? await response.text() : null;
+        const responseBody = responseBodyRaw ? JSON.parse(responseBodyRaw) : null;
+
         if (!response.ok)
             return {
                 ok: false,
@@ -240,7 +214,7 @@ export default class HTTPClient {
     }
 
     public async refreshSession(requestConfig: Partial<RequestPrefixed> = {}) {
-        const resp = await HTTPClient.atprotoFetch<SessionAuthRefresh>({
+        const resp = await HTTPAtprotoClient.atprotoFetch<SessionAuthRefresh>({
             method: "POST",
             route: "com.atproto.server.refreshSession",
             headers: {
@@ -258,10 +232,12 @@ export default class HTTPClient {
     }
 
     public async getSession() {
-        return this.fetchPDS<GetSession>("GET", "com.atproto.server.getSession", {});
+        return this.get<GetSession>({ 
+            route: "com.atproto.server.getSession",
+        });
     }
 
-    private async fetch<T>({
+    public async fetchUnauthed<T>({
         method,
         body,
         queries,
@@ -269,7 +245,7 @@ export default class HTTPClient {
         request,
     }: RequestConfig) {
         const doFetch = (auth: string | undefined) =>
-            HTTPClient.atprotoFetch<T>({
+            HTTPAtprotoClient.atprotoFetch<T>({
                 url: this._config.url,
                 routePrefix: this._config.routePrefix,
                 body,
@@ -279,7 +255,6 @@ export default class HTTPClient {
 
                 method,
                 headers: {
-                    "atproto-proxy": this._config.atprotoProxy,
                     ...request?.headers,
                     ...(this._config.auth
                         ? { Authorization: `Bearer ${auth}` }
@@ -305,55 +280,67 @@ export default class HTTPClient {
         }
         return resp;
     }
+
+    public fetch<T>(request: RequestConfig) {
+        if (!this.actorDid)
+            throw new Error("This ATProtocol route requires authentication");
+
+        return this.fetchUnauthed<T>(request);
+    }
+    
+    public fetchProxiedUnauthed<T>(proxy: string, request: RequestConfig) {
+        return this.fetchUnauthed<T>({
+            ...request,
+            request: {
+                ...request.request,
+                headers: {
+                    "atproto-proxy": proxy,
+                    ...request.request?.headers
+                }
+            }
+        });
+    }
+
+    public fetchProxied<T>(proxy: string, request: RequestConfig) {
+        if (!this.actorDid)
+            throw new Error("This ATProtocol route requires authentication");
+
+        return this.fetchProxiedUnauthed<T>(proxy, request);
+    }
+    
     public get<T>(config: Omit<RequestConfig, "method" | "body">) {
         return this.fetch<T>({ method: "GET", ...config });
     }
     public post<T>(config: Omit<RequestConfig, "method">) {
         return this.fetch<T>({ method: "POST", ...config });
     }
-
-    public fetchPDS<T>(
-        method: HTTPMethodXRPC,
-        nsid: string,
-        request: Omit<RequestConfig, "route" | "method">,
-    ) {
-        return this.fetch<T>({
-            route: nsid,
-            method,
-            request: { headers: { "atproto-proxy": "" } },
-            ...request,
-        });
+    public getUnauthed<T>(config: Omit<RequestConfig, "method" | "body">) {
+        return this.fetchUnauthed<T>({ method: "GET", ...config });
     }
-    public fetchPDSAuthed<T>(
-        method: HTTPMethodXRPC,
-        nsid: string,
-        request: Omit<RequestConfig, "route" | "method">,
-    ) {
-        if (!this.actorDid)
-            throw new Error("This ATProtocol route requires authentication");
-
-        return this.fetchPDS<T>(method, nsid, request);
+    public postUnauthed<T>(config: Omit<RequestConfig, "method">) {
+        return this.fetchUnauthed<T>({ method: "POST", ...config });
     }
-    public getRecord<T extends AtprotoValueBase>(config: {
+
+    public getRecord<T>(config: {
         repo: string;
         rkey: string;
         collection: string;
     }) {
-        return this.fetchPDS<AtprotoRecord<T>>(
-            "GET",
-            "com.atproto.repo.getRecord",
-            { queries: config },
-        );
+        return this.fetchUnauthed<AtprotoRecord<T>>({
+            method: "GET",
+            route: "com.atproto.repo.getRecord",
+            queries: config,
+        });
     }
-    public getRecordList<T extends AtprotoValueBase>(config: {
+    public getRecordList<T>(config: {
         repo: string;
         collection: string;
     }) {
-        return this.fetchPDS<GetRecordListResponse<T>>(
-            "GET",
-            "com.atproto.repo.listRecords",
-            { queries: config },
-        );
+        return this.fetchUnauthed<GetRecordListResponse<T>>({
+            method: "GET",
+            route: "com.atproto.repo.listRecords",
+            queries: config,
+        });
     }
     public putRecord<T>({
         record,
@@ -365,54 +352,50 @@ export default class HTTPClient {
         collection: string;
         record: T;
     }) {
-        return this.fetchPDS<PutRecordResponse>(
-            "POST",
-            "com.atproto.repo.putRecord",
-            {
-                body: {
-                    ...config,
-                    collection,
-                    record: { ...record, $type: collection },
-                },
+        return this.fetch<PutRecordResponse>({
+            method: "POST",
+            route: "com.atproto.repo.putRecord",
+            body: {
+                ...config,
+                collection,
+                record: { ...record, $type: collection },
             },
-        );
+        });
     }
     public deleteRecord(config: {
         repo: string;
         rkey: string;
         collection: string;
     }) {
-        return this.fetchPDS<PutRecordResponse>(
-            "POST",
-            "com.atproto.repo.deleteRecord",
-            { body: config },
-        );
+        return this.fetchUnauthed<PutRecordResponse>({
+            method: "POST",
+            route: "com.atproto.repo.deleteRecord",
+            body: config,
+        });
     }
-    public getServiceAuth(config: { exp?: number; lxm?: string }) {
-        return this.fetchPDS<{ token: string }>(
-            "GET",
-            "com.atproto.server.getServiceAuth",
-            {
-                queries: {
-                    aud: this._config.atprotoProxy.split("#", 1)[0],
-                    ...config,
-                },
-            },
-        );
-    }
-
-    public getMe() {
-        return this.get<Me>({
-            route: `gg.campground.actor.getMe`,
+    public getServiceAuth(config: { aud: string; exp?: number; lxm?: string }) {
+        return this.get<{ token: string }>({
+            route: "com.atproto.server.getServiceAuth",
+            queries: config,
         });
     }
 
-    public getProfile(actor: string) {
-        return this.get<ProfileViewEmpty>({
-            route: `gg.campground.actor.getProfile`,
-            queries: {
-                actor,
-            },
+    public getBackendJoinedCampsites(domain: string) {
+        return this.fetchProxied<{ campsites: CampsiteViewBasic[] }>(HTTPBackendClient.getProxyFromDomain(domain), {
+            method: "GET",
+            route: `gg.campground.campsite.getActorCampsites`,
+        })
+            .then((resp) =>
+                resp.ok
+                ? {...resp, content: {...resp.content, domain } } as HttpResponseOkWithContent<{ campsites: CampsiteViewBasic[]; domain: string; }>
+                : resp
+            );
+    }
+    public createCampsiteInBackend(domain: string, body: { avatar?: string; name: string; description: string; tags: string[]; vanityUrl?: string | null; }) {
+        return this.fetchProxied<CreateCampsiteOutput>(HTTPBackendClient.getProxyFromDomain(domain), {
+            method: "POST",
+            route: "gg.campground.campsite.createCampsite",
+            body,
         });
     }
 }

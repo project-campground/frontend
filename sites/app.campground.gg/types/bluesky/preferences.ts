@@ -21,12 +21,16 @@ export interface BlueskyPreference
         | "app.bsky.actor.defs#liveEventPreferences"
     > {}
 
-export type CampgroundPreferencePrefix = "gg.campground.actor.defs";
+// export type CampgroundPreferencePrefix = "gg.campground.actor.defs";
+export type CampgroundPreferencePrefix = "app.bsky.actor.defs#gg.campground.actor.defs";
 
-export interface CampgroundPreferenceLocale extends AtprotoPreference<`${CampgroundPreferencePrefix}#localePref`> {
+export interface CampgroundPreferenceLocale extends AtprotoPreference<`${CampgroundPreferencePrefix}.localePref`> {
     language: "en-US";
 }
-export interface CampgroundPreferenceAppearance extends AtprotoPreference<`${CampgroundPreferencePrefix}#appearancePref`> {
+export interface CampgroundPreferenceCampsites extends AtprotoPreference<`${CampgroundPreferencePrefix}.campsitesPref`> {
+    campsites: string[];
+}
+export interface CampgroundPreferenceAppearance extends AtprotoPreference<`${CampgroundPreferencePrefix}.appearancePref`> {
     theme: "dark" | "light" | "system";
 }
 

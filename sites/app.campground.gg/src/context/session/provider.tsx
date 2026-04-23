@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import type { AuthCredentials, SessionAuth, SessionAuthed, SessionAuthRefresh } from './types';
-import HTTPClient from '~/api/http/HTTPClient';
+import type { AuthCredentials, Session, SessionAuth, SessionAuthed, SessionAuthRefresh } from './types';
+import HTTPAtprotoClient from '~/api/http/HTTPAtprotoClient';
 import { useNavigate } from 'react-router';
 import { defaultAppApiUrl, defaultAppBackendUrl } from 'api.config';
 import { SessionContext } from '.';
@@ -13,10 +13,10 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     const [auth, setAuthUnsafe] = useState<SessionAuth>(localStorageAuth ? JSON.parse(localStorageAuth) : { authenticated: false });
     const refreshLogin = (refresh: SessionAuthRefresh) =>
         setAuth({ authenticated: true, server: (auth as SessionAuthed).server, user: { ...refresh, email: (auth as SessionAuthed).user?.email, emailConfirmed: (auth as SessionAuthed).user?.emailConfirmed } });
-    const http = useMemo(() =>
+    const atproto = useMemo(() =>
         auth.authenticated
-        ? new HTTPClient({ url: auth.server || defaultAppApiUrl, auth: auth.user.accessJwt, refreshAuth: auth.user.refreshJwt, userDid: auth.user.did }, refreshLogin)
-        : new HTTPClient({ url: defaultAppBackendUrl })
+        ? new HTTPAtprotoClient({ url: auth.server || defaultAppApiUrl, auth: auth.user.accessJwt, refreshAuth: auth.user.refreshJwt, userDid: auth.user.did }, refreshLogin)
+        : new HTTPAtprotoClient({ url: defaultAppBackendUrl })
     , [auth]);
 
     const setAuth = (value: SessionAuth) => {
@@ -26,7 +26,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
     const login = async (details: AuthCredentials, server?: string) =>
     {
-        const data = await HTTPClient.login(details); 
+        const data = await HTTPAtprotoClient.login(details); 
     
         if (data.ok)
         {
@@ -42,13 +42,13 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     const ws = useMemo(() => {
         const webSocket = new WSClient({ url: defaultAppBackendUrl + "/ws/v1" });
         if (auth.authenticated)
-            webSocket.initWithAuth(http);
+            webSocket.initWithAuth(atproto);
         else
             webSocket.initWithoutAuth();
         return webSocket;
     }, [auth.authenticated]);
     const preferences = useMemo(() => {
-        const preferences = new PreferenceManager(http, auth.authenticated);
+        const preferences = new PreferenceManager(atproto, auth.authenticated);
 
         preferences.init();
 
@@ -57,13 +57,13 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
     const value = useMemo(() => ({
         auth,
-        http,
+        atproto,
         preferences,
         setAuth,
         login,
         logout,
         ws
-    }), [auth]);
+    } satisfies Session), [auth]);
 
     return (
         <SessionContext.Provider value={value}>

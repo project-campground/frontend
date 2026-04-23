@@ -2,10 +2,7 @@ import type { SettingsComponentProps } from "../settings";
 import type { CampsiteSettingsProps } from "./CampsiteSettingsModal";
 import React from "react";
 import DataDisplay from "~/components/pages/DataDisplay";
-import {
-    CampsiteContextSuiteContext,
-    type CampsiteContextSuite,
-} from "~/routes/_global._campsite/context";
+import { CampsiteContext } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
 import type { MemberBanView } from "types/campground/membership";
 import { Typography } from "@mui/joy";
@@ -23,9 +20,8 @@ export default class CampsiteSettingsBans extends React.Component<
     SettingsComponentProps<CampsiteSettingsProps>,
     State
 > {
-    static contextType?: React.Context<CampsiteContextSuite> =
-        CampsiteContextSuiteContext;
-    declare context: React.ContextType<typeof CampsiteContextSuiteContext>;
+    static contextType?: React.Context<CampsiteContext> = CampsiteContext;
+    declare context: React.ContextType<typeof CampsiteContext>;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(
         bans: MemberBanView[],
@@ -51,9 +47,9 @@ export default class CampsiteSettingsBans extends React.Component<
     }
 
     private async fetchBans(offset: number, limit: number) {
-        const { session } = this.context;
+        const { api } = this.context;
 
-        return session.http.memberBans
+        return api.memberBans
             .getMany(this.props.settingsProps.campsite.id, offset, limit)
             .then((resp) => {
                 if (!resp.ok) return resp;
@@ -66,7 +62,7 @@ export default class CampsiteSettingsBans extends React.Component<
     private onBansDelete(bans: MemberBanView[]) {
         return Promise.all(
             bans.map((ban) =>
-                this.context.session.http.memberBans
+                this.context.api.memberBans
                     .delete(ban.campsiteId, ban.userId)
                     .then(handleAnyRestErrorWith(this.context.floaters)),
             ),

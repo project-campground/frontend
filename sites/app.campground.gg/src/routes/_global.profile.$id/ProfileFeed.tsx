@@ -27,7 +27,7 @@ export default function ProfileFeed({ user }: Props) {
 
     useEffect(() => {
         setIsLoading(true);
-        session.http.profilePosts.getMany(user.did, fetchReplies)
+        session.atproto.profilePostRecords.getMany(user.did, fetchReplies)
             .then((posts) => {
                 if (!posts.ok)
                     return setError(new HTTPError(posts.errorDescription, posts.status, posts.errorHeader));
@@ -44,17 +44,17 @@ export default function ProfileFeed({ user }: Props) {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
-        return session.http.profilePosts.create(newPost)
+        return session.atproto.profilePostRecords.create(newPost)
             .then((x) => setPostList([{ ...newPost, author: user, replyCount: 0, uri: x.content!.uri, indexedAt: new Date().toISOString(), parent: null } satisfies ProfilePostViewParented, ...postList]))
             .catch((e) => console.error("Got an error while making a post", e));
     }
     const onPostDeleted = (uri: string) => {
-        return session.http.profilePosts.delete(uri)
+        return session.atproto.profilePostRecords.delete(uri)
             .then(() => setPostList(postList.filter((x) => x.uri != uri)))
             .catch((e) => console.error("Got an error while deleting a post", e));
     };
     const onPostUpdated = (uri: string, content: string) => {
-        return session.http.profilePosts.update(uri, { content })
+        return session.atproto.profilePostRecords.update(uri, { content })
             .then(() => {
                 const postIndex = postList.findIndex((x) => x.uri === uri);
                 if (postIndex < 0)

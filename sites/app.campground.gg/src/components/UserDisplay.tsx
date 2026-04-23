@@ -1,6 +1,6 @@
 import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
-import type { ProfileViewEmpty } from "types/campground/user";
+import type { ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group, TextBlock } from "components";
 import type { MemberView } from "types/campground/membership";
@@ -11,7 +11,7 @@ import type { MouseEvent } from "react";
 type Size = "sm" | "md" | "lg";
 
 type Props<T extends ProfileViewEmpty> = {
-    user: T;
+    user: Partial<ProfileViewDetailed> & T;
     member?: MemberView<T> | null;
     noAvatar?: boolean;
     motion?: RoleMotion;
@@ -52,7 +52,7 @@ export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick, withSt
             }
             <TextBlock align={align}>
                 <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
-                    {member?.nickname ?? user.displayName}
+                    {member?.nickname ?? user?.displayName ?? user.did}
                 </GradientTypography>
             </TextBlock>
             {

@@ -1,9 +1,9 @@
-import HTTPClientObjectManager from "./base";
 import type { GetInvitesOutput } from "types/campground/invites";
 import type { CampsiteInviteViewDetailed } from "types/campground/invites";
 import type { CampsiteInviteViewBasic } from "types/campground/invites";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientInviteManager extends HTTPClientObjectManager {
+export default class HTTPInviteManager extends HTTPBackendObjectManager {
     get(invite_id: string) {
         return this.client.get<CampsiteInviteViewDetailed>({
             route: "gg.campground.invite.getInvite",

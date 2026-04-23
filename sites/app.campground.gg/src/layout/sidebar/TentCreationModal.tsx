@@ -36,7 +36,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, l
     const [error, setError] = useState<HttpResponseError | null>(null);
 
     const onTentCreate = (body: Record<string, any>): unknown =>
-        session.http
+        session.atproto
             .tents
             .create(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, position: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; position: number; })
             .then((r) => {
@@ -46,7 +46,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, l
                 return modalClose?.({}, "closeClick");
             });
     const onCategoryCreate = (name: string, description: string): unknown =>
-        session.http
+        session.atproto
             .categories
             .create(campsiteId, bonfireId, { name, description, position: lowestPriorityCategory + 1 } as { name: string; description: string; position: number; })
             .then((r) => {

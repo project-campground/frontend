@@ -1,7 +1,7 @@
-import HTTPClientObjectManager from "./base";
 import type { TentCategoryView } from "types/campground/tent";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientCategoryManager extends HTTPClientObjectManager {
+export default class HTTPCategoryManager extends HTTPBackendObjectManager {
     create(campsite_id: string, bonfire_id: string, body: { name: string; description: string; position: number; }) {
         return this.client.post<TentCategoryView>({
             route: "gg.campground.tent.createCategory",

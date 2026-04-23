@@ -1,12 +1,12 @@
 export interface CampgroundProfileRecord {
-    displayName: string | null;
-    labels: any[];
-    tagline: string | null;
-    location: string | null;
-    createdAt: string;
-    description: string | null;
-    socialConnections: any[];
-    avatar: string | null;
+    displayName?: string | null;
+    labels?: any[] | null;
+    tagline?: string | null;
+    location?: string | null;
+    createdAt?: string | null;
+    description?: string | null;
+    socialConnections?: any[] | null;
+    avatar?: string | null;
 }
 export interface ProfileViewEmpty {
     did: string;

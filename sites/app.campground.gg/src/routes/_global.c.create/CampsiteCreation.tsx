@@ -8,6 +8,7 @@ import {
     Typography,
     FormControl,
     FormLabel,
+    FormHelperText,
 } from "@mui/joy";
 import {
     IconClubs,
@@ -18,6 +19,7 @@ import {
     IconSparkles,
     IconStar,
     IconUsers,
+    IconWorld,
 } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { useState } from "react";
@@ -28,7 +30,6 @@ import {
     PagePlaceholderIcon,
     textToIcon,
 } from "~/components/pages/PagePlaceholder";
-import { useSession } from "~/context/session";
 import { FormattedMessageGlobal } from "~/i18n";
 import FormSection from "~/components/form/FormSection";
 import { FormContext } from "~/components/form/context";
@@ -36,14 +37,24 @@ import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldAvatar from "~/components/form/FormFieldAvatar";
 import FormFieldTextArea from "~/components/form/FormFieldTextArea";
 import FormSubmit from "~/components/form/FormSubmit";
+import { useSession } from "~/context/session";
+import { defaultBackendDomain } from "api.config";
+import { FormattedMessage } from "react-intl";
+import ContentCategory from "~/components/content/ContentCategory";
 
 export default function CampsiteCreation() {
     const session = useSession();
     const navigate = useNavigate();
     const [error, setError] = useState<HttpResponseError | null>(null);
-    const onSubmit = (_: any, fieldValues: Record<string, any>) =>
-        session.http.campsites
-            .create({ ...fieldValues, tags: [] as string[] } as {
+    const onSubmit = (
+        _: any,
+        { backend, ...fieldValues }: Record<string, any>,
+    ) =>
+        session.atproto
+            .createCampsiteInBackend(backend, {
+                ...fieldValues,
+                tags: [] as string[],
+            } as {
                 name: string;
                 description: string;
                 vanityUrl?: string;
@@ -366,6 +377,44 @@ export default function CampsiteCreation() {
                                 <FormFieldTextArea required id="description" />
                             </FormControl>
                         </FormSection>
+                        <ContentCategory
+                            defaultOpen={false}
+                            header={
+                                <FormattedMessageGlobal id="info.additionalConfig" />
+                            }
+                        >
+                            <FormSection>
+                                <FormControl required>
+                                    <FormLabel>
+                                        <FormattedMessageGlobal id="info.appview" />
+                                    </FormLabel>
+                                    <FormFieldText
+                                        required
+                                        defaultValue={defaultBackendDomain}
+                                        knownValues={[
+                                            {
+                                                startDecorator: <IconWorld />,
+                                                value: defaultBackendDomain,
+                                                content: defaultBackendDomain,
+                                            },
+                                        ]}
+                                        id="backend"
+                                        format={
+                                            /(?:localhost[:][0-9]+|(?:[A-Za-z0-9_-]+[.])*[A-Za-z0-9_-]+[.][A-Za-z]{2,})/
+                                        }
+                                        startDecorator={<IconWorld />}
+                                        placeholder="example.com"
+                                    />
+                                    <FormHelperText>
+                                        <FormattedMessage
+                                            id="info.appview.campsiteCreation"
+                                            defaultMessage="Uses this domain to host the Campsite"
+                                            description="The description of what appview does for campsites"
+                                        />
+                                    </FormHelperText>
+                                </FormControl>
+                            </FormSection>
+                        </ContentCategory>
                         <FormSection layout="footer">
                             <FormSubmit>
                                 <FormattedMessageGlobal id="app.campsites.create" />

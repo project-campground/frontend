@@ -1,18 +1,11 @@
-import type { CampsiteViewBasic, CampsiteViewDetailed, CreateCampsiteOutput } from "types/campground/campsites";
-import HTTPClientObjectManager from "./base";
+import type { CampsiteViewBasic, CampsiteViewDetailed } from "types/campground/campsites";
+import HTTPBackendObjectManager from "./base-backend";
 
-export default class HTTPClientCampsiteManager extends HTTPClientObjectManager {
+export default class HTTPCampsiteManager extends HTTPBackendObjectManager {
     public get(campsite_id: string) {
         return this.client.get<CampsiteViewDetailed>({
             route: "gg.campground.campsite.getCampsite",
             queries: { campsite_id },
-        });
-    }
-
-    public create(body: { avatar?: string; name: string; description: string; tags: string[]; vanityUrl?: string | null; }) {
-        return this.client.post<CreateCampsiteOutput>({
-            route: "gg.campground.campsite.createCampsite",
-            body,
         });
     }
 

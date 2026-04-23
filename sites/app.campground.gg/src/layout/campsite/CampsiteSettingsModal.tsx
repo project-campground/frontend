@@ -9,7 +9,6 @@ import {
 import type { CampsiteViewDetailed } from "types/campground/campsites";
 import CampsiteSettingsProfile from "~/layout/campsite/CampsiteSettingsProfile";
 import SettingsModal, { type SettingsComponentProps } from "../settings";
-import { useSession } from "~/context/session";
 import CampsiteSettingsRoles from "./CampsiteSettingsRoles";
 import { useSnackbars } from "~/context/snackbar";
 import { useCampsiteContext } from "~/routes/_global._campsite/context";
@@ -42,7 +41,7 @@ export type CampsiteSettingsProps = {
 };
 
 export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const snackbars = useSnackbars();
     const { updateCampsite } = useCampsiteContext();
     const callbacks: Record<
@@ -50,7 +49,8 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
         (fieldValues: Record<string, any>) => unknown
     > = {
         profile: (fieldValues) =>
-            session.http.campsites
+            api
+                .campsites
                 .update(props.campsite.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
@@ -65,7 +65,8 @@ export default function CampsiteSettingsModal(props: CampsiteSettingsProps) {
                     return updateCampsite(resp.content);
                 }),
         roles: ({ id, ...fieldValues }) =>
-            session.http.roles
+            api
+            .roles
                 .update(props.campsite.id, id as string, fieldValues)
                 .then((resp) => {
                     if (!resp.ok) return snackbars.notifyApiError(resp);

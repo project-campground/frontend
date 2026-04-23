@@ -19,6 +19,7 @@ import FormSubmit from "~/components/form/FormSubmit";
 import FormFieldText from "~/components/form/FormFieldText";
 import { FormattedMessageGlobal } from "~/i18n";
 import { IconInfoCircleFilled } from "@tabler/icons-react";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -31,10 +32,10 @@ export default function ChangeNicknameModal({
     member,
     onClose,
 }: Props) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const floating = useSnackbars();
     const onSubmit = (nickname: string) =>
-        session.http.members
+        api.members
             .update(campsiteId, member.user.did, { nickname })
             .then(handleAnyRestErrorWith(floating));
 

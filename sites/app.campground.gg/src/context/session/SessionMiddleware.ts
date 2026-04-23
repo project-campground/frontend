@@ -1,4 +1,4 @@
-import HTTPClient from "~/api/http/HTTPClient";
+import HTTPAtprotoClient from "~/api/http/HTTPAtprotoClient";
 import type { SessionAuth, SessionAuthed, SessionAuthRefresh } from "./types";
 import { defaultAppBackendUrl } from "api.config";
 import type { CampgroundPreferences } from "~/api/preferences/PreferenceManager";
@@ -22,7 +22,7 @@ function getFromStorageOrDefault<T>(storage: Storage, key: string, _default: T) 
 export default class SessionMiddleware {
     auth: SessionAuth;
     preferences: CampgroundPreferences;
-    http: HTTPClient;
+    http: HTTPAtprotoClient;
 
     constructor(storage: Storage) {
         this.auth = getFromStorageOrDefault<SessionAuth>(storage, "auth", { authenticated: false });
@@ -35,10 +35,6 @@ export default class SessionMiddleware {
             storage.setItem("auth", JSON.stringify(this.auth));
         };
 
-        this.http = this.auth.authenticated ? new HTTPClient({ auth: this.auth.user.accessJwt, refreshAuth: this.auth.user.refreshJwt, userDid: this.auth.user.did }, onRefresh) : new HTTPClient({ url: defaultAppBackendUrl });
-    }
-
-    async fetchUserIfAuthed() {
-        return this.auth.authenticated ? await this.http.getMe() : null;
+        this.http = this.auth.authenticated ? new HTTPAtprotoClient({ auth: this.auth.user.accessJwt, refreshAuth: this.auth.user.refreshJwt, userDid: this.auth.user.did }, onRefresh) : new HTTPAtprotoClient({ url: defaultAppBackendUrl });
     }
 }

@@ -2,22 +2,21 @@ import type {
     BlueskyPreference,
     CampgroundPreference,
 } from "types/bluesky/preferences";
-import HTTPClientObjectManager from "./base";
+import HTTPAtprotoObjectManager from "./base-atproto";
 
-export default class HTTPClientPreferenceManager extends HTTPClientObjectManager {
+export default class HTTPPreferenceManager extends HTTPAtprotoObjectManager {
     public get() {
         if (!this.client.actorDid)
             throw new Error("Operation not allowed while unauthenticated");
 
-        return this.client.fetchPDS<{
+        return this.client.get<{
             preferences: Array<CampgroundPreference | BlueskyPreference>;
-        }>("GET", `app.bsky.actor.getPreferences`, {});
+        }>({ route: `app.bsky.actor.getPreferences` });
     }
 
     private put(preferences: Array<CampgroundPreference | BlueskyPreference>) {
-        return this.client.fetchPDS<{
-            preferences: Array<CampgroundPreference | BlueskyPreference>;
-        }>("POST", `app.bsky.actor.putPreferences`, {
+        return this.client.post<null>({
+            route: `app.bsky.actor.putPreferences`,
             body: {
                 preferences: preferences,
             },
@@ -27,9 +26,6 @@ export default class HTTPClientPreferenceManager extends HTTPClientObjectManager
     public async update(
         newPreferences: Array<CampgroundPreference | BlueskyPreference>,
     ) {
-        if (!this.client.actorDid)
-            throw new Error("Operation not allowed while unauthenticated");
-
         const previousPreferences = await this.get();
 
         if (!previousPreferences.ok)
@@ -46,7 +42,9 @@ export default class HTTPClientPreferenceManager extends HTTPClientObjectManager
     }
 
     public async delete(
-        preferenceTypes: Array<CampgroundPreference | BlueskyPreference>[number]["$type"],
+        preferenceTypes: Array<
+            CampgroundPreference | BlueskyPreference
+        >[number]["$type"],
     ) {
         if (!this.client.actorDid)
             throw new Error("Operation not allowed while unauthenticated");

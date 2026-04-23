@@ -1,9 +1,9 @@
 import { Divider, Sheet, styled } from "@mui/joy";
-import type { TentViewDetailed } from "types/campground/tent";
+import type { TentViewBasic } from "types/campground/tent";
 import TentContentHeader from "./TentContentHeader";
 
 type Props = React.PropsWithChildren & {
-    tent: TentViewDetailed;
+    tent: TentViewBasic;
     sidebarToggle: (value: boolean) => unknown;
     sidebarOpen: boolean;
 };

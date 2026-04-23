@@ -22,6 +22,7 @@ import HTTPProfilePostRecordManager from "./profilePostRecord";
 import HTTPBackendClient from "./HTTPBackendClient";
 import type { CampsiteViewBasic, CreateCampsiteOutput } from "types/campground/campsites";
 import HTTPProfileRecordManager from "./profileRecord";
+import HTTPInviteGlobalManager from "./inviteGlobal";
 
 type HTTPMethodXRPC = "GET" | "POST";
 type HTTPMethod =
@@ -65,6 +66,7 @@ export default class HTTPAtprotoClient {
     private _config: HTTPConfig;
     private _onRefreshLogin?: HTTPRefreshLogin;
 
+    public invitesGlobal = new HTTPInviteGlobalManager(this);
     public account = new HTTPAccountManager(this);
     public profileRecords = new HTTPProfileRecordManager(this);
     public profilePostRecords = new HTTPProfilePostRecordManager(this);
@@ -301,11 +303,11 @@ export default class HTTPAtprotoClient {
         });
     }
 
-    public fetchProxied<T>(proxy: string, request: RequestConfig) {
+    public fetchProxied<T>(domain: string, request: RequestConfig) {
         if (!this.actorDid)
             throw new Error("This ATProtocol route requires authentication");
 
-        return this.fetchProxiedUnauthed<T>(proxy, request);
+        return this.fetchProxiedUnauthed<T>(HTTPBackendClient.getProxyFromDomain(domain), request);
     }
     
     public get<T>(config: Omit<RequestConfig, "method" | "body">) {
@@ -381,7 +383,7 @@ export default class HTTPAtprotoClient {
     }
 
     public getBackendJoinedCampsites(domain: string) {
-        return this.fetchProxied<{ campsites: CampsiteViewBasic[] }>(HTTPBackendClient.getProxyFromDomain(domain), {
+        return this.fetchProxied<{ campsites: CampsiteViewBasic[] }>(domain, {
             method: "GET",
             route: `gg.campground.campsite.getActorCampsites`,
         })
@@ -392,7 +394,7 @@ export default class HTTPAtprotoClient {
             );
     }
     public createCampsiteInBackend(domain: string, body: { avatar?: string; name: string; description: string; tags: string[]; vanityUrl?: string | null; }) {
-        return this.fetchProxied<CreateCampsiteOutput>(HTTPBackendClient.getProxyFromDomain(domain), {
+        return this.fetchProxied<CreateCampsiteOutput>(domain, {
             method: "POST",
             route: "gg.campground.campsite.createCampsite",
             body,

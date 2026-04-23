@@ -98,6 +98,7 @@ export default function GlobalNavbar({ page, loadedCampsites: loaded }: Props) {
                                     <NavbarCamp
                                         key={x.id}
                                         id={x.id}
+                                        domain={x._domain}
                                         avatar={x.avatarUri ?? undefined}
                                         name={x.name}
                                         memberCount={x.memberCount}

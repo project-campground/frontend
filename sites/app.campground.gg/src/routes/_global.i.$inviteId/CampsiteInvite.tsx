@@ -9,21 +9,23 @@ import type { CampsiteInviteViewDetailed } from "types/campground/invites";
 import FadingBanner from "~/components/pages/FadingBanner";
 import { PagePlaceholderIcon, textToIcon } from "~/components/pages/PagePlaceholder";
 import { useSession } from "~/context/session";
+import { getCampsiteRoute } from "~/util/domains";
 
-export default function CampsiteInvite({ invite: { campsite }, inviteId }: { inviteId: string; invite: CampsiteInviteViewDetailed; }) {
+export default function CampsiteInvite({ invite: { campsite }, inviteId, domain }: { inviteId: string; domain: string; invite: CampsiteInviteViewDetailed; }) {
     const session = useSession();
     const navigate = useNavigate();
     const [error, setError] = useState<HttpResponseError | null>(null);
     const onAccept = () =>
         session
             .atproto
-            .invites
-            .use(inviteId)
+            .invitesGlobal
+            .use(domain, inviteId)
             .then((resp) => {
                 if (!resp.ok)
                     return setError(resp);
 
-                navigate(`/c/${campsite.id}`);
+                navigate(getCampsiteRoute(domain, campsite.id, `t/bulletin`));
+                return session.preferences.addCampsiteToListGlobally(domain, campsite.id);
             });
 
     return (

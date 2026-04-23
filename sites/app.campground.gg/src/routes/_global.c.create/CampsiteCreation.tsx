@@ -41,6 +41,7 @@ import { useSession } from "~/context/session";
 import { defaultBackendDomain } from "api.config";
 import { FormattedMessage } from "react-intl";
 import ContentCategory from "~/components/content/ContentCategory";
+import { getCampsiteRoute } from "~/util/domains";
 
 export default function CampsiteCreation() {
     const session = useSession();
@@ -63,7 +64,9 @@ export default function CampsiteCreation() {
             .then((resp) => {
                 if (!resp.ok) return setError(resp);
 
-                navigate(`/c/${resp.content.campsite.id}/t/bulletin`);
+                const campsiteId = resp.content.campsite.id;
+                navigate(getCampsiteRoute(backend, campsiteId, `t/bulletin`));
+                return session.preferences.addCampsiteToListGlobally(backend, campsiteId);
             });
 
     return (

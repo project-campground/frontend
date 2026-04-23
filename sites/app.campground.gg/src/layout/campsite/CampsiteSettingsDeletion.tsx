@@ -22,7 +22,7 @@ export default function CampsiteSettingsDeletion({
     settingsProps: { campsite },
 }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const navigate = useNavigate();
-    const { api } = useCampsiteContext();
+    const { api, session } = useCampsiteContext();
     const snackbars = useSnackbars();
     const modalClose = useContext(CloseModalContext);
     const onDelete = () =>
@@ -30,7 +30,9 @@ export default function CampsiteSettingsDeletion({
             if (!resp.ok) return snackbars.notifyApiError(resp);
 
             modalClose?.({}, "closeClick");
-            return navigate("/");
+
+            navigate("/");
+            return session.preferences.removeCampsiteFromListGlobally(api.domain, campsite.id);
         });
 
     return (

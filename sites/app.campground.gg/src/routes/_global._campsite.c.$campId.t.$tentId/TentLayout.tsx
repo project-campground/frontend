@@ -11,6 +11,7 @@ import { pseudoTents, PseudoTentType } from "~/util/pseudoTents";
 import type { TentViewBasic, TentType } from "types/campground/tent";
 import { useIntl } from "react-intl";
 import { globalIntlDeclarations } from "~/i18n";
+import { getCampsiteRoute } from "~/util/domains";
 
 type Props = {
     campsiteId: string;
@@ -71,7 +72,7 @@ export default function TentLayout({ campsiteId, tentId }: Props) {
     // To not stay on the tent
     session.ws.subscribe((message) =>
         message.op === 1 && message.t === "TentDeleted" && (message.payload as TypeToPayload["TentDeleted"]).id === tentInfo.id
-        ? navigate(`/c/${campsiteId}/t/bulletin`)
+        ? navigate(getCampsiteRoute(api.domain, campsiteId, `t/bulletin`))
         : null
     );
 

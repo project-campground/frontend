@@ -19,7 +19,8 @@ export default class PreferenceManager {
     public hasInit: boolean = false;
     public loaded: boolean = false;
     private _isAuthenticated: boolean;
-    private static CAMPGROUND_PREFERENCE_PREFIX = "app.bsky.actor.defs#" + "campground:";
+    private static CAMPGROUND_PREFERENCE_PREFIX =
+        "app.bsky.actor.defs#" + "campground:";
     private _onInit?: Array<() => Promise<unknown> | unknown> = [];
 
     constructor(http: HTTPAtprotoClient, isAuthenticated: boolean) {
@@ -32,7 +33,11 @@ export default class PreferenceManager {
     }
 
     public get locale() {
-        return this.local.locale?.language ?? this.global.locale?.language ?? "en-US";
+        return (
+            this.local.locale?.language ??
+            this.global.locale?.language ??
+            "en-US"
+        );
     }
 
     public getValue<T extends keyof CampgroundPreferences>(key: T) {
@@ -44,16 +49,16 @@ export default class PreferenceManager {
     }
 
     public async init() {
-        if (this.hasInit)
-            return;
+        if (this.hasInit) return;
 
         this.hasInit = true;
 
         const settingsInLocalStorage = localStorage.getItem("settings");
-        this.local = settingsInLocalStorage ? JSON.parse(settingsInLocalStorage) : {};
+        this.local = settingsInLocalStorage
+            ? JSON.parse(settingsInLocalStorage)
+            : {};
 
-        if (!this._isAuthenticated)
-            return;
+        if (!this._isAuthenticated) return;
 
         return this._http.preference.get().then((resp) => {
             if (!resp.ok)
@@ -67,38 +72,64 @@ export default class PreferenceManager {
                 ),
             ) as CampgroundPreference[];
             const preferenceEntries = preference.map(({ $type, ...pref }) => [
-                $type.split("#")[1].split(".").slice(-1)[0].slice(0, -"Pref".length),
+                $type
+                    .split("#")[1]
+                    .split(":")
+                    .slice(-1)[0]
+                    .slice(0, -"Pref".length),
                 pref,
             ]);
 
             this.global = Object.fromEntries(preferenceEntries);
-            
+
             this.loaded = true;
             return this.finalizeInit();
         });
     }
 
+    private updateCampsiteToListGlobally(campsites: string[]) {
+        return this.updateGlobal({
+            campsites: { ...this.global.campsites, campsites, },
+        });
+    }
+
+    public addCampsiteToListGlobally(domain: string, campsiteId: string) {
+        const entry = `${domain}@${campsiteId}`;
+
+        const newCampsiteList = this.global.campsites?.campsites.concat(entry) ?? [entry];
+        return this.updateCampsiteToListGlobally(newCampsiteList);
+    }
+
+    public removeCampsiteFromListGlobally(domain: string, campsiteId: string) {
+        const newCampsiteList =
+            this.global.campsites?.campsites.filter(
+                (x) => x !== `${domain}@${campsiteId}`,
+            ) ?? [];
+        return this.updateCampsiteToListGlobally(newCampsiteList);
+    }
+
     private finalizeInit(): Promise<unknown> {
         return Promise.allSettled(
-            this._onInit
-                ?.map((x) => x()) as unknown[],
-        )
-            .then((resps) => {
-                for (const badResp of resps.filter((x) => x.status === "rejected"))
-                    console.error(badResp.reason);
+            this._onInit?.map((x) => x()) as unknown[],
+        ).then((resps) => {
+            for (const badResp of resps.filter((x) => x.status === "rejected"))
+                console.error(badResp.reason);
 
-                delete this._onInit;
-            })
+            delete this._onInit;
+        });
     }
 
     public updateLocal(newPreference: Partial<CampgroundPreferences>) {
-        localStorage.setItem("settings", JSON.stringify(Object.assign(this.local, newPreference)));
+        localStorage.setItem(
+            "settings",
+            JSON.stringify(Object.assign(this.local, newPreference)),
+        );
     }
 
     public async updateGlobal(newPreference: Partial<CampgroundPreferences>) {
         const preferenceList = Object.entries(newPreference).map(
             ([key, value]) => ({
-                $type: `${PreferenceManager.CAMPGROUND_PREFERENCE_PREFIX}.${key}Pref`,
+                $type: `${PreferenceManager.CAMPGROUND_PREFERENCE_PREFIX}${key}Pref`,
                 ...value,
             }),
         ) as CampgroundPreference[];

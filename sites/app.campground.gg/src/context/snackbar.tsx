@@ -12,11 +12,11 @@ export type SnackbarProps = {
 
 export type SnackbarItem = SnackbarProps & { id: number };
 
-type SnackbarNotify = (text: ReactNode | ReactNode[]) => unknown;
-type SnackbarNotifyApi<T extends HttpResponse> = (response: T) => unknown;
+type SnackbarNotify = (text: ReactNode | ReactNode[]) => void;
+type SnackbarNotifyApi<T extends HttpResponse> = (response: T) => void;
 export type SnackbarContextType = {
     snackbars: SnackbarItem[];
-    notify: (props: SnackbarProps) => unknown;
+    notify: (props: SnackbarProps) => void;
     notifySuccess: SnackbarNotify;
     notifyInfo: SnackbarNotify;
     notifyWarn: SnackbarNotify;

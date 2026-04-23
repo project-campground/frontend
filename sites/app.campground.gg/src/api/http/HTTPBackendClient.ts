@@ -15,7 +15,7 @@ import type { Session } from "~/context/session/types";
 import HTTPProfileManager from "./profile";
 
 export default class HTTPBackendClient {
-    public atprotoProxy: string;
+    public domain: string;
     public session: Session;
 
     public profiles = new HTTPProfileManager(this);
@@ -37,7 +37,7 @@ export default class HTTPBackendClient {
 
     constructor(session: Session, backendDomain: string) {
         this.session = session;
-        this.atprotoProxy = HTTPBackendClient.getProxyFromDomain(backendDomain);
+        this.domain = backendDomain;
     }
 
     public get atproto() {
@@ -49,11 +49,11 @@ export default class HTTPBackendClient {
     }
     
     public async fetchUnauthed<T>(request: RequestConfig) {
-        return this.atproto.fetchProxiedUnauthed<T>(this.atprotoProxy, request);
+        return this.atproto.fetchProxiedUnauthed<T>(this.domain, request);
     }
     
     public async fetch<T>(request: RequestConfig) {
-        return this.atproto.fetchProxied<T>(this.atprotoProxy, request);
+        return this.atproto.fetchProxied<T>(this.domain, request);
     }
     
     public get<T>(config: Omit<RequestConfig, "method" | "body">) {
@@ -78,7 +78,7 @@ export default class HTTPBackendClient {
     
     public getServiceAuth(config: { exp?: number; lxm?: string }) {
         return this.atproto.getServiceAuth({
-            aud: this.atprotoProxy.split("#", 1)[0],
+            aud: this.domain.split("#", 1)[0],
             ...config,
         })
     }

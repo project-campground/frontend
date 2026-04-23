@@ -219,12 +219,13 @@ export default class TentSidebar extends React.Component<Props, State> {
         );
     }
     leaveCampsite() {
-        const { floaters, api } = this.context;
+        const { floaters, api, session } = this.context;
         return (
             api
                 .members
                 .remove(this.props.campsite.id, this.props.campsite.me.user.did)
                 .then(handleAnyRestErrorWith(floaters))
+                .then((resp) => resp && session.preferences.removeCampsiteFromListGlobally(api.domain, this.props.campsite.id))
         );
     }
     render(): React.ReactNode {

@@ -54,9 +54,7 @@ export default function CampsiteSettingsRoles({
             })
             .then((resp) => {
                 if (!resp.ok)
-                    return floaters.notifyError(
-                        `${resp.status} ${resp.errorHeader}: ${resp.errorDescription}`,
-                    );
+                    return floaters.notifyApiError(resp);
 
                 const newRole = { ...resp.content, added: true };
                 updateCampsite({ roles: [...roles, newRole] });

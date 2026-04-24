@@ -1,16 +1,16 @@
-import { AspectRatio, Skeleton, Box } from "@mui/joy";
+import { AspectRatio, Skeleton, Box, type Radius } from "@mui/joy";
 import GradientBanner from "../pages/GradientBanner";
 import { Image } from "components";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 
-export function UserHeaderBanner({ isLoading, src, aspectRatio }: { aspectRatio?: number; isLoading?: boolean; did: string; src?: string | null; }) {
+export function UserHeaderBanner({ isLoading, src, aspectRatio, borderRadius }: { borderRadius?: keyof Radius; aspectRatio?: number; isLoading?: boolean; did: string; src?: string | null; }) {
     return (
-        <AspectRatio ratio={aspectRatio ?? 3} sx={{ borderRadius: "sm" }}>
+        <AspectRatio ratio={aspectRatio ?? 3} sx={{ borderRadius: borderRadius ?? "sm" }}>
             {isLoading
             ? <Skeleton loading sx={{ zIndex: 0 }}>
             </Skeleton>
             : src
-            ? <Image src={src} />
+            ? <Image src={src} sx={{ zIndex: "inherit", width: "100%", height: "100%" }} />
             : <GradientBanner color="primary" sx={{ zIndex: "inherit", width: "100%", height: "100%", }}>
 
             </GradientBanner>

@@ -158,6 +158,18 @@ const globalIntlDeclarations = {
         description: "Campsite settings discovery section header",
     }),
 
+    // Profiles
+    "app.profiles.feed": defineMessage({
+        id: "app.profiles.feed",
+        defaultMessage: "Feed",
+        description: "Feed tab in the user profile",
+    }),
+    "app.profiles.replies": defineMessage({
+        id: "app.profiles.replies",
+        defaultMessage: "Posts & Replies",
+        description: "Posts & Replies tab in the user profile",
+    }),
+
     "app.common.createdAt": defineMessage({
         id: "app.common.createdAt",
         defaultMessage: "Created at",

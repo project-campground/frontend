@@ -17,7 +17,7 @@ export default function GlobalNavProfile() {
                 root: account.authenticated ? {} : { variant: "glow", color: "primary", startDecorator: <IconLogin />, onClick: () => navigate("/login") }
             }}>
                 {account.authenticated
-                ? <UserAvatar withStatus did={account.account.did} size="lg" avatar={account.me.avatar} />
+                ? <UserAvatar withStatus did={account.sessionInfo.did} size="lg" avatar={account.profile.avatar} />
                 // : <Avatar size="lg" color="neutral" variant="solid" sx={{ borderRadius: "lg", width: 48, height: 48 }}>
                 //     <IconLogin />
                 // </Avatar>}
@@ -25,16 +25,16 @@ export default function GlobalNavProfile() {
             </MenuButton>
             <Menu placement="bottom" variant="soft">
                 {account.authenticated && <UserProfileCard
-                    did={account.account.did}
+                    did={account.sessionInfo.did}
                     user={{
-                        did: account.account.did,
-                        handle: account.account.handle,
-                        displayName: account.me.displayName ?? account.account.handle,
-                        description: account.me.description ?? "",
-                        tagline: account.me.tagline,
-                        location: account.me.location,
-                        createdAt: account.me.createdAt,
-                        avatar: account.me.avatar,
+                        did: account.sessionInfo.did,
+                        handle: account.sessionInfo.handle,
+                        displayName: account.profile.displayName ?? account.sessionInfo.handle,
+                        description: account.profile.description ?? "",
+                        tagline: account.profile.tagline,
+                        location: account.profile.location,
+                        createdAt: account.profile.createdAt,
+                        avatar: account.profile.avatar,
                     }}
                 />}
             </Menu>

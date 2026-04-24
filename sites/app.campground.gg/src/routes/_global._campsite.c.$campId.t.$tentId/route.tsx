@@ -52,24 +52,6 @@ export async function clientLoader({
 export default function Index({
     loaderData: { campsiteId, tentId },
 }: Route.ComponentProps) {
-    // if (err === 404)
-    //     return (
-    //         <PagePlaceholder icon={PagePlaceholderIcon.NotFound} title="Could not find this tent">
-    //             This tent does not exist.
-    //         </PagePlaceholder>
-    //     );
-    // else if (err)
-    //     return (
-    //         <PagePlaceholder icon={PagePlaceholderIcon.Error} title={errorHeader ?? errorDescription ?? err}>
-    //             {errorDescription}
-    //         </PagePlaceholder>
-    //     );
-
-    // const { campsite, api } = useCampsiteContext();
-    // const tentContext = useContext(TentContext);
-
-    // useMemo(() => tentContext?.setNewValue(tent), [tent?.id]);
-
     return (
         <TentLayout
             campsiteId={campsiteId}

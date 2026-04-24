@@ -2,11 +2,11 @@ import { Box, List, ListItem, ListItemContent, ListItemDecorator, Stack, Typogra
 import React from "react";
 import { IconCake, IconMapPin } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import type { ProfileViewEmpty } from "types/campground/user";
+import type { ProfileViewBasic } from "types/campground/user";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
 
 type Props = {
-    user: ProfileViewEmpty;
+    user: ProfileViewBasic;
 };
 
 export default class ProfileAbout extends React.Component<Props> {

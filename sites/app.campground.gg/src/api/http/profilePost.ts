@@ -42,18 +42,4 @@ export default class HTTPProfilePostManager extends HTTPBackendObjectManager {
             },
         });
     }
-
-    async delete(uri: string) {
-        if (!this.client.atproto.actorDid)
-            throw new Error("Operation not allowed while unauthenticated");
-
-        const a = await this.atproto.deleteRecord({
-            repo: this.client.atproto.actorDid,
-            collection: "gg.campground.profile.post",
-            // at://did:.../gg.campground.profile.post/...
-            rkey: uri.split("/")[4],
-        });
-        await this.unindex(uri);
-        return a;
-    }
 }

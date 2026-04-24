@@ -7,7 +7,7 @@ import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router";
 import type { CampsiteInviteViewDetailed } from "types/campground/invites";
 import FadingBanner from "~/components/pages/FadingBanner";
-import { PagePlaceholderIcon, textToIcon } from "~/components/pages/PagePlaceholder";
+import { PagePlaceholderIcon, iconToText } from "~/components/pages/PagePlaceholder";
 import { useSession } from "~/context/session";
 import { getCampsiteRoute } from "~/util/domains";
 
@@ -31,12 +31,12 @@ export default function CampsiteInvite({ invite: { campsite }, inviteId, domain 
     return (
         <Stack alignItems="center" sx={(theme) => ({ position: "relative", width: "100%", height: "100%", pt: { sm: 0, md: 8 }, background: `linear-gradient(to bottom right, transparent, ${theme.vars.palette.background.level1})` })}>
             <FadingBanner sx={{ opacity: 0.25 }}>
-                <Typography level="h1" sx={{ position: "absolute", top: "7%", left: "22%", transform: "rotate(15deg)" }}>{textToIcon[PagePlaceholderIcon.Appreciation]}</Typography>
-                <Typography level="h1" sx={{ position: "absolute", bottom: "42%", left: "30%", transform: "rotate(-20deg)" }}>{textToIcon[PagePlaceholderIcon.Error]}</Typography>
-                <Typography level="h1" sx={{ position: "absolute", top: "15%", right: "10%", transform: "rotate(13deg)" }}>{textToIcon[PagePlaceholderIcon.WIP]}</Typography>
-                <Typography level="h1" sx={{ position: "absolute", top: "47%", left: "7%", transform: "rotate(13deg)" }}>{textToIcon[PagePlaceholderIcon.Welcome]}</Typography>
-                <Typography level="h1" sx={{ position: "absolute", bottom: "35%", right: "23%", transform: "rotate(-20deg)" }}>{textToIcon[PagePlaceholderIcon.NoMore]}</Typography>
-                <Typography level="h1" sx={{ position: "absolute", top: "20%", right: "45%", transform: "rotate(-3deg)" }}>{textToIcon[PagePlaceholderIcon.NotFound]}</Typography>
+                <Typography level="h1" sx={{ position: "absolute", top: "7%", left: "22%", transform: "rotate(15deg)" }}>{iconToText[PagePlaceholderIcon.Appreciation]}</Typography>
+                <Typography level="h1" sx={{ position: "absolute", bottom: "42%", left: "30%", transform: "rotate(-20deg)" }}>{iconToText[PagePlaceholderIcon.Error]}</Typography>
+                <Typography level="h1" sx={{ position: "absolute", top: "15%", right: "10%", transform: "rotate(13deg)" }}>{iconToText[PagePlaceholderIcon.WIP]}</Typography>
+                <Typography level="h1" sx={{ position: "absolute", top: "47%", left: "7%", transform: "rotate(13deg)" }}>{iconToText[PagePlaceholderIcon.Welcome]}</Typography>
+                <Typography level="h1" sx={{ position: "absolute", bottom: "35%", right: "23%", transform: "rotate(-20deg)" }}>{iconToText[PagePlaceholderIcon.NoMore]}</Typography>
+                <Typography level="h1" sx={{ position: "absolute", top: "20%", right: "45%", transform: "rotate(-3deg)" }}>{iconToText[PagePlaceholderIcon.NotFound]}</Typography>
                 <Typography level="h1" sx={{ position: "absolute", top: "10%", left: "6%", transform: "rotate(-3deg)" }} textColor="text.tertiary">
                     <IconSparkles size={36} />
                 </Typography>

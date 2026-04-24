@@ -20,7 +20,7 @@ import MessageEditor, {
 } from "~/components/editor/MessageEditor";
 import PagePlaceholder, {
     PagePlaceholderIcon,
-    textToIcon,
+    iconToText,
 } from "~/components/pages/PagePlaceholder";
 import TentMessage, {
     TentMessageSkeleton1,
@@ -527,7 +527,7 @@ function MessageList({
                                     fontSize={64}
                                     sx={{ transform: "rotate(-10deg)" }}
                                 >
-                                    {textToIcon[PagePlaceholderIcon.NotOk]}
+                                    {iconToText[PagePlaceholderIcon.NotOk]}
                                 </Typography>
                                 <Box flex={1}></Box>
                                 <Typography
@@ -536,7 +536,7 @@ function MessageList({
                                     sx={{ transform: "rotate(10deg)" }}
                                 >
                                     {
-                                        textToIcon[
+                                        iconToText[
                                             PagePlaceholderIcon.Appreciation
                                         ]
                                     }

@@ -7,16 +7,16 @@ export const useMeContext = () => {
     const account = useAccount();
     console.log("Account", account);
 
-    return account?.authenticated ? account.me : null; 
+    return account?.authenticated ? account.profile : null; 
 };
 export const useAccount = <T extends boolean = false>() => useContext(AccountContext) as (T extends true ? AccountContextAuthenticated : AccountContext);
 export const AccountContext = createContext<AccountContext | null>(null);
 export type AccountContext = AccountContextAuthenticated | AccountContextUnauthenticated;
 export interface AccountContextAuthenticated {
     authenticated: true;
-    me: CampgroundProfileRecord;
+    profile: CampgroundProfileRecord;
     campsites: CampsiteViewWithDomain[];
-    account: GetSession;
+    sessionInfo: GetSession;
     openUserSettings: () => void;
 }
 export interface AccountContextUnauthenticated {

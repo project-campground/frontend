@@ -19,6 +19,8 @@ import FormFieldRadioGridOption from "~/components/form/FormFieldRadioGridOption
 import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldTextArea from "~/components/form/FormFieldTextArea";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
+import { useAccount } from "~/context/account";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -31,12 +33,12 @@ type Props = {
 };
 
 export default function TentCreationModal({ campsiteId, bonfireId, categoryId, lowestPriorityTent, lowestPriorityCategory }: Props) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const modalClose = useContext(CloseModalContext);
     const [error, setError] = useState<HttpResponseError | null>(null);
 
     const onTentCreate = (body: Record<string, any>): unknown =>
-        session.atproto
+        api
             .tents
             .create(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, position: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; position: number; })
             .then((r) => {
@@ -46,7 +48,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, l
                 return modalClose?.({}, "closeClick");
             });
     const onCategoryCreate = (name: string, description: string): unknown =>
-        session.atproto
+        api
             .categories
             .create(campsiteId, bonfireId, { name, description, position: lowestPriorityCategory + 1 } as { name: string; description: string; position: number; })
             .then((r) => {

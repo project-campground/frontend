@@ -1,7 +1,7 @@
 import HTTPAtprotoObjectManager from "./base-atproto";
 
 export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManager {
-    create(record: { parentUri?: string | undefined; content: string; tags: string[]; createdAt: string; updatedAt: string; }) {
+    create(record: { parentUri?: string | undefined; content: string; createdAt: string; updatedAt: string; }) {
         if (!this.client.actorDid)
             throw new Error("Operation not allowed while unauthenticated");
         
@@ -16,7 +16,7 @@ export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManag
         });
     }
     
-    update(uri: string, record: { content?: string; tags?: string[]; }) {
+    update(uri: string, record: { content?: string; }) {
         if (!this.client.actorDid)
             throw new Error("Operation not allowed while unauthenticated");
         
@@ -30,5 +30,15 @@ export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManag
                 "$type": "gg.campground.profile.post",
             },
         });
+    }
+
+    async delete(uri: string) {
+        const a = await this.client.deleteRecord({
+            repo: this.client.actorDid!,
+            collection: "gg.campground.profile.post",
+            // at://did:.../gg.campground.profile.post/...
+            rkey: uri.split("/")[4],
+        });
+        return a;
     }
 }

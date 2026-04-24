@@ -41,7 +41,7 @@ export default class UserSettingsAccount extends React.Component<SettingsCompone
         this._init = true;
     }
     render() {
-        const me = this.context.me;
+        const me = this.context.profile;
 
         return (
             <SettingsPageWrapper
@@ -60,7 +60,7 @@ export default class UserSettingsAccount extends React.Component<SettingsCompone
                         </Typography>
                     </Stack>
                 </Stack>
-                {this.context.account.emailConfirmed
+                {this.context.sessionInfo.emailConfirmed
                 ? <Alert variant="soft" color="success" startDecorator={<IconMailFilled />}>
                     <FormattedMessage
                         id="app.settings.emailConfirmed"

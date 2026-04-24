@@ -70,7 +70,7 @@ export default function GlobalNavbar({ page, loadedCampsites: loaded }: Props) {
                         </Stack>
                     </NavbarButton>
                 </Stack>
-                {account.authenticated && !account.account.active ? (
+                {account.authenticated && !account.sessionInfo.active ? (
                     <Alert
                         sx={{ flex: 1, borderRadius: "lg" }}
                         variant="soft"

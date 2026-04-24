@@ -46,7 +46,7 @@ export default function UserSettingsModal(props: UserSettingsProps) {
             defaultPage="account"
             onSubmit={async (page, values) => callbacks[page](values)}
         >
-            <PageSidebarSection header={`@${account?.authenticated ? account.me.profile.handle.split("/")[2] : ""}`}>
+            <PageSidebarSection header={`@${account?.authenticated ? account.profile.profile.handle.split("/")[2] : ""}`}>
                 <PageSidebarItem
                     id="account"
                     startDecorator={<IconUserFilled />}

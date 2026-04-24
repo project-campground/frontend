@@ -28,7 +28,7 @@ import FadingBanner from "~/components/pages/FadingBanner";
 import Form from "~/components/form/Form";
 import {
     PagePlaceholderIcon,
-    textToIcon,
+    iconToText,
 } from "~/components/pages/PagePlaceholder";
 import { FormattedMessageGlobal } from "~/i18n";
 import FormSection from "~/components/form/FormSection";
@@ -90,7 +90,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(15deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.Appreciation]}
+                    {iconToText[PagePlaceholderIcon.Appreciation]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -101,7 +101,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(-20deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.Error]}
+                    {iconToText[PagePlaceholderIcon.Error]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -112,7 +112,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(13deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.WIP]}
+                    {iconToText[PagePlaceholderIcon.WIP]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -123,7 +123,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(13deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.Welcome]}
+                    {iconToText[PagePlaceholderIcon.Welcome]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -134,7 +134,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(-20deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.NoMore]}
+                    {iconToText[PagePlaceholderIcon.NoMore]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -145,7 +145,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(-3deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.NotFound]}
+                    {iconToText[PagePlaceholderIcon.NotFound]}
                 </Typography>
                 <Typography
                     level="h1"

@@ -257,11 +257,11 @@ export default class GlobalLayout extends React.Component<Props, State> {
                             ? this.context.auth.authenticated
                                 ? {
                                       authenticated: true,
-                                      me:
+                                      profile:
                                           this._me ??
                                           ({} satisfies Partial<CampgroundProfileRecord>),
                                       campsites: this._campsites,
-                                      account: this._pdsSession!,
+                                      sessionInfo: this._pdsSession!,
                                       openUserSettings: this.openUserSettings,
                                   }
                                 : { authenticated: false }

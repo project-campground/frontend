@@ -9,6 +9,8 @@ type Props = React.PropsWithChildren & {
 };
 
 export const TentContentBox = styled(Sheet)(({ theme }) => ({
+    width: "100%",
+    height: "100%",
     borderRadius: theme.vars.radius.xl,
     display: "flex",
     flexDirection: "column",
@@ -33,7 +35,7 @@ export const TentContentDivider = styled(Divider)(({ theme }) => ({
 
 export default function TentContentWrapper({ sidebarOpen, sidebarToggle, tent, children }: Props) {
     return (
-        <TentContentBox sx={{ width: "100%", height: "100%" }}>
+        <TentContentBox>
             <TentContentHeader tent={tent} sidebarToggle={sidebarToggle} sidebarOpen={sidebarOpen} />
             <TentContentDivider />
             {children}

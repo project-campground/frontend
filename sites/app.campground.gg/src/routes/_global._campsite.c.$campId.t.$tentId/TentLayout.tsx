@@ -1,17 +1,19 @@
-import TentContentWrapper from "./TentContentWrapper";
+import TentContentWrapper, { TentContentBox, TentContentDivider } from "./TentContentWrapper";
 import { ComponentByTentType } from "./tents";
-import MemberSidebar from "./MemberSidebar";
+import MemberSidebar, { RightSidebarBox, RightSidebarList } from "./MemberSidebar";
 import { useMemo, useState } from "react";
-import { Box, styled } from "@mui/joy";
-import { useSession } from "~/context/session";
+import { Box, Stack, styled } from "@mui/joy";
 import type { TypeToPayload } from "types/ws";
 import { useNavigate } from "react-router";
 import { useCampsiteContext } from "../_global._campsite/context";
-import { pseudoTents, PseudoTentType } from "~/util/pseudoTents";
+import { PseudoTentType } from "~/util/pseudoTents";
 import type { TentViewBasic, TentType } from "types/campground/tent";
 import { useIntl } from "react-intl";
 import { globalIntlDeclarations } from "~/i18n";
 import { getCampsiteRoute } from "~/util/domains";
+import { TentContentHeaderSkeleton } from "./TentContentHeader";
+import { TentMessageSkeleton1, TentMessageSkeleton2 } from "~/components/tents/TentMessage";
+import { MessageInputSkeleton, MessageLimitStack } from "./TextTent";
 
 type Props = {
     campsiteId: string;
@@ -60,11 +62,11 @@ export default function TentLayout({ campsiteId, tentId }: Props) {
 
                 return setTentInfo(resp.content);
             });
-    }, [tentId])
+    }, [tentId]);
 
     if (!tentInfo)
         return (
-            "aaa"
+            <TentLayoutSkeleton />
         );
 
     // const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -87,5 +89,46 @@ export default function TentLayout({ campsiteId, tentId }: Props) {
                 </MemberSidebar>
             </SidebarWrapper>
         </>
+    );
+}
+
+export function TentLayoutSkeleton() {
+    return (
+        <>
+            <TentContentBox>
+                <TentContentHeaderSkeleton />
+                <TentContentDivider />
+                <Stack sx={{ height: "100%", overflow: "hidden" }}>
+                    <Box flex={1} sx={{ overflow: "hidden" }}>
+                        <MessageLimitStack sx={{ overflow: "hidden" }}>
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton2 />
+                            <TentMessageSkeleton1 />
+                            <TentMessageSkeleton2 />
+                        </MessageLimitStack>
+                    </Box>
+                    <MessageInputSkeleton />
+                </Stack>
+            </TentContentBox>
+            <SidebarWrapper className="open">
+                <RightSidebarBox>
+                    <RightSidebarList sx={{ height: "100%" }}>
+
+                    </RightSidebarList>
+                </RightSidebarBox>
+            </SidebarWrapper>
+        </>
+
     );
 }

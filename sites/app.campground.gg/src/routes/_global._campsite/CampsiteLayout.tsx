@@ -15,6 +15,7 @@ import type { TypeToPayload } from "types/ws";
 import PermissionsManager from "~/context/permissions/PermissionsManager";
 import { makeRoomForItems } from "./sidebar-events";
 import HTTPBackendClient from "~/api/http/HTTPBackendClient";
+import { TentLayoutSkeleton } from "../_global._campsite.c.$campId.t.$tentId/TentLayout";
 
 type Props = {
     backendDomain: string;
@@ -162,6 +163,7 @@ export default class CampsiteLayout extends React.Component<Props, State> {
                     <Box>
                         <TentSidebarSkeleton />
                     </Box>
+                    <TentLayoutSkeleton />
                 </Group>
             );
 

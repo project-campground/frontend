@@ -438,7 +438,7 @@ export default class TextTent extends React.Component<Props, State> {
     }
 }
 
-const MessageLimitStack = styled(Stack)(() => ({
+export const MessageLimitStack = styled(Stack)(() => ({
     flexDirection: "column-reverse",
     overflow: "auto",
     height: "100%",
@@ -647,10 +647,10 @@ function MessageInputWrapper({
     );
 }
 
-function MessageInputSkeleton() {
+export function MessageInputSkeleton() {
     return (
         <Stack sx={{ height: 80, px: 2 }}>
-            <Skeleton width="100%" height={52} />
+            <Skeleton loading width="calc(100% - 32px)" height={52} />
         </Stack>
     );
 }

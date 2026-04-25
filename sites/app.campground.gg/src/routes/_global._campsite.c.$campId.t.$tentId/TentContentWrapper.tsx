@@ -21,6 +21,8 @@ export const TentContentBox = styled(Sheet)(({ theme }) => ({
     position: "relative",
     backgroundColor: theme.vars.palette.background.surface,
     color: theme.vars.palette.text.secondary,
+    scrollSnapAlign: "start",
+    scrollSnapStop: "always",
 }));
 
 export const TentContentDivider = styled(Divider)(({ theme }) => ({

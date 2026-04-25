@@ -24,12 +24,8 @@ const SidebarWrapper = styled(Box)(() => ({
     transitionDuration: "0.3s",
     transitionProperty: "width",
     height: "100%",
-    minWidth: 0,
-    width: 0,
-    maxWidth: 320,
-    "&.open": {
-        width: 320,
-    },
+    scrollSnapAlign: "start",
+    scrollSnapStop: "always",
 }));
 
 export default function TentLayout({ campsiteId, tentId }: Props) {

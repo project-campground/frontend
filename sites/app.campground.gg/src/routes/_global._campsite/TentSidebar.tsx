@@ -46,13 +46,15 @@ export const TentSidebarBox = styled(Stack, {
     slot: "root",
 })(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.surface,
-    minWidth: 320,
-    maxWidth: 320,
+    // minWidth: 320,
+    // maxWidth: 320,
     borderRadius: theme.vars.radius.xl,
     boxShadow: theme.vars.shadow.lg,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
     height: "100%",
     paddingTop: "5px",
+    scrollSnapAlign: "start",
+    scrollSnapStop: "always",
 }));
 export const TentSidebarBannerWrapper = styled(Box, {
     name: "BonfireBanner",
@@ -241,7 +243,7 @@ export default class TentSidebar extends React.Component<Props, State> {
                 <TentSidebarBannerWrapper onDragEnter={() => this.setMenu("bonfire-list")}>
                     <FadingBanner sx={{ opacity: 0.25 }}>
                         {bonfireSelected.bannerUri
-                            ? <Image src={bonfireSelected.bannerUri} />
+                            ? <Image width="100%" src={bonfireSelected.bannerUri} />
                             : <GradientBanner />}
                     </FadingBanner>
                     <ClickableBox onClick={toggleGroupMenu}>

@@ -1,4 +1,4 @@
-import { Stack, Modal, Button } from "@mui/joy";
+import { Stack, Modal, Box, Button, styled } from "@mui/joy";
 import React, { ReactNode, type ContextType } from "react";
 import GlobalNavbar from "./GlobalNavbar";
 import { SessionContext } from "~/context/session";
@@ -32,6 +32,34 @@ type State = {
     errorLoading?: string;
     userSettingsOpen: boolean;
 };
+
+const GlobalLayoutRoot = styled(Box, {
+    name: "GlobalLayout",
+    slot: "root",
+})(({ theme }) => ({
+    display: "grid",
+    gridTemplateRows: "64px calc(100% - 64px)",
+    gridTemplateColumns: "320px 1fr 320px",
+    height: "100%",
+    width: "100%",
+    overflowY: "hidden",
+    gap: "0 8px",
+    scrollSnapType: "x mandatory",
+    scrollBehavior: "smooth",
+    scrollSnapStop: "always",
+    [theme.breakpoints.only("md")]: {
+        // display: "flex",
+        // flexDirection: "row",
+        gridTemplateRows: "100%",
+        gridTemplateColumns: "50% 50% 100% 50%"
+    },
+    [theme.breakpoints.down("md")]: {
+        // display: "flex",
+        // flexDirection: "row",
+        gridTemplateRows: "100%",
+        gridTemplateColumns: "100% 100% 100% 100%"
+    },
+}));
 
 export default class GlobalLayout extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined = SessionContext;
@@ -238,19 +266,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
             );
 
         return (
-            <Stack
-                alignItems="stretch"
-                sx={{
-                    flexDirection: {
-                        xs: "column-reverse",
-                        sm: "column-reverse",
-                        md: "column",
-                    },
-                    width: "100%",
-                    height: "100%",
-                    overflow: "hidden",
-                }}
-            >
+            <GlobalLayoutRoot>
                 <AccountContext.Provider
                     value={
                         loaded
@@ -272,9 +288,9 @@ export default class GlobalLayout extends React.Component<Props, State> {
                         page={page}
                         loadedCampsites={this.state.loadedCampsites}
                     />
-                    <Stack sx={{ flex: 1, height: "100%", overflow: "hidden" }}>
-                        {children}
-                    </Stack>
+                    {children}
+                    {/* <Stack sx={{ flex: 1, height: "100%", overflow: "hidden" }}>
+                    </Stack> */}
                     <Modal
                         open={userSettingsOpen}
                         onClose={() =>
@@ -284,7 +300,7 @@ export default class GlobalLayout extends React.Component<Props, State> {
                         <UserSettingsModal />
                     </Modal>
                 </AccountContext.Provider>
-            </Stack>
+            </GlobalLayoutRoot>
         );
     }
 }

@@ -22,7 +22,16 @@ type Props = {
     sx?: SxProps;
 };
 
-const NavbarCampWrapper = styled(GlobalNavbarItem)(() => ({}));
+const NavbarCampWrapper = styled(GlobalNavbarItem)(({ theme }) => ({
+    justifyContent: "start",
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    [theme.breakpoints.up("lg")]: {
+        justifyContent: "center",
+        padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
+        paddingRight: theme.spacing(3),
+        height: 48,
+    },
+}));
 
 export default function NavbarCamp({
     id,
@@ -40,10 +49,7 @@ export default function NavbarCamp({
 
     return (
         <NavbarCampWrapper
-            sx={[
-                { px: 1, py: 0.5, height: 48, pr: { xs: 1, md: 3 } },
-                ...(Array.isArray(sx) ? sx : [sx]),
-            ]}
+            sx={sx}
             className={isActive ? "active" : ""}
             onClick={() => navigate(getCampsiteRoute(domain, id, `t/bulletin`))}
         >
@@ -66,7 +72,6 @@ export default function NavbarCamp({
                     direction="column"
                     gap={0.2}
                     alignItems="start"
-                    sx={{ display: { xs: "none", md: "flex" } }}
                 >
                     <Stack gap={1} direction="row" alignItems="center">
                         <Typography

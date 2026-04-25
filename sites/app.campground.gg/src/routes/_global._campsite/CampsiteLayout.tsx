@@ -168,21 +168,17 @@ export default class CampsiteLayout extends React.Component<Props, State> {
             );
 
         return (
-            <Group sx={{ width: "100%", height: "100%", overflow: "hidden" }} gap={1}>
-                <TentContext.Provider value={this._currentTent}>
-                    <CampsiteContext.Provider value={{ ...this.context, api: this._apiClient, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
-                        <Box>
-                            <TentSidebar
-                                campsite={campsite!}
-                                bonfireSelected={bonfireSelected}
-                                tentSelected={tentSelected}
-                                navigate={navigate}
-                            />
-                        </Box>
-                        {children}
-                    </CampsiteContext.Provider>
-                </TentContext.Provider>
-            </Group>
+            <TentContext.Provider value={this._currentTent}>
+                <CampsiteContext.Provider value={{ ...this.context, api: this._apiClient, permissions: this._permissionsManager, campsite: campsite!, updateCampsite: this._updateCampsiteDataBind }}>
+                    <TentSidebar
+                        campsite={campsite!}
+                        bonfireSelected={bonfireSelected}
+                        tentSelected={tentSelected}
+                        navigate={navigate}
+                    />
+                    {children}
+                </CampsiteContext.Provider>
+            </TentContext.Provider>
         );
     }
 }

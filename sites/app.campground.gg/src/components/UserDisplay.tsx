@@ -42,26 +42,27 @@ export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick, withSt
     const actualSize = size ?? "md";
     return (
         <Typography level="body-md" onClick={onClick}>
+            <TextBlock align={align}>
+                <TextBlock align={align}>
+                    <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
+                        {member?.nickname ?? user?.displayName ?? user.did}
+                    </GradientTypography>
+                </TextBlock>
+                <wbr />
+                {
+                    showHandle && <>
+                        <TextBlock align={align} pl={sizeToGap[actualSize]}>
+                            <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                        </TextBlock>
+                    </>
+                }
+            </TextBlock>
             {!noAvatar &&
             <>
-                <TextBlock align={align}>
+                <TextBlock align={align} float="left" pr={sizeToGap[actualSize]}>
                     <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
                 </TextBlock>
-                <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
             </>
-            }
-            <TextBlock align={align}>
-                <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
-                    {member?.nickname ?? user?.displayName ?? user.did}
-                </GradientTypography>
-            </TextBlock>
-            {
-                showHandle && <>
-                    <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
-                    <TextBlock align={align}>
-                        <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
-                    </TextBlock>
-                </>
             }
         </Typography>
     );

@@ -38,7 +38,6 @@ const GlobalNavbarRoot = styled(Box, {
     flex: 1,
     gridRow: "1",
     gridColumn: "1",
-    zIndex: -1,
     [theme.breakpoints.up("lg")]: {
         width: "100vw",
         alignItems: "center",

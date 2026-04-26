@@ -1,7 +1,3 @@
-import { Box, Stack } from "@mui/joy";
-import ProfileFeed, { ProfileFeedSkeleton } from "./ProfileFeed";
-import ProfileAbout from "./ProfileAbout";
-import ProfileGames from "./ProfileGames";
 import ProfileLayout, { ProfileLayoutSkeleton } from "./ProfileLayout";
 import ErrorBoundary from "~/components/ErrorBoundary";
 import { useMemo, useState } from "react";
@@ -9,10 +5,27 @@ import type { ProfileViewDetailed } from "types/campground/user";
 import { useBackendApi } from "~/context/api";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { PagePlaceholderFromApi } from "~/components/pages/PagePlaceholder";
+import ProfileContent, { ProfileContentSkeleton } from "./ProfileContent";
+import { Box, styled } from "@mui/joy";
+import ProfileGames from "./ProfileGames";
+import ProfileAbout from "./ProfileAbout";
 
 type Props = {
     did: string;
 };
+
+const ProfileMobileSidebarRoot = styled(Box, {
+    name: "ProfileLayout",
+    slot: "root",
+})(({ theme }) => ({
+    padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+    backgroundColor: theme.vars.palette.background.level1,
+    overflowY: "auto",
+    scrollSnapAlign: "start",
+    [theme.breakpoints.up("lg")]: {
+        display: "none",
+    }
+}));
 
 export default function ProfileView({ did }: Props) {
     const api = useBackendApi();
@@ -40,21 +53,19 @@ export default function ProfileView({ did }: Props) {
         );
 
     return (
-        <ProfileLayout user={user}>
-            <ErrorBoundary>
-                <Stack direction={{ xs: "column", md: "row" }} sx={{ flex: 1, display: "grid", gridTemplateColumns: { xs: "11fr", md: "2fr 7fr 2fr" }, gap: 6, px: { xs: 2, md: 35 } }}>
-                    <Box sx={{ display: { xs: "none", md: "block" }, gridRow: 1 }}>
-                        <ProfileGames user={user} />
-                    </Box>
-                    <Box sx={{ width: "100%", overflow: "hidden", gridRow: { xs: 2, md: 1 } }}>
-                        <ProfileFeed user={user} />
-                    </Box>
-                    <Box sx={{ gridRow: 1 }}>
-                        <ProfileAbout user={user} />
-                    </Box>
-                </Stack>
-            </ErrorBoundary>
-        </ProfileLayout>
+        <>
+            <ProfileMobileSidebarRoot>
+                <ProfileGames user={user} />
+            </ProfileMobileSidebarRoot>
+            <ProfileLayout user={user}>
+                <ErrorBoundary>
+                    <ProfileContent user={user} />
+                </ErrorBoundary>
+            </ProfileLayout>
+            <ProfileMobileSidebarRoot>
+                <ProfileAbout user={user} />
+            </ProfileMobileSidebarRoot>
+        </>
     );
 }
 
@@ -62,18 +73,8 @@ export function ProfileViewSkeleton() {
     return (
         <ProfileLayoutSkeleton>
             <ErrorBoundary>
-                <Stack direction={{ xs: "column", md: "row" }} sx={{ flex: 1, display: "grid", gridTemplateColumns: { xs: "11fr", md: "2fr 7fr 2fr" }, gap: 6, px: { xs: 2, md: 35 } }}>
-                    <Box sx={{ display: { xs: "none", md: "block" }, gridRow: 1 }}>
-                        
-                    </Box>
-                    <Box sx={{ width: "100%", overflow: "hidden", gridRow: { xs: 2, md: 1 } }}>
-                        <ProfileFeedSkeleton />
-                    </Box>
-                    <Box sx={{ gridRow: 1 }}>
-                    </Box>
-                </Stack>
+                <ProfileContentSkeleton />
             </ErrorBoundary>
-
         </ProfileLayoutSkeleton>
     );
 }

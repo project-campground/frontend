@@ -1,4 +1,4 @@
-import { Box, Stack, CircularProgress } from "@mui/joy";
+import { Box, Stack, CircularProgress, styled } from "@mui/joy";
 import { useEffect, useState } from "react";
 import type {
     ProfilePostViewDetailed,
@@ -22,6 +22,33 @@ type Props = {
     profileId: string;
     postId: string;
 };
+
+const ProfilePostViewRoot = styled(Box)(({ theme }) => ({
+    overflowY: "auto",
+    scrollSnapAlign: "start",
+    flex: 1,
+    width: "100%",
+    backgroundColor: theme.vars.palette.background.level1,
+    minHeight: "100%",
+    paddingBottom: theme.spacing(16),
+    paddingTop: theme.spacing(4),
+    [theme.breakpoints.up("lg")]: {
+        paddingLeft: theme.spacing(64),
+        paddingRight: theme.spacing(64),
+        gridColumn: "1 / 4"
+    }
+}));
+const ProfilePostViewSidebar = styled(Box)(({ theme }) => ({
+    overflowY: "auto",
+    scrollSnapAlign: "start",
+    flex: 1,
+    width: "100%",
+    backgroundColor: theme.vars.palette.background.level1,
+    [theme.breakpoints.up("lg")]: {
+        gridColumn: "1 / 4",
+        display: "none",
+    }
+}));
 
 export default function ProfilePostView({
     profileId,
@@ -75,64 +102,36 @@ export default function ProfilePostView({
         return <CircularProgress />;
 
     return (
-        <Box sx={{ overflowY: "auto", flex: 1, width: "100%" }}>
-            <Stack
-                className="ProfileLayout container"
-                sx={(theme) => ({
-                    pt: { md: 0, lg: 4 },
-                    minHeight: "100%",
-                    pb: 16,
-                    backgroundColor: theme.vars.palette.background.level1,
-                })}
-            >
+        <>
+            <ProfilePostViewSidebar />
+            <ProfilePostViewRoot>
                 <Stack
-                    direction="row"
-                    sx={{
-                        flex: 1,
-                        display: "grid",
-                        gridTemplateColumns: {
-                            md: "0 11fr 0",
-                            lg: "2fr 7fr 2fr",
-                        },
-                        gap: 6,
-                        px: { sm: 2, md: 8, lg: 35 },
-                        pt: 2,
-                    }}
+                    gap={2}
+                    sx={{ px: 2, width: "100%", overflow: "hidden" }}
                 >
-                    <Box></Box>
-                    <Stack
-                        gap={2}
-                        sx={{ px: 2, width: "100%", overflow: "hidden" }}
+                    {post.parentUri && <ProfilePostViewParent post={post.parent} />}
+                    <ThreadLineWrapper>
+                        <ProfilePost
+                            bigger
+                            post={post!}
+                            onPostDelete={onPostDeleted}
+                            onPostUpdate={onPostUpdated}
+                        />
+                        <ProfilePostViewReplies
+                            post={post}
+                            topReplies={post.replies}
+                        />
+                    </ThreadLineWrapper>
+                    <PagePlaceholder
+                        sx={{ mt: 8 }}
+                        icon={PagePlaceholderIcon.NoMore}
+                        title="No more comments"
                     >
-                        {/* <Link href={`/profile/${post.author.did}`}>
-                            <Typography level="body-md" fontWeight={900} startDecorator={<IconArrowNarrowLeft />}>View user profile</Typography>
-                        </Link> */}
-                        {post.parentUri && <ProfilePostViewParent post={post.parent} />}
-                        <ThreadLineWrapper>
-                            <ProfilePost
-                                bigger
-                                post={post!}
-                                onPostDelete={onPostDeleted}
-                                onPostUpdate={onPostUpdated}
-                            />
-                            <ProfilePostViewReplies
-                                post={post}
-                                topReplies={post.replies}
-                            />
-                        </ThreadLineWrapper>
-                        <PagePlaceholder
-                            sx={{ mt: 8 }}
-                            icon={PagePlaceholderIcon.NoMore}
-                            title="No more comments"
-                        >
-                            Come back later to see new comments!
-                        </PagePlaceholder>
-                    </Stack>
-                    <Box></Box>
+                        Come back later to see new comments!
+                    </PagePlaceholder>
                 </Stack>
-            </Stack>
-        </Box>
-        // <ProfileLayout user={post.author}>
-        // </ProfileLayout>
+            </ProfilePostViewRoot>
+            <ProfilePostViewSidebar />
+        </>
     );
 }

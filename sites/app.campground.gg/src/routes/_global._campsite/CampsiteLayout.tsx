@@ -1,5 +1,3 @@
-import { Box } from "@mui/joy";
-import { Group } from "components";
 import React, { type ContextType } from "react";
 // import type { CampsiteViewDetailed } from "types/campsites";
 import TentSidebar, { TentSidebarSkeleton } from "./TentSidebar";
@@ -159,12 +157,10 @@ export default class CampsiteLayout extends React.Component<Props, State> {
 
         if (!init || loading)
             return (
-                <Group sx={{ width: "100%", height: "100%" }} gap={1}>
-                    <Box>
-                        <TentSidebarSkeleton />
-                    </Box>
+                <>
+                    <TentSidebarSkeleton />
                     <TentLayoutSkeleton />
-                </Group>
+                </>
             );
 
         return (

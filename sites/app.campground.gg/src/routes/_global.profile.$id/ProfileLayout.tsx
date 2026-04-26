@@ -14,10 +14,14 @@ type Props = {
 const ProfileLayoutRoot = styled(Box, {
     name: "ProfileLayout",
     slot: "root",
-})(() => ({
+})(({ theme }) => ({
     overflowY: "auto",
     flex: 1,
-    width: "100%",
+    gridColumn: "3 / 4",
+    scrollSnapAlign: "start",
+    [theme.breakpoints.up("lg")]: {
+        gridColumn: "1 / 4",
+    }
 }));
 const ProfileLayoutContainer = styled(Stack, {
     name: "ProfileLayout",

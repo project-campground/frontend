@@ -5,18 +5,18 @@ import {
     IconTrashFilled,
 } from "@tabler/icons-react";
 import type { TentSettingsProps } from "./TentSettingsModal";
-import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import { useContext } from "react";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 import SettingsPageWrapper from "../settings/page";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 export default function TentSettingsDeletion({
     settingsProps: { tent },
 }: SettingsComponentProps<TentSettingsProps>) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const floating = useSnackbars();
     const modalClose = useContext(CloseModalContext);
 
@@ -47,7 +47,7 @@ export default function TentSettingsDeletion({
                 variant="glow"
                 color="danger"
                 onClick={(ev) =>
-                    session.http.tents.delete(tent.id).then((resp) => {
+                    api.tents.delete(tent.id).then((resp) => {
                         if (!resp.ok) return floating.notifyApiError(resp);
 
                         return modalClose?.(ev, "closeClick");

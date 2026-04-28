@@ -1,6 +1,6 @@
 import { Stack, Box, Typography, Button, Alert } from "@mui/joy";
 import { useState } from "react";
-import type { RoleView } from "types/roles";
+import type { RoleView } from "types/campground/roles";
 import ContentDeleteModal from "~/layout/ContentDeleteModal";
 import RoleItem from "../RoleItem";
 import { IconExclamationCircleFilled } from "@tabler/icons-react";

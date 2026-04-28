@@ -7,23 +7,20 @@ import {
     MenuButton,
 } from "@mui/joy";
 import React, { type ContextType } from "react";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewDetailed } from "types/campground/tent";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
 import { Group } from "components";
-import { type ContextSuite } from "~/context/context-suite";
 import {
-    CampsiteContextSuiteContext,
-    useCampsite,
-    type CampsiteContextSuite,
+    CampsiteContext,
+    useCampsiteContext,
 } from "../_global._campsite/context";
-import type { MemberViewDetailed } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewDetailed } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import RoleDisplay from "~/components/campsite/RoleDisplay";
 import Datestamp from "~/components/Datestamp";
-import { useSession } from "~/context/session";
 import { IconPlus } from "@tabler/icons-react";
 import type { TypeToPayload } from "types/ws";
-import type { MemberRolesModified } from "types/membership";
+import type { MemberRolesModified } from "types/campground/membership";
 import DataDisplay from "~/components/pages/DataDisplay";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
@@ -37,8 +34,8 @@ type State = {};
 
 export default class MemberTent extends React.Component<Props, State> {
     static contextType?: React.Context<any> | undefined =
-        CampsiteContextSuiteContext;
-    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+        CampsiteContext;
+    declare context: ContextType<typeof CampsiteContext>;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(
         members: MemberViewDetailed[],
@@ -74,9 +71,10 @@ export default class MemberTent extends React.Component<Props, State> {
     }
 
     async fetchMembers(offset: number, _limit: number) {
-        const { session } = this.context;
+        const { api } = this.context;
 
-        return session.http.members
+        return api
+            .members
             .getManyDetailed(this.props.campsiteId, offset)
             .then((resp) => {
                 if (!resp.ok) return resp;
@@ -150,17 +148,16 @@ function CreatedComponent({ item: member }: { item: MemberViewDetailed }) {
     return <Datestamp long date={new Date(member.user.indexedAt)} />;
 }
 function RolesComponent({ item: member }: { item: MemberViewDetailed }) {
-    const campsite = useCampsite();
-    const session = useSession();
+    const { campsite, api } = useCampsiteContext();
     const roles = campsite.roles;
     const userRoles = roles.filter((x) => member.roles.includes(x.id));
     const nonUserRoles = roles.filter((x) => !member.roles.includes(x.id));
     const onRoleAdd = (role: RoleView) =>
-        session.http.members.addRole(campsite.id, role.id, {
+        api.members.addRole(campsite.id, role.id, {
             memberIds: [member.user.did],
         });
     const onRoleRemove = (role: RoleView) =>
-        session.http.members.removeRole(campsite.id, role.id, {
+        api.members.removeRole(campsite.id, role.id, {
             memberIds: [member.user.did],
         });
 

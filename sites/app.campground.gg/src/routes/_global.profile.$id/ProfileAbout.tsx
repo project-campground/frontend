@@ -2,11 +2,12 @@ import { Box, List, ListItem, ListItemContent, ListItemDecorator, Stack, Typogra
 import React from "react";
 import { IconCake, IconMapPin } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import type { ProfileView } from "types/user";
+import type { ProfileViewBasic } from "types/campground/user";
 import MarkdownWrapper from "~/components/markdown/MarkdownWrapper";
+import { FormattedMessageGlobal } from "~/i18n";
 
 type Props = {
-    user: ProfileView;
+    user: ProfileViewBasic;
 };
 
 export default class ProfileAbout extends React.Component<Props> {
@@ -15,7 +16,9 @@ export default class ProfileAbout extends React.Component<Props> {
 
         return (
             <Box>
-                <Typography level="h3" sx={{ mb: 2 }}>About me</Typography>
+                <Typography level="h3" sx={{ mb: 2 }}>
+                    <FormattedMessageGlobal id="app.profiles.aboutMe" />
+                </Typography>
                 <Box>
                     <MarkdownWrapper>
                         {user.description}

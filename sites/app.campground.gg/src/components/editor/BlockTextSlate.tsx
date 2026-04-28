@@ -12,6 +12,7 @@ type Props = React.PropsWithChildren & {
     editor: RichEditor;
     sx: SxProps;
     defaultValue?: string;
+    maxHeight?: number;
     enableToolbar?: boolean;
 };
 
@@ -20,17 +21,16 @@ const StyledContainer = styled("div", {
     slot: "root",
 })(({ theme }) => ({
     position: "relative",
-    border: `solid 1px ${theme.vars.palette.neutral[600]}`,
+    border: `solid 1px ${theme.vars.palette.neutral[700]}`,
     borderRadius: theme.vars.radius.md,
     // position: "relative",
-    // overflow: "hidden",
+    overflow: "auto",
     color: theme.vars.palette.text.secondary,
 }));
 
-export default function BlockTextSlate({ ref, defaultValue, editor, sx, children }: Props) {
-
+export default function BlockTextSlate({ ref, defaultValue, editor, sx, maxHeight, children }: Props) {
     return (
-        <StyledContainer sx={sx} ref={ref}>
+        <StyledContainer sx={[{ maxHeight }, ...(Array.isArray(sx) ? sx : [sx])]} ref={ref}>
             <ErrorBoundary>
                 <Slate initialValue={defaultValue ? slatefyRoot(deserializeMarkdown(defaultValue)) : [paragraph()]} editor={editor}>
                     {children}

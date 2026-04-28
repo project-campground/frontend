@@ -30,14 +30,13 @@ const TentMentionWrapper = styled("span", {
 }));
 
 export default function TentMention({ id }: Props) {
-    const { campsite, permissions: { tentList }, session } = useCampsiteContext();
+    const { campsite, permissions: { tentList }, api } = useCampsiteContext();
     const [tent, setTent] = useState(PseudoTentType.includes(id as PseudoTentType) ? pseudoTents[id as PseudoTentType] : tentList.value?.tents.find((x) => x.id === id));
     useMemo(() => {
         if (tent)
             return;
         return (
-            session
-                .http
+            api
                 .tents
                 .get(id)
                 .then((resp) => resp.ok ? setTent(resp.content) : null)

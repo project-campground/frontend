@@ -1,23 +1,24 @@
-import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
+import { Dropdown, Stack, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
-import type { ProfileView } from "types/user";
+import type { ProfileViewBasic, ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group, TextBlock } from "components";
-import type { MemberView } from "types/membership";
-import type { RoleMotion } from "types/roles";
-import type { RoleView } from "types/roles";
+import type { MemberView } from "types/campground/membership";
+import type { RoleMotion } from "types/campground/roles";
+import type { RoleView } from "types/campground/roles";
 import type { MouseEvent } from "react";
 
 type Size = "sm" | "md" | "lg";
 
-type Props<T extends ProfileView> = {
-    user: T;
+type Props<T extends ProfileViewEmpty> = {
+    user: T | Partial<ProfileViewDetailed> & T;
     member?: MemberView<T> | null;
     noAvatar?: boolean;
     motion?: RoleMotion;
     colors?: string[];
     size?: Size;
     avatarSize?: Size | "xl";
+    noUsernameDisplay?: boolean;
     showHandle?: boolean;
     align?: "top" | "center" | "bottom";
     noHoverBackground?: boolean;
@@ -31,43 +32,51 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-const GapSpan = styled("span", {
-    name: "UserDisplay",
-    slot: "gap",
-})(() => ({
-    display: "inline-block",
+const UserDisplayRoot = styled(Typography)(() => ({
+    display: "flex",
+    flexDirection: "row",
+    gap: 8,
+    flexWrap: "wrap",
+}));
+const UserDisplayUsername = styled(Stack)(() => ({
+    display: "flex",
+    flexDirection: "row",
+    gap: `0 8px`,
+    // flexWrap: "wrap",
+    flex: 1,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
 }));
 
-export function UserDisplayNoModal<T extends ProfileView>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick,  noUsernameDisplay,withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
     return (
-        <Typography level="body-md" onClick={onClick}>
+        <UserDisplayRoot level="body-md" onClick={onClick}>
             {!noAvatar &&
             <>
-                <TextBlock align={align}>
-                    <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
-                </TextBlock>
-                <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
+                <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
             </>
             }
-            <TextBlock align={align}>
-                <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
-                    {member?.nickname ?? user.displayName}
-                </GradientTypography>
-            </TextBlock>
-            {
-                showHandle && <>
-                    <GapSpan sx={{ width: sizeToGap[actualSize] * 8 }} />
-                    <TextBlock align={align}>
-                        <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
-                    </TextBlock>
-                </>
-            }
-        </Typography>
+            {!noUsernameDisplay && <UserDisplayUsername alignItems={align}>
+                <TextBlock align={align}>
+                    <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
+                        {member?.nickname ?? (user as ProfileViewBasic)?.displayName ?? user.did}
+                    </GradientTypography>
+                </TextBlock>
+                <wbr />
+                {
+                    showHandle && <>
+                        <TextBlock align={align}>
+                            <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
+                        </TextBlock>
+                    </>
+                }
+            </UserDisplayUsername>}
+        </UserDisplayRoot>
     );
 }
 
-export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
+export default function UserDisplay<T extends ProfileViewEmpty>(props: Props<T>) {
     return (
         <>
             <Dropdown>
@@ -87,7 +96,7 @@ export default function UserDisplay<T extends ProfileView>(props: Props<T>) {
     );
 }
 
-export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props<ProfileView>, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
+export function UserDisplaySkeleton({ showHandle, withStatus, noAvatar, size, alignItems, avatarSize }: Pick<Props<ProfileViewEmpty>, "showHandle" | "withStatus" | "noAvatar" | "size" | "alignItems" | "avatarSize">) {    
     const actualSize = size ?? "md";
 
     return (

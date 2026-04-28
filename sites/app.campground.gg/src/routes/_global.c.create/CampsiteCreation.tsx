@@ -8,6 +8,7 @@ import {
     Typography,
     FormControl,
     FormLabel,
+    FormHelperText,
 } from "@mui/joy";
 import {
     IconClubs,
@@ -18,17 +19,17 @@ import {
     IconSparkles,
     IconStar,
     IconUsers,
+    IconWorld,
 } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import FadingBanner from "~/components/pages/FadingBanner";
 import Form from "~/components/form/Form";
 import {
     PagePlaceholderIcon,
-    textToIcon,
+    iconToText,
 } from "~/components/pages/PagePlaceholder";
-import { useSession } from "~/context/session";
 import { FormattedMessageGlobal } from "~/i18n";
 import FormSection from "~/components/form/FormSection";
 import { FormContext } from "~/components/form/context";
@@ -36,14 +37,25 @@ import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldAvatar from "~/components/form/FormFieldAvatar";
 import FormFieldTextArea from "~/components/form/FormFieldTextArea";
 import FormSubmit from "~/components/form/FormSubmit";
+import { useSession } from "~/context/session";
+import { defaultBackendDomain } from "api.config";
+import { FormattedMessage } from "react-intl";
+import ContentCategory from "~/components/content/ContentCategory";
+import { getCampsiteRoute } from "~/util/domains";
 
 export default function CampsiteCreation() {
     const session = useSession();
     const navigate = useNavigate();
     const [error, setError] = useState<HttpResponseError | null>(null);
-    const onSubmit = (_: any, fieldValues: Record<string, any>) =>
-        session.http.campsites
-            .create({ ...fieldValues, tags: [] as string[] } as {
+    const onSubmit = (
+        _: any,
+        { backend, ...fieldValues }: Record<string, any>,
+    ) =>
+        session.atproto
+            .createCampsiteInBackend(backend, {
+                ...fieldValues,
+                tags: [] as string[],
+            } as {
                 name: string;
                 description: string;
                 vanityUrl?: string;
@@ -52,7 +64,9 @@ export default function CampsiteCreation() {
             .then((resp) => {
                 if (!resp.ok) return setError(resp);
 
-                navigate(`/c/${resp.content.campsite.id}/t/bulletin`);
+                const campsiteId = resp.content.campsite.id;
+                navigate(getCampsiteRoute(backend, campsiteId, `t/bulletin`));
+                return session.preferences.addCampsiteToListGlobally(backend, campsiteId);
             });
 
     return (
@@ -76,7 +90,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(15deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.Appreciation]}
+                    {iconToText[PagePlaceholderIcon.Appreciation]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -87,7 +101,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(-20deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.Error]}
+                    {iconToText[PagePlaceholderIcon.Error]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -98,7 +112,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(13deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.WIP]}
+                    {iconToText[PagePlaceholderIcon.WIP]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -109,7 +123,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(13deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.Welcome]}
+                    {iconToText[PagePlaceholderIcon.Welcome]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -120,7 +134,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(-20deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.NoMore]}
+                    {iconToText[PagePlaceholderIcon.NoMore]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -131,7 +145,7 @@ export default function CampsiteCreation() {
                         transform: "rotate(-3deg)",
                     }}
                 >
-                    {textToIcon[PagePlaceholderIcon.NotFound]}
+                    {iconToText[PagePlaceholderIcon.NotFound]}
                 </Typography>
                 <Typography
                     level="h1"
@@ -366,6 +380,44 @@ export default function CampsiteCreation() {
                                 <FormFieldTextArea required id="description" />
                             </FormControl>
                         </FormSection>
+                        <ContentCategory
+                            defaultOpen={false}
+                            header={
+                                <FormattedMessageGlobal id="info.additionalConfig" />
+                            }
+                        >
+                            <FormSection>
+                                <FormControl required>
+                                    <FormLabel>
+                                        <FormattedMessageGlobal id="info.appview" />
+                                    </FormLabel>
+                                    <FormFieldText
+                                        required
+                                        defaultValue={defaultBackendDomain}
+                                        knownValues={[
+                                            {
+                                                startDecorator: <IconWorld />,
+                                                value: defaultBackendDomain,
+                                                content: defaultBackendDomain,
+                                            },
+                                        ]}
+                                        id="backend"
+                                        format={
+                                            /(?:localhost[:][0-9]+|(?:[A-Za-z0-9_-]+[.])*[A-Za-z0-9_-]+[.][A-Za-z]{2,})/
+                                        }
+                                        startDecorator={<IconWorld />}
+                                        placeholder="example.com"
+                                    />
+                                    <FormHelperText>
+                                        <FormattedMessage
+                                            id="info.appview.campsiteCreation"
+                                            defaultMessage="Uses this domain to host the Campsite"
+                                            description="The description of what appview does for campsites"
+                                        />
+                                    </FormHelperText>
+                                </FormControl>
+                            </FormSection>
+                        </ContentCategory>
                         <FormSection layout="footer">
                             <FormSubmit>
                                 <FormattedMessageGlobal id="app.campsites.create" />

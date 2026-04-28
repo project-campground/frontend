@@ -60,7 +60,7 @@ export default function UserAvatar({ withStatus, avatar, size, badgeSx, sx }: Pr
     );
 }
 
-export function UserAvatarSkeleton({ size, withStatus, sx }: Pick<Props, "sx" | "size" | "withStatus">) {
+export function UserAvatarSkeleton({ size, withStatus, badgeSx, sx }: Pick<Props, "sx" | "badgeSx" | "size" | "withStatus">) {
     const sizePx = sizeToPx[size ?? "md"];
     const badgeSize = sizePx * 0.25;
 
@@ -78,7 +78,7 @@ export function UserAvatarSkeleton({ size, withStatus, sx }: Pick<Props, "sx" | 
                 : "lg"
                 : "md"}
             badgeContent={withStatus ? "" : 0}
-            sx={{ zIndex: 4, }}
+            sx={[{ zIndex: 4, }, ...(Array.isArray(badgeSx) ? badgeSx : [badgeSx])]}
         >
             <StyledAvatar size={(size ?? "md") as "sm" | "md" | "lg"} sx={sx}>
                 <Skeleton loading />

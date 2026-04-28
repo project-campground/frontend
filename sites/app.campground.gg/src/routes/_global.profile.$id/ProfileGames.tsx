@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/joy";
 import React from "react";
-import type { ProfileView } from "types/user";
+import type { ProfileViewEmpty } from "types/campground/user";
 import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
 
 type Props = {
-    user: ProfileView;
+    user: ProfileViewEmpty;
 };
 
 export default class ProfileGames extends React.Component<Props> {

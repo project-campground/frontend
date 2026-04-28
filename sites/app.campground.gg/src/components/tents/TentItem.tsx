@@ -1,7 +1,7 @@
 import { ListItem, ListItemButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, styled, Typography } from "@mui/joy";
 import { IconEyeFilled, IconHash, IconSettingsFilled, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import type { TentCategoryView, TentView } from "types/tent"
+import type { TentCategoryView, TentView } from "types/campground/tent"
 import TentIcon from "~/components/tents/TentIcon";
 import { useRightClick } from "~/context/mouse";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";

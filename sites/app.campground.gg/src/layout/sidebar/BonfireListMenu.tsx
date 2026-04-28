@@ -9,16 +9,16 @@ import {
     Divider,
 } from "@mui/joy";
 import { IconPlus } from "@tabler/icons-react";
-import type { BonfireViewBasic } from "types/bonfires";
+import type { BonfireViewBasic } from "types/campground/bonfires";
 import BonfireCreationModal from "./BonfireCreationModal";
 import { useState } from "react";
 import BonfireItem from "./BonfireItem";
 import { DragDropProvider } from "~/draggable";
-import { useSession } from "~/context/session";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
 import ItemBottomMover from "~/components/ItemBottomMover";
 import { FormattedMessage } from "react-intl";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -51,7 +51,7 @@ export default function BonfireListMenu({
         bonfires.sort((a, b) => a.position - b.position).slice(-1)[0]
             ?.position ?? -1;
     const onClose = () => setCreateModalOpen(false);
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const floating = useSnackbars();
     const regularBonfires = bonfires.filter((x) => !x.home);
 
@@ -63,7 +63,7 @@ export default function BonfireListMenu({
     ) => {
         console.log({ draggedId, droppedId, draggableGroup });
         if (bonfireDescended.includes(draggableGroup as "tent" | "category"))
-            return session.http[
+            return api[
                 draggableGroup === "tent" ? "tents" : "categories"
             ]
                 .move(draggedId, {
@@ -78,7 +78,7 @@ export default function BonfireListMenu({
 
         return (
             typeof bonfireMovedToPosition !== "undefined" &&
-            session.http.bonfires
+            api.bonfires
                 .move(draggedId, {
                     position: bonfireMovedToPosition,
                 })

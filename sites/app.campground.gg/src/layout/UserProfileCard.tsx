@@ -1,21 +1,22 @@
-import { AspectRatio, Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
+import { Box, ListItemContent, ListItemDecorator, MenuItem, MenuList, Skeleton, Stack, styled, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
-import type { ProfileView } from "types/user";
-import UserAvatar, { UserAvatarSkeleton } from "../components/UserAvatar";
+import type { ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
 import { IconLogout2, IconSettingsFilled, IconShieldFilled, IconUserFilled, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "~/context/session";
+import { useAccount } from "~/context/account";
 import { useNavigate } from "react-router";
-import type { MemberView } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberView } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
 import { Group } from "components";
-import GradientBanner from "../components/pages/GradientBanner";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
+import UserHeader from "~/components/users/UserHeader";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
-type Props<T extends ProfileView> = {
-    user?: ProfileView;
+type Props<T extends ProfileViewEmpty> = {
+    user?: Partial<ProfileViewDetailed> & T;
     member?: MemberView<T> | null;
     campsiteRoles?: RoleView[];
     did: string;
@@ -26,15 +27,17 @@ const UserProfileCardWrapper = styled(Box)(() => ({
     width: 320 - 12 - 2,
 }));
 
-export default function UserProfileCard<T extends ProfileView>({ did, user, member, campsiteRoles }: Props<T>) {
+export default function UserProfileCard<T extends ProfileViewEmpty>({ did, user, member, campsiteRoles }: Props<T>) {
     const session = useSession();
-    const [fetchedUser, setFetchedUser] = useState(user);
+    const account = useAccount();
+    const campsite = useCampsiteContext();
+    const [fetchedUser, setFetchedUser] = useState<(Partial<ProfileViewDetailed> & T) | undefined>(user);
     const [isFetching, setIsFetching] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchUser() {
-            const fetched = await session.http.fetchProfile(did);
+            const fetched = await campsite?.api.profiles.get(did);
             setFetchedUser(fetched?.content!);
         }
         if (!user && !isFetching) {
@@ -49,21 +52,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
 
     return (
         <UserProfileCardWrapper>
-            <Box>
-                <AspectRatio ratio={3} sx={{ borderRadius: "sm" }}>
-                    {isLoading
-                    ? <Skeleton loading sx={{ zIndex: 0 }}>
-                    </Skeleton>
-                    : <GradientBanner color="primary" sx={{ zIndex: "inherit", width: "100%", height: "100%", }}>
-
-                    </GradientBanner>}
-                </AspectRatio>
-            </Box>
-            <Box sx={{ mt: -6, px: 1.5, zIndex: 2 }}>
-                {isLoading
-                ? <UserAvatarSkeleton withStatus size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level2}` })} />
-                : <UserAvatar withStatus did={fetchedUser!.did} size="xxl" sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.neutral.softBg}` })} />}
-            </Box>
+            <UserHeader did={did} isLoading={isLoading} avatar={fetchedUser?.avatar} banner={fetchedUser?.banner} />
             <Box sx={{ px: 1.5, py: 1 }}>
                 <Stack>
                     <Typography level="title-lg" fontWeight={900}>
@@ -118,9 +107,9 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                         </Typography>
                     </ListItemContent>
                 </MenuItem>
-                {session.auth.authenticated && session.auth.user.did === did
+                {session.auth.authenticated && session.auth.user.did === did && account?.authenticated
                     ? <>
-                        <MenuItem variant="plain">
+                        <MenuItem variant="plain" onClick={account.openUserSettings}>
                             <ListItemDecorator>
                                 <IconSettingsFilled />
                             </ListItemDecorator>
@@ -143,11 +132,7 @@ export default function UserProfileCard<T extends ProfileView>({ did, user, memb
                             <ListItemContent>
                                 <Typography textColor="inherit">
                                     <Skeleton loading={isLoading}>
-                                        <FormattedMessage
-                                            id="form.logout"
-                                            defaultMessage="Logout"
-                                            description="Menu button for logging out of the account"
-                                        />
+                                        <FormattedMessageGlobal id="form.logout" />
                                     </Skeleton>
                                 </Typography>
                             </ListItemContent>

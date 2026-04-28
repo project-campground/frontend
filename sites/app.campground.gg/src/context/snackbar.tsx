@@ -1,6 +1,6 @@
 import { Alert, IconButton, Snackbar, type ColorPaletteProp } from "@mui/joy";
 import { IconX, IconExclamationCircleFilled, IconCircleCheckFilled, IconInfoCircleFilled } from "@tabler/icons-react";
-import type { HttpResponse, HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponse, HttpResponseError } from "~/api/http/HTTPResponse";
 import { Group } from "components";
 import React, { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
@@ -12,11 +12,11 @@ export type SnackbarProps = {
 
 export type SnackbarItem = SnackbarProps & { id: number };
 
-type SnackbarNotify = (text: ReactNode | ReactNode[]) => unknown;
-type SnackbarNotifyApi<T extends HttpResponse> = (response: T) => unknown;
+type SnackbarNotify = (text: ReactNode | ReactNode[]) => void;
+type SnackbarNotifyApi<T extends HttpResponse> = (response: T) => void;
 export type SnackbarContextType = {
     snackbars: SnackbarItem[];
-    notify: (props: SnackbarProps) => unknown;
+    notify: (props: SnackbarProps) => void;
     notifySuccess: SnackbarNotify;
     notifyInfo: SnackbarNotify;
     notifyWarn: SnackbarNotify;

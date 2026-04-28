@@ -10,9 +10,7 @@ import {
     Stack,
     Typography,
 } from "@mui/joy";
-import { useCampsite } from "../_global._campsite/context";
-import type { CampsiteViewDetailed } from "types/campsites";
-import type { TentViewDetailed } from "types/tent";
+import { useCampsite, useCampsiteContext } from "../_global._campsite/context";
 import { IconCake, IconUsers } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
 import { Group, Image } from "components";
@@ -103,10 +101,8 @@ export default function BulletinBoard() {
     );
 }
 
-export function BulletinBoardSidebarComponent(props: {
-    campsite: CampsiteViewDetailed;
-    tent: TentViewDetailed;
-}) {
+export function BulletinBoardSidebarComponent() {
+    const { campsite } = useCampsiteContext();
     return (
         <Box sx={{ py: 1 }}>
             <Typography level="title-md" fontWeight={700} sx={{ px: 1 }}>
@@ -125,7 +121,7 @@ export function BulletinBoardSidebarComponent(props: {
                         <FormattedMessageGlobal
                             id="app.campsites.members"
                             values={{
-                                count: props.campsite.memberCount,
+                                count: campsite.memberCount,
                             }}
                         />
                     </ListItemContent>
@@ -146,7 +142,7 @@ export function BulletinBoardSidebarComponent(props: {
                                     <Datestamp
                                         when
                                         date={
-                                            new Date(props.campsite.createdAt)
+                                            new Date(campsite.createdAt)
                                         }
                                     />
                                 ),

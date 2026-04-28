@@ -1,6 +1,6 @@
 import { IconEyeOff, IconHash, IconLayoutDashboardFilled, IconUserFilled, type Icon, type IconProps } from "@tabler/icons-react";
 import type { ForwardRefExoticComponent } from "react";
-import type { TentType } from "types/tent";
+import type { TentType } from "types/campground/tent";
 import type { PseudoTentType } from "~/util/pseudoTents";
 
 type Type = TentType | PseudoTentType | "unknown";

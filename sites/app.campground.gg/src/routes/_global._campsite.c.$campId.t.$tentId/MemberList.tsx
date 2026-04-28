@@ -1,6 +1,6 @@
 import { Chip, List, Menu, Stack } from "@mui/joy";
-import type { MemberViewBasic } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewBasic } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import MemberItem from "./MemberItem";
 import ContentCategory from "~/components/content/ContentCategory";
 import { colorToDecimal } from "~/util/color";

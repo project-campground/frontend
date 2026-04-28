@@ -1,4 +1,4 @@
-import type { TentViewBasic } from "types/tent";
+import type { TentViewBasic } from "types/campground/tent";
 
 export const PseudoTentType = ["bulletin", "members"] as const;
 export type PseudoTentType = typeof PseudoTentType[number];

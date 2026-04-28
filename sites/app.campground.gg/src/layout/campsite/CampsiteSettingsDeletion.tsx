@@ -1,13 +1,12 @@
 import { Alert, FormControl, FormLabel } from "@mui/joy";
 import type { SettingsComponentProps } from "../settings";
-import type { CampsiteViewDetailed } from "types/campsites";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
 import Form from "~/components/form/Form";
 import {
     IconExclamationCircleFilled,
     IconTrashFilled,
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import { useContext } from "react";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
@@ -17,20 +16,23 @@ import FormSection from "~/components/form/FormSection";
 import FormSubmit from "~/components/form/FormSubmit";
 import FormFieldText from "~/components/form/FormFieldText";
 import SettingsPageWrapper from "../settings/page";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 export default function CampsiteSettingsDeletion({
     settingsProps: { campsite },
 }: SettingsComponentProps<{ campsite: CampsiteViewDetailed }>) {
     const navigate = useNavigate();
-    const session = useSession();
+    const { api, session } = useCampsiteContext();
     const snackbars = useSnackbars();
     const modalClose = useContext(CloseModalContext);
     const onDelete = () =>
-        session.http.campsites.delete(campsite.id).then((resp) => {
+        api.campsites.delete(campsite.id).then((resp) => {
             if (!resp.ok) return snackbars.notifyApiError(resp);
 
             modalClose?.({}, "closeClick");
-            return navigate("/");
+
+            navigate("/");
+            return session.preferences.removeCampsiteFromListGlobally(api.domain, campsite.id);
         });
 
     return (

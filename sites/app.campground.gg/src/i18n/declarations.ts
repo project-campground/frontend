@@ -44,6 +44,26 @@ const globalIntlDeclarations = {
         defaultMessage: "Username",
         description: "Display name of the user",
     }),
+    "info.pds": defineMessage({
+        id: "info.pds",
+        defaultMessage: "Personal server",
+        description: "Longer name for PDS",
+    }),
+    "info.appview": defineMessage({
+        id: "info.appview",
+        defaultMessage: "Campsite Server",
+        description: "Descriptive name for appview",
+    }),
+    "info.additionalConfig": defineMessage({
+        id: "info.additionalConfig",
+        defaultMessage: "Additional settings",
+        description: "Additional settings/configuration section",
+    }),
+    "info.inviteCode": defineMessage({
+        id: "info.inviteCode",
+        defaultMessage: "Registration invite code",
+        description: "Invite code for registration",
+    }),
     "info.password": defineMessage({
         id: "info.password",
         defaultMessage: "Password",
@@ -56,7 +76,7 @@ const globalIntlDeclarations = {
     }),
     "info.password.confirm": defineMessage({
         id: "info.password.confirm",
-        defaultMessage: "Confirm password",
+        defaultMessage: "Re-enter password",
         description: "Confirm a password when registering or changing password",
     }),
     "info.handle": defineMessage({
@@ -115,6 +135,11 @@ const globalIntlDeclarations = {
         defaultMessage: "Login",
         description: "Login button and page title",
     }),
+    "form.logout": defineMessage({
+        id: "form.logout",
+        defaultMessage: "Logout",
+        description: "Logout button and page title",
+    }),
     "form.register": defineMessage({
         id: "form.register",
         defaultMessage: "Register",
@@ -131,6 +156,23 @@ const globalIntlDeclarations = {
         id: "app.discovery",
         defaultMessage: "Discovery",
         description: "Campsite settings discovery section header",
+    }),
+
+    // Profiles
+    "app.profiles.aboutMe": defineMessage({
+        id: "app.profiles.aboutMe",
+        defaultMessage: "About me",
+        description: "About me section the user profile",
+    }),
+    "app.profiles.feed": defineMessage({
+        id: "app.profiles.feed",
+        defaultMessage: "Feed",
+        description: "Feed tab in the user profile",
+    }),
+    "app.profiles.replies": defineMessage({
+        id: "app.profiles.replies",
+        defaultMessage: "Posts & Replies",
+        description: "Posts & Replies tab in the user profile",
     }),
 
     "app.common.createdAt": defineMessage({
@@ -164,6 +206,22 @@ const globalIntlDeclarations = {
         id: "app.settings.other",
         defaultMessage: "Other settings",
         description: "Section for deleting campsites, tents, etc.",
+    }),
+    // Users and user settings
+    "app.users.settings": defineMessage({
+        id: "app.users.settings",
+        defaultMessage: "User settings",
+        description: "Header of user settings",
+    }),
+    "app.users.settings.deactivate": defineMessage({
+        id: "app.users.settings.deactivate",
+        defaultMessage: "Deactivate account",
+        description: "The account deactivation page in user settings"
+    }),
+    "app.users.settings.reactivate": defineMessage({
+        id: "app.users.settings.reactivate",
+        defaultMessage: "Reactivate account",
+        description: "The account reactivation button in user settings"
     }),
     // Roles
     "app.roles": defineMessage({
@@ -238,6 +296,11 @@ const globalIntlDeclarations = {
         id: "app.tents.bulletin",
         defaultMessage: "Bulletin Board",
         description: "Bulletin Board pseudo-tent name",
+    }),
+    "app.tents.members": defineMessage({
+        id: "app.tents.members",
+        defaultMessage: "Members",
+        description: "Members pseudo-tent name",
     }),
     "app.tents.settings": defineMessage({
         id: "app.tents.settings",

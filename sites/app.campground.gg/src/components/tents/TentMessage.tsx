@@ -1,21 +1,21 @@
 import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { Group, loremIpsum, TextBlock } from "components";
-import type { TentMessageType, MessageViewWithReplies } from "types/content";
+import type { TentMessageType, MessageViewWithReplies } from "types/campground/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 import MessageToolbar from "./MessageToolbar";
 import { useState, type MouseEvent, type ReactNode } from "react";
 import MessageEditor from "../editor/MessageEditor";
-import { useSession } from "~/context/session";
 import Datestamp, { defaultDateOptions } from "../Datestamp";
 import { ThreadLineItem } from "../ThreadLine";
 import TentMessageReply, { TentMessageReplySkeleton } from "./TentMessageReply";
 import { UserDisplayNoModal } from "../UserDisplay";
 import { IconExclamationCircleFilled, IconPencil } from "@tabler/icons-react";
-import type { MemberViewAuthor } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewAuthor } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";
 import ContentDisplayBlock from "../markdown/ContentDisplayBlock";
 import { FormattedMessage } from "react-intl";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 const TentMessageWrapper = styled(Stack, {
     name: "TentMessage",
@@ -86,14 +86,14 @@ const TentMessageComponentByType: Record<TentMessageType, (props: MessageTypeCom
 };
 
 export default function TentMessage({ unhoverable, waiting, error, onUserClick, colorRoles, isBeingRepliedTo, hideToolbar, message, onDelete, addReply }: Props) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const [editMode, setEditMode] = useState(false);
     const [msgContent, setMsgContent] = useState(message.content);
 
     const onEdit = (content: string) => {
         setEditMode(false);
 
-        return session.http.messages.update(message.tentId, message.id, { content })
+        return api.messages.update(message.tentId, message.id, { content })
             .then((resp) => {
                 if (!resp.ok)
                     return;

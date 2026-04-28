@@ -1,10 +1,9 @@
 import { Alert, Card, DialogContent, DialogTitle, ModalClose, ModalDialog, Sheet, Stack, Typography, FormControl, FormLabel, Button } from "@mui/joy";
 import { IconCategory, IconHash, IconTent } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { useContext, useState } from "react";
-import type { TentCategoryView, TentViewDetailed } from "types/tent";
+import type { TentCategoryView, TentViewDetailed } from "types/campground/tent";
 import Form from "~/components/form/Form";
-import { useSession } from "~/context/session";
 import ContentCategory from "~/components/content/ContentCategory";
 import TentList from "~/components/tents/TentList";
 import { PseudoTentItem } from "~/components/tents/TentItem";
@@ -19,6 +18,7 @@ import FormFieldRadioGridOption from "~/components/form/FormFieldRadioGridOption
 import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldTextArea from "~/components/form/FormFieldTextArea";
 import CloseModalContext from "@mui/joy/Modal/CloseModalContext";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -31,12 +31,12 @@ type Props = {
 };
 
 export default function TentCreationModal({ campsiteId, bonfireId, categoryId, lowestPriorityTent, lowestPriorityCategory }: Props) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const modalClose = useContext(CloseModalContext);
     const [error, setError] = useState<HttpResponseError | null>(null);
 
     const onTentCreate = (body: Record<string, any>): unknown =>
-        session.http
+        api
             .tents
             .create(campsiteId, bonfireId, { ...body, categoryId: categoryId ?? undefined, position: lowestPriorityTent + 1 } as { categoryId?: number; name: string; type: number; description: string; position: number; })
             .then((r) => {
@@ -46,7 +46,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, l
                 return modalClose?.({}, "closeClick");
             });
     const onCategoryCreate = (name: string, description: string): unknown =>
-        session.http
+        api
             .categories
             .create(campsiteId, bonfireId, { name, description, position: lowestPriorityCategory + 1 } as { name: string; description: string; position: number; })
             .then((r) => {
@@ -173,7 +173,7 @@ export default function TentCreationModal({ campsiteId, bonfireId, categoryId, l
                 </FormSection>
                 <FormContext.Consumer>
                     {({ values: { description, what, name } }) =>    
-                        <Sheet sx={{ bgcolor: "background.body", borderRadius: "md", p: 2 }}>
+                        <Sheet sx={{ bgcolor: "background.body", borderRadius: "md", p: 2, display: { xs: "none", md: "block" } }}>
                             <Card variant="outlined" sx={{ width: 300 }}>
                                 <ContentCategory header={
                                     <Stack flex={1}>

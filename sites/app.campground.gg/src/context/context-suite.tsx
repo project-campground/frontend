@@ -3,7 +3,7 @@ import type { Session } from "./session/types";
 import { useSnackbars, type SnackbarContextType } from "./snackbar";
 import { useSession } from "./session";
 
-export type ContextSuite = {
+export interface ContextSuite {
     session: Session;
     floaters: SnackbarContextType;
 }

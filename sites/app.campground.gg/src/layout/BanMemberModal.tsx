@@ -8,8 +8,7 @@ import {
     Button,
 } from "@mui/joy";
 import Form from "../components/form/Form";
-import type { MemberViewBasic } from "types/membership";
-import { useSession } from "~/context/session";
+import type { MemberViewBasic } from "types/campground/membership";
 import { handleAnyRestErrorWith as handleAnyRestErrorWith } from "~/util/rest";
 import { useSnackbars } from "~/context/snackbar";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -17,6 +16,7 @@ import FormSection from "~/components/form/FormSection";
 import FormSubmit from "~/components/form/FormSubmit";
 import FormFieldText from "~/components/form/FormFieldText";
 import { FormattedMessageGlobal, globalIntlDeclarations } from "~/i18n";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 type Props = {
     campsiteId: string;
@@ -25,11 +25,11 @@ type Props = {
 };
 
 export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const floating = useSnackbars();
     const intl = useIntl();
     const onSubmit = (reason: string) =>
-        session.http.memberBans
+        api.memberBans
             .create(campsiteId, member.user.did, { reason })
             .then(handleAnyRestErrorWith(floating));
 

@@ -1,6 +1,6 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import type { RolePageTabProps } from ".";
-import type { RoleMotion } from "types/roles";
+import type { RoleMotion } from "types/campground/roles";
 import {
     IconAccessPoint,
     IconAt,

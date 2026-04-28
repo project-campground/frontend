@@ -3,7 +3,7 @@ import SettingsModal, { type SettingsComponentProps } from "../settings";
 import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import type React from "react";
-import type { TentCategoryView } from "types/tent";
+import type { TentCategoryView } from "types/campground/tent";
 import TentSettingsProfile from "./CategorySettingsProfile";
 import CategorySettingsDeletion from "./CategorySettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
@@ -34,7 +34,7 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
     const callbacks: Record<CategorySettingsPage, (fieldValues: Record<string, any>) => unknown> = {
         profile: (fieldValues) =>
             session
-                .http
+                .atproto
                 .categories
                 .update(props.category.id, {
                     name: fieldValues.name,
@@ -43,7 +43,7 @@ export default function CategorySettingsModal(props: CategorySettingsProps) {
                 .then(handleAnyRestErrorWith(snackbars)),
         permissions: ({ roleId, userId, permissions }) =>
             session
-                .http
+                .atproto
                 .permissions
                 .update({ role_id: roleId, actor: userId, category_id: props.categoryId }, { permissions })
                 .then(handleAnyRestErrorWith(snackbars)),

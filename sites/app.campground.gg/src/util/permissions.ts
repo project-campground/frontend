@@ -1,7 +1,7 @@
-import type { CampsitePermissionView } from "types/permissions";
-import type { MemberViewBasic } from "types/membership";
-import type { RoleView } from "types/roles";
-import type { PermissionsDictionary, PermissionsStateDictionary } from "types/permissions";
+import type { CampsitePermissionView } from "types/campground/permissions";
+import type { MemberViewBasic } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
+import type { PermissionsDictionary, PermissionsStateDictionary } from "types/campground/permissions";
 import { mapLookup, toLookup } from "./array";
 
 export const lowestPriority = 0x7FFFFFFF as const;

@@ -1,4 +1,4 @@
-import type { HttpResponseWithContent } from "~/api/HTTPResponse";
+import type { HttpResponseWithContent } from "~/api/http/HTTPResponse";
 import { type SnackbarContextType } from "~/context/snackbar";
 
 export function handleAnyRestErrorWith<T>(floating: SnackbarContextType) {

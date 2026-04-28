@@ -1,11 +1,11 @@
 import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDoorExit, IconDots, IconSettingsFilled, IconTicket } from "@tabler/icons-react";
-import type { HttpResponseError } from "~/api/HTTPResponse";
+import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { Group, Image } from "components";
 import React, { type ContextType } from "react";
-import type { CampsiteViewDetailed } from "types/campsites";
-import type { BonfireViewBasic } from "types/bonfires";
-import type { GetTentsOutput } from "types/tent";
+import type { CampsiteViewDetailed } from "types/campground/campsites";
+import type { BonfireViewBasic } from "types/campground/bonfires";
+import type { GetTentsOutput } from "types/campground/tent";
 import FadingBanner from "~/components/pages/FadingBanner";
 import GradientBanner from "~/components/pages/GradientBanner";
 import type { Session } from "~/context/session/types";
@@ -19,7 +19,7 @@ import { type NavigateFunction } from "react-router";
 import type { WSSubscription } from "~/api/WSClient";
 import type { TypeToPayload } from "types/ws";
 import InviteCreationModal from "../../layout/InviteCreationModal";
-import { CampsiteContextSuiteContext } from "./context";
+import { CampsiteContext } from "./context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { handleAnyRestErrorWith } from "~/util/rest";
 import TentList from "~/components/tents/TentList";
@@ -46,13 +46,15 @@ export const TentSidebarBox = styled(Stack, {
     slot: "root",
 })(({ theme }) => ({
     backgroundColor: theme.vars.palette.background.surface,
-    minWidth: 320,
-    maxWidth: 320,
+    // minWidth: 320,
+    // maxWidth: 320,
     borderRadius: theme.vars.radius.xl,
     boxShadow: theme.vars.shadow.lg,
     border: `solid 1px ${theme.vars.palette.neutral.border}`,
     height: "100%",
     paddingTop: "5px",
+    scrollSnapAlign: "start",
+    scrollSnapStop: "always",
 }));
 export const TentSidebarBannerWrapper = styled(Box, {
     name: "BonfireBanner",
@@ -95,8 +97,8 @@ export const TentSidebarBonfireDisplayBox = styled(Box)(() => ({
 const anyManageCampsitePermission = GeneralPermissionConsts.MANAGE_CAMPSITE | GeneralPermissionConsts.BAN_MEMBERS | GeneralPermissionConsts.MANAGE_ROLES | GeneralPermissionConsts.MANAGE_INVITES;
 
 export default class TentSidebar extends React.Component<Props, State> {
-    static contextType?: React.Context<any> | undefined = CampsiteContextSuiteContext;
-    declare context: ContextType<typeof CampsiteContextSuiteContext>;
+    static contextType?: React.Context<any> | undefined = CampsiteContext;
+    declare context: ContextType<typeof CampsiteContext>;
 
     public bonfiresToTents: Record<string, GetTentsOutput> = {};
     private _lock: boolean = false;
@@ -137,6 +139,8 @@ export default class TentSidebar extends React.Component<Props, State> {
                 msg.op === 1 &&
                 this.onWsEvent(msg.t as keyof TypeToPayload, msg.payload)
             );
+        // FIXME
+        this.setState({});
     }
     onWsEvent<T extends keyof TypeToPayload>(eventType: T, payload: TypeToPayload[T]) {
         const eventHandler = tentSidebarEventHandlers[eventType];
@@ -173,9 +177,9 @@ export default class TentSidebar extends React.Component<Props, State> {
 
         this._lock = true;
         return this.context
-            .session
-            .http
-            .tents.getMany(this.props.campsite.id, bonfireSelected.id)
+            .api
+            .tents
+            .getMany(this.props.campsite.id, bonfireSelected.id)
             .then((x) => {
                 if (!x.ok)
                     return this.setState({ error: x });
@@ -207,24 +211,23 @@ export default class TentSidebar extends React.Component<Props, State> {
             return;
 
         this.setState({ menuOpen: null });
-        const { floaters, session } = this.context;
+        const { floaters, api } = this.context;
 
         return (
-            session
-                .http
+            api
                 .bonfires
                 .delete(this.props.campsite.id, this.state.bonfireSelected.id)
                 .then(handleAnyRestErrorWith(floaters))
         );
     }
     leaveCampsite() {
-        const { floaters, session } = this.context;
+        const { floaters, api, session } = this.context;
         return (
-            session
-                .http
+            api
                 .members
                 .remove(this.props.campsite.id, this.props.campsite.me.user.did)
                 .then(handleAnyRestErrorWith(floaters))
+                .then((resp) => resp && session.preferences.removeCampsiteFromListGlobally(api.domain, this.props.campsite.id))
         );
     }
     render(): React.ReactNode {
@@ -240,7 +243,7 @@ export default class TentSidebar extends React.Component<Props, State> {
                 <TentSidebarBannerWrapper onDragEnter={() => this.setMenu("bonfire-list")}>
                     <FadingBanner sx={{ opacity: 0.25 }}>
                         {bonfireSelected.bannerUri
-                            ? <Image src={bonfireSelected.bannerUri} />
+                            ? <Image width="100%" src={bonfireSelected.bannerUri} />
                             : <GradientBanner />}
                     </FadingBanner>
                     <ClickableBox onClick={toggleGroupMenu}>

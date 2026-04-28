@@ -21,7 +21,7 @@ export default function InviteCreationModal({ campsiteId }: Props) {
     let values: FormValue = { allowedAmount: null };
 
     const onInviteCreate = (): Promise<string> =>
-        session.http
+        session.atproto
             .invites
             .create(campsiteId, values)
             .then((resp) => {

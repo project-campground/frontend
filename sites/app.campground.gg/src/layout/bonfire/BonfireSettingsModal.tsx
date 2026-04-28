@@ -1,7 +1,6 @@
 import { IconLayoutBoardFilled, IconListCheck, IconTrashFilled, type ReactNode } from "@tabler/icons-react";
-import type { BonfireViewBasic } from "types/bonfires";
+import type { BonfireViewBasic } from "types/campground/bonfires";
 import SettingsModal, { type SettingsComponentProps } from "../settings";
-import { useSession } from "~/context/session";
 import BonfireSettingsProfile from "./BonfireSettingsProfile";
 import BonfireSettingsDeletion from "./BonfireSettingsDeletion";
 import type PermissionsManager from "~/context/permissions/PermissionsManager";
@@ -12,6 +11,7 @@ import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 import PageSidebarSection from "~/components/pages/PageSidebarSection";
 import PageSidebarItem from "~/components/pages/PageSidebarItem";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 export type BonfireSettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<BonfireSettingsPage, (props: SettingsComponentProps<BonfireSettingsProps>) => ReactNode | ReactNode[]> = {
@@ -30,13 +30,12 @@ export type BonfireSettingsProps = {
 }
 
 export default function BonfireSettingsModal(props: BonfireSettingsProps) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const snackbars = useSnackbars();
     const callbacks: Record<BonfireSettingsPage, (fieldValues: Record<string, any>) => unknown> = {
-        profile: (fieldValues) => (console.log(fieldValues), session.http.bonfires.update(props.bonfire.campsiteId, props.bonfire.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", bannerUri: fieldValues.bannerUri ?? "" })),
+        profile: (fieldValues) => (console.log(fieldValues), api.bonfires.update(props.bonfire.campsiteId, props.bonfire.id, { name: fieldValues.name, description: fieldValues.description, avatarUri: fieldValues.avatarUri ?? "", bannerUri: fieldValues.bannerUri ?? "" })),
         permissions: ({ roleId, userId, permissions }) =>
-            session
-                .http
+            api
                 .permissions
                 .update({ role_id: roleId, actor: userId, bonfire_id: props.bonfireId }, { permissions })
                 .then(handleAnyRestErrorWith(snackbars)),

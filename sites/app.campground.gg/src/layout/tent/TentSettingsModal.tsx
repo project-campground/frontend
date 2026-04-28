@@ -5,10 +5,9 @@ import {
     type ReactNode,
 } from "@tabler/icons-react";
 import SettingsModal, { type SettingsComponentProps } from "../settings";
-import { useSession } from "~/context/session";
 import { useSnackbars } from "~/context/snackbar";
 import type React from "react";
-import type { TentViewBasic } from "types/tent";
+import type { TentViewBasic } from "types/campground/tent";
 import TentSettingsProfile from "./TentSettingsProfile";
 import TentSettingsDeletion from "./TentSettingsDeletion";
 import CommonSettingsPermissions from "../CommonSettingsPermissions";
@@ -18,6 +17,7 @@ import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 import PageSidebarItem from "~/components/pages/PageSidebarItem";
 import PageSidebarSection from "~/components/pages/PageSidebarSection";
+import { useCampsiteContext } from "~/routes/_global._campsite/context";
 
 export type TentSettingsPage = "profile" | "permissions" | "delete";
 const settingsPages: Record<
@@ -40,14 +40,14 @@ export type TentSettingsProps = {
 };
 
 export default function TentSettingsModal(props: TentSettingsProps) {
-    const session = useSession();
+    const { api } = useCampsiteContext();
     const snackbars = useSnackbars();
     const callbacks: Record<
         TentSettingsPage,
         (fieldValues: Record<string, any>) => unknown
     > = {
         profile: (fieldValues) =>
-            session.http.tents
+            api.tents
                 .update(props.tent.id, {
                     name: fieldValues.name,
                     description: fieldValues.description,
@@ -55,7 +55,7 @@ export default function TentSettingsModal(props: TentSettingsProps) {
                 })
                 .then(handleAnyRestErrorWith(snackbars)),
         permissions: ({ roleId, userId, permissions }) =>
-            session.http.permissions
+            api.permissions
                 .update(
                     { role_id: roleId, actor: userId, tent_id: props.tentId },
                     { permissions },

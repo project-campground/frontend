@@ -8,8 +8,8 @@ import {
 } from "@mui/joy";
 import { GradientTypography } from "components";
 import { useState, type MouseEvent } from "react";
-import type { MemberViewBasic } from "types/membership";
-import type { RoleView } from "types/roles";
+import type { MemberViewBasic } from "types/campground/membership";
+import type { RoleView } from "types/campground/roles";
 import UserAvatar from "~/components/UserAvatar";
 import { useRightClick } from "~/context/mouse";
 import { colorToDecimal } from "~/util/color";
@@ -39,10 +39,10 @@ export default function MemberItem({
     onClick,
 }: Props) {
     const {
+        api,
         permissions,
         campsite: { owner, me },
     } = useCampsiteContext();
-    const session = useSession();
     const snackbars = useSnackbars();
     const meAboveUser = isAboveUser(member, me, owner, roles);
     const mePermissions = permissions.role.general;
@@ -50,7 +50,7 @@ export default function MemberItem({
     const closeModal = () => setOpenModal(null);
 
     const removeMember = () =>
-        session.http.members
+        api.members
             .remove(campsiteId, member.user.did)
             .then(handleAnyRestErrorWith(snackbars));
 

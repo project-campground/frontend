@@ -1,14 +1,16 @@
 import { Divider, Sheet, styled } from "@mui/joy";
-import type { TentViewDetailed } from "types/tent";
+import type { TentViewBasic } from "types/campground/tent";
 import TentContentHeader from "./TentContentHeader";
 
 type Props = React.PropsWithChildren & {
-    tent: TentViewDetailed;
+    tent: TentViewBasic;
     sidebarToggle: (value: boolean) => unknown;
     sidebarOpen: boolean;
 };
 
 export const TentContentBox = styled(Sheet)(({ theme }) => ({
+    width: "100%",
+    height: "100%",
     borderRadius: theme.vars.radius.xl,
     display: "flex",
     flexDirection: "column",
@@ -19,6 +21,8 @@ export const TentContentBox = styled(Sheet)(({ theme }) => ({
     position: "relative",
     backgroundColor: theme.vars.palette.background.surface,
     color: theme.vars.palette.text.secondary,
+    scrollSnapAlign: "start",
+    scrollSnapStop: "always",
 }));
 
 export const TentContentDivider = styled(Divider)(({ theme }) => ({
@@ -33,7 +37,7 @@ export const TentContentDivider = styled(Divider)(({ theme }) => ({
 
 export default function TentContentWrapper({ sidebarOpen, sidebarToggle, tent, children }: Props) {
     return (
-        <TentContentBox sx={{ width: "100%", height: "100%" }}>
+        <TentContentBox>
             <TentContentHeader tent={tent} sidebarToggle={sidebarToggle} sidebarOpen={sidebarOpen} />
             <TentContentDivider />
             {children}

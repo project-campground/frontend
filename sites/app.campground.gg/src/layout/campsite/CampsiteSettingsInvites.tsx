@@ -2,9 +2,9 @@ import type { SettingsComponentProps } from "../settings";
 import type { CampsiteSettingsProps } from "./CampsiteSettingsModal";
 import React from "react";
 import DataDisplay from "~/components/pages/DataDisplay";
-import { CampsiteContextSuiteContext } from "~/routes/_global._campsite/context";
+import { CampsiteContext } from "~/routes/_global._campsite/context";
 import type { TypeToPayload } from "types/ws";
-import type { CampsiteInviteViewBasic } from "types/invites";
+import type { CampsiteInviteViewBasic } from "types/campground/invites";
 import { Typography } from "@mui/joy";
 import Datestamp from "~/components/Datestamp";
 import { IconTicket, IconTrashFilled } from "@tabler/icons-react";
@@ -20,8 +20,8 @@ export default class CampsiteSettingsInvites extends React.Component<
     State
 > {
     static contextType?: React.Context<any> | undefined =
-        CampsiteContextSuiteContext;
-    declare context: React.ContextType<typeof CampsiteContextSuiteContext>;
+        CampsiteContext;
+    declare context: React.ContextType<typeof CampsiteContext>;
 
     private onWebSocketEvent<T extends keyof TypeToPayload>(
         invites: CampsiteInviteViewBasic[],
@@ -47,9 +47,10 @@ export default class CampsiteSettingsInvites extends React.Component<
     }
 
     private async fetchInvites(offset: number, limit: number) {
-        const { session } = this.context;
+        const { api } = this.context;
 
-        return session.http.invites
+        return api
+            .invites
             .getMany(this.props.settingsProps.campsite.id, offset, limit)
             .then((resp) => {
                 if (!resp.ok) return resp;
@@ -60,11 +61,12 @@ export default class CampsiteSettingsInvites extends React.Component<
 
     private _onInvitesDeleteBind = this.onInvitesDelete.bind(this);
     private onInvitesDelete(selected: CampsiteInviteViewBasic[]) {
-        const { session, floaters } = this.context;
+        const { api, floaters } = this.context;
 
         return Promise.all(
             selected.map((invite) =>
-                session.http.invites
+                api
+                    .invites
                     .delete(invite.campsiteId, invite.id)
                     .then((resp) => {
                         if (!resp.ok) return floaters.notifyApiError(resp);

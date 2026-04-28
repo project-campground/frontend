@@ -1,10 +1,7 @@
 import { Avatar, Card, CardContent, List, ListItem, ListItemContent, ListItemDecorator, Typography } from "@mui/joy";
 import { IconConfettiFilled } from "@tabler/icons-react";
 
-type Props = {
-};
-
-export default function HomeActivity(props: Props) {
+export default function HomeActivity() {
     return (
         <Card variant="outlined" sx={(theme) => ({ width: "100%", backgroundColor: theme.vars.palette.background.body })}>
             <CardContent>

@@ -91,6 +91,14 @@
     "description": "The campsite creation page title",
     "message": "Create a Campsite"
   },
+  "app.campsites.badUrl": {
+    "description": "The title of the error when there are too many @ symbols in the URL",
+    "message": "Badly formatted campsite URL"
+  },
+  "app.campsites.badUrl.desc": {
+    "description": "The description of the error when  there are too many @ symbols in the URL",
+    "message": "Not sure what to do with more than 2 @'s in the URL after /c/."
+  },
   "app.campsites.delete": {
     "description": "The settings page for deleting campsite",
     "message": "Delete campsite"
@@ -106,14 +114,6 @@
   "app.campsites.name": {
     "description": "The header of the campsite name field in settings",
     "message": "Campsite name"
-  },
-  "app.campsites.notFound": {
-    "description": "User cannot view the campsite",
-    "message": "Campsite not found"
-  },
-  "app.campsites.notFound.desc": {
-    "description": "User cannot view the campsite",
-    "message": "It seems that this campsite does not exist."
   },
   "app.campsites.settings": {
     "description": "The menu button for opening campsite settings and the title of campsite settings",
@@ -415,6 +415,30 @@
     "description": "Describes what 'View Content' permission does",
     "message": "Allows members to see tents in the tent list, view tents and tent messages."
   },
+  "app.profilePosts.parentDeleted": {
+    "description": "Describes that the parent of the post has been deleted",
+    "message": "The post that was being replied to has been likely deleted or does not exist."
+  },
+  "app.profiles.aboutMe": {
+    "description": "About me section the user profile",
+    "message": "About me"
+  },
+  "app.profiles.deactivated.description": {
+    "description": "Deactivated account profile error description",
+    "message": "The user has deactivated their account, deleted it or profile does not exist."
+  },
+  "app.profiles.deactivated.header": {
+    "description": "Deactivated account profile error header",
+    "message": "Profile does not exist"
+  },
+  "app.profiles.feed": {
+    "description": "Feed tab in the user profile",
+    "message": "Feed"
+  },
+  "app.profiles.replies": {
+    "description": "Posts & Replies tab in the user profile",
+    "message": "Posts & Replies"
+  },
   "app.roles": {
     "description": "Roles header in settings and whatnot in plural form",
     "message": "Roles"
@@ -483,9 +507,25 @@
     "description": "The title of the role when the role has not been found in role mention",
     "message": "Unknown role"
   },
+  "app.sessionError.header": {
+    "description": "The title of the error when there is a session error",
+    "message": "Error while getting session"
+  },
+  "app.sessionError.notFound": {
+    "description": "The description for session error when the account that user logged into does not exist.",
+    "message": "The logged in account does not exist and has been likely deleted."
+  },
   "app.settings": {
     "description": "Menu button for settings, as well as settings title",
     "message": "Settings"
+  },
+  "app.settings.emailConfirmed": {
+    "description": "Notifies user in the settings that their email is already confirmed",
+    "message": "The email is confirmed to belong to this account."
+  },
+  "app.settings.emailUnconfirmed": {
+    "description": "Notifies user in the settings that their email has not yet been confirmed",
+    "message": "Your email has not been yet confirmed to belong to this account. Make sure to confirm it."
   },
   "app.settings.other": {
     "description": "Section for deleting campsites, tents, etc.",
@@ -571,6 +611,10 @@
     "description": "Menu item for leaving a campsite",
     "message": "Leave campsite"
   },
+  "app.tents.members": {
+    "description": "Members pseudo-tent name",
+    "message": "Members"
+  },
   "app.tents.nominativeCase": {
     "description": "Message in nominative case for message deletion: ''The **message** is being deleted''",
     "message": "message"
@@ -630,6 +674,38 @@
   "app.time.now": {
     "description": "When something happened just now (less than a minute ago)",
     "message": "Just now"
+  },
+  "app.users.deactivate.info": {
+    "description": "The note that the account is deactivated",
+    "message": "This account has been deactivated. If you want to reactivate the account, press ''{buttonText}''."
+  },
+  "app.users.deactivate.warning": {
+    "description": "The warning about the consequences of deleting the account",
+    "message": "Deactivating will disallow you from creating posts, modifying your profile or interacting in campsites. If you are sure you want to deactivate this account, type your handle and press ''{buttonText}''."
+  },
+  "app.users.settings": {
+    "description": "Header of user settings",
+    "message": "User settings"
+  },
+  "app.users.settings.account": {
+    "description": "The user account settings tab",
+    "message": "Account"
+  },
+  "app.users.settings.deactivate": {
+    "description": "The account deactivation page in user settings",
+    "message": "Deactivate account"
+  },
+  "app.users.settings.delete.inputName": {
+    "description": "The header of the input that requires typing out account's handle to allow deleting it.",
+    "message": "Your handle"
+  },
+  "app.users.settings.emailConfirmButton": {
+    "description": "The email confirm button in settings",
+    "message": "Confirm email"
+  },
+  "app.users.settings.reactivate": {
+    "description": "The account reactivation button in user settings",
+    "message": "Reactivate account"
   },
   "common.cancel": {
     "description": "Cancelling an action in settings, modals and content",
@@ -692,7 +768,7 @@
     "message": "Login"
   },
   "form.logout": {
-    "description": "Menu button for logging out of the account",
+    "description": "Logout button and page title",
     "message": "Logout"
   },
   "form.noAccount": {
@@ -769,6 +845,18 @@
     "description": "About header in settings and tents",
     "message": "About"
   },
+  "info.additionalConfig": {
+    "description": "Additional settings/configuration section",
+    "message": "Additional settings"
+  },
+  "info.appview": {
+    "description": "Descriptive name for appview",
+    "message": "Campsite Server"
+  },
+  "info.appview.campsiteCreation": {
+    "description": "The description of what appview does for campsites",
+    "message": "Uses this domain to host the Campsite"
+  },
   "info.desc": {
     "description": "Description in campsites, bonfires and elsewhere",
     "message": "Description"
@@ -785,6 +873,10 @@
     "description": "User handles or email as login detail",
     "message": "Handle or Email"
   },
+  "info.inviteCode": {
+    "description": "Invite code for registration",
+    "message": "Registration invite code"
+  },
   "info.name": {
     "description": "The name of the content, objects, tents, etc.",
     "message": "Name"
@@ -795,11 +887,15 @@
   },
   "info.password.confirm": {
     "description": "Confirm a password when registering or changing password",
-    "message": "Confirm password"
+    "message": "Re-enter password"
   },
   "info.password.placeholder": {
     "description": "Placeholder in the password field when registering",
     "message": "Password here"
+  },
+  "info.pds": {
+    "description": "Longer name for PDS",
+    "message": "Personal server"
   },
   "info.tags.plural": {
     "description": "Plural form of campsite tags or other content tags",

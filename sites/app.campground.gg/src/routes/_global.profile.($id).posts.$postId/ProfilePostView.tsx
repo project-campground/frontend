@@ -1,4 +1,4 @@
-import { Box, Stack, CircularProgress, styled } from "@mui/joy";
+import { Box, CircularProgress, styled } from "@mui/joy";
 import { useEffect, useState } from "react";
 import type {
     ProfilePostViewDetailed,
@@ -17,6 +17,7 @@ import { useSnackbars } from "~/context/snackbar";
 import { useNavigate } from "react-router";
 import ProfilePostViewReplies from "./ProfilePostViewReplies";
 import ProfilePostViewParent from "./ProfilePostViewParent";
+import ProfilePostViewAuthorInfo from "./ProfilePostViewAuthorInfo";
 
 type Props = {
     profileId: string;
@@ -24,18 +25,34 @@ type Props = {
 };
 
 const ProfilePostViewRoot = styled(Box)(({ theme }) => ({
-    overflowY: "auto",
     scrollSnapAlign: "start",
     flex: 1,
     width: "100%",
     backgroundColor: theme.vars.palette.background.level1,
     minHeight: "100%",
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    [theme.breakpoints.up("lg")]: {
+        paddingLeft: theme.spacing(24),
+        paddingRight: theme.spacing(24),
+        gridTemplateColumns: "400px 1fr 400px",
+        gridColumn: "1 / 4"
+    }
+}));
+const ProfilePostViewContent = styled(Box)(({ theme }) => ({
+    overflowY: "auto",
+    flex: 1,
+    width: "100%",
+    minHeight: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+    overflowX: "hidden",
     paddingBottom: theme.spacing(16),
     paddingTop: theme.spacing(4),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
     [theme.breakpoints.up("lg")]: {
-        paddingLeft: theme.spacing(64),
-        paddingRight: theme.spacing(64),
-        gridColumn: "1 / 4"
     }
 }));
 const ProfilePostViewSidebar = styled(Box)(({ theme }) => ({
@@ -44,8 +61,16 @@ const ProfilePostViewSidebar = styled(Box)(({ theme }) => ({
     flex: 1,
     width: "100%",
     backgroundColor: theme.vars.palette.background.level1,
+    padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+    paddingTop: theme.spacing(4),
     [theme.breakpoints.up("lg")]: {
-        gridColumn: "1 / 4",
+        display: "none",
+    }
+}));
+const ProfilePostViewContentSidebar = styled(Box)(({ theme }) => ({
+    overflowY: "hidden",
+    paddingTop: theme.spacing(4),
+    [theme.breakpoints.down("lg")]: {
         display: "none",
     }
 }));
@@ -103,12 +128,14 @@ export default function ProfilePostView({
 
     return (
         <>
-            <ProfilePostViewSidebar />
+            <ProfilePostViewSidebar>
+                <ProfilePostViewAuthorInfo author={post.author} />
+            </ProfilePostViewSidebar>
             <ProfilePostViewRoot>
-                <Stack
-                    gap={2}
-                    sx={{ px: 2, width: "100%", overflow: "hidden" }}
-                >
+                <ProfilePostViewContentSidebar>
+                    <ProfilePostViewAuthorInfo author={post.author} />
+                </ProfilePostViewContentSidebar>
+                <ProfilePostViewContent>
                     {post.parentUri && <ProfilePostViewParent post={post.parent} />}
                     <ThreadLineWrapper>
                         <ProfilePost
@@ -129,7 +156,7 @@ export default function ProfilePostView({
                     >
                         Come back later to see new comments!
                     </PagePlaceholder>
-                </Stack>
+                </ProfilePostViewContent>
             </ProfilePostViewRoot>
             <ProfilePostViewSidebar />
         </>

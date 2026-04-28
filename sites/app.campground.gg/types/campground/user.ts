@@ -7,22 +7,23 @@ export interface CampgroundProfileRecord {
     description?: string | null;
     socialConnections?: any[] | null;
     avatar?: string | null;
+    banner?: string | null;
 }
 export interface ProfileViewEmpty {
     did: string;
     handle: string;
 }
 export interface ProfileViewBasic extends ProfileViewEmpty {
-    displayName: string | null;
+    displayName?: string | null;
     
-    description: string | null;
-    tagline: string | null;
-    location: string | null;
+    description?: string | null;
+    tagline?: string | null;
+    location?: string | null;
     
-    avatar: string | null;
-    banner: string | null;
+    avatar?: string | null;
+    banner?: string | null;
     
-    createdAt: string | null;
+    createdAt?: string | null;
 }
 export interface ProfileViewDetailed extends ProfileViewBasic {
     description: string;
@@ -36,7 +37,7 @@ export interface ProfilePostView {
     createdAt: string;
     indexedAt: string | null;
     updatedAt: string | null;
-    author: ProfileViewEmpty;
+    author: ProfileViewBasic;
 };
 export interface ProfilePostViewWithParent extends ProfilePostView {
     parent: ProfilePostViewBasic | null;

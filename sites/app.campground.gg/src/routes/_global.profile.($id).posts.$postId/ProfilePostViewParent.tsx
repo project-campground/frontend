@@ -1,4 +1,4 @@
-import { Alert } from "@mui/joy";
+import { Alert, Box } from "@mui/joy";
 import type {
     ProfilePostViewBasic,
 } from "types/campground/user";
@@ -24,12 +24,12 @@ export default function ProfilePostViewParent({ post }: Props) {
     }
 
     return (
-        <ProfilePost
-            post={post}
-            opacity={0.75}
-            // TODO
-            onPostUpdate={() => void 0}
-            onPostDelete={() => void 0}
-        />
+        <Box px={4}>
+            <ProfilePost
+                showComments
+                post={post}
+                opacity={0.75}
+            />
+        </Box>
     );
 }

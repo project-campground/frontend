@@ -1,6 +1,6 @@
-import { Dropdown, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
+import { Dropdown, Stack, Menu, MenuButton, Skeleton, Typography, styled } from "@mui/joy";
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
-import type { ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
+import type { ProfileViewBasic, ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
 import UserProfileCard from "../layout/UserProfileCard";
 import { GradientTypography, Group, TextBlock } from "components";
 import type { MemberView } from "types/campground/membership";
@@ -11,13 +11,14 @@ import type { MouseEvent } from "react";
 type Size = "sm" | "md" | "lg";
 
 type Props<T extends ProfileViewEmpty> = {
-    user: Partial<ProfileViewDetailed> & T;
+    user: T | Partial<ProfileViewDetailed> & T;
     member?: MemberView<T> | null;
     noAvatar?: boolean;
     motion?: RoleMotion;
     colors?: string[];
     size?: Size;
     avatarSize?: Size | "xl";
+    noUsernameDisplay?: boolean;
     showHandle?: boolean;
     align?: "top" | "center" | "bottom";
     noHoverBackground?: boolean;
@@ -31,40 +32,47 @@ const sizeToGap: Record<Size, number> = {
     lg: 2,
 };
 
-const GapSpan = styled("span", {
-    name: "UserDisplay",
-    slot: "gap",
-})(() => ({
-    display: "inline-block",
+const UserDisplayRoot = styled(Typography)(() => ({
+    display: "flex",
+    flexDirection: "row",
+    gap: 8,
+    flexWrap: "wrap",
+}));
+const UserDisplayUsername = styled(Stack)(() => ({
+    display: "flex",
+    flexDirection: "row",
+    gap: `0 8px`,
+    // flexWrap: "wrap",
+    flex: 1,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
 }));
 
-export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick, withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
+export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick,  noUsernameDisplay,withStatus, noAvatar, colors, motion, user, size, avatarSize, align, showHandle, member, }: Props<T> & { onClick?: (ev: MouseEvent<HTMLDivElement>) => unknown; }) {
     const actualSize = size ?? "md";
     return (
-        <Typography level="body-md" onClick={onClick}>
-            <TextBlock align={align}>
+        <UserDisplayRoot level="body-md" onClick={onClick}>
+            {!noAvatar &&
+            <>
+                <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
+            </>
+            }
+            {!noUsernameDisplay && <UserDisplayUsername alignItems={align}>
                 <TextBlock align={align}>
                     <GradientTypography motion={motion ?? "none"} colors={colors} level={`title-${actualSize}`} fontWeight={700}>
-                        {member?.nickname ?? user?.displayName ?? user.did}
+                        {member?.nickname ?? (user as ProfileViewBasic)?.displayName ?? user.did}
                     </GradientTypography>
                 </TextBlock>
                 <wbr />
                 {
                     showHandle && <>
-                        <TextBlock align={align} pl={sizeToGap[actualSize]}>
+                        <TextBlock align={align}>
                             <Typography level={`title-${actualSize}`} fontWeight={500} textColor="text.tertiary">@{user.handle.split("/")[2]}</Typography>
                         </TextBlock>
                     </>
                 }
-            </TextBlock>
-            {!noAvatar &&
-            <>
-                <TextBlock align={align} float="left" pr={sizeToGap[actualSize]}>
-                    <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
-                </TextBlock>
-            </>
-            }
-        </Typography>
+            </UserDisplayUsername>}
+        </UserDisplayRoot>
     );
 }
 

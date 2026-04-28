@@ -1,4 +1,4 @@
-import { Button, Divider, Link, Stack } from "@mui/joy";
+import { Button, Divider, Link, Stack, Box } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
 import { Group } from "components";
@@ -39,7 +39,9 @@ export default function BasicPostEditor({ placeholder, onConfirm, onCancel, cont
                     <RichEditorToolbarTableFormatting />
                 </RichEditorToolbar>
                 <Divider />
-                <TextEditor placeholder={placeholder ?? "What is your current mood?"} />
+                <Box px={2}>
+                    <TextEditor placeholder={placeholder ?? "What is your current mood?"} />
+                </Box>
             </BlockTextSlate>
             <Group gap={2} alignItems="center">
                 <Button variant="glow" color="primary" endDecorator={<IconArrowRight />} onClick={() => onConfirm(serializeMarkdown(mdastifyEditor(editor)))}>{confirmButton ?? "Post"}</Button>

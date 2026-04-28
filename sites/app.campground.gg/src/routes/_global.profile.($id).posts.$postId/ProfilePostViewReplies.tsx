@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
     ProfilePostView,
     ProfilePostViewBasic,
@@ -25,6 +25,9 @@ export default function ProfilePostViewReplies({
     // TODO: Scroll below to add more replies
     const [replies, setReplies] = useState(topReplies);
     const session = useSession();
+    useEffect(() =>
+        setReplies(topReplies)
+    , [topReplies]);
 
     const onCommentDeleted = (uri: string) =>
         session.atproto.profilePostRecords

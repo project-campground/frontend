@@ -4,6 +4,10 @@
 .vscode
 .idea/
 
+# Yarn and NPM
+**/yarn.lock
+**/package-lock.json
+
 # dependencies
 /node_modules
 /.pnp

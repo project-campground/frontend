@@ -21,7 +21,7 @@ export default function ProfilePostViewAuthorInfo({
                 </Typography>}
                 {author.description && <Box>
                     <Typography level="title-lg">
-                        <FormattedMessageGlobal id="info.about" />
+                        <FormattedMessageGlobal id="app.profiles.aboutMe" />
                     </Typography>
                     <Typography level="body-md">
                         {author.description}

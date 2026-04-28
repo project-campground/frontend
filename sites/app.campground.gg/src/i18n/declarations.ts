@@ -159,6 +159,11 @@ const globalIntlDeclarations = {
     }),
 
     // Profiles
+    "app.profiles.aboutMe": defineMessage({
+        id: "app.profiles.aboutMe",
+        defaultMessage: "About me",
+        description: "About me section the user profile",
+    }),
     "app.profiles.feed": defineMessage({
         id: "app.profiles.feed",
         defaultMessage: "Feed",
@@ -202,7 +207,7 @@ const globalIntlDeclarations = {
         defaultMessage: "Other settings",
         description: "Section for deleting campsites, tents, etc.",
     }),
-    // User settings
+    // Users and user settings
     "app.users.settings": defineMessage({
         id: "app.users.settings",
         defaultMessage: "User settings",

@@ -1,6 +1,6 @@
 import type { ColorSystemOptions } from "@mui/joy/styles/extendTheme";
-import { generateColorScheme, generateNeutralColorScheme } from "./gen";
-import { lightestToDarkest } from "./common";
+import { generateColorScheme, generateNeutralColorScheme } from "./gen.ts";
+import { lightestToDarkest } from "./common.ts";
 
 const shades = lightestToDarkest;
 

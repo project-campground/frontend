@@ -1,4 +1,4 @@
-import SvgLogo from "./SvgLogo";
+import SvgLogo from "./SvgLogo.tsx";
 import { jsx } from "react/jsx-runtime";
 
 export default function SvgDefs() {

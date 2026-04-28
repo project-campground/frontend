@@ -1,7 +1,7 @@
 import { extendTheme, type ColorPaletteProp, type ButtonOwnerState, type IconButtonOwnerState, type MenuButtonOwnerState, type ListItemButtonOwnerState, type Theme, type Palette } from "@mui/joy";
-import { bodyFontFamily, displayFontFamily } from "./font";
-import lightColorScheme from "./light";
-import darkColorScheme from "./dark";
+import { bodyFontFamily, displayFontFamily } from "./font.ts";
+import lightColorScheme from "./light.ts";
+import darkColorScheme from "./dark.ts";
 import "../types";
 
 const complementaryPalettes: Record<keyof Omit<Palette, "common" | "background" | "text" | "divider" | "focusVisible" | "mode">, keyof Palette> = {

@@ -1,6 +1,6 @@
 import type { PaletteOptions, PaletteText } from "@mui/joy/styles/types";
-import { greyscaleHexColor, mixHexColors } from "./color";
-import type { lightestToDarkest } from "./common";
+import { greyscaleHexColor, mixHexColors } from "./color.ts";
+import type { lightestToDarkest } from "./common.ts";
 
 export const generateColorScheme = (typicalColour: string, background: string, counter: string): Partial<PaletteOptions["primary" | "neutral" | "success" | "danger"]> => ({
     1000: mixHexColors(typicalColour, background, 0.95),

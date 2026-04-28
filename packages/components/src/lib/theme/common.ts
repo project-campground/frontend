@@ -1,4 +1,4 @@
-import { mixHexColors } from "./color";
+import { mixHexColors } from "./color.ts";
 
 const _lightestToDarkest = {
     50: "#f5f3ff",

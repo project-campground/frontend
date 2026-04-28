@@ -1,7 +1,7 @@
-import type { TypographySystemOverrides as TextSystemOverrides } from "./typography";
-import type { ShadowOverrides as CustomShadowOverrides } from "./shadow";
-import type { Palette as ColorPalette, ColorPalettePropOverrides as ColorPropOverrides, PaletteTextOverrides as ColorTextOverrides, PaletteRangeOverrides as ColorRangeOverrides, PaletteBackgroundOverrides as ColorBackgroundOverrides } from "./colorSystem";
-import type { ButtonPropsVariantOverrides as ComponentButtonPropsVariantOverrides } from "./components";
+import type { TypographySystemOverrides as TextSystemOverrides } from "./typography.ts";
+import type { ShadowOverrides as CustomShadowOverrides } from "./shadow.ts";
+import type { Palette as ColorPalette, ColorPalettePropOverrides as ColorPropOverrides, PaletteTextOverrides as ColorTextOverrides, PaletteRangeOverrides as ColorRangeOverrides, PaletteBackgroundOverrides as ColorBackgroundOverrides } from "./colorSystem.ts";
+import type { ButtonPropsVariantOverrides as ComponentButtonPropsVariantOverrides } from "./components.ts";
 
 declare module "@mui/joy/styles/types/shadow" {
     interface ShadowOverrides extends CustomShadowOverrides { }

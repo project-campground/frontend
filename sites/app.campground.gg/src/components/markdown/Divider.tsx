@@ -1,5 +1,5 @@
 import { styled } from "@mui/joy";
-import { Group } from "components";
+import { Group } from "campground-ui";
 
 const DividerBase = styled(`div`, {
     name: "Divider",

@@ -1,7 +1,7 @@
 import { Alert, IconButton, Snackbar, type ColorPaletteProp } from "@mui/joy";
 import { IconX, IconExclamationCircleFilled, IconCircleCheckFilled, IconInfoCircleFilled } from "@tabler/icons-react";
 import type { HttpResponse, HttpResponseError } from "~/api/http/HTTPResponse";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import React, { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 export type SnackbarProps = {

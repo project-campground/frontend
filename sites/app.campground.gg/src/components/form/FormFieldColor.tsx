@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldProps } from "./forms";
 import { Box, Dropdown, MenuButton, Stack, styled } from "@mui/joy";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import ColorPickerMenu from "../../layout/ColorPickerMenu";
 import { mixColors } from "components/theme/color";
 import type { FormContext } from "./context";

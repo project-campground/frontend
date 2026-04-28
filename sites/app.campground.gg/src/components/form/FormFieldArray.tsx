@@ -3,7 +3,7 @@ import AbstractFormField from "./AbstractFormField";
 import { type FormFieldDecoratorProps, type FormFieldProps } from "./forms";
 import { FormControl, Card, Stack, Button, IconButton, styled } from "@mui/joy";
 import { IconGripVertical, IconPlus, IconX } from "@tabler/icons-react";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import { DragDropProvider, useDraggable, useDroppable } from "~/draggable";
 import { moveIndexes } from "~/util/array";
 import { FormContext, type ResetValueHandler } from "./context";

@@ -1,5 +1,5 @@
 import { Chip } from "@mui/joy";
-import { GradientTypography } from "components";
+import { GradientTypography } from "campground-ui";
 import type { CampsitePermissionView } from "types/campground/permissions";
 import type { RoleView } from "types/campground/roles";
 import { colorToDecimal } from "~/util/color";

@@ -33,7 +33,7 @@ import {
     IconLockFilled,
 } from "@tabler/icons-react";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import FadingBox from "~/components/pages/FadingBox";
 import { type ContextSuite } from "~/context/context-suite";
 import { ContentPermissionConsts } from "~/util/permissions";

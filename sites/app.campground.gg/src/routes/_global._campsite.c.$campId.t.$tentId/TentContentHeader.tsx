@@ -3,7 +3,7 @@ import {
     IconLayoutSidebar,
     IconLayoutSidebarFilled,
 } from "@tabler/icons-react";
-import { Group, loremIpsum } from "components";
+import { Group, loremIpsum } from "campground-ui";
 import type { TentViewBasic } from "types/campground/tent";
 import TentIcon from "~/components/tents/TentIcon";
 import { PseudoTentType } from "~/util/pseudoTents";

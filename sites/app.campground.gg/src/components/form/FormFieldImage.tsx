@@ -5,7 +5,7 @@ import { AspectRatio, Modal, Sheet, styled, Typography, type Radius, } from "@mu
 import ImageInputModal from "../../layout/ImageInputModal";
 import { IconPencil } from "@tabler/icons-react";
 import ImageEditBadge from "../ImageEditBadge";
-import { FlexCenter, Image } from "components";
+import { FlexCenter, Image } from "campground-ui";
 import type { FormContext } from "./context";
 import { FormattedMessageGlobal } from "~/i18n";
 

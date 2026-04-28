@@ -1,4 +1,4 @@
-import { Group, loremIpsum } from "components";
+import { Group, loremIpsum } from "campground-ui";
 import type { MessageViewBasic } from "types/campground/content";
 import UserDisplay, { UserDisplaySkeleton } from "../UserDisplay";
 import { Skeleton, styled, Typography } from "@mui/joy";

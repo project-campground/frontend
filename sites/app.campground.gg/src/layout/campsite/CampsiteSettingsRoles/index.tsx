@@ -5,7 +5,7 @@ import type { GetRolesOutput } from "types/campground/roles";
 import type { RoleView } from "types/campground/roles";
 import RoleItem, { RoleItemGap } from "../RoleItem";
 import React, { useMemo, useState } from "react";
-import { SmoothTabList } from "components";
+import { SmoothTabList } from "campground-ui";
 import {
     IconBadgesFilled,
     IconListCheck,

@@ -1,5 +1,5 @@
 import { Box, Card, Checkbox, IconButton, Stack, styled } from "@mui/joy";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import React, { useState, type ReactNode } from "react";
 import { RotatingCaret } from "../content/RotatingCaret";
 

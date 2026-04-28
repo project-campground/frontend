@@ -1,7 +1,7 @@
 import React, { type ReactNode } from "react";
 import DataTable, { type DataTableProps } from "./DataTable";
 import { Box, Button, ButtonGroup, Dropdown, IconButton, Input, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Skeleton, Stack, styled, Typography, type ColorPaletteProp, type VariantProp } from "@mui/joy";
-import { Group, loremIpsum } from "components";
+import { Group, loremIpsum } from "campground-ui";
 import { IconAdjustmentsFilled, IconCaretLeftFilled, IconCaretRightFilled, IconDots, IconSearch } from "@tabler/icons-react";
 import type { HttpResponseWithContent } from "~/api/http/HTTPResponse";
 import type { TypeToPayload } from "types/ws";

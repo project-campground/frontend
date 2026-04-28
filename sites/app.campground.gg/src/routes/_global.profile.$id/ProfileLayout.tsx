@@ -3,7 +3,7 @@ import React, { type ReactNode } from "react";
 import UserAvatar, { UserAvatarSkeleton } from "~/components/UserAvatar";
 import VerifiedIcon from "~/components/VerifiedIcon";
 import type { ProfileViewDetailed } from "types/campground/user";
-import { Group, loremIpsum } from "components";
+import { Group, loremIpsum } from "campground-ui";
 import { UserHeaderBanner } from "~/components/users/UserHeader";
 
 type Props = {

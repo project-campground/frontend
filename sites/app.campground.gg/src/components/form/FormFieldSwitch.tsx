@@ -3,7 +3,7 @@ import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Switch, FormControl, Sheet, Stack, Typography, } from "@mui/joy";
 import type React from "react";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import type { FormContext } from "./context";
 
 type SwitchType = "default" | "button";

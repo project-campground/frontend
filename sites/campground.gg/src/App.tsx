@@ -17,7 +17,7 @@ import { IntlProvider } from './i18n';
 import LandingIndex from './routes/landing/LandingIndex';
 import { CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import InitColorSchemeScript from '@mui/joy/InitColorSchemeScript';
-import { theme } from "components";
+import { theme } from "campground-ui";
 import Downloads from "./routes/landing/Downloads";
 import Soon from "./routes/Soon";
 import Features from "./routes/landing/Features";

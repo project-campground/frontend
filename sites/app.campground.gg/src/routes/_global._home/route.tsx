@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import type { Route } from "./+types/route";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import { loginRequiredMiddleware } from "~/middleware/login";
 
 export function meta(_routes: Route.MetaArgs) {

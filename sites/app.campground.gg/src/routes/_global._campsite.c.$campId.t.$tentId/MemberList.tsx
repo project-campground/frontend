@@ -6,7 +6,7 @@ import ContentCategory from "~/components/content/ContentCategory";
 import { colorToDecimal } from "~/util/color";
 import UserProfileCard from "~/layout/UserProfileCard";
 import { useState, type MouseEvent } from "react";
-import { GradientTypography } from "components";
+import { GradientTypography } from "campground-ui";
 
 type Props = {
     campsiteId: string;

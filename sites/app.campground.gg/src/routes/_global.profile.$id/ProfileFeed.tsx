@@ -15,7 +15,7 @@ import ProfileFeedPost, {
 import { IconArticleFilled, IconFlameFilled } from "@tabler/icons-react";
 import HTTPError from "~/util/HTTPError";
 import { ProfilePostSkeleton } from "./ProfilePost";
-import { SmoothTabList } from "components";
+import { SmoothTabList } from "campground-ui";
 import { useAccount } from "~/context/account";
 import { FormattedMessage } from "react-intl";
 import { useBackendApi } from "~/context/api";

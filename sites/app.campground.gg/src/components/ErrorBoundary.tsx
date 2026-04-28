@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 import HTTPError from "~/util/HTTPError";
 import PagePlaceholder, { PagePlaceholderIcon } from "./pages/PagePlaceholder";
 import { Typography } from "@mui/joy";
-import { TextBlock } from "components";
+import { TextBlock } from "campground-ui";
 
 interface ErrorBoundaryError {
     message: string;

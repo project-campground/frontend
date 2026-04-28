@@ -6,7 +6,7 @@ import {
     MenuItem,
     Modal,
 } from "@mui/joy";
-import { GradientTypography } from "components";
+import { GradientTypography } from "campground-ui";
 import { useState, type MouseEvent } from "react";
 import type { MemberViewBasic } from "types/campground/membership";
 import type { RoleView } from "types/campground/roles";

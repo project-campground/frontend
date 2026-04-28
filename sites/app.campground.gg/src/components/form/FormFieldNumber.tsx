@@ -2,7 +2,7 @@ import type { ChangeEvent, ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldDecoratorProps, FormFieldProps } from "./forms";
 import { Button, ButtonGroup, Input } from "@mui/joy";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react";
 import type { FormContext } from "./context";
 

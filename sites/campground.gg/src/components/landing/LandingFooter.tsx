@@ -1,5 +1,5 @@
 import React from "react";
-import { BrandLogo } from "components";
+import { BrandLogo } from "campground-ui";
 import LandingFooterItem from "./LandingFooterItem";
 import LandingFooterSection from "./LandingFooterSection";
 import { FormattedMessage } from "react-intl";

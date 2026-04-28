@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Dropdown, IconButton, Link, MenuButton, Sheet, Stack, styled } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useRef, useState } from "react";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import BlockTextSlate from "./BlockTextSlate";
 import withCgMarkdown from "~/editor/withCgMarkdown";
 import { withHistory } from "slate-history";

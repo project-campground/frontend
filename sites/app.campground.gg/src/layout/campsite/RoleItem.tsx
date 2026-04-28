@@ -1,6 +1,6 @@
 import { Box, Button, Chip, styled } from "@mui/joy";
 import { IconGripVertical } from "@tabler/icons-react";
-import { GradientTypography } from "components";
+import { GradientTypography } from "campground-ui";
 import type { RoleView } from "types/campground/roles";
 import { useDraggable, useDragging, useDroppable } from "~/draggable";
 import { colorToDecimal } from "~/util/color";

@@ -21,7 +21,7 @@
     "@formatjs/svelte-intl": "^7.1.10",
     "dayjs": "^1.11.13",
     
-    "components": "file:../../packages/components"
+    "campground-ui": "file:../../packages/campground-ui"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^7.0.1",

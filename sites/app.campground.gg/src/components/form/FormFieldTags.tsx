@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import AbstractFormField from "./AbstractFormField";
 import type { FormFieldProps } from "./forms";
 import { Chip, Input, Stack, type ColorPaletteProp, type VariantProp, } from "@mui/joy";
-import { Group } from "components";
+import { Group } from "campground-ui";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { IntlContext } from "react-intl";
 import type { FormContext } from "./context";

@@ -1,23 +1,76 @@
 {
   "name": "components",
+  "type": "module",
   "version": "1.0.0",
-  "description": "Campground components that are shared between all of Campground's websites.",
-  "main": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "campground"
   ],
+  "description": "Campground components that are shared between all of Campground's websites.",
   "author": "Team Campground",
   "license": "AGPL-3.0-or-later",
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/joy": "^5.0.0-beta.52",
-    "react": "^19.1.1"
+
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build && npm run prepack",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "prepack": "svelte-kit sync && svelte-package && publint",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write ."
   },
-  "devDependencies": {
-    "@types/react": "^19.1.13"
-  }
+
+  "main": "index.ts",
+
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
+  
+	"devDependencies": {
+		"vite": "^8.0.7",
+
+    "@sveltejs/adapter-auto": "^7.0.1",
+    "@sveltejs/kit": "^2.57.0",
+    "@sveltejs/package": "^2.5.7",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "svelte": "^5.55.2",
+    "svelte-check": "^4.4.6",
+
+    "sass": "^1.86.0",
+
+    "@eslint/compat": "^2.0.4",
+		"@eslint/js": "^10.0.1",
+		"eslint": "^10.2.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.17.0",
+  
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.5.1",
+    "publint": "^0.3.18",
+
+		"@types/node": "^24",
+		"globals": "^17.4.0",
+
+		"typescript": "^6.0.2",
+		"typescript-eslint": "^8.58.1"
+	}
 }

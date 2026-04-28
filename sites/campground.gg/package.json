@@ -3,48 +3,47 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write ."
+	},
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@fontsource/nunito-sans": "^5.2.6",
     "@fontsource/quicksand": "^5.2.9",
-    "@mantine/hooks": "^8.3.1",
-    "@mui/joy": "^5.0.0-beta.52",
-    "@tabler/icons-react": "^3.34.1",
-    "@tiptap/extension-link": "^2.11.5",
-    "@tiptap/pm": "^2.11.5",
-    "@tiptap/react": "^2.11.5",
-    "@tiptap/starter-kit": "^2.11.5",
+    "@tabler/icons-svelte": "^1.1.4",
+    
+    "@formatjs/svelte-intl": "^7.1.10",
     "dayjs": "^1.11.13",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-intl": "^7.1.10",
-    "react-router-dom": "^7.4.0",
-    "components": "file:../../packages/components",
-    "vite-plugin-static-copy": "^2.3.0"
+    
+    "components": "file:../../packages/components"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
-    "@types/node": "^22.13.14",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.21.0",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^15.15.0",
-    "postcss": "^8.5.3",
-    "postcss-preset-mantine": "^1.17.0",
-    "postcss-simple-vars": "^7.0.1",
-    "sass": "^1.86.0",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "@sveltejs/adapter-auto": "^7.0.1",
+    "@sveltejs/kit": "^2.57.0",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "svelte": "^5.55.2",
+    "svelte-check": "^4.4.6",
+    "vite": "^8.0.7",
+    "vite-plugin-static-copy": "^2.3.0",
+
+		"@types/node": "^24",
+    
+		"eslint": "^10.2.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.17.0",
+		"globals": "^17.4.0",
+		"prettier": "^3.8.1",
+		"prettier-plugin-svelte": "^3.5.1",
+		"publint": "^0.3.18",
+		"typescript": "^6.0.2",
+		"typescript-eslint": "^8.58.1",
+
+    "sass": "^1.86.0"
   }
 }

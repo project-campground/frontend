@@ -1,16 +1,18 @@
-import { reactRouter } from "@react-router/dev/vite";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
 import path from 'path';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
-  plugins: [reactRouter(), tsconfigPaths(), viteStaticCopy({
-      targets: [
-        {
-          src: path.resolve(__dirname, '../../lang/*'),
-          dest: 'locales',
-        },
-      ],
-    }),],
+	plugins: [
+		sveltekit(),
+		viteStaticCopy({
+			targets: [
+				{
+					src: path.resolve(__dirname, '../../lang/*'),
+					dest: 'locales'
+				}
+			]
+		})
+	]
 });

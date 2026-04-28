@@ -8,6 +8,9 @@
 **/yarn.lock
 **/package-lock.json
 
+# Vite and Svelte
+**/.vite/**/*
+
 # dependencies
 /node_modules
 /.pnp

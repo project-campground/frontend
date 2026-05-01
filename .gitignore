@@ -10,9 +10,13 @@
 
 # Vite and Svelte
 **/.vite/**/*
+**/.svelte-kit
+**/.svelte-kit/**/*
 
 # dependencies
 /node_modules
+**/node_modules
+**/node_modules/**/*
 /.pnp
 .pnp.js
 .yarn/install-state.gz

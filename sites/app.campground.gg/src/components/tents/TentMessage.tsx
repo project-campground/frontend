@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
-import { Group, loremIpsum, TextBlock } from "campground-ui";
+import { Group, loremIpsum, TextBlock } from "@campground/ui";
 import type { TentMessageType, MessageViewWithReplies } from "types/campground/content";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 import MessageToolbar from "./MessageToolbar";

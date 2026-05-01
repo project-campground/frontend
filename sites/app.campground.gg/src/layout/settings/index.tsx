@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Divider, ModalClose, ModalDialog, Sheet, Stack, styled, Typography } from "@mui/joy";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import React, { type PropsWithChildren, type ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import PageSidebar from "~/components/pages/PageSidebar";

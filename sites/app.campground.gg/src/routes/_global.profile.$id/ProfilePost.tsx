@@ -25,7 +25,7 @@ import { LargeContentMarkdown } from "~/components/markdown/Markdown";
 import { keyframes } from "@emotion/react";
 import ContentOverflow from "~/components/content/ContentOverflow";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";
-import { Group, loremIpsum } from "campground-ui";
+import { Group, loremIpsum } from "@campground/ui";
 import { useSession } from "~/context/session";
 
 type Props = {

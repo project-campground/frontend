@@ -13,7 +13,7 @@ import {
 import { useCampsite, useCampsiteContext } from "../_global._campsite/context";
 import { IconCake, IconUsers } from "@tabler/icons-react";
 import Datestamp from "~/components/Datestamp";
-import { Group, Image } from "campground-ui";
+import { Group, Image } from "@campground/ui";
 import GradientBanner from "~/components/pages/GradientBanner";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";

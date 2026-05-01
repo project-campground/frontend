@@ -1,7 +1,7 @@
 import { Alert, AspectRatio, Avatar, Box, Button, Sheet, Stack, Typography } from "@mui/joy";
 import { IconClubs, IconDiamond, IconDiamonds, IconHeart, IconSpade, IconSparkles, IconStar } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
-import { Group, Image } from "campground-ui";
+import { Group, Image } from "@campground/ui";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router";

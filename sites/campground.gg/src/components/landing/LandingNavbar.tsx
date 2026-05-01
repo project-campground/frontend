@@ -1,5 +1,5 @@
 import React from "react";
-import { BrandLogo } from "campground-ui";
+import { BrandLogo } from "@campground/ui";
 import LandingNavbarItem from "./LandingNavbarItem";
 import { FormattedMessage } from "react-intl";
 import { Box, Link, Stack } from "@mui/joy";

@@ -1,6 +1,6 @@
 import { Typography } from "@mui/joy";
 import { IconHash, IconQuestionMark, IconSignature, type Icon, type IconProps } from "@tabler/icons-react";
-import { TextBlock } from "campground-ui";
+import { TextBlock } from "@campground/ui";
 import type { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 import type { MemberViewAuthor } from "types/campground/membership";
 import type { RoleView } from "types/campground/roles";

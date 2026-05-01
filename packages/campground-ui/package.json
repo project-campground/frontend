@@ -1,5 +1,5 @@
 {
-	"name": "campground-ui",
+	"name": "@campground/ui",
 	"type": "module",
 	"version": "1.0.0",
 	"keywords": [

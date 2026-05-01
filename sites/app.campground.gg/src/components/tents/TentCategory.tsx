@@ -1,6 +1,6 @@
 import { IconButton, ListItemContent, ListItemDecorator, MenuItem, Skeleton, Stack, Typography } from "@mui/joy";
 import { IconPlus, IconSettingsFilled, IconTrashFilled } from "@tabler/icons-react";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import type { TentCategoryView, TentViewBasic } from "types/campground/tent";
 import ContentCategory from "~/components/content/ContentCategory";
 import { useRightClick } from "~/context/mouse";

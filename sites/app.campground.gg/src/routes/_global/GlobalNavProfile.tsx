@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 import UserAvatar from "~/components/UserAvatar";
 import UserProfileCard from "~/layout/UserProfileCard";
 import { useAccount } from "~/context/account";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 
 export default function GlobalNavProfile() {
     const account = useAccount();

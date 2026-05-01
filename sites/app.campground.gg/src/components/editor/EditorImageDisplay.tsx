@@ -1,5 +1,5 @@
 import { styled } from "@mui/joy";
-import { Image } from "campground-ui";
+import { Image } from "@campground/ui";
 
 export const EditorImageDisplayRoot = styled(`div`, {
     name: "EditorImage",

@@ -9,7 +9,7 @@ import {
     FormLabel,
 } from "@mui/joy";
 import Form from "../components/form/Form";
-import { Image } from "campground-ui";
+import { Image } from "@campground/ui";
 import { FormattedMessage } from "react-intl";
 import FormSection from "~/components/form/FormSection";
 import FormSubmit from "~/components/form/FormSubmit";

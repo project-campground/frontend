@@ -3,7 +3,7 @@ import type { EditorCodeBlock } from "../../editor/editor";
 import hljs from "highlight.js";
 import { useSlateStatic } from "slate-react";
 import { Element, Transforms } from "slate";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 
 type Props = {
     element: EditorCodeBlock;

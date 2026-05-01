@@ -16,7 +16,7 @@ import type { CampsitePermissionViewBasic } from "types/campground/permissions";
 import type { CampsitePermissionView } from "types/campground/permissions";
 import type { RoleView } from "types/campground/roles";
 import { useContext, useMemo, useState } from "react";
-import { GradientTypography } from "campground-ui";
+import { GradientTypography } from "@campground/ui";
 import {
     IconCampfireFilled,
     IconHash,

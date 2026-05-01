@@ -9,7 +9,7 @@ import type { MemberView } from "types/campground/membership";
 import type { RoleView } from "types/campground/roles";
 import ContentCategory from "../components/content/ContentCategory";
 import RoleDisplay from "../components/campsite/RoleDisplay";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import { FormattedMessage } from "react-intl";
 import { FormattedMessageGlobal } from "~/i18n";
 import UserHeader from "~/components/users/UserHeader";

@@ -13,7 +13,7 @@ import FormSection from "~/components/form/FormSection";
 import { FormContext } from "~/components/form/context";
 import TentMessage from "~/components/tents/TentMessage";
 import { Card, FormControl, FormLabel, Stack } from "@mui/joy";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import FormFieldText from "~/components/form/FormFieldText";
 import FormFieldArray from "~/components/form/FormFieldArray";
 import FormFieldColor from "~/components/form/FormFieldColor";

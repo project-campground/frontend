@@ -12,7 +12,7 @@ import "./app.css";
 import { IntlProvider } from './i18n/provider';
 // import { SessionProvider } from './session';
 import { Box, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
-import { SvgDefs, SvgUse, theme } from "campground-ui";
+import { SvgDefs, SvgUse, theme } from "@campground/ui";
 import { SessionProvider } from "./context/session";
 import { SnackbarContextProvider } from "./context/snackbar";
 import { ContextSuiteProvider } from "./context/context-suite";

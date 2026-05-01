@@ -1,5 +1,5 @@
 import React from "react";
-import { BrandLogo } from "campground-ui";
+import { BrandLogo } from "@campground/ui";
 import { Box, Link, Stack } from "@mui/joy";
 
 export type Props = {

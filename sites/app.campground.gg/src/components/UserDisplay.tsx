@@ -2,7 +2,7 @@ import { Dropdown, Stack, Menu, MenuButton, Skeleton, Typography, styled } from 
 import UserAvatar, { UserAvatarSkeleton } from "./UserAvatar";
 import type { ProfileViewBasic, ProfileViewDetailed, ProfileViewEmpty } from "types/campground/user";
 import UserProfileCard from "../layout/UserProfileCard";
-import { GradientTypography, Group, TextBlock } from "campground-ui";
+import { GradientTypography, Group, TextBlock } from "@campground/ui";
 import type { MemberView } from "types/campground/membership";
 import type { RoleMotion } from "types/campground/roles";
 import type { RoleView } from "types/campground/roles";

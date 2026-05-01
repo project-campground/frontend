@@ -1,7 +1,7 @@
 import { Avatar, Box, Divider, Dropdown, IconButton, ListItemContent, ListItemDecorator, Menu, MenuButton, MenuItem, Modal, Skeleton, Stack, styled, Tooltip, Typography } from "@mui/joy";
 import { IconCampfire, IconDoorExit, IconDots, IconSettingsFilled, IconTicket } from "@tabler/icons-react";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
-import { Group, Image } from "campground-ui";
+import { Group, Image } from "@campground/ui";
 import React, { type ContextType } from "react";
 import type { CampsiteViewDetailed } from "types/campground/campsites";
 import type { BonfireViewBasic } from "types/campground/bonfires";

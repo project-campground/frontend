@@ -7,7 +7,7 @@ import type { Session } from "~/context/session/types";
 import type { MemberViewBasic } from "types/campground/membership";
 import MemberList from "./MemberList";
 import { CampsiteContext } from "../_global._campsite/context";
-import { SmoothTabList } from "campground-ui";
+import { SmoothTabList } from "@campground/ui";
 import { FormattedMessageGlobal } from "~/i18n";
 import type { TentViewBasic } from "types/campground/tent";
 

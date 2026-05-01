@@ -1,6 +1,6 @@
 import { AspectRatio, Skeleton, Box, type Radius } from "@mui/joy";
 import GradientBanner from "../pages/GradientBanner";
-import { Image } from "campground-ui";
+import { Image } from "@campground/ui";
 import UserAvatar, { UserAvatarSkeleton } from "../UserAvatar";
 
 export function UserHeaderBanner({ isLoading, src, aspectRatio, borderRadius }: { borderRadius?: keyof Radius; aspectRatio?: number; isLoading?: boolean; did: string; src?: string | null; }) {

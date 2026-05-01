@@ -1,6 +1,6 @@
 import { Box, Stack, styled } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import React from "react";
 
 const ThreadItemHook = styled(`div`, {

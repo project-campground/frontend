@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
-import { TextBlock } from "campground-ui";
+import { TextBlock } from "@campground/ui";
 import React, { ReactNode } from "react";
 import type { HttpResponseWithContent } from "~/api/http/HTTPResponse";
 

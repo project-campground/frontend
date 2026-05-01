@@ -9,7 +9,7 @@ import {
 import React, { type ContextType } from "react";
 import type { TentViewDetailed } from "types/campground/tent";
 import { UserDisplayNoModal } from "~/components/UserDisplay";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import {
     CampsiteContext,
     useCampsiteContext,

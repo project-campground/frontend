@@ -2,7 +2,7 @@ import { CardContent, Link, Typography } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
 import { useState } from "react";
 import UserAvatar from "../../components/UserAvatar";
-import { Group } from "campground-ui";
+import { Group } from "@campground/ui";
 import BasicPostEditor from "~/components/editor/BasicPostEditor";
 import { IconPencil } from "@tabler/icons-react";
 import { ProfilePostCard } from "./ProfilePost";

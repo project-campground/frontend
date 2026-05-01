@@ -1,15 +1,7 @@
-<script module lang="ts">
-	import type { Snippet } from 'svelte';
-
-	export interface Props {
-		activeTabIndex: number;
-		tabCount: number;
-		children: Snippet;
-	}
-</script>
-
 <script lang="ts">
-	const { children, tabCount, activeTabIndex }: Props = $props();
+	import type { ListProps } from "./props.ts";
+
+	const { children }: ListProps = $props();
 </script>
 
 <div class="TabList container">

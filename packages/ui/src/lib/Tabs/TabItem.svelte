@@ -1,18 +1,9 @@
-<script module lang="ts">
-	import type { Component, Snippet } from 'svelte';
-	import { getTabContext, type TabId } from './context.ts';
-
-	export interface Props {
-		id: TabId;
-		isActive?: boolean;
-		children: Snippet;
-	}
-</script>
-
 <script lang="ts">
+	import { getTabContext } from './context.ts';
+	import type { ItemProps } from "./props.ts";
 	const tabContext = getTabContext();
 
-	const { children, id, isActive }: Props = $props();
+	const { children, id, isActive }: ItemProps = $props();
 </script>
 
 <button
@@ -30,7 +21,7 @@
 		display: flex;
 		gap: 8px;
 		padding: 8px 12px;
-        font-size: 0.9rem;
+		font-size: 0.9rem;
 		align-items: center;
 		justify-content: center;
 		color: var(--palette-foreground-level3);

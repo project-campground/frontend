@@ -1,13 +1,7 @@
-<script module>
-	export interface Props {
-		children?: Snippet;
-	}
-</script>
-
 <script lang="ts">
-	import { type Snippet } from 'svelte';
+	import type { TabProps } from "./props.ts";
 
-	const { children }: Props = $props();
+	const { children }: TabProps = $props();
 </script>
 
 <div class="Tab">

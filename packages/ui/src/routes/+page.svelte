@@ -1,12 +1,12 @@
 <script lang="ts">
-	import BrandLogo from '$lib/BrandLogo.svelte';
-	import GradientText from '$lib/GradientText.svelte';
-	import Group from '$lib/Group.svelte';
-	import Image from '$lib/Image.svelte';
-	import Main from '$lib/Main.svelte';
+	import BrandLogo from '$lib/BrandLogo/BrandLogo.svelte';
+	import GradientText from '$lib/GradientText/GradientText.svelte';
+	import Group from '$lib/Group/Group.svelte';
+	import Image from '$lib/Image/Image.svelte';
+	import Main from '$lib/Main/Main.svelte';
 	import SvgUse from '$lib/svg/SvgUse.svelte';
-	import Tabs, { Tab, TabItem } from '$lib/Tabs.svelte';
-	import TextBlock from '$lib/TextBlock.svelte';
+	import * as Tabs from '$lib/Tabs/index.js';
+	import TextBlock from '$lib/TextBlock/TextBlock.svelte';
 </script>
 
 <Main>
@@ -16,22 +16,22 @@
 			style:padding="16px 32px"
 			style:border-radius="var(--radius-lg)"
 		>
-			<Tabs tabIds={['a', 'b']}>
+			<Tabs.Root tabIds={['a', 'b']}>
 				{#snippet tabs(tabId)}
-					<TabItem id="a" isActive={tabId === 'a'}>
+					<Tabs.Item id="a" isActive={tabId === 'a'}>
 						<TextBlock>Tab a</TextBlock>
-					</TabItem>
-					<TabItem id="b" isActive={tabId === 'b'}>
+					</Tabs.Item>
+					<Tabs.Item id="b" isActive={tabId === 'b'}>
 						<TextBlock>Tab b</TextBlock>
-					</TabItem>
+					</Tabs.Item>
 				{/snippet}
-				<Tab>
+				<Tabs.Tab>
 					<TextBlock>Example a</TextBlock>
-				</Tab>
-				<Tab>
+				</Tabs.Tab>
+				<Tabs.Tab>
 					<TextBlock>Example b</TextBlock>
-				</Tab>
-			</Tabs>
+				</Tabs.Tab>
+			</Tabs.Root>
 		</div>
 		<Group>
 			<Image mh={15} src="/example-banner.svg" />

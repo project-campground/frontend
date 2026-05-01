@@ -1,7 +1,3 @@
-<script lang="ts">
-	import type { ClassValue } from 'svelte/elements';
-	const { id, w, h, size, class: className }: Props = $props();
-</script>
 <script module lang="ts">
 	export interface Props extends NonIdProps {
 		id: 'logo';
@@ -12,6 +8,11 @@
 		size?: number;
 		class?: ClassValue;
 	}
+</script>
+
+<script lang="ts">
+	import type { ClassValue } from 'svelte/elements';
+	const { id, w, h, size, class: className }: Props = $props();
 </script>
 
 <svg

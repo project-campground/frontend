@@ -1,8 +1,8 @@
 export interface ButtonPropsVariantOverrides {
-    glow: true;
+	glow: true;
 }
 export interface AvatarPropsSizeOverrides {
-    xl: true;
-    xxl: true;
-    xxxl: true;
+	xl: true;
+	xxl: true;
+	xxxl: true;
 }

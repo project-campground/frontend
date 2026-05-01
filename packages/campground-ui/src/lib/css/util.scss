@@ -1,0 +1,12 @@
+@mixin size($arg) {
+	width: $arg;
+	height: $arg;
+}
+@mixin max-size($arg) {
+	max-width: $arg;
+	max-height: $arg;
+}
+@mixin min-size($arg) {
+	min-width: $arg;
+	min-height: $arg;
+}

@@ -1,0 +1,59 @@
+<script lang="ts">
+	import type { ComponentSize } from '../types/attributes.ts';
+	import { capitalize } from '../util/component.ts';
+	import SvgUse from './svg/SvgUse.svelte';
+
+	export interface Props {
+		size?: ComponentSize;
+	}
+
+	const { size }: Props = $props();
+</script>
+
+<div class={['BrandLogo container', `size${capitalize(size ?? 'md')}`]}>
+	<span class="BrandLogo icon">
+		<SvgUse id="logo" />
+	</span>
+	<span class="BrandLogo wordmark"> Campground </span>
+</div>
+
+<style lang="scss">
+	@use './index.scss' as *;
+
+	@mixin brand-logo-size($icon-size, $font-size) {
+		& > .icon > :global(svg) {
+			--SvgUse-width: #{$icon-size};
+			--SvgUse-height: #{$icon-size};
+		}
+		& > .wordmark {
+			font-size: $font-size;
+		}
+	}
+
+	.container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+
+		color: var(--palette-primary-500);
+		font-weight: 700;
+		font-family: var(--font-header);
+
+		&.sizeXs {
+			@include brand-logo-size(36px, 1rem);
+		}
+		&.sizeSm {
+			@include brand-logo-size(48px, 1.25rem);
+		}
+		&.sizeMd {
+			@include brand-logo-size(56px, 1.5rem);
+		}
+		&.sizeLg {
+			@include brand-logo-size(64px, 2rem);
+		}
+		&.sizeXl {
+			@include brand-logo-size(96px, 4rem);
+		}
+	}
+</style>

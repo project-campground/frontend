@@ -1,0 +1,41 @@
+@use 'sass:color';
+@use 'sass:map';
+
+$shades: (
+	50: #f5f3ff,
+	100: #e7e4f4,
+	150: #dcd8ec,
+	200: #c6c3d9,
+	250: #b7b4cd,
+	300: #9695b2,
+	400: #78799a,
+
+	500: color.mix(#78799a, #373754, $weight: 50%),
+	600: #373754,
+	700: #2a2640,
+	750: #1f1b32,
+	800: #1a162a,
+	850: #151121,
+	900: #0e0b16,
+	950: #040409
+);
+$colors: (
+	primary: #ff5a26,
+	secondary: #ff2661,
+	'cg-red': #fe1c56,
+	'cg-yellow': #fea01c,
+	'cg-green': #0cef43,
+	'cg-teal': #26f2ff,
+	'cg-blue': #6026ff,
+	'cg-purple': #ca1cfe
+);
+$code-colors: (
+	markdown: #fe603f,
+	keyword: #fe603f,
+	string: #ff538b,
+	number: #c998f9,
+	template: #ea16b0,
+	class: #74a6f8,
+	function: #ffb95e,
+	attribute: #bcec6a
+);

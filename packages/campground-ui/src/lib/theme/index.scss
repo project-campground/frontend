@@ -1,0 +1,47 @@
+@use 'sass:map';
+@use './dark.scss' as *;
+@use '../css/color.scss' as *;
+@use '../css/border.scss' as *;
+@use '../css/font.scss' as *;
+@import '@fontsource/nunito-sans/500.css';
+@import '@fontsource/nunito-sans/500-italic.css';
+@import '@fontsource/nunito-sans/700.css';
+@import '@fontsource/nunito-sans/700-italic.css';
+@import '@fontsource/nunito-sans/900.css';
+@import '@fontsource/nunito-sans/900-italic.css';
+@import '@fontsource/quicksand/400.css';
+@import '@fontsource/quicksand/500.css';
+@import '@fontsource/quicksand/700.css';
+
+%code-highlight {
+	--palette-foreground-code: #{map.get($code-colors, 'markdown')};
+	--palette-foreground-code-keyword: #{map.get($code-colors, 'keyword')};
+	--palette-foreground-code-string: #{map.get($code-colors, 'string')};
+	--palette-foreground-code-number: #{map.get($code-colors, 'number')};
+	--palette-foreground-code-template: #{map.get($code-colors, 'template')};
+	--palette-foreground-code-class: #{map.get($code-colors, 'class')};
+	--palette-foreground-code-function: #{map.get($code-colors, 'function')};
+	--palette-foreground-code-attribute: #{map.get($code-colors, 'attribute')};
+}
+%global-attributes {
+	--radius-xs: #{$radius-xs};
+	--radius-sm: #{$radius-sm};
+	--radius-md: #{$radius-md};
+	--radius-lg: #{$radius-lg};
+	--radius-xl: #{$radius-xl};
+}
+%font {
+	--font-body: #{$font-body};
+	--font-header: #{$font-header};
+	font-family: $font-body;
+}
+
+:global([data-theme]) {
+	@extend %code-highlight;
+	@extend %global-attributes;
+	@extend %font;
+}
+
+:global([data-theme='dark']) {
+	@extend %dark-theme;
+}

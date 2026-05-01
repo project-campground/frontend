@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '../css/generate.scss';
+@use '../css/color.scss' as *;
+
+%dark-theme {
+	$background: map.get($shades, 950);
+	$counter: map.get($shades, 50);
+	color-scheme: dark;
+
+	@include generate.color-scheme('primary', map.get($colors, 'primary'), $background, $counter);
+	@include generate.color-scheme('secondary', map.get($colors, 'secondary'), $background, $counter);
+	@include generate.color-scheme('success', map.get($colors, 'cg-green'), $background, $counter);
+	@include generate.color-scheme('info', map.get($colors, 'cg-blue'), $background, $counter);
+	@include generate.color-scheme('warning', map.get($colors, 'cg-yellow'), $background, $counter);
+	@include generate.color-scheme('danger', map.get($colors, 'cg-red'), $background, $counter);
+	@include generate.neutral-color-scheme($shades, false);
+}

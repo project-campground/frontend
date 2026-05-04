@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { capitalize } from '../../util/component.ts';
 	import SvgUse from '../svg/SvgUse.svelte';
-	import type BrandLogoProps from "./props.ts";
+	import type BrandLogoProps from './props.ts';
 
 	const { size }: BrandLogoProps = $props();
 </script>
 
 <div class={['BrandLogo container', `size${capitalize(size ?? 'md')}`]}>
 	<span class="BrandLogo icon">
-		<SvgUse id="logo" />
+		<SvgUse id="logo" size={0} />
 	</span>
 	<span class="BrandLogo wordmark"> Campground </span>
 </div>
@@ -37,19 +37,19 @@
 		font-family: var(--font-header);
 
 		&.sizeXs {
-			@include brand-logo-size(36px, 1rem);
+			@include brand-logo-size(2.5rem, 1rem);
 		}
 		&.sizeSm {
-			@include brand-logo-size(48px, 1.25rem);
+			@include brand-logo-size(3rem, 1.25rem);
 		}
 		&.sizeMd {
-			@include brand-logo-size(56px, 1.5rem);
+			@include brand-logo-size(3.5rem, 1.5rem);
 		}
 		&.sizeLg {
-			@include brand-logo-size(64px, 2rem);
+			@include brand-logo-size(4.5rem, 2rem);
 		}
 		&.sizeXl {
-			@include brand-logo-size(96px, 4rem);
+			@include brand-logo-size(7.5rem, 4rem);
 		}
 	}
 </style>

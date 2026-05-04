@@ -20,14 +20,13 @@ $shades: (
 	950: #040409
 );
 $colors: (
-	primary: #ff5a26,
-	secondary: #ff2661,
-	'cg-red': #fe1c56,
-	'cg-yellow': #fea01c,
-	'cg-green': #0cef43,
-	'cg-teal': #26f2ff,
-	'cg-blue': #6026ff,
-	'cg-purple': #ca1cfe
+	primary: #ff5a26 #ff2661,
+	'cg-red': #fe1c56 #fe1c40,
+	'cg-yellow': #fea01c #fe761c,
+	'cg-green': #0cef43 #0cef8d,
+	'cg-teal': #26f2ff #26a2ff,
+	'cg-blue': #6026ff #a526ff,
+	'cg-purple': #ca1cfe #fe1cba
 );
 $code-colors: (
 	markdown: #fe603f,

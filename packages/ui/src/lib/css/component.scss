@@ -1,0 +1,20 @@
+@use 'sass:list';
+
+$size-names: 'xs', 'sm', 'md', 'lg';
+$size-names-with-xl: list.append($size-names, 'xl');
+$variant: 'glow', 'soft', 'plain', 'outlined', 'solid';
+$color-types: 'primary', 'secondary', 'success', 'danger', 'warning', 'info';
+
+@mixin button-transform($hover: 1.025, $active: 0.925) {
+    transition-duration: 0.2s;
+    transition-property: background, color, transform, opacity, border-color, box-shadow;
+    transition-timing-function: ease-out;
+    --click-transform: #{$active};
+    --hover-transform: #{$hover};
+    &:not(:disabled):active, &:not(:disabled):hover:active {
+        transform: scale(var(--click-transform));
+    }
+    &:not(:disabled):hover {
+        transform: scale(var(--hover-transform));
+    }
+}

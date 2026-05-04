@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { toSpacingPx } from '../../util/component.ts';
-	import type GroupProps from "./props.ts";
+	import type GroupProps from './props.ts';
 
 	const { children, gap, class: className, ...props }: GroupProps = $props();
 </script>
 
-<div style:--Group-gap={toSpacingPx(gap ?? 1)} class={["Group", props, className]}>
+<div style:--Group-gap={toSpacingPx(gap ?? 1)} class={['Group', props, className]}>
 	{@render children?.()}
 </div>
 
@@ -17,6 +17,9 @@
 		flex-direction: row;
 		animation: cubic-bezier(1, 0, 0, 1);
 		gap: var(--Group-gap);
+		&.wrap {
+			flex-wrap: wrap;
+		}
 		@include tablet-down() {
 			&.withMobile {
 				flex-direction: column;

@@ -1,1 +1,1 @@
-export type { ComponentSize } from "./attributes.ts";
+export type { ComponentSize } from './attributes.ts';

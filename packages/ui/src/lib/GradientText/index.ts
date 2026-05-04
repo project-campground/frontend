@@ -1,4 +1,4 @@
-export type { default as GradientTextProps, GradientMotion } from "./props.ts";
+export type { default as GradientTextProps, GradientMotion } from './props.ts';
 
-import GradientText from "./GradientText.svelte";
+import GradientText from './GradientText.svelte';
 export default GradientText;

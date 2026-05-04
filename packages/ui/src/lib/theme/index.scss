@@ -24,11 +24,9 @@
 	--palette-foreground-code-attribute: #{map.get($code-colors, 'attribute')};
 }
 %global-attributes {
-	--radius-xs: #{$radius-xs};
-	--radius-sm: #{$radius-sm};
-	--radius-md: #{$radius-md};
-	--radius-lg: #{$radius-lg};
-	--radius-xl: #{$radius-xl};
+	@each $size, $value in $radius-map {
+		--radius-#{$size}: #{$value};
+	}
 }
 %font {
 	--font-body: #{$font-body};

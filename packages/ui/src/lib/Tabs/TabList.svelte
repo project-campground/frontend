@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ListProps } from "./props.ts";
+	import type { ListProps } from './props.ts';
 
 	const { children }: ListProps = $props();
 </script>

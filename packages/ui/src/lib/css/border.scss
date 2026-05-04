@@ -1,5 +1,4 @@
-$radius-xs: 2px;
-$radius-sm: 6px;
-$radius-md: 8px;
-$radius-lg: 12px;
-$radius-xl: 16px;
+@use './util.scss' as *;
+
+$radius: 4px, 6px, 8px, 12px, 16px, 24px, 36px;
+$radius-map: create-size-map($radius);

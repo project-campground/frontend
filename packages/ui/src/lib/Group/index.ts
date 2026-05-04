@@ -1,4 +1,4 @@
-export type { default as GroupProps } from "./props.ts";
+export type { default as GroupProps } from './props.ts';
 
-import Group from "./Group.svelte";
+import Group from './Group.svelte';
 export default Group;

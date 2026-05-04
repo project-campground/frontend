@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TabProps } from "./props.ts";
+	import type { TabProps } from './props.ts';
 
 	const { children }: TabProps = $props();
 </script>

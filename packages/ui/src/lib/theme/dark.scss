@@ -8,7 +8,6 @@
 	color-scheme: dark;
 
 	@include generate.color-scheme('primary', map.get($colors, 'primary'), $background, $counter);
-	@include generate.color-scheme('secondary', map.get($colors, 'secondary'), $background, $counter);
 	@include generate.color-scheme('success', map.get($colors, 'cg-green'), $background, $counter);
 	@include generate.color-scheme('info', map.get($colors, 'cg-blue'), $background, $counter);
 	@include generate.color-scheme('warning', map.get($colors, 'cg-yellow'), $background, $counter);

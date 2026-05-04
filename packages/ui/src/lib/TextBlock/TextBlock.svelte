@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 	import { capitalize, toSpacingPx } from '../../util/component.ts';
-	import type TextBlockProps from "./props.ts";
+	import type TextBlockProps from './props.ts';
 
 	const {
 		children,

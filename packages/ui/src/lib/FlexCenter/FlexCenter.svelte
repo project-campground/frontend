@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type FlexCenterProps from "./props.ts";
+	import type FlexCenterProps from './props.ts';
 
 	const { children, class: className }: FlexCenterProps = $props();
 </script>

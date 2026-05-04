@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { capitalize } from '../../util/component.ts';
-	import type GradientTextProps from "./props.ts";
+	import type GradientTextProps from './props.ts';
 
 	const { children, colors, motion }: GradientTextProps = $props();
 	const percentageOfColor = $derived(50 / (colors?.length ?? 1));
@@ -83,26 +83,24 @@
 			color: transparent;
 			background-clip: text;
 			width: max-content;
+			--GradientText-background: linear-gradient(to right in oklch, var(--GradientText-gradient));
 			// oklch just has the best colour interpolation for most colours and might be expected by users
-			background: linear-gradient(to right in oklch, var(--GradientText-gradient)) text;
+			background: var(--GradientText-background) text;
 			animation-duration: var(--GradientText-time);
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
 		}
 		&.motionLinear {
-			animation-name: motion-linear;
-			background-clip: text;
+			animation: motion-linear;
 			background-size: 8000%;
 		}
 		&.motionWave {
 			animation-name: motion-wave;
-			background-clip: text;
 			background-size: 200%;
 		}
 		&.motionRadial {
 			animation-name: motion-radial;
-			background-clip: text;
-			background: radial-gradient(circle at center in oklch, var(--GradientText-gradient)) text;
+			--GradientText-background: radial-gradient(circle at center in oklch, var(--GradientText-gradient)) text;
 			background-size: 200% 1000%;
 		}
 	}

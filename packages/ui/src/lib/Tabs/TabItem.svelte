@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getTabContext } from './context.ts';
-	import type { ItemProps } from "./props.ts";
+	import type { ItemProps } from './props.ts';
 	const tabContext = getTabContext();
 
 	const { children, id, isActive }: ItemProps = $props();

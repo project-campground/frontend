@@ -1,7 +1,10 @@
 @use 'sass:map';
+@use 'sass:list';
 @use 'sass:color';
 
-@mixin color-scheme($name, $accent, $background, $counter) {
+@mixin color-scheme($name, $accents, $background, $counter) {
+	$accent: list.nth($accents, 1);
+	$accent-secondary: list.nth($accents, 2);
 	// Regular palette
 	--palette-#{$name}-1000: #{color.mix($accent, $background, $weight: 5%)};
 	--palette-#{$name}-950: #{color.mix($accent, $background, $weight: 12%)};
@@ -20,6 +23,8 @@
 	--palette-#{$name}-100: #{color.mix($accent, $counter, $weight: 20%)};
 	--palette-#{$name}-50: #{color.mix($accent, $counter, $weight: 12%)};
 
+	--palette-#{$name}-secondary: #{$accent-secondary};
+
 	// Misc
 	--palette-#{$name}-t-500: #{$accent}CC;
 	--palette-#{$name}-border: #{$accent}0B;
@@ -28,58 +33,59 @@
 	--palette-#{$name}-solidFore: #{$background};
 
 	--palette-#{$name}-solidBack: var(--palette-#{$name}-500);
-	--palette-#{$name}-solidHoverBack: var(--palette-#{$name}-400);
-	--palette-#{$name}-solidActiveBack: var(--palette-#{$name}-600);
+	--palette-#{$name}-solidBackHover: var(--palette-#{$name}-400);
+	--palette-#{$name}-solidBackActive: var(--palette-#{$name}-600);
 
 	// Plain
 	--palette-#{$name}-plainFore: var(--palette-#{$name}-500);
 	--palette-#{$name}-plainForeHover: var(--palette-#{$name}-400);
 	--palette-#{$name}-plainForeActive: var(--palette-#{$name}-600);
 
-	--palette-#{$name}-plainHoverBack: var(--palette-#{$name}-900);
-	--palette-#{$name}-plainActiveBack: var(--palette-#{$name}-950);
+	--palette-#{$name}-plainBackHover: var(--palette-#{$name}-900);
+	--palette-#{$name}-plainBackActive: var(--palette-#{$name}-950);
 
 	// Outlined
 	--palette-#{$name}-outlinedFore: var(--palette-#{$name}-250);
 	--palette-#{$name}-outlinedBorder: var(--palette-#{$name}-800);
 
-	--palette-#{$name}-outlinedForeHover: var(--palette-#{$name}-200);
-	--palette-#{$name}-outlinedBackHover: var(--palette-#{$name}-950);
-	--palette-#{$name}-outlinedBorderHover: var(--palette-#{$name}-750);
+	--palette-#{$name}-outlinedForeHover: var(--palette-#{$name}-150);
+	--palette-#{$name}-outlinedBackHover: var(--palette-#{$name}-900);
+	--palette-#{$name}-outlinedBorderHover: var(--palette-#{$name}-700);
 
-	--palette-#{$name}-outlinedForeActive: var(--palette-#{$name}-900);
-	--palette-#{$name}-outlinedBackActive: var(--palette-#{$name}-150);
-	--palette-#{$name}-outlinedBorderActive: var(--palette-#{$name}-700);
+	--palette-#{$name}-outlinedForeActive: var(--palette-#{$name}-200);
+	--palette-#{$name}-outlinedBackActive: var(--palette-#{$name}-950);
+	--palette-#{$name}-outlinedBorderActive: var(--palette-#{$name}-750);
 
-	--palette-#{$name}-outlinedForeDisabled: #{color.mix(
-			color.scale($accent, $saturation: -30%),
-			$background,
-			$weight: 50%
-		)};
-	--palette-#{$name}-outlinedBorderDisabled: #{color.mix(
-			color.scale($accent, $saturation: -30%),
-			$background,
-			$weight: 12%
-		)};
+	// --palette-#{$name}-outlinedForeDisabled: #{color.mix(
+	// 		color.scale($accent, $saturation: -30%),
+	// 		$background,
+	// 		$weight: 50%
+	// 	)};
+	// --palette-#{$name}-outlinedBorderDisabled: #{color.mix(
+	// 		color.scale($accent, $saturation: -30%),
+	// 		$background,
+	// 		$weight: 12%
+	// 	)};
 
 	// Plain
-	--palette-#{$name}-softFore: var(--palette-#{$name}-250);
+	--palette-#{$name}-softFore: var(--palette-#{$name}-300);
 	--palette-#{$name}-softForeHover: var(--palette-#{$name}-150);
-	--palette-#{$name}-softForeActive: var(--palette-#{$name}-100);
+	--palette-#{$name}-softForeActive: var(--palette-#{$name}-250);
 
 	--palette-#{$name}-softBack: var(--palette-#{$name}-900);
-	--palette-#{$name}-softHoverBack: var(--palette-#{$name}-850);
-	--palette-#{$name}-softActiveBack: var(--palette-#{$name}-800);
+	--palette-#{$name}-softBackHover: var(--palette-#{$name}-800);
+	--palette-#{$name}-softBackActive: var(--palette-#{$name}-850);
 }
 @function get-theme-total-subtraction($light-mode) {
-	@return if($light-mode, 50 * 2, 0);
+	@return if(sass($light-mode): 50 * 2; else: 0);
 }
 @function get-shade-index($value, $light-mode) {
-	@return if($light-mode, 1000 - $value, $value);
+	@return if(sass($light-mode): 1000 - $value; else: $value);
 }
 @mixin neutral-color-scheme($shades, $light-mode) {
-	$mode-total-subtraction: if($light-mode, 50 * 2, 0);
+	$mode-total-subtraction: if(sass($light-mode): 50 * 2; else: 0);
 	$mode-addition: -50;
+	$level-2: if(sass($light-mode): 950; else: 850);
 	$theme-shades: (
 		50: map.get($shades, get-shade-index(50, $light-mode)),
 		100: map.get($shades, get-shade-index(100, $light-mode)),
@@ -109,10 +115,10 @@
 	--palette-background-body: #{map.get($theme-shades, 950 - $mode-total-subtraction)};
 	--palette-background-surface: #{map.get($theme-shades, 900)};
 	--palette-background-level1: #{map.get($theme-shades, 900)};
-	--palette-background-level2: #{map.get($theme-shades, if($light-mode, 950, 850))};
-	--palette-background-level3: #{map.get($theme-shades, 950 + ($mode-addition * 1))};
-	--palette-background-level4: #{map.get($theme-shades, 950 + ($mode-addition * 2))};
-	--palette-background-level5: #{map.get($theme-shades, 950 + ($mode-addition * 3))};
+	--palette-background-level2: #{map.get($theme-shades, $level-2)};
+	--palette-background-level3: #{map.get($theme-shades, $level-2 + ($mode-addition * 1))};
+	--palette-background-level4: #{map.get($theme-shades, $level-2 + ($mode-addition * 2))};
+	--palette-background-level5: #{map.get($theme-shades, $level-2 + ($mode-addition * 3))};
 
 	--palette-background-skeleton: #{map.get($theme-shades, 850)};
 	--palette-background-skeletonPulse: #{map.get($theme-shades, 800)};
@@ -125,14 +131,14 @@
 	}
 
 	// Misc
-	--palette-neutral-border: #{map.get($theme-shades, 50)}#{if($light-mode, 2B, 0B)};
+	--palette-neutral-border: #{map.get($theme-shades, 50)}#{if(sass($light-mode): 2B; else: 0B)};
 
 	// Solid
 	--palette-neutral-solidFore: var(--palette-foreground-level1);
 
 	--palette-neutral-solidBack: #{map.get($theme-shades, 750)};
-	--palette-neutral-solidHoverBack: #{map.get($theme-shades, 850)};
-	--palette-neutral-solidActiveBack: #{map.get($theme-shades, 850)};
+	--palette-neutral-solidBackHover: #{map.get($theme-shades, 850)};
+	--palette-neutral-solidBackActive: #{map.get($theme-shades, 850)};
 
 	// Plain
 	--palette-neutral-plainFore: var(--palette-foreground-level4);
@@ -140,12 +146,14 @@
 	--palette-neutral-plainForeActive: var(--palette-foreground-level4);
 	--palette-neutral-plainForeDisabled: var(--palette-foreground-level5);
 
-	--palette-neutral-plainHoverBack: #{map.get($theme-shades, 850)};
-	--palette-neutral-plainActiveBack: #{map.get($theme-shades, 950)};
+	--palette-neutral-plainBackHover: #{map.get($theme-shades, 850)};
+	--palette-neutral-plainBackActive: #{map.get($theme-shades, 950)};
 
 	// Outlined
 	--palette-neutral-outlinedFore: var(--palette-foreground-level4);
-	--palette-neutral-outlinedBorder: #{map.get($theme-shades, 400)}#{if($light-mode, 40, 20)};
+	--palette-neutral-outlinedBorder: #{map.get($theme-shades, 400)}#{if(
+			sass($light-mode): 40; else: 20
+		)};
 
 	--palette-neutral-outlinedForeHover: var(--palette-foreground-level2);
 	--palette-neutral-outlinedBackHover: var(--palette-background-level3);
@@ -155,8 +163,10 @@
 	--palette-neutral-outlinedBackActive: var(--palette-background-level1);
 	--palette-neutral-outlinedBorderActive: var(--palette-neutral-outlinedBorder);
 
-	--palette-neutral-outlinedForeDisabled: var(--palette-foreground-level5);
-	--palette-neutral-outlinedBorderDisabled: #{map.get($theme-shades, 400)}#{if($light-mode, 30, 10)};
+	// --palette-neutral-outlinedForeDisabled: var(--palette-foreground-level5);
+	// --palette-neutral-outlinedBorderDisabled: #{map.get($theme-shades, 400)}#{if(
+	// 		sass($light-mode): 30; else: 10
+	// 	)};
 
 	// Plain
 	--palette-neutral-softFore: var(--palette-foreground-level4);
@@ -164,6 +174,6 @@
 	--palette-neutral-softForeActive: var(--palette-foreground-level4);
 
 	--palette-neutral-softBack: var(--palette-background-level3);
-	--palette-neutral-softHoverBack: var(--palette-background-level4);
-	--palette-neutral-softActiveBack: var(--palette-background-level5);
+	--palette-neutral-softBackHover: var(--palette-background-level4);
+	--palette-neutral-softBackActive: var(--palette-background-level5);
 }

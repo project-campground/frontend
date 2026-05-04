@@ -1,4 +1,4 @@
-export type { default as TextBlockProps } from "./props.ts";
+export type { default as TextBlockProps } from './props.ts';
 
-import TextBlock from "./TextBlock.svelte";
+import TextBlock from './TextBlock.svelte';
 export default TextBlock;

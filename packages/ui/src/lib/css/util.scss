@@ -1,3 +1,8 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+@use './component.scss' as *;
+
 @mixin size($arg) {
 	width: $arg;
 	height: $arg;
@@ -9,4 +14,24 @@
 @mixin min-size($arg) {
 	min-width: $arg;
 	min-height: $arg;
+}
+
+@function string-repeat($string, $n) {
+	$new: '';
+	@for $i from 1 through $n {
+		$new: $new + $string;
+	}
+	@return $new;
+}
+@function capitalize($string) {
+	@return string.to-upper-case(string.slice($string, 1, 1)) + string.slice($string, 2);
+}
+
+@function create-size-map($array) {
+	$returned-map: ();
+	@for $i from 1 through list.length($array) {
+		$name: if(sass($i > 4): string-repeat('x', $i - 4) + 'l' ; else: list.nth($size-names, $i));
+		$returned-map: map.set($returned-map, $name, list.nth($array, $i));
+	}
+	@return $returned-map;
 }

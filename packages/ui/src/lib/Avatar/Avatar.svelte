@@ -2,12 +2,12 @@
 	import { capitalize } from '../../util/component.ts';
 	import type AvatarProps from './props.ts';
 
-	const { size, src, alt, children }: AvatarProps = $props();
+	const { size, src, alt, children, ...attributes }: AvatarProps = $props();
 </script>
 
-<div class={['Avatar container', `size${capitalize(size ?? 'md')}`]}>
+<div role="img" aria-label={alt} class={['Avatar container', `size${capitalize(size ?? 'md')}`]}>
 	{#if src}
-		<img class="Avatar image" {src} {alt} />
+		<img class="Avatar image" {src} {alt} {...attributes} />
 	{:else}
 		{@render children?.()}
 	{/if}

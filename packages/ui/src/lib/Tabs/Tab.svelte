@@ -4,7 +4,7 @@
 	const { children }: TabProps = $props();
 </script>
 
-<div class="Tab">
+<div role="tabpanel" class="Tab">
 	{@render children?.()}
 </div>
 

@@ -7,6 +7,7 @@
 </script>
 
 <button
+	role="tab"
 	data-tab-id={id}
 	class={['TabItem', isActive && `active`]}
 	onclick={() => tabContext.onTabSelect(id)}

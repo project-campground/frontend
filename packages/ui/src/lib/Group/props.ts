@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
-import type { ClassValue } from 'svelte/elements';
+import type { AriaAttributes, ClassValue } from 'svelte/elements';
 
-export default interface GroupProps {
+export default interface GroupProps extends AriaAttributes {
 	children?: Snippet;
 	class?: ClassValue;
 	wrap?: boolean;

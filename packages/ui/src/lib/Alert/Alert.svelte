@@ -6,6 +6,9 @@
 </script>
 
 <div
+	// To not have to reassign every single time
+	role="alert"
+	aria-live={color === "danger" ? "assertive" : "polite"}
 	{...attributes}
 	class={[
 		'Alert container',

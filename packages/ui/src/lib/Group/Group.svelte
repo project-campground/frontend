@@ -2,10 +2,10 @@
 	import { toSpacingPx } from '../../util/component.ts';
 	import type GroupProps from './props.ts';
 
-	const { children, gap, class: className, ...props }: GroupProps = $props();
+	const { children, gap, class: className, wrap, withMobile, mobileReversed, ...attributes }: GroupProps = $props();
 </script>
 
-<div style:--Group-gap={toSpacingPx(gap ?? 1)} class={['Group', props, className]}>
+<div {...attributes} style:--Group-gap={toSpacingPx(gap ?? 1)} class={['Group', { wrap, withMobile, mobileReversed }, className]}>
 	{@render children?.()}
 </div>
 

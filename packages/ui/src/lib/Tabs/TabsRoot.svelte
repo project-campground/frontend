@@ -28,7 +28,7 @@
 	});
 </script>
 
-<div
+<section
 	class="Tabs container"
 	style:--Tabs-tabCount={tabIds.length}
 	style:--Tabs-activeTabIndex={activeTabIndex}
@@ -46,7 +46,7 @@
 			{@render children()}
 		</div>
 	</div>
-</div>
+</section>
 
 <style lang="scss">
 	@use '../index.scss' as *;

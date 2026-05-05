@@ -2,7 +2,7 @@
 	import { capitalize } from '../../util/component.ts';
 	import type AlertProps from './props.ts';
 
-	const { children, icon, size, variant, color, ...attributes }: AlertProps = $props();
+	const { children, icon, size, color, ...attributes }: AlertProps = $props();
 </script>
 
 <div
@@ -13,7 +13,6 @@
 	class={[
 		'Alert container',
 		`size${capitalize(size ?? 'md')}`,
-		`variant${capitalize(variant ?? 'glow')}`,
 		`color${capitalize(color ?? 'primary')}`
 	]}
 >
@@ -50,28 +49,8 @@
 		}
 		@each $col in $color-types {
 			&.color#{capitalize($col)} {
-				&.variantGlow {
-					background: linear-gradient(to bottom right, var(--palette-#{$col}-500), var(--palette-#{$col}-secondary));
-					color: var(--palette-#{$col}-solidFore);
-					box-shadow: 0 0 8px var(--palette-#{$col}-500);
-				}
-				&.variantSolid {
-					background-color: var(--palette-#{$col}-solidBack);
-					color: var(--palette-#{$col}-solidFore);
-				}
-				&.variantOutlined {
-					color: var(--palette-#{$col}-outlinedFore);
-					background-color: var(--palette-#{$col}-outlinedBack, transparent);
-					border: solid 1px var(--palette-#{$col}-outlinedBorder, transparent);
-				}
-				&.variantPlain {
-					background-color: transparent;
-					color: var(--palette-#{$col}-plainFore);
-				}
-				&.variantSoft {
-					background-color: var(--palette-#{$col}-softBack);
-					color: var(--palette-#{$col}-softFore);
-				}
+				background-color: var(--palette-#{$col}-softBack);
+				color: var(--palette-#{$col}-softFore);
 			}
 		}
 	}

@@ -1,15 +1,7 @@
-<script module lang="ts">
-	export interface Props {
-		tabIds: TabId[];
-		tabs: Snippet<[TabId]>;
-		children: Snippet;
-	}
-</script>
-
 <script lang="ts">
-	import type { Snippet } from 'svelte';
 	import TabList from './TabList.svelte';
 	import { setTabContext, type TabId } from './context.ts';
+	import type { RootProps } from "./props.ts";
 
 	function onTabSelect(id: TabId) {
 		console.log('Tab selected', id);
@@ -17,7 +9,7 @@
 		list.scrollTo(list.clientWidth * tabIds.indexOf(id), 0);
 	}
 
-	const { tabIds, tabs, children }: Props = $props();
+	const { tabIds, tabs, children }: RootProps = $props();
 	let activeTab: TabId | null = $state(null);
 	let list: HTMLDivElement;
 
@@ -29,17 +21,17 @@
 </script>
 
 <section
-	class="Tabs container"
+	class="Tab TabsRoot container"
 	style:--Tabs-tabCount={tabIds.length}
 	style:--Tabs-activeTabIndex={activeTabIndex}
 >
 	<TabList>
 		{@render tabs(activeTab ?? tabIds[0] ?? '')}
 	</TabList>
-	<div class="Tabs listContainer">
+	<div class="Tabs TabsRoot listContainer">
 		<div
 			bind:this={list}
-			class="Tabs list"
+			class="Tabs TabsRoot list"
 			onscrollend={(ev) =>
 				(activeTab = tabIds[Math.round(list.scrollLeft / list.clientWidth)] ?? null)}
 		>
@@ -51,7 +43,7 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.Tabs {
+	.TabsRoot {
 		&.container {
 			width: 100%;
 		}

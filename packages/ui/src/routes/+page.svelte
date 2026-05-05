@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as Card from "$lib/Card/index.js";
 	import Avatar from '$lib/Avatar/Avatar.svelte';
 	import BrandLogo from '$lib/BrandLogo/BrandLogo.svelte';
 	import Button from '$lib/Button/Button.svelte';
@@ -13,6 +14,7 @@
 	import type { ComponentColor, ComponentSize, ComponentVariant } from '../types/attributes.ts';
 	import Alert from "$lib/Alert/Alert.svelte";
 	import IconLogo from "$lib/svg/IconLogo.svelte";
+	import { theme } from "$lib/index.js";
 
 	const gradientTextMaxColors = [
 		["#FF0000", "#00FF00", "#0000FF", "#FF00FF", "#FFFF00", "#00FFFF"],
@@ -26,10 +28,15 @@
 	const sizesWithNone: (ComponentSize | "none")[] = ['none', 'xs', 'sm', 'md', 'lg', 'xl'];
 	const variants: ComponentVariant[] = ['glow', 'solid', 'soft', 'outlined', 'plain'];
 	const colors: ComponentColor[] = ['primary', 'success', 'info', 'warning', 'danger'];
+
+	let lightTheme: boolean = $state(false);
+
+	$effect(() => theme.set(lightTheme ? "light" : "dark"));
 </script>
 
 <Main>
 	<div class="scrollable">
+		<input type="checkbox" bind:checked={lightTheme} />
 		<div class="padded">
 			<div
 				style:background-color="var(--palette-background-level1)"
@@ -79,6 +86,7 @@
 			<div style:font-weight="bolder" style:font-size="2.5rem">
 				{#each gradientMotions as motion}
 					<Group wrap>
+						<GradientText {motion}>0 colors {motion}</GradientText>
 						{#each gradientTextColors as colors}
 							<GradientText {colors} {motion}>{colors.length} colors {motion}</GradientText>
 						{/each}
@@ -111,15 +119,54 @@
 			{/snippet}
 			{#each sizes as size}
 				<h2>{size}</h2>
-				{#each variants as variant}
-					<Group wrap>
-						{#each colors as color}
-							<Alert icon={icon} {variant} {color} {size}>
-								{variant} {color} {size}
-							</Alert>
-						{/each}
-					</Group>
-				{/each}
+				<Group wrap>
+					{#each colors as color}
+						<Alert {icon} {color} {size}>
+							{color} {size}
+						</Alert>
+					{/each}
+				</Group>
+			{/each}
+			<h1>Card</h1>
+			{#each sizes as size}
+				<h2>{size}</h2>
+				<Group wrap alignVertically="start">
+					<Card.Root {size}>
+						<TextBlock>Example no content</TextBlock>
+					</Card.Root>
+					<Card.Root {size}>
+						<Card.Content>
+							<TextBlock>Example</TextBlock>
+						</Card.Content>
+					</Card.Root>
+					<Card.Root {size}>
+						<Card.Overflow>
+							<TextBlock>Example overflow</TextBlock>
+						</Card.Overflow>
+						<Card.Content>
+							<TextBlock>Example</TextBlock>
+						</Card.Content>
+					</Card.Root>
+					<Card.Root {size}>
+						<Card.Overflow>
+							<TextBlock>Example overflow</TextBlock>
+						</Card.Overflow>
+					</Card.Root>
+					<Card.Root {size}>
+						<Card.Content>
+							<TextBlock>Example content 1</TextBlock>
+						</Card.Content>
+						<Card.Content>
+							<TextBlock>Example content 2</TextBlock>
+						</Card.Content>
+						<Card.Content>
+							<TextBlock>Example content 3</TextBlock>
+						</Card.Content>
+						<Card.Content>
+							<TextBlock>Example content 4</TextBlock>
+						</Card.Content>
+					</Card.Root>
+				</Group>
 			{/each}
 		</div>
 	</div>

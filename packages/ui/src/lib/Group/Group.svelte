@@ -1,11 +1,29 @@
 <script lang="ts">
-	import { toSpacingPx } from '../../util/component.ts';
+	import { capitalize, toSpacingPx } from '../../util/component.ts';
 	import type GroupProps from './props.ts';
 
-	const { children, gap, class: className, wrap, withMobile, mobileReversed, ...attributes }: GroupProps = $props();
+	const {
+		children,
+		gap,
+		class: className,
+		wrap,
+		withMobile,
+		mobileReversed,
+		alignVertically,
+		...attributes
+	}: GroupProps = $props();
 </script>
 
-<div {...attributes} style:--Group-gap={toSpacingPx(gap ?? 1)} class={['Group', { wrap, withMobile, mobileReversed }, className]}>
+<div
+	{...attributes}
+	style:--Group-gap={toSpacingPx(gap ?? 1)}
+	class={[
+		'Group',
+		{ wrap, withMobile, mobileReversed },
+		alignVertically && `alignVertically${capitalize(alignVertically)}`,
+		className
+	]}
+>
 	{@render children?.()}
 </div>
 
@@ -15,10 +33,21 @@
 	.Group {
 		display: flex;
 		flex-direction: row;
-		animation: cubic-bezier(1, 0, 0, 1);
 		gap: var(--Group-gap);
 		&.wrap {
 			flex-wrap: wrap;
+		}
+		&.alignVerticallyStart {
+			align-items: start;
+		}
+		&.alignVerticallyCenter {
+			align-items: center;
+		}
+		&.alignVerticallyEnd {
+			align-items: end;
+		}
+		&.alignVerticallyStretch {
+			align-items: stretch;
 		}
 		@include tablet-down() {
 			&.withMobile {

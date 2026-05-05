@@ -26,7 +26,7 @@
 	--palette-#{$name}-secondary: #{$accent-secondary};
 
 	// Misc
-	--palette-#{$name}-t-500: #{$accent}CC;
+	--palette-#{$name}-500-t: #{$accent}CC;
 	--palette-#{$name}-border: #{$accent}0B;
 
 	// Solid
@@ -103,6 +103,8 @@
 		900: map.get($shades, get-shade-index(900, $light-mode)),
 		950: map.get($shades, get-shade-index(950, $light-mode))
 	);
+
+	--shadow-color: #0002;
 
 	--palette-foreground-level1: #{map.get($theme-shades, 100)};
 	--palette-foreground-level2: #{map.get($theme-shades, 200)};

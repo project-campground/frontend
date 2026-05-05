@@ -4,10 +4,10 @@
 	const { children }: ListProps = $props();
 </script>
 
-<div class="TabList container" role="tablist">
-	<div class="TabList root">
-		<div class="TabList highlight"></div>
-		<div class="TabList list">
+<div class="Tabs TabList container" role="tablist">
+	<div class="Tabs TabList root">
+		<div class="Tabs TabList highlight"></div>
+		<div class="Tabs TabList list">
 			{@render children()}
 		</div>
 	</div>
@@ -25,14 +25,16 @@
 		}
 		&.root {
 			position: relative;
-			overflow: hidden;
 			width: 100%;
 		}
 		&.highlight {
 			position: absolute;
 			z-index: 1;
+
 			background-color: var(--palette-background-level2);
 			border-radius: var(--radius-sm);
+			box-shadow: var(--shadow-sm);
+
 			width: calc(100% / var(--Tabs-tabCount));
 			top: 0;
 			bottom: 0;

@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use './dark.scss' as *;
+@use './light.scss' as *;
 @use '../css/color.scss' as *;
 @use '../css/border.scss' as *;
 @use '../css/font.scss' as *;
@@ -27,6 +28,9 @@
 	@each $size, $value in $radius-map {
 		--radius-#{$size}: #{$value};
 	}
+	@each $type, $value in $shadow-map {
+		--shadow-#{$type}: #{$value};
+	}
 }
 %font {
 	--font-body: #{$font-body};
@@ -38,8 +42,17 @@
 	@extend %code-highlight;
 	@extend %global-attributes;
 	@extend %font;
+	color: var(--palette-foreground-level3);
+
+	:global(::selection) {
+		background-color: var(--palette-primary-500-t);
+		color: var(--palette-primary-50);
+	}
 }
 
 :global([data-theme='dark']) {
 	@extend %dark-theme;
+}
+:global([data-theme='light']) {
+	@extend %light-theme;
 }

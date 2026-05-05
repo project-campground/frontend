@@ -20,7 +20,7 @@
 </script>
 
 <span
-	style:--GradientText-gradient={gradient?.join(', ') ?? 'white'}
+	style:--GradientText-gradient={gradient?.join(', ') || 'var(--palette-foreground-level1)'}
 	style:--GradientText-time="{time}s"
 	class={['GradientText', colors?.length && 'withColors', motion && `motion${capitalize(motion)}`]}
 >
@@ -100,7 +100,7 @@
 		}
 		&.motionRadial {
 			animation-name: motion-radial;
-			--GradientText-background: radial-gradient(circle at center in oklch, var(--GradientText-gradient)) text;
+			--GradientText-background: radial-gradient(circle at center in oklch, var(--GradientText-gradient));
 			background-size: 200% 1000%;
 		}
 	}

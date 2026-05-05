@@ -9,7 +9,7 @@
 <button
 	role="tab"
 	data-tab-id={id}
-	class={['TabItem', isActive && `active`]}
+	class={['Tabs TabItem', isActive && `active`]}
 	onclick={() => tabContext.onTabSelect(id)}
 >
 	{@render children()}

@@ -1,3 +1,3 @@
-export * from './types/index.ts';
+export * from './lib/types/index.ts';
 export * from './lib/index.ts';
-export { loremIpsum } from './util/sample.ts';
+export { loremIpsum } from './lib/util/sample.ts';

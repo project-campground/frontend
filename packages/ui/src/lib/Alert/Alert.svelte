@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize } from '../../util/component.ts';
+	import { capitalize } from '../util/component.ts';
 	import type AlertProps from './props.ts';
 
 	const { children, icon, size, color, ...attributes }: AlertProps = $props();

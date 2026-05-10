@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize } from '../../util/component.ts';
+	import { capitalize } from '../util/component.ts';
 	import SvgUse from '../svg/SvgUse.svelte';
 	import type BrandLogoProps from './props.ts';
 

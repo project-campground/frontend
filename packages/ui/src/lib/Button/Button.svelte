@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize } from '../../util/component.ts';
+	import { capitalize } from '../util/component.ts';
 	import type ButtonProps from './props.ts';
 
 	const { children, size, variant, color, ...attributes }: ButtonProps = $props();

@@ -1,5 +1,5 @@
 {
-	"include": ["**/*", "**/.server/**/*", "**/.client/**/*", "src"],
+	"include": ["**/*", "**/.server/**/*", "**/.client/**/*", "src", "../../packages/locale/src/lib/declarations.ts"],
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"rewriteRelativeImportExtensions": true,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize, toSpacingPx } from '../../util/component.ts';
+	import { capitalize, toSpacingPx } from '../util/component.ts';
 	import type ImageProps from './props.ts';
 
 	const { mw, mh, w, h, src, alt, radius, class: className, ...attributes }: ImageProps = $props();

@@ -4,7 +4,7 @@ import { mappifyMessages, type NestedMessages } from './util';
 export { IntlProvider } from './provider';
 
 export { default as FormattedMessageGlobal } from "./FormattedMessageGlobal";
-export { default as globalIntlDeclarations } from "./declarations";
+export { default as globalIntlDeclarations } from "../../../../packages/locale/src/lib/declarations";
 
 const localeCache: Record<string, NestedMessages> = {};
 

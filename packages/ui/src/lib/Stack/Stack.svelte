@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalizePhrase, toSpacingPx } from '../../util/component.ts';
+	import { capitalizePhrase, toSpacingPx } from '../util/component.ts';
 	import type GroupProps from './props.ts';
 
 	const {

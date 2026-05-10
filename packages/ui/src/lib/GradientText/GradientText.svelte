@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize } from '../../util/component.ts';
+	import { capitalize } from '../util/component.ts';
 	import type GradientTextProps from './props.ts';
 
 	const { children, colors, motion }: GradientTextProps = $props();

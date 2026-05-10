@@ -11,7 +11,7 @@
 	import SvgUse from '$lib/svg/SvgUse.svelte';
 	import * as Tabs from '$lib/Tabs/index.js';
 	import TextBlock from '$lib/TextBlock/TextBlock.svelte';
-	import type { ComponentColor, ComponentSize, ComponentVariant } from '../types/attributes.ts';
+	import type { ComponentColor, ComponentSize, ComponentVariant } from '../lib/types/attributes.ts';
 	import Alert from "$lib/Alert/Alert.svelte";
 	import IconLogo from "$lib/svg/IconLogo.svelte";
 	import { theme } from "$lib/index.js";

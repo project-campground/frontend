@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize } from '../../util/component.ts';
+	import { capitalize } from '../util/component.ts';
 	import type AvatarProps from './props.ts';
 
 	const { size, src, alt, children, ...attributes }: AvatarProps = $props();

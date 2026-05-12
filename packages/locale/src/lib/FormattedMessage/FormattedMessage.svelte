@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
     import type FormattedMessageProps from "./props.ts";
 	import { getLocaleContext } from "$lib/context.js";
 	import type { IntlShape } from "@formatjs/svelte-intl";
@@ -14,7 +13,6 @@
 
     const { id, defaultMessage, description, values }: FormattedMessageProps = $props();
     const formattedValue = $derived(intl!.formatMessage({ id, defaultMessage, description }, values));
-
 
     const arrayValue: DefaultMessageSegment[] = $derived(Array.isArray(formattedValue) ? formattedValue : [formattedValue]);
 </script>

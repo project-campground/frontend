@@ -30,11 +30,22 @@
 		"**/*.css"
 	],
 	"svelte": "./dist/index.js",
+	"sass": "./src/dist/index.scss",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
+			"svelte": "./dist/index.js",
+			"sass": "./dist/index.scss"
+		},
+		"./css/*.scss": {
+			"sass": "./dist/css/*.scss"
+		},
+		"./dist/*.scss": {
+			"sass": "./dist/*.scss"
+		},
+		"./dist/css/*.scss": {
+			"sass": "./dist/css/*.scss"
 		}
 	},
 	"dependencies": {

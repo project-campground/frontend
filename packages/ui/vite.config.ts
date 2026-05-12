@@ -9,7 +9,10 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [
 				{
-					src: path.resolve(__dirname, './node_modules/@fontsource/*/files/*'),
+					src: [
+						path.resolve(__dirname, './node_modules/@fontsource/*/files/*'),
+						path.resolve(__dirname, '../../node_modules/@fontsource/*/files/*'),
+					],
 					dest: 'files'
 				}
 			]

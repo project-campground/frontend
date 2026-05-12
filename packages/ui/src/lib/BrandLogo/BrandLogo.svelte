@@ -23,6 +23,7 @@
 		}
 		& > .wordmark {
 			font-size: $font-size;
+			letter-spacing: calc($font-size / 16);
 		}
 	}
 

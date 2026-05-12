@@ -167,7 +167,7 @@ export default function GlobalNavbar({ page, loadedCampsites: loaded }: Props) {
                             href="/discover"
                             isActive={page === "discover"}
                         >
-                            <FormattedMessageGlobal id="app.discovery" />
+                            <FormattedMessageGlobal id="site.discovery" />
                         </NavbarButton>
                     </GlobalNavbarCampsiteStack>
                 </>

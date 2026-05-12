@@ -31,6 +31,7 @@
 		position: relative;
 		border-radius: var(--Button-radius);
 		cursor: pointer;
+		align-items: center;
 		&:disabled {
 			cursor: default;
 			opacity: 0.65;
@@ -43,7 +44,7 @@
 				--Button-radius: var(--radius-#{$size});
 			}
 		}
-		@each $col in $color-types {
+		@each $col in $color-types-all {
 			&.color#{capitalize($col)} {
 				&.variantGlow {
 					background: linear-gradient(to bottom right, var(--palette-#{$col}-500), var(--palette-#{$col}-secondary));

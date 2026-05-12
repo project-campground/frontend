@@ -1,8 +1,14 @@
 {
   "name": "@campground/landing",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
+  "private": true,
+  "keywords": [
+    "campground"
+  ],
+  "description": "Campground UI components that are shared between all of Campground's websites.",
+  "author": "Team Campground",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -13,9 +19,18 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write ."
   },
+  "main": "./dist/index.ts",
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "svelte": "./dist/index.js",
+  "sass": "./src/lib/index.scss",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "@campground/locale": "1.0.0",
-    "@campground/ui": "file:../../packages/ui",
+    "@campground/ui": "1.0.0",
     "@fontsource/nunito-sans": "^5.2.6",
     "@fontsource/quicksand": "^5.2.9",
     "@formatjs/svelte-intl": "^1.1.6",

@@ -15,7 +15,12 @@ export {
 } from './GradientText/index.ts';
 export { default as Group, type GroupProps } from './Group/index.ts';
 export { default as Image, type ImageProps } from './Image/index.ts';
+export {
+	default as Link,
+	type LinkProps
+} from './Link/index.ts';
 export { default as Main } from './Main/Main.svelte';
+export { default as Para, type ParaProps } from './Para/index.ts';
 export * as Tabs from './Tabs/index.ts';
 export { default as TextBlock, type TextBlockProps } from './TextBlock/index.ts';
 export { theme, type Theme } from './theme/index.ts';

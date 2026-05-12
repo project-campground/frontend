@@ -1,9 +1,11 @@
 @use 'sass:list';
 
 $size-names: 'xs', 'sm', 'md', 'lg';
+$size-names-with-none: list.join(('none'), $size-names);
 $size-names-with-xl: list.append($size-names, 'xl');
 $variant: 'glow', 'soft', 'plain', 'outlined', 'solid';
 $color-types: 'primary', 'secondary', 'success', 'danger', 'warning', 'info';
+$color-types-all: 'primary', 'secondary', 'success', 'danger', 'warning', 'info', 'neutral';
 
 @mixin button-transform($hover: 1.025, $active: 0.925) {
     transition-duration: 0.2s;

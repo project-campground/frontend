@@ -27,11 +27,15 @@
 	@return string.to-upper-case(string.slice($string, 1, 1)) + string.slice($string, 2);
 }
 
-@function create-size-map($array) {
+@function create-size-map-using($array, $map-names) {
 	$returned-map: ();
 	@for $i from 1 through list.length($array) {
-		$name: if(sass($i > 4): string-repeat('x', $i - 4) + 'l' ; else: list.nth($size-names, $i));
+		$name: if(sass($i > 4): string-repeat('x', $i - 4) + 'l' ; else: list.nth($map-names, $i));
 		$returned-map: map.set($returned-map, $name, list.nth($array, $i));
 	}
 	@return $returned-map;
+}
+
+@function create-size-map($array) {
+	@return create-size-map-using($array, $size-names);
 }

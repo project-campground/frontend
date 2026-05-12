@@ -118,7 +118,7 @@ export default function CampsiteSettingsProfile({
                         </FormControl>
                     </FormSection>
                     <FormSection
-                        header={<FormattedMessageGlobal id="app.discovery" />}
+                        header={<FormattedMessageGlobal id="site.discovery" />}
                     >
                         <FormControl>
                             <FormLabel>

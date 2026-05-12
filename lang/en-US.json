@@ -55,7 +55,7 @@
     "description": "Content expires",
     "message": "Expires"
   },
-  "app.discovery": {
+  "site.discovery": {
     "description": "Campsite settings discovery section header",
     "message": "Discovery"
   },

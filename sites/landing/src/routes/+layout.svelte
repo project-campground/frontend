@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { Main } from '@campground/ui';
-	import Navbar from '$lib/navigation/Navbar.svelte';
+	import Navbar from '$lib/layout/Navbar.svelte';
 	import { setLocaleContext } from '@campground/locale';
 	import { globalAppLocale, localeFetcherStore } from '$lib/locale';
 	import { get } from 'svelte/store';
+	import Footer from "$lib/layout/Footer.svelte";
 
 	const { children }: { children?: Snippet } = $props();
 
@@ -15,9 +16,34 @@
 	setLocaleContext(globalAppLocale);
 </script>
 
-<Main>
-	<Navbar />
-	<article>
-		{@render children?.()}
-	</article>
+<Main --Layout-paddingX="256px">
+	<div class="Layout wrapper">
+		<Navbar />
+			<article class="Layout article">
+				<div class="Layout nav-padding"></div>
+				{@render children?.()}
+			</article>
+		<Footer />
+	</div>
 </Main>
+
+<style lang="scss">
+	:global(main#main) {
+		width: 100%;
+		min-height: 100%;
+		height: 100%;
+	}
+
+	.Layout {
+		&.wrapper {
+			overflow-y: auto;
+			height: auto;
+		}
+		&.nav-padding {
+			height: 72px;
+		}
+		&.article {
+			flex: 1;
+		}
+	}
+</style>

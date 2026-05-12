@@ -16,17 +16,26 @@
 <style lang="scss">
 	@use '../theme/index.scss';
 
+	:global(html),
+	:global(body) {
+		height: 100%;
+		overflow: hidden;
+	}
+
 	#main,
 	:global(html),
 	:global(body) {
 		width: 100%;
-		height: 100%;
-		overflow: hidden;
 		padding: 0;
 		margin: 0;
 	}
 	#main {
+		display: flex;
+		flex-direction: column;
+
 		background-color: var(--palette-background-body);
 		color: var(--palette-foreground-level2);
+		min-height: 100%;
+		overflow: auto;
 	}
 </style>

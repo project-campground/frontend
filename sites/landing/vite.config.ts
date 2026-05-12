@@ -4,6 +4,16 @@ import path from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
+	css: {
+		preprocessorOptions: {
+			scss: {
+				loadPaths: [
+					path.join(__dirname, "node_modules"),
+					path.join(__dirname, "../..", "node_modules")
+				],
+			}
+		}
+	},
 	plugins: [
 		sveltekit(),
 		viteStaticCopy({

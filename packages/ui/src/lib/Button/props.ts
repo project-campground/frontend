@@ -5,6 +5,6 @@ import type { HTMLButtonAttributes } from "svelte/elements";
 export default interface ButtonProps extends HTMLButtonAttributes {
 	children: Snippet;
 	size?: ComponentSize;
-	variant?: ComponentVariant;
+	variant?: ComponentVariant | 'inverted';
 	color?: ComponentColorAll;
 }

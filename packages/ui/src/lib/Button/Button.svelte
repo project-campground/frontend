@@ -85,6 +85,17 @@
 						background-color: var(--palette-#{$col}-solidBackActive);
 					}
 				}
+				&.variantInverted {
+					background-color: var(--palette-#{$col}-50);
+					color: var(--palette-#{$col}-500);
+					border: none;
+					&:not(:disabled):hover {
+						background-color: var(--palette-#{$col}-150);
+					}
+					&:not(:disabled):active {
+						background-color: var(--palette-#{$col}-250);
+					}
+				}
 				&.variantOutlined {
 					color: var(--palette-#{$col}-outlinedFore);
 					background-color: var(--palette-#{$col}-outlinedBack, transparent);

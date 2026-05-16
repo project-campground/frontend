@@ -15,6 +15,6 @@
 		"verbatimModuleSyntax": true,
 		"noUncheckedIndexedAccess": true,
 		"isolatedModules": true,
-		"erasableSyntaxOnly": true
+		"erasableSyntaxOnly": false
 	}
 }

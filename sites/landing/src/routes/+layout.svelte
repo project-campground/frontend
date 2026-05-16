@@ -19,10 +19,10 @@
 <Main --Layout-paddingX="256px">
 	<div class="Layout wrapper">
 		<Navbar />
-			<article class="Layout article">
-				<div class="Layout nav-padding"></div>
-				{@render children?.()}
-			</article>
+		<article class="Layout article">
+			<div class="Layout nav-padding"></div>
+			{@render children?.()}
+		</article>
 		<Footer />
 	</div>
 </Main>
@@ -36,8 +36,11 @@
 
 	.Layout {
 		&.wrapper {
+			display: flex;
+			flex-direction: column;
 			overflow-y: auto;
-			height: auto;
+			height: 100%;
+			scroll-behavior: smooth;
 		}
 		&.nav-padding {
 			height: 72px;

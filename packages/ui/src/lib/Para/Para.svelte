@@ -45,7 +45,7 @@
 			$fontSize: list.nth($level, 2);
 			&.levelH#{$index} {
 				color: var(--palette-foreground-level1);
-				font-family: var(--font-header);
+				font-family: var(--font-display);
 				font-size: var(--Para-fontSize, #{$fontSize});
 			}
 		}

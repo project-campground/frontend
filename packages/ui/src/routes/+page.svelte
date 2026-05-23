@@ -173,6 +173,9 @@
 </Main>
 
 <style lang="scss">
+	:global(#main) {
+		height: 100%;
+	}
 	.scrollable {
 		height: 100%;
 		overflow-y: auto;

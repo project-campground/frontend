@@ -36,7 +36,7 @@
 		background-color: var(--palette-neutral-solidBack);
 
 		font-weight: 900;
-		font-family: var(--font-header);
+		font-family: var(--font-display);
 
 		&.image {
 			@include size(var(--Avatar-size));

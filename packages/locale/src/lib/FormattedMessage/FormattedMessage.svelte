@@ -7,12 +7,10 @@
     // Custom reactive context
     const localeContext = getLocaleContext();
 
-    // Subscribe to the store/context value changes
-    let intl = $state<IntlShape<DefaultMessageSegment>>();
-    localeContext.subscribe((value) => intl = value);
+    let intl = $derived<IntlShape<DefaultMessageSegment>>($localeContext);
 
     const { id, defaultMessage, description, values }: FormattedMessageProps = $props();
-    const formattedValue = $derived(intl!.formatMessage({ id, defaultMessage, description }, values));
+    const formattedValue = $derived(intl.formatMessage({ id, defaultMessage, description }, values));
 
     const arrayValue: DefaultMessageSegment[] = $derived(Array.isArray(formattedValue) ? formattedValue : [formattedValue]);
 </script>

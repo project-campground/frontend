@@ -4,15 +4,22 @@
 @use '../css/color.scss' as *;
 @use '../css/border.scss' as *;
 @use '../css/font.scss' as *;
-@import '@fontsource/nunito-sans/500.css';
-@import '@fontsource/nunito-sans/500-italic.css';
+@import '@fontsource/nunito-sans/400.css';
+@import '@fontsource/nunito-sans/400-italic.css';
 @import '@fontsource/nunito-sans/700.css';
 @import '@fontsource/nunito-sans/700-italic.css';
 @import '@fontsource/nunito-sans/900.css';
 @import '@fontsource/nunito-sans/900-italic.css';
+
 @import '@fontsource/quicksand/400.css';
-@import '@fontsource/quicksand/500.css';
 @import '@fontsource/quicksand/700.css';
+
+@import '@fontsource/monaspace-neon/400.css';
+@import '@fontsource/monaspace-neon/400-italic.css';
+@import '@fontsource/monaspace-neon/700.css';
+@import '@fontsource/monaspace-neon/700-italic.css';
+@import '@fontsource/monaspace-neon/800.css';
+@import '@fontsource/monaspace-neon/800-italic.css';
 
 %code-highlight {
 	--palette-foreground-code: #{map.get($code-colors, 'markdown')};
@@ -33,17 +40,17 @@
 	}
 }
 %font {
-	--font-body: #{$font-body};
-	--font-header: #{$font-header};
-	font-family: $font-body;
+	--font-body: #{quoted-font($font-body)};
+	--font-display: #{quoted-font($font-display)};
+	--font-monospace: #{quoted-font($font-monospace)};
 }
 
-:global([data-theme]) {
+:global(main[data-theme]) {
 	@extend %code-highlight;
 	@extend %global-attributes;
 	@extend %font;
+	font-family: var(--font-body);
 	color: var(--palette-foreground-level3);
-
 	:global(::selection) {
 		background-color: var(--palette-primary-500-t);
 		color: var(--palette-primary-50);

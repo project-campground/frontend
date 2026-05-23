@@ -4,4 +4,4 @@
 	const props: SvgUseNonIdProps = $props();
 </script>
 
-<SvgUse id="logo" {...props} />
+<SvgUse id="wordmark" {...props} />

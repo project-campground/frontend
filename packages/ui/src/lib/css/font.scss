@@ -1,5 +1,16 @@
+@use 'sass:list';
+
 $font-fallback:
 	'Montserrat', 'Public Sans', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
 	'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 $font-body: 'Nunito Sans', $font-fallback;
-$font-header: 'Quicksand', 'Nunito Sans', $font-fallback;
+$font-display: 'Quicksand', 'Nunito Sans', $font-fallback;
+$font-monospace: 'Monaspace Neon', 'Courier New', Courier, monospace;
+
+@function quoted-font($str-list) {
+	$quoted-list: ();
+	@each $str in $str-list {
+		$quoted-list: list.append($quoted-list, '\'#{$str}\'', 'comma');
+	}
+	@return $quoted-list;
+}

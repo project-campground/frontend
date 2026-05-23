@@ -2,7 +2,7 @@
 	import { createIntersectionObservable, Group, Para } from "@campground/ui";
 	import type { Snippet } from "svelte";
 
-    const { id, subtitle, title, children }: { id: string; subtitle: Snippet; title: string; children: Snippet; } = $props();
+    const { id, subtitle, title, children }: { id: string; subtitle: Snippet; title: Snippet; children: Snippet; } = $props();
 </script>
 
 <section class="FeatureItem container" {...createIntersectionObservable(id)}>
@@ -12,7 +12,7 @@
         </Group>
     </Para>
     <Para level="h1" class="FeatureItem title" tMargin="md" bMargin="sm" letterSpacing={2}>
-        {title}
+        {@render title()}
     </Para>
     <Para class="FeatureItem description">
         {@render children()}

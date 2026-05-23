@@ -19,7 +19,9 @@
 	</article>
 	<aside class="FeatureList side">
 		<div class="FeatureList side-sticky">
-			{@render side(currentObservedItem)}
+			<div class="FeatureList side-items">
+				{@render side(currentObservedItem)}
+			</div>
 		</div>
 	</aside>
 </section>
@@ -29,6 +31,7 @@
 		&.container {
 			display: grid;
 			grid-template-columns: 5fr 4fr;
+			gap: 32px;
 		}
 		&.list {
 			display: flex;
@@ -38,6 +41,11 @@
 			position: sticky;
 			top: 128px;
 			height: calc(100vh - 128px * 2);
+		}
+		&.side-items {
+			position: relative;
+			height: 100%;
+			width: 100%;
 		}
 	}
 </style>

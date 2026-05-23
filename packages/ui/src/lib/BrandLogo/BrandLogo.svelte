@@ -10,23 +10,27 @@
 	<span class="BrandLogo icon">
 		<SvgUse id="logo" size={0} />
 	</span>
-	<span class="BrandLogo wordmark"> Campground </span>
+	<span class="BrandLogo wordmark">
+		<SvgUse id="wordmark" size={0} />
+	</span>
 </div>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	@mixin brand-logo-size($icon-size, $font-size) {
+	@mixin brand-logo-size($icon-size) {
+		& > .wordmark {
+			margin-top: #{calc($icon-size / 16)};
+		}
 		& > .icon > :global(svg) {
 			--SvgUse-width: #{$icon-size};
 			--SvgUse-height: #{$icon-size};
 		}
-		& > .wordmark {
-			font-size: $font-size;
-			letter-spacing: calc($font-size / 16);
+		& > .wordmark > :global(svg) {
+			--SvgUse-width: #{calc($icon-size * 448 / 128)};
+			--SvgUse-height: #{$icon-size};
 		}
 	}
-
 	.container {
 		display: flex;
 		flex-direction: row;
@@ -35,22 +39,22 @@
 
 		color: var(--palette-primary-500);
 		font-weight: 700;
-		font-family: var(--font-header);
+		font-family: var(--font-brand);
 
 		&.sizeXs {
-			@include brand-logo-size(2.5rem, 1rem);
+			@include brand-logo-size(2.5rem);
 		}
 		&.sizeSm {
-			@include brand-logo-size(3rem, 1.25rem);
+			@include brand-logo-size(3rem);
 		}
 		&.sizeMd {
-			@include brand-logo-size(3.5rem, 1.5rem);
+			@include brand-logo-size(3.5rem);
 		}
 		&.sizeLg {
-			@include brand-logo-size(4.5rem, 2rem);
+			@include brand-logo-size(4.5rem);
 		}
 		&.sizeXl {
-			@include brand-logo-size(7.5rem, 4rem);
+			@include brand-logo-size(7.5rem);
 		}
 	}
 </style>

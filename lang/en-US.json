@@ -55,10 +55,6 @@
     "description": "Content expires",
     "message": "Expires"
   },
-  "site.discovery": {
-    "description": "Campsite settings discovery section header",
-    "message": "Discovery"
-  },
   "app.invites": {
     "description": "Invite menu item in campsite settings",
     "message": "Invites"
@@ -359,6 +355,10 @@
     "description": "Delete content",
     "message": "Delete"
   },
+  "common.download": {
+    "description": "Download content",
+    "message": "Download"
+  },
   "common.edit": {
     "description": "Edit content",
     "message": "Edit"
@@ -366,6 +366,10 @@
   "common.infinite": {
     "description": "Infinite amount of something. Used in invite creation placeholder when assigning the amount of times invite can be used",
     "message": "Infinite"
+  },
+  "common.upload": {
+    "description": "Upload content",
+    "message": "Upload"
   },
   "form.confirmDelete": {
     "description": "Button for confirming deletion of content",
@@ -459,8 +463,144 @@
     "description": "Display name of the user",
     "message": "Username"
   },
+  "landing.docs": {
+    "description": "The docs page in landing.",
+    "message": "Docs"
+  },
   "landing.features": {
     "description": "The features page in landing.",
     "message": "Features"
+  },
+  "landing.features.bonfires": {
+    "description": "Bonfires section in landing",
+    "message": "Bonfires"
+  },
+  "landing.features.bonfires.desc": {
+    "description": "Bonfires section description in landing",
+    "message": "May also be known as groups or sub-servers, bonfires are guild-like group of tents/channels with their own icons and banners."
+  },
+  "landing.features.bonfires.title": {
+    "description": "Customization section title in landing",
+    "message": "Customize your own experience"
+  },
+  "landing.features.customization": {
+    "description": "Customization section in landing",
+    "message": "Customization"
+  },
+  "landing.features.customization.desc": {
+    "description": "Customization section description in landing",
+    "message": "Change the way Campground application looks with highly customizable themes with CSS and your own experience with add-ons. Do not like how app looks? Change it!"
+  },
+  "landing.features.encryption": {
+    "description": "Encryption section in landing",
+    "message": "Encryption"
+  },
+  "landing.features.encryption.desc": {
+    "description": "Encryption section description in landing",
+    "message": "Secure your messages with end-to-end encryption for direct messages. Feel safe with Campground."
+  },
+  "landing.features.instances": {
+    "description": "Instances section in landing",
+    "message": "Instances"
+  },
+  "landing.features.instances.desc": {
+    "description": "Instances section description in landing",
+    "message": "Host your own instance of Campground and manage YOUR OWN content without restriction of others. No one else, just you and your communities."
+  },
+  "landing.features.lists": {
+    "description": "Lists section in landing",
+    "message": "Lists"
+  },
+  "landing.features.lists.desc": {
+    "description": "Lists section description in landing",
+    "message": "\"Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more."
+  },
+  "landing.features.openSource": {
+    "description": "Open-source section in landing",
+    "message": "Open Source"
+  },
+  "landing.features.openSource.title": {
+    "description": "Open-source section title in landing",
+    "message": "Open for everyone & Copyleft"
+  },
+  "landing.features.profiles": {
+    "description": "Profiles section in landing",
+    "message": "Profiles"
+  },
+  "landing.features.profiles.desc": {
+    "description": "Bonfires section description in landing",
+    "message": "Create posts and media, discover others, link game and more with Campground''s highly customizable profiles."
+  },
+  "landing.inBrowser": {
+    "description": "Open Campground in browser button",
+    "message": "Open in Browser"
+  },
+  "landing.try": {
+    "description": "Try Campground button at the bottom of landing page",
+    "message": "Try Campground now!"
+  },
+  "landing.try.desc": {
+    "description": "Try Campground description at the bottom of landing page",
+    "message": "You can use Campground right now!"
+  },
+  "landing.try.title": {
+    "description": "Try Campground title at the bottom of landing page",
+    "message": "What are you waiting for?"
+  },
+  "site.api": {
+    "description": "Campground API header",
+    "message": "API"
+  },
+  "site.campground": {
+    "description": "Campground header. This can be used to convert 'Campground' to local script",
+    "message": "Campground"
+  },
+  "site.campsites": {
+    "description": "Campsite list header/link",
+    "message": "Campsites"
+  },
+  "site.desc": {
+    "description": "Campsite motto subtitle",
+    "message": "Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!"
+  },
+  "site.discovery": {
+    "description": "Campsite settings discovery section header",
+    "message": "Discovery"
+  },
+  "site.docs": {
+    "description": "Documents header abbreviated",
+    "message": "Docs"
+  },
+  "site.instances": {
+    "description": "Campground instances",
+    "message": "Instances"
+  },
+  "site.motto": {
+    "description": "Campsite motto",
+    "message": "Gather around the fire, friends"
+  },
+  "site.people": {
+    "description": "People list header/link",
+    "message": "People"
+  },
+  "site.social": {
+    "description": "Socials header",
+    "message": "Socials"
+  },
+  "site.social.atprotocol": {
+    "description": "ATProtocol protocol header",
+    "message": "ATProtocol"
+  },
+  "site.social.bsky": {
+    "description": "Bluesky social header",
+    "message": "Bluesky"
+  },
+  "site.social.discord": {
+    "description": "Discord social header",
+    "message": "Discord"
+  },
+  "site.social.github": {
+    "description": "GitHub social header",
+    "message": "GitHub"
   }
 }

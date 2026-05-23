@@ -233,7 +233,8 @@
 				{/snippet}
 				<FormattedMessage {...locale['landing.features.bonfires.desc']} />
 			</FeatureItem>
-			<FeatureItem id="lists">
+			<!-- Not implemented -->
+			<!-- <FeatureItem id="lists">
 				{#snippet title()}
 					<FormattedMessage {...locale['landing.features.lists.title']} />
 				{/snippet}
@@ -244,8 +245,8 @@
 					</span>
 				{/snippet}
 				<FormattedMessage {...locale['landing.features.lists.desc']} />
-			</FeatureItem>
-			<FeatureItem id="encryption">
+			</FeatureItem> -->
+			<!-- <FeatureItem id="encryption">
 				{#snippet title()}
 					<FormattedMessage {...locale['landing.features.encryption.title']} />
 				{/snippet}
@@ -256,7 +257,7 @@
 					</span>
 				{/snippet}
 				<FormattedMessage {...locale['landing.features.encryption.desc']} />
-			</FeatureItem>
+			</FeatureItem> -->
 			<FeatureItem id="instances">
 				{#snippet title()}
 					<FormattedMessage {...locale['landing.features.instances.title']} />

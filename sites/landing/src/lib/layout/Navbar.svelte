@@ -16,15 +16,17 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
 	import { BrandLogo, Button } from '@campground/ui';
 	import { IconArrowRight } from '@tabler/icons-svelte';
+
+	const localeContext = getLocaleContext();
 </script>
 
 <nav class="Navbar container">
 	<ul class="Navbar list">
 		<li class="Navbar item brand">
-			<a href="/" class="Navbar button">
+			<a href={`/${$localeContext.locale}`} class="Navbar button">
 				<BrandLogo size="md" />
 			</a>
 		</li>

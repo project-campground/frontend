@@ -143,8 +143,6 @@
 		IconBrandDebian,
 		IconBrandOpenSourceFilled,
 		IconCampfireFilled,
-		IconCheckFilled,
-		IconLockFilled,
 		IconPaletteFilled,
 		IconServer2
 	} from '@tabler/icons-svelte';
@@ -152,6 +150,7 @@
 	import FeatureOpenSource from "$lib/landing/features/FeatureOpenSource.svelte";
 
 	const { os } = UAParser(navigator.userAgent);
+	console.log(UAParser);
 </script>
 
 <svelte:head>
@@ -233,31 +232,6 @@
 				{/snippet}
 				<FormattedMessage {...locale['landing.features.bonfires.desc']} />
 			</FeatureItem>
-			<!-- Not implemented -->
-			<!-- <FeatureItem id="lists">
-				{#snippet title()}
-					<FormattedMessage {...locale['landing.features.lists.title']} />
-				{/snippet}
-				{#snippet subtitle()}
-					<IconCheckFilled />
-					<span>
-						<FormattedMessage {...locale['landing.features.lists']} />
-					</span>
-				{/snippet}
-				<FormattedMessage {...locale['landing.features.lists.desc']} />
-			</FeatureItem> -->
-			<!-- <FeatureItem id="encryption">
-				{#snippet title()}
-					<FormattedMessage {...locale['landing.features.encryption.title']} />
-				{/snippet}
-				{#snippet subtitle()}
-					<IconLockFilled />
-					<span>
-						<FormattedMessage {...locale['landing.features.encryption']} />
-					</span>
-				{/snippet}
-				<FormattedMessage {...locale['landing.features.encryption.desc']} />
-			</FeatureItem> -->
 			<FeatureItem id="instances">
 				{#snippet title()}
 					<FormattedMessage {...locale['landing.features.instances.title']} />

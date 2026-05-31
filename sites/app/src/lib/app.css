@@ -1,12 +1,3 @@
-@import "@fontsource/nunito-sans/500.css";
-@import "@fontsource/nunito-sans/500-italic.css";
-@import "@fontsource/nunito-sans/700.css";
-@import "@fontsource/nunito-sans/700-italic.css";
-@import "@fontsource/nunito-sans/900.css";
-@import "@fontsource/nunito-sans/900-italic.css";
-@import "@fontsource/quicksand/400.css";
-@import "@fontsource/quicksand/500.css";
-@import "@fontsource/quicksand/700.css";
 @import "./custom.css";
 
 html, body, #root {

@@ -5,7 +5,7 @@ import type { TentCategoryView, TentViewBasic } from "types/campground/tent";
 import ContentCategory from "~/components/content/ContentCategory";
 import { useRightClick } from "~/context/mouse";
 import type { CategorySettingsPage } from "~/layout/category/CategorySettingsModal";
-import { useCampsiteContext } from "../../routes/_global._campsite/context";
+import { useCampsiteContext } from "../../../routes/_global._campsite/context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { useDraggable, useDroppable } from "~/draggable";
 import { FormattedMessage } from "react-intl";

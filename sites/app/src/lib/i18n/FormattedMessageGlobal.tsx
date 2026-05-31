@@ -1,5 +1,5 @@
 import { FormattedMessage } from "react-intl";
-import globalIntlDeclarations from "../../../../packages/locale/src/lib/declarations";
+import globalIntlDeclarations from "../../../../../packages/locale/src/lib/declarations";
 
 type Props<T extends keyof typeof globalIntlDeclarations> = {
     id: T;

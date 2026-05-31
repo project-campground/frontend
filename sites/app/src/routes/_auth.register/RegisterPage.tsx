@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, Stack, Typography, FormControl, FormLabel, Alert } from "@mui/joy";
 import { IconAt, IconWorld } from "@tabler/icons-react";
 import { FormattedMessage } from "react-intl";
-import Form from "../../components/form/Form";
+import Form from "../../lib/components/form/Form";
 import { FormattedMessageGlobal } from "~/i18n";
 import FormSection from "~/components/form/FormSection";
 import FormSubmit from "~/components/form/FormSubmit";

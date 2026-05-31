@@ -9,15 +9,15 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { IntlProvider } from './i18n/provider';
+import { IntlProvider } from './lib/i18n/provider';
 // import { SessionProvider } from './session';
 import { Box, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { SvgDefs, SvgUse, theme } from "@campground/ui";
-import { SessionProvider } from "./context/session";
-import { SnackbarContextProvider } from "./context/snackbar";
-import { ContextSuiteProvider } from "./context/context-suite";
-import { RightClickProvider } from "./context/mouse";
-import { KeyContext } from "./context/key";
+import { SessionProvider } from "./lib/context/session";
+import { SnackbarContextProvider } from "./lib/context/snackbar";
+import { ContextSuiteProvider } from "./lib/context/context-suite";
+import { RightClickProvider } from "./lib/context/mouse";
+import { KeyContext } from "./lib/context/key";
 import { useState, type KeyboardEventHandler } from "react";
 
 export const links: Route.LinksFunction = () => [

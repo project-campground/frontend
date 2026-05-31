@@ -10,7 +10,7 @@ import {
     type AccountContextAuthenticated,
 } from "~/context/account";
 import ProfilePostCreator from "../_global.profile.$id/ProfilePostCreator";
-import { ThreadLineItem } from "../../components/ThreadLine";
+import { ThreadLineItem } from "../../lib/components/ThreadLine";
 
 type RepliesProps = {
     post: ProfilePostView;

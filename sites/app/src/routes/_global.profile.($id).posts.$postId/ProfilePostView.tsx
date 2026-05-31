@@ -10,7 +10,7 @@ import PagePlaceholder, {
 } from "~/components/pages/PagePlaceholder";
 import { useSession } from "~/context/session";
 import { useAccount } from "~/context/account";
-import { ThreadLineWrapper } from "../../components/ThreadLine";
+import { ThreadLineWrapper } from "../../lib/components/ThreadLine";
 import { useBackendApi } from "~/context/api";
 import type { HttpResponseError } from "~/api/http/HTTPResponse";
 import { useSnackbars } from "~/context/snackbar";

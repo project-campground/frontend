@@ -1,10 +1,10 @@
-import supportedLocales from '../../supportedLocales.json';
+import supportedLocales from '../../../supportedLocales.json';
 import { mappifyMessages, type NestedMessages } from './util';
 
 export { IntlProvider } from './provider';
 
 export { default as FormattedMessageGlobal } from "./FormattedMessageGlobal";
-export { default as globalIntlDeclarations } from "../../../../packages/locale/src/lib/declarations";
+export { default as globalIntlDeclarations } from "../../../../../packages/locale/src/lib/declarations";
 
 const localeCache: Record<string, NestedMessages> = {};
 

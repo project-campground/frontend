@@ -26,7 +26,7 @@ import TentMessage, {
     TentMessageSkeleton1,
     TentMessageSkeleton2,
 } from "~/components/tents/TentMessage";
-import ContentDeleteModal from "../../layout/ContentDeleteModal";
+import ContentDeleteModal from "../../lib/layout/ContentDeleteModal";
 import {
     IconCircleXFilled,
     IconExclamationCircleFilled,

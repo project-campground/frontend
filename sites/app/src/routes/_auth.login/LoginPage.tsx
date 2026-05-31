@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
-import Form from "../../components/form/Form";
+import Form from "../../lib/components/form/Form";
 import { Alert, Link, FormControl, FormLabel, FormHelperText } from "@mui/joy";
 import { useSession } from "~/context/session";
 import { IconArrowRight, IconExclamationCircleFilled } from "@tabler/icons-react";

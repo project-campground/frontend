@@ -5,7 +5,7 @@ import type { TentCategoryView, TentView } from "types/campground/tent"
 import TentIcon from "~/components/tents/TentIcon";
 import { useRightClick } from "~/context/mouse";
 import type { TentSettingsPage } from "~/layout/tent/TentSettingsModal";
-import { useCampsiteContext } from "../../routes/_global._campsite/context";
+import { useCampsiteContext } from "../../../routes/_global._campsite/context";
 import { GeneralPermissionConsts } from "~/util/permissions";
 import { PseudoTentType } from "~/util/pseudoTents";
 import { useDraggable, useDroppable } from "~/draggable";

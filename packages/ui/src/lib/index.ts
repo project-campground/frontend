@@ -28,3 +28,4 @@ export * as Svg from './svg/index.ts';
 export * as Tabs from './Tabs/index.ts';
 export { default as TextBlock, type TextBlockProps } from './TextBlock/index.ts';
 export { theme, type Theme } from './theme/index.ts';
+export type * from './types/attributes.ts';

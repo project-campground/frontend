@@ -91,12 +91,18 @@
 </footer>
 
 <style lang="scss">
+	@use '@campground/ui' as *;
+
 	.Footer {
 		&.container {
 			display: grid;
 			grid-template-columns: 1.5fr 1fr;
 			padding: 16px var(--Layout-paddingX);
 			gap: 64px;
+			@include desktop-sm-down {
+				gap: 8px;
+				grid-template-columns: 1fr;
+			}
 		}
 		&.brand {
 			flex: 1;

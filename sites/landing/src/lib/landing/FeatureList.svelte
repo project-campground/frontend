@@ -14,9 +14,7 @@
 </script>
 
 <section class="FeatureList container" {@attach observeIntersection({ store: observedItem, threshold: 0.5 })}>
-	<article class="FeatureList list">
-		{@render children()}
-	</article>
+	{@render children()}
 	<aside class="FeatureList side">
 		<div class="FeatureList side-sticky">
 			<div class="FeatureList side-items">
@@ -27,25 +25,38 @@
 </section>
 
 <style lang="scss">
-	.FeatureList {
-		&.container {
-			display: grid;
-			grid-template-columns: 5fr 4fr;
-			gap: 32px;
+	@use '@campground/ui' as *;
+
+	.container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: repeat(4, 1fr);
+		gap: 0 32px;
+		padding: 0 var(--Layout-paddingX);
+	}
+	.side {
+		grid-row: 1 / -1;
+		grid-column: 2;
+		z-index: 5;
+		padding-top: 64px;
+	}
+	.side-sticky {
+		position: sticky;
+		top: 128px;
+		height: calc(max(100vh, 512px));
+	}
+	.side-items {
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+
+	@include tablet-down {
+		.container {
+			grid-template-columns: 1fr;
 		}
-		&.list {
-			display: flex;
-			flex-direction: column;
-		}
-		&.side-sticky {
-			position: sticky;
-			top: 128px;
-			height: calc(100vh - 128px * 2);
-		}
-		&.side-items {
-			position: relative;
-			height: 100%;
-			width: 100%;
+		.side {
+			display: none;
 		}
 	}
 </style>

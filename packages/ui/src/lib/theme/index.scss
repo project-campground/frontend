@@ -5,23 +5,6 @@
 @use '../css/border.scss' as *;
 @use '../css/font.scss' as *;
 
-@import '@fontsource/nunito-sans/400.css';
-@import '@fontsource/nunito-sans/400-italic.css';
-@import '@fontsource/nunito-sans/700.css';
-@import '@fontsource/nunito-sans/700-italic.css';
-@import '@fontsource/nunito-sans/900.css';
-@import '@fontsource/nunito-sans/900-italic.css';
-
-@import '@fontsource/quicksand/400.css';
-@import '@fontsource/quicksand/700.css';
-
-@import '@fontsource/monaspace-neon/400.css';
-@import '@fontsource/monaspace-neon/400-italic.css';
-@import '@fontsource/monaspace-neon/700.css';
-@import '@fontsource/monaspace-neon/700-italic.css';
-@import '@fontsource/monaspace-neon/800.css';
-@import '@fontsource/monaspace-neon/800-italic.css';
-
 %code-highlight {
 	--palette-foreground-code: #{map.get($code-colors, 'markdown')};
 	--palette-foreground-code-keyword: #{map.get($code-colors, 'keyword')};

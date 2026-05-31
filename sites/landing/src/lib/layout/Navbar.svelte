@@ -64,7 +64,7 @@
 </nav>
 
 <style lang="scss">
-	@use '@campground/ui/dist/index.scss' as *;
+	@use '@campground/ui' as *;
 
 	.Navbar {
 		&.container {
@@ -87,7 +87,7 @@
 			&::after {
 				content: '';
 				position: absolute;
-				background: linear-gradient(to bottom, var(--palette-background-body) 50%, transparent 150%);
+				background: linear-gradient(to bottom, var(--palette-background-body) 50%, transparent 100%);
 				top: -50px;
 				left: 0;
 				right: 0;

@@ -169,131 +169,136 @@
 </svelte:head>
 
 <div class="Index container">
-	<div class="Index padded">
-		<section class="Index initial" id="try-campground">
-			<div class="Index initial-left">
-				<div class="Index motto">
-					<Para level="h1" fontSize={3} letterSpacing={2.5}>
-						<FormattedMessageGlobal id="site.motto" />
-					</Para>
-					<Para level="paragraph" fontSize={1.25} letterSpacing={0.5} tMargin="md" align="justify">
-						<FormattedMessageGlobal id="site.desc" />
-					</Para>
-				</div>
-				<div class="Index buttons">
-					<a href="/download">
-						<Button size="lg">
-							<IconBrandDebian />
-							<FormattedMessageGlobal id="common.download" />
-							<span class="Index buttons-label">({os.name})</span>
-						</Button>
-					</a>
-					<a href="/app">
-						<Button size="lg" variant="outlined">
-							<FormattedMessage {...locale['landing.inBrowser']} />
-						</Button>
-					</a>
-				</div>
+	<section class="Index initial" id="try-campground">
+		<div class="Index initial-left">
+			<div class="Index motto">
+				<Para level="h1" fontSize={3.5} letterSpacing={2.5}>
+					<FormattedMessageGlobal id="site.motto" />
+				</Para>
+				<Para level="paragraph" fontSize={1.5} letterSpacing={0.5} tMargin="md" align="justify">
+					<FormattedMessageGlobal id="site.desc" />
+				</Para>
 			</div>
-			<aside class="Index initial-right"></aside>
-		</section>
-		<FeatureList>
-			{#snippet side(currentId)}
-				<FeatureDisplay id="openSource" {currentId}>
-					<FeatureOpenSource />
-				</FeatureDisplay>
-				<FeatureDisplay id="bonfires" {currentId}>Bonfires</FeatureDisplay>
-				<FeatureDisplay id="lists" {currentId}>Lists</FeatureDisplay>
-				<FeatureDisplay id="encryption" {currentId}>Encryption</FeatureDisplay>
-				<FeatureDisplay id="instances" {currentId}>Instances</FeatureDisplay>
-				<FeatureDisplay id="customization" {currentId}>Customization</FeatureDisplay>
+			<div class="Index buttons">
+				<a href="/download">
+					<Button size="lg">
+						<IconBrandDebian />
+						<FormattedMessageGlobal id="common.download" />
+						<span class="Index buttons-label">({os.name})</span>
+					</Button>
+				</a>
+				<a href="/app">
+					<Button size="lg" variant="outlined">
+						<FormattedMessage {...locale['landing.inBrowser']} />
+					</Button>
+				</a>
+			</div>
+		</div>
+		<aside class="Index initial-right"></aside>
+	</section>
+	<FeatureList>
+		{#snippet side(currentId)}
+			<FeatureDisplay id="openSource" {currentId}>
+				<FeatureOpenSource />
+			</FeatureDisplay>
+			<FeatureDisplay id="bonfires" {currentId}>Bonfires</FeatureDisplay>
+			<FeatureDisplay id="lists" {currentId}>Lists</FeatureDisplay>
+			<FeatureDisplay id="encryption" {currentId}>Encryption</FeatureDisplay>
+			<FeatureDisplay id="instances" {currentId}>Instances</FeatureDisplay>
+			<FeatureDisplay id="customization" {currentId}>Customization</FeatureDisplay>
+		{/snippet}
+		<FeatureItem id="openSource" color="success">
+			{#snippet title()}
+				<FormattedMessage {...locale['landing.features.openSource.title']} />
 			{/snippet}
-			<FeatureItem id="openSource">
-				{#snippet title()}
-					<FormattedMessage {...locale['landing.features.openSource.title']} />
-				{/snippet}
-				{#snippet subtitle()}
-					<IconBrandOpenSourceFilled />
-					<span>
-						<FormattedMessage {...locale['landing.features.openSource']} />
-					</span>
-				{/snippet}
-				<FormattedMessage {...locale['landing.features.openSource.desc']} />
-			</FeatureItem>
-			<FeatureItem id="bonfires">
-				{#snippet title()}
-					<FormattedMessage {...locale['landing.features.bonfires.title']} />
-				{/snippet}
-				{#snippet subtitle()}
-					<IconCampfireFilled />
-					<span>
-						<FormattedMessage {...locale['landing.features.bonfires']} />
-					</span>
-				{/snippet}
-				<FormattedMessage {...locale['landing.features.bonfires.desc']} />
-			</FeatureItem>
-			<FeatureItem id="instances">
-				{#snippet title()}
-					<FormattedMessage {...locale['landing.features.instances.title']} />
-				{/snippet}
-				{#snippet subtitle()}
-					<IconServer2 />
-					<span>
-						<FormattedMessage {...locale['landing.features.instances']} />
-					</span>
-				{/snippet}
-				<FormattedMessage {...locale['landing.features.instances.desc']} />
-			</FeatureItem>
-			<FeatureItem id="customization">
-				{#snippet title()}
-					<FormattedMessage {...locale['landing.features.customization.title']} />
-				{/snippet}
-				{#snippet subtitle()}
-					<IconPaletteFilled />
-					<span>
-						<FormattedMessage {...locale['landing.features.customization']} />
-					</span>
-				{/snippet}
-				<FormattedMessage {...locale['landing.features.customization.desc']} />
-			</FeatureItem>
-		</FeatureList>
-	</div>
+			{#snippet subtitle()}
+				<IconBrandOpenSourceFilled />
+				<span>
+					<FormattedMessage {...locale['landing.features.openSource']} />
+				</span>
+			{/snippet}
+			<FormattedMessage {...locale['landing.features.openSource.desc']} />
+		</FeatureItem>
+		<FeatureItem id="bonfires" color="info">
+			{#snippet title()}
+				<FormattedMessage {...locale['landing.features.bonfires.title']} />
+			{/snippet}
+			{#snippet subtitle()}
+				<IconCampfireFilled />
+				<span>
+					<FormattedMessage {...locale['landing.features.bonfires']} />
+				</span>
+			{/snippet}
+			<FormattedMessage {...locale['landing.features.bonfires.desc']} />
+		</FeatureItem>
+		<FeatureItem id="instances" color="primary">
+			{#snippet title()}
+				<FormattedMessage {...locale['landing.features.instances.title']} />
+			{/snippet}
+			{#snippet subtitle()}
+				<IconServer2 />
+				<span>
+					<FormattedMessage {...locale['landing.features.instances']} />
+				</span>
+			{/snippet}
+			<FormattedMessage {...locale['landing.features.instances.desc']} />
+		</FeatureItem>
+		<FeatureItem id="customization" color="success">
+			{#snippet title()}
+				<FormattedMessage {...locale['landing.features.customization.title']} />
+			{/snippet}
+			{#snippet subtitle()}
+				<IconPaletteFilled />
+				<span>
+					<FormattedMessage {...locale['landing.features.customization']} />
+				</span>
+			{/snippet}
+			<FormattedMessage {...locale['landing.features.customization.desc']} />
+		</FeatureItem>
+	</FeatureList>
 	<BottomSection />
 </div>
 
 <style lang="scss">
-	.Index {
-		&.padded {
-			padding: 0 var(--Layout-paddingX);
-		}
-		&.initial {
-			height: calc(100vh - 72px);
-			display: grid;
-			grid-template-columns: 5fr 4fr;
-		}
-		&.initial-left {
-			display: flex;
-			flex-direction: column;
+	@use '@campground/ui' as *;
 
-			padding-top: 128px;
-			gap: 24px;
+	.initial {
+		padding: 0 var(--Layout-paddingX);
+		height: calc(100vh - 72px);
+		display: grid;
+		grid-template-columns: 5fr 4fr;
+	}
+	.initial-left {
+		display: flex;
+		flex-direction: column;
+		
+		padding-top: calc(128px + 64px);
+		gap: 24px;
+	}
+	.buttons {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+	.buttons-label {
+		padding: 2px 4px;
+		border-radius: var(--radius-sm);
+		background-color: var(--palette-primary-950);
+		color: var(--palette-primary-secondary);
+		font-weight: bold;
+	}
+	.buttons > a {
+		display: inline-flex;
+		text-decoration: none;
+	}
+
+	@include tablet-down {
+		.initial {
+			grid-template-columns: 1fr;
 		}
-		&.buttons {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 12px;
-		}
-		&.buttons-label {
-			padding: 2px 4px;
-			border-radius: var(--radius-sm);
-			background-color: var(--palette-primary-950);
-			color: var(--palette-primary-secondary);
-			font-weight: bold;
-		}
-		&.buttons > a {
-			display: inline-flex;
-			text-decoration: none;
+		.initial-right {
+			display: none;
 		}
 	}
 </style>

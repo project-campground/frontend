@@ -1,11 +1,23 @@
 @use 'sass:list';
 
+// If you are searching for Campground brand font, it is Baloo 2
+
 $font-fallback:
 	'Montserrat', 'Public Sans', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
 	'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-$font-body: 'Nunito Sans', $font-fallback;
-$font-display: 'Quicksand', 'Nunito Sans', $font-fallback;
-$font-monospace: 'Monaspace Neon', 'Courier New', Courier, monospace;
+$font-body-kr: 'Noto Sans KR Variable', 'Noto Sans KR';
+$font-body-jp: 'Noto Sans JP Variable', 'Noto Sans JP';
+// Old fonts used: Nunito Sans, Montserrat
+$font-body: 'Ubuntu Sans', $font-body-jp, $font-body-kr, $font-fallback;
+
+$font-display-jp: 'LINE Seed JP', 'Kosugi Maru';
+$font-display-kr: 'Gugi';
+// Old fonts used for display: Quicksand, Comfortaa
+$font-display: 'Ubuntu', $font-display-jp, $font-display-kr, $font-body;
+
+// Fonts attempted for use: Monaspace Neon, Cousine
+$font-monospace-fallback: 'Courier New', Courier, monospace;
+$font-monospace: 'Ubuntu Mono', 'M PLUS 1 Code', $font-monospace-fallback;
 
 @function quoted-font($str-list) {
 	$quoted-list: ();

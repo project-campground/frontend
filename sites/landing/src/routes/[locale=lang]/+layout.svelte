@@ -31,21 +31,41 @@
 </div>
 
 <style lang="scss">
+	@use '@campground/ui' as *;
+	@import '@fontsource-variable/ubuntu-sans/wght-italic.css';
 
-	.Layout {
-		&.wrapper {
-			--Layout-paddingX: 256px;
-			display: flex;
-			flex-direction: column;
-			overflow-y: auto;
-			height: 100%;
-			scroll-behavior: smooth;
+	@import '@fontsource/ubuntu-mono/400.css';
+	@import '@fontsource/ubuntu-mono/400-italic.css';
+	@import '@fontsource/ubuntu-mono/700.css';
+	@import '@fontsource/ubuntu-mono/700-italic.css';
+
+	@import '@fontsource/ubuntu/400.css';
+	@import '@fontsource/ubuntu/400-italic.css';
+	@import '@fontsource/ubuntu/700.css';
+	@import '@fontsource/ubuntu/700-italic.css';
+
+	.wrapper {
+		--Layout-paddingX: 256px;
+		display: flex;
+		flex-direction: column;
+		overflow-y: auto;
+		height: 100%;
+		scroll-behavior: smooth;
+
+		@include mobile-only {
+			--Layout-paddingX: 10px;
 		}
-		&.nav-padding {
-			height: 72px;
+		@include tablet-only {
+			--Layout-paddingX: 32px;
 		}
-		&.article {
-			flex: 1;
+		@include desktop-sm-only {
+			--Layout-paddingX: 128px;
 		}
+	}
+	.nav-padding {
+		height: 72px;
+	}
+	.article {
+		flex: 1;
 	}
 </style>

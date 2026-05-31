@@ -64,7 +64,7 @@ $breakpoint-desktop-md: 1200px;
 		@content;
 	}
 }
-@mixin desktop-sm-down {
+@mixin desktop-md-down {
 	@include breakpoint-down($breakpoint-desktop-md) {
 		@content;
 	}

@@ -2,7 +2,7 @@
 	import { capitalize } from '../util/component.ts';
 	import type ParaProps from './props.ts';
 
-	const { children, class: className, level, color, align, weight, fontSize, vMargin, letterSpacing, tMargin, bMargin }: ParaProps = $props();
+	const { children, class: className, level, lineHeight, color, align, weight, fontSize, vMargin, letterSpacing, tMargin, bMargin }: ParaProps = $props();
 </script>
 
 <svelte:element
@@ -19,6 +19,7 @@
 		className
 	]}
 	style:--Para-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
+	style:--Para-lineHeight={typeof lineHeight === 'number' ? `${lineHeight}rem` : lineHeight}
 	style:--Para-letterSpacing={typeof letterSpacing === 'number' ? `${letterSpacing}px` : letterSpacing}
 >
 	{@render children?.()}
@@ -36,6 +37,7 @@
 		display: block;
 		font-size: var(--Para-fontSize, 1em);
 		letter-spacing: var(--Para-letterSpacing, 0px);
+		line-height: var(--Para-lineHeight);
 		
 		color: var(--palette-foreground-level2);
 		margin: 0;

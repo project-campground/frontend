@@ -41,7 +41,10 @@
 		"./css/*.scss": {
 			"sass": "./dist/css/*.scss"
 		},
-		"./dist/*.scss": {
+		"./dist/_index": {
+			"sass": "./dist/index.scss"
+		},
+		"./dist/*": {
 			"sass": "./dist/*.scss"
 		},
 		"./dist/css/*.scss": {
@@ -49,8 +52,6 @@
 		}
 	},
 	"dependencies": {
-		"@fontsource/monaspace-neon": "^5.2.5",
-		"@fontsource/quicksand": "^5.2.10",
 		"@tsconfig/svelte": "^5.0.8"
 	},
 	"peerDependencies": {
@@ -59,7 +60,6 @@
 	"devDependencies": {
 		"@eslint/compat": "^2.0.4",
 		"@eslint/js": "^10.0.1",
-		"@fontsource/nunito-sans": "^5.2.6",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/package": "^2.5.7",

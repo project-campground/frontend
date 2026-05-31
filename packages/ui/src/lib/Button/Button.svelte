@@ -32,6 +32,7 @@
 		border-radius: var(--Button-radius);
 		cursor: pointer;
 		align-items: center;
+		font-family: var(--font-body);
 		&:disabled {
 			cursor: default;
 			opacity: 0.65;

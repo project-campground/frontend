@@ -9,6 +9,7 @@ export type ParaLevel = HeaderLevel | RegularParagraphLevel | SubtitleLevel;
 export default interface ParaProps {
 	fontSize?: number | string;
 	letterSpacing?: number | string;
+	lineHeight?: number | string;
 	weight?: 500 | 600 | 700 | 800 | 900;
 	level?: ParaLevel;
 	align?: 'left' | 'right' | 'center' | 'justify';

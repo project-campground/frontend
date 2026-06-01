@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { OverflowProps } from "./props.ts";
 
-	const { children }: OverflowProps = $props();
+	const { class: className, children }: OverflowProps = $props();
 </script>
 
-<div class={['Card CardOverflow']}>
+<div class={['Card CardOverflow', className]}>
 	{@render children()}
 </div>
 

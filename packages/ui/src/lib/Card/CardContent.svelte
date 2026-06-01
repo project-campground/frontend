@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { ContentProps } from './props.ts';
 
-	const { children }: ContentProps = $props();
+	const { class: className, children }: ContentProps = $props();
 </script>
 
-<div class={["Card CardContent"]}>
+<div class={['Card CardContent', className]}>
 	{@render children()}
 </div>
 

@@ -10,7 +10,16 @@ export default defineConfig({
 			targets: [
 				{
 					src: path.resolve(__dirname, '../../lang/*'),
-					dest: 'locales'
+					dest: 'lang'
+				},
+				{
+					src: [
+						path.resolve(__dirname, './node_modules/@fontsource/*/files/*'),
+						path.resolve(__dirname, './node_modules/@fontsource-variable/*/files/*'),
+						path.resolve(__dirname, '../../node_modules/@fontsource/*/files/*'),
+						path.resolve(__dirname, '../../node_modules/@fontsource-variable/*/files/*'),
+					],
+					dest: 'files'
 				}
 			]
 		})

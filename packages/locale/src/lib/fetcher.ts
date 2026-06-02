@@ -1,6 +1,6 @@
 import { createIntl, createIntlCache, type IntlCache, type IntlShape } from '@formatjs/svelte-intl';
 import type { DefaultMessageSegment } from './FormattedMessage/props.ts';
-import type { LocaleId } from "./localeList.ts";
+import type { LocaleId } from './localeList.ts';
 
 export default class LocaleFetcher {
 	public cache: IntlCache;
@@ -10,6 +10,24 @@ export default class LocaleFetcher {
 	constructor(prefix: string = 'lang') {
 		this.cache = createIntlCache();
 		this.prefix = prefix;
+	}
+
+	createDefaultLocale() {
+		return this.createLocale(
+			'en-US',
+			{}
+		);
+	}
+
+	createLocale(locale: LocaleId, messages: Record<string, string>) {
+		return (this.locales[locale] = createIntl(
+			{
+				locale,
+				defaultLocale: locale,
+				messages
+			},
+			this.cache
+		));
 	}
 
 	async fetchLocale(locale: LocaleId): Promise<IntlShape<DefaultMessageSegment>> {
@@ -26,13 +44,6 @@ export default class LocaleFetcher {
 				`Error while fetching locale '${locale}': ${resp.status} ${respJson?.message || respJson?.error || respJson?.code || resp.statusText}`
 			);
 
-		return createIntl(
-			{
-				locale,
-				defaultLocale: locale,
-				messages: respJson
-			},
-			this.cache
-		);
+		return this.createLocale(locale, respJson);
 	}
 }

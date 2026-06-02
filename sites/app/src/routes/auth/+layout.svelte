@@ -30,6 +30,7 @@
 <script lang="ts">
 	import type { LayoutProps } from './$types';
 	import { BrandLogo, Card, Para } from '@campground/ui';
+	import { FormattedMessage } from "@campground/locale";
 
 	const { children, data }: LayoutProps = $props();
 </script>
@@ -44,12 +45,10 @@
 		<Card.Root class="Auth card" level="subtle" size="xxl">
 			<Card.Content class="Auth content">
 				<Para level="h2" bMargin="md">
-					<!-- <FormattedMessage {...locale[data.page as "login" | "register"]} /> -->
-					{localeHeaders[data.page as 'login' | 'register'].defaultMessage}
+					<FormattedMessage {...localeHeaders[data.page as "login" | "register"]} />
 				</Para>
 				<Para>
-					<!-- <FormattedMessage {...locale[data.page as "login" | "register"]} /> -->
-					{localeDescriptions[data.page as 'login' | 'register'].defaultMessage}
+					<FormattedMessage {...localeDescriptions[data.page as "login" | "register"]} />
 				</Para>
 				{@render children()}
 			</Card.Content>

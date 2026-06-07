@@ -5,10 +5,10 @@
     "build:locale": "npm run -w @campground/locale build",
     "build:ui": "npm run -w @campground/ui build",
     "dev:landing": "npm run -w @campground/landing dev",
-    "extract": "formatjs extract '{sites,packages}/*/src/**/*.{ts,svelte}' --ignore='**/*.d.ts' --ignore '**/node_modules/**/*' --out-file lang/en-US.json --format='crowdin' --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
+    "extract": "formatjs extract '{sites,packages}/*/src/**/*.{ts,svelte,js}' --ignore='**/*.d.ts' --ignore '**/node_modules/**/*' --out-file lang/en-US.json --format='crowdin' --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
   },
   "devDependencies": {
-    "@formatjs/cli": "^6.14.1"
+    "@formatjs/cli": "^6.16.6"
   },
   "workspaces": [
     "packages/*",

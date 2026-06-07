@@ -6,7 +6,10 @@
 	const { size, hideWordmark }: BrandLogoProps = $props();
 </script>
 
-<div class={['BrandLogo container', { hideWordmark }, `size${capitalize(size ?? 'md')}`]}>
+<div
+	class={['BrandLogo container', { hideWordmark }, `size${capitalize(size ?? 'md')}`]}
+	role="banner"
+>
 	<span class="BrandLogo icon">
 		<SvgUse id="logo" size={0} />
 	</span>
@@ -37,9 +40,12 @@
 		overflow: hidden;
 		transform: translateX(0);
 		opacity: 100%;
-		transition: transform 0.5s, width 0.5s, opacity 0.4s;
+		transition:
+			transform 0.5s,
+			width 0.5s,
+			opacity 0.4s;
 		width: var(--BrandLogo-word-width);
-		
+
 		@include tablet-down {
 			transform: translateX(calc(-0.5 * var(--BrandLogo-word-width) - 8px));
 			opacity: 0%;

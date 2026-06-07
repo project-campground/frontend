@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Not used in the module to not have it exist outside this library
 	import { writable } from "svelte/store";
-	import enUS from '../../../../lang/en-US.json' with { type: 'json' };
+	import enUS from '../../../../lang/en-US_v2.json' with { type: 'json' };
 	import { createIntl, createIntlCache } from '@formatjs/svelte-intl';
 	import type { DefaultMessageSegment } from "$lib/FormattedMessage/props.js";
 	

@@ -1,56 +1,87 @@
 <script lang="ts">
 	// Not used in the module to not have it exist outside this library
-	import { writable } from "svelte/store";
-	import enUS from '../../../../lang/en-US_v2.json' with { type: 'json' };
-	import { createIntl, createIntlCache } from '@formatjs/svelte-intl';
-	import type { DefaultMessageSegment } from "$lib/FormattedMessage/props.js";
-	
-	const cache = createIntlCache();
-	
-	const intlEnUS = createIntl<DefaultMessageSegment>({
-		defaultLocale: 'en-US',
-		locale: 'en-US',
-		messages: Object.fromEntries(
-			Object.entries(enUS).map(([key, value]) => [key, (value as { message: string }).message])
-		)
-	}, cache);
+	import { writable } from 'svelte/store';
+	import LocaleFetcher from '$lib/fetcher.js';
 
-	const localeStore = writable(intlEnUS);
+	const localeFetcher = new LocaleFetcher();
+
+	const localeStore = writable(localeFetcher.createDefaultLocale());
 
 	// Everything below is per-component
 	import { globalLocale } from '$lib/declarations.js';
 	import FormattedMessage from '$lib/FormattedMessage/index.js';
-	import { setLocaleContext } from "$lib/context.js";
+	import { setLocaleContext } from '$lib/context.js';
+	import { localeIds, type LocaleId } from '$lib/localeList.js';
 
-	const enUSKeys = Object.keys(enUS);
+	let localeValue = $state<LocaleId>('en-US');
+
+	let enUsLocale = $state(localeFetcher.createDefaultLocale());
+
+	$effect(() => {
+		localeFetcher.fetchLocale(localeValue).then(
+			localeValue === 'en-US'
+				? (value) => {
+						localeStore.set((enUsLocale = value));
+					}
+				: (value) => {
+						localeStore.set(value);
+					}
+		);
+	});
+
 	setLocaleContext(localeStore);
 </script>
 
-<div class="scrollable">
-	{#snippet example()}
-		<span style:color="red">example</span>
-	{/snippet}
-	<div class="padded">
-		<dl>
-			{#each enUSKeys as locale (locale)}
-				{@const inGlobalLocale = globalLocale[locale as keyof typeof globalLocale]}
-				{@const finalLocale = inGlobalLocale ?? { id: locale, ...enUS[locale as keyof typeof enUS] }}
-				<dt>
-					<code>{locale}</code>
-				</dt>
-				<dd>
-					<FormattedMessage
-						{...finalLocale}
-						values={{
-							buttonText: example,
-							count: 3,
-						}}
-					/>
-				</dd>
-			{/each}
-		</dl>
+<article>
+	<select bind:value={localeValue}>
+		{#each localeIds as localeId}
+			<option value={localeId}>
+				{localeId}
+			</option>
+		{/each}
+	</select>
+	<div class="scrollable">
+		{#snippet example()}
+			<span style:color="red">example</span>
+		{/snippet}
+		<div class="padded">
+			<h1>Global messages (multiple uses)</h1>
+			<dl>
+				{#each Object.values(globalLocale) as message (message.id)}
+					<dt>
+						<code>{message.id}</code>
+					</dt>
+					<dd>
+						<FormattedMessage
+							{...message}
+							values={{
+								buttonText: example,
+								count: 3
+							}}
+						/>
+					</dd>
+				{/each}
+			</dl>
+			<h1>Locale messages</h1>
+			<dl>
+				{#each Object.keys(enUsLocale.messages) as message (message)}
+					<dt>
+						<code>{message}</code>
+					</dt>
+					<dd>
+						<FormattedMessage
+							id={message}
+							values={{
+								buttonText: example,
+								count: 3
+							}}
+						/>
+					</dd>
+				{/each}
+			</dl>
+		</div>
 	</div>
-</div>
+</article>
 
 <style>
 	.scrollable {

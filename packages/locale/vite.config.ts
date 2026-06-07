@@ -9,7 +9,7 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [
 				{
-					src: path.resolve(__dirname, '../../lang'),
+					src: path.resolve(__dirname, '../../lang/*'),
 					dest: 'lang'
 				}
 			]

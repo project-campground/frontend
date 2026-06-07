@@ -168,11 +168,12 @@ export const globalLocale = defineMessages({
 		description: 'Campsite motto'
 	},
 	'site.desc': {
-        id: 'site.desc',
-		defaultMessage: 'Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!',
+		id: 'site.desc',
+		defaultMessage:
+			'Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!',
 		description: 'Campsite motto subtitle'
 	},
-    
+
 	'site.discovery': {
 		id: 'site.discovery',
 		defaultMessage: 'Discovery',
@@ -259,7 +260,7 @@ export const globalLocale = defineMessages({
 		description: 'Content created when'
 	},
 	'app.common.joinedAt': {
-		id: 'app.common.createdAt',
+		id: 'app.common.joinedAt',
 		defaultMessage: 'Joined at',
 		description: 'Member joined sometime ago'
 	},
@@ -393,12 +394,12 @@ export const globalLocale = defineMessages({
 	},
 	// Messages
 	'app.messages.accusativeCase': {
-		id: 'app.tents.accusativeCase',
+		id: 'app.messages.accusativeCase',
 		defaultMessage: 'message',
 		description: "Message in accusative case for message deletion: ''Delete this **message**''"
 	},
 	'app.messages.nominativeCase': {
-		id: 'app.tents.nominativeCase',
+		id: 'app.messages.nominativeCase',
 		defaultMessage: 'message',
 		description:
 			"Message in nominative case for message deletion: ''The **message** is being deleted''"
@@ -610,7 +611,7 @@ export const globalLocale = defineMessages({
 		description: 'Header for managing invites permission in the permission list'
 	},
 	'app.permissions.manageInvites.desc': {
-		id: 'app.permissions.createInvites.desc',
+		id: 'app.permissions.manageInvites.desc',
 		defaultMessage: "Allows members with this permission to delete campsite's invites.",
 		description: "Describes what 'Managing Invites' permission does"
 	},
@@ -634,13 +635,13 @@ export const globalLocale = defineMessages({
 	},
 
 	'app.permissions.manageOthersIdentity': {
-		id: 'app.permissions.manageSelfIdentity',
+		id: 'app.permissions.manageOthersIdentity',
 		defaultMessage: 'Manage Identity of Others',
 		description:
 			'Header for managing campsite-wide profile permission of other people in the permission list'
 	},
 	'app.permissions.manageOthersIdentity.desc': {
-		id: 'app.permissions.manageSelfIdentity.desc',
+		id: 'app.permissions.manageOthersIdentity.desc',
 		defaultMessage:
 			'Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members.',
 		description: "Describes what 'Managing Identity of Others' permission does"

@@ -1,0 +1,650 @@
+{
+    "app.auth.login.desc": {
+        "description": "The heading of the login page instructing the user",
+        "message": "Enter the login details of your existing account."
+    },
+    "app.auth.login.header": {
+        "description": "The heading of the login page welcoming back the user",
+        "message": "Welcome back!"
+    },
+    "app.auth.register.desc": {
+        "description": "The description of the register page instructing the user",
+        "message": "Enter credentials for your brand new account."
+    },
+    "app.auth.register.header": {
+        "description": "The heading of the register page welcoming the user",
+        "message": "New to Campground?"
+    },
+    "app.bans": {
+        "description": "Member bans header",
+        "message": "Member bans"
+    },
+    "app.bans.reason": {
+        "description": "Reason for a member ban",
+        "message": "Ban reason"
+    },
+    "app.bonfires.create": {
+        "description": "The menu button for creating bonfires",
+        "message": "Create bonfire"
+    },
+    "app.bonfires.delete": {
+        "description": "The menu button for deleting bonfires",
+        "message": "Delete bonfire"
+    },
+    "app.bonfires.settings": {
+        "description": "The menu button for opening bonfire settings and the title of bonfire settings",
+        "message": "Bonfire settings"
+    },
+    "app.bonfires.settings.name": {
+        "description": "The header of the bonfire name field in settings",
+        "message": "Bonfire name"
+    },
+    "app.campsites.Create": {
+        "description": "The campsite creation page title",
+        "message": "Create a Campsite"
+    },
+    "app.campsites.delete": {
+        "description": "The settings page for deleting campsite",
+        "message": "Delete campsite"
+    },
+    "app.campsites.members": {
+        "description": "Displays the amount of members campsite has",
+        "message": "{count, number} {count, plural, one { member } other { members }}"
+    },
+    "app.campsites.name": {
+        "description": "The header of the campsite name field in settings",
+        "message": "Campsite name"
+    },
+    "app.campsites.settings": {
+        "description": "The menu button for opening campsite settings and the title of campsite settings",
+        "message": "Campsite settings"
+    },
+    "app.common.createdAt": {
+        "description": "Content created when",
+        "message": "Created at"
+    },
+    "app.common.createdBy": {
+        "description": "Content created by who",
+        "message": "Created by"
+    },
+    "app.common.expiresAt": {
+        "description": "Content expires",
+        "message": "Expires"
+    },
+    "app.common.joinedAt": {
+        "description": "Member joined sometime ago",
+        "message": "Joined at"
+    },
+    "app.invites": {
+        "description": "Invite menu item in campsite settings",
+        "message": "Invites"
+    },
+    "app.invites.allowedAmount": {
+        "description": "The amount of times the invite can be used",
+        "message": "Allowed times of use"
+    },
+    "app.invites.code": {
+        "description": "The placeholder for yet uncreated invite code or invite code in the invite list",
+        "message": "Invite code"
+    },
+    "app.invites.create": {
+        "description": "Invite creation menu item",
+        "message": "Create invite"
+    },
+    "app.members": {
+        "description": "Members pseudo-tent name, members tab in the right sidebar",
+        "message": "Members"
+    },
+    "app.members.ban": {
+        "description": "Ban member menu item",
+        "message": "Ban member"
+    },
+    "app.members.kick": {
+        "description": "Kick member menu item",
+        "message": "Kick member"
+    },
+    "app.members.nickname.change": {
+        "description": "Members name changing modal header and menu item",
+        "message": "Change nickname"
+    },
+    "app.messages.accusativeCase": {
+        "description": "Message in accusative case for message deletion: ''Delete this **message**''",
+        "message": "message"
+    },
+    "app.messages.nominativeCase": {
+        "description": "Message in nominative case for message deletion: ''The **message** is being deleted''",
+        "message": "message"
+    },
+    "app.permissions.banMembers": {
+        "description": "Header for banning members permission in the permission list",
+        "message": "Ban Members"
+    },
+    "app.permissions.banMembers.desc": {
+        "description": "Describes what 'Ban Members' permission does",
+        "message": "Allows members with this permission to remove other members with lower rank/roles from this campsite and disallow from them joining again or allow them to join again."
+    },
+    "app.permissions.campsites": {
+        "description": "Header for campsite permissions in the permission list",
+        "message": "Campsite permissions"
+    },
+    "app.permissions.createContent": {
+        "description": "Header for create content permission in the permission list",
+        "message": "Create Content"
+    },
+    "app.permissions.createContent.desc": {
+        "description": "Describes what 'Create Content' permission does",
+        "message": "Allows members to create messages in tents."
+    },
+    "app.permissions.createInvites": {
+        "description": "Header for creating invites permission in the permission list",
+        "message": "Create Invites"
+    },
+    "app.permissions.createInvites.desc": {
+        "description": "Describes what 'Create Invites' permission does",
+        "message": "Allows members with this permission to create invites to this campsite."
+    },
+    "app.permissions.createPrivateContent": {
+        "description": "Header for create private content permission in the permission list",
+        "message": "Create Private Content"
+    },
+    "app.permissions.createPrivateContent.desc": {
+        "description": "Describes what 'Create Private Content' permission does",
+        "message": "Allows members to create private messages in tents."
+    },
+    "app.permissions.customization": {
+        "description": "Header for customization permissions in the permission list",
+        "message": "Customization permissions"
+    },
+    "app.permissions.giveRoles": {
+        "description": "Header for managing roles permission in the permission list",
+        "message": "Give Roles"
+    },
+    "app.permissions.giveRoles.desc": {
+        "description": "Describes what 'Give Roles' permission does",
+        "message": "Allows members with this permission to give and remove roles that are lower than their highest role from other members."
+    },
+    "app.permissions.kickMembers": {
+        "description": "Header for muting members permission in the permission list",
+        "message": "Kick Members"
+    },
+    "app.permissions.kickMembers.desc": {
+        "description": "Describes what 'Kick Members' permission does",
+        "message": "Allows members with this permission to remove other members with lower rank/roles from this campsite."
+    },
+    "app.permissions.manageBonfires": {
+        "description": "Header for managing bonfires permission in the permission list",
+        "message": "Manage Bonfires"
+    },
+    "app.permissions.manageBonfires.desc": {
+        "description": "Describes what 'Manage Bonfires' permission does",
+        "message": "Allows members with this permission to edit and delete bonfires."
+    },
+    "app.permissions.manageCampsites": {
+        "description": "Header for managing campsites permission in the permission list",
+        "message": "Manage Campsite"
+    },
+    "app.permissions.manageCampsites.desc": {
+        "description": "Describes what 'Manage Campsite' permission does",
+        "message": "Allows members with this permission to edit the name of this campsite and other details."
+    },
+    "app.permissions.manageContent": {
+        "description": "Header for manage content permission in the permission list",
+        "message": "Manage Content"
+    },
+    "app.permissions.manageContent.desc": {
+        "description": "Describes what 'Manage Content' permission does",
+        "message": "Allows members to delete messages in tents of other members."
+    },
+    "app.permissions.manageInvites": {
+        "description": "Header for managing invites permission in the permission list",
+        "message": "Manage Invites"
+    },
+    "app.permissions.manageInvites.desc": {
+        "description": "Describes what 'Managing Invites' permission does",
+        "message": "Allows members with this permission to delete campsite's invites."
+    },
+    "app.permissions.manageOthersIdentity": {
+        "description": "Header for managing campsite-wide profile permission of other people in the permission list",
+        "message": "Manage Identity of Others"
+    },
+    "app.permissions.manageOthersIdentity.desc": {
+        "description": "Describes what 'Managing Identity of Others' permission does",
+        "message": "Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members."
+    },
+    "app.permissions.managePermissions": {
+        "description": "Header for managing permissions permission in the permission list",
+        "message": "Manage Permissions"
+    },
+    "app.permissions.managePermissions.desc": {
+        "description": "Describes what 'Manage Permissions' permission does",
+        "message": "Allows members with this permission to edit permissions below their highest role."
+    },
+    "app.permissions.manageRoles": {
+        "description": "Header for managing roles permission in the permission list",
+        "message": "Manage Roles"
+    },
+    "app.permissions.manageRoles.desc": {
+        "description": "Describes what 'Manage Roles' permission does",
+        "message": "Allows members with this permission to edit and delete roles below their highest role."
+    },
+    "app.permissions.manageSelfIdentity": {
+        "description": "Header for managing their campsite-wide profile permission in the permission list",
+        "message": "Manage Their Own Identity"
+    },
+    "app.permissions.manageSelfIdentity.desc": {
+        "description": "Describes what 'Managing Their Own Identity' permission does",
+        "message": "Allows members with this permission to change their own nickname and avatar that is only displayed in this campsite."
+    },
+    "app.permissions.manageTents": {
+        "description": "Header for managing tents permission in the permission list",
+        "message": "Manage Tents"
+    },
+    "app.permissions.manageTents.desc": {
+        "description": "Describes what 'Manage Tents' permission does",
+        "message": "Allows members with this permission to edit and delete tents."
+    },
+    "app.permissions.membership": {
+        "description": "Header for membership permissions in the permission list",
+        "message": "Membership permissions"
+    },
+    "app.permissions.mentionEveryone": {
+        "description": "Header for mention @everyone and @here permission in the permission list",
+        "message": "Mention @everyone and @here"
+    },
+    "app.permissions.mentionEveryone.desc": {
+        "description": "Describes what 'Mention @everyone and @here' permission does",
+        "message": "Allows members to mention everyone."
+    },
+    "app.permissions.muteMembers": {
+        "description": "Header for muting members permission in the permission list",
+        "message": "Timeout Members"
+    },
+    "app.permissions.muteMembers.desc": {
+        "description": "Describes what 'Timeout Members' permission does",
+        "message": "Allows members with this permission to disallow other members from creating content."
+    },
+    "app.permissions.pinContent": {
+        "description": "Header for pin content permission in the permission list",
+        "message": "Pin Content"
+    },
+    "app.permissions.pinContent.desc": {
+        "description": "Describes what 'Pin Content' permission does",
+        "message": "Allows members to pin messages in tents."
+    },
+    "app.permissions.plural": {
+        "description": "Permissions in settings as plural",
+        "message": "Permissions"
+    },
+    "app.permissions.tent": {
+        "description": "Header for tent permissions in the permission list",
+        "message": "Tent permissions"
+    },
+    "app.permissions.tentDivider": {
+        "description": "Divider in the permission list that separates tent-only permissions from campsite-wide permissions",
+        "message": "Tent only"
+    },
+    "app.permissions.viewContent": {
+        "description": "Header for view content permission in the permission list",
+        "message": "View Content"
+    },
+    "app.permissions.viewContent.desc": {
+        "description": "Describes what 'View Content' permission does",
+        "message": "Allows members to see tents in the tent list, view tents and tent messages."
+    },
+    "app.profiles.aboutMe": {
+        "description": "About me section the user profile",
+        "message": "About me"
+    },
+    "app.profiles.feed": {
+        "description": "Feed tab in the user profile",
+        "message": "Feed"
+    },
+    "app.profiles.replies": {
+        "description": "Posts & Replies tab in the user profile",
+        "message": "Posts & Replies"
+    },
+    "app.roles": {
+        "description": "Roles header in settings and whatnot in plural form",
+        "message": "Roles"
+    },
+    "app.roles.accusativeCase": {
+        "description": "Role in accusative case for role deletion: ''Delete this **role**''",
+        "message": "role"
+    },
+    "app.roles.nominativeCase": {
+        "description": "Role in nominative case for role deletion: ''The **role** is being deleted''",
+        "message": "role"
+    },
+    "app.settings.other": {
+        "description": "Section for deleting campsites, tents, etc.",
+        "message": "Other settings"
+    },
+    "app.tentCategories.create": {
+        "description": "The menu button for creating tent categories",
+        "message": "Create category"
+    },
+    "app.tentCategories.delete": {
+        "description": "The menu button for deleting tent categories",
+        "message": "Delete category"
+    },
+    "app.tentCategories.settings": {
+        "description": "The menu button for opening tent category settings and the title of category settings",
+        "message": "Category settings"
+    },
+    "app.tents.accusativeCase": {
+        "description": "Tent in accusative case for tent deletion: ''Delete this **tent**''",
+        "message": "tent"
+    },
+    "app.tents.bulletin": {
+        "description": "Bulletin Board pseudo-tent name",
+        "message": "Bulletin Board"
+    },
+    "app.tents.create": {
+        "description": "Create tent button at the bottom of tent list, as well as the title of tent creation modal",
+        "message": "Create tent"
+    },
+    "app.tents.delete": {
+        "description": "The menu button for deleting tent",
+        "message": "Delete tent"
+    },
+    "app.tents.members": {
+        "description": "Members pseudo-tent name",
+        "message": "Members"
+    },
+    "app.tents.nominativeCase": {
+        "description": "Tent in nominative case for tent deletion: ''The **tent** is being deleted''",
+        "message": "tent"
+    },
+    "app.tents.settings": {
+        "description": "The menu button for opening tent settings and the title of tent settings",
+        "message": "Tent settings"
+    },
+    "app.tents.text": {
+        "description": "Text tent type",
+        "message": "Text"
+    },
+    "app.threads": {
+        "description": "Message threads tab in the right sidebar",
+        "message": "Threads"
+    },
+    "app.users.settings": {
+        "description": "Header of user settings",
+        "message": "User settings"
+    },
+    "app.users.settings.deactivate": {
+        "description": "The account deactivation page in user settings",
+        "message": "Deactivate account"
+    },
+    "app.users.settings.reactivate": {
+        "description": "The account reactivation button in user settings",
+        "message": "Reactivate account"
+    },
+    "common.cancel": {
+        "description": "Cancelling an action in settings, modals and content",
+        "message": "Cancel"
+    },
+    "common.copy": {
+        "description": "Text of button for copying text",
+        "message": "Kopijuoti"
+    },
+    "common.create": {
+        "description": "Create content",
+        "message": "Create"
+    },
+    "common.delete": {
+        "description": "Delete content",
+        "message": "Delete"
+    },
+    "common.download": {
+        "description": "Download content",
+        "message": "Download"
+    },
+    "common.edit": {
+        "description": "Edit content",
+        "message": "Edit"
+    },
+    "common.infinite": {
+        "description": "Infinite amount of something. Used in invite creation placeholder when assigning the amount of times invite can be used",
+        "message": "Infinite"
+    },
+    "common.upload": {
+        "description": "Upload content",
+        "message": "Upload"
+    },
+    "form.confirmDelete": {
+        "description": "Button for confirming deletion of content",
+        "message": "Confirm deletion"
+    },
+    "form.fields.text.maxLength": {
+        "description": "The error when the text field has value that is too long",
+        "message": "The text is too short. Expected text to be {length} characters or more."
+    },
+    "form.login": {
+        "description": "Login button and page title",
+        "message": "Login"
+    },
+    "form.logout": {
+        "description": "Logout button and page title",
+        "message": "Logout"
+    },
+    "form.register": {
+        "description": "Register button and page title",
+        "message": "Register"
+    },
+    "form.submit": {
+        "description": "Submit button in forms",
+        "message": "Submit"
+    },
+    "form.uploadImage": {
+        "description": "Upload image modal header",
+        "message": "Upload image"
+    },
+    "info": {
+        "description": "The title of the information section",
+        "message": "Information"
+    },
+    "info.about": {
+        "description": "About header in settings and tents",
+        "message": "About"
+    },
+    "info.additionalConfig": {
+        "description": "Additional settings/configuration section",
+        "message": "Additional settings"
+    },
+    "info.appview": {
+        "description": "Descriptive name for appview",
+        "message": "Campsite Server"
+    },
+    "info.desc": {
+        "description": "Description in campsites, bonfires and elsewhere",
+        "message": "Description"
+    },
+    "info.email": {
+        "description": "User email as login detail",
+        "message": "Email"
+    },
+    "info.handle": {
+        "description": "User handles",
+        "message": "Handle"
+    },
+    "info.handleOrEmail": {
+        "description": "User handles or email as login detail",
+        "message": "Handle or Email"
+    },
+    "info.inviteCode": {
+        "description": "Invite code for registration",
+        "message": "Registration invite code"
+    },
+    "info.name": {
+        "description": "The name of the content, objects, tents, etc.",
+        "message": "Name"
+    },
+    "info.password": {
+        "description": "Password as a login detail",
+        "message": "Password"
+    },
+    "info.password.confirm": {
+        "description": "Confirm a password when registering or changing password",
+        "message": "Re-enter password"
+    },
+    "info.password.placeholder": {
+        "description": "Placeholder in the password field when registering",
+        "message": "Password here"
+    },
+    "info.pds": {
+        "description": "Longer name for PDS",
+        "message": "Personal server"
+    },
+    "info.title": {
+        "description": "The title of the content, objects, tents, etc.",
+        "message": "Title"
+    },
+    "info.topic": {
+        "description": "Topic header in settings and tents",
+        "message": "Topic"
+    },
+    "info.username": {
+        "description": "Display name of the user",
+        "message": "Username"
+    },
+    "landing.docs": {
+        "description": "The docs page in landing.",
+        "message": "Docs"
+    },
+    "landing.features": {
+        "description": "The features page in landing.",
+        "message": "Features"
+    },
+    "landing.features.bonfires": {
+        "description": "Bonfires section in landing",
+        "message": "Bonfires"
+    },
+    "landing.features.bonfires.desc": {
+        "description": "Bonfires section description in landing",
+        "message": "May also be known as groups or sub-servers, bonfires are guild-like group of tents/channels with their own icons and banners."
+    },
+    "landing.features.bonfires.title": {
+        "description": "Customization section title in landing",
+        "message": "Customize your own experience"
+    },
+    "landing.features.customization": {
+        "description": "Customization section in landing",
+        "message": "Customization"
+    },
+    "landing.features.customization.desc": {
+        "description": "Customization section description in landing",
+        "message": "Change the way Campground application looks with highly customizable themes with CSS and your own experience with add-ons. Do not like how app looks? Change it!"
+    },
+    "landing.features.encryption": {
+        "description": "Encryption section in landing",
+        "message": "Encryption"
+    },
+    "landing.features.encryption.desc": {
+        "description": "Encryption section description in landing",
+        "message": "Secure your messages with end-to-end encryption for direct messages. Feel safe with Campground."
+    },
+    "landing.features.instances": {
+        "description": "Instances section in landing",
+        "message": "Instances"
+    },
+    "landing.features.instances.desc": {
+        "description": "Instances section description in landing",
+        "message": "Host your own instance of Campground and manage YOUR OWN content without restriction of others. No one else, just you and your communities."
+    },
+    "landing.features.lists": {
+        "description": "Lists section in landing",
+        "message": "Lists"
+    },
+    "landing.features.lists.desc": {
+        "description": "Lists section description in landing",
+        "message": "Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more."
+    },
+    "landing.features.openSource": {
+        "description": "Open-source section in landing",
+        "message": "Open Source"
+    },
+    "landing.features.openSource.title": {
+        "description": "Open-source section title in landing",
+        "message": "Open for everyone & Copyleft"
+    },
+    "landing.features.profiles": {
+        "description": "Profiles section in landing",
+        "message": "Profiles"
+    },
+    "landing.features.profiles.desc": {
+        "description": "Bonfires section description in landing",
+        "message": "Create posts and media, discover others, link game and more with Campground''s highly customizable profiles."
+    },
+    "landing.inBrowser": {
+        "description": "Open Campground in browser button",
+        "message": "Open in Browser"
+    },
+    "landing.try": {
+        "description": "Try Campground button at the bottom of landing page",
+        "message": "Try Campground now!"
+    },
+    "landing.try.desc": {
+        "description": "Try Campground description at the bottom of landing page",
+        "message": "You can use Campground right now!"
+    },
+    "landing.try.title": {
+        "description": "Try Campground title at the bottom of landing page",
+        "message": "What are you waiting for?"
+    },
+    "site.api": {
+        "description": "Campground API header",
+        "message": "API"
+    },
+    "site.campground": {
+        "description": "Campground header. This can be used to convert 'Campground' to local script",
+        "message": "Campground"
+    },
+    "site.campsites": {
+        "description": "Campsite list header/link",
+        "message": "Campsites"
+    },
+    "site.desc": {
+        "description": "Campsite motto subtitle",
+        "message": "Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!"
+    },
+    "site.discovery": {
+        "description": "Campsite settings discovery section header",
+        "message": "Discovery"
+    },
+    "site.docs": {
+        "description": "Documents header abbreviated",
+        "message": "Docs"
+    },
+    "site.instances": {
+        "description": "Campground instances",
+        "message": "Instances"
+    },
+    "site.motto": {
+        "description": "Campsite motto",
+        "message": "Gather around the fire, friends"
+    },
+    "site.people": {
+        "description": "People list header/link",
+        "message": "People"
+    },
+    "site.social": {
+        "description": "Socials header",
+        "message": "Socials"
+    },
+    "site.social.atprotocol": {
+        "description": "ATProtocol protocol header",
+        "message": "ATProtocol"
+    },
+    "site.social.bsky": {
+        "description": "Bluesky social header",
+        "message": "Bluesky"
+    },
+    "site.social.discord": {
+        "description": "Discord social header",
+        "message": "Discord"
+    },
+    "site.social.github": {
+        "description": "GitHub social header",
+        "message": "GitHub"
+    }
+}

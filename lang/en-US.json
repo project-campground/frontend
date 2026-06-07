@@ -1,4 +1,20 @@
 {
+  "app.auth.login.desc": {
+    "description": "The heading of the login page instructing the user",
+    "message": "Enter the login details of your existing account."
+  },
+  "app.auth.login.header": {
+    "description": "The heading of the login page welcoming back the user",
+    "message": "Welcome back!"
+  },
+  "app.auth.register.desc": {
+    "description": "The description of the register page instructing the user",
+    "message": "Enter credentials for your brand new account."
+  },
+  "app.auth.register.header": {
+    "description": "The heading of the register page welcoming the user",
+    "message": "New to Campground?"
+  },
   "app.bans": {
     "description": "Member bans header",
     "message": "Member bans"
@@ -44,8 +60,8 @@
     "message": "Campsite settings"
   },
   "app.common.createdAt": {
-    "description": "Member joined sometime ago",
-    "message": "Joined at"
+    "description": "Content created when",
+    "message": "Created at"
   },
   "app.common.createdBy": {
     "description": "Content created by who",
@@ -54,6 +70,10 @@
   "app.common.expiresAt": {
     "description": "Content expires",
     "message": "Expires"
+  },
+  "app.common.joinedAt": {
+    "description": "Member joined sometime ago",
+    "message": "Joined at"
   },
   "app.invites": {
     "description": "Invite menu item in campsite settings",
@@ -87,6 +107,14 @@
     "description": "Members name changing modal header and menu item",
     "message": "Change nickname"
   },
+  "app.messages.accusativeCase": {
+    "description": "Message in accusative case for message deletion: ''Delete this **message**''",
+    "message": "message"
+  },
+  "app.messages.nominativeCase": {
+    "description": "Message in nominative case for message deletion: ''The **message** is being deleted''",
+    "message": "message"
+  },
   "app.permissions.banMembers": {
     "description": "Header for banning members permission in the permission list",
     "message": "Ban Members"
@@ -112,8 +140,8 @@
     "message": "Create Invites"
   },
   "app.permissions.createInvites.desc": {
-    "description": "Describes what 'Managing Invites' permission does",
-    "message": "Allows members with this permission to delete campsite's invites."
+    "description": "Describes what 'Create Invites' permission does",
+    "message": "Allows members with this permission to create invites to this campsite."
   },
   "app.permissions.createPrivateContent": {
     "description": "Header for create private content permission in the permission list",
@@ -171,6 +199,18 @@
     "description": "Header for managing invites permission in the permission list",
     "message": "Manage Invites"
   },
+  "app.permissions.manageInvites.desc": {
+    "description": "Describes what 'Managing Invites' permission does",
+    "message": "Allows members with this permission to delete campsite's invites."
+  },
+  "app.permissions.manageOthersIdentity": {
+    "description": "Header for managing campsite-wide profile permission of other people in the permission list",
+    "message": "Manage Identity of Others"
+  },
+  "app.permissions.manageOthersIdentity.desc": {
+    "description": "Describes what 'Managing Identity of Others' permission does",
+    "message": "Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members."
+  },
   "app.permissions.managePermissions": {
     "description": "Header for managing permissions permission in the permission list",
     "message": "Manage Permissions"
@@ -188,12 +228,12 @@
     "message": "Allows members with this permission to edit and delete roles below their highest role."
   },
   "app.permissions.manageSelfIdentity": {
-    "description": "Header for managing campsite-wide profile permission of other people in the permission list",
-    "message": "Manage Identity of Others"
+    "description": "Header for managing their campsite-wide profile permission in the permission list",
+    "message": "Manage Their Own Identity"
   },
   "app.permissions.manageSelfIdentity.desc": {
-    "description": "Describes what 'Managing Identity of Others' permission does",
-    "message": "Allows members with this permission to change nickname and avatar that is only displayed in this campsite of other members."
+    "description": "Describes what 'Managing Their Own Identity' permission does",
+    "message": "Allows members with this permission to change their own nickname and avatar that is only displayed in this campsite."
   },
   "app.permissions.manageTents": {
     "description": "Header for managing tents permission in the permission list",
@@ -292,8 +332,8 @@
     "message": "Category settings"
   },
   "app.tents.accusativeCase": {
-    "description": "Message in accusative case for message deletion: ''Delete this **message**''",
-    "message": "message"
+    "description": "Tent in accusative case for tent deletion: ''Delete this **tent**''",
+    "message": "tent"
   },
   "app.tents.bulletin": {
     "description": "Bulletin Board pseudo-tent name",
@@ -312,8 +352,8 @@
     "message": "Members"
   },
   "app.tents.nominativeCase": {
-    "description": "Message in nominative case for message deletion: ''The **message** is being deleted''",
-    "message": "message"
+    "description": "Tent in nominative case for tent deletion: ''The **tent** is being deleted''",
+    "message": "tent"
   },
   "app.tents.settings": {
     "description": "The menu button for opening tent settings and the title of tent settings",
@@ -374,6 +414,10 @@
   "form.confirmDelete": {
     "description": "Button for confirming deletion of content",
     "message": "Confirm deletion"
+  },
+  "form.fields.text.maxLength": {
+    "description": "The error when the text field has value that is too long",
+    "message": "The text is too short. Expected text to be {length} characters or more."
   },
   "form.login": {
     "description": "Login button and page title",
@@ -513,7 +557,7 @@
   },
   "landing.features.lists.desc": {
     "description": "Lists section description in landing",
-    "message": "\"Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more."
+    "message": "Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more."
   },
   "landing.features.openSource": {
     "description": "Open-source section in landing",

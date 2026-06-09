@@ -19,8 +19,13 @@
 	@each $size, $value in $radius-map {
 		--radius-#{$size}: #{$value};
 	}
+}
+%shadow-attributes {
 	@each $type, $value in $shadow-map {
 		--shadow-#{$type}: #{$value};
+	}
+	@each $type, $value in $inset-shadow-map {
+		--inset-shadow-#{$type}: #{$value};
 	}
 }
 %font {
@@ -32,6 +37,7 @@
 :global(main[data-theme]) {
 	@extend %code-highlight;
 	@extend %global-attributes;
+	@extend %shadow-attributes;
 	@extend %font;
 	font-family: var(--font-body);
 	color: var(--palette-foreground-level3);
@@ -39,6 +45,9 @@
 		background-color: var(--palette-primary-500-t);
 		color: var(--palette-primary-50);
 	}
+}
+:global([data-shadow-reset]) {
+	@extend %shadow-attributes;
 }
 
 :global([data-theme='dark']) {

@@ -15,14 +15,7 @@
 	}: TextInputProps = $props();
 </script>
 
-<InputWrapper
-	class={[
-		'TextInput container',
-		{ hasError, disabled },
-		`size${capitalize(size ?? 'md')}`,
-		className
-	]}
->
+<InputWrapper class={['TextInput container', { hasError, disabled }, className]} {size}>
 	{@render left?.()}
 	<input bind:value {...attributes} class={['TextInput input', className]} />
 	{@render right?.()}

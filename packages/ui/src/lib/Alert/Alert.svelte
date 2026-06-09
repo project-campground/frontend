@@ -8,13 +8,14 @@
 <div
 	// To not have to reassign every single time
 	role="alert"
-	aria-live={color === "danger" ? "assertive" : "polite"}
+	aria-live={color === 'danger' ? 'assertive' : 'polite'}
 	{...attributes}
 	class={[
 		'Alert container',
 		`size${capitalize(size ?? 'md')}`,
 		`color${capitalize(color ?? 'primary')}`
 	]}
+	data-shadow-reset="true"
 >
 	<div class="Alert icon">
 		{@render icon()}
@@ -45,10 +46,12 @@
 			&.size#{capitalize($size)} {
 				padding: $values;
 				--Alert-radius: var(--radius-#{$size});
+				box-shadow: var(--inset-shadow-#{$size});
 			}
 		}
 		@each $col in $color-types {
 			&.color#{capitalize($col)} {
+				--shadow-color: var(--palette-#{$col}-700);
 				background-color: var(--palette-#{$col}-softBack);
 				color: var(--palette-#{$col}-softFore);
 			}

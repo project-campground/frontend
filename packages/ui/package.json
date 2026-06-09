@@ -52,7 +52,8 @@
 		}
 	},
 	"dependencies": {
-		"@tsconfig/svelte": "^5.0.8"
+		"@tsconfig/svelte": "^5.0.8",
+		"@tabler/icons-svelte": "^3.42.0"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"

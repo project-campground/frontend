@@ -8,6 +8,7 @@
 	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
 	import { Main, Section, theme } from '@campground/ui';
 	import { writable } from 'svelte/store';
+	import FormSwitch from '$lib/FormSwitch/FormSwitch.svelte';
 
 	let lightTheme: boolean = $state(false);
 
@@ -73,7 +74,7 @@
 				<Form>
 					<FormControl id="textArea0">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextField multipleRows minLength={5} />
+						<FormTextField multipleRows minLength={5} placeholder="Example placeholder" />
 					</FormControl>
 					<FormControl id="textArea1">
 						<FormLabel>Text area field</FormLabel>
@@ -102,9 +103,31 @@
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField multipleRows />
 					</FormControl>
-					<FormControl id="">
-						<FormLabel>Text area field</FormLabel>
-						<FormTextField format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }} />
+					<FormControl id="formattedSingleLine">
+						<FormLabel>Text field formatted</FormLabel>
+						<FormTextField
+							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
+							placeholder="Aaa"
+						/>
+						<FormErrorLabel />
+					</FormControl>
+					<FormControl id="formattedMultiLine">
+						<FormLabel>Text area formatted</FormLabel>
+						<FormTextField
+							multipleRows
+							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
+							placeholder="Aaa"
+						/>
+						<FormErrorLabel />
+					</FormControl>
+					<FormControl id="switch">
+						<FormLabel>Switch</FormLabel>
+						<FormSwitch>
+							{#snippet header()}
+								Example header
+							{/snippet}
+							Example description
+						</FormSwitch>
 						<FormErrorLabel />
 					</FormControl>
 					<FormReactive>

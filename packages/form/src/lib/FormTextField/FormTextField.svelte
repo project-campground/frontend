@@ -24,6 +24,7 @@
 
 	// Error messages
 	const intl = getLocaleContext();
+	let errorState = $state<string | null>(null);
 
 	// Formatting
 	const required = fieldContext.required;
@@ -42,10 +43,11 @@
 		if (maxRows && rows.length > maxRows) value = rows.slice(0, maxRows).join('\n');
 
 		fieldContext.state.set({ error, value });
+		errorState = error;
 	});
 </script>
 
-<InputWrapper class={['FormTextField container']}>
+<InputWrapper class={['FormTextField container']} hasError={errorState !== null}>
 	{@render left?.()}
 	<div class={['FormTextField wrapper']}>
 		{@render top?.()}
@@ -83,6 +85,12 @@
 		font-size: 1em;
 		color: var(--palette-foreground-level2);
 		flex: 1;
+		:global(.hasError) > .wrapper > & {
+			color: var(--palette-danger-500);
+		}
+		&::placeholder {
+			color: var(--palette-foreground-level4);
+		}
 	}
 	.wrapper {
 		display: flex;

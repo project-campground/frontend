@@ -30,7 +30,7 @@
 	@use '../index.scss' as *;
 
 	$padding-sizes: create-size-map(
-		(0.125rem 0.375rem, 0.25rem 0.75rem, 0.5rem 1rem, 0.75rem 1.5rem, 1rem 2rem)
+		(0rem 0.375rem, 0.25rem 0.75rem, 0.5rem 1rem, 0.75rem 1.5rem, 1rem 2rem)
 	);
 
 	.InputWrapper {
@@ -57,8 +57,8 @@
 	}
 	.hasError {
 		color: var(--palette-danger-400);
-		border: solid 1px var(--palette-danger-700);
-		box-shadow: 0 0 4px var(--palette-danger-800);
+		border: solid 1px var(--palette-danger-600);
+		box-shadow: inset 0 0 8px var(--palette-danger-800);
 	}
 	.vertical {
 		flex-direction: column;

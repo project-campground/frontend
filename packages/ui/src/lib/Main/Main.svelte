@@ -37,5 +37,7 @@
 		color: var(--palette-foreground-level2);
 		min-height: 100%;
 		overflow: auto;
+		transition: background, color;
+		transition-duration: 0.5s;
 	}
 </style>

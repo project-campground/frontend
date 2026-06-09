@@ -18,6 +18,15 @@
 	import Section from '$lib/Section/Section.svelte';
 	import Stack from '$lib/Stack/Stack.svelte';
 	import TextInput from '$lib/TextInput/TextInput.svelte';
+	import Switch from '$lib/Switch/Switch.svelte';
+	import {
+		IconMoon,
+		IconMoonFilled,
+		IconStarFilled,
+		IconSun,
+		IconSunFilled
+	} from '@tabler/icons-svelte';
+	import InputWrapper from '$lib/InputWrapper/InputWrapper.svelte';
 
 	const gradientTextMaxColors = [
 		['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF'],
@@ -38,13 +47,27 @@
 
 	$effect(() => theme.set(lightTheme ? 'light' : 'dark'));
 
+	let switchValue = $state(false);
+
 	let inputValue = $state('');
 </script>
 
 <Main>
 	<div class="scrollable">
-		<input type="checkbox" bind:checked={lightTheme} />
 		<div class="padded">
+			<Section headerLevel={1}>
+				{#snippet header()}
+					[DEVELOPMENT SETTINGS]
+				{/snippet}
+				<Group>
+					<Switch
+						bind:value={lightTheme}
+						checkedIcon={IconSunFilled}
+						uncheckedIcon={IconMoonFilled}
+					/>
+					<TextBlock weight={700}>Light theme</TextBlock>
+				</Group>
+			</Section>
 			<Section headerLevel={1}>
 				{#snippet header()}
 					Tabs
@@ -108,6 +131,33 @@
 			</Section>
 			<Section headerLevel={1}>
 				{#snippet header()}
+					Switch
+				{/snippet}
+				<Stack gap={1}>
+					<Group>
+						<Switch bind:value={switchValue} />
+					</Group>
+					{#each [[], [IconMoonFilled], [undefined, IconSunFilled], [IconMoonFilled, IconSunFilled]] as iconSet}
+						<Group>
+							<Switch
+								bind:value={switchValue}
+								checkedIcon={iconSet[1]}
+								uncheckedIcon={iconSet[0]}
+							/>
+							{#each sizes as size}
+								<Switch
+									{size}
+									bind:value={switchValue}
+									checkedIcon={iconSet[1]}
+									uncheckedIcon={iconSet[0]}
+								/>
+							{/each}
+						</Group>
+					{/each}
+				</Stack>
+			</Section>
+			<Section headerLevel={1}>
+				{#snippet header()}
 					GradientText
 				{/snippet}
 				<div style:font-weight="bolder" style:font-size="2.5rem">
@@ -140,16 +190,18 @@
 				<div>
 					{#each sizes as size}
 						<h2>{size}</h2>
-						{#each variants as variant}
-							<Group wrap>
-								{#each colors as color}
-									<Button {variant} {color} {size}>{variant} {color} {size}</Button>
-									<Button {variant} {color} {size} disabled
-										>{variant} {color} {size} disabled</Button
-									>
-								{/each}
-							</Group>
-						{/each}
+						<Stack gap={2}>
+							{#each variants as variant}
+								<Group wrap gap={1}>
+									{#each colors as color}
+										<Button {variant} {color} {size}>{variant} {color} {size}</Button>
+										<Button {variant} {color} {size} disabled
+											>{variant} {color} {size} disabled</Button
+										>
+									{/each}
+								</Group>
+							{/each}
+						</Stack>
 					{/each}
 				</div>
 			</Section>
@@ -223,7 +275,39 @@
 			</Section>
 			<Section headerLevel={1}>
 				{#snippet header()}
-					Input
+					Input Wrapper
+				{/snippet}
+				<Stack>
+					{#each sizes as size}
+						<Section headerLevel={2}>
+							{#snippet header()}
+								{size}
+							{/snippet}
+							<Group>
+								<InputWrapper bind:value={inputValue} {size}>
+									<IconStarFilled />
+									<TextBlock>Default</TextBlock>
+								</InputWrapper>
+								<InputWrapper bind:value={inputValue} {size} disabled>
+									<IconStarFilled />
+									<TextBlock>Disabled</TextBlock>
+								</InputWrapper>
+								<InputWrapper bind:value={inputValue} {size} hasError>
+									<IconStarFilled />
+									<TextBlock>Has error</TextBlock>
+								</InputWrapper>
+								<InputWrapper bind:value={inputValue} {size} disabled hasError>
+									<IconStarFilled />
+									<TextBlock>Has error + Disabled</TextBlock>
+								</InputWrapper>
+							</Group>
+						</Section>
+					{/each}
+				</Stack>
+			</Section>
+			<Section headerLevel={1}>
+				{#snippet header()}
+					Text Input
 				{/snippet}
 				<Stack>
 					{#each sizes as size}

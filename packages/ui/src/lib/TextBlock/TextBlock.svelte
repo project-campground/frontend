@@ -35,8 +35,8 @@
 	@use '../index.scss' as *;
 
 	.TextBlock {
-		display: inline-block;
-		vertical-align: center;
+		display: inline-flex;
+		align-items: center;
 		padding: {
 			left: var(--TextBlock-paddingLeft);
 			right: var(--TextBlock-paddingRight);
@@ -54,13 +54,13 @@
 			float: right;
 		}
 		&.alignTop {
-			vertical-align: top;
+			align-items: start;
 		}
 		&.alignCenter {
-			vertical-align: center;
+			align-items: center;
 		}
 		&.alignBottom {
-			vertical-align: bottom;
+			align-items: end;
 		}
 		&.weight500 {
 			font-weight: 500;

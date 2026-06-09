@@ -1,12 +1,23 @@
+@use 'sass:list';
 @use './util.scss' as *;
 
-$radius: 4px, 6px, 8px, 12px, 16px, 24px, 36px;
+$radius: 0.3125rem, 0.4375rem, 0.5625rem, 0.8125rem, 1rem, 1.5rem, 2rem;
 $radius-map: create-size-map($radius);
 
-$shadow:
-	0 1px 3px var(--shadow-color),
-	0 2px 5px var(--shadow-color),
-	0 3px 8px var(--shadow-color),
-	0 5px 12px var(--shadow-color),
-    0 6px 16px var(--shadow-color);
+@function create-shadows($pixel, $blur, $prefix) {
+	$sizes: 2, 2.5, 3, 5, 6;
+	$shadow-list: ();
+
+	@each $size in $sizes {
+		$shadow-list: list.append(
+			$shadow-list,
+			#{$prefix} 0 calc($pixel * $size) calc($blur * $size) var(--shadow-color)
+		);
+	}
+
+	@return $shadow-list;
+}
+$shadow: create-shadows(0.0625rem, 3px, '');
+$inset-shadow: create-shadows(0, 3px, inset);
 $shadow-map: create-size-map($shadow);
+$inset-shadow-map: create-size-map($inset-shadow);

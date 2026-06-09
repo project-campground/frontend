@@ -48,7 +48,13 @@
 			&.size#{$size-classname} {
 				font-size: $font-size;
 				--Avatar-size: #{$avatar-size};
-				border-radius: var(--radius-#{$size});
+				border-radius: 30%;
+				// Since it's relatively new thing
+				// Makes it tad bit better
+				@supports (corner-shape: squircle) {
+					border-radius: 100%;
+					corner-shape: squircle;
+				}
 			}
 		}
 	}

@@ -14,6 +14,7 @@ export interface TextFieldFormatString extends TextFieldFormatBase {
 export type TextFieldFormatCombined = TextFieldFormatRegex & TextFieldFormatString;
 export default interface FormTextFieldProps extends AriaAttributes {
 	type?: 'text' | 'password' | 'search';
+	placeholder?: string;
 
 	multipleRows?: boolean;
 	minLength?: number;

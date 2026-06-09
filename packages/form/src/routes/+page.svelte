@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Form from '$lib/Form/index.js';
+	import FormErrorLabel from '$lib/FormErrorLabel/FormErrorLabel.svelte';
 	import { FormField } from '$lib/FormField/index.js';
 	import { FormLabel } from '$lib/FormLabel/index.js';
 	import FormReactive from '$lib/FormReactive/FormReactive.svelte';
@@ -101,6 +102,11 @@
 					<FormField id="textAreaAndStuff">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextArea />
+					</FormField>
+					<FormField id="">
+						<FormLabel>Text area field</FormLabel>
+						<FormTextField format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }} />
+						<FormErrorLabel />
 					</FormField>
 					<FormReactive>
 						{#snippet render(fields)}

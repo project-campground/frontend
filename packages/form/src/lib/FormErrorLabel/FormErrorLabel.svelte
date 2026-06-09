@@ -1,24 +1,18 @@
 <script lang="ts">
 	import { getFormFieldContext } from '$lib/FormField/context.js';
+	import { Para } from '@campground/ui';
 	import type FormErrorLabelProps from './props.ts';
 
 	const fieldContext = getFormFieldContext();
 	let error = $state<string | null>(null);
 
-	fieldContext.error.subscribe((value) => (error = value));
+	fieldContext.error.subscribe((value) => (console.log('Err', error), (error = value)));
 
 	const { class: className, ...props }: FormErrorLabelProps = $props();
 </script>
 
 {#if error !== null}
-	<p class={['FormErrorLabel', className]} {...props}>
+	<Para class={['FormErrorLabel', className]} level="paragraph" color="danger" {...props}>
 		{error}
-	</p>
+	</Para>
 {/if}
-
-<style lang="scss">
-	.FormErrorLabel {
-		color: var(--palette-danger-500);
-		font-weight: bold;
-	}
-</style>

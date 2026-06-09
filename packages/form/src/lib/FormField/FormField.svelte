@@ -5,7 +5,7 @@
 	import { setFormFieldContext } from './context.ts';
 
 	const { id, required, disabled, children, ...props }: FormFieldProps = $props();
-	const error = writable<string | null>(null);
+	const errorWritable = writable<string | null>(null);
 
 	const formContext = getFormContext();
 	const state = toStore(
@@ -16,7 +16,10 @@
 				error: currentFormFields.valid[id] ? null : ''
 			};
 		},
-		({ value, error }) => formContext.updateFieldState(id, error !== null, value)
+		({ value, error }) => {
+			errorWritable.set(error);
+			formContext.updateFieldState(id, error === null, value);
+		}
 	);
 	const idStore = toStore(() => id);
 	const key = $props.id();
@@ -25,7 +28,7 @@
 		id: idStore,
 		key,
 		state,
-		error,
+		error: errorWritable,
 		required: toStore(() => required ?? false),
 		disabled: toStore(() => disabled ?? false)
 	});

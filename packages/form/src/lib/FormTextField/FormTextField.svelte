@@ -1,21 +1,9 @@
-<script lang="ts" module>
-	import { defineMessages } from '@formatjs/svelte-intl';
-	import { getLocaleContext } from '@campground/locale';
-
-	const errors = defineMessages({
-		minLength: {
-			id: 'form.fields.text.maxLength',
-			defaultMessage: 'The text is too short. Expected text to be {length} characters or more.',
-			description: 'The error when the text field has value that is too long'
-		}
-	});
-</script>
-
 <script lang="ts">
+	import { getLocaleContext } from '@campground/locale';
 	import { TextInput } from '@campground/ui';
 	import type FormTextFieldProps from './props.ts';
 	import { getFormFieldContext } from '$lib/FormField/context.js';
-	import { checkStringFormat } from './validation.ts';
+	import { checkStringFormat, textFieldErrors } from './validation.ts';
 
 	const { children, format, maxLength, minLength, ...props }: FormTextFieldProps = $props();
 
@@ -32,11 +20,12 @@
 
 	// Updating
 	$effect(() => {
-		const error = format
-			? checkStringFormat(value, format)
-			: value.length < minLengthDerived
-				? $intl.formatMessage(errors.minLength, { length: minLengthDerived })
-				: null;
+		const error =
+			value.length < minLengthDerived
+				? $intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
+				: format
+					? checkStringFormat(value, format)
+					: null;
 
 		fieldContext.state.set({ error, value });
 	});

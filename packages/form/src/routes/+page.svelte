@@ -4,7 +4,6 @@
 	import { FormField } from '$lib/FormField/index.js';
 	import { FormLabel } from '$lib/FormLabel/index.js';
 	import FormReactive from '$lib/FormReactive/FormReactive.svelte';
-	import FormTextArea from '$lib/FormTextArea/FormTextArea.svelte';
 	import { FormTextField } from '$lib/FormTextField/index.js';
 	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
 	import { Main, Section, theme } from '@campground/ui';
@@ -74,19 +73,19 @@
 				<Form>
 					<FormField id="textArea0">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextArea minLength={5} />
+						<FormTextField multipleRows minLength={5} />
 					</FormField>
 					<FormField id="textArea1">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextArea maxLength={50} />
+						<FormTextField multipleRows maxLength={50} />
 					</FormField>
 					<FormField id="textArea2">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextArea maxRows={4} />
+						<FormTextField multipleRows maxRows={4} />
 					</FormField>
 					<FormField id="textArea3">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextArea rows={8} />
+						<FormTextField multipleRows rows={8} />
 					</FormField>
 				</Form>
 			</Section>
@@ -101,7 +100,7 @@
 					</FormField>
 					<FormField id="textAreaAndStuff">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextArea />
+						<FormTextField multipleRows />
 					</FormField>
 					<FormField id="">
 						<FormLabel>Text area field</FormLabel>

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getFormFieldContext } from '$lib/FormField/context.js';
+	import { getFormControlContext } from '$lib/FormControl/context.js';
 	import { Para } from '@campground/ui';
 	import type FormErrorLabelProps from './props.ts';
 
-	const fieldContext = getFormFieldContext();
+	const fieldContext = getFormControlContext();
 	let error = $state<string | null>(null);
 
 	fieldContext.error.subscribe((value) => (console.log('Err', error), (error = value)));

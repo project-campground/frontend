@@ -2,7 +2,7 @@
 	import { getLocaleContext } from '@campground/locale';
 	import { InputWrapper, TextInput } from '@campground/ui';
 	import type FormTextFieldProps from './props.ts';
-	import { getFormFieldContext } from '$lib/FormField/context.js';
+	import { getFormControlContext } from '$lib/FormControl/context.js';
 	import { checkStringFormat, textFieldErrors } from './validation.ts';
 
 	const {
@@ -19,7 +19,7 @@
 	}: FormTextFieldProps = $props();
 
 	// Functionality
-	const fieldContext = getFormFieldContext();
+	const fieldContext = getFormControlContext();
 	let value = $state('');
 
 	// Error messages

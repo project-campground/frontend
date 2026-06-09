@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { getFormFieldContext } from '$lib/FormField/context.js';
+	import { getFormControlContext } from '$lib/FormControl/context.js';
 	import type FormLabelProps from './props.ts';
 
-	const fieldContext = getFormFieldContext();
+	const fieldContext = getFormControlContext();
 	let required = $state<boolean>(false);
 
 	fieldContext.required.subscribe((value) => (required = value));

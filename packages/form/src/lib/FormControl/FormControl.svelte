@@ -3,7 +3,7 @@
 	import { getFormContext } from '$lib/Form/context.js';
 	import { get, toStore, writable } from 'svelte/store';
 	import { setFormFieldContext } from './context.ts';
-
+setFormControlContext
 	const { id, required, disabled, children, ...props }: FormFieldProps = $props();
 	const errorWritable = writable<string | null>(null);
 
@@ -31,7 +31,7 @@
 		error: errorWritable,
 		required: toStore(() => required ?? false),
 		disabled: toStore(() => disabled ?? false)
-	});
+	setFormControlContext
 </script>
 
 <div class={['FormField', { disabled, required }]} {...props}>

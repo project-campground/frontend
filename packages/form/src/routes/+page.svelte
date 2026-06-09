@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Form from '$lib/Form/index.js';
 	import FormErrorLabel from '$lib/FormErrorLabel/FormErrorLabel.svelte';
-	import { FormField } from '$lib/FormField/index.js';
+	import { FormControl } from '$lib/FormControl/index.js';
 	import { FormLabel } from '$lib/FormLabel/index.js';
 	import FormReactive from '$lib/FormReactive/FormReactive.svelte';
 	import { FormTextField } from '$lib/FormTextField/index.js';
@@ -50,9 +50,9 @@
 					Form with field label
 				{/snippet}
 				<Form>
-					<FormField id="withLabel" required>
+					<FormControl id="withLabel" required>
 						<FormLabel>Example label</FormLabel>
-					</FormField>
+					</FormControl>
 				</Form>
 			</Section>
 			<Section>
@@ -60,10 +60,10 @@
 					Form with field text input
 				{/snippet}
 				<Form>
-					<FormField id="withTextInput">
+					<FormControl id="withTextInput">
 						<FormLabel>Example label</FormLabel>
 						<FormTextField />
-					</FormField>
+					</FormControl>
 				</Form>
 			</Section>
 			<Section>
@@ -71,22 +71,22 @@
 					Text area form
 				{/snippet}
 				<Form>
-					<FormField id="textArea0">
+					<FormControl id="textArea0">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField multipleRows minLength={5} />
-					</FormField>
-					<FormField id="textArea1">
+					</FormControl>
+					<FormControl id="textArea1">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField multipleRows maxLength={50} />
-					</FormField>
-					<FormField id="textArea2">
+					</FormControl>
+					<FormControl id="textArea2">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField multipleRows maxRows={4} />
-					</FormField>
-					<FormField id="textArea3">
+					</FormControl>
+					<FormControl id="textArea3">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField multipleRows rows={8} />
-					</FormField>
+					</FormControl>
 				</Form>
 			</Section>
 			<Section>
@@ -94,19 +94,19 @@
 					Form Reactive
 				{/snippet}
 				<Form>
-					<FormField id="textField">
+					<FormControl id="textField">
 						<FormLabel>Text field</FormLabel>
 						<FormTextField />
-					</FormField>
-					<FormField id="textAreaAndStuff">
+					</FormControl>
+					<FormControl id="textAreaAndStuff">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField multipleRows />
-					</FormField>
-					<FormField id="">
+					</FormControl>
+					<FormControl id="">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }} />
 						<FormErrorLabel />
-					</FormField>
+					</FormControl>
 					<FormReactive>
 						{#snippet render(fields)}
 							<pre><code>{JSON.stringify(fields, undefined, 4)}</code></pre>

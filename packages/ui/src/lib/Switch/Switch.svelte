@@ -9,6 +9,7 @@
 		class: className,
 		checkedIcon,
 		uncheckedIcon,
+		inputDisabled,
 		value = $bindable(),
 		...attributes
 	}: SwitchProps = $props();
@@ -25,7 +26,7 @@
 		className
 	]}
 >
-	<div class={['Switch display']}>
+	<div class={['Switch display']} aria-hidden="true">
 		<div class={['Switch backgroundIcons']}>
 			<CheckedComponent class="Switch icon" />
 			<span class="Switch spread"></span>
@@ -33,14 +34,21 @@
 		</div>
 		<div class={['Switch button']}></div>
 	</div>
-	<input bind:checked={value} type="checkbox" class={['Switch input']} {disabled} {...attributes} />
+	<input
+		bind:checked={value}
+		type="checkbox"
+		class={['Switch input']}
+		disabled={disabled ?? inputDisabled}
+		aria-disabled={disabled ?? inputDisabled}
+		{...attributes}
+	/>
 </div>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 	@use 'sass:list';
 
-	$input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2.25rem, 3.5rem));
+	$input-sizes: create-size-map((1rem, 1.25rem, 1.5rem, 2rem, 2.5rem));
 
 	@each $size, $proportions in $input-sizes {
 		.size#{capitalize($size)} {
@@ -73,7 +81,10 @@
 		background-color: transparent;
 		appearance: none;
 		cursor: pointer;
-		padding: 0;
+		margin: 0;
+		.disabled > & {
+			cursor: default;
+		}
 	}
 	.display {
 		position: relative;
@@ -86,16 +97,28 @@
 
 		transition: background, border, box-shadow;
 		transition-duration: 0.3s;
-		.checked & {
+		.container:not(.disabled):hover > &,
+		.container:not(.disabled):active:hover > & {
+			background-color: var(--palette-danger-600);
+			border: solid 2px var(--palette-danger-500);
+			box-shadow: inset 0 0 4px var(--palette-danger-500);
+		}
+		.checked:not(.disabled) & {
 			background-color: var(--palette-success-600);
 			border: solid 2px var(--palette-success-500);
 			box-shadow: inset 0 0 4px var(--palette-success-500);
 		}
-	}
-	@keyframes bubble {
-		100% {
-			transform: scaleY(1);
+		.checked:not(.disabled):hover > &,
+		.checked:not(.disabled):active:hover > & {
+			background-color: var(--palette-success-500);
+			border: solid 2px var(--palette-success-400);
+			box-shadow: inset 0 0 4px var(--palette-success-400);
 		}
+	}
+	.disabled > .display {
+		background-color: var(--palette-neutral-800);
+		border: solid 2px var(--palette-neutral-700);
+		box-shadow: inset 0 0 4px var(--palette-neutral-700);
 	}
 	.backgroundIcons {
 		position: absolute;
@@ -106,11 +129,11 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		padding: calc(var(--Switch-width) / 8);
+		padding: 0 calc(var(--Switch-width) / 16);
 		color: var(--palette-neutral-950);
 		& > :global(.Switch.icon) {
-			width: calc(var(--Switch-width) / 4);
-			height: calc(var(--Switch-width) / 4);
+			width: 70%;
+			height: 70%;
 		}
 	}
 	.spread {
@@ -118,7 +141,7 @@
 	}
 	.button {
 		display: inline-block;
-		height: calc(100% - 2px);
+		height: 100%;
 		border-radius: 100%;
 		z-index: 1;
 
@@ -134,6 +157,9 @@
 	}
 	.container:active {
 		transform: scale(0.85);
+		:global(.icon) {
+			transform: scaleY(0.95);
+		}
 		.button {
 			transform: translateX(var(--Switch-buttonX)) scaleY(0.75);
 		}

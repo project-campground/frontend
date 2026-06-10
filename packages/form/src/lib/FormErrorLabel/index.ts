@@ -1,2 +1,2 @@
-export type { default as FormLabelProps } from './props.ts';
-export { default as FormLabel } from './FormErrorLabel.svelte';
+export type { default as FormErrorLabelProps } from './props.ts';
+export { default as FormErrorLabel } from './FormErrorLabel.svelte';

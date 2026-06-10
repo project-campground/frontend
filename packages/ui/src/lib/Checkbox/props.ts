@@ -13,5 +13,4 @@ export default interface TextInputProps extends Omit<HTMLInputAttributes, 'size'
 	size?: ComponentSize;
 	checkedIcon?: IconComponent;
 	uncheckedIcon?: IconComponent;
-	inputDisabled?: boolean;
 }

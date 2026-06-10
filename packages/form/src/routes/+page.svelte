@@ -9,6 +9,7 @@
 	import { Main, Section, theme } from '@campground/ui';
 	import { writable } from 'svelte/store';
 	import FormSwitch from '$lib/FormSwitch/FormSwitch.svelte';
+	import * as FormCheck from '$lib/FormCheck/index.js';
 
 	let lightTheme: boolean = $state(false);
 
@@ -128,6 +129,28 @@
 							{/snippet}
 							Example description
 						</FormSwitch>
+						<FormErrorLabel />
+					</FormControl>
+					<FormControl id="checklist">
+						<FormLabel>Checklist</FormLabel>
+						<FormCheck.List>
+							<FormCheck.Box value="first">
+								{#snippet header()}
+									First value
+								{/snippet}
+							</FormCheck.Box>
+							<FormCheck.Box value="second">
+								{#snippet header()}
+									Second value
+								{/snippet}
+							</FormCheck.Box>
+							<FormCheck.Box value={0}>
+								{#snippet header()}
+									0 value
+								{/snippet}
+								Description here
+							</FormCheck.Box>
+						</FormCheck.List>
 						<FormErrorLabel />
 					</FormControl>
 					<FormReactive>

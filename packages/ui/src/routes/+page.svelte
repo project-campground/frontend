@@ -19,14 +19,9 @@
 	import Stack from '$lib/Stack/Stack.svelte';
 	import TextInput from '$lib/TextInput/TextInput.svelte';
 	import Switch from '$lib/Switch/Switch.svelte';
-	import {
-		IconMoon,
-		IconMoonFilled,
-		IconStarFilled,
-		IconSun,
-		IconSunFilled
-	} from '@tabler/icons-svelte';
+	import { IconMoonFilled, IconStarFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import InputWrapper from '$lib/InputWrapper/InputWrapper.svelte';
+	import Checkbox from '$lib/Checkbox/Checkbox.svelte';
 
 	const gradientTextMaxColors = [
 		['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF'],
@@ -137,22 +132,46 @@
 					<Group>
 						<Switch bind:value={switchValue} />
 					</Group>
-					{#each [[], [IconMoonFilled], [undefined, IconSunFilled], [IconMoonFilled, IconSunFilled]] as iconSet}
-						<Group>
-							<Switch
-								bind:value={switchValue}
-								checkedIcon={iconSet[1]}
-								uncheckedIcon={iconSet[0]}
-							/>
-							{#each sizes as size}
+					{#each [false, true] as disabled}
+						{#each [[], [IconMoonFilled], [undefined, IconSunFilled], [IconMoonFilled, IconSunFilled]] as iconSet}
+							<Group>
 								<Switch
-									{size}
 									bind:value={switchValue}
 									checkedIcon={iconSet[1]}
 									uncheckedIcon={iconSet[0]}
+									{disabled}
 								/>
-							{/each}
-						</Group>
+								{#each sizes as size}
+									<Switch
+										{size}
+										bind:value={switchValue}
+										checkedIcon={iconSet[1]}
+										uncheckedIcon={iconSet[0]}
+										{disabled}
+									/>
+								{/each}
+							</Group>
+						{/each}
+					{/each}
+				</Stack>
+			</Section>
+			<Section headerLevel={1}>
+				{#snippet header()}
+					Checkbox
+				{/snippet}
+				<Stack gap={1}>
+					<Group>
+						<Checkbox bind:value={switchValue} />
+					</Group>
+					{#each [false, true] as disabled}
+						{#each [[], [IconMoonFilled], [undefined, IconSunFilled], [IconMoonFilled, IconSunFilled]] as iconSet}
+							<Group>
+								<Checkbox bind:value={switchValue} {disabled} />
+								{#each sizes as size}
+									<Checkbox {size} bind:value={switchValue} {disabled} />
+								{/each}
+							</Group>
+						{/each}
 					{/each}
 				</Stack>
 			</Section>

@@ -6,7 +6,7 @@
 	const fieldContext = getFormControlContext();
 	let error = $state<string | null>(null);
 
-	fieldContext.error.subscribe((value) => (console.log('Err', error), (error = value)));
+	fieldContext.error.subscribe((value) => (error = value));
 
 	const { class: className, ...props }: FormErrorLabelProps = $props();
 </script>

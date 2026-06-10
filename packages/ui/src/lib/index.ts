@@ -2,6 +2,7 @@ export { default as Alert, type AlertProps } from './Alert/index.ts';
 export { default as BrandLogo, type BrandLogoProps } from './BrandLogo/index.ts';
 export { default as Button, type ButtonProps } from './Button/index.ts';
 export * as Card from './Card/index.ts';
+export { default as Checkbox, type CheckboxProps } from './Checkbox/index.ts';
 export { default as FlexCenter, type FlexCenterProps } from './FlexCenter/index.ts';
 export {
 	default as GradientText,

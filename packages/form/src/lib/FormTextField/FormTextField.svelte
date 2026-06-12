@@ -22,9 +22,10 @@
 	const fieldContext = getFormControlContext();
 	let value = $state('');
 
-	// Error messages
+	// Error messages and feedback
 	const intl = getLocaleContext();
 	let errorState = $state<string | null>(null);
+	let focused = $state(false);
 
 	// Formatting
 	const required = fieldContext.required;
@@ -47,7 +48,7 @@
 	});
 </script>
 
-<InputWrapper class={['FormTextField container']} hasError={errorState !== null}>
+<InputWrapper class={['FormTextField container']} hasError={errorState !== null} {focused}>
 	{@render left?.()}
 	<div class={['FormTextField wrapper']}>
 		{@render top?.()}
@@ -55,6 +56,7 @@
 			<textarea
 				class={['FormTextField input']}
 				bind:value
+				bind:focused
 				id={`control-${fieldContext.key}`}
 				maxlength={maxLength}
 				{...props}
@@ -63,6 +65,7 @@
 		{:else}
 			<input
 				bind:value
+				bind:focused
 				class={['FormTextField input']}
 				id={`control-${fieldContext.key}`}
 				maxlength={maxLength}
@@ -83,7 +86,7 @@
 		resize: none;
 		font-family: var(--font-body);
 		font-size: 1em;
-		color: var(--palette-foreground-level3);
+		color: var(--palette-foreground-level2);
 		flex: 1;
 		:global(.hasError) > .wrapper > & {
 			color: var(--palette-danger-500);

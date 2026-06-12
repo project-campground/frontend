@@ -3,6 +3,7 @@
 	import { getFormControlContext } from '$lib/FormControl/context.js';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { setFormChecksContext } from './context.ts';
+	import { Stack } from '@campground/ui';
 
 	const { children, ...props }: FormChecklistProps = $props();
 
@@ -17,6 +18,6 @@
 	setFormChecksContext({ checked });
 </script>
 
-<div class="FormChecklist container" {...props}>
+<Stack class="FormChecklist container" {...props}>
 	{@render children?.()}
-</div>
+</Stack>

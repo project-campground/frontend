@@ -28,6 +28,7 @@ export {
 export { default as Para, type ParaProps } from './Para/index.ts';
 export { default as Radio, type RadioProps } from './Radio/index.ts';
 export { default as Section, type SectionProps } from './Section/index.ts';
+export { default as Stack, type StackProps } from './Stack/index.ts';
 export { default as Switch, type SwitchProps } from './Switch/index.ts';
 export { default as TextInput, type TextInputProps } from './TextInput/index.ts';
 export { default as InputWrapper, type InputWrapperProps } from './InputWrapper/index.ts';

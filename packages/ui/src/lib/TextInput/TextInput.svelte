@@ -46,7 +46,7 @@
 		font-size: 1em;
 		flex: 1;
 		&::placeholder {
-			color: var(--palette-foreground-level4);
+			color: var(--palette-foreground-level5);
 		}
 	}
 	:global(.hasError) > .input {

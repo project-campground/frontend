@@ -2,6 +2,8 @@
 	import { Para } from '@campground/ui';
 	import type FormSimpleFieldProps from './props.ts';
 
+	const key = $props.id();
+
 	const {
 		header,
 		children,
@@ -14,16 +16,18 @@
 
 <div class={['FormSimpleField container', { reverse }, className]} {...props}>
 	<header class={['FormSimpleField header']}>
-		{@render component()}
+		{@render component(key)}
 		{#if header}
-			<Para class={['FormSimpleField title']} weight={700}>
+			<label class={['FormSimpleField title']} for={key}>
 				{@render header()}
-			</Para>
+			</label>
 		{/if}
 	</header>
-	<section class={['FormSwitch description']}>
-		{@render children?.()}
-	</section>
+	{#if children}
+		<section class={['FormSimpleField description']}>
+			{@render children()}
+		</section>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -37,6 +41,10 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 1ch;
+	}
+	.title {
+		font-weight: 700;
+		color: var(--palette-foreground-level2);
 	}
 	.reverse > .header {
 		flex-direction: row-reverse;

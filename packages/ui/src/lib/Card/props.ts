@@ -1,6 +1,6 @@
 import type { Snippet } from 'svelte';
-import type { ComponentSize } from "../types/attributes.ts";
-import type { ClassValue } from "svelte/elements";
+import type { ComponentSize } from '../types/attributes.ts';
+import type { ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
 
 export interface RootProps {
 	level?: 'default' | 'subtle';
@@ -15,4 +15,7 @@ export interface ContentProps {
 export interface OverflowProps {
 	class?: ClassValue;
 	children: Snippet;
+}
+export interface LinkProps extends HTMLAnchorAttributes {
+	class?: ClassValue;
 }

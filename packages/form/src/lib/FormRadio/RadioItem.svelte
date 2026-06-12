@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Radio } from '@campground/ui';
+	import { Radio } from '@campground/ui';
 	import { getFormRadioContext } from './context.ts';
 	import type { FormRadioItemProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
@@ -15,8 +15,9 @@
 </script>
 
 <FormSimpleField class={{ checked }} {header} {children}>
-	{#snippet component()}
+	{#snippet component(id)}
 		<Radio
+			{id}
 			size="sm"
 			name={fieldContext.key}
 			oninput={() => fieldContext.value.set(value)}

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Checkbox } from '@campground/ui';
+	import { Card, Checkbox } from '@campground/ui';
 	import type { FormCheckboxProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
 	import { getFormChecksContext } from './context.ts';
 
-	const { header, children, value, ...props }: FormCheckboxProps = $props();
+	const { value, header, children, ...props }: FormCheckboxProps = $props();
 
 	// Functionality
 	const fieldContext = getFormChecksContext();
@@ -17,8 +17,13 @@
 	});
 </script>
 
-<FormSimpleField class={{ checked }} {header} {children}>
-	{#snippet component()}
-		<Checkbox bind:checked size="sm" {...props} />
-	{/snippet}
-</FormSimpleField>
+<Card.Root>
+	<Card.Content>
+		<FormSimpleField reverse {header} {children}>
+			{#snippet component(id)}
+				<Checkbox bind:checked {id} size="sm" {...props} />
+			{/snippet}
+		</FormSimpleField>
+	</Card.Content>
+	<Card.Link onclick={() => (checked = !checked)} tabindex={-1} />
+</Card.Root>

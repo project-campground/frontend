@@ -6,20 +6,20 @@
 		size,
 		disabled,
 		class: className,
-		group = $bindable(),
 		value,
+		group = $bindable(),
 		...attributes
 	}: RadioProps = $props();
 </script>
 
 <input
-	bind:group
-	{value}
 	type="radio"
 	class={['Radio', { disabled }, `size${capitalize(size ?? 'md')}`, className]}
-	{disabled}
 	aria-disabled={disabled}
 	data-shadow-reset
+	bind:group
+	{value}
+	{disabled}
 	{...attributes}
 />
 

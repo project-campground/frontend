@@ -135,22 +135,22 @@
 					<FormControl id="checklist">
 						<FormLabel>Checklist</FormLabel>
 						<FormCheck.List>
-							<FormCheck.Box value="first">
+							<FormCheck.Item value="first">
 								{#snippet header()}
 									First value
 								{/snippet}
-							</FormCheck.Box>
-							<FormCheck.Box value="second">
+							</FormCheck.Item>
+							<FormCheck.Card value="second">
 								{#snippet header()}
 									Second value
 								{/snippet}
-							</FormCheck.Box>
-							<FormCheck.Box value={0}>
+							</FormCheck.Card>
+							<FormCheck.Item value={0}>
 								{#snippet header()}
 									0 value
 								{/snippet}
 								Description here
-							</FormCheck.Box>
+							</FormCheck.Item>
 						</FormCheck.List>
 						<FormErrorLabel />
 					</FormControl>
@@ -162,11 +162,11 @@
 									First value
 								{/snippet}
 							</FormRadio.Item>
-							<FormRadio.Item value="second">
+							<FormRadio.Card value="second">
 								{#snippet header()}
 									Second value
 								{/snippet}
-							</FormRadio.Item>
+							</FormRadio.Card>
 							<FormRadio.Item value={0}>
 								{#snippet header()}
 									0 value

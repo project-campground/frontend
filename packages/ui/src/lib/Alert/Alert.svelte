@@ -38,6 +38,7 @@
 			flex-direction: row;
 			align-items: center;
 			gap: 8px;
+			box-shadow: var(--template-inset-shadow-md) var(--component-shadowColor);
 		}
 		&.icon {
 			line-height: 0;
@@ -46,12 +47,12 @@
 			&.size#{capitalize($size)} {
 				padding: $values;
 				--Alert-radius: var(--radius-#{$size});
-				box-shadow: var(--inset-shadow-#{$size});
+				box-shadow: var(--template-inset-shadow-#{$size}) var(--component-shadowColor);
 			}
 		}
 		@each $col in $color-types {
 			&.color#{capitalize($col)} {
-				--shadow-color: var(--palette-#{$col}-700);
+				--component-shadowColor: var(--palette-#{$col}-800);
 				background-color: var(--palette-#{$col}-softBack);
 				color: var(--palette-#{$col}-softFore);
 			}

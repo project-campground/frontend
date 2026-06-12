@@ -1,32 +1,34 @@
 <script lang="ts">
 	import { IconCheck } from '@tabler/icons-svelte';
 	import { capitalize } from '../util/component.ts';
-	import type SwitchProps from './props.ts';
+	import type CheckboxProps from './props.ts';
 
 	let {
 		size,
 		disabled,
 		class: className,
-		checkedIcon,
-		uncheckedIcon,
-		value = $bindable(),
+		icon,
+		checked = $bindable(),
 		...attributes
-	}: SwitchProps = $props();
+	}: CheckboxProps = $props();
+
+	const CheckedComponent = $derived(icon ?? IconCheck);
 </script>
 
 <div
 	class={[
 		'Checkbox container',
-		{ disabled, checked: value },
+		{ disabled, checked },
 		`size${capitalize(size ?? 'md')}`,
 		className
 	]}
+	data-shadow-reset
 >
-	<IconCheck class="Checkbox icon" />
+	<CheckedComponent class="Checkbox icon" />
 	<input
-		bind:checked={value}
+		bind:checked
 		type="checkbox"
-		class={['Switch input']}
+		class={['Checkbox input']}
 		{disabled}
 		aria-disabled={disabled}
 		{...attributes}
@@ -41,14 +43,15 @@
 
 	@each $size, $proportions in $input-sizes {
 		.size#{capitalize($size)} {
-			--Checkbox-size: #{$proportions};
+			--component-size: #{$proportions};
+			--component-shadow: var(--template-inset-shadow-#{$size});
 		}
 	}
 	.container {
 		position: relative;
 		transition: transform 0.3s;
-		width: var(--Checkbox-size);
-		height: var(--Checkbox-size);
+		width: var(--component-size);
+		height: var(--component-size);
 
 		display: flex;
 		flex-direction: row;
@@ -57,26 +60,22 @@
 
 		background-color: var(--palette-neutral-700);
 		border: solid 2px var(--palette-neutral-600);
-		box-shadow: inset 0 0 4px var(--palette-neutral-600);
 		border-radius: 30%;
+		--component-shadowColor: var(--palette-neutral-600);
+		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
 		transition: background, border, box-shadow, transform;
 		transition-duration: 0.3s;
 
 		// For click animations to still retain the rotation
-		--Checkbox-iconRotation: 90deg;
-
-		@supports (corner-shape: squircle) {
-			border-radius: 100%;
-			corner-shape: squircle;
-		}
+		--component-iconRotation: 90deg;
 
 		&.checked {
 			background-color: var(--palette-success-600);
 			border: solid 2px var(--palette-success-500);
-			box-shadow: inset 0 0 4px var(--palette-success-500);
+			--component-shadowColor: var(--palette-success-500);
 
-			--Checkbox-iconRotation: 0deg;
+			--component-iconRotation: 0deg;
 
 			// For better transitions
 			& > :global(.icon) {
@@ -87,25 +86,24 @@
 		&:active {
 			transform: scale(0.85);
 			& > :global(.icon) {
-				transform: rotateY(var(--Checkbox-iconRotation)) scaleY(0.75);
+				transform: rotateY(var(--component-iconRotation)) scaleY(0.75);
 			}
 		}
 		&:not(.disabled):hover,
 		&:not(.disabled):hover:active {
 			background-color: var(--palette-neutral-600);
 			border: solid 2px var(--palette-neutral-500);
-			box-shadow: inset 0 0 4px var(--palette-neutral-500);
 		}
 		&:not(.disabled).checked:hover,
 		&:not(.disabled).checked:hover:active {
 			background-color: var(--palette-success-500);
 			border: solid 2px var(--palette-success-400);
-			box-shadow: inset 0 0 4px var(--palette-success-400);
+			--component-shadowColor: var(--palette-success-400);
 		}
 		&.disabled {
 			background-color: var(--palette-neutral-800);
 			border: solid 2px var(--palette-neutral-700);
-			box-shadow: inset 0 0 4px var(--palette-neutral-700);
+			--component-shadowColor: var(--palette-neutral-700);
 		}
 		// To not change .icon class throughout the app
 		& > :global(.icon) {
@@ -115,7 +113,7 @@
 			width: 80%;
 			height: 80%;
 			color: var(--palette-neutral-950);
-			transform: rotateY(var(--Checkbox-iconRotation));
+			transform: rotateY(var(--component-iconRotation));
 		}
 		// Browser support for better styling
 		@supports (corner-shape: squircle) {

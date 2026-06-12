@@ -10,6 +10,7 @@
 	import { writable } from 'svelte/store';
 	import FormSwitch from '$lib/FormSwitch/FormSwitch.svelte';
 	import * as FormCheck from '$lib/FormCheck/index.js';
+	import { FormRadio } from '$lib/index.js';
 
 	let lightTheme: boolean = $state(false);
 
@@ -151,6 +152,28 @@
 								Description here
 							</FormCheck.Box>
 						</FormCheck.List>
+						<FormErrorLabel />
+					</FormControl>
+					<FormControl id="radiolist">
+						<FormLabel>Radio List</FormLabel>
+						<FormRadio.List>
+							<FormRadio.Item value="first">
+								{#snippet header()}
+									First value
+								{/snippet}
+							</FormRadio.Item>
+							<FormRadio.Item value="second">
+								{#snippet header()}
+									Second value
+								{/snippet}
+							</FormRadio.Item>
+							<FormRadio.Item value={0}>
+								{#snippet header()}
+									0 value
+								{/snippet}
+								Description here
+							</FormRadio.Item>
+						</FormRadio.List>
 						<FormErrorLabel />
 					</FormControl>
 					<FormReactive>

@@ -22,6 +22,8 @@
 	import { IconMoonFilled, IconStarFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import InputWrapper from '$lib/InputWrapper/InputWrapper.svelte';
 	import Checkbox from '$lib/Checkbox/Checkbox.svelte';
+	import Radio from '$lib/Radio/Radio.svelte';
+	import Para from '$lib/Para/Para.svelte';
 
 	const gradientTextMaxColors = [
 		['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF'],
@@ -45,6 +47,11 @@
 	let switchValue = $state(false);
 
 	let inputValue = $state('');
+
+	let radioGroup = $state('default');
+
+	let checkboxGroupChecked = $state(false);
+	let checkboxGroup = $state([]);
 </script>
 
 <Main>
@@ -161,17 +168,47 @@
 				{/snippet}
 				<Stack gap={1}>
 					<Group>
-						<Checkbox bind:value={switchValue} />
+						<Checkbox bind:checked={switchValue} />
 					</Group>
 					{#each [false, true] as disabled}
-						{#each [[], [IconMoonFilled], [undefined, IconSunFilled], [IconMoonFilled, IconSunFilled]] as iconSet}
+						{#each [undefined, IconMoonFilled] as icon}
 							<Group>
-								<Checkbox bind:value={switchValue} {disabled} />
+								<Checkbox bind:checked={switchValue} {disabled} {icon} />
 								{#each sizes as size}
-									<Checkbox {size} bind:value={switchValue} {disabled} />
+									<Checkbox {size} bind:checked={switchValue} {disabled} {icon} />
 								{/each}
 							</Group>
 						{/each}
+					{/each}
+				</Stack>
+			</Section>
+			<Section headerLevel={1}>
+				{#snippet header()}
+					Radio
+				{/snippet}
+				<Stack gap={1}>
+					<Para>Radio value: {radioGroup}</Para>
+					<Group>
+						<Radio name="example-2" value="" bind:group={radioGroup} />
+					</Group>
+					{#each [false, true] as disabled}
+						<Group>
+							<Radio
+								name="example-2"
+								value={`default${disabled ? `-disabled` : ``}`}
+								bind:group={radioGroup}
+								{disabled}
+							/>
+							{#each sizes as size}
+								<Radio
+									name="example-2"
+									{size}
+									{disabled}
+									value={`${size}${disabled ? `-disabled` : ``}`}
+									bind:group={radioGroup}
+								/>
+							{/each}
+						</Group>
 					{/each}
 				</Stack>
 			</Section>

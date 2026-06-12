@@ -9,8 +9,6 @@ type IconComponentDeprecated = typeof IconCheck;
 type IconComponent = IconComponentModern | IconComponentDeprecated | undefined | null;
 
 export default interface TextInputProps extends Omit<HTMLInputAttributes, 'size'> {
-	value?: boolean;
 	size?: ComponentSize;
-	checkedIcon?: IconComponent;
-	uncheckedIcon?: IconComponent;
+	icon?: IconComponent;
 }

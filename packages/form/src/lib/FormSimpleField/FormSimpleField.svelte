@@ -6,19 +6,20 @@
 		header,
 		children,
 		component,
+		reverse,
 		class: className,
 		...props
 	}: FormSimpleFieldProps = $props();
 </script>
 
-<div class={['FormSimpleField container', className]} {...props}>
+<div class={['FormSimpleField container', { reverse }, className]} {...props}>
 	<header class={['FormSimpleField header']}>
+		{@render component()}
 		{#if header}
-			<Para class={['FormSwitch title']} weight={700}>
+			<Para class={['FormSimpleField title']} weight={700}>
 				{@render header()}
 			</Para>
 		{/if}
-		{@render component()}
 	</header>
 	<section class={['FormSwitch description']}>
 		{@render children?.()}
@@ -35,7 +36,10 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 2ch;
+		gap: 1ch;
+	}
+	.reverse > .header {
+		flex-direction: row-reverse;
 	}
 	.description {
 		color: var(--palette-foreground-level4);

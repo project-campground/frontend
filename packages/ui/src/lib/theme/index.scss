@@ -22,10 +22,12 @@
 }
 %shadow-attributes {
 	@each $type, $value in $shadow-map {
-		--shadow-#{$type}: #{$value};
+		--shadow-#{$type}: #{$value} #0002;
+		--template-shadow-#{$type}: #{$value};
 	}
 	@each $type, $value in $inset-shadow-map {
-		--inset-shadow-#{$type}: #{$value};
+		--inset-shadow-#{$type}: #{$value} #0002;
+		--template-inset-shadow-#{$type}: #{$value};
 	}
 }
 %font {
@@ -45,9 +47,6 @@
 		background-color: var(--palette-primary-500-t);
 		color: var(--palette-primary-50);
 	}
-}
-:global([data-shadow-reset]) {
-	@extend %shadow-attributes;
 }
 
 :global([data-theme='dark']) {

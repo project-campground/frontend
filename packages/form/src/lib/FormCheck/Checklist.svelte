@@ -18,6 +18,5 @@
 </script>
 
 <div class="FormChecklist container" {...props}>
-	{JSON.stringify([...checked])}
 	{@render children?.()}
 </div>

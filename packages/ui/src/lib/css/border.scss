@@ -1,7 +1,7 @@
 @use 'sass:list';
 @use './util.scss' as *;
 
-$radius: 0.3125rem, 0.4375rem, 0.5625rem, 0.8125rem, 1rem, 1.5rem, 2rem;
+$radius: 0.375rem, 0.4375rem, 0.5625rem, 0.8125rem, 1rem, 1.5rem, 2rem;
 $radius-map: create-size-map($radius);
 
 @function create-shadows($pixel, $blur, $prefix) {
@@ -9,10 +9,7 @@ $radius-map: create-size-map($radius);
 	$shadow-list: ();
 
 	@each $size in $sizes {
-		$shadow-list: list.append(
-			$shadow-list,
-			#{$prefix} 0 calc($pixel * $size) calc($blur * $size) var(--shadow-color)
-		);
+		$shadow-list: list.append($shadow-list, #{$prefix} 0 calc($pixel * $size) calc($blur * $size));
 	}
 
 	@return $shadow-list;

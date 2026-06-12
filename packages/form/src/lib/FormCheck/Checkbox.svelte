@@ -19,6 +19,6 @@
 
 <FormSimpleField class={{ checked }} {header} {children}>
 	{#snippet component()}
-		<Checkbox bind:value={checked} {...props} />
+		<Checkbox bind:checked size="sm" {...props} />
 	{/snippet}
 </FormSimpleField>

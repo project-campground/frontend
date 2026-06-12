@@ -26,7 +26,7 @@
 		className
 	]}
 >
-	<div class={['Switch display']} aria-hidden="true">
+	<div class={['Switch display']} aria-hidden="true" data-shadow-reset>
 		<div class={['Switch backgroundIcons']}>
 			<CheckedComponent class="Switch icon" />
 			<span class="Switch spread"></span>
@@ -52,17 +52,8 @@
 
 	@each $size, $proportions in $input-sizes {
 		.size#{capitalize($size)} {
-			--Switch-width: calc(#{calc($proportions * 2)});
-			& > .display {
-				// -0.25 due to padding on both sides
-				width: calc($proportions * 7 / 4);
-				height: calc($proportions * 3 / 4);
-				padding: calc($proportions / 8) calc($proportions / 8);
-				border-radius: calc($proportions * 3 / 4);
-			}
-			.button {
-				width: calc($proportions * 0.75);
-			}
+			--component-size: #{$proportions};
+			--component-shadow: var(--template-inset-shadow-#{$size});
 		}
 	}
 	.container {
@@ -93,10 +84,17 @@
 
 		background-color: var(--palette-danger-700);
 		border: solid 2px var(--palette-danger-600);
-		box-shadow: inset 0 0 4px var(--palette-danger-600);
+		--component-shadowColor: var(--palette-danger-600);
+		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
 		transition: background, border, box-shadow;
 		transition-duration: 0.3s;
+		// -0.25 due to padding on both sides
+		width: calc(var(--component-size) * 7 / 4);
+		height: calc(var(--component-size) * 3 / 4);
+		padding: calc(var(--component-size) / 8) calc(var(--component-size) / 8);
+		border-radius: calc(var(--component-size) * 3 / 4);
+
 		.container:not(.disabled):hover > &,
 		.container:not(.disabled):active:hover > & {
 			background-color: var(--palette-danger-600);
@@ -129,7 +127,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		padding: 0 calc(var(--Switch-width) / 16);
+		padding: 0 calc(var(--component-size) / 8);
 		color: var(--palette-neutral-950);
 		& > :global(.Switch.icon) {
 			width: 70%;
@@ -144,15 +142,16 @@
 		height: 100%;
 		border-radius: 100%;
 		z-index: 1;
+		width: calc(var(--component-size) * 0.75);
 
 		background-color: var(--palette-neutral-950);
 		box-shadow: var(--shadow-sm);
 
-		--Switch-buttonX: 0;
-		transform: translateX(var(--Switch-buttonX)) scaleY(1);
+		--component-buttonX: 0;
+		transform: translateX(var(--component-buttonX)) scaleY(1);
 		transition: transform 0.3s;
 		.checked & {
-			--Switch-buttonX: calc(var(--Switch-width) / 2);
+			--component-buttonX: var(--component-size);
 		}
 	}
 	.container:active {
@@ -161,7 +160,7 @@
 			transform: scaleY(0.95);
 		}
 		.button {
-			transform: translateX(var(--Switch-buttonX)) scaleY(0.75);
+			transform: translateX(var(--component-buttonX)) scaleY(0.75);
 		}
 	}
 </style>

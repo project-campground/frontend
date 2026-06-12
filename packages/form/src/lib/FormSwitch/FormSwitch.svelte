@@ -16,7 +16,7 @@
 	});
 </script>
 
-<FormSimpleField class={{ checked: value }} {header} {children}>
+<FormSimpleField reverse class={{ checked: value }} {header} {children}>
 	{#snippet component()}
 		<Switch bind:value {...props} />
 	{/snippet}

@@ -20,7 +20,7 @@
 		border-radius: var(--card-radius);
 		background-color: var(--palette-neutral-700);
 		opacity: 0;
-		transition: opacity 0.3s;
+		transition: opacity $transition-time-md;
 		cursor: pointer;
 
 		&:hover {

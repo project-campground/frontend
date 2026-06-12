@@ -14,6 +14,8 @@
 		...attributes
 	}: SwitchProps = $props();
 
+	let focused = $state(false);
+
 	const CheckedComponent = $derived(checkedIcon ?? IconCheck);
 	const UncheckedComponent = $derived(uncheckedIcon ?? IconX);
 </script>
@@ -21,7 +23,7 @@
 <div
 	class={[
 		'Switch container',
-		{ disabled, checked: value },
+		{ disabled, checked: value, focused },
 		`size${capitalize(size ?? 'md')}`,
 		className
 	]}
@@ -36,6 +38,7 @@
 	</div>
 	<input
 		bind:checked={value}
+		bind:focused
 		type="checkbox"
 		class={['Switch input']}
 		disabled={disabled ?? inputDisabled}
@@ -58,7 +61,7 @@
 	}
 	.container {
 		position: relative;
-		transition: transform 0.3s;
+		transition: transform $transition-time-md;
 	}
 	.input {
 		position: absolute;
@@ -87,14 +90,18 @@
 		--component-shadowColor: var(--palette-danger-600);
 		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
-		transition: background, border, box-shadow;
-		transition-duration: 0.3s;
+		transition: background, border, box-shadow, filter, transform;
+		transition-duration: $transition-time-md;
 		// -0.25 due to padding on both sides
 		width: calc(var(--component-size) * 7 / 4);
 		height: calc(var(--component-size) * 3 / 4);
 		padding: calc(var(--component-size) / 8) calc(var(--component-size) / 8);
 		border-radius: calc(var(--component-size) * 3 / 4);
 
+		.focused > & {
+			transform: scale(1.15);
+			filter: brightness(1.5);
+		}
 		.container:not(.disabled):hover > &,
 		.container:not(.disabled):active:hover > & {
 			background-color: var(--palette-danger-600);
@@ -149,7 +156,7 @@
 
 		--component-buttonX: 0;
 		transform: translateX(var(--component-buttonX)) scaleY(1);
-		transition: transform 0.3s;
+		transition: transform $transition-time-md;
 		.checked & {
 			--component-buttonX: var(--component-size);
 		}

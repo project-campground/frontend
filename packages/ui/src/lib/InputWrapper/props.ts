@@ -8,6 +8,7 @@ export default interface InputWrapperProps extends Omit<AriaAttributes, 'size'> 
 	hasError?: boolean;
 	value?: string;
 	size?: ComponentSize;
-	disabled?: boolean;
+	disabled?: boolean | null;
+	focused?: boolean | null;
 	class?: ClassValue;
 }

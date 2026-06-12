@@ -13,11 +13,19 @@
 		class: className,
 		...attributes
 	}: TextInputProps = $props();
+
+	let focused = $state(false);
 </script>
 
-<InputWrapper class={['TextInput container', { hasError, disabled }, className]} {size}>
+<InputWrapper class={['TextInput container', { focused }, className]} {size} {hasError} {disabled}>
 	{@render left?.()}
-	<input bind:value {...attributes} class={['TextInput input', className]} />
+	<input
+		bind:value
+		bind:focused
+		{disabled}
+		{...attributes}
+		class={['TextInput input', className]}
+	/>
 	{@render right?.()}
 </InputWrapper>
 

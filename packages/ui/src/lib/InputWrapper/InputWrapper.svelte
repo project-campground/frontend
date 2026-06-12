@@ -5,10 +5,11 @@
 	let {
 		size,
 		disabled,
-		value = $bindable(),
+		focused,
 		hasError,
 		vertical,
 		class: className,
+		value = $bindable(),
 		children,
 		...attributes
 	}: InputWrapperProps = $props();
@@ -17,7 +18,7 @@
 <div
 	class={[
 		'InputWrapper',
-		{ hasError, disabled, vertical },
+		{ hasError, disabled, vertical, focused },
 		`size${capitalize(size ?? 'md')}`,
 		className
 	]}
@@ -48,7 +49,7 @@
 		background-color: var(--palette-background-level2, transparent);
 		border: solid 1px var(--palette-neutral-border, transparent);
 		transition-property: color, background, border, box-shadow;
-		transition-duration: 0.3s;
+		transition-duration: $transition-time-md;
 	}
 	.disabled {
 		cursor: default;
@@ -59,6 +60,10 @@
 		color: var(--palette-danger-400);
 		border: solid 1px var(--palette-danger-600);
 		box-shadow: inset 0 0 8px var(--palette-danger-800);
+	}
+	.focused {
+		border: solid 1px var(--palette-primary-400);
+		box-shadow: inset 0 0 8px var(--palette-primary-700);
 	}
 	.vertical {
 		flex-direction: column;

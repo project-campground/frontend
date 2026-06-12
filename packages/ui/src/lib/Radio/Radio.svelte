@@ -39,7 +39,7 @@
 		appearance: none;
 
 		position: relative;
-		transition: transform 0.3s;
+		transition: transform $transition-time-md;
 		width: var(--component-size);
 		height: var(--component-size);
 
@@ -55,12 +55,12 @@
 		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
 		transition: background, border, box-shadow, transform;
-		transition-duration: 0.3s;
+		transition-duration: $transition-time-md;
 
 		&::after {
 			content: '';
 			transition: transform, opacity;
-			transition-duration: 0.3s;
+			transition-duration: $transition-time-md;
 			opacity: 0;
 			width: 50%;
 			height: 50%;
@@ -81,6 +81,10 @@
 		}
 		&:active {
 			transform: scale(0.85);
+		}
+		&:focus-visible {
+			transform: scale(1.15);
+			filter: brightness(1.5);
 		}
 		&:not(:disabled):hover,
 		&:not(:disabled):hover:active {

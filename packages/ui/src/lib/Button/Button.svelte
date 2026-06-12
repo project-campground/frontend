@@ -22,7 +22,7 @@
 
 	$button-padding: create-size-map((2px 4px, 4px 8px, 8px 24px, 12px 36px, 16px 48px));
 
-	.Button {
+	button {
 		display: flex;
 		flex-direction: row;
 		gap: 8px;
@@ -38,6 +38,10 @@
 			opacity: 0.65;
 			filter: grayscale(65%);
 		}
+		&:focus-visible {
+			transform: scale(1.15);
+			filter: brightness(1.5);
+		}
 		@include button-transform();
 		@each $size, $values in $button-padding {
 			&.size#{capitalize($size)} {
@@ -48,7 +52,11 @@
 		@each $col in $color-types-all {
 			&.color#{capitalize($col)} {
 				&.variantGlow {
-					background: linear-gradient(to bottom right, var(--palette-#{$col}-500), var(--palette-#{$col}-secondary));
+					background: linear-gradient(
+						to bottom right,
+						var(--palette-#{$col}-500),
+						var(--palette-#{$col}-secondary)
+					);
 					color: var(--palette-#{$col}-solidFore);
 					border: none;
 					box-shadow: 0 0 8px var(--palette-#{$col}-500);
@@ -59,10 +67,12 @@
 						right: 0;
 						bottom: 0;
 						position: absolute;
-						background-color: #FFF;
+						background-color: #fff;
 						opacity: 0;
 						border-radius: var(--Button-radius);
-						transition: opacity 0.2s, background-color 0.2s;
+						transition:
+							opacity 0.2s,
+							background-color 0.2s;
 					}
 					&:not(:disabled):hover {
 						box-shadow: 0 0 15px var(--palette-#{$col}-500);
@@ -70,7 +80,8 @@
 					&:not(:disabled):hover::after {
 						opacity: 25%;
 					}
-					&:not(:disabled):hover:active::after, &:not(:disabled):active::after {
+					&:not(:disabled):hover:active::after,
+					&:not(:disabled):active::after {
 						opacity: 25%;
 						background-color: #000;
 					}

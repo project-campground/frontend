@@ -12,13 +12,14 @@
 		...attributes
 	}: CheckboxProps = $props();
 
+	let focused = $state(false);
 	const CheckedComponent = $derived(icon ?? IconCheck);
 </script>
 
 <div
 	class={[
 		'Checkbox container',
-		{ disabled, checked },
+		{ disabled, checked, focused },
 		`size${capitalize(size ?? 'md')}`,
 		className
 	]}
@@ -27,6 +28,7 @@
 	<CheckedComponent class="Checkbox icon" />
 	<input
 		bind:checked
+		bind:focused
 		type="checkbox"
 		class={['Checkbox input']}
 		{disabled}
@@ -49,7 +51,7 @@
 	}
 	.container {
 		position: relative;
-		transition: transform 0.3s;
+		transition: transform $transition-time-md;
 		width: var(--component-size);
 		height: var(--component-size);
 
@@ -65,7 +67,7 @@
 		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
 		transition: background, border, box-shadow, transform;
-		transition-duration: 0.3s;
+		transition-duration: $transition-time-md;
 
 		// For click animations to still retain the rotation
 		--component-iconRotation: 90deg;
@@ -83,12 +85,22 @@
 			}
 		}
 		// States
+		&.focused {
+			transform: scale(1.15);
+			filter: brightness(1.5);
+		}
 		&:active {
 			transform: scale(0.85);
 			& > :global(.icon) {
 				transform: rotateY(var(--component-iconRotation)) scaleY(0.75);
 			}
 		}
+		&.disabled {
+			background-color: var(--palette-neutral-800);
+			border: solid 2px var(--palette-neutral-700);
+			--component-shadowColor: var(--palette-neutral-700);
+		}
+		// Hover
 		&:not(.disabled):hover,
 		&:not(.disabled):hover:active {
 			background-color: var(--palette-neutral-600);
@@ -100,15 +112,10 @@
 			border: solid 2px var(--palette-success-400);
 			--component-shadowColor: var(--palette-success-400);
 		}
-		&.disabled {
-			background-color: var(--palette-neutral-800);
-			border: solid 2px var(--palette-neutral-700);
-			--component-shadowColor: var(--palette-neutral-700);
-		}
 		// To not change .icon class throughout the app
 		& > :global(.icon) {
 			transition: opacity, transform;
-			transition-duration: 0.3s;
+			transition-duration: $transition-time-md;
 			opacity: 0;
 			width: 80%;
 			height: 80%;

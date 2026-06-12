@@ -26,13 +26,18 @@
 		align-items: center;
 		justify-content: center;
 		color: var(--palette-foreground-level3);
-		transition: color $transition-time-md;
+		transition: color, transform, filter;
+		transition-duration: $transition-time-md;
 		border: none;
 		outline: none;
 		background-color: transparent;
 		font-weight: 700;
 		&.active {
 			color: var(--palette-foreground-level1);
+		}
+		&:focus-visible {
+			transform: scale(1.2);
+			color: var(--palette-primary-400);
 		}
 	}
 </style>

@@ -37,6 +37,7 @@
 	}
 	.Radio {
 		appearance: none;
+		margin: 0;
 
 		position: relative;
 		transition: transform $transition-time-md;

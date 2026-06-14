@@ -24,6 +24,7 @@
 	import Checkbox from '$lib/Checkbox/Checkbox.svelte';
 	import Radio from '$lib/Radio/Radio.svelte';
 	import Para from '$lib/Para/Para.svelte';
+	import Select from '$lib/Select/Select.svelte';
 
 	const gradientTextMaxColors = [
 		['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF'],
@@ -393,6 +394,52 @@
 											{...attr}
 										/>
 										<TextInput
+											bind:value={inputValue}
+											{size}
+											placeholder={size + ` disabled, has error`}
+											disabled
+											hasError
+											{...attr}
+										/>
+									</Group>
+								</Section>
+							{/each}
+						</Section>
+					{/each}
+				</Stack>
+			</Section>
+			<Section headerLevel={1}>
+				{#snippet header()}
+					Select
+				{/snippet}
+				<Stack>
+					{#each sizes as size}
+						<Section headerLevel={2}>
+							{#snippet header()}
+								{size}
+							{/snippet}
+							{#each [{}, { startDecorator: icon }, { endDecorator: icon }, { startDecorator: icon, endDecorator: icon }] as attr}
+								<Section headerLevel={3}>
+									{#snippet header()}
+										Attr: {JSON.stringify(Object.keys(attr))}
+									{/snippet}
+									<Group>
+										<Select bind:value={inputValue} {size} placeholder={size} {...attr} />
+										<Select
+											bind:value={inputValue}
+											{size}
+											placeholder={size + ` disabled`}
+											disabled
+											{...attr}
+										/>
+										<Select
+											bind:value={inputValue}
+											{size}
+											placeholder={size + ` has error`}
+											hasError
+											{...attr}
+										/>
+										<Select
 											bind:value={inputValue}
 											{size}
 											placeholder={size + ` disabled, has error`}

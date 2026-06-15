@@ -1,8 +1,19 @@
 <script lang="ts">
 	import { capitalize } from '$lib/util/component.js';
+	import { getMenuList, type MenuListOnAction } from './context.svelte.ts';
 	import type { MenuItemProps } from './props.ts';
 
-	const { children, class: className, color, ...attributes }: MenuItemProps = $props();
+	const {
+		children,
+		class: className,
+		color,
+		onclick,
+		value: actionValue,
+		...attributes
+	}: MenuItemProps = $props();
+
+	const menuList = getMenuList();
+	const action = menuList.onaction;
 </script>
 
 <li
@@ -10,7 +21,10 @@
 	role="menuitem"
 	{...attributes}
 >
-	<button class={['Menu MenuItem button']}>
+	<button
+		class={['Menu MenuItem button']}
+		onclick={(ev) => onclick?.(ev) ?? $action?.(actionValue)}
+	>
 		{@render children?.()}
 	</button>
 </li>

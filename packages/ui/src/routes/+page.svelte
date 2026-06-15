@@ -7,9 +7,9 @@
 	import Group from '$lib/Group/Group.svelte';
 	import Image from '$lib/Image/Image.svelte';
 	import type { GradientMotion } from '$lib/GradientText/props.js';
-	import Main from '$lib/Main/Main.svelte';
 	import SvgUse from '$lib/svg/SvgUse.svelte';
 	import * as Tabs from '$lib/Tabs/index.js';
+	import * as Menu from '$lib/Menu/index.js';
 	import TextBlock from '$lib/TextBlock/TextBlock.svelte';
 	import type { ComponentColor, ComponentSize, ComponentVariant } from '../lib/types/attributes.ts';
 	import Alert from '$lib/Alert/Alert.svelte';
@@ -24,7 +24,8 @@
 	import Checkbox from '$lib/Checkbox/Checkbox.svelte';
 	import Radio from '$lib/Radio/Radio.svelte';
 	import Para from '$lib/Para/Para.svelte';
-	import Select from '$lib/Select/Select.svelte';
+	import type { SelectValue } from '$lib/Select/props.js';
+	import Select from '$lib/Select/index.js';
 
 	const gradientTextMaxColors = [
 		['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF'],
@@ -48,6 +49,7 @@
 	let switchValue = $state(false);
 
 	let inputValue = $state('');
+	let selectValue = $state<SelectValue | undefined | null>(null);
 
 	let radioGroup = $state('default');
 </script>
@@ -396,6 +398,17 @@
 		{/each}
 	</Stack>
 </Section>
+{#snippet selectMenu()}
+	<Menu.Item value={'firstValue'}>Example #1 (str)</Menu.Item>
+	<Menu.Item value={0} color="danger">Example #2 (num)</Menu.Item>
+	<Menu.Item value={true} color="warning">Example #3 (bool)</Menu.Item>
+	<Menu.Item value={null} color="success">Example #4 (null)</Menu.Item>
+	<Menu.Item color="info">Example #4 (undef)</Menu.Item>
+	<Menu.Item value={undefined} color="neutral">Example #5 (undef)</Menu.Item>
+{/snippet}
+{#snippet selectRenderer(value: SelectValue | null | undefined)}
+	Value: {JSON.stringify({ value })}
+{/snippet}
 <Section headerLevel={1}>
 	{#snippet header()}
 		Select
@@ -412,27 +425,36 @@
 							Attr: {JSON.stringify(Object.keys(attr))}
 						{/snippet}
 						<Group>
-							<Select bind:value={inputValue} {size} placeholder={size} {...attr} />
 							<Select
-								bind:value={inputValue}
+								bind:value={selectValue}
+								children={selectMenu}
+								display={selectRenderer}
 								{size}
-								placeholder={size + ` disabled`}
+								{...attr}
+							/>
+							<Select
+								bind:value={selectValue}
+								children={selectMenu}
+								display={selectRenderer}
+								{size}
 								disabled
 								{...attr}
 							/>
 							<Select
-								bind:value={inputValue}
+								bind:value={selectValue}
+								children={selectMenu}
+								display={selectRenderer}
 								{size}
-								placeholder={size + ` has error`}
 								hasError
 								{...attr}
 							/>
 							<Select
-								bind:value={inputValue}
+								bind:value={selectValue}
+								children={selectMenu}
+								display={selectRenderer}
 								{size}
-								placeholder={size + ` disabled, has error`}
-								disabled
 								hasError
+								disabled
 								{...attr}
 							/>
 						</Group>

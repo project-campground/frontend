@@ -1,4 +1,2 @@
 export { type default as FlexCenterProps } from './props.ts';
-
-import FlexCenter from './FlexCenter.svelte';
-export default FlexCenter;
+export { default as FlexCenter } from './FlexCenter.svelte';

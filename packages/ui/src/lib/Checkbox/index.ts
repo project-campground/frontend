@@ -1,4 +1,2 @@
 export type { default as CheckboxProps } from './props.ts';
-
-import Checkbox from './Checkbox.svelte';
-export default Checkbox;
+export { default as Checkbox } from './Checkbox.svelte';

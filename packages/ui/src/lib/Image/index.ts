@@ -1,4 +1,2 @@
 export { type default as ImageProps } from './props.ts';
-
-import Image from './Image.svelte';
-export default Image;
+export { default as Image } from './Image.svelte';

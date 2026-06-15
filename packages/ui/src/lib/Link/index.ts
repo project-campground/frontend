@@ -1,4 +1,2 @@
-export type { default as LinkProps } from "./props.ts";
-
-import Link from "./Link.svelte";
-export default Link;
+export type { default as LinkProps } from './props.ts';
+export { default as Link } from './Link.svelte';

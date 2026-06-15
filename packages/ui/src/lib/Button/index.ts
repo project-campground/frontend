@@ -1,4 +1,2 @@
-export type { default as ButtonProps } from "./props.ts";
-
-import Button from "./Button.svelte";
-export default Button;
+export type { default as ButtonProps } from './props.ts';
+export { default as Button } from './Button.svelte';

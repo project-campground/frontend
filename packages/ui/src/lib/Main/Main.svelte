@@ -2,11 +2,9 @@
 	import type { Snippet } from 'svelte';
 	import { theme, type Theme } from '../theme/index.ts';
 	import SvgDefs from '../svg/SvgDefs.svelte';
-	import Portals from '$lib/Portals/index.js';
-	import MenuPortalContainer, {
-		MenuPortal,
-		setMenuPortal
-	} from '$lib/MenuPortalContainer/index.js';
+	import { MenuPortal, setMenuPortal } from '$lib/MenuPortalContainer/portals.svelte.js';
+	import MenuPortalContainer from '$lib/MenuPortalContainer/MenuPortalContainer.svelte';
+	import Portals from '$lib/Portals/Portals.svelte';
 
 	let themeValue = $state<Theme>(null!);
 	theme.subscribe((theme) => (themeValue = theme));

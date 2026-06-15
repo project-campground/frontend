@@ -1,4 +1,2 @@
-export type { default as AlertProps } from "./props.ts";
-
-import Alert from "./Alert.svelte";
-export default Alert;
+export type { default as AlertProps } from './props.ts';
+export { default as Alert } from './Alert.svelte';

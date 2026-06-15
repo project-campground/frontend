@@ -11,8 +11,12 @@
 	});
 </script>
 
-<div class="MenuPortalContainer" {...attributes} onmouseup={(ev) => ev.stopPropagation()}>
-	{#each portal.items as item}
+<div
+	class={['MenuPortalContainer', portal.items.length ? 'hasItems' : 'noItems']}
+	onmouseup={(ev) => ev.stopPropagation()}
+	{...attributes}
+>
+	{#each portal.items as item (item.key)}
 		{@render item.snippet(item)}
 	{/each}
 </div>
@@ -25,6 +29,7 @@
 		width: 100%;
 		height: 100%;
 		pointer-events: none;
+		overflow: hidden;
 		& > :global(*) {
 			pointer-events: all;
 		}

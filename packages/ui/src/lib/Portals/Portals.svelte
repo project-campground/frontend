@@ -22,5 +22,6 @@
 		align-items: end;
 		justify-content: end;
 		pointer-events: none;
+		overflow: hidden;
 	}
 </style>

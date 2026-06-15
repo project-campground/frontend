@@ -25,6 +25,7 @@ export {
 	type PagePlaceholderProps,
 	PagePlaceholderIcon
 } from './PagePlaceholder/index.ts';
+export * as Menu from './Menu/index.ts';
 export { default as Para, type ParaProps } from './Para/index.ts';
 export { default as Radio, type RadioProps } from './Radio/index.ts';
 export { default as Section, type SectionProps } from './Section/index.ts';

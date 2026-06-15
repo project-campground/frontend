@@ -5,14 +5,14 @@ type InstanceSnippet = Snippet<[MenuPortalInstance]>;
 
 export class MenuPortalInstance extends PortalInstance<MenuPortal> {
 	public snippet: InstanceSnippet;
-	constructor(portal: MenuPortal, snippet: InstanceSnippet) {
-		super(portal);
+	constructor(portal: MenuPortal, snippet: InstanceSnippet, invoker: HTMLElement) {
+		super(portal, invoker);
 		this.snippet = snippet;
 	}
 }
 export class MenuPortal extends Portal<MenuPortalInstance, InstanceSnippet> {
-	public add(item: InstanceSnippet): MenuPortalInstance {
-		const instance = new MenuPortalInstance(this, item);
+	public add(item: InstanceSnippet, invoker: HTMLElement): MenuPortalInstance {
+		const instance = new MenuPortalInstance(this, item, invoker);
 		this.items.push(instance);
 		return instance;
 	}

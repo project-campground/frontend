@@ -13,7 +13,7 @@
 
 <div
 	class={['MenuPortalContainer', portal.items.length ? 'hasItems' : 'noItems']}
-	onmouseup={(ev) => ev.stopPropagation()}
+	onclick={(ev) => ev.stopPropagation()}
 	{...attributes}
 >
 	{#each portal.items as item (item.key)}

@@ -15,11 +15,22 @@
 	}: TextInputProps = $props();
 
 	let focused = $state(false);
+	let input: HTMLInputElement | null = $state(null);
 </script>
 
-<InputWrapper class={['TextInput container', { focused }, className]} {size} {hasError} {disabled}>
+<InputWrapper
+	class={['TextInput container', { focused }, className]}
+	{size}
+	{hasError}
+	{disabled}
+	cursor="text"
+	// Since it's a wrapper and can be focused otherwise
+	tabindex={-1}
+	onclick={() => input?.focus()}
+>
 	{@render left?.()}
 	<input
+		bind:this={input}
 		bind:value
 		bind:focused
 		{disabled}

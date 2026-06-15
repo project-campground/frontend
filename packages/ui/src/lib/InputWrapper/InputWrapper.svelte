@@ -8,6 +8,7 @@
 		focused,
 		hasError,
 		vertical,
+		cursor,
 		class: className,
 		value = $bindable(),
 		children,
@@ -15,20 +16,23 @@
 	}: InputWrapperProps = $props();
 </script>
 
-<div
+<button
 	class={[
 		'InputWrapper',
 		{ hasError, disabled, vertical, focused },
 		`size${capitalize(size ?? 'md')}`,
+		cursor && `cursor${capitalize(cursor)}`,
 		className
 	]}
+	{disabled}
 	{...attributes}
 >
 	{@render children()}
-</div>
+</button>
 
 <style lang="scss">
 	@use '../index.scss' as *;
+	@use 'sass:list';
 
 	$padding-sizes: create-size-map(
 		(0rem 0.375rem, 0.25rem 0.75rem, 0.5rem 1rem, 0.75rem 1.5rem, 1rem 2rem)
@@ -41,15 +45,19 @@
 		flex-direction: row;
 		align-items: center;
 
-		gap: 0.5em;
-		border-radius: var(--Button-radius);
-		font-family: var(--font-body);
+		border-radius: var(--component-radius);
 
-		color: var(--palette-foreground-level3);
+		color: var(--palette-foreground-level2);
 		background-color: var(--palette-background-level2, transparent);
 		border: solid 1px var(--palette-neutral-border, transparent);
+		box-shadow: var(--component-shadow);
+
+		outline: none;
 		transition-property: color, background, border, box-shadow;
 		transition-duration: $transition-time-md;
+
+		font-size: 1em;
+		font-family: var(--font-body);
 	}
 	.disabled {
 		cursor: default;
@@ -61,9 +69,12 @@
 		border: solid 1px var(--palette-danger-600);
 		box-shadow: inset 0 0 8px var(--palette-danger-800);
 	}
-	.focused {
+	.focused,
+	.InputWrapper:focus-visible {
 		border: solid 1px var(--palette-primary-400);
-		box-shadow: inset 0 0 8px var(--palette-primary-700);
+		box-shadow:
+			var(--component-shadow),
+			inset 0 0 8px var(--palette-primary-700);
 	}
 	.vertical {
 		flex-direction: column;
@@ -71,10 +82,18 @@
 	.InputWrapper:not(.disabled):hover {
 		background-color: var(--palette-background-level3);
 	}
+	.cursorPointer {
+		cursor: pointer;
+	}
+	.cursorText {
+		cursor: text;
+	}
 	@each $size, $values in $padding-sizes {
 		.size#{capitalize($size)} {
 			padding: $values;
-			--Button-radius: var(--radius-#{$size});
+			gap: list.nth($values, 1);
+			--component-shadow: var(--shadow-#{$size});
+			--component-radius: var(--radius-#{$size});
 		}
 	}
 </style>

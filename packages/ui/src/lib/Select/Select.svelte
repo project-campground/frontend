@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { Menu } from '$lib/index.js';
+	import { capitalize, Menu, InputWrapper } from '$lib/index.js';
 	import { getMenuPortal, MenuPortalInstance } from '$lib/MenuPortalContainer/index.js';
+	import { IconArrowDown, IconCaretDownFilled } from "@tabler/icons-svelte";
 	import type TextInputProps from './props.ts';
 
 	let {
@@ -13,6 +14,7 @@
 
 	const menuPortal = getMenuPortal();
 	let instance = $state<MenuPortalInstance | null>(null);
+	let isOpen = $derived(instance && menuPortal.items.includes(instance));
 
 	function toggleMenu(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		// Prevent click-away
@@ -43,8 +45,29 @@
 		<Menu.Item color="neutral">Example item #7</Menu.Item>
 	</Menu.List>
 {/snippet}
-<button onmouseup={(ev) => { ev.stopPropagation(); toggleMenu(ev) }}>{size} {disabled}</button>
+
+<InputWrapper class={['Select container', { isOpen }, className]} {disabled} {size} focused={isOpen} onclick={(ev) => toggleMenu(ev)} {...attributes}>
+	<div class="Select content">
+		<span class="Select placeholder">
+			Select
+		</span>
+	</div>
+	<span class="Select caret" aria-hidden="true">
+		<IconCaretDownFilled size={12} />
+	</span>
+</InputWrapper>
 
 <style lang="scss">
 	@use '../index.scss' as *;
+	@use 'sass:list';
+
+	.caret {
+		color: var(--palette-foreground-level3);
+	}
+	.placeholder {
+		color: var(--palette-foreground-level4);
+	}
+	.content {
+		flex: 1;
+	}
 </style>

@@ -7,6 +7,7 @@
 
 <li
 	class={['Menu MenuItem container', color && `color${capitalize(color)}`, className]}
+	role="menuitem"
 	{...attributes}
 >
 	<button class={['Menu MenuItem button']}>
@@ -38,6 +39,9 @@
 		font-size: 1em;
 		text-align: left;
 		cursor: pointer;
+		display: flex;
+		flex-direction: row;
+
 		@include button-transform();
 
 		&:not(:disabled):hover {

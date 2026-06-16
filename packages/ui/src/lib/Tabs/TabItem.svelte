@@ -20,17 +20,21 @@
 
 	.TabItem {
 		display: flex;
-		gap: 8px;
-		padding: 8px 12px;
-		font-size: 0.9rem;
 		align-items: center;
 		justify-content: center;
-		color: var(--palette-foreground-level3);
-		transition: color, transform, filter;
-		transition-duration: $transition-time-md;
+
 		border: none;
 		outline: none;
 		background-color: transparent;
+
+		gap: 8px;
+		padding: 8px 12px;
+
+		font-size: 0.8rem;
+		color: var(--palette-foreground-level3);
+
+		transition: color, transform, filter;
+		transition-duration: $transition-time-md;
 		font-weight: 700;
 		&.active {
 			color: var(--palette-foreground-level1);

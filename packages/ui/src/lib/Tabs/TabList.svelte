@@ -22,6 +22,7 @@
 			padding: 4px 8px;
 			border-radius: var(--radius-sm);
 			background-color: var(--palette-background-body);
+			transition: background $transition-time-lg;
 		}
 		&.root {
 			position: relative;
@@ -40,7 +41,8 @@
 			bottom: 0;
 			left: calc((100% / var(--Tabs-tabCount)) * var(--Tabs-activeTabIndex));
 			height: 100%;
-			transition: left $transition-time-md;
+			transition: left, background;
+			transition-duration: $transition-time-lg;
 		}
 		&.list {
 			position: relative;

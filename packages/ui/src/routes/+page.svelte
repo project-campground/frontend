@@ -31,6 +31,7 @@
 		Tabs
 	{/snippet}
 	<div
+		style:transition="background 0.5s"
 		style:background-color="var(--palette-background-level1)"
 		style:padding="16px 32px"
 		style:border-radius="var(--radius-lg)"

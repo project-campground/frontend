@@ -32,6 +32,7 @@
 
 <style lang="scss">
 	@use '../theme/index.scss';
+	@use '../index.scss' as *;
 
 	:global(html),
 	:global(body) {
@@ -55,6 +56,6 @@
 		min-height: 100%;
 		overflow: auto;
 		transition: background, color;
-		transition-duration: 0.5s;
+		transition-duration: $transition-time-lg;
 	}
 </style>

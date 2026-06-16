@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TabList from './TabList.svelte';
 	import { setTabContext, type TabId } from './context.ts';
-	import type { RootProps } from "./props.ts";
+	import type { RootProps } from './props.ts';
 
 	function onTabSelect(id: TabId) {
 		console.log('Tab selected', id);
@@ -53,18 +53,19 @@
 		}
 		&.list {
 			display: grid;
-			grid-template-columns: repeat(var(--Tabs-tabCount), 100%);
 			scrollbar-color: transparent transparent;
 			scrollbar-width: none;
 			overflow-y: hidden;
 			overflow-x: auto;
+
 			transition: transform $transition-time-md;
-			// width: calc(100% * var(--Tabs-tabCount));
+
+			grid-template-columns: repeat(var(--Tabs-tabCount), 100%);
+
 			width: 100%;
 			scroll-snap-type: x mandatory;
 			scroll-snap-stop: always;
 			scroll-behavior: smooth;
-			// transform: translateX(calc((-100% / var(--Tabs-tabCount)) * var(--Tabs-activeTabIndex)));
 		}
 	}
 </style>

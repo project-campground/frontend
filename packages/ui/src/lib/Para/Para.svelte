@@ -2,7 +2,20 @@
 	import { capitalize } from '../util/component.ts';
 	import type ParaProps from './props.ts';
 
-	const { children, class: className, level, lineHeight, color, align, weight, fontSize, vMargin, letterSpacing, tMargin, bMargin }: ParaProps = $props();
+	const {
+		children,
+		class: className,
+		level,
+		lineHeight,
+		color,
+		align,
+		weight,
+		fontSize,
+		vMargin,
+		letterSpacing,
+		tMargin,
+		bMargin
+	}: ParaProps = $props();
 </script>
 
 <svelte:element
@@ -20,7 +33,9 @@
 	]}
 	style:--Para-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
 	style:--Para-lineHeight={typeof lineHeight === 'number' ? `${lineHeight}rem` : lineHeight}
-	style:--Para-letterSpacing={typeof letterSpacing === 'number' ? `${letterSpacing}px` : letterSpacing}
+	style:--Para-letterSpacing={typeof letterSpacing === 'number'
+		? `${letterSpacing}px`
+		: letterSpacing}
 >
 	{@render children?.()}
 </svelte:element>
@@ -29,7 +44,13 @@
 	@use 'sass:list';
 	@use '../index.scss' as *;
 
-	$hLevels: 1 2em, 2 1.5em, 3 1.17em, 4 1em, 5 0.83em, 6 0.67em;
+	$hLevels:
+		1 2em,
+		2 1.5em,
+		3 1.17em,
+		4 1em,
+		5 0.83em,
+		6 0.67em;
 	$margins: 0 0.125em 0.25em 0.5em 1em 2em 3em;
 	$margin-size-map: create-size-map-using($margins, $size-names-with-none);
 
@@ -38,40 +59,40 @@
 		font-size: var(--Para-fontSize, 1em);
 		letter-spacing: var(--Para-letterSpacing, 0px);
 		line-height: var(--Para-lineHeight);
-		
-		color: var(--palette-foreground-level2);
+
+		color: var(--foreground-subheading);
 		margin: 0;
 
 		@each $level in $hLevels {
 			$index: list.nth($level, 1);
 			$fontSize: list.nth($level, 2);
 			&.levelH#{$index} {
-				color: var(--palette-foreground-level1);
+				color: var(--foreground-heading);
 				font-family: var(--font-display);
 				font-size: var(--Para-fontSize, #{$fontSize});
 			}
 		}
 		&.levelSub0 {
-			color: var(--palette-foreground-level4);
+			color: var(--foreground-subtext);
 		}
 		&.levelSub1 {
-			color: var(--palette-foreground-level5);
+			color: var(--foreground-background);
 		}
-		
+
 		@each $color in $color-types {
 			&.color#{capitalize($color)} {
-				color: var(--palette-#{$color}-500);
+				color: var(--#{$color}-500);
 				@each $level in $hLevels {
 					$index: list.nth($level, 1);
 					&.levelH#{$index} {
-						color: var(--palette-#{$color}-400);
+						color: var(--#{$color}-400);
 					}
 				}
 				&.levelSub0 {
-					color: var(--palette-#{$color}-700);
+					color: var(--#{$color}-700);
 				}
 				&.levelSub1 {
-					color: var(--palette-#{$color}-800);
+					color: var(--#{$color}-800);
 				}
 			}
 		}

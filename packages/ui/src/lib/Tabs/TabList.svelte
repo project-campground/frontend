@@ -21,7 +21,7 @@
 			width: 100%;
 			padding: 4px 8px;
 			border-radius: var(--radius-sm);
-			background-color: var(--palette-background-body);
+			background-color: var(--background-body);
 			transition: background $transition-time-lg;
 		}
 		&.root {
@@ -32,7 +32,7 @@
 			position: absolute;
 			z-index: 1;
 
-			background-color: var(--palette-background-level2);
+			background-color: var(--background-content);
 			border-radius: var(--radius-sm);
 			box-shadow: var(--shadow-sm);
 

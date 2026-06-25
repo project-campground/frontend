@@ -52,14 +52,10 @@
 		@each $col in $color-types-all {
 			&.color#{capitalize($col)} {
 				&.variantGlow {
-					background: linear-gradient(
-						to bottom right,
-						var(--palette-#{$col}-500),
-						var(--palette-#{$col}-secondary)
-					);
-					color: var(--palette-#{$col}-solidFore);
+					background: linear-gradient(to bottom right, var(--#{$col}-500), var(--#{$col}-alt));
+					color: var(--#{$col}-solidFore);
 					border: none;
-					box-shadow: 0 0 8px var(--palette-#{$col}-500);
+					box-shadow: 0 0 8px var(--#{$col}-500);
 					&::after {
 						content: '';
 						top: 0;
@@ -75,7 +71,7 @@
 							background-color 0.2s;
 					}
 					&:not(:disabled):hover {
-						box-shadow: 0 0 15px var(--palette-#{$col}-500);
+						box-shadow: 0 0 15px var(--#{$col}-500);
 					}
 					&:not(:disabled):hover::after {
 						opacity: 25%;
@@ -87,66 +83,66 @@
 					}
 				}
 				&.variantSolid {
-					background-color: var(--palette-#{$col}-solidBack);
-					color: var(--palette-#{$col}-solidFore);
+					background-color: var(--#{$col}-solidBack);
+					color: var(--#{$col}-solidFore);
 					border: none;
 					&:not(:disabled):hover {
-						background-color: var(--palette-#{$col}-solidBackHover);
+						background-color: var(--#{$col}-solidBackHover);
 					}
 					&:not(:disabled):active {
-						background-color: var(--palette-#{$col}-solidBackActive);
+						background-color: var(--#{$col}-solidBackActive);
 					}
 				}
 				&.variantInverted {
-					background-color: var(--palette-#{$col}-50);
-					color: var(--palette-#{$col}-500);
+					background-color: var(--#{$col}-50);
+					color: var(--#{$col}-500);
 					border: none;
 					&:not(:disabled):hover {
-						background-color: var(--palette-#{$col}-150);
+						background-color: var(--#{$col}-150);
 					}
 					&:not(:disabled):active {
-						background-color: var(--palette-#{$col}-250);
+						background-color: var(--#{$col}-250);
 					}
 				}
 				&.variantOutlined {
-					color: var(--palette-#{$col}-outlinedFore);
-					background-color: var(--palette-#{$col}-outlinedBack, transparent);
-					border: solid 1px var(--palette-#{$col}-outlinedBorder, transparent);
+					color: var(--#{$col}-outlinedFore);
+					background-color: var(--#{$col}-outlinedBack, transparent);
+					border: solid 1px var(--#{$col}-outlinedBorder, transparent);
 					&:not(:disabled):hover {
-						color: var(--palette-#{$col}-outlinedForeHover);
-						background-color: var(--palette-#{$col}-outlinedBackHover, transparent);
-						border: solid 1px var(--palette-#{$col}-outlinedBorderHover, transparent);
+						color: var(--#{$col}-outlinedForeHover);
+						background-color: var(--#{$col}-outlinedBackHover, transparent);
+						border: solid 1px var(--#{$col}-outlinedBorderHover, transparent);
 					}
 					&:not(:disabled):active {
-						color: var(--palette-#{$col}-outlinedForeActive);
-						background-color: var(--palette-#{$col}-outlinedBackActive, transparent);
-						border: solid 1px var(--palette-#{$col}-outlinedBorderActive, transparent);
+						color: var(--#{$col}-outlinedForeActive);
+						background-color: var(--#{$col}-outlinedBackActive, transparent);
+						border: solid 1px var(--#{$col}-outlinedBorderActive, transparent);
 					}
 				}
 				&.variantPlain {
 					border: none;
 					background-color: transparent;
-					color: var(--palette-#{$col}-plainFore);
+					color: var(--#{$col}-plainFore);
 					&:not(:disabled):hover {
-						color: var(--palette-#{$col}-plainForeHover);
-						background-color: var(--palette-#{$col}-plainBackHover, transparent);
+						color: var(--#{$col}-plainForeHover);
+						background-color: var(--#{$col}-plainBackHover, transparent);
 					}
 					&:not(:disabled):active {
-						color: var(--palette-#{$col}-plainForeActive);
-						background-color: var(--palette-#{$col}-plainBackActive, transparent);
+						color: var(--#{$col}-plainForeActive);
+						background-color: var(--#{$col}-plainBackActive, transparent);
 					}
 				}
 				&.variantSoft {
 					border: none;
-					background-color: var(--palette-#{$col}-softBack);
-					color: var(--palette-#{$col}-softFore);
+					background-color: var(--#{$col}-softBack);
+					color: var(--#{$col}-softFore);
 					&:not(:disabled):hover {
-						color: var(--palette-#{$col}-softForeHover);
-						background-color: var(--palette-#{$col}-softBackHover, transparent);
+						color: var(--#{$col}-softForeHover);
+						background-color: var(--#{$col}-softBackHover, transparent);
 					}
 					&:not(:disabled):active {
-						color: var(--palette-#{$col}-softForeActive);
-						background-color: var(--palette-#{$col}-softBackActive, transparent);
+						color: var(--#{$col}-softForeActive);
+						background-color: var(--#{$col}-softBackActive, transparent);
 					}
 				}
 			}

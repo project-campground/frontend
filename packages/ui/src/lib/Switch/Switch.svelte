@@ -85,9 +85,9 @@
 		display: flex;
 		pointer-events: none;
 
-		background-color: var(--palette-danger-700);
-		border: solid 2px var(--palette-danger-600);
-		--component-shadowColor: var(--palette-danger-600);
+		background-color: var(--danger-700);
+		border: solid 2px var(--danger-600);
+		--component-shadowColor: var(--danger-600);
 		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
 		transition: background, border, box-shadow, filter, transform;
@@ -104,26 +104,26 @@
 		}
 		.container:not(.disabled):hover > &,
 		.container:not(.disabled):active:hover > & {
-			background-color: var(--palette-danger-600);
-			border: solid 2px var(--palette-danger-500);
-			box-shadow: inset 0 0 4px var(--palette-danger-500);
+			background-color: var(--danger-600);
+			border: solid 2px var(--danger-500);
+			box-shadow: inset 0 0 4px var(--danger-500);
 		}
 		.checked:not(.disabled) & {
-			background-color: var(--palette-success-600);
-			border: solid 2px var(--palette-success-500);
-			box-shadow: inset 0 0 4px var(--palette-success-500);
+			background-color: var(--success-600);
+			border: solid 2px var(--success-500);
+			box-shadow: inset 0 0 4px var(--success-500);
 		}
 		.checked:not(.disabled):hover > &,
 		.checked:not(.disabled):active:hover > & {
-			background-color: var(--palette-success-500);
-			border: solid 2px var(--palette-success-400);
-			box-shadow: inset 0 0 4px var(--palette-success-400);
+			background-color: var(--success-500);
+			border: solid 2px var(--success-400);
+			box-shadow: inset 0 0 4px var(--success-400);
 		}
 	}
 	.disabled > .display {
-		background-color: var(--palette-neutral-800);
-		border: solid 2px var(--palette-neutral-700);
-		box-shadow: inset 0 0 4px var(--palette-neutral-700);
+		background-color: var(--neutral-800);
+		border: solid 2px var(--neutral-700);
+		box-shadow: inset 0 0 4px var(--neutral-700);
 	}
 	.backgroundIcons {
 		position: absolute;
@@ -135,7 +135,7 @@
 		flex-direction: row;
 		align-items: center;
 		padding: 0 calc(var(--component-size) / 8);
-		color: var(--palette-neutral-950);
+		color: var(--neutral-950);
 		& > :global(.Switch.icon) {
 			width: 70%;
 			height: 70%;
@@ -151,7 +151,7 @@
 		z-index: 1;
 		width: calc(var(--component-size) * 0.75);
 
-		background-color: var(--palette-neutral-950);
+		background-color: var(--neutral-950);
 		box-shadow: var(--shadow-sm);
 
 		--component-buttonX: 0;

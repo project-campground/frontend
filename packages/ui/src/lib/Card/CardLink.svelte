@@ -18,7 +18,7 @@
 		z-index: 5;
 
 		border-radius: var(--card-radius);
-		background-color: var(--palette-neutral-700);
+		background-color: var(--neutral-700);
 		opacity: 0;
 		transition: opacity $transition-time-md;
 		cursor: pointer;

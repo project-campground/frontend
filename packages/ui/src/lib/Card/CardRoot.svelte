@@ -28,8 +28,8 @@
 		position: relative;
 		overflow: hidden;
 
-		background-color: var(--palette-background-level2);
-		border: solid 1px var(--palette-neutral-border);
+		background-color: var(--background-content);
+		border: solid 1px var(--neutral-border);
 		border-radius: var(--card-radius);
 	}
 	@each $size, $values in $card-padding {
@@ -42,6 +42,6 @@
 		}
 	}
 	.levelSubtle {
-		background-color: var(--palette-background-level1);
+		background-color: var(--background-subtle);
 	}
 </style>

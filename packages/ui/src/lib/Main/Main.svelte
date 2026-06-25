@@ -51,8 +51,8 @@
 		display: flex;
 		flex-direction: column;
 
-		background-color: var(--palette-background-body);
-		color: var(--palette-foreground-level2);
+		background-color: var(--background-body);
+		color: var(--foreground-subheading);
 		min-height: 100%;
 		overflow: auto;
 		transition: background, color;

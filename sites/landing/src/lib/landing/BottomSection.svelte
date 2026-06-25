@@ -67,13 +67,8 @@
 		bottom: 25px;
 		z-index: -1;
 		// transform: rotate(1.5deg);
-		background: linear-gradient(
-			90deg,
-			var(--palette-primary-500),
-			var(--palette-primary-secondary)
-		);
-		mask:
-			radial-gradient(50% 50% at center, white 95.5%, transparent 96%);
+		background: linear-gradient(90deg, var(--primary-500), var(--primary-alt));
+		mask: radial-gradient(50% 50% at center, white 95.5%, transparent 96%);
 		mask-size: 400% 100%;
 		mask-position: -150vw;
 		mask-repeat: no-repeat;
@@ -84,12 +79,7 @@
 			bottom: 0;
 			right: 0;
 			left: 0;
-			background: linear-gradient(
-				0deg,
-				var(--palette-info-500),
-				transparent,
-				var(--palette-warning-500)
-			);
+			background: linear-gradient(0deg, var(--info-500), transparent, var(--warning-500));
 			z-index: 2;
 			opacity: 6.25%;
 		}

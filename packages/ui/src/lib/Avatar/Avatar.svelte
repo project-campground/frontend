@@ -33,7 +33,7 @@
 		overflow: hidden;
 
 		@include size(var(--Avatar-size));
-		background-color: var(--palette-neutral-solidBack);
+		background-color: var(--neutral-solidBack);
 
 		font-weight: 900;
 		font-family: var(--font-display);

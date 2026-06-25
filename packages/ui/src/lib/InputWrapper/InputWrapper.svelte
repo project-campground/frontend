@@ -47,9 +47,9 @@
 
 		border-radius: var(--component-radius);
 
-		color: var(--palette-foreground-level2);
-		background-color: var(--palette-background-level2, transparent);
-		border: solid 1px var(--palette-neutral-border, transparent);
+		color: var(--foreground-subheading);
+		background-color: var(--background-content, transparent);
+		border: solid 1px var(--neutral-border, transparent);
 		box-shadow: var(--component-shadow);
 
 		outline: none;
@@ -65,22 +65,22 @@
 		filter: grayscale(65%);
 	}
 	.hasError {
-		color: var(--palette-danger-400);
-		border: solid 1px var(--palette-danger-600);
-		box-shadow: inset 0 0 8px var(--palette-danger-800);
+		color: var(--danger-400);
+		border: solid 1px var(--danger-600);
+		box-shadow: inset 0 0 8px var(--danger-800);
 	}
 	.focused,
 	.InputWrapper:focus-visible {
-		border: solid 1px var(--palette-primary-400);
+		border: solid 1px var(--primary-400);
 		box-shadow:
 			var(--component-shadow),
-			inset 0 0 8px var(--palette-primary-700);
+			inset 0 0 8px var(--primary-700);
 	}
 	.vertical {
 		flex-direction: column;
 	}
 	.InputWrapper:not(.disabled):hover {
-		background-color: var(--palette-background-level3);
+		background-color: var(--background-subcontent);
 	}
 	.cursorPointer {
 		cursor: pointer;

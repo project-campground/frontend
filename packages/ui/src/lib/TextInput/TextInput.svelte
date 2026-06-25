@@ -1,6 +1,5 @@
 <script lang="ts">
 	import InputWrapper from '$lib/InputWrapper/InputWrapper.svelte';
-	import { capitalize } from '../util/component.ts';
 	import type TextInputProps from './props.ts';
 
 	let {
@@ -53,14 +52,14 @@
 		padding: 0;
 		border: none;
 		background-color: transparent;
-		color: var(--palette-foreground-level2);
+		color: var(--foreground-subheading);
 		font-size: 1em;
 		flex: 1;
 		&::placeholder {
-			color: var(--palette-foreground-level5);
+			color: var(--foreground-background);
 		}
 	}
 	:global(.hasError) > .input {
-		color: var(--palette-danger-350);
+		color: var(--danger-350);
 	}
 </style>

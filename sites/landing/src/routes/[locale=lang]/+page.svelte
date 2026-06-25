@@ -147,7 +147,7 @@
 		IconServer2
 	} from '@tabler/icons-svelte';
 	import FeatureDisplay from '$lib/landing/FeatureDisplay.svelte';
-	import FeatureOpenSource from "$lib/landing/features/FeatureOpenSource.svelte";
+	import FeatureOpenSource from '$lib/landing/features/FeatureOpenSource.svelte';
 
 	const { os } = UAParser(navigator.userAgent);
 	console.log(UAParser);
@@ -271,7 +271,7 @@
 	.initial-left {
 		display: flex;
 		flex-direction: column;
-		
+
 		padding-top: calc(128px + 64px);
 		gap: 24px;
 	}
@@ -284,8 +284,8 @@
 	.buttons-label {
 		padding: 2px 4px;
 		border-radius: var(--radius-sm);
-		background-color: var(--palette-primary-950);
-		color: var(--palette-primary-secondary);
+		background-color: var(--primary-950);
+		color: var(--primary-alt);
 		font-weight: bold;
 	}
 	.buttons > a {

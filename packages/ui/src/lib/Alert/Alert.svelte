@@ -52,9 +52,9 @@
 		}
 		@each $col in $color-types {
 			&.color#{capitalize($col)} {
-				--component-shadowColor: var(--palette-#{$col}-800);
-				background-color: var(--palette-#{$col}-softBack);
-				color: var(--palette-#{$col}-softFore);
+				--component-shadowColor: var(--#{$col}-800);
+				background-color: var(--#{$col}-softBack);
+				color: var(--#{$col}-softFore);
 			}
 		}
 	}

@@ -31,17 +31,17 @@
 		padding: 8px 12px;
 
 		font-size: 0.8rem;
-		color: var(--palette-foreground-level3);
+		color: var(--foreground-body);
 
 		transition: color, transform, filter;
 		transition-duration: $transition-time-md;
 		font-weight: 700;
 		&.active {
-			color: var(--palette-foreground-level1);
+			color: var(--foreground-heading);
 		}
 		&:focus-visible {
 			transform: scale(1.2);
-			color: var(--palette-primary-400);
+			color: var(--primary-400);
 		}
 	}
 </style>

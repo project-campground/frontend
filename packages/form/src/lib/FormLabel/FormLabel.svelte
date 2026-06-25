@@ -19,11 +19,11 @@
 <style lang="scss">
 	.label {
 		font-size: 0.9em;
-		color: var(--palette-foreground-level2);
+		color: var(--foreground-subheading);
 		font-weight: bold;
 	}
 	.asterisk {
-		color: var(--palette-danger-500);
+		color: var(--danger-500);
 	}
 	.hideAsterisk,
 	:not(.required) {

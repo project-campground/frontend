@@ -49,10 +49,10 @@
 		align-items: center;
 		justify-content: center;
 
-		background-color: var(--palette-neutral-700);
-		border: solid 2px var(--palette-neutral-600);
+		background-color: var(--neutral-700);
+		border: solid 2px var(--neutral-600);
 		border-radius: 100%;
-		--component-shadowColor: var(--palette-neutral-600);
+		--component-shadowColor: var(--neutral-600);
 		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
 		transition: background, border, box-shadow, transform;
@@ -66,7 +66,7 @@
 			width: 50%;
 			height: 50%;
 			transform: scale(0);
-			background-color: var(--palette-neutral-950);
+			background-color: var(--neutral-950);
 			border-radius: 100%;
 			box-shadow: var(--shadow-md);
 		}
@@ -76,9 +76,9 @@
 		}
 		// States
 		&:checked {
-			background-color: var(--palette-success-600);
-			border: solid 2px var(--palette-success-500);
-			--component-shadowColor: var(--palette-success-500);
+			background-color: var(--success-600);
+			border: solid 2px var(--success-500);
+			--component-shadowColor: var(--success-500);
 		}
 		&:active {
 			transform: scale(0.85);
@@ -89,20 +89,20 @@
 		}
 		&:not(:disabled):hover,
 		&:not(:disabled):hover:active {
-			background-color: var(--palette-neutral-600);
-			border: solid 2px var(--palette-neutral-500);
+			background-color: var(--neutral-600);
+			border: solid 2px var(--neutral-500);
 		}
 		&:not(:disabled):checked:hover,
 		&:not(:disabled):checked:hover:active {
-			background-color: var(--palette-success-500);
-			border: solid 2px var(--palette-success-400);
-			--component-shadowColor: var(--palette-success-400);
+			background-color: var(--success-500);
+			border: solid 2px var(--success-400);
+			--component-shadowColor: var(--success-400);
 		}
 		&:disabled {
 			cursor: default;
-			background-color: var(--palette-neutral-800);
-			border: solid 2px var(--palette-neutral-700);
-			--component-shadowColor: var(--palette-neutral-700);
+			background-color: var(--neutral-800);
+			border: solid 2px var(--neutral-700);
+			--component-shadowColor: var(--neutral-700);
 		}
 	}
 </style>

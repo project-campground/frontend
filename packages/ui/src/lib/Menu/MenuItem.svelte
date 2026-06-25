@@ -45,7 +45,7 @@
 		background-color: transparent;
 		padding: 0.75rem 1.25rem;
 
-		color: var(--palette-foreground-level2);
+		color: var(--foreground-subheading);
 		border-radius: var(--radius-sm);
 
 		font-family: var(--font-body);
@@ -59,21 +59,21 @@
 		@include button-transform();
 
 		&:not(:disabled):hover {
-			color: var(--palette-foreground-level1);
-			background-color: var(--palette-background-level3);
+			color: var(--foreground-heading);
+			background-color: var(--background-subcontent);
 		}
 		@each $color in $color-types {
 			.color#{capitalize($color)} > & {
-				color: var(--palette-#{$color}-400);
+				color: var(--#{$color}-400);
 				&:not(:disabled) {
 					&:hover {
-						background-color: var(--palette-#{$color}-900);
-						color: var(--palette-#{$color}-300);
+						background-color: var(--#{$color}-900);
+						color: var(--#{$color}-300);
 					}
 					&:active,
 					&:hover:active {
-						background-color: var(--palette-#{$color}-950);
-						color: var(--palette-#{$color}-400);
+						background-color: var(--#{$color}-950);
+						color: var(--#{$color}-400);
 					}
 				}
 			}

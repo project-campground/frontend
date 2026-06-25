@@ -6,14 +6,14 @@
 @use '../css/font.scss' as *;
 
 %code-highlight {
-	--palette-foreground-code: #{map.get($code-colors, 'markdown')};
-	--palette-foreground-code-keyword: #{map.get($code-colors, 'keyword')};
-	--palette-foreground-code-string: #{map.get($code-colors, 'string')};
-	--palette-foreground-code-number: #{map.get($code-colors, 'number')};
-	--palette-foreground-code-template: #{map.get($code-colors, 'template')};
-	--palette-foreground-code-class: #{map.get($code-colors, 'class')};
-	--palette-foreground-code-function: #{map.get($code-colors, 'function')};
-	--palette-foreground-code-attribute: #{map.get($code-colors, 'attribute')};
+	--foreground-code: #{map.get($code-colors, 'markdown')};
+	--foreground-code-keyword: #{map.get($code-colors, 'keyword')};
+	--foreground-code-string: #{map.get($code-colors, 'string')};
+	--foreground-code-number: #{map.get($code-colors, 'number')};
+	--foreground-code-template: #{map.get($code-colors, 'template')};
+	--foreground-code-class: #{map.get($code-colors, 'class')};
+	--foreground-code-function: #{map.get($code-colors, 'function')};
+	--foreground-code-attribute: #{map.get($code-colors, 'attribute')};
 }
 %global-attributes {
 	@each $size, $value in $radius-map {
@@ -42,10 +42,10 @@
 	@extend %shadow-attributes;
 	@extend %font;
 	font-family: var(--font-body);
-	color: var(--palette-foreground-level3);
+	color: var(--foreground-body);
 	:global(::selection) {
-		background-color: var(--palette-primary-500-t);
-		color: var(--palette-primary-50);
+		background-color: var(--primary-selectionBack);
+		color: var(--primary-50);
 	}
 }
 

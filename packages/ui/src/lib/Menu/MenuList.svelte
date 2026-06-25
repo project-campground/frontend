@@ -74,8 +74,8 @@
 	@use '../index.scss' as *;
 
 	.MenuList {
-		background-color: var(--palette-background-level2);
-		border: solid 1px var(--palette-neutral-border);
+		background-color: var(--background-content);
+		border: solid 1px var(--neutral-border);
 		border-radius: var(--radius-md);
 		box-shadow: var(--shadow-md);
 

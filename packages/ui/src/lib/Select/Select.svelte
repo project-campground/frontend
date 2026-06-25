@@ -57,10 +57,10 @@
 	@use 'sass:list';
 
 	.caret {
-		color: var(--palette-foreground-level3);
+		color: var(--foreground-body);
 	}
 	.placeholder {
-		color: var(--palette-foreground-level4);
+		color: var(--foreground-subtext);
 	}
 	.content {
 		flex: 1;

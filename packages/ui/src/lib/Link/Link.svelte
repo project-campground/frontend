@@ -5,14 +5,7 @@
 	const { children, color, underlined, ...attributes }: LinkProps = $props();
 </script>
 
-<a
-	{...attributes}
-	class={[
-		'Link',
-		`color${capitalize(color ?? 'primary')}`,
-		{ underlined }
-	]}
->
+<a {...attributes} class={['Link', `color${capitalize(color ?? 'primary')}`, { underlined }]}>
 	{@render children()}
 </a>
 
@@ -36,17 +29,17 @@
 		}
 		@each $col in $color-types-all {
 			&.color#{capitalize($col)} {
-				color: var(--palette-#{$col}-plainFore);
+				color: var(--#{$col}-plainFore);
 				&:not(:disabled):hover {
-					color: var(--palette-#{$col}-plainForeHover);
-					border-bottom-color: var(--palette-#{$col}-plainForeHover);
+					color: var(--#{$col}-plainForeHover);
+					border-bottom-color: var(--#{$col}-plainForeHover);
 				}
 				&.underlined {
-					border-bottom-color: var(--palette-#{$col}-plainFore);
+					border-bottom-color: var(--#{$col}-plainFore);
 				}
 				&:not(:disabled):active {
-					color: var(--palette-#{$col}-plainForeActive);
-					border-bottom-color: var(--palette-#{$col}-plainForeActive);
+					color: var(--#{$col}-plainForeActive);
+					border-bottom-color: var(--#{$col}-plainForeActive);
 				}
 			}
 		}

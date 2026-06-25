@@ -11,7 +11,7 @@
 			id: 'landing.docs',
 			defaultMessage: 'Docs',
 			description: 'The docs page in landing.'
-		},
+		}
 	});
 </script>
 
@@ -87,7 +87,7 @@
 			&::after {
 				content: '';
 				position: absolute;
-				background: linear-gradient(to bottom, var(--palette-background-body) 50%, transparent 100%);
+				background: linear-gradient(to bottom, var(--background-body) 50%, transparent 100%);
 				top: -50px;
 				left: 0;
 				right: 0;

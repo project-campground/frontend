@@ -62,7 +62,7 @@
 		flex-direction: row;
 		align-items: center;
 
-		color: var(--palette-primary-500);
+		color: var(--primary-500);
 		font-weight: 700;
 		font-family: var(--font-brand);
 		gap: 8px;

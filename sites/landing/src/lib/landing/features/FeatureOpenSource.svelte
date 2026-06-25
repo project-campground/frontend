@@ -54,9 +54,9 @@
 			</span>
 		</div>
 		<div class="FeatureOpenSource logo-wrapper">
-            <div class="FeatureOpenSource logo">
+			<div class="FeatureOpenSource logo">
 				<Svg.Logo size={8} />
-            </div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -80,8 +80,8 @@
 		padding: 16px;
 		width: 240px;
 		height: 240px;
-		color: var(--palette-foreground-level5);
-		background-color: var(--palette-background-level1);
+		color: var(--foreground-background);
+		background-color: var(--background-subtle);
 		border-radius: var(--radius-xl);
 		font-weight: bold;
 		font-size: 1em;
@@ -122,7 +122,7 @@
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
-		color: var(--palette-foreground-level7);
+		color: var(--foreground-level7);
 		animation: shine 10s linear infinite;
 		mask-image: linear-gradient(
 			to bottom right,
@@ -144,7 +144,7 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		color: var(--palette-primary-500);
+		color: var(--primary-500);
 		z-index: 20;
 	}
 	.logo {
@@ -160,7 +160,7 @@
 			border-radius: var(--radius-xl);
 			z-index: -1;
 			opacity: 85%;
-			background-color: var(--palette-background-level2);
+			background-color: var(--background-content);
 		}
 	}
 	.code {

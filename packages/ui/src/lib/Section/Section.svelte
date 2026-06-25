@@ -39,7 +39,7 @@
 		gap: 1rem;
 	}
 	.subtle > .header > :global(.Para) {
-		color: var(--palette-foreground-level4);
+		color: var(--foreground-subtext);
 	}
 	@each $size, $gap in $gap-sizes {
 		.gap#{capitalize($size)} {

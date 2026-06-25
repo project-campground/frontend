@@ -78,13 +78,13 @@
 		resize: none;
 		font-family: var(--font-body);
 		font-size: 1em;
-		color: var(--palette-foreground-level2);
+		color: var(--foreground-subheading);
 		flex: 1;
 		:global(.hasError) > .wrapper > & {
-			color: var(--palette-danger-500);
+			color: var(--danger-500);
 		}
 		&::placeholder {
-			color: var(--palette-foreground-level5);
+			color: var(--foreground-background);
 		}
 	}
 	.wrapper {

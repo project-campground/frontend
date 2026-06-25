@@ -43,13 +43,13 @@
 	}
 	.title {
 		font-weight: 700;
-		color: var(--palette-foreground-level2);
+		color: var(--foreground-subheading);
 	}
 	.reverse > .header {
 		flex-direction: row-reverse;
 	}
 	.description {
-		color: var(--palette-foreground-level4);
+		color: var(--foreground-subtext);
 	}
 	.header > :global(.title) {
 		display: flex;

@@ -1,16 +1,8 @@
 <script lang="ts">
-	import Form from '$lib/Form/index.js';
-	import FormErrorLabel from '$lib/FormErrorLabel/FormErrorLabel.svelte';
-	import { FormControl } from '$lib/FormControl/index.js';
-	import { FormLabel } from '$lib/FormLabel/index.js';
-	import FormReactive from '$lib/FormReactive/FormReactive.svelte';
-	import { FormTextField } from '$lib/FormTextField/index.js';
 	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
 	import { Main, Section, theme } from '@campground/ui';
 	import { writable } from 'svelte/store';
-	import FormSwitch from '$lib/FormSwitch/FormSwitch.svelte';
-	import * as FormCheck from '$lib/FormCheck/index.js';
-	import { FormRadio } from '$lib/index.js';
+	import { FormRadio, FormLabel, FormCheck, FormTextField, FormControl, Form, FormErrorLabel, FormInstance, FormSwitch } from '$lib/index.js';
 
 	let lightTheme: boolean = $state(false);
 
@@ -27,6 +19,8 @@
 			locale.set(newLocale);
 		});
 	});
+
+	let reactiveForm: Form | null = $state(null);
 </script>
 
 <Main>
@@ -96,7 +90,7 @@
 				{#snippet header()}
 					Form Reactive
 				{/snippet}
-				<Form>
+				<Form bind:this={reactiveForm}>
 					<FormControl id="textField">
 						<FormLabel>Text field</FormLabel>
 						<FormTextField />
@@ -151,6 +145,11 @@
 								{/snippet}
 								Description here
 							</FormCheck.Item>
+							<FormCheck.Item value={0}>
+								{#snippet header()}
+									Duplicate 0 value
+								{/snippet}
+							</FormCheck.Item>
 						</FormCheck.List>
 						<FormErrorLabel />
 					</FormControl>
@@ -173,14 +172,17 @@
 								{/snippet}
 								Description here
 							</FormRadio.Item>
+							<FormRadio.Item value={0}>
+								{#snippet header()}
+									Duplicate 0 value
+								{/snippet}
+							</FormRadio.Item>
 						</FormRadio.List>
 						<FormErrorLabel />
 					</FormControl>
-					<FormReactive>
-						{#snippet render(fields)}
-							<pre><code>{JSON.stringify(fields, undefined, 4)}</code></pre>
-						{/snippet}
-					</FormReactive>
+					<div>
+						<pre><code>{JSON.stringify(Object.fromEntries(reactiveForm?.getForm().controls.map((x) => [x.id, x.value]) ?? []), undefined, 4)}</code></pre>
+					</div>
 				</Form>
 			</Section>
 		</div>

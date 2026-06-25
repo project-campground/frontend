@@ -2,12 +2,12 @@
 	import { FormattedMessageGlobal } from '@campground/locale';
 	import { Button } from '@campground/ui';
 	import type FormSubmitProps from './props.ts';
-	import { getFormContext } from '$lib/Form/context.js';
+	import { getForm } from '$lib/Form/context.svelte.ts';
 
 	const { children, disabled, ...props }: FormSubmitProps = $props();
 
 	let valid = $state(false);
-	const formContext = getFormContext();
+	const formContext = getForm();
 
 	formContext.fields.subscribe((values) => (valid = values.allValid));
 </script>

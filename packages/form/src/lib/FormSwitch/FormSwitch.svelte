@@ -1,23 +1,17 @@
 <script lang="ts">
 	import { Switch, Para } from '@campground/ui';
 	import type FormSwitchProps from './props.ts';
-	import { getFormControlContext } from '$lib/FormControl/context.js';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
 
 	const { header, children, ...props }: FormSwitchProps = $props();
 
 	// Functionality
-	const fieldContext = getFormControlContext();
-	let value = $state(false);
-
-	// Updating
-	$effect(() => {
-		fieldContext.state.set({ error: null, value });
-	});
+	const fieldContext = getFormControl();
 </script>
 
-<FormSimpleField reverse class={{ checked: value }} {header} {children}>
+<FormSimpleField reverse class={{ checked: fieldContext.value }} {header} {children}>
 	{#snippet component(id)}
-		<Switch bind:value {id} {...props} />
+		<Switch bind:value={fieldContext.value} {id} {...props} />
 	{/snippet}
 </FormSimpleField>

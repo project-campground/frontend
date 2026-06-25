@@ -1,24 +1,30 @@
 <script lang="ts">
 	import { Checkbox } from '@campground/ui';
-	import type { FormCheckboxProps } from './props.ts';
+	import type { FormCheckboxProps, FormCheckValue } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
-	import { getFormChecksContext } from './context.ts';
+	import { getFormControlkey } from '$lib/FormCheck/context.svelte.js';
+	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
 
 	const { header, children, value, ...props }: FormCheckboxProps = $props();
 
-	// Functionality
-	const fieldContext = getFormChecksContext();
-	let checked = $state(false);
+	const control: FormControlInstance<FormCheckValue[]> = getFormControl();
+	const checkId = getFormControlkey();
 
-	// Updating
-	$effect(() => {
-		if (checked) fieldContext.checked.add(value);
-		else fieldContext.checked.delete(value);
-	});
+	function onInput() {
+		if (checked) {
+			const valueIndex = control.value.indexOf(value);
+
+			return valueIndex >= 0 && control.value.splice(valueIndex, 1);
+		}
+
+		control.value.push(value);
+	}
+
+	let checked = $derived(control.value?.includes(value) ?? false);
 </script>
 
 <FormSimpleField class={{ checked }} {header} {children}>
 	{#snippet component(id)}
-		<Checkbox bind:checked {id} size="sm" {...props} />
+		<Checkbox bind:checked {id} name={checkId} size="sm" oninput={onInput} {...props} />
 	{/snippet}
 </FormSimpleField>

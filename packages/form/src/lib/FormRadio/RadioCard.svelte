@@ -2,27 +2,20 @@
 	import { Card, Radio } from '@campground/ui';
 	import type { FormRadioItemProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
-	import { getFormRadioContext } from './context.ts';
-	import type { FormCheckValue } from '$lib/FormCheck/context.js';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 
 	const { header, children, value, ...props }: FormRadioItemProps = $props();
 
-	// Functionality
-	const fieldContext = getFormRadioContext();
-	let group = $state<FormCheckValue | null>(null);
-
-	$effect(() => {});
-	// Updating
-	fieldContext.value.subscribe((newValue) => (group = newValue));
+	const control = getFormControl();
 </script>
 
 <Card.Root>
 	<Card.Content>
-		<FormSimpleField class={{ checked: group === value }} reverse {header} {children}>
+		<FormSimpleField class={{ checked: control.value === value }} reverse {header} {children}>
 			{#snippet component(id)}
-				<Radio {id} size="sm" name={fieldContext.key} {value} bind:group {...props} />
+				<Radio {id} size="sm" {value} bind:group={control.value} oninput={() => control.value = value} {...props} />
 			{/snippet}
 		</FormSimpleField>
 	</Card.Content>
-	<Card.Link onclick={() => fieldContext.value.set(value)} tabindex={-1} />
+	<Card.Link onclick={() => control.value = value} tabindex={-1} />
 </Card.Root>

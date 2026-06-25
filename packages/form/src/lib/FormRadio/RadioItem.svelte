@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { Radio } from '@campground/ui';
-	import { getFormRadioContext } from './context.ts';
+	import { getFormControlkey } from '../FormCheck/context.svelte.ts';
 	import type { FormRadioItemProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 
 	const { header, children, value, ...props }: FormRadioItemProps = $props();
 
 	// Functionality
-	const fieldContext = getFormRadioContext();
+	const control = getFormControl();
 	let checked = $state(false);
-
-	// Updating
-	fieldContext.value.subscribe((newValue) => (checked = value === newValue));
 </script>
 
 <FormSimpleField class={{ checked }} {header} {children}>
@@ -19,8 +17,8 @@
 		<Radio
 			{id}
 			size="sm"
-			name={fieldContext.key}
-			oninput={() => fieldContext.value.set(value)}
+			bind:group={control.value}
+			oninput={() => control.value = value}
 			{value}
 			{...props}
 		/>

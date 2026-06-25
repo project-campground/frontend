@@ -1,23 +1,22 @@
 <script lang="ts">
 	import type { FormChecklistProps } from './props.ts';
-	import { getFormControlContext } from '$lib/FormControl/context.js';
-	import { SvelteSet } from 'svelte/reactivity';
-	import { setFormChecksContext } from './context.ts';
 	import { Stack } from '@campground/ui';
+	import { setFormControlKey } from '$lib/FormCheck/context.svelte.js';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { onMount } from 'svelte';
 
 	const { children, ...props }: FormChecklistProps = $props();
 
-	// Functionality
-	const fieldContext = getFormControlContext();
-	const checked = new SvelteSet([]);
+	const control = getFormControl();
+	const key = $props.id();
 
-	// Updating
-	$effect(() => {
-		fieldContext.state.set({ error: null, value: [...checked] });
-	});
-	setFormChecksContext({ checked });
+	onMount(() => {
+		control.value = control.defaultValue ?? [];
+	})
+
+	setFormControlKey(key);
 </script>
 
-<Stack class="FormChecklist container" {...props}>
+<Stack class="FormChecklist" {...props}>
 	{@render children?.()}
 </Stack>

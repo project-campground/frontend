@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Para } from '@campground/ui';
 	import type FormSimpleFieldProps from './props.ts';
 
 	const key = $props.id();

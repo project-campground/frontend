@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { getLocaleContext } from '@campground/locale';
-	import { InputWrapper, TextInput } from '@campground/ui';
+	import { InputWrapper } from '@campground/ui';
 	import type FormTextFieldProps from './props.ts';
-	import { getFormControlContext } from '$lib/FormControl/context.js';
+	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { checkStringFormat, textFieldErrors } from './validation.ts';
 
 	const {
@@ -19,55 +19,47 @@
 	}: FormTextFieldProps = $props();
 
 	// Functionality
-	const fieldContext = getFormControlContext();
-	let value = $state('');
+	const control: FormControlInstance<string | null> = getFormControl();
 
 	// Error messages and feedback
 	const intl = getLocaleContext();
-	let errorState = $state<string | null>(null);
-	let focused = $state(false);
 
 	// Formatting
-	const required = fieldContext.required;
-	const minLengthDerived = $derived(minLength || ($required ? 1 : 0));
+	const minLengthDerived = $derived(minLength ?? 0);
 
 	// Updating
 	$effect(() => {
-		const error =
-			value.length < minLengthDerived
-				? $intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
-				: format
-					? checkStringFormat(value, format)
-					: null;
+		control.error =
+			control.required && (control.value?.length ?? 0) < 1
+				? ''
+				: (control.value?.length ?? 0) < minLengthDerived
+					? $intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
+					: format
+						? checkStringFormat(control.value ?? '', format)
+						: null;
 
-		const rows = value.split('\n');
-		if (maxRows && rows.length > maxRows) value = rows.slice(0, maxRows).join('\n');
-
-		fieldContext.state.set({ error, value });
-		errorState = error;
+		const rows = control.value?.split('\n') ?? [];
+		if (maxRows && rows.length > maxRows) control.value = rows.slice(0, maxRows).join('\n');
 	});
 </script>
 
-<InputWrapper class={['FormTextField container']} hasError={errorState !== null} {focused}>
+<InputWrapper class={['FormTextField container']} hasError={!!control.error}>
 	{@render left?.()}
 	<div class={['FormTextField wrapper']}>
 		{@render top?.()}
 		{#if multipleRows}
 			<textarea
 				class={['FormTextField input']}
-				bind:value
-				bind:focused
-				id={`control-${fieldContext.key}`}
+				bind:value={control.value}
+				id={`control-${control.key}`}
 				maxlength={maxLength}
 				{...props}
-			>
-			</textarea>
+			></textarea>
 		{:else}
 			<input
-				bind:value
-				bind:focused
+				bind:value={control.value}
 				class={['FormTextField input']}
-				id={`control-${fieldContext.key}`}
+				id={`control-${control.key}`}
 				maxlength={maxLength}
 				{...props}
 			/>

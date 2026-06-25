@@ -9,7 +9,7 @@
 
 	// Everything below is per-component
 	import { globalLocale } from '$lib/declarations.js';
-	import FormattedMessage from '$lib/FormattedMessage/index.js';
+	import { FormattedMessage } from '$lib/FormattedMessage/index.js';
 	import { setLocaleContext } from '$lib/context.js';
 	import { localeIds, type LocaleId } from '$lib/localeList.js';
 

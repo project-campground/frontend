@@ -1,18 +1,15 @@
 <script lang="ts">
-	import { getFormControlContext } from '$lib/FormControl/context.js';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { Para } from '@campground/ui';
 	import type FormErrorLabelProps from './props.ts';
 
-	const fieldContext = getFormControlContext();
-	let error = $state<string | null>(null);
-
-	fieldContext.error.subscribe((value) => (error = value));
+	const fieldContext = getFormControl();
 
 	const { class: className, ...props }: FormErrorLabelProps = $props();
 </script>
 
-{#if error !== null}
+{#if fieldContext.error}
 	<Para class={['FormErrorLabel', className]} level="paragraph" color="danger" {...props}>
-		{error}
+		{fieldContext.error}
 	</Para>
 {/if}

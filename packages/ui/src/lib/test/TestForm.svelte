@@ -4,7 +4,6 @@
 		Button,
 		Checkbox,
 		Group,
-		Menu,
 		Para,
 		Radio,
 		Section,
@@ -15,11 +14,11 @@
 		TextInput,
 		type ComponentColor,
 		type ComponentColorAll,
-		type ComponentSize,
-		type SelectValue
+		type ComponentSize
 	} from '$lib/index.js';
+	import type { SelectValue } from '$lib/Select/props.js';
 	import IconLogo from '$lib/svg/IconLogo.svelte';
-	import { IconMoonFilled, IconStarFilled, IconSunFilled } from '@tabler/icons-svelte';
+	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 	const variants: ButtonVariant[] = ['glow', 'soft', 'plain'];
@@ -37,12 +36,11 @@
 	<IconLogo size={2} />
 {/snippet}
 {#snippet selectMenu()}
-	<Menu.Item value={'firstValue'}>Example #1 (str)</Menu.Item>
-	<Menu.Item value={0} color="danger">Example #2 (num)</Menu.Item>
-	<Menu.Item value={true} color="warning">Example #3 (bool)</Menu.Item>
-	<Menu.Item value={null} color="success">Example #4 (null)</Menu.Item>
-	<Menu.Item color="info">Example #4 (undef)</Menu.Item>
-	<Menu.Item value={undefined} color="neutral">Example #5 (undef)</Menu.Item>
+	<Select.Option value={'firstValue'}>Example #1 (str)</Select.Option>
+	<Select.Option value={0} color="danger">Example #2 (num)</Select.Option>
+	<Select.Option value={true} color="warning">Example #3 (bool)</Select.Option>
+	<Select.Option value={null} color="success">Example #4 (null)</Select.Option>
+	<Select.Option value={null} color="info">Example #5 (null 2)</Select.Option>
 {/snippet}
 {#snippet selectRenderer(value: SelectValue | null | undefined)}
 	Value: {JSON.stringify({ value })}
@@ -113,14 +111,14 @@
 							Attr: {JSON.stringify(Object.keys(attr))}
 						{/snippet}
 						<Group wrap>
-							<Select
+							<Select.Button
 								bind:value={selectValue}
 								children={selectMenu}
 								display={selectRenderer}
 								{size}
 								{...attr}
 							/>
-							<Select
+							<Select.Button
 								bind:value={selectValue}
 								children={selectMenu}
 								display={selectRenderer}

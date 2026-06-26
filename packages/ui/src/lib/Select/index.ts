@@ -1,2 +1,3 @@
-export type { default as SelectProps, SelectValue } from './props.ts';
-export { default as Select } from './Select.svelte';
+export type { ButtonProps, SelectValue } from './props.ts';
+export { default as Button } from './SelectButton.svelte';
+export { default as Option } from './SelectOption.svelte';

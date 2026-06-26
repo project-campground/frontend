@@ -22,7 +22,7 @@ export * from './PagePlaceholder/index.ts';
 export * from './Para/index.ts';
 export * from './Radio/index.ts';
 export * from './Section/index.ts';
-export * from './Select/index.ts';
+export * as Select from './Select/index.ts';
 export * from './Stack/index.ts';
 export * from './Switch/index.ts';
 export * from './TextInput/index.ts';

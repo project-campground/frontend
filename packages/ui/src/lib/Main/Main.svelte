@@ -5,6 +5,8 @@
 	import { MenuPortal, setMenuPortal } from '$lib/MenuPortalContainer/portals.svelte.js';
 	import MenuPortalContainer from '$lib/MenuPortalContainer/MenuPortalContainer.svelte';
 	import Portals from '$lib/Portals/Portals.svelte';
+	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
+	import { writable } from 'svelte/store';
 
 	let themeValue = $state<Theme>(null!);
 	theme.subscribe((theme) => (themeValue = theme));
@@ -13,6 +15,9 @@
 
 	const { children }: { children: Snippet } = $props();
 	setMenuPortal(menuPortal);
+
+	const outsideClick: OutsideClick = writable(null);
+	setOutsideClickBoundary(outsideClick);
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -21,7 +26,10 @@
 	id="main"
 	lang="en-US"
 	data-theme={themeValue}
-	onclick={(ev) => menuPortal.onOutsideClick(ev)}
+	onclick={(ev) => {
+		$outsideClick = ev;
+		menuPortal.onOutsideClick(ev);
+	}}
 >
 	<SvgDefs />
 	{@render children()}

@@ -1,19 +1,8 @@
 <script lang="ts">
 	import { capitalize } from '$lib/util/component.js';
-	import { getMenuList, type MenuListOnAction } from './context.svelte.ts';
 	import type { MenuItemProps } from './props.ts';
 
-	const {
-		children,
-		class: className,
-		color,
-		onclick,
-		value: actionValue,
-		...attributes
-	}: MenuItemProps = $props();
-
-	const menuList = getMenuList();
-	const action = menuList.onaction;
+	const { children, class: className, color, onclick, ...attributes }: MenuItemProps = $props();
 </script>
 
 <li
@@ -21,10 +10,7 @@
 	role="menuitem"
 	{...attributes}
 >
-	<button
-		class={['Menu MenuItem button']}
-		onclick={(ev) => onclick?.(ev) ?? $action?.(actionValue)}
-	>
+	<button class={['Menu MenuItem button']} {onclick}>
 		{@render children?.()}
 	</button>
 </li>
@@ -55,6 +41,8 @@
 		cursor: pointer;
 		display: flex;
 		flex-direction: row;
+		transition-property: color, background;
+		transition-duration: $transition-time-sm;
 
 		&:not(:disabled):hover {
 			color: var(--foreground-heading);

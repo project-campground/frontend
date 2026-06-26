@@ -22,8 +22,6 @@
 <script lang="ts">
 	import { capitalizePhrase } from '$lib/util/component.js';
 	import { getOverflowFixFromRect } from '$lib/util/menu.js';
-	import { writable } from 'svelte/store';
-	import { setMenuList, type MenuListOnAction } from './context.svelte.ts';
 	import type { MenuListProps } from './props.ts';
 
 	const {
@@ -31,7 +29,6 @@
 		invokerRect,
 		placement,
 		class: className,
-		onaction,
 		...attributes
 	}: MenuListProps = $props();
 
@@ -41,14 +38,6 @@
 	// Invoke once
 	let rect = $derived(menu?.getBoundingClientRect() ?? DOMRect.fromRect());
 	let coordinates = $derived(invokerRect && getCoordinates(invokerRect, parentRect, rect));
-
-	// svelte-ignore state_referenced_locally
-	let onActionReadable = writable<MenuListOnAction | undefined>(onaction);
-
-	$effect.pre(() => {
-		onActionReadable.set(onaction);
-	});
-	setMenuList({ onaction: onActionReadable });
 </script>
 
 <menu

@@ -56,8 +56,6 @@
 		display: flex;
 		flex-direction: row;
 
-		@include button-transform();
-
 		&:not(:disabled):hover {
 			color: var(--foreground-heading);
 			background-color: var(--background-subcontent);
@@ -67,13 +65,13 @@
 				color: var(--#{$color}-400);
 				&:not(:disabled) {
 					&:hover {
-						background-color: var(--#{$color}-900);
-						color: var(--#{$color}-300);
+						color: var(--#{$color}-plainForeHover);
+						background-color: var(--#{$color}-plainBackHover);
 					}
 					&:active,
 					&:hover:active {
-						background-color: var(--#{$color}-950);
-						color: var(--#{$color}-400);
+						color: var(--#{$color}-plainForeActive);
+						background-color: var(--#{$color}-plainBackActive);
 					}
 				}
 			}

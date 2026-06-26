@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Menu, InputWrapper } from '$lib/index.js';
+	import { capitalize, Menu } from '$lib/index.js';
 	import { getMenuPortal, MenuPortalInstance } from '$lib/MenuPortalContainer/index.js';
 	import { IconCaretDownFilled } from "@tabler/icons-svelte";
 	import type SelectProps from './props.ts';
@@ -41,7 +41,7 @@
 	</Menu.List>
 {/snippet}
 
-<InputWrapper class={['Select container', { isOpen }, className]} {disabled} {size} focused={isOpen} onclick={(ev) => toggleMenu(ev)} {...attributes}>
+<button class={['Select container', { isOpen }, `size${capitalize(size ?? 'md')}`, className]} {disabled} onclick={(ev) => toggleMenu(ev)} {...attributes}>
 	<div class="Select content">
 		<span class="Select placeholder">
 			{@render display(value)}
@@ -50,12 +50,27 @@
 	<span class="Select caret" aria-hidden="true">
 		<IconCaretDownFilled size={12} />
 	</span>
-</InputWrapper>
+</button>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 	@use 'sass:list';
+	@use '../TextInput/InputField.scss' as *;
 
+	.container {
+		cursor: pointer;
+
+		@extend %InputField;
+		&:disabled {
+			@extend %InputField-disabled;
+		}
+		&:hover:not(:disabled) {
+			@extend %InputField-hover;
+		}
+		&:focus-visible, &.isOpen:not(:disabled) {
+			@extend %InputField-focused;
+		}
+	}
 	.caret {
 		color: var(--foreground-body);
 	}

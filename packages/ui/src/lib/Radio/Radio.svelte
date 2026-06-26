@@ -26,39 +26,31 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 	@use 'sass:list';
+	@use '../Switch/BooleanField.scss' as *;
 
-	$input-sizes: create-size-map((1rem, 1.25rem, 1.5rem, 2rem, 2.5rem));
-
-	@each $size, $proportions in $input-sizes {
-		.size#{capitalize($size)} {
-			--component-size: #{$proportions};
-			--component-shadow: var(--template-inset-shadow-#{$size});
-		}
-	}
 	.Radio {
 		appearance: none;
 		margin: 0;
+		padding: 0;
+		outline: none;
 
 		position: relative;
-		transition: transform $transition-time-md;
-		width: var(--component-size);
-		height: var(--component-size);
+		width: var(--BooleanField-size);
+		height: var(--BooleanField-size);
 
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
 
-		background-color: var(--neutral-700);
-		border: solid 2px var(--neutral-600);
 		border-radius: 100%;
-		--component-shadowColor: var(--neutral-600);
-		box-shadow: var(--component-shadow) var(--component-shadowColor);
 
-		transition: background, border, box-shadow, transform;
-		transition-duration: $transition-time-md;
+		@extend %BooleanField;
+		@extend %BooleanField-sized;
 
-		&::after {
+		cursor: pointer;
+
+		&::before {
 			content: '';
 			transition: transform, opacity;
 			transition-duration: $transition-time-md;
@@ -66,43 +58,58 @@
 			width: 50%;
 			height: 50%;
 			transform: scale(0);
-			background-color: var(--neutral-950);
+			background-color: var(--neutral-regularFore);
 			border-radius: 100%;
-			box-shadow: var(--shadow-md);
+			box-shadow: var(--shadow-xs);
+			z-index: 1;
 		}
-		&:checked::after {
-			opacity: 100%;
-			transform: scale(1);
+		&::after {
+			position: absolute;
+			content: '';
+			transition: transform, opacity;
+			transition-duration: $transition-time-md;
+			opacity: 0;
+			top: 37%;
+			left: 37%;
+			width: 25%;
+			height: 25%;
+			transform: scale(0);
+			background-color: var(--primary-regularBack);
+			border-radius: 100%;
+			box-shadow: var(--shadow-xs);
+			z-index: 2;
 		}
 		// States
 		&:checked {
-			background-color: var(--success-600);
-			border: solid 2px var(--success-500);
-			--component-shadowColor: var(--success-500);
+			&:not(:focus-visible, :disabled) {
+				@extend %BooleanField-checked;
+				&:hover,
+				&:hover:active {
+					@extend %BooleanField-checkedHover;
+				}
+			}
+			&::before {
+				opacity: 100%;
+				transform: scale(1);
+			}
 		}
 		&:active {
 			transform: scale(0.85);
 		}
 		&:focus-visible {
-			transform: scale(1.15);
-			filter: brightness(1.5);
+			@extend %BooleanField-focused;
+			&::after {
+				opacity: 100%;
+				transform: scale(1);
+			}
 		}
 		&:not(:disabled):hover,
 		&:not(:disabled):hover:active {
-			background-color: var(--neutral-600);
-			border: solid 2px var(--neutral-500);
-		}
-		&:not(:disabled):checked:hover,
-		&:not(:disabled):checked:hover:active {
-			background-color: var(--success-500);
-			border: solid 2px var(--success-400);
-			--component-shadowColor: var(--success-400);
+			@extend %BooleanField-hover;
 		}
 		&:disabled {
-			cursor: default;
-			background-color: var(--neutral-800);
-			border: solid 2px var(--neutral-700);
-			--component-shadowColor: var(--neutral-700);
+			cursor: not-allowed;
+			@extend %BooleanField-disabled;
 		}
 	}
 </style>

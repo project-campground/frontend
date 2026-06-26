@@ -1,69 +1,72 @@
 @use 'sass:map';
 @use 'sass:list';
-@use 'sass:color';
+@use 'sass:color' as *;
+@use 'sass:math' as *;
 
 @mixin color-scheme($name, $accents, $background, $counter) {
 	$accent: list.nth($accents, 1);
 	$accent-alt: list.nth($accents, 2);
-	// Regular palette
-	--#{$name}-1000: #{color.mix($accent, $background, $weight: 5%)};
-	--#{$name}-950: #{color.mix($accent, $background, $weight: 12%)};
-	--#{$name}-900: #{color.mix($accent, $background, $weight: 20%)};
-	--#{$name}-850: #{color.mix($accent, $background, $weight: 30%)};
-	--#{$name}-800: #{color.mix($accent, $background, $weight: 40%)};
-	--#{$name}-750: #{color.mix($accent, $background, $weight: 50%)};
-	--#{$name}-700: #{color.mix($accent, $background, $weight: 60%)};
-	--#{$name}-600: #{color.mix($accent, $background, $weight: 80%)};
-	--#{$name}-500: #{$accent};
-	--#{$name}-400: #{color.mix($accent, $counter, $weight: 80%)};
-	--#{$name}-300: #{color.mix($accent, $counter, $weight: 60%)};
-	--#{$name}-250: #{color.mix($accent, $counter, $weight: 50%)};
-	--#{$name}-200: #{color.mix($accent, $counter, $weight: 40%)};
-	--#{$name}-150: #{color.mix($accent, $counter, $weight: 30%)};
-	--#{$name}-100: #{color.mix($accent, $counter, $weight: 20%)};
-	--#{$name}-50: #{color.mix($accent, $counter, $weight: 12%)};
 
 	--#{$name}-alt: #{$accent-alt};
 
 	// Misc
-	--#{$name}-selectionBack: #{$accent}CC;
+	--#{$name}-selectionFore: #{$background};
+	--#{$name}-selectionBack: #{change($accent, $alpha: 75%)};
 	--#{$name}-border: #{$accent}0B;
 
-	// Solid
-	--#{$name}-solidFore: #{$background};
+	// Component (Input)
+	--#{$name}-inputBorder: #{$accent};
+	--#{$name}-inputGlow: #{change($accent, $alpha: div(1, 2))};
 
-	--#{$name}-solidBack: var(--#{$name}-500);
-	--#{$name}-solidBackHover: var(--#{$name}-400);
-	--#{$name}-solidBackActive: var(--#{$name}-600);
+	// Component (Regular)
+	--#{$name}-regularBack: #{mix($background, $accent, $weight: 12.5%)};
+	--#{$name}-regularBackHover: #{mix($counter, $accent, $weight: 12.5%)};
+	--#{$name}-regularBackActive: #{mix($background, $accent, $weight: 25%)};
+
+	--#{$name}-regularGlow: #{mix($counter, $accent, $weight: 25%)};
+	--#{$name}-regularGlowHover: #{mix($counter, $accent, $weight: 50%)};
+	--#{$name}-regularGlowActive: #{mix(
+			$counter,
+			mix($background, $accent, $weight: 12.5%),
+			$weight: 12.5%
+		)};
+
+	// Glow
+	--#{$name}-glowFore: #{$background};
+
+	--#{$name}-glowFirst: #{$accent};
+	--#{$name}-glowSecond: #{$accent-alt};
+	--#{$name}-glowFirstDisabled: #{change(mix($counter, $accent, $weight: 25%), $alpha: div(1, 4))};
+	--#{$name}-glowSecondDisabled: #{change(
+			mix($counter, $accent-alt, $weight: 25%),
+			$alpha: div(1, 4)
+		)};
 
 	// Plain
-	--#{$name}-plainFore: var(--#{$name}-500);
-	--#{$name}-plainForeHover: var(--#{$name}-400);
-	--#{$name}-plainForeActive: var(--#{$name}-600);
+	--#{$name}-plainFore: #{$accent};
+	--#{$name}-plainForeHover: #{mix($counter, $accent, $weight: 25%)};
+	--#{$name}-plainForeActive: #{change($accent, $alpha: div(3, 4))};
+	--#{$name}-plainForeDisabled: #{change(mix($counter, $accent, $weight: 50%), $alpha: div(1, 2))};
 
-	--#{$name}-plainBackHover: var(--#{$name}-900);
-	--#{$name}-plainBackActive: var(--#{$name}-950);
+	--#{$name}-plainForeHeading: #{mix($accent, $accent, $weight: 25%)};
+	--#{$name}-plainForeSubtext: #{change($accent, $alpha: div(3, 4))};
+	--#{$name}-plainForeBackground: #{change($accent, $alpha: div(1, 2))};
 
-	// Outlined
-	--#{$name}-outlinedFore: var(--#{$name}-250);
-	--#{$name}-outlinedBorder: var(--#{$name}-800);
+	--#{$name}-plainBackHover: #{change($accent, $alpha: div(1, 8))};
+	--#{$name}-plainBackActive: #{change($accent, $alpha: div(1, 16))};
 
-	--#{$name}-outlinedForeHover: var(--#{$name}-150);
-	--#{$name}-outlinedBackHover: var(--#{$name}-900);
-	--#{$name}-outlinedBorderHover: var(--#{$name}-700);
+	// Soft
+	--#{$name}-softFore: #{change($accent, $alpha: div(3, 4))};
+	--#{$name}-softForeHover: #{$accent};
+	--#{$name}-softForeActive: #{change($accent, $alpha: div(1, 2))};
+	--#{$name}-softForeDisabled: #{change($accent, $alpha: div(1, 8))};
 
-	--#{$name}-outlinedForeActive: var(--#{$name}-200);
-	--#{$name}-outlinedBackActive: var(--#{$name}-950);
-	--#{$name}-outlinedBorderActive: var(--#{$name}-750);
+	--#{$name}-softBack: #{change($accent, $alpha: div(1, 8))};
+	--#{$name}-softBackHover: #{change($accent, $alpha: div(2, 8))};
+	--#{$name}-softBackActive: #{change($accent, $alpha: div(1, 16))};
+	--#{$name}-softBackDisabled: #{change($accent, $alpha: div(1, 16))};
 
-	// Plain
-	--#{$name}-softFore: var(--#{$name}-300);
-	--#{$name}-softForeHover: var(--#{$name}-150);
-	--#{$name}-softForeActive: var(--#{$name}-250);
-
-	--#{$name}-softBack: var(--#{$name}-900);
-	--#{$name}-softBackHover: var(--#{$name}-800);
-	--#{$name}-softBackActive: var(--#{$name}-850);
+	--#{$name}-softGlow: #{change($accent, $alpha: div(1, 4))};
 }
 @function get-theme-total-subtraction($light-mode) {
 	@return if(sass($light-mode): 50 * 2; else: 0);
@@ -72,10 +75,14 @@
 	@return if(sass($light-mode): 1000 - $value; else: $value);
 }
 @mixin neutral-color-scheme($shades, $light-mode) {
-	$mode-substraction: if(sass($light-mode): 50; else: 0);
+	$mode-subtraction: if(sass($light-mode): -50; else: 50);
 	$mode-addition: -50;
 
 	$component-color: if(sass($light-mode): 950; else: 850);
+	@debug $light-mode;
+	@debug $component-color;
+	@debug $component-color + ($mode-subtraction * 1);
+	@debug $component-color + ($mode-subtraction * 2);
 
 	$theme-shades: (
 		50: map.get($shades, get-shade-index(50, $light-mode)),
@@ -94,8 +101,9 @@
 		900: map.get($shades, get-shade-index(900, $light-mode)),
 		950: map.get($shades, get-shade-index(950, $light-mode))
 	);
+	@debug map.get($theme-shades, $component-color + ($mode-subtraction * 2));
 
-	--shadow-color: #0002;
+	--shadow-color: #{change(#000, $alpha: div(1, if(sass($light-mode): 8; else: 4)))};
 
 	--foreground-heading: #{map.get($theme-shades, 100)};
 	--foreground-subheading: #{map.get($theme-shades, 200)};
@@ -105,8 +113,8 @@
 	--foreground-level6: #{map.get($theme-shades, 600)};
 	--foreground-level7: #{map.get($theme-shades, 700)};
 
-	--background-body: #{map.get($theme-shades, 950 - ($mode-substraction * 2))};
-	--background-subtle: #{map.get($theme-shades, $component-color - ($mode-substraction * 1))};
+	--background-body: #{map.get($theme-shades, $component-color + ($mode-subtraction * 2))};
+	--background-subtle: #{map.get($theme-shades, $component-color + ($mode-subtraction * 1))};
 	--background-content: #{map.get($theme-shades, $component-color)};
 	--background-subcontent: #{map.get($theme-shades, $component-color + ($mode-addition * 1))};
 	--background-level4: #{map.get($theme-shades, $component-color + ($mode-addition * 2))};
@@ -115,12 +123,24 @@
 	--background-skeleton: #{map.get($theme-shades, 850)};
 	--background-skeletonPulse: #{map.get($theme-shades, 800)};
 
-	@each $key, $value in $theme-shades {
-		--neutral-#{$key}: #{$value};
-	}
-
 	// Misc
-	--neutral-border: #{map.get($theme-shades, 50)}#{if(sass($light-mode): 2B; else: 0B)};
+	--neutral-border: #{change(
+			map.get($theme-shades, 50),
+			$alpha: if(sass($light-mode): div(1, 8) ; else: div(1, 32))
+		)};
+
+	// Components (Regular)
+	--neutral-regularFore: #{map.get($theme-shades, 950)};
+
+	--neutral-regularBack: #{map.get($theme-shades, 750)};
+	--neutral-regularBackHover: #{map.get($theme-shades, 700)};
+	--neutral-regularBackActive: #{map.get($theme-shades, 800)};
+	--neutral-regularBackDisabled: #{map.get($theme-shades, 850)};
+
+	--neutral-regularGlow: #{map.get($theme-shades, 700)};
+	--neutral-regularGlowHover: #{map.get($theme-shades, 600)};
+	--neutral-regularGlowActive: #{map.get($theme-shades, 750)};
+	--neutral-regularGlowDisabled: #{map.get($theme-shades, 800)};
 
 	// Solid
 	--neutral-solidFore: var(--foreground-heading);
@@ -130,7 +150,7 @@
 	--neutral-solidBackActive: #{map.get($theme-shades, 850)};
 
 	// Plain
-	--neutral-plainFore: var(--foreground-subtext);
+	--neutral-plainFore: var(--foreground-body);
 	--neutral-plainForeHover: var(--foreground-subheading);
 	--neutral-plainForeActive: var(--foreground-subtext);
 	--neutral-plainForeDisabled: var(--foreground-background);
@@ -138,12 +158,12 @@
 	--neutral-plainBackHover: #{map.get($theme-shades, 850)};
 	--neutral-plainBackActive: #{map.get($theme-shades, 950)};
 
-	// Plain
+	// Soft
 	--neutral-softFore: var(--foreground-subtext);
 	--neutral-softForeHover: var(--foreground-subheading);
 	--neutral-softForeActive: var(--foreground-subtext);
 
-	--neutral-softBack: var(--background-subcontent);
-	--neutral-softBackHover: var(--background-level4);
-	--neutral-softBackActive: var(--background-level5);
+	--neutral-softBack: #{change(map.get($theme-shades, 500), $alpha: div(1, 8))};
+	--neutral-softBackHover: #{change(map.get($theme-shades, 500), $alpha: div(1, 4))};
+	--neutral-softBackActive: #{change(map.get($theme-shades, 500), $alpha: div(1, 16))};
 }

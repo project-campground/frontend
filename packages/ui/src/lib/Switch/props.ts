@@ -1,6 +1,6 @@
-import type { Component, SvelteComponentTyped } from 'svelte';
+import type { Component } from 'svelte';
 import type { ComponentSize } from '../types/attributes.ts';
-import type { HTMLInputAttributes } from 'svelte/elements';
+import type { HTMLButtonAttributes } from 'svelte/elements';
 import type { IconsProps } from '@tabler/icons-svelte/icons/icons';
 import type { IconCheck } from '@tabler/icons-svelte';
 
@@ -8,7 +8,7 @@ type IconComponentModern = Component<IconsProps>;
 type IconComponentDeprecated = typeof IconCheck;
 type IconComponent = IconComponentModern | IconComponentDeprecated | undefined | null;
 
-export default interface TextInputProps extends Omit<HTMLInputAttributes, 'size'> {
+export default interface SwitchProps extends Omit<HTMLButtonAttributes, 'size' | 'value'> {
 	value?: boolean;
 	size?: ComponentSize;
 	checkedIcon?: IconComponent;

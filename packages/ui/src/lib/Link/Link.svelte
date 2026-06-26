@@ -23,7 +23,7 @@
 		transition-duration: 0.2s;
 		@include button-transform();
 		&:disabled {
-			cursor: default;
+			cursor: not-allowed;
 			opacity: 0.65;
 			filter: grayscale(65%);
 		}

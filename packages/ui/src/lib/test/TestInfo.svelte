@@ -4,11 +4,9 @@
 		Card,
 		GradientText,
 		Group,
-		InputWrapper,
 		Section,
 		Stack,
 		TextBlock,
-		TextInput,
 		type ComponentColor,
 		type ComponentSize,
 		type GradientMotion

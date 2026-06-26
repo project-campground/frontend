@@ -31,11 +31,11 @@
 		background-color: var(--background-content);
 		border: solid 1px var(--neutral-border);
 		border-radius: var(--card-radius);
+		box-shadow: var(--shadow-md);
 	}
 	@each $size, $values in $card-padding {
 		.size#{capitalize($size)} {
 			padding: $values;
-			box-shadow: var(--shadow-#{$size});
 			--card-paddingY: #{list.nth($values, 1)};
 			--card-paddingX: #{list.nth($values, 2)};
 			--card-radius: var(--radius-#{$size});

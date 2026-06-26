@@ -38,7 +38,7 @@
 			flex-direction: row;
 			align-items: center;
 			gap: 8px;
-			box-shadow: var(--template-inset-shadow-md) var(--component-shadowColor);
+			box-shadow: var(--template-inset-shadow-md) var(--Alert-glow);
 		}
 		&.icon {
 			line-height: 0;
@@ -47,12 +47,12 @@
 			&.size#{capitalize($size)} {
 				padding: $values;
 				--Alert-radius: var(--radius-#{$size});
-				box-shadow: var(--template-inset-shadow-#{$size}) var(--component-shadowColor);
+				box-shadow: var(--template-inset-shadow-#{$size}) var(--Alert-glow);
 			}
 		}
 		@each $col in $color-types {
 			&.color#{capitalize($col)} {
-				--component-shadowColor: var(--#{$col}-800);
+				--Alert-glow: var(--#{$col}-softBack);
 				background-color: var(--#{$col}-softBack);
 				color: var(--#{$col}-softFore);
 			}

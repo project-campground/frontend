@@ -10,120 +10,73 @@
 		checkedIcon,
 		uncheckedIcon,
 		inputDisabled,
-		value = $bindable(),
+		value = $bindable(false),
 		...attributes
 	}: SwitchProps = $props();
-
-	let focused = $state(false);
 
 	const CheckedComponent = $derived(checkedIcon ?? IconCheck);
 	const UncheckedComponent = $derived(uncheckedIcon ?? IconX);
 </script>
 
-<div
-	class={[
-		'Switch container',
-		{ disabled, checked: value, focused },
-		`size${capitalize(size ?? 'md')}`,
-		className
-	]}
+<button
+	class={['Switch input', { checked: value }, `size${capitalize(size ?? 'md')}`, className]}
+	data-shadow-reset
+	disabled={disabled ?? inputDisabled}
+	aria-disabled={disabled ?? inputDisabled}
+	onclick={() => (value = !value)}
+	{...attributes}
 >
-	<div class={['Switch display']} aria-hidden="true" data-shadow-reset>
-		<div class={['Switch backgroundIcons']}>
-			<CheckedComponent class="Switch icon" />
-			<span class="Switch spread"></span>
-			<UncheckedComponent class="Switch icon" />
-		</div>
-		<div class={['Switch button']}></div>
+	<div class={['Switch backgroundIcons']}>
+		<CheckedComponent class="Switch icon" />
+		<span class="Switch spread"></span>
+		<UncheckedComponent class="Switch icon" />
 	</div>
-	<input
-		bind:checked={value}
-		bind:focused
-		type="checkbox"
-		class={['Switch input']}
-		disabled={disabled ?? inputDisabled}
-		aria-disabled={disabled ?? inputDisabled}
-		{...attributes}
-	/>
-</div>
+	<div class={['Switch button']}></div>
+</button>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 	@use 'sass:list';
+	@use './BooleanField.scss' as *;
 
-	$input-sizes: create-size-map((1rem, 1.25rem, 1.5rem, 2rem, 2.5rem));
-
-	@each $size, $proportions in $input-sizes {
-		.size#{capitalize($size)} {
-			--component-size: #{$proportions};
-			--component-shadow: var(--template-inset-shadow-#{$size});
-		}
-	}
-	.container {
-		position: relative;
-		transition: transform $transition-time-md;
-	}
 	.input {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 2;
-		border: none;
-		outline: none;
-		background-color: transparent;
-		appearance: none;
-		cursor: pointer;
-		margin: 0;
-		.disabled > & {
-			cursor: default;
-		}
-	}
-	.display {
 		position: relative;
 		display: flex;
-		pointer-events: none;
+		cursor: pointer;
+		align-items: center;
+		flex-direction: row;
+		outline: none;
 
-		background-color: var(--danger-700);
-		border: solid 2px var(--danger-600);
-		--component-shadowColor: var(--danger-600);
-		box-shadow: var(--component-shadow) var(--component-shadowColor);
+		@extend %BooleanField;
+		@extend %BooleanField-sized;
 
-		transition: background, border, box-shadow, filter, transform;
-		transition-duration: $transition-time-md;
-		// -0.25 due to padding on both sides
-		width: calc(var(--component-size) * 7 / 4);
-		height: calc(var(--component-size) * 3 / 4);
-		padding: calc(var(--component-size) / 8) calc(var(--component-size) / 8);
-		border-radius: calc(var(--component-size) * 3 / 4);
+		width: calc(var(--BooleanField-size) * 2);
+		height: var(--BooleanField-size);
+		padding: 0;
+		border-radius: calc(var(--BooleanField-size) * 3 / 4);
 
-		.focused > & {
-			transform: scale(1.15);
-			filter: brightness(1.5);
+		&:not(:disabled, :focus-visible):hover,
+		&:not(:disabled, :focus-visible):active:hover {
+			@extend %BooleanField-hover;
 		}
-		.container:not(.disabled):hover > &,
-		.container:not(.disabled):active:hover > & {
-			background-color: var(--danger-600);
-			border: solid 2px var(--danger-500);
-			box-shadow: inset 0 0 4px var(--danger-500);
+		&.checked:not(:disabled, :focus-visible) {
+			@extend %BooleanField-checked;
 		}
-		.checked:not(.disabled) & {
-			background-color: var(--success-600);
-			border: solid 2px var(--success-500);
-			box-shadow: inset 0 0 4px var(--success-500);
+		&.checked:not(:disabled, :focus-visible):hover,
+		&.checked:not(:disabled, :focus-visible):active:hover {
+			@extend %BooleanField-checkedHover;
 		}
-		.checked:not(.disabled):hover > &,
-		.checked:not(.disabled):active:hover > & {
-			background-color: var(--success-500);
-			border: solid 2px var(--success-400);
-			box-shadow: inset 0 0 4px var(--success-400);
+		&:focus-visible,
+		&:focus-visible:hover {
+			@extend %BooleanField-focused;
 		}
-	}
-	.disabled > .display {
-		background-color: var(--neutral-800);
-		border: solid 2px var(--neutral-700);
-		box-shadow: inset 0 0 4px var(--neutral-700);
+		&:active {
+			transform: scale(0.85);
+		}
+		&:disabled {
+			cursor: not-allowed;
+			@extend %BooleanField-disabled;
+		}
 	}
 	.backgroundIcons {
 		position: absolute;
@@ -134,8 +87,8 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		padding: 0 calc(var(--component-size) / 8);
-		color: var(--neutral-950);
+		padding: 0 calc(var(--BooleanField-size) / 8);
+		color: var(--neutral-regularFore);
 		& > :global(.Switch.icon) {
 			width: 70%;
 			height: 70%;
@@ -145,29 +98,40 @@
 		flex: 1;
 	}
 	.button {
-		display: inline-block;
-		height: 100%;
+		$button-size: 0.7;
+		$button-padding: 0.1;
+		position: absolute;
+		// Center it
+		top: calc(var(--BooleanField-size) * #{$button-size / 8});
+		left: var(--Switch-buttonX);
+		height: calc(var(--BooleanField-size) * #{$button-size});
+		width: calc(var(--BooleanField-size) * #{$button-size});
 		border-radius: 100%;
 		z-index: 1;
-		width: calc(var(--component-size) * 0.75);
 
-		background-color: var(--neutral-950);
-		box-shadow: var(--shadow-sm);
+		background-color: var(--neutral-regularFore);
+		box-shadow: var(--shadow-xs);
 
-		--component-buttonX: 0;
-		transform: translateX(var(--component-buttonX)) scaleY(1);
-		transition: transform $transition-time-md;
+		--Switch-buttonX: calc(var(--BooleanField-size) * #{$button-padding});
+		transition: left $transition-time-md;
+
+		// For focus dot
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		.checked & {
-			--component-buttonX: var(--component-size);
+			--Switch-buttonX: calc(100% - var(--BooleanField-size) * (#{$button-size + $button-padding}));
 		}
-	}
-	.container:active {
-		transform: scale(0.85);
-		:global(.icon) {
-			transform: scaleY(0.95);
-		}
-		.button {
-			transform: translateX(var(--component-buttonX)) scaleY(0.75);
+		&::after {
+			content: '';
+			background-color: transparent;
+			width: 50%;
+			height: 50%;
+			border-radius: 100%;
+			transition: background $transition-time-md;
+			.input:focus-visible > & {
+				background-color: var(--primary-regularBack);
+			}
 		}
 	}
 </style>

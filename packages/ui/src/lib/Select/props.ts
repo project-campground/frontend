@@ -10,7 +10,6 @@ export default interface SelectProps extends Omit<
 > {
 	left?: Snippet;
 	right?: Snippet;
-	hasError?: boolean;
 	value?: SelectValue | null;
 	size?: ComponentSize;
 

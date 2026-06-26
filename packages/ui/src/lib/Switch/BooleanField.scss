@@ -1,0 +1,44 @@
+@use '../index.scss' as *;
+
+$input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2rem, 2.25rem));
+
+%BooleanField-sized {
+	@each $size, $proportions in $input-sizes {
+		&.size#{capitalize($size)} {
+			--BooleanField-size: #{$proportions};
+			--BooleanField-shadow: var(--template-inset-shadow-#{$size});
+		}
+	}
+}
+
+%BooleanField {
+	// Style
+	background-color: var(--neutral-regularBack);
+	--BooleanField-glow: var(--neutral-regularGlow);
+	border: solid 2px var(--BooleanField-glow);
+	box-shadow: var(--component-shadow) var(--BooleanField-glow);
+
+	// Other UX
+	transition: background, border, box-shadow, filter, transform;
+	transition-duration: $transition-time-md;
+}
+%BooleanField-focused {
+	background-color: var(--primary-regularBack);
+	--BooleanField-glow: var(--primary-regularGlow);
+}
+%BooleanField-hover {
+	background-color: var(--neutral-regularBackHover);
+	--BooleanField-glow: var(--neutral-regularGlowHover);
+}
+%BooleanField-checked {
+	background-color: var(--success-regularBack);
+	--BooleanField-glow: var(--success-regularGlow);
+}
+%BooleanField-checkedHover {
+	background-color: var(--success-regularBackHover);
+	--BooleanField-glow: var(--success-regularGlowHover);
+}
+%BooleanField-disabled {
+	background-color: var(--neutral-regularBackDisabled);
+	--BooleanField-glow: var(--neutral-regularGlowDisabled);
+}

@@ -1,0 +1,53 @@
+@use 'sass:list';
+@use '../index.scss' as *;
+
+$padding-sizes: create-size-map(
+	(0rem 0.375rem, 0.25rem 0.75rem, 0.5rem 1rem, 0.75rem 1.5rem, 1rem 2rem)
+);
+
+%InputField {
+	position: relative;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	border-radius: var(--InputField-radius);
+
+	background-color: var(--background-content);
+	border: solid 1px var(--neutral-border);
+	box-shadow: var(--template-inset-shadow-md) var(--InputField-glow);
+
+	outline: none;
+	transition-property: color, background, border, box-shadow;
+	transition-duration: $transition-time-md;
+
+	font-size: 1em;
+	font-family: var(--font-body);
+
+	@each $size, $values in $padding-sizes {
+		&.size#{capitalize($size)} {
+			padding: $values;
+			gap: list.nth($values, 1);
+			--InputField-radius: var(--radius-#{$size});
+		}
+	}
+}
+%InputField-hover {
+	border: solid 1px var(--primary-inputGlow);
+}
+%InputField-decorator {
+	color: var(--foreground-subtext);
+}
+%InputField-error {
+	border: solid 1px var(--danger-inputBorder);
+	--InputField-glow: var(--danger-inputGlow);
+}
+%InputField-focused {
+	border: solid 1px var(--primary-inputBorder);
+	--InputField-glow: var(--primary-inputGlow);
+}
+%InputField-disabled {
+	background-color: var(--background-subtle);
+	cursor: not-allowed;
+}

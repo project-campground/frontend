@@ -22,11 +22,11 @@
 }
 %shadow-attributes {
 	@each $type, $value in $shadow-map {
-		--shadow-#{$type}: #{$value} #0002;
+		--shadow-#{$type}: #{$value} var(--shadow-color);
 		--template-shadow-#{$type}: #{$value};
 	}
 	@each $type, $value in $inset-shadow-map {
-		--inset-shadow-#{$type}: #{$value} #0002;
+		--inset-shadow-#{$type}: #{$value} var(--shadow-color);
 		--template-inset-shadow-#{$type}: #{$value};
 	}
 }
@@ -45,7 +45,7 @@
 	color: var(--foreground-body);
 	:global(::selection) {
 		background-color: var(--primary-selectionBack);
-		color: var(--primary-50);
+		color: var(--primary-selectionFore);
 	}
 }
 

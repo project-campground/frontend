@@ -26,7 +26,6 @@ export * from './Select/index.ts';
 export * from './Stack/index.ts';
 export * from './Switch/index.ts';
 export * from './TextInput/index.ts';
-export * from './InputWrapper/index.ts';
 export * as Svg from './svg/index.ts';
 export * as Tabs from './Tabs/index.ts';
 export * from './TextBlock/index.ts';

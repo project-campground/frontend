@@ -1,9 +1,9 @@
 <script lang="ts">
+	import type { ButtonVariant } from '$lib/Button/props.js';
 	import {
 		Button,
 		Checkbox,
 		Group,
-		InputWrapper,
 		Menu,
 		Para,
 		Radio,
@@ -14,15 +14,15 @@
 		TextBlock,
 		TextInput,
 		type ComponentColor,
+		type ComponentColorAll,
 		type ComponentSize,
-		type ComponentVariant,
 		type SelectValue
 	} from '$lib/index.js';
 	import IconLogo from '$lib/svg/IconLogo.svelte';
 	import { IconMoonFilled, IconStarFilled, IconSunFilled } from '@tabler/icons-svelte';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-	const variants: ComponentVariant[] = ['glow', 'solid', 'soft', 'outlined', 'plain'];
+	const variants: ButtonVariant[] = ['glow', 'soft', 'plain'];
 	const colors: ComponentColor[] = ['primary', 'success', 'info', 'warning', 'danger'];
 
 	let switchValue = $state(false);
@@ -50,38 +50,6 @@
 
 <Section headerLevel={1}>
 	{#snippet header()}
-		Input Wrapper
-	{/snippet}
-	<Stack>
-		{#each sizes as size}
-			<Section headerLevel={2}>
-				{#snippet header()}
-					{size}
-				{/snippet}
-				<Group wrap>
-					<InputWrapper bind:value={inputValue} {size}>
-						<IconStarFilled />
-						<TextBlock>Default</TextBlock>
-					</InputWrapper>
-					<InputWrapper bind:value={inputValue} {size} disabled>
-						<IconStarFilled />
-						<TextBlock>Disabled</TextBlock>
-					</InputWrapper>
-					<InputWrapper bind:value={inputValue} {size} hasError>
-						<IconStarFilled />
-						<TextBlock>Has error</TextBlock>
-					</InputWrapper>
-					<InputWrapper bind:value={inputValue} {size} disabled hasError>
-						<IconStarFilled />
-						<TextBlock>Has error + Disabled</TextBlock>
-					</InputWrapper>
-				</Group>
-			</Section>
-		{/each}
-	</Stack>
-</Section>
-<Section headerLevel={1}>
-	{#snippet header()}
 		Text Input
 	{/snippet}
 	<Stack>
@@ -90,36 +58,39 @@
 				{#snippet header()}
 					{size}
 				{/snippet}
-				{#each [{}, { startDecorator: icon }, { endDecorator: icon }, { startDecorator: icon, endDecorator: icon }] as attr}
+				{#each [{}, { left: icon }, { right: icon }, { left: icon, right: icon }, { top: icon }, { bottom: icon }, { rows: 4 }] as attr}
 					<Section headerLevel={3}>
 						{#snippet header()}
 							Attr: {JSON.stringify(Object.keys(attr))}
 						{/snippet}
-						<Group wrap>
-							<TextInput bind:value={inputValue} {size} placeholder={size} {...attr} />
-							<TextInput
-								bind:value={inputValue}
-								{size}
-								placeholder={size + ` disabled`}
-								disabled
-								{...attr}
-							/>
-							<TextInput
-								bind:value={inputValue}
-								{size}
-								placeholder={size + ` has error`}
-								hasError
-								{...attr}
-							/>
-							<TextInput
-								bind:value={inputValue}
-								{size}
-								placeholder={size + ` disabled, has error`}
-								disabled
-								hasError
-								{...attr}
-							/>
-						</Group>
+						<Stack>
+							<TextInput multirow bind:value={inputValue} {size} placeholder={size} {...attr} />
+							<Group wrap>
+								<TextInput bind:value={inputValue} {size} placeholder={size} {...attr} />
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` disabled`}
+									disabled
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` has error`}
+									error
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` disabled, has error`}
+									disabled
+									error
+									{...attr}
+								/>
+							</Group>
+						</Stack>
 					</Section>
 				{/each}
 			</Section>
@@ -154,23 +125,6 @@
 								children={selectMenu}
 								display={selectRenderer}
 								{size}
-								disabled
-								{...attr}
-							/>
-							<Select
-								bind:value={selectValue}
-								children={selectMenu}
-								display={selectRenderer}
-								{size}
-								hasError
-								{...attr}
-							/>
-							<Select
-								bind:value={selectValue}
-								children={selectMenu}
-								display={selectRenderer}
-								{size}
-								hasError
 								disabled
 								{...attr}
 							/>
@@ -272,7 +226,7 @@
 			<Stack gap={2}>
 				{#each variants as variant}
 					<Group wrap gap={1}>
-						{#each colors as color}
+						{#each [...colors, 'neutral'] as ComponentColorAll[] as color}
 							<Button {variant} {color} {size}>{variant} {color} {size}</Button>
 							<Button {variant} {color} {size} disabled>{variant} {color} {size} disabled</Button>
 						{/each}

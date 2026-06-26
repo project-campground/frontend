@@ -34,13 +34,10 @@
 		align-items: center;
 		font-family: var(--font-body);
 		&:disabled {
-			cursor: default;
-			opacity: 0.65;
-			filter: grayscale(65%);
+			cursor: not-allowed;
 		}
 		&:focus-visible {
 			transform: scale(1.15);
-			filter: brightness(1.5);
 		}
 		@include button-transform();
 		@each $size, $values in $button-padding {
@@ -52,10 +49,14 @@
 		@each $col in $color-types-all {
 			&.color#{capitalize($col)} {
 				&.variantGlow {
-					background: linear-gradient(to bottom right, var(--#{$col}-500), var(--#{$col}-alt));
-					color: var(--#{$col}-solidFore);
+					background: linear-gradient(
+						to bottom right,
+						var(--#{$col}-glowFirst),
+						var(--#{$col}-glowSecond)
+					);
+					color: var(--#{$col}-glowFore);
 					border: none;
-					box-shadow: 0 0 8px var(--#{$col}-500);
+					box-shadow: 0 0 8px var(--#{$col}-glowFirst);
 					&::after {
 						content: '';
 						top: 0;
@@ -70,8 +71,16 @@
 							opacity 0.2s,
 							background-color 0.2s;
 					}
+					&:disabled {
+						background: linear-gradient(
+							to bottom right,
+							var(--#{$col}-glowFirstDisabled),
+							var(--#{$col}-glowSecondDisabled)
+						);
+						box-shadow: none;
+					}
 					&:not(:disabled):hover {
-						box-shadow: 0 0 15px var(--#{$col}-500);
+						box-shadow: 0 0 15px var(--#{$col}-glowFirst);
 					}
 					&:not(:disabled):hover::after {
 						opacity: 25%;
@@ -82,67 +91,51 @@
 						background-color: #000;
 					}
 				}
-				&.variantSolid {
-					background-color: var(--#{$col}-solidBack);
-					color: var(--#{$col}-solidFore);
-					border: none;
-					&:not(:disabled):hover {
-						background-color: var(--#{$col}-solidBackHover);
-					}
-					&:not(:disabled):active {
-						background-color: var(--#{$col}-solidBackActive);
-					}
-				}
-				&.variantInverted {
-					background-color: var(--#{$col}-50);
-					color: var(--#{$col}-500);
-					border: none;
-					&:not(:disabled):hover {
-						background-color: var(--#{$col}-150);
-					}
-					&:not(:disabled):active {
-						background-color: var(--#{$col}-250);
-					}
-				}
-				&.variantOutlined {
-					color: var(--#{$col}-outlinedFore);
-					background-color: var(--#{$col}-outlinedBack, transparent);
-					border: solid 1px var(--#{$col}-outlinedBorder, transparent);
-					&:not(:disabled):hover {
-						color: var(--#{$col}-outlinedForeHover);
-						background-color: var(--#{$col}-outlinedBackHover, transparent);
-						border: solid 1px var(--#{$col}-outlinedBorderHover, transparent);
-					}
-					&:not(:disabled):active {
-						color: var(--#{$col}-outlinedForeActive);
-						background-color: var(--#{$col}-outlinedBackActive, transparent);
-						border: solid 1px var(--#{$col}-outlinedBorderActive, transparent);
-					}
-				}
 				&.variantPlain {
 					border: none;
 					background-color: transparent;
 					color: var(--#{$col}-plainFore);
 					&:not(:disabled):hover {
 						color: var(--#{$col}-plainForeHover);
-						background-color: var(--#{$col}-plainBackHover, transparent);
+						background-color: var(--#{$col}-plainBackHover);
 					}
 					&:not(:disabled):active {
 						color: var(--#{$col}-plainForeActive);
-						background-color: var(--#{$col}-plainBackActive, transparent);
+						background-color: var(--#{$col}-plainBackActive);
+					}
+					&:disabled {
+						background-color: transparent;
+						color: var(--#{$col}-plainForeDisabled);
 					}
 				}
 				&.variantSoft {
 					border: none;
 					background-color: var(--#{$col}-softBack);
 					color: var(--#{$col}-softFore);
+					&:disabled {
+						color: var(--#{$col}-softForeDisabled);
+						background-color: var(--#{$col}-softBackDisabled);
+					}
 					&:not(:disabled):hover {
 						color: var(--#{$col}-softForeHover);
-						background-color: var(--#{$col}-softBackHover, transparent);
+						background-color: var(--#{$col}-softBackHover);
 					}
 					&:not(:disabled):active {
 						color: var(--#{$col}-softForeActive);
-						background-color: var(--#{$col}-softBackActive, transparent);
+						background-color: var(--#{$col}-softBackActive);
+					}
+				}
+				&.variantInverted {
+					border: none;
+					background-color: var(--#{$col}-invertedBack);
+					color: var(--#{$col}-invertedFore);
+					&:not(:disabled):hover {
+						color: var(--#{$col}-invertedForeHover);
+						background-color: var(--#{$col}-invertedBackHover);
+					}
+					&:not(:disabled):active {
+						color: var(--#{$col}-softForeActive);
+						background-color: var(--#{$col}-invertedBackActive);
 					}
 				}
 			}

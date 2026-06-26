@@ -36,6 +36,7 @@
 		transition: color, transform, filter;
 		transition-duration: $transition-time-md;
 		font-weight: 700;
+		cursor: pointer;
 		&.active {
 			color: var(--foreground-heading);
 		}

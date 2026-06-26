@@ -8,7 +8,7 @@ $font-fallback:
 $font-body-kr: 'Noto Sans KR Variable', 'Noto Sans KR';
 $font-body-jp: 'Noto Sans JP Variable', 'Noto Sans JP';
 // Old fonts used: Nunito Sans, Montserrat
-$font-body: 'Ubuntu Sans', $font-body-jp, $font-body-kr, $font-fallback;
+$font-body: 'Ubuntu Sans', 'Ubuntu', $font-body-jp, $font-body-kr, $font-fallback;
 
 $font-display-jp: 'LINE Seed JP', 'Kosugi Maru';
 $font-display-kr: 'Gugi';
@@ -22,7 +22,7 @@ $font-monospace: 'Ubuntu Mono', 'M PLUS 1 Code', $font-monospace-fallback;
 @function quoted-font($str-list) {
 	$quoted-list: ();
 	@each $str in $str-list {
-		$quoted-list: list.append($quoted-list, '\'#{$str}\'', 'comma');
+		$quoted-list: list.append($quoted-list, "'#{$str}'", 'comma');
 	}
 	@return $quoted-list;
 }

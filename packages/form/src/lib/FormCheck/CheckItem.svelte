@@ -23,8 +23,19 @@
 	let checked = $derived(control.value?.includes(value) ?? false);
 </script>
 
-<FormSimpleField class={{ checked }} {header} {children}>
+<FormSimpleField
+	class={{ checked }}
+	{header}
+	{children}
+>
 	{#snippet component(id)}
-		<Checkbox bind:checked {id} name={checkId} size="sm" oninput={onInput} {...props} />
+		<Checkbox
+			bind:checked
+			{id}
+			name={checkId}
+			size="sm"
+			oninput={onInput}
+			{...props}
+		/>
 	{/snippet}
 </FormSimpleField>

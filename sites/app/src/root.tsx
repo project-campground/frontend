@@ -4,7 +4,7 @@ import {
 	Meta,
 	Outlet,
 	Scripts,
-	ScrollRestoration
+	ScrollRestoration,
 } from 'react-router';
 
 import type { Route } from './+types/root';
@@ -25,25 +25,29 @@ export const links: Route.LinksFunction = () => [
 	//     rel: "stylesheet",
 	//     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
 	// },
-	{
-		rel: 'icon',
-		href: '/favicon.ico'
-	}
+	{ rel: 'icon', href: '/favicon.ico' },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	const [keys, setKeys] = useState<KeyContext>({ shift: false, control: false });
 	const updateKeys: KeyboardEventHandler<HTMLHtmlElement> = (ev) =>
 		// To not update constantly update from other key holds and hold removals
-		ev.shiftKey !== keys.shift || ev.ctrlKey !== keys.control
-			? setKeys({ shift: ev.shiftKey, control: ev.ctrlKey })
-			: null;
+		ev.shiftKey !== keys.shift || ev.ctrlKey !== keys.control ?
+			setKeys({ shift: ev.shiftKey, control: ev.ctrlKey })
+		:	null;
 
 	return (
-		<html lang="en" onKeyDown={updateKeys} onKeyUp={updateKeys}>
+		<html
+			lang='en'
+			onKeyDown={updateKeys}
+			onKeyUp={updateKeys}
+		>
 			<head>
-				<meta charSet="utf-8" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta charSet='utf-8' />
+				<meta
+					name='viewport'
+					content='width=device-width, initial-scale=1'
+				/>
 				<Meta />
 				<Links />
 			</head>
@@ -52,7 +56,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<>
 					{/* <InitColorSchemeScript defaultMode="dark" /> */}
 					<StyledEngineProvider injectFirst>
-						<CssVarsProvider theme={theme} defaultMode="dark" defaultColorScheme="dark">
+						<CssVarsProvider
+							theme={theme}
+							defaultMode='dark'
+							defaultColorScheme='dark'
+						>
 							<CssBaseline />
 							<KeyContext.Provider value={keys}>{children}</KeyContext.Provider>
 						</CssVarsProvider>
@@ -72,7 +80,7 @@ function AppComponent({ children }: React.PropsWithChildren) {
 				<SnackbarContextProvider>
 					<ContextSuiteProvider>
 						<RightClickProvider>
-							<Box id="root">{children}</Box>
+							<Box id='root'>{children}</Box>
 						</RightClickProvider>
 						{/* <DndContext>
                         </DndContext> */}
@@ -107,11 +115,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 	}
 
 	return (
-		<main className="pt-16 p-4 container mx-auto">
+		<main className='pt-16 p-4 container mx-auto'>
 			<h1>{message}</h1>
 			<p>{details}</p>
 			{stack && (
-				<pre className="w-full p-4 overflow-x-auto">
+				<pre className='w-full p-4 overflow-x-auto'>
 					<code>{stack}</code>
 				</pre>
 			)}
@@ -144,15 +152,11 @@ export function HydrateFallback() {
 					height: '100%',
 					display: 'flex',
 					flexDirection: 'column',
-					alignItems: 'center'
+					alignItems: 'center',
 				}}
 			>
-				<div
-					style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-				>
-					<div
-						style={{ position: 'relative', width: '128px', height: '128px', color: 'transparent' }}
-					>
+				<div style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+					<div style={{ position: 'relative', width: '128px', height: '128px', color: 'transparent' }}>
 						<div
 							style={{
 								zIndex: 1,
@@ -165,10 +169,14 @@ export function HydrateFallback() {
 								stroke: 'var(--alt-500)',
 								strokeLinecap: 'round',
 								strokeLinejoin: 'round',
-								animation: `stroke-width-animation 2s infinite`
+								animation: `stroke-width-animation 2s infinite`,
 							}}
 						>
-							<SvgUse id="cg-logo" width="128px" height="128px" />
+							<SvgUse
+								id='cg-logo'
+								width='128px'
+								height='128px'
+							/>
 						</div>
 						<div
 							style={{
@@ -184,10 +192,14 @@ export function HydrateFallback() {
 								stroke: 'var(--primary-500)',
 								strokeLinecap: 'round',
 								strokeLinejoin: 'round',
-								animation: `stroke-width-animation 2s infinite`
+								animation: `stroke-width-animation 2s infinite`,
 							}}
 						>
-							<SvgUse id="cg-logo" width="128px" height="128px" />
+							<SvgUse
+								id='cg-logo'
+								width='128px'
+								height='128px'
+							/>
 						</div>
 					</div>
 				</div>

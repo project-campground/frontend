@@ -3,7 +3,7 @@ import type {
 	ComponentColor,
 	ComponentSize,
 	ComponentSizeWithNone,
-	ComponentVariant
+	ComponentVariant,
 } from '$lib/types/attributes.js';
 
 export const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

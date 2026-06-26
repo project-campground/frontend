@@ -1,17 +1,19 @@
-import PagePlaceholder, { PagePlaceholderIcon } from "~/components/pages/PagePlaceholder";
+import PagePlaceholder, { PagePlaceholderIcon } from '~/components/pages/PagePlaceholder';
 
 export function meta() {
-    return [
-        { title: "Campground — Discover" },
-        { name: "description", content: "Gather around the fire, friends" },
-    ];
+	return [
+		{ title: 'Campground — Discover' },
+		{ name: 'description', content: 'Gather around the fire, friends' },
+	];
 }
 
-
 export default function Index() {
-    return (
-        <PagePlaceholder icon={PagePlaceholderIcon.WIP} title="Work In Progress">
-            There is no discovery yet. Come back later!
-        </PagePlaceholder>
-    )
+	return (
+		<PagePlaceholder
+			icon={PagePlaceholderIcon.WIP}
+			title='Work In Progress'
+		>
+			There is no discovery yet. Come back later!
+		</PagePlaceholder>
+	);
 }

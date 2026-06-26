@@ -3,7 +3,7 @@ import {
 	IconX,
 	IconExclamationCircleFilled,
 	IconCircleCheckFilled,
-	IconInfoCircleFilled
+	IconInfoCircleFilled,
 } from '@tabler/icons-react';
 import type { HttpResponse, HttpResponseError } from '~/api/http/HTTPResponse';
 import { Group } from '@campground/ui';
@@ -49,7 +49,7 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
 					{resp.errorHeader && <strong>{resp.errorHeader}:</strong>}
 					<span>{resp.errorDescription}</span>
 				</Group>
-			)
+			),
 		});
 	const notifySuccess: SnackbarNotify = (text) =>
 		notify({ color: 'success', startDecorator: <IconCircleCheckFilled />, text });
@@ -61,16 +61,8 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
 		setSnackbars(snackbars.filter((x) => x !== snackbar));
 
 	const value = useMemo(
-		() => ({
-			snackbars,
-			notify,
-			notifyError,
-			notifyApiError,
-			notifySuccess,
-			notifyInfo,
-			notifyWarn
-		}),
-		[snackbars]
+		() => ({ snackbars, notify, notifyError, notifyApiError, notifySuccess, notifyInfo, notifyWarn }),
+		[snackbars],
 	);
 
 	return (
@@ -82,22 +74,25 @@ export function SnackbarContextProvider({ children }: React.PropsWithChildren) {
 					<Snackbar
 						open
 						key={x.id}
-						variant="outlined"
+						variant='outlined'
 						anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 						onClose={close}
 						// color={x.color}
 						startDecorator={
 							<Alert
-								size="sm"
+								size='sm'
 								color={x.color}
-								variant="soft"
+								variant='soft'
 								sx={{ border: `solid 1px var(--${x.color ?? 'neutral'}-border)` }}
 							>
 								{x.startDecorator}
 							</Alert>
 						}
 						endDecorator={
-							<IconButton variant="plain" onClick={close}>
+							<IconButton
+								variant='plain'
+								onClick={close}
+							>
 								<IconX size={16} />
 							</IconButton>
 						}

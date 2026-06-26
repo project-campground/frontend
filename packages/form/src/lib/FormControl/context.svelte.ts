@@ -5,7 +5,13 @@ export class FormControlInstance<T> {
 	public error: string | null = $state(null);
 	public value: T;
 
-	constructor(public key: string, private getDefaultValue: () => T, private getId: () => FormFieldId, private getRequired: () => boolean, private getDisabled: () => boolean) {
+	constructor(
+		public key: string,
+		private getDefaultValue: () => T,
+		private getId: () => FormFieldId,
+		private getRequired: () => boolean,
+		private getDisabled: () => boolean,
+	) {
 		this.value = $state(getDefaultValue());
 	}
 
@@ -26,7 +32,7 @@ export class FormControlInstance<T> {
 	}
 
 	public reset() {
-		return this.value = this.defaultValue;
+		return (this.value = this.defaultValue);
 	}
 }
 export const [getFormControl, setFormControl] = createContext<FormControlInstance<any>>();

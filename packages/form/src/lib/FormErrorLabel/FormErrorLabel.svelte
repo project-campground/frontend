@@ -9,7 +9,12 @@
 </script>
 
 {#if fieldContext.error}
-	<Para class={['FormErrorLabel', className]} level="paragraph" color="danger" {...props}>
+	<Para
+		class={['FormErrorLabel', className]}
+		level="paragraph"
+		color="danger"
+		{...props}
+	>
 		{fieldContext.error}
 	</Para>
 {/if}

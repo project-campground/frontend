@@ -10,8 +10,17 @@
 	const fieldContext = getFormControl();
 </script>
 
-<FormSimpleField reverse class={{ checked: fieldContext.value }} {header} {children}>
+<FormSimpleField
+	reverse
+	class={{ checked: fieldContext.value }}
+	{header}
+	{children}
+>
 	{#snippet component(id)}
-		<Switch bind:value={fieldContext.value} {id} {...props} />
+		<Switch
+			bind:value={fieldContext.value}
+			{id}
+			{...props}
+		/>
 	{/snippet}
 </FormSimpleField>

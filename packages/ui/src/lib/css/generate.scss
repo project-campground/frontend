@@ -99,7 +99,7 @@
 		800: map.get($shades, get-shade-index(800, $light-mode)),
 		850: map.get($shades, get-shade-index(850, $light-mode)),
 		900: map.get($shades, get-shade-index(900, $light-mode)),
-		950: map.get($shades, get-shade-index(950, $light-mode))
+		950: map.get($shades, get-shade-index(950, $light-mode)),
 	);
 	@debug map.get($theme-shades, $component-color + ($mode-subtraction * 2));
 

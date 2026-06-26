@@ -10,18 +10,17 @@
 
 	$effect.pre(() => {
 		globalAppLocale.set(
-			createIntl({
-				locale: params.locale,
-				defaultLocale: params.locale,
-				messages: data
-			})
+			createIntl({ locale: params.locale, defaultLocale: params.locale, messages: data }),
 		);
 	});
 
 	setLocaleContext(globalAppLocale);
 </script>
 
-<div class="Layout wrapper" lang={params.locale}>
+<div
+	class="Layout wrapper"
+	lang={params.locale}
+>
 	<Navbar />
 	<article class="Layout article">
 		<div class="Layout nav-padding"></div>

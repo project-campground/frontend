@@ -13,7 +13,7 @@
 	class={[
 		'Alert container',
 		`size${capitalize(size ?? 'md')}`,
-		`color${capitalize(color ?? 'primary')}`
+		`color${capitalize(color ?? 'primary')}`,
 	]}
 	data-shadow-reset="true"
 >

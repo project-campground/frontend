@@ -1,19 +1,18 @@
-<script lang="ts" module>
+<script
+	lang="ts"
+	module
+>
 	function getCoordinates(invokerRect: DOMRect, parentRect: DOMRect, menuRect: DOMRect) {
 		const overflowFixes = getOverflowFixFromRect(parentRect, menuRect);
 
 		const [top, bottom] =
-			overflowFixes.vertical === 'cannot'
-				? [0, 0]
-				: overflowFixes.vertical === 'before'
-					? [null, parentRect.height - invokerRect.top]
-					: [invokerRect.top + invokerRect.height, null];
+			overflowFixes.vertical === 'cannot' ? [0, 0]
+			: overflowFixes.vertical === 'before' ? [null, parentRect.height - invokerRect.top]
+			: [invokerRect.top + invokerRect.height, null];
 		const [left, right] =
-			overflowFixes.horizontal === 'cannot'
-				? [0, 0]
-				: overflowFixes.horizontal === 'before'
-					? [null, parentRect.width - invokerRect.left]
-					: [invokerRect.left + invokerRect.width, null];
+			overflowFixes.horizontal === 'cannot' ? [0, 0]
+			: overflowFixes.horizontal === 'before' ? [null, parentRect.width - invokerRect.left]
+			: [invokerRect.left + invokerRect.width, null];
 
 		return { top, bottom, left, right };
 	}
@@ -46,14 +45,14 @@
 		'Menu MenuList',
 		{ floating: !!invokerRect },
 		`placement${capitalizePhrase(placement ?? 'bottom')}`,
-		className
+		className,
 	]}
-	style={coordinates
-		? Object.entries(coordinates)
-				.filter(([_, value]) => value !== null)
-				.map(([key, value]) => `${key}:${value}px`)
-				.join(';')
-		: ''}
+	style={coordinates ?
+		Object.entries(coordinates)
+			.filter(([_, value]) => value !== null)
+			.map(([key, value]) => `${key}:${value}px`)
+			.join(';')
+	:	''}
 	{...attributes}
 >
 	{@render children?.()}

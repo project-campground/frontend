@@ -14,7 +14,7 @@
 	const formattedValue = $derived(intl?.formatMessage({ id, defaultMessage, description }, values));
 
 	const arrayValue: DefaultMessageSegment[] = $derived(
-		Array.isArray(formattedValue) ? formattedValue : [formattedValue]
+		Array.isArray(formattedValue) ? formattedValue : [formattedValue],
 	);
 </script>
 

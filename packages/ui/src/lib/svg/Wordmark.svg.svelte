@@ -1,4 +1,8 @@
-<symbol viewBox="0 0 448 128" fill="currentColor" id="cgi-wordmark">
+<symbol
+	viewBox="0 0 448 128"
+	fill="currentColor"
+	id="cgi-wordmark"
+>
 	<g id="CampgroundWordmark">
 		<path
 			id="CampgroundWordmarkC"

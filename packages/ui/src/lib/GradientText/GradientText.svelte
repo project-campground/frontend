@@ -5,16 +5,14 @@
 	const { children, colors, motion }: GradientTextProps = $props();
 	const percentageOfColor = $derived(50 / (colors?.length ?? 1));
 	const gradient: string[] | undefined | null = $derived(
-		motion === 'linear'
-			? colors?.concat(colors.slice(0, 1))
-			: motion === 'wave'
-				? colors
-						?.concat(colors)
-						.concat(colors.slice(0, 1))
-						.map((x, i) => `${x} ${percentageOfColor * i}%`)
-				: motion === 'radial'
-					? colors?.concat(colors)
-					: colors
+		motion === 'linear' ? colors?.concat(colors.slice(0, 1))
+		: motion === 'wave' ?
+			colors
+				?.concat(colors)
+				.concat(colors.slice(0, 1))
+				.map((x, i) => `${x} ${percentageOfColor * i}%`)
+		: motion === 'radial' ? colors?.concat(colors)
+		: colors,
 	);
 	const time: number = $derived((motion === 'radial' ? 10 : 2.5) * (colors?.length ?? 0));
 </script>

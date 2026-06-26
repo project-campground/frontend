@@ -1,13 +1,11 @@
-import type { ProfileViewDetailed } from "types/campground/user";
-import HTTPBackendObjectManager from "./base-backend";
+import type { ProfileViewDetailed } from 'types/campground/user';
+import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPProfileManager extends HTTPBackendObjectManager {
-    public get(actor: string) {
-        return this.client.get<ProfileViewDetailed>({
-            route: `gg.campground.actor.getProfile`,
-            queries: {
-                actor,
-            },
-        });
-    }
+	public get(actor: string) {
+		return this.client.get<ProfileViewDetailed>({
+			route: `gg.campground.actor.getProfile`,
+			queries: { actor },
+		});
+	}
 }

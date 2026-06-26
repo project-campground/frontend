@@ -12,13 +12,17 @@
 	let checked = $state(false);
 </script>
 
-<FormSimpleField class={{ checked }} {header} {children}>
+<FormSimpleField
+	class={{ checked }}
+	{header}
+	{children}
+>
 	{#snippet component(id)}
 		<Radio
 			{id}
 			size="sm"
 			bind:group={control.value}
-			oninput={() => control.value = value}
+			oninput={() => (control.value = value)}
 			{value}
 			{...props}
 		/>

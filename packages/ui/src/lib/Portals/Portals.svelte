@@ -4,7 +4,10 @@
 	const { children, ...attributes }: PortalsProps = $props();
 </script>
 
-<div class="Portals root" {...attributes}>
+<div
+	class="Portals root"
+	{...attributes}
+>
 	{@render children()}
 </div>
 

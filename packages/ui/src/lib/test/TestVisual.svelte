@@ -14,9 +14,22 @@
 	<Stack>
 		{#each sizesWithNone as radius}
 			<Group wrap>
-				<Image w={10} h={10} {radius} src="/example-banner.svg" />
-				<Image mh={10} {radius} src="/example-banner.svg" />
-				<Image mw={10} {radius} src="/example-banner.svg" />
+				<Image
+					w={10}
+					h={10}
+					{radius}
+					src="/example-banner.svg"
+				/>
+				<Image
+					mh={10}
+					{radius}
+					src="/example-banner.svg"
+				/>
+				<Image
+					mw={10}
+					{radius}
+					src="/example-banner.svg"
+				/>
 			</Group>
 		{/each}
 	</Stack>
@@ -27,8 +40,15 @@
 	{/snippet}
 	<Group wrap>
 		<SvgUse id="logo" />
-		<SvgUse id="logo" size={8} />
-		<SvgUse id="logo" w={3} h={8} />
+		<SvgUse
+			id="logo"
+			size={8}
+		/>
+		<SvgUse
+			id="logo"
+			w={3}
+			h={8}
+		/>
 	</Group>
 </Section>
 <Section headerLevel={1}>
@@ -47,8 +67,17 @@
 	{/snippet}
 	<Group wrap>
 		{#each sizes as size}
-			<Avatar src="/DefaultAvatar0.png" {size} alt="example alt" />
-			<Avatar alt="example alt" {size}>{size}</Avatar>
+			<Avatar
+				src="/DefaultAvatar0.png"
+				{size}
+				alt="example alt"
+			/>
+			<Avatar
+				alt="example alt"
+				{size}
+			>
+				{size}</Avatar
+			>
 		{/each}
 		<Avatar alt="example alt" />
 	</Group>

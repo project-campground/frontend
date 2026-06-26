@@ -12,7 +12,11 @@
 	formContext.fields.subscribe((values) => (valid = values.allValid));
 </script>
 
-<Button {...props} disabled={disabled || !valid} onclick={(ev) => formContext.submit(ev)}>
+<Button
+	{...props}
+	disabled={disabled || !valid}
+	onclick={(ev) => formContext.submit(ev)}
+>
 	{#if children}
 		{@render children()}
 	{:else}

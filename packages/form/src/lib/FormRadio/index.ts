@@ -1,6 +1,6 @@
 export type {
 	FormRadioItemProps as FormCheckboxProps,
-	FormRadioListProps as FormChecklistProps
+	FormRadioListProps as FormChecklistProps,
 } from './props.ts';
 export { default as Item } from './RadioItem.svelte';
 export { default as List } from './RadioList.svelte';

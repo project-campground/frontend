@@ -11,10 +11,16 @@
 	role="banner"
 >
 	<span class="BrandLogo icon">
-		<SvgUse id="logo" size={0} />
+		<SvgUse
+			id="logo"
+			size={0}
+		/>
 	</span>
 	<span class="BrandLogo wordmark">
-		<SvgUse id="wordmark" size={0} />
+		<SvgUse
+			id="wordmark"
+			size={0}
+		/>
 	</span>
 </div>
 

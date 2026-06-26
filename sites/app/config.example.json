@@ -1,5 +1,5 @@
 {
-    "pdsUrl": "http://localhost:2583",
-    "backendUrl": "http://localhost:8080",
-    "backendDomain": "localhost:8080"
+	"pdsUrl": "http://localhost:2583",
+	"backendUrl": "http://localhost:8080",
+	"backendDomain": "localhost:8080"
 }

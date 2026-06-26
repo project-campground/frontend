@@ -1,13 +1,13 @@
-import type HTTPBackendClient from "./HTTPBackendClient";
+import type HTTPBackendClient from './HTTPBackendClient';
 
 export default class HTTPBackendObjectManager {
-    protected client: HTTPBackendClient;
+	protected client: HTTPBackendClient;
 
-    constructor(client: HTTPBackendClient) {
-        this.client = client;
-    }
+	constructor(client: HTTPBackendClient) {
+		this.client = client;
+	}
 
-    protected get atproto() {
-        return this.client.atproto;
-    }
+	protected get atproto() {
+		return this.client.atproto;
+	}
 }

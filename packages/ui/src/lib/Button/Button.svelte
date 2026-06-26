@@ -11,7 +11,7 @@
 		'Button',
 		`size${capitalize(size ?? 'md')}`,
 		`variant${capitalize(variant ?? 'glow')}`,
-		`color${capitalize(color ?? 'primary')}`
+		`color${capitalize(color ?? 'primary')}`,
 	]}
 >
 	{@render children()}

@@ -10,11 +10,10 @@
 		Select,
 		Stack,
 		Switch,
-		TextBlock,
 		TextInput,
 		type ComponentColor,
 		type ComponentColorAll,
-		type ComponentSize
+		type ComponentSize,
 	} from '$lib/index.js';
 	import type { SelectValue } from '$lib/Select/props.js';
 	import IconLogo from '$lib/svg/IconLogo.svelte';
@@ -37,10 +36,22 @@
 {/snippet}
 {#snippet selectMenu()}
 	<Select.Option value={'firstValue'}>Example #1 (str)</Select.Option>
-	<Select.Option value={0} color="danger">Example #2 (num)</Select.Option>
-	<Select.Option value={true} color="warning">Example #3 (bool)</Select.Option>
-	<Select.Option value={null} color="success">Example #4 (null)</Select.Option>
-	<Select.Option value={null} color="info">Example #5 (null 2)</Select.Option>
+	<Select.Option
+		value={0}
+		color="danger">Example #2 (num)</Select.Option
+	>
+	<Select.Option
+		value={true}
+		color="warning">Example #3 (bool)</Select.Option
+	>
+	<Select.Option
+		value={null}
+		color="success">Example #4 (null)</Select.Option
+	>
+	<Select.Option
+		value={null}
+		color="info">Example #5 (null 2)</Select.Option
+	>
 {/snippet}
 {#snippet selectRenderer(value: SelectValue | null | undefined)}
 	Value: {JSON.stringify({ value })}
@@ -62,9 +73,20 @@
 							Attr: {JSON.stringify(Object.keys(attr))}
 						{/snippet}
 						<Stack>
-							<TextInput multirow bind:value={inputValue} {size} placeholder={size} {...attr} />
+							<TextInput
+								multirow
+								bind:value={inputValue}
+								{size}
+								placeholder={size}
+								{...attr}
+							/>
 							<Group wrap>
-								<TextInput bind:value={inputValue} {size} placeholder={size} {...attr} />
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size}
+									{...attr}
+								/>
 								<TextInput
 									bind:value={inputValue}
 									{size}
@@ -175,9 +197,18 @@
 		{#each [false, true] as disabled}
 			{#each [undefined, IconMoonFilled] as icon}
 				<Group wrap>
-					<Checkbox bind:checked={switchValue} {disabled} {icon} />
+					<Checkbox
+						bind:checked={switchValue}
+						{disabled}
+						{icon}
+					/>
 					{#each sizes as size}
-						<Checkbox {size} bind:checked={switchValue} {disabled} {icon} />
+						<Checkbox
+							{size}
+							bind:checked={switchValue}
+							{disabled}
+							{icon}
+						/>
 					{/each}
 				</Group>
 			{/each}
@@ -191,7 +222,11 @@
 	<Stack gap={1}>
 		<Para>Radio value: {radioGroup}</Para>
 		<Group>
-			<Radio name="example-2" value="" bind:group={radioGroup} />
+			<Radio
+				name="example-2"
+				value=""
+				bind:group={radioGroup}
+			/>
 		</Group>
 		{#each [false, true] as disabled}
 			<Group wrap>
@@ -223,10 +258,22 @@
 			<h2>{size}</h2>
 			<Stack gap={2}>
 				{#each variants as variant}
-					<Group wrap gap={1}>
+					<Group
+						wrap
+						gap={1}
+					>
 						{#each [...colors, 'neutral'] as ComponentColorAll[] as color}
-							<Button {variant} {color} {size}>{variant} {color} {size}</Button>
-							<Button {variant} {color} {size} disabled>{variant} {color} {size} disabled</Button>
+							<Button
+								{variant}
+								{color}
+								{size}>{variant} {color} {size}</Button
+							>
+							<Button
+								{variant}
+								{color}
+								{size}
+								disabled>{variant} {color} {size} disabled</Button
+							>
 						{/each}
 					</Group>
 				{/each}

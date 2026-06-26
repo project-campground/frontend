@@ -11,11 +11,26 @@
 
 <Card.Root>
 	<Card.Content>
-		<FormSimpleField class={{ checked: control.value === value }} reverse {header} {children}>
+		<FormSimpleField
+			class={{ checked: control.value === value }}
+			reverse
+			{header}
+			{children}
+		>
 			{#snippet component(id)}
-				<Radio {id} size="sm" {value} bind:group={control.value} oninput={() => control.value = value} {...props} />
+				<Radio
+					{id}
+					size="sm"
+					{value}
+					bind:group={control.value}
+					oninput={() => (control.value = value)}
+					{...props}
+				/>
 			{/snippet}
 		</FormSimpleField>
 	</Card.Content>
-	<Card.Link onclick={() => control.value = value} tabindex={-1} />
+	<Card.Link
+		onclick={() => (control.value = value)}
+		tabindex={-1}
+	/>
 </Card.Root>

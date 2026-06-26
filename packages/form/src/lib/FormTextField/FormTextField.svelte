@@ -30,20 +30,21 @@
 	// Updating
 	$effect(() => {
 		control.error =
-			control.required && (control.value?.length ?? 0) < 1
-				? ''
-				: (control.value?.length ?? 0) < minLengthDerived
-					? $intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
-					: format
-						? checkStringFormat(control.value ?? '', format)
-						: null;
+			control.required && (control.value?.length ?? 0) < 1 ? ''
+			: (control.value?.length ?? 0) < minLengthDerived ?
+				$intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
+			: format ? checkStringFormat(control.value ?? '', format)
+			: null;
 
 		const rows = control.value?.split('\n') ?? [];
 		if (maxRows && rows.length > maxRows) control.value = rows.slice(0, maxRows).join('\n');
 	});
 </script>
 
-<InputWrapper class={['FormTextField container']} hasError={!!control.error}>
+<InputWrapper
+	class={['FormTextField container']}
+	hasError={!!control.error}
+>
 	{@render left?.()}
 	<div class={['FormTextField wrapper']}>
 		{@render top?.()}

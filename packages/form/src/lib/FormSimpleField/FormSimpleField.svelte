@@ -13,11 +13,17 @@
 	}: FormSimpleFieldProps = $props();
 </script>
 
-<div class={['FormSimpleField container', { reverse }, className]} {...props}>
+<div
+	class={['FormSimpleField container', { reverse }, className]}
+	{...props}
+>
 	<header class={['FormSimpleField header']}>
 		{@render component(key)}
 		{#if header}
-			<label class={['FormSimpleField title']} for={key}>
+			<label
+				class={['FormSimpleField title']}
+				for={key}
+			>
 				{@render header()}
 			</label>
 		{/if}

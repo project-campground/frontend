@@ -6,13 +6,6 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		viteStaticCopy({
-			targets: [
-				{
-					src: path.resolve(__dirname, '../../lang/*'),
-					dest: 'lang'
-				}
-			]
-		})
-	]
+		viteStaticCopy({ targets: [{ src: path.resolve(__dirname, '../../lang/*'), dest: 'lang' }] }),
+	],
 });

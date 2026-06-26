@@ -5,8 +5,11 @@ import type { FormFieldId } from './props.ts';
 export class FormInstance {
 	public controls: FormControlInstance<any>[] = $state([]);
 
-	constructor(private _submit: () => (undefined | ((values: Record<FormFieldId, any>, ev?: MouseEvent | undefined) => Promise<unknown>))) {
-	}
+	constructor(
+		private _submit: () =>
+			| undefined
+			| ((values: Record<FormFieldId, any>, ev?: MouseEvent | undefined) => Promise<unknown>),
+	) {}
 
 	public get valid(): Record<FormFieldId, boolean> {
 		return this._mapInstance((x) => [x.id, x.valid]);

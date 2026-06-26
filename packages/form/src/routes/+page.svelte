@@ -2,7 +2,17 @@
 	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
 	import { Main, Section, theme } from '@campground/ui';
 	import { writable } from 'svelte/store';
-	import { FormRadio, FormLabel, FormCheck, FormTextField, FormControl, Form, FormErrorLabel, FormInstance, FormSwitch } from '$lib/index.js';
+	import {
+		FormRadio,
+		FormLabel,
+		FormCheck,
+		FormTextField,
+		FormControl,
+		Form,
+		FormErrorLabel,
+		FormInstance,
+		FormSwitch,
+	} from '$lib/index.js';
 
 	let lightTheme: boolean = $state(false);
 
@@ -25,7 +35,10 @@
 
 <Main>
 	<div class="scrollable">
-		<input type="checkbox" bind:checked={lightTheme} />
+		<input
+			type="checkbox"
+			bind:checked={lightTheme}
+		/>
 		<select bind:value={localeValue}>
 			{#each localeIds as localeId}
 				<option value={localeId}>
@@ -47,7 +60,10 @@
 					Form with field label
 				{/snippet}
 				<Form>
-					<FormControl id="withLabel" required>
+					<FormControl
+						id="withLabel"
+						required
+					>
 						<FormLabel>Example label</FormLabel>
 					</FormControl>
 				</Form>
@@ -70,19 +86,32 @@
 				<Form>
 					<FormControl id="textArea0">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextField multipleRows minLength={5} placeholder="Example placeholder" />
+						<FormTextField
+							multipleRows
+							minLength={5}
+							placeholder="Example placeholder"
+						/>
 					</FormControl>
 					<FormControl id="textArea1">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextField multipleRows maxLength={50} />
+						<FormTextField
+							multipleRows
+							maxLength={50}
+						/>
 					</FormControl>
 					<FormControl id="textArea2">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextField multipleRows maxRows={4} />
+						<FormTextField
+							multipleRows
+							maxRows={4}
+						/>
 					</FormControl>
 					<FormControl id="textArea3">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextField multipleRows rows={8} />
+						<FormTextField
+							multipleRows
+							rows={8}
+						/>
 					</FormControl>
 				</Form>
 			</Section>
@@ -181,7 +210,13 @@
 						<FormErrorLabel />
 					</FormControl>
 					<div>
-						<pre><code>{JSON.stringify(Object.fromEntries(reactiveForm?.getForm().controls.map((x) => [x.id, x.value]) ?? []), undefined, 4)}</code></pre>
+						<pre><code
+								>{JSON.stringify(
+									Object.fromEntries(reactiveForm?.getForm().controls.map((x) => [x.id, x.value]) ?? []),
+									undefined,
+									4,
+								)}</code
+							></pre>
 					</div>
 				</Form>
 			</Section>

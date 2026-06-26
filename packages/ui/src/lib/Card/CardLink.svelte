@@ -4,7 +4,10 @@
 	const { class: className, ...props }: LinkProps = $props();
 </script>
 
-<a class={['Card CardLink', className]} {...props}></a>
+<a
+	class={['Card CardLink', className]}
+	{...props}
+></a>
 
 <style lang="scss">
 	@use '../index.scss' as *;

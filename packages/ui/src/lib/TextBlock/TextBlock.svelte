@@ -11,7 +11,7 @@
 		float,
 		align,
 		weight,
-		fontSize
+		fontSize,
 	}: TextBlockProps = $props();
 </script>
 
@@ -22,7 +22,7 @@
 		float && `float${capitalize(float)}`,
 		align && `align${capitalize(align)}`,
 		weight && `weight${weight}`,
-		className
+		className,
 	]}
 	style:--TextBlock-paddingLeft={toSpacingPx(pl)}
 	style:--TextBlock-paddingRight={toSpacingPx(pr)}

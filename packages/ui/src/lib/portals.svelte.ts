@@ -21,7 +21,7 @@ export abstract class PortalInstance<TPortal extends Portal<PortalInstance<TPort
 
 export abstract class Portal<
 	TInstance extends PortalInstance<Portal<TInstance, TConfig>>,
-	TConfig
+	TConfig,
 > {
 	private _outsideClickHandlers: null | ((ev: MouseEvent) => unknown) = null;
 	public items = $state<TInstance[]>([]);

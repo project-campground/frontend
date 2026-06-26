@@ -7,8 +7,8 @@ export class SelectInstance {
 	constructor(
 		public setValue: (
 			newValue: SelectValue | null,
-			mouseEvent: MouseEvent & { currentTarget: HTMLElement }
-		) => unknown
+			mouseEvent: MouseEvent & { currentTarget: HTMLElement },
+		) => unknown,
 	) {}
 }
 

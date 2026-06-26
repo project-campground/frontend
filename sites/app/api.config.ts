@@ -1,4 +1,4 @@
-import config from "./config.json";
+import config from './config.json';
 
 export const defaultAppApiUrl = config.pdsUrl;
 export const defaultAppBackendUrl = config.backendUrl;

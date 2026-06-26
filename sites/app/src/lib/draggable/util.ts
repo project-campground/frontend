@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { useDragDrop } from "./context";
+import { useMemo } from 'react';
+import { useDragDrop } from './context';
 
 export function useDragging() {
-    const dragContext = useDragDrop();
-    return useMemo(() => dragContext.draggableId !== null, [dragContext.draggableId]);
+	const dragContext = useDragDrop();
+	return useMemo(() => dragContext.draggableId !== null, [dragContext.draggableId]);
 }

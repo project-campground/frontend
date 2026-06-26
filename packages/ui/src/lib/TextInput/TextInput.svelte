@@ -35,7 +35,7 @@
 		'TextInput container',
 		{ focused, hasError, disabled },
 		`size${capitalize(size ?? 'md')}`,
-		className
+		className,
 	]}
 	aria-disabled={disabled}
 	onclick={() => input?.focus()}

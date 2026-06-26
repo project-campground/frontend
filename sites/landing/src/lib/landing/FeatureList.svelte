@@ -13,7 +13,10 @@
 	setObserveContext(observedItem);
 </script>
 
-<section class="FeatureList container" {@attach observeIntersection({ store: observedItem, threshold: 0.5 })}>
+<section
+	class="FeatureList container"
+	{@attach observeIntersection({ store: observedItem, threshold: 0.5 })}
+>
 	{@render children()}
 	<aside class="FeatureList side">
 		<div class="FeatureList side-sticky">

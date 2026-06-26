@@ -5,7 +5,10 @@
 	const { children, color, underlined, ...attributes }: LinkProps = $props();
 </script>
 
-<a {...attributes} class={['Link', `color${capitalize(color ?? 'primary')}`, { underlined }]}>
+<a
+	{...attributes}
+	class={['Link', `color${capitalize(color ?? 'primary')}`, { underlined }]}
+>
 	{@render children()}
 </a>
 

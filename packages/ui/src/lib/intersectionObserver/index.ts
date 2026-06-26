@@ -7,7 +7,7 @@ export const [getObserveContext, setObserveContext] = createContext<ObserveStore
 
 export function observeIntersection({
 	store,
-	threshold
+	threshold,
 }: {
 	store: ObserveStore;
 	threshold?: number;
@@ -21,11 +21,7 @@ export function observeIntersection({
 
 				if (observedId) store.set(observedId);
 			},
-			{
-				root: null,
-				rootMargin: `0px`,
-				threshold
-			}
+			{ root: null, rootMargin: `0px`, threshold },
 		);
 
 		const observables = element.querySelectorAll('[data-observable-id]');
@@ -44,7 +40,5 @@ export function observeIntersection({
 }
 
 export function createIntersectionObservable(id: string) {
-	return {
-		'data-observable-id': id
-	};
+	return { 'data-observable-id': id };
 }

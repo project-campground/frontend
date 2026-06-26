@@ -21,7 +21,7 @@
 		'Group',
 		{ wrap, withMobile, mobileReversed },
 		alignVertically && `alignVertically${capitalize(alignVertically)}`,
-		className
+		className,
 	]}
 >
 	{@render children?.()}

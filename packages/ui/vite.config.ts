@@ -13,9 +13,9 @@ export default defineConfig({
 						path.resolve(__dirname, './node_modules/@fontsource/*/files/*'),
 						path.resolve(__dirname, '../../node_modules/@fontsource/*/files/*'),
 					],
-					dest: 'files'
-				}
-			]
-		})
-	]
+					dest: 'files',
+				},
+			],
+		}),
+	],
 });

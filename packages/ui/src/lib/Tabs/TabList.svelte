@@ -4,7 +4,10 @@
 	const { children }: ListProps = $props();
 </script>
 
-<div class="Tabs TabList container" role="tablist">
+<div
+	class="Tabs TabList container"
+	role="tablist"
+>
 	<div class="Tabs TabList root">
 		<div class="Tabs TabList highlight"></div>
 		<div class="Tabs TabList list">

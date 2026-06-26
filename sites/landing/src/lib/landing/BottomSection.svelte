@@ -1,20 +1,23 @@
-<script lang="ts" module>
+<script
+	lang="ts"
+	module
+>
 	const locale = defineMessages({
 		'landing.try.title': {
 			id: 'landing.try.title',
 			defaultMessage: 'What are you waiting for?',
-			description: 'Try Campground title at the bottom of landing page'
+			description: 'Try Campground title at the bottom of landing page',
 		},
 		'landing.try.desc': {
 			id: 'landing.try.desc',
 			defaultMessage: 'You can use Campground right now!',
-			description: 'Try Campground description at the bottom of landing page'
+			description: 'Try Campground description at the bottom of landing page',
 		},
 		'landing.try': {
 			id: 'landing.try',
 			defaultMessage: 'Try Campground now!',
-			description: 'Try Campground button at the bottom of landing page'
-		}
+			description: 'Try Campground button at the bottom of landing page',
+		},
 	});
 </script>
 
@@ -26,7 +29,10 @@
 </script>
 
 <section class="FinalSection container">
-	<div class="FinalSection background" aria-hidden="true"></div>
+	<div
+		class="FinalSection background"
+		aria-hidden="true"
+	></div>
 	<div class="FinalSection content">
 		<div class="FinalSection motto">
 			<Para level="h1">
@@ -37,7 +43,10 @@
 			</Para>
 		</div>
 		<div class="FinalSection buttons">
-			<a href="#try-campground" class="FinalSection button-link">
+			<a
+				href="#try-campground"
+				class="FinalSection button-link"
+			>
 				<Button variant="inverted">
 					<FormattedMessage {...locale['landing.try']} />
 					<IconArrowRight />

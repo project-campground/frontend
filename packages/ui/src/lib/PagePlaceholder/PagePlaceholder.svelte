@@ -7,10 +7,16 @@
 </script>
 
 <section class={['PagePlaceholder container', status && 'hasStatus', className]}>
-	<div class="PagePlaceholder icon" aria-hidden="true">
+	<div
+		class="PagePlaceholder icon"
+		aria-hidden="true"
+	>
 		{pagePlaceholderIconValues[icon]}
 	</div>
-	<Para class="PagePlaceholder header" level="h2">
+	<Para
+		class="PagePlaceholder header"
+		level="h2"
+	>
 		{#if status}
 			<span class="PagePlaceholder status">
 				{status}

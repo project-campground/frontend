@@ -1,17 +1,20 @@
-<script lang="ts" module>
+<script
+	lang="ts"
+	module
+>
 	import { defineMessages } from '@formatjs/svelte-intl';
 
 	const localeFeatures = defineMessages({
 		'landing.features': {
 			id: 'landing.features',
 			defaultMessage: 'Features',
-			description: 'The features page in landing.'
+			description: 'The features page in landing.',
 		},
 		'landing.docs': {
 			id: 'landing.docs',
 			defaultMessage: 'Docs',
-			description: 'The docs page in landing.'
-		}
+			description: 'The docs page in landing.',
+		},
 	});
 </script>
 
@@ -26,34 +29,60 @@
 <nav class="Navbar container">
 	<ul class="Navbar list">
 		<li class="Navbar item brand">
-			<a href={`/${$localeContext.locale}`} class="Navbar button">
+			<a
+				href={`/${$localeContext.locale}`}
+				class="Navbar button"
+			>
 				<BrandLogo size="md" />
 			</a>
 		</li>
 		<li class="Navbar spacer"></li>
 		<li class="Navbar item">
-			<a href="/features" class="Navbar button">
-				<Button size="lg" variant="plain" color="neutral">
+			<a
+				href="/features"
+				class="Navbar button"
+			>
+				<Button
+					size="lg"
+					variant="plain"
+					color="neutral"
+				>
 					<FormattedMessage {...localeFeatures['landing.features']} />
 				</Button>
 			</a>
 		</li>
 		<li class="Navbar item">
-			<a href="/docs" class="Navbar button">
-				<Button size="lg" variant="plain" color="neutral">
+			<a
+				href="/docs"
+				class="Navbar button"
+			>
+				<Button
+					size="lg"
+					variant="plain"
+					color="neutral"
+				>
 					<FormattedMessage {...localeFeatures['landing.docs']} />
 				</Button>
 			</a>
 		</li>
 		<li class="Navbar item">
-			<a href="/download" class="Navbar button">
-				<Button size="lg" variant="plain">
+			<a
+				href="/download"
+				class="Navbar button"
+			>
+				<Button
+					size="lg"
+					variant="plain"
+				>
 					<FormattedMessageGlobal id="common.download" />
 				</Button>
 			</a>
 		</li>
 		<li class="Navbar item">
-			<a href="/docs/api" class="Navbar button">
+			<a
+				href="/docs/api"
+				class="Navbar button"
+			>
 				<Button size="lg">
 					<FormattedMessageGlobal id="form.login" />
 					<IconArrowRight size={16} />

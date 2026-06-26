@@ -1,5 +1,5 @@
-import type { Snippet } from "svelte";
-import type { ClassValue } from "svelte/elements";
+import type { Snippet } from 'svelte';
+import type { ClassValue } from 'svelte/elements';
 
 type HasOnly = '-only';
 type HasSelf = '';
@@ -12,6 +12,6 @@ export default interface BreakpointProps {
 		| `desktop-sm${HasAboveAndDown}`
 		| `desktop-md${HasAboveAndDown}`
 		| `desktop-lg${HasSelf}`;
-    class: ClassValue;
-    children: Snippet;
+	class: ClassValue;
+	children: Snippet;
 }

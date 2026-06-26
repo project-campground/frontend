@@ -4,7 +4,7 @@
 		GradientText,
 		Group,
 		Para,
-		type ComponentColor
+		type ComponentColor,
 	} from '@campground/ui';
 	import type { Snippet } from 'svelte';
 
@@ -13,15 +13,24 @@
 		subtitle,
 		title,
 		color,
-		children
+		children,
 	}: { id: string; subtitle: Snippet; title: Snippet; children: Snippet; color: ComponentColor } =
 		$props();
 </script>
 
-<section class="FeatureItem container" {...createIntersectionObservable(id)}>
-	<div class="FeatureItem background" aria-hidden="true"></div>
+<section
+	class="FeatureItem container"
+	{...createIntersectionObservable(id)}
+>
+	<div
+		class="FeatureItem background"
+		aria-hidden="true"
+	></div>
 	<article class="FeatureItem content">
-		<Para level="sub0" class="FeatureItem subtitle">
+		<Para
+			level="sub0"
+			class="FeatureItem subtitle"
+		>
 			<Group alignVertically="center">
 				{@render subtitle()}
 			</Group>
@@ -41,7 +50,12 @@
 				{@render title()}
 			</GradientText>
 		</Para>
-		<Para class="FeatureItem description" fontSize={1.5} letterSpacing={0.5} lineHeight={2}>
+		<Para
+			class="FeatureItem description"
+			fontSize={1.5}
+			letterSpacing={0.5}
+			lineHeight={2}
+		>
 			{@render children()}
 		</Para>
 	</article>

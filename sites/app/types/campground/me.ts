@@ -1,7 +1,7 @@
-import type { CampsiteViewBasic } from "./campsites";
-import type { ProfileViewBasic } from "./user";
+import type { CampsiteViewBasic } from './campsites';
+import type { ProfileViewBasic } from './user';
 
 export interface Me {
-    profile: ProfileViewBasic;
-    campsites: CampsiteViewBasic[];
+	profile: ProfileViewBasic;
+	campsites: CampsiteViewBasic[];
 }

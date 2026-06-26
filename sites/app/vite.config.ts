@@ -8,10 +8,7 @@ export default defineConfig({
 		sveltekit(),
 		viteStaticCopy({
 			targets: [
-				{
-					src: path.resolve(__dirname, '../../lang/*'),
-					dest: 'lang'
-				},
+				{ src: path.resolve(__dirname, '../../lang/*'), dest: 'lang' },
 				{
 					src: [
 						path.resolve(__dirname, './node_modules/@fontsource/*/files/*'),
@@ -19,9 +16,9 @@ export default defineConfig({
 						path.resolve(__dirname, '../../node_modules/@fontsource/*/files/*'),
 						path.resolve(__dirname, '../../node_modules/@fontsource-variable/*/files/*'),
 					],
-					dest: 'files'
-				}
-			]
-		})
-	]
+					dest: 'files',
+				},
+			],
+		}),
+	],
 });

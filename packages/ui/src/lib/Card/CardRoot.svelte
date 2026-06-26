@@ -10,7 +10,7 @@
 		'Card CardRoot',
 		`size${capitalize(size ?? 'md')}`,
 		level && `level${capitalize(level)}`,
-		className
+		className,
 	]}
 >
 	{@render children()}

@@ -10,11 +10,11 @@
 <breakpoint
 	class={[
 		'Breakpoint',
-		valueClassSplit[0]! +
-			valueClassSplit
+		valueClassSplit[0]!
+			+ valueClassSplit
 				.slice(1)
 				.map((x) => capitalize(x))
-				.join('')
+				.join(''),
 	]}
 >
 	{@render children()}
@@ -24,66 +24,66 @@
 	@use '../index.scss' as *;
 
 	.Breakpoint {
-        display: none;
-        // Only
+		display: none;
+		// Only
 		&.mobileOnly {
 			@include mobile-only() {
-                display: contents;
+				display: contents;
 			}
 		}
-        &.tabletOnly {
-            @include tablet-only() {
-                display: contents;
-            }
-        }
+		&.tabletOnly {
+			@include tablet-only() {
+				display: contents;
+			}
+		}
 		&.desktopSmOnly {
 			@include desktop-sm-only() {
-                display: contents;
+				display: contents;
 			}
 		}
 		&.desktopMdOnly {
 			@include desktop-md-only() {
-                display: contents;
+				display: contents;
 			}
 		}
 
-        // Down
-        &.tabletDown {
-            @include tablet-down() {
-                display: contents;
-            }
-        }
+		// Down
+		&.tabletDown {
+			@include tablet-down() {
+				display: contents;
+			}
+		}
 		&.desktopSmDown {
 			@include desktop-sm-down() {
-                display: contents;
+				display: contents;
 			}
 		}
 		&.desktopMdDown {
 			@include desktop-md-down() {
-                display: contents;
+				display: contents;
 			}
 		}
 
-        // Up
-        &.tabletUp {
-            @include tablet-up() {
-                display: contents;
-            }
-        }
+		// Up
+		&.tabletUp {
+			@include tablet-up() {
+				display: contents;
+			}
+		}
 		&.desktopSmUp {
 			@include desktop-sm-up() {
-                display: contents;
+				display: contents;
 			}
 		}
 		&.desktopMdUp {
 			@include desktop-md-up() {
-                display: contents;
+				display: contents;
 			}
 		}
 
 		&.desktopLg {
 			@include desktop-lg() {
-                display: contents;
+				display: contents;
 			}
 		}
 	}

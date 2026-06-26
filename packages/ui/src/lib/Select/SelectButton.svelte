@@ -16,7 +16,7 @@
 	}: ButtonProps = $props();
 
 	const selectInstance = new SelectInstance(
-		(newValue, mouseEvent) => ((value = newValue), ($outsideClick = mouseEvent))
+		(newValue, mouseEvent) => ((value = newValue), ($outsideClick = mouseEvent)),
 	);
 	const outsideClick = getOutsideClickBoundary();
 
@@ -41,7 +41,7 @@
 		'Select SelectButton container',
 		{ isOpen: selectInstance.isOpen },
 		`size${capitalize(size ?? 'md')}`,
-		className
+		className,
 	]}
 	{disabled}
 	onclick={(ev) => toggleMenu(ev)}
@@ -52,7 +52,10 @@
 			{@render display(value)}
 		</span>
 	</div>
-	<span class="Select SelectButton caret" aria-hidden="true">
+	<span
+		class="Select SelectButton caret"
+		aria-hidden="true"
+	>
 		<IconCaretDownFilled size={12} />
 	</span>
 	<div class="Select SelectButton menuWrapper">

@@ -19,13 +19,13 @@
 
 	$effect(() => {
 		localeFetcher.fetchLocale(localeValue).then(
-			localeValue === 'en-US'
-				? (value) => {
-						localeStore.set((enUsLocale = value));
-					}
-				: (value) => {
-						localeStore.set(value);
-					}
+			localeValue === 'en-US' ?
+				(value) => {
+					localeStore.set((enUsLocale = value));
+				}
+			:	(value) => {
+					localeStore.set(value);
+				},
 		);
 	});
 
@@ -54,10 +54,7 @@
 					<dd>
 						<FormattedMessage
 							{...message}
-							values={{
-								buttonText: example,
-								count: 3
-							}}
+							values={{ buttonText: example, count: 3 }}
 						/>
 					</dd>
 				{/each}
@@ -71,10 +68,7 @@
 					<dd>
 						<FormattedMessage
 							id={message}
-							values={{
-								buttonText: example,
-								count: 3
-							}}
+							values={{ buttonText: example, count: 3 }}
 						/>
 					</dd>
 				{/each}

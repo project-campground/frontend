@@ -11,6 +11,9 @@
 	setFormControlKey(key);
 </script>
 
-<Stack class="FormRadioList container" {...props}>
+<Stack
+	class="FormRadioList container"
+	{...props}
+>
 	{@render children?.()}
 </Stack>

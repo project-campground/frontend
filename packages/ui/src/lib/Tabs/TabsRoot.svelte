@@ -15,9 +15,7 @@
 
 	const activeTabIndex = $derived(activeTab === null ? 0 : tabIds.indexOf(activeTab!));
 
-	setTabContext({
-		onTabSelect
-	});
+	setTabContext({ onTabSelect });
 </script>
 
 <section

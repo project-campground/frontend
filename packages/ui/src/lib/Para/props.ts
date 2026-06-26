@@ -1,4 +1,4 @@
-import type { ComponentColorAll, ComponentSize } from "$lib/types/attributes.js";
+import type { ComponentColorAll, ComponentSize } from '$lib/types/attributes.js';
 import type { Snippet } from 'svelte';
 import type { ClassValue } from 'svelte/elements';
 

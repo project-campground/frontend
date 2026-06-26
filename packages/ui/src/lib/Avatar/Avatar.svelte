@@ -5,9 +5,18 @@
 	const { size, src, alt, children, ...attributes }: AvatarProps = $props();
 </script>
 
-<div role="img" aria-label={alt} class={['Avatar container', `size${capitalize(size ?? 'md')}`]}>
+<div
+	role="img"
+	aria-label={alt}
+	class={['Avatar container', `size${capitalize(size ?? 'md')}`]}
+>
 	{#if src}
-		<img class="Avatar image" {src} {alt} {...attributes} />
+		<img
+			class="Avatar image"
+			{src}
+			{alt}
+			{...attributes}
+		/>
 	{:else}
 		{@render children?.()}
 	{/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SvgUseProps } from "./props.ts";
+	import type { SvgUseProps } from './props.ts';
 
 	const { id, w, h, size, class: className }: SvgUseProps = $props();
 	const width = $derived(w ?? size ?? 3);

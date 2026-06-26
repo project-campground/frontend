@@ -13,7 +13,7 @@ export {
 	getObserveContext,
 	setObserveContext,
 	createIntersectionObservable,
-	type ObserveStore
+	type ObserveStore,
 } from './intersectionObserver/index.ts';
 export * from './Link/index.ts';
 export { default as Main } from './Main/Main.svelte';

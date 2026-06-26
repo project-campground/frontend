@@ -25,11 +25,25 @@
 
 <Card.Root>
 	<Card.Content>
-		<FormSimpleField reverse {header} {children}>
+		<FormSimpleField
+			reverse
+			{header}
+			{children}
+		>
 			{#snippet component(id)}
-				<Checkbox bind:checked {id} size="sm" {...props} name={checkId} oninput={onInput} />
+				<Checkbox
+					bind:checked
+					{id}
+					size="sm"
+					{...props}
+					name={checkId}
+					oninput={onInput}
+				/>
 			{/snippet}
 		</FormSimpleField>
 	</Card.Content>
-	<Card.Link onclick={onInput} tabindex={-1} />
+	<Card.Link
+		onclick={onInput}
+		tabindex={-1}
+	/>
 </Card.Root>

@@ -21,7 +21,11 @@
 		[DEVELOPMENT SETTINGS]
 	{/snippet}
 	<Group>
-		<Switch bind:value={lightTheme} checkedIcon={IconSunFilled} uncheckedIcon={IconMoonFilled} />
+		<Switch
+			bind:value={lightTheme}
+			checkedIcon={IconSunFilled}
+			uncheckedIcon={IconMoonFilled}
+		/>
 		<TextBlock weight={700}>Light theme</TextBlock>
 	</Group>
 </Section>
@@ -38,13 +42,22 @@
 	>
 		<Tabs.Root tabIds={['visual', 'section', 'form']}>
 			{#snippet tabs(tabId)}
-				<Tabs.Item id="visual" isActive={tabId === 'visual'}>
+				<Tabs.Item
+					id="visual"
+					isActive={tabId === 'visual'}
+				>
 					<TextBlock>Visual</TextBlock>
 				</Tabs.Item>
-				<Tabs.Item id="section" isActive={tabId === 'section'}>
+				<Tabs.Item
+					id="section"
+					isActive={tabId === 'section'}
+				>
 					<TextBlock>Info and Hierarchy</TextBlock>
 				</Tabs.Item>
-				<Tabs.Item id="form" isActive={tabId === 'form'}>
+				<Tabs.Item
+					id="form"
+					isActive={tabId === 'form'}
+				>
 					<TextBlock>Form and Input</TextBlock>
 				</Tabs.Item>
 			{/snippet}

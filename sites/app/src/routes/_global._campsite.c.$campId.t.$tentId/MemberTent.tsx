@@ -1,221 +1,202 @@
-import {
-    Dropdown,
-    IconButton,
-    ListItem,
-    ListItemContent,
-    Menu,
-    MenuButton,
-} from "@mui/joy";
-import React, { type ContextType } from "react";
-import type { TentViewDetailed } from "types/campground/tent";
-import { UserDisplayNoModal } from "~/components/UserDisplay";
-import { Group } from "@campground/ui";
-import {
-    CampsiteContext,
-    useCampsiteContext,
-} from "../_global._campsite/context";
-import type { MemberViewDetailed } from "types/campground/membership";
-import type { RoleView } from "types/campground/roles";
-import RoleDisplay from "~/components/campsite/RoleDisplay";
-import Datestamp from "~/components/Datestamp";
-import { IconPlus } from "@tabler/icons-react";
-import type { TypeToPayload } from "types/ws";
-import type { MemberRolesModified } from "types/campground/membership";
-import DataDisplay from "~/components/pages/DataDisplay";
-import { FormattedMessage } from "react-intl";
-import { FormattedMessageGlobal } from "~/i18n";
+import { Dropdown, IconButton, ListItem, ListItemContent, Menu, MenuButton } from '@mui/joy';
+import React, { type ContextType } from 'react';
+import type { TentViewDetailed } from 'types/campground/tent';
+import { UserDisplayNoModal } from '~/components/UserDisplay';
+import { Group } from '@campground/ui';
+import { CampsiteContext, useCampsiteContext } from '../_global._campsite/context';
+import type { MemberViewDetailed } from 'types/campground/membership';
+import type { RoleView } from 'types/campground/roles';
+import RoleDisplay from '~/components/campsite/RoleDisplay';
+import Datestamp from '~/components/Datestamp';
+import { IconPlus } from '@tabler/icons-react';
+import type { TypeToPayload } from 'types/ws';
+import type { MemberRolesModified } from 'types/campground/membership';
+import DataDisplay from '~/components/pages/DataDisplay';
+import { FormattedMessage } from 'react-intl';
+import { FormattedMessageGlobal } from '~/i18n';
 
-type Props = {
-    campsiteId: string;
-    tent: TentViewDetailed;
-};
+type Props = { campsiteId: string; tent: TentViewDetailed };
 
 type State = {};
 
 export default class MemberTent extends React.Component<Props, State> {
-    static contextType?: React.Context<any> | undefined =
-        CampsiteContext;
-    declare context: ContextType<typeof CampsiteContext>;
+	static contextType?: React.Context<any> | undefined = CampsiteContext;
+	declare context: ContextType<typeof CampsiteContext>;
 
-    private onWebSocketEvent<T extends keyof TypeToPayload>(
-        members: MemberViewDetailed[],
-        type: T,
-        payload: TypeToPayload[T],
-    ): boolean {
-        const memberRolesModified = payload as MemberRolesModified;
-        switch (type) {
-            case "MemberRolesAdded":
-                const membersWithRolesAdded = members.filter((x) =>
-                    memberRolesModified.members.includes(x.user.did),
-                );
+	private onWebSocketEvent<T extends keyof TypeToPayload>(
+		members: MemberViewDetailed[],
+		type: T,
+		payload: TypeToPayload[T],
+	): boolean {
+		const memberRolesModified = payload as MemberRolesModified;
+		switch (type) {
+			case 'MemberRolesAdded':
+				const membersWithRolesAdded = members.filter((x) =>
+					memberRolesModified.members.includes(x.user.did),
+				);
 
-                if (!membersWithRolesAdded.length) return false;
+				if (!membersWithRolesAdded.length) return false;
 
-                for (const member of membersWithRolesAdded)
-                    member.roles.push(memberRolesModified.role.id);
-                break;
-            case "MemberRolesRemoved":
-                const membersWithRolesRemoved = members.filter((x) =>
-                    memberRolesModified.members.includes(x.user.did),
-                );
+				for (const member of membersWithRolesAdded) member.roles.push(memberRolesModified.role.id);
+				break;
+			case 'MemberRolesRemoved':
+				const membersWithRolesRemoved = members.filter((x) =>
+					memberRolesModified.members.includes(x.user.did),
+				);
 
-                if (!membersWithRolesRemoved.length) return false;
+				if (!membersWithRolesRemoved.length) return false;
 
-                for (const member of membersWithRolesRemoved)
-                    member.roles = member.roles.filter(
-                        (x) => x !== memberRolesModified.role.id,
-                    );
-                break;
-        }
-        return true;
-    }
+				for (const member of membersWithRolesRemoved)
+					member.roles = member.roles.filter((x) => x !== memberRolesModified.role.id);
+				break;
+		}
+		return true;
+	}
 
-    async fetchMembers(offset: number, _limit: number) {
-        const { api } = this.context;
+	async fetchMembers(offset: number, _limit: number) {
+		const { api } = this.context;
 
-        return api
-            .members
-            .getManyDetailed(this.props.campsiteId, offset)
-            .then((resp) => {
-                if (!resp.ok) return resp;
+		return api.members.getManyDetailed(this.props.campsiteId, offset).then((resp) => {
+			if (!resp.ok) return resp;
 
-                return { ...resp, content: resp.content.members };
-            });
-    }
+			return { ...resp, content: resp.content.members };
+		});
+	}
 
-    render(): React.ReactNode {
-        const {} = this.props;
-        const { campsite } = this.context;
+	render(): React.ReactNode {
+		const {} = this.props;
+		const { campsite } = this.context;
 
-        return (
-            <DataDisplay
-                title="members"
-                itemsPerPage={50}
-                maxItems={campsite.memberCount}
-                columns={[
-                    {
-                        id: "name",
-                        name: (
-                            <FormattedMessage
-                                id="app.members.singular"
-                                defaultMessage="Member"
-                                description="Singular form of campsite member"
-                            />
-                        ),
-                        width: 240,
-                        Component: NameComponent,
-                    },
-                    {
-                        id: "joined",
-                        name: (
-                            <FormattedMessageGlobal id="app.common.joinedAt" />
-                        ),
-                        width: 120,
-                        Component: JoinedComponent,
-                        screenSize: "lg",
-                    },
-                    {
-                        id: "created",
-                        name: (
-                            <FormattedMessageGlobal id="app.common.createdAt" />
-                        ),
-                        width: 120,
-                        Component: CreatedComponent,
-                        screenSize: "xl",
-                    },
-                    {
-                        id: "roles",
-                        name: <FormattedMessageGlobal id="app.roles" />,
-                        Component: RolesComponent,
-                    },
-                ]}
-                HeaderComponent={NameComponent}
-                Component={RolesComponent}
-                fetch={this.fetchMembers.bind(this)}
-                updateItems={this.onWebSocketEvent.bind(this)}
-            />
-        );
-    }
+		return (
+			<DataDisplay
+				title='members'
+				itemsPerPage={50}
+				maxItems={campsite.memberCount}
+				columns={[
+					{
+						id: 'name',
+						name: (
+							<FormattedMessage
+								id='app.members.singular'
+								defaultMessage='Member'
+								description='Singular form of campsite member'
+							/>
+						),
+						width: 240,
+						Component: NameComponent,
+					},
+					{
+						id: 'joined',
+						name: <FormattedMessageGlobal id='app.common.joinedAt' />,
+						width: 120,
+						Component: JoinedComponent,
+						screenSize: 'lg',
+					},
+					{
+						id: 'created',
+						name: <FormattedMessageGlobal id='app.common.createdAt' />,
+						width: 120,
+						Component: CreatedComponent,
+						screenSize: 'xl',
+					},
+					{ id: 'roles', name: <FormattedMessageGlobal id='app.roles' />, Component: RolesComponent },
+				]}
+				HeaderComponent={NameComponent}
+				Component={RolesComponent}
+				fetch={this.fetchMembers.bind(this)}
+				updateItems={this.onWebSocketEvent.bind(this)}
+			/>
+		);
+	}
 }
 
 function NameComponent({ item: member }: { item: MemberViewDetailed }) {
-    return <UserDisplayNoModal user={member.user} size="md" />;
+	return (
+		<UserDisplayNoModal
+			user={member.user}
+			size='md'
+		/>
+	);
 }
 function JoinedComponent({ item: member }: { item: MemberViewDetailed }) {
-    return <Datestamp long date={new Date(member.joinedAt)} />;
+	return (
+		<Datestamp
+			long
+			date={new Date(member.joinedAt)}
+		/>
+	);
 }
 function CreatedComponent({ item: member }: { item: MemberViewDetailed }) {
-    return <Datestamp long date={new Date(member.user.indexedAt)} />;
+	return (
+		<Datestamp
+			long
+			date={new Date(member.user.indexedAt)}
+		/>
+	);
 }
 function RolesComponent({ item: member }: { item: MemberViewDetailed }) {
-    const { campsite, api } = useCampsiteContext();
-    const roles = campsite.roles;
-    const userRoles = roles.filter((x) => member.roles.includes(x.id));
-    const nonUserRoles = roles.filter((x) => !member.roles.includes(x.id));
-    const onRoleAdd = (role: RoleView) =>
-        api.members.addRole(campsite.id, role.id, {
-            memberIds: [member.user.did],
-        });
-    const onRoleRemove = (role: RoleView) =>
-        api.members.removeRole(campsite.id, role.id, {
-            memberIds: [member.user.did],
-        });
+	const { campsite, api } = useCampsiteContext();
+	const roles = campsite.roles;
+	const userRoles = roles.filter((x) => member.roles.includes(x.id));
+	const nonUserRoles = roles.filter((x) => !member.roles.includes(x.id));
+	const onRoleAdd = (role: RoleView) =>
+		api.members.addRole(campsite.id, role.id, { memberIds: [member.user.did] });
+	const onRoleRemove = (role: RoleView) =>
+		api.members.removeRole(campsite.id, role.id, { memberIds: [member.user.did] });
 
-    return (
-        <Group wrap gap={1} alignItems="center">
-            {userRoles.slice(0, 4).map((x) => (
-                <RoleDisplay key={x.id} role={x} onRemove={onRoleRemove} />
-            ))}
-            {userRoles.length > 4 ? (
-                <Dropdown>
-                    <MenuButton size="sm">
-                        +{userRoles.length - 4} more
-                    </MenuButton>
-                    <Menu variant="soft">
-                        {userRoles.slice(4).map((x) => (
-                            <ListItem key={x.id}>
-                                <ListItemContent>
-                                    <RoleDisplay
-                                        role={x}
-                                        onRemove={onRoleRemove}
-                                    />
-                                </ListItemContent>
-                            </ListItem>
-                        ))}
-                    </Menu>
-                </Dropdown>
-            ) : (
-                ""
-            )}
-            {!!nonUserRoles.length && (
-                <Dropdown>
-                    <MenuButton
-                        slots={{ root: IconButton }}
-                        slotProps={{
-                            root: {
-                                sx: { "--IconButton-size": "1.5rem" },
-                                variant: "soft",
-                                size: "sm",
-                            },
-                        }}
-                    >
-                        <IconPlus size={16} />
-                    </MenuButton>
-                    <Menu variant="soft">
-                        {nonUserRoles.map((x) => (
-                            <ListItem key={x.id}>
-                                <ListItemContent>
-                                    <RoleDisplay
-                                        role={x}
-                                        onClick={onRoleAdd}
-                                        endDecorator={<IconPlus size={16} />}
-                                    />
-                                </ListItemContent>
-                            </ListItem>
-                        ))}
-                    </Menu>
-                </Dropdown>
-            )}
-        </Group>
-    );
+	return (
+		<Group
+			wrap
+			gap={1}
+			alignItems='center'
+		>
+			{userRoles.slice(0, 4).map((x) => (
+				<RoleDisplay
+					key={x.id}
+					role={x}
+					onRemove={onRoleRemove}
+				/>
+			))}
+			{userRoles.length > 4 ?
+				<Dropdown>
+					<MenuButton size='sm'>+{userRoles.length - 4} more</MenuButton>
+					<Menu variant='soft'>
+						{userRoles.slice(4).map((x) => (
+							<ListItem key={x.id}>
+								<ListItemContent>
+									<RoleDisplay
+										role={x}
+										onRemove={onRoleRemove}
+									/>
+								</ListItemContent>
+							</ListItem>
+						))}
+					</Menu>
+				</Dropdown>
+			:	''}
+			{!!nonUserRoles.length && (
+				<Dropdown>
+					<MenuButton
+						slots={{ root: IconButton }}
+						slotProps={{ root: { sx: { '--IconButton-size': '1.5rem' }, variant: 'soft', size: 'sm' } }}
+					>
+						<IconPlus size={16} />
+					</MenuButton>
+					<Menu variant='soft'>
+						{nonUserRoles.map((x) => (
+							<ListItem key={x.id}>
+								<ListItemContent>
+									<RoleDisplay
+										role={x}
+										onClick={onRoleAdd}
+										endDecorator={<IconPlus size={16} />}
+									/>
+								</ListItemContent>
+							</ListItem>
+						))}
+					</Menu>
+				</Dropdown>
+			)}
+		</Group>
+	);
 }

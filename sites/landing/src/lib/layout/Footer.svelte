@@ -9,7 +9,7 @@
 		IconCampfireFilled,
 		IconChristmasTreeFilled,
 		IconFile,
-		IconSettings
+		IconSettings,
 	} from '@tabler/icons-svelte';
 </script>
 
@@ -24,19 +24,28 @@
 			</h4>
 			<ul class="Footer list">
 				<li>
-					<Link href="/github" color="neutral">
+					<Link
+						href="/github"
+						color="neutral"
+					>
 						<IconBrandGithub />
 						<FormattedMessageGlobal id="site.social.github" />
 					</Link>
 				</li>
 				<li>
-					<Link href="/bluesky" color="neutral">
+					<Link
+						href="/bluesky"
+						color="neutral"
+					>
 						<IconBrandBluesky />
 						<FormattedMessageGlobal id="site.social.bsky" />
 					</Link>
 				</li>
 				<li>
-					<Link href="/discord" color="neutral">
+					<Link
+						href="/discord"
+						color="neutral"
+					>
 						<IconBrandDiscord />
 						<FormattedMessageGlobal id="site.social.discord" />
 					</Link>
@@ -49,19 +58,28 @@
 			</h4>
 			<ul class="Footer list">
 				<li>
-					<Link href="/instances" color="neutral">
+					<Link
+						href="/instances"
+						color="neutral"
+					>
 						<IconChristmasTreeFilled />
 						<FormattedMessageGlobal id="site.instances" />
 					</Link>
 				</li>
 				<li>
-					<Link href="/campsites" color="neutral">
+					<Link
+						href="/campsites"
+						color="neutral"
+					>
 						<IconCampfireFilled />
 						<FormattedMessageGlobal id="site.campsites" />
 					</Link>
 				</li>
 				<li>
-					<Link href="/people" color="neutral">
+					<Link
+						href="/people"
+						color="neutral"
+					>
 						<IconCamper />
 						<FormattedMessageGlobal id="site.people" />
 					</Link>
@@ -74,13 +92,19 @@
 			</h4>
 			<ul class="Footer list">
 				<li>
-					<Link href="/docs" color="neutral">
+					<Link
+						href="/docs"
+						color="neutral"
+					>
 						<IconFile />
 						<FormattedMessageGlobal id="site.docs" />
 					</Link>
 				</li>
 				<li>
-					<Link href="/docs/api" color="neutral">
+					<Link
+						href="/docs/api"
+						color="neutral"
+					>
 						<IconSettings />
 						<FormattedMessageGlobal id="site.api" />
 					</Link>

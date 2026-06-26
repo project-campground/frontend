@@ -1,4 +1,7 @@
-<script lang="ts" module>
+<script
+	lang="ts"
+	module
+>
 	function* chunkArray<T>(array: T[], amountPerArray: number): Generator<T[]> {
 		const total = Math.ceil(array.length / amountPerArray);
 
@@ -22,7 +25,7 @@
 		'    // ...',
 		'    // ...',
 		'    // ...',
-		'}'
+		'}',
 	].join('\n');
 
 	let obfuscated = $state.raw(new Uint8Array(256));
@@ -30,7 +33,7 @@
 	$effect(() => {
 		const timeout = setInterval(
 			() => (obfuscated = new Uint8Array(window.crypto.getRandomValues(obfuscated))),
-			250
+			250,
 		);
 		return () => (console.log('Clearing interval'), clearInterval(timeout));
 	});
@@ -46,8 +49,8 @@
 				{[
 					...chunkArray(
 						[...obfuscated].map((x) => x.toString(16).padStart(2, '0')),
-						9
-					)
+						9,
+					),
 				]
 					.map((x) => x.join(' '))
 					.join('\n')}

@@ -39,7 +39,7 @@
 	},
 	"dependencies": {
 		"@tsconfig/svelte": "^5.0.8",
-    	"@formatjs/svelte-intl": "^1.1.6"
+		"@formatjs/svelte-intl": "^1.1.6"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"

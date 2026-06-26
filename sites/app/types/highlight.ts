@@ -1,6 +1,6 @@
 export interface HighlightNode {
-    children: Array<HighlightToken | string>;
+	children: Array<HighlightToken | string>;
 }
 export interface HighlightToken extends HighlightNode {
-    scope: string;
+	scope: string;
 }

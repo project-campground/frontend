@@ -1,129 +1,132 @@
-<script lang="ts" module>
+<script
+	lang="ts"
+	module
+>
 	const locale = defineMessages({
 		'landing.inBrowser': {
 			id: 'landing.inBrowser',
 			defaultMessage: 'Open in Browser',
-			description: 'Open Campground in browser button'
+			description: 'Open Campground in browser button',
 		},
 		// Bonfires
 		'landing.features.openSource': {
 			id: 'landing.features.openSource',
 			defaultMessage: 'Open Source',
-			description: 'Open-source section in landing'
+			description: 'Open-source section in landing',
 		},
 		'landing.features.openSource.title': {
 			id: 'landing.features.openSource.title',
 			defaultMessage: 'Open for everyone & Copyleft',
-			description: 'Open-source section title in landing'
+			description: 'Open-source section title in landing',
 		},
 		'landing.features.openSource.desc': {
 			id: 'landing.features.bonfires.desc',
 			defaultMessage:
 				'Not only is front-end open-source, but every bit of back-end of Campground is open-source under AGPLv3 license.',
-			description: 'Open-source section description in landing'
+			description: 'Open-source section description in landing',
 		},
 		// Bonfires
 		'landing.features.bonfires': {
 			id: 'landing.features.bonfires',
 			defaultMessage: 'Bonfires',
-			description: 'Bonfires section in landing'
+			description: 'Bonfires section in landing',
 		},
 		'landing.features.bonfires.title': {
 			id: 'landing.features.bonfires.title',
 			defaultMessage: 'Organize channels with bonfires',
-			description: 'Bonfires section title in landing'
+			description: 'Bonfires section title in landing',
 		},
 		'landing.features.bonfires.desc': {
 			id: 'landing.features.bonfires.desc',
 			defaultMessage:
 				'May also be known as groups or sub-servers, bonfires are guild-like group of tents/channels with their own icons and banners.',
-			description: 'Bonfires section description in landing'
+			description: 'Bonfires section description in landing',
 		},
 		// Profiles
 		'landing.features.profiles': {
 			id: 'landing.features.profiles',
 			defaultMessage: 'Profiles',
-			description: 'Profiles section in landing'
+			description: 'Profiles section in landing',
 		},
 		'landing.features.profiles.title': {
 			id: 'landing.features.bonfires.title',
 			defaultMessage: 'Highly customizable profiles',
-			description: 'Profiles section title in landing'
+			description: 'Profiles section title in landing',
 		},
 		'landing.features.profiles.desc': {
 			id: 'landing.features.profiles.desc',
 			defaultMessage:
 				"Create posts and media, discover others, link game and more with Campground''s highly customizable profiles.",
-			description: 'Bonfires section description in landing'
+			description: 'Bonfires section description in landing',
 		},
 		// Lists
 		'landing.features.lists': {
 			id: 'landing.features.lists',
 			defaultMessage: 'Lists',
-			description: 'Lists section in landing'
+			description: 'Lists section in landing',
 		},
 		'landing.features.lists.title': {
 			id: 'landing.features.bonfires.title',
 			defaultMessage: 'To-do list tents',
-			description: 'Lists section title in landing'
+			description: 'Lists section title in landing',
 		},
 		'landing.features.lists.desc': {
 			id: 'landing.features.lists.desc',
 			defaultMessage:
 				'Create list tents (channels) and set up tasks to complete. Organize the tasks, mark them, add notes, create threads and more.',
-			description: 'Lists section description in landing'
+			description: 'Lists section description in landing',
 		},
 		// Encryption
 		'landing.features.encryption': {
 			id: 'landing.features.encryption',
 			defaultMessage: 'Encryption',
-			description: 'Encryption section in landing'
+			description: 'Encryption section in landing',
 		},
 		'landing.features.encryption.title': {
 			id: 'landing.features.bonfires.title',
 			defaultMessage: 'E2EE Private messaging',
-			description: 'Encryption section title in landing'
+			description: 'Encryption section title in landing',
 		},
 		'landing.features.encryption.desc': {
 			id: 'landing.features.encryption.desc',
 			defaultMessage:
 				'Secure your messages with end-to-end encryption for direct messages. Feel safe with Campground.',
-			description: 'Encryption section description in landing'
+			description: 'Encryption section description in landing',
 		},
 		// Instances
 		'landing.features.instances': {
 			id: 'landing.features.instances',
 			defaultMessage: 'Instances',
-			description: 'Instances section in landing'
+			description: 'Instances section in landing',
 		},
 		'landing.features.instances.title': {
 			id: 'landing.features.bonfires.title',
 			defaultMessage: 'Create your own Campground',
-			description: 'Instances section title in landing'
+			description: 'Instances section title in landing',
 		},
 		'landing.features.instances.desc': {
 			id: 'landing.features.instances.desc',
 			defaultMessage:
 				'Host your own instance of Campground and manage YOUR OWN content without restriction of others. No one else, just you and your communities.',
-			description: 'Instances section description in landing'
+			description: 'Instances section description in landing',
 		},
 		// Customization
 		'landing.features.customization': {
 			id: 'landing.features.customization',
 			defaultMessage: 'Customization',
-			description: 'Customization section in landing'
+			description: 'Customization section in landing',
 		},
 		'landing.features.customization.title': {
 			id: 'landing.features.bonfires.title',
 			defaultMessage: 'Customize your own experience',
-			description: 'Customization section title in landing'
+			description: 'Customization section title in landing',
 		},
 		'landing.features.customization.desc': {
 			id: 'landing.features.customization.desc',
 			defaultMessage:
 				'Change the way Campground application looks with highly customizable themes with CSS and your own experience with add-ons. Do not like how app looks? Change it!',
-			description: 'Customization section description in landing'
-		}
+			description: 'Customization section description in landing',
+		},
 	});
 </script>
 
@@ -144,7 +147,7 @@
 		IconBrandOpenSourceFilled,
 		IconCampfireFilled,
 		IconPaletteFilled,
-		IconServer2
+		IconServer2,
 	} from '@tabler/icons-svelte';
 	import FeatureDisplay from '$lib/landing/FeatureDisplay.svelte';
 	import FeatureOpenSource from '$lib/landing/features/FeatureOpenSource.svelte';
@@ -157,25 +160,53 @@
 	<title>
 		Campground — {'Gather around the fire, friends'}
 	</title>
-	<meta property="og:site_name" content="Campground" />
-	<meta property="og:title" content="Campground — Gather around the fire, friends" />
+	<meta
+		property="og:site_name"
+		content="Campground"
+	/>
+	<meta
+		property="og:title"
+		content="Campground — Gather around the fire, friends"
+	/>
 	<meta
 		property="og:description"
 		content="Campground is the best place for you and your friends to hang out, create communities, and have fun without any hassle!"
 	/>
-	<meta property="og:locale" content="en_US" />
-	<meta property="og:locale:alternate" content="en_US" />
-	<meta property="og:locale:alternate" content="es_ES" />
+	<meta
+		property="og:locale"
+		content="en_US"
+	/>
+	<meta
+		property="og:locale:alternate"
+		content="en_US"
+	/>
+	<meta
+		property="og:locale:alternate"
+		content="es_ES"
+	/>
 </svelte:head>
 
 <div class="Index container">
-	<section class="Index initial" id="try-campground">
+	<section
+		class="Index initial"
+		id="try-campground"
+	>
 		<div class="Index initial-left">
 			<div class="Index motto">
-				<Para level="h1" fontSize={3.5} letterSpacing={2.5}>
+				<Para
+					level="h1"
+					fontSize={3.5}
+					letterSpacing={2.5}
+				>
 					<FormattedMessageGlobal id="site.motto" />
 				</Para>
-				<Para level="paragraph" fontSize={1.5} letterSpacing={0.5} tMargin="md" align="justify">
+				<Para
+					level="paragraph"
+					fontSize={1.5}
+					letterSpacing={0.5}
+					tMargin="md"
+					align="justify"
+				>
 					<FormattedMessageGlobal id="site.desc" />
 				</Para>
 			</div>
@@ -188,7 +219,10 @@
 					</Button>
 				</a>
 				<a href="/app">
-					<Button size="lg" variant="outlined">
+					<Button
+						size="lg"
+						variant="outlined"
+					>
 						<FormattedMessage {...locale['landing.inBrowser']} />
 					</Button>
 				</a>
@@ -198,16 +232,37 @@
 	</section>
 	<FeatureList>
 		{#snippet side(currentId)}
-			<FeatureDisplay id="openSource" {currentId}>
+			<FeatureDisplay
+				id="openSource"
+				{currentId}
+			>
 				<FeatureOpenSource />
 			</FeatureDisplay>
-			<FeatureDisplay id="bonfires" {currentId}>Bonfires</FeatureDisplay>
-			<FeatureDisplay id="lists" {currentId}>Lists</FeatureDisplay>
-			<FeatureDisplay id="encryption" {currentId}>Encryption</FeatureDisplay>
-			<FeatureDisplay id="instances" {currentId}>Instances</FeatureDisplay>
-			<FeatureDisplay id="customization" {currentId}>Customization</FeatureDisplay>
+			<FeatureDisplay
+				id="bonfires"
+				{currentId}>Bonfires</FeatureDisplay
+			>
+			<FeatureDisplay
+				id="lists"
+				{currentId}>Lists</FeatureDisplay
+			>
+			<FeatureDisplay
+				id="encryption"
+				{currentId}>Encryption</FeatureDisplay
+			>
+			<FeatureDisplay
+				id="instances"
+				{currentId}>Instances</FeatureDisplay
+			>
+			<FeatureDisplay
+				id="customization"
+				{currentId}>Customization</FeatureDisplay
+			>
 		{/snippet}
-		<FeatureItem id="openSource" color="success">
+		<FeatureItem
+			id="openSource"
+			color="success"
+		>
 			{#snippet title()}
 				<FormattedMessage {...locale['landing.features.openSource.title']} />
 			{/snippet}
@@ -219,7 +274,10 @@
 			{/snippet}
 			<FormattedMessage {...locale['landing.features.openSource.desc']} />
 		</FeatureItem>
-		<FeatureItem id="bonfires" color="info">
+		<FeatureItem
+			id="bonfires"
+			color="info"
+		>
 			{#snippet title()}
 				<FormattedMessage {...locale['landing.features.bonfires.title']} />
 			{/snippet}
@@ -231,7 +289,10 @@
 			{/snippet}
 			<FormattedMessage {...locale['landing.features.bonfires.desc']} />
 		</FeatureItem>
-		<FeatureItem id="instances" color="primary">
+		<FeatureItem
+			id="instances"
+			color="primary"
+		>
 			{#snippet title()}
 				<FormattedMessage {...locale['landing.features.instances.title']} />
 			{/snippet}
@@ -243,7 +304,10 @@
 			{/snippet}
 			<FormattedMessage {...locale['landing.features.instances.desc']} />
 		</FeatureItem>
-		<FeatureItem id="customization" color="success">
+		<FeatureItem
+			id="customization"
+			color="success"
+		>
 			{#snippet title()}
 				<FormattedMessage {...locale['landing.features.customization.title']} />
 			{/snippet}

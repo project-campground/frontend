@@ -14,7 +14,7 @@
 		vMargin,
 		letterSpacing,
 		tMargin,
-		bMargin
+		bMargin,
 	}: ParaProps = $props();
 </script>
 
@@ -29,13 +29,13 @@
 		vMargin && `vMargin${capitalize(vMargin)}`,
 		tMargin && `tMargin${capitalize(tMargin)}`,
 		bMargin && `bMargin${capitalize(bMargin)}`,
-		className
+		className,
 	]}
 	style:--Para-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
 	style:--Para-lineHeight={typeof lineHeight === 'number' ? `${lineHeight}rem` : lineHeight}
-	style:--Para-letterSpacing={typeof letterSpacing === 'number'
-		? `${letterSpacing}px`
-		: letterSpacing}
+	style:--Para-letterSpacing={typeof letterSpacing === 'number' ?
+		`${letterSpacing}px`
+	:	letterSpacing}
 >
 	{@render children?.()}
 </svelte:element>

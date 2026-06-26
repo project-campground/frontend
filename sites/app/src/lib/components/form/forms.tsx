@@ -1,18 +1,18 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface FormFieldProps<TValue> {
-    id: string | number;
+	id: string | number;
 
-    required?: boolean;
-    disabled?: boolean;
-    defaultValue?: TValue;
+	required?: boolean;
+	disabled?: boolean;
+	defaultValue?: TValue;
 
-    flex?: number;
+	flex?: number;
 
-    onChange?: (value: TValue) => Promise<void> | void;
+	onChange?: (value: TValue) => Promise<void> | void;
 }
 
 export interface FormFieldDecoratorProps {
-    startDecorator?: ReactNode[] | ReactNode;
-    endDecorator?: ReactNode[] | ReactNode;
+	startDecorator?: ReactNode[] | ReactNode;
+	endDecorator?: ReactNode[] | ReactNode;
 }

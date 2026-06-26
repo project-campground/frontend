@@ -1,31 +1,31 @@
 export interface PermissionsDictionary {
-    general: number;
-    content: number;
+	general: number;
+	content: number;
 }
 export interface PermissionsStateDictionary {
-    allowed: PermissionsDictionary;
-    denied: PermissionsDictionary;
+	allowed: PermissionsDictionary;
+	denied: PermissionsDictionary;
 }
 export interface CampsitePermissionView {
-    bonfireId?: string;
-    categoryId?: string;
-    tentId?: string;
+	bonfireId?: string;
+	categoryId?: string;
+	tentId?: string;
 
-    userId?: string;
-    roleId?: string;
+	userId?: string;
+	roleId?: string;
 
-    permissions: PermissionsStateDictionary;
+	permissions: PermissionsStateDictionary;
 }
 export interface CampsitePermissionViewBasic extends CampsitePermissionView {}
 export interface CampsitePermissionViewDetailed extends CampsitePermissionView {
-    id: string;
-    campsiteId: string;
+	id: string;
+	campsiteId: string;
 
-    createdAt: string;
-    createdBy: string;
-    updatedAt: string;
-    updatedBy: string;
+	createdAt: string;
+	createdBy: string;
+	updatedAt: string;
+	updatedBy: string;
 }
 export interface GetPermissionsOutput {
-    permissions: CampsitePermissionViewDetailed[];
+	permissions: CampsitePermissionViewDetailed[];
 }

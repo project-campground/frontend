@@ -10,7 +10,10 @@
 	role="menuitem"
 	{...attributes}
 >
-	<button class={['Menu MenuItem button']} {onclick}>
+	<button
+		class={['Menu MenuItem button']}
+		{onclick}
+	>
 		{@render children?.()}
 	</button>
 </li>

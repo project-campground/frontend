@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import type { PageLoad } from "./$types";
+import type { PageLoad } from './$types';
 
 export const load: PageLoad = () => {
-    redirect(302, '/en-US');
-}
+	redirect(302, '/en-US');
+};

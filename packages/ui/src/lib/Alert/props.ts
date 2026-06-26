@@ -1,6 +1,6 @@
 import type { Snippet } from 'svelte';
 import type { ComponentColor, ComponentSize, ComponentVariant } from '../types/attributes.ts';
-import type {  } from "svelte/elements";
+import type {} from 'svelte/elements';
 
 export default interface AlertProps {
 	children: Snippet;

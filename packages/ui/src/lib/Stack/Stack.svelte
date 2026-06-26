@@ -19,7 +19,7 @@
 		'Stack',
 		direction && `direction${capitalizePhrase(direction)}`,
 		directionMobile && `mobileDirection${capitalizePhrase(directionMobile)}`,
-		className
+		className,
 	]}
 >
 	{@render children?.()}

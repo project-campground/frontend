@@ -12,11 +12,14 @@
 
 	onMount(() => {
 		control.value = control.defaultValue ?? [];
-	})
+	});
 
 	setFormControlKey(key);
 </script>
 
-<Stack class="FormChecklist" {...props}>
+<Stack
+	class="FormChecklist"
+	{...props}
+>
 	{@render children?.()}
 </Stack>

@@ -5,11 +5,7 @@ import { get, readable, writable } from 'svelte/store';
 export const localeFetcherStore = readable(new LocaleFetcher());
 export const globalAppLocale = writable(
 	createIntl<DefaultMessageSegment>(
-		{
-			locale: 'en-US',
-			defaultLocale: 'en-US',
-			messages: {}
-		},
-		get(localeFetcherStore).cache
-	)
+		{ locale: 'en-US', defaultLocale: 'en-US', messages: {} },
+		get(localeFetcherStore).cache,
+	),
 );

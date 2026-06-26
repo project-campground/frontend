@@ -3,7 +3,7 @@ import {
 	createIntlCache,
 	type IntlCache,
 	type IntlShape,
-	type MessageDescriptor
+	type MessageDescriptor,
 } from '@formatjs/svelte-intl';
 import type { DefaultMessageSegment } from './FormattedMessage/props.ts';
 import type { LocaleId } from './localeList.ts';
@@ -34,10 +34,10 @@ export default class LocaleFetcher {
 				locale,
 				defaultLocale: locale,
 				messages: Object.fromEntries(
-					Object.entries(messages).map(([key, { message }]) => [key, message])
-				)
+					Object.entries(messages).map(([key, { message }]) => [key, message]),
+				),
 			},
-			this.cache
+			this.cache,
 		);
 	}
 	createCachedLocale(locale: LocaleId, messages: Record<string, Message>) {
@@ -47,16 +47,14 @@ export default class LocaleFetcher {
 	async fetchLocale(locale: LocaleId): Promise<IntlShape<DefaultMessageSegment>> {
 		if (this.locales[locale]) return this.locales[locale];
 
-		const resp = await fetch(`/${this.prefix}/${locale}.json`, {
-			method: 'GET'
-		});
+		const resp = await fetch(`/${this.prefix}/${locale}.json`, { method: 'GET' });
 
 		const respJson = await resp.json();
 		console.log(resp);
 
 		if (!resp.ok)
 			throw new Error(
-				`Error while fetching locale '${locale}': ${resp.status} ${respJson?.message || respJson?.error || respJson?.code || resp.statusText}`
+				`Error while fetching locale '${locale}': ${resp.status} ${respJson?.message || respJson?.error || respJson?.code || resp.statusText}`,
 			);
 
 		return this.createCachedLocale(locale, respJson);

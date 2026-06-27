@@ -16,7 +16,7 @@ $padding-sizes: create-size-map(
 
 	background-color: var(--background-content);
 	border: solid 1px var(--neutral-border);
-	box-shadow: var(--template-inset-shadow-md) var(--InputField-glow);
+	box-shadow: var(--template-inset-shadow-sm) var(--InputField-glow);
 
 	outline: none;
 	transition-property: color, background, border, box-shadow;
@@ -37,7 +37,7 @@ $padding-sizes: create-size-map(
 	border: solid 1px var(--primary-inputGlow);
 }
 %InputField-decorator {
-	color: var(--foreground-subtext);
+	color: var(--foreground-background);
 }
 %InputField-error {
 	border: solid 1px var(--danger-inputBorder);
@@ -49,5 +49,4 @@ $padding-sizes: create-size-map(
 }
 %InputField-disabled {
 	background-color: var(--background-subtle);
-	cursor: not-allowed;
 }

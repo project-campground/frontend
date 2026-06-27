@@ -1,6 +1,6 @@
 @use '../index.scss' as *;
 
-$input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2rem, 2.25rem));
+$input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2.25rem, 2.75rem));
 
 %BooleanField-sized {
 	@each $size, $proportions in $input-sizes {
@@ -16,7 +16,7 @@ $input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2rem, 2.25rem));
 	background-color: var(--neutral-regularBack);
 	--BooleanField-glow: var(--neutral-regularGlow);
 	border: solid 2px var(--BooleanField-glow);
-	box-shadow: var(--component-shadow) var(--BooleanField-glow);
+	box-shadow: var(--BooleanField-shadow) var(--BooleanField-glow);
 
 	// Other UX
 	transition: background, border, box-shadow, filter, transform;

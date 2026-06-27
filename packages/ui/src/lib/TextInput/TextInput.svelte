@@ -73,6 +73,7 @@
 
 	.container {
 		@extend %InputField;
+		cursor: text;
 		&:hover:not(.disabled) {
 			@extend %InputField-hover;
 		}
@@ -103,7 +104,9 @@
 	}
 	.disabled {
 		@extend %InputField-disabled;
+		cursor: not-allowed;
 		.input {
+			cursor: not-allowed;
 			color: var(--foreground-background);
 		}
 	}

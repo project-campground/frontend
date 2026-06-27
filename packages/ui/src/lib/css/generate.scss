@@ -19,16 +19,16 @@
 	--#{$name}-inputGlow: #{change($accent, $alpha: div(1, 2))};
 
 	// Component (Regular)
-	--#{$name}-regularBack: #{mix($background, $accent, $weight: 12.5%)};
-	--#{$name}-regularBackHover: #{mix($counter, $accent, $weight: 12.5%)};
-	--#{$name}-regularBackActive: #{mix($background, $accent, $weight: 25%)};
+	--#{$name}-regularBack: #{mix($background, $accent, $weight: div(1, 8) * 100%)};
+	--#{$name}-regularBackHover: #{mix($counter, $accent, $weight: div(2, 8) * 100%)};
+	--#{$name}-regularBackActive: #{mix($background, $accent, $weight: div(2, 8) * 100%)};
 
-	--#{$name}-regularGlow: #{mix($counter, $accent, $weight: 25%)};
-	--#{$name}-regularGlowHover: #{mix($counter, $accent, $weight: 50%)};
+	--#{$name}-regularGlow: #{mix($counter, $accent, $weight: div(2, 8) * 100%)};
+	--#{$name}-regularGlowHover: #{mix($counter, $accent, $weight: div(5, 8) * 100%)};
 	--#{$name}-regularGlowActive: #{mix(
 			$counter,
-			mix($background, $accent, $weight: 12.5%),
-			$weight: 12.5%
+			mix($background, $accent, $weight: div(1, 8) * 100%),
+			$weight: div(1, 8) * 100%
 		)};
 
 	// Glow
@@ -74,80 +74,55 @@
 @function get-shade-index($value, $light-mode) {
 	@return if(sass($light-mode): 1000 - $value; else: $value);
 }
-@mixin neutral-color-scheme($shades, $light-mode) {
-	$mode-subtraction: if(sass($light-mode): -50; else: 50);
-	$mode-addition: -50;
+@mixin neutral-color-scheme($theme-shades, $light-mode) {
+	$mode-subtraction: if(sass($light-mode): -100; else: 100);
+	$mode-addition: -100;
 
-	$component-color: if(sass($light-mode): 950; else: 850);
-	@debug $light-mode;
-	@debug $component-color;
-	@debug $component-color + ($mode-subtraction * 1);
-	@debug $component-color + ($mode-subtraction * 2);
+	$component-color: if(sass($light-mode): 1000; else: 800);
 
-	$theme-shades: (
-		50: map.get($shades, get-shade-index(50, $light-mode)),
-		100: map.get($shades, get-shade-index(100, $light-mode)),
-		150: map.get($shades, get-shade-index(150, $light-mode)),
-		200: map.get($shades, get-shade-index(200, $light-mode)),
-		250: map.get($shades, get-shade-index(250, $light-mode)),
-		300: map.get($shades, get-shade-index(300, $light-mode)),
-		400: map.get($shades, get-shade-index(400, $light-mode)),
-		500: map.get($shades, 500),
-		600: map.get($shades, get-shade-index(600, $light-mode)),
-		700: map.get($shades, get-shade-index(700, $light-mode)),
-		750: map.get($shades, get-shade-index(750, $light-mode)),
-		800: map.get($shades, get-shade-index(800, $light-mode)),
-		850: map.get($shades, get-shade-index(850, $light-mode)),
-		900: map.get($shades, get-shade-index(900, $light-mode)),
-		950: map.get($shades, get-shade-index(950, $light-mode)),
-	);
 	@debug map.get($theme-shades, $component-color + ($mode-subtraction * 2));
 
-	--shadow-color: #{change(#000, $alpha: div(1, if(sass($light-mode): 8; else: 4)))};
+	--shadow-color: #{if(
+			sass($light-mode): change(map.get($theme-shades, 0), $alpha: div(1, 8)) ;
+				else: change(map.get($theme-shades, 1000), $alpha: div(1, 4))
+		)};
 
-	--foreground-heading: #{map.get($theme-shades, 100)};
-	--foreground-subheading: #{map.get($theme-shades, 200)};
-	--foreground-body: #{map.get($theme-shades, 300)};
-	--foreground-subtext: #{map.get($theme-shades, 400)};
-	--foreground-background: #{map.get($theme-shades, 500)};
-	--foreground-level6: #{map.get($theme-shades, 600)};
-	--foreground-level7: #{map.get($theme-shades, 700)};
+	--foreground-heading: #{map.get($theme-shades, 0)};
+	--foreground-subheading: #{map.get($theme-shades, 100)};
+	--foreground-body: #{map.get($theme-shades, 200)};
+	--foreground-subtext: #{map.get($theme-shades, 300)};
+	--foreground-background: #{map.get($theme-shades, 400)};
 
 	--background-body: #{map.get($theme-shades, $component-color + ($mode-subtraction * 2))};
 	--background-subtle: #{map.get($theme-shades, $component-color + ($mode-subtraction * 1))};
 	--background-content: #{map.get($theme-shades, $component-color)};
 	--background-subcontent: #{map.get($theme-shades, $component-color + ($mode-addition * 1))};
-	--background-level4: #{map.get($theme-shades, $component-color + ($mode-addition * 2))};
-	--background-level5: #{map.get($theme-shades, $component-color + ($mode-addition * 3))};
 
-	--background-skeleton: #{map.get($theme-shades, 850)};
-	--background-skeletonPulse: #{map.get($theme-shades, 800)};
+	--background-skeleton: #{map.get($theme-shades, 600)};
+	--background-skeletonPulse: #{map.get($theme-shades, 700)};
 
 	// Misc
 	--neutral-border: #{change(
-			map.get($theme-shades, 50),
-			$alpha: if(sass($light-mode): div(1, 8) ; else: div(1, 32))
+			map.get($theme-shades, 0),
+			$alpha: if(sass($light-mode): div(1, 8) ; else: div(1, 16))
 		)};
 
 	// Components (Regular)
-	--neutral-regularFore: #{map.get($theme-shades, 950)};
+	--neutral-regularFore: #{map.get($theme-shades, 1000)};
 
-	--neutral-regularBack: #{map.get($theme-shades, 750)};
-	--neutral-regularBackHover: #{map.get($theme-shades, 700)};
+	--neutral-regularBack: #{map.get($theme-shades, 700)};
+	--neutral-regularBackHover: #{map.get($theme-shades, 600)};
 	--neutral-regularBackActive: #{map.get($theme-shades, 800)};
-	--neutral-regularBackDisabled: #{map.get($theme-shades, 850)};
+	--neutral-regularBackDisabled: #{map.get($theme-shades, 800)};
 
-	--neutral-regularGlow: #{map.get($theme-shades, 700)};
-	--neutral-regularGlowHover: #{map.get($theme-shades, 600)};
-	--neutral-regularGlowActive: #{map.get($theme-shades, 750)};
-	--neutral-regularGlowDisabled: #{map.get($theme-shades, 800)};
+	--neutral-regularGlow: #{map.get($theme-shades, 600)};
+	--neutral-regularGlowHover: #{map.get($theme-shades, 500)};
+	--neutral-regularGlowActive: #{map.get($theme-shades, 700)};
+	--neutral-regularGlowDisabled: #{map.get($theme-shades, 700)};
 
 	// Solid
 	--neutral-solidFore: var(--foreground-heading);
-
-	--neutral-solidBack: #{map.get($theme-shades, 750)};
-	--neutral-solidBackHover: #{map.get($theme-shades, 850)};
-	--neutral-solidBackActive: #{map.get($theme-shades, 850)};
+	--neutral-solidBack: #{map.get($theme-shades, 600)};
 
 	// Plain
 	--neutral-plainFore: var(--foreground-body);
@@ -155,15 +130,15 @@
 	--neutral-plainForeActive: var(--foreground-subtext);
 	--neutral-plainForeDisabled: var(--foreground-background);
 
-	--neutral-plainBackHover: #{map.get($theme-shades, 850)};
-	--neutral-plainBackActive: #{map.get($theme-shades, 950)};
+	--neutral-plainBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 8))};
+	--neutral-plainBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 16))};
 
 	// Soft
 	--neutral-softFore: var(--foreground-subtext);
 	--neutral-softForeHover: var(--foreground-subheading);
 	--neutral-softForeActive: var(--foreground-subtext);
 
-	--neutral-softBack: #{change(map.get($theme-shades, 500), $alpha: div(1, 8))};
-	--neutral-softBackHover: #{change(map.get($theme-shades, 500), $alpha: div(1, 4))};
-	--neutral-softBackActive: #{change(map.get($theme-shades, 500), $alpha: div(1, 16))};
+	--neutral-softBack: #{change(map.get($theme-shades, 600), $alpha: div(1, 8))};
+	--neutral-softBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 4))};
+	--neutral-softBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 16))};
 }

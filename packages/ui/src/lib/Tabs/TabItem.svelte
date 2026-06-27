@@ -31,7 +31,7 @@
 		padding: 8px 12px;
 
 		font-size: 0.8rem;
-		color: var(--foreground-body);
+		color: var(--foreground-background);
 
 		transition: color, transform, filter;
 		transition-duration: $transition-time-md;

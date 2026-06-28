@@ -17,5 +17,6 @@
 		height: 100%;
 		overflow: auto;
 		scroll-snap-align: start;
+		flex-basis: 100%;
 	}
 </style>

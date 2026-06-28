@@ -41,24 +41,15 @@
 		style:padding="16px 32px"
 		style:border-radius="var(--radius-lg)"
 	>
-		<Tabs.Root tabIds={['visual', 'section', 'form']}>
-			{#snippet tabs(tabId)}
-				<Tabs.Item
-					id="visual"
-					isActive={tabId === 'visual'}
-				>
+		<Tabs.Root>
+			{#snippet tabs()}
+				<Tabs.Item>
 					<TextBlock>Visual</TextBlock>
 				</Tabs.Item>
-				<Tabs.Item
-					id="section"
-					isActive={tabId === 'section'}
-				>
+				<Tabs.Item>
 					<TextBlock>Info and Hierarchy</TextBlock>
 				</Tabs.Item>
-				<Tabs.Item
-					id="form"
-					isActive={tabId === 'form'}
-				>
+				<Tabs.Item>
 					<TextBlock>Form and Input</TextBlock>
 				</Tabs.Item>
 			{/snippet}

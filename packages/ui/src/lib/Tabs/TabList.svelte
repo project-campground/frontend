@@ -1,19 +1,25 @@
 <script lang="ts">
+	import { getTabsContext } from './context.svelte.ts';
 	import type { ListProps } from './props.ts';
 
 	const { children }: ListProps = $props();
+
+	const tabContext = getTabsContext();
 </script>
 
 <div
 	class="Tabs TabList container"
 	role="tablist"
 >
-	<div class="Tabs TabList root">
+	<form
+		class="Tabs TabList root"
+		bind:this={tabContext.tabItemsForm}
+	>
 		<div class="Tabs TabList highlight"></div>
 		<div class="Tabs TabList list">
 			{@render children()}
 		</div>
-	</div>
+	</form>
 </div>
 
 <style lang="scss">
@@ -49,13 +55,12 @@
 		}
 		&.list {
 			position: relative;
+			display: flex;
 			top: 0;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			display: grid;
 			z-index: 2;
-			grid-template-columns: repeat(var(--Tabs-tabCount), 1fr);
 		}
 	}
 </style>

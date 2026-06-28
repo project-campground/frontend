@@ -1,37 +1,34 @@
 <script lang="ts">
 	import TabList from './TabList.svelte';
-	import { setTabContext, type TabId } from './context.ts';
+	import { setTabsContext, TabsContext } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 
-	function onTabSelect(id: TabId) {
-		console.log('Tab selected', id);
-		activeTab = id;
-		list.scrollTo(list.clientWidth * tabIds.indexOf(id), 0);
-	}
+	const tabContext = new TabsContext();
 
-	const { tabIds, tabs, children }: RootProps = $props();
-	let activeTab: TabId | null = $state(null);
-	let list: HTMLDivElement;
+	$effect(() => list?.scrollTo(list?.clientWidth * tabContext.activeTabIndex, 0));
 
-	const activeTabIndex = $derived(activeTab === null ? 0 : tabIds.indexOf(activeTab!));
+	const { tabs, children }: RootProps = $props();
+	let list: HTMLDivElement | null = $state(null);
 
-	setTabContext({ onTabSelect });
+	setTabsContext(tabContext);
 </script>
 
 <section
 	class="Tab TabsRoot container"
-	style:--Tabs-tabCount={tabIds.length}
-	style:--Tabs-activeTabIndex={activeTabIndex}
+	style:--Tabs-tabCount={tabContext.tabCount}
+	style:--Tabs-activeTabIndex={tabContext.activeTabIndex}
 >
 	<TabList>
-		{@render tabs(activeTab ?? tabIds[0] ?? '')}
+		{@render tabs()}
 	</TabList>
 	<div class="Tabs TabsRoot listContainer">
 		<div
 			bind:this={list}
 			class="Tabs TabsRoot list"
 			onscrollend={(ev) =>
-				(activeTab = tabIds[Math.round(list.scrollLeft / list.clientWidth)] ?? null)}
+				(tabContext.activeTabIndex = Math.round(
+					ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth,
+				))}
 		>
 			{@render children()}
 		</div>

@@ -37,6 +37,7 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 	@use 'sass:list';
+	@use 'sass:math' as *;
 	@use './BooleanField.scss' as *;
 
 	.input {
@@ -102,7 +103,7 @@
 		$button-padding: 0.1;
 		position: absolute;
 		// Center it
-		top: calc(var(--BooleanField-size) * #{$button-size / 8});
+		top: calc(var(--BooleanField-size) * #{div($button-size, 8)});
 		left: var(--Switch-buttonX);
 		height: calc(var(--BooleanField-size) * #{$button-size});
 		width: calc(var(--BooleanField-size) * #{$button-size});

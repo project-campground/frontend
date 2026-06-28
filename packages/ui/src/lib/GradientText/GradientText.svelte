@@ -89,7 +89,7 @@
 			animation-timing-function: linear;
 		}
 		&.motionLinear {
-			animation: motion-linear;
+			animation-name: motion-linear;
 			background-size: 8000%;
 		}
 		&.motionWave {

@@ -9,6 +9,7 @@
 	import TestVisual from '$lib/test/TestVisual.svelte';
 	import TestForm from '$lib/test/TestForm.svelte';
 	import TestInfo from '$lib/test/TestInfo.svelte';
+	import Stack from '$lib/Stack/Stack.svelte';
 
 	let lightTheme: boolean = $state(false);
 
@@ -63,15 +64,21 @@
 			{/snippet}
 			<!-- Visual -->
 			<Tabs.Tab>
-				<TestVisual />
+				<Stack gap={3}>
+					<TestVisual />
+				</Stack>
 			</Tabs.Tab>
 			<!-- Info & Hierarchy -->
 			<Tabs.Tab>
-				<TestInfo />
+				<Stack gap={3}>
+					<TestInfo />
+				</Stack>
 			</Tabs.Tab>
 			<!-- Form & Input -->
 			<Tabs.Tab>
-				<TestForm />
+				<Stack gap={3}>
+					<TestForm />
+				</Stack>
 			</Tabs.Tab>
 		</Tabs.Root>
 	</div>

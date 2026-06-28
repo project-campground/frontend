@@ -80,8 +80,6 @@
 
 	$component-color: if(sass($light-mode): 1000; else: 800);
 
-	@debug map.get($theme-shades, $component-color + ($mode-subtraction * 2));
-
 	--shadow-color: #{if(
 			sass($light-mode): change(map.get($theme-shades, 0), $alpha: div(1, 8)) ;
 				else: change(map.get($theme-shades, 1000), $alpha: div(1, 4))

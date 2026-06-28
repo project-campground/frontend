@@ -81,18 +81,18 @@
 
 		@each $color in $color-types {
 			&.color#{capitalize($color)} {
-				color: var(--#{$color}-500);
+				color: var(--#{$color}-plainFore);
 				@each $level in $hLevels {
 					$index: list.nth($level, 1);
 					&.levelH#{$index} {
-						color: var(--#{$color}-400);
+						color: var(--#{$color}-plainForeHeading);
 					}
 				}
 				&.levelSub0 {
-					color: var(--#{$color}-700);
+					color: var(--#{$color}-plainForeSubtext);
 				}
 				&.levelSub1 {
-					color: var(--#{$color}-800);
+					color: var(--#{$color}-plainForeBackground);
 				}
 			}
 		}

@@ -104,11 +104,19 @@
 						/>
 					</FormControl>
 					<FormControl id="textArea1">
-						<FormLabel>Text area field</FormLabel>
+						<FormLabel>Text area field (known value)</FormLabel>
 						<FormTextField
 							multirow
 							maxlength={50}
-						/>
+						>
+							{#snippet known()}
+								<Select.Option value={'example value'}>Example value</Select.Option>
+								<Select.Option
+									value={'example value\nmultiline\n here and stuff'}
+									color="danger">Example value multiline</Select.Option
+								>
+							{/snippet}
+						</FormTextField>
 					</FormControl>
 					<FormControl id="textArea2">
 						<FormLabel>Text area field</FormLabel>
@@ -132,8 +140,13 @@
 				{/snippet}
 				<Form bind:this={reactiveForm}>
 					<FormControl id="textField">
-						<FormLabel>Text field</FormLabel>
-						<FormTextField />
+						<FormLabel>Text field (known values)</FormLabel>
+						<FormTextField>
+							{#snippet known()}
+								<Select.Option value="example">Example known value</Select.Option>
+								<Select.Option value={'example value\n2'}>Example known value 2</Select.Option>
+							{/snippet}
+						</FormTextField>
 					</FormControl>
 					<FormControl id="textAreaAndStuff">
 						<FormLabel>Text area field</FormLabel>

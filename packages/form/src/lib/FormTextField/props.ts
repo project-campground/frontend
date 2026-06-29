@@ -20,4 +20,5 @@ export default interface FormTextFieldProps extends TextInputProps {
 	format?: TextFieldFormatRegex | TextFieldFormatString;
 
 	maxrows?: number;
+	known?: Snippet;
 }

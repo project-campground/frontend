@@ -5,7 +5,7 @@
 	import { getFormControlkey } from '$lib/FormCheck/context.svelte.js';
 	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
 
-	const { header, children, value, ...props }: FormCheckboxProps = $props();
+	const { value, header, children, ...props }: FormCheckboxProps = $props();
 
 	const control: FormControlInstance<FormCheckValue[]> = getFormControl();
 	const checkId = getFormControlkey();
@@ -32,10 +32,10 @@
 		<Checkbox
 			bind:checked
 			{id}
-			name={checkId}
 			size="sm"
-			oninput={onInput}
 			{...props}
+			name={checkId}
+			onclick={onInput}
 		/>
 	{/snippet}
 </FormSimpleField>

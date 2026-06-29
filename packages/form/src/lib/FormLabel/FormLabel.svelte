@@ -10,6 +10,7 @@
 <label
 	class={['FormLabel label', { required: fieldContext.required, hideAsterisk, subtle }]}
 	{...props}
+	id={`label-${fieldContext.key}`}
 	for={`control-${fieldContext.key}`}
 >
 	{@render children()}

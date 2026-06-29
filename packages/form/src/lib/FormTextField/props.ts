@@ -12,21 +12,12 @@ export interface TextFieldFormatString extends TextFieldFormatBase {
 	value?: string;
 }
 export type TextFieldFormatCombined = TextFieldFormatRegex & TextFieldFormatString;
-export default interface FormTextFieldProps extends AriaAttributes {
+export default interface FormTextFieldProps extends TextInputProps {
 	type?: 'text' | 'password' | 'search';
-	placeholder?: string;
 
-	multipleRows?: boolean;
-	minLength?: number;
-	maxLength?: number;
-	rows?: number;
+	minlength?: number;
 
 	format?: TextFieldFormatRegex | TextFieldFormatString;
 
-	top?: Snippet;
-	left?: Snippet;
-	bottom?: Snippet;
-	right?: Snippet;
-
-	maxRows?: number;
+	maxrows?: number;
 }

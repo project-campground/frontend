@@ -108,14 +108,14 @@
 	// Components (Regular)
 	--neutral-regularFore: #{map.get($theme-shades, 1000)};
 
-	--neutral-regularBack: #{map.get($theme-shades, 700)};
-	--neutral-regularBackHover: #{map.get($theme-shades, 600)};
-	--neutral-regularBackActive: #{map.get($theme-shades, 800)};
+	--neutral-regularBack: #{map.get($theme-shades, 600)};
+	--neutral-regularBackHover: #{map.get($theme-shades, 500)};
+	--neutral-regularBackActive: #{map.get($theme-shades, 700)};
 	--neutral-regularBackDisabled: #{map.get($theme-shades, 800)};
 
-	--neutral-regularGlow: #{map.get($theme-shades, 600)};
+	--neutral-regularGlow: #{map.get($theme-shades, 500)};
 	--neutral-regularGlowHover: #{map.get($theme-shades, 500)};
-	--neutral-regularGlowActive: #{map.get($theme-shades, 700)};
+	--neutral-regularGlowActive: #{map.get($theme-shades, 600)};
 	--neutral-regularGlowDisabled: #{map.get($theme-shades, 700)};
 
 	// Solid

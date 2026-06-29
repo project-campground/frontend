@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
-	import { Main, Section, theme } from '@campground/ui';
+	import { Group, Main, Section, Select, Stack, Switch, TextBlock, theme } from '@campground/ui';
 	import { writable } from 'svelte/store';
 	import {
 		FormRadio,
@@ -35,18 +35,29 @@
 
 <Main>
 	<div class="scrollable">
-		<input
-			type="checkbox"
-			bind:checked={lightTheme}
-		/>
-		<select bind:value={localeValue}>
-			{#each localeIds as localeId}
-				<option value={localeId}>
-					{localeId}
-				</option>
-			{/each}
-		</select>
 		<div class="padded">
+			<Section>
+				{#snippet header()}
+					[DEVELOPMENT ENVIRONMENT]
+				{/snippet}
+				<Stack>
+					<Group>
+						<Switch bind:value={lightTheme} />
+						<TextBlock>Light theme</TextBlock>
+					</Group>
+					<Group>
+						<TextBlock>Locale</TextBlock>
+						<Select.Button bind:value={localeValue}>
+							{#snippet display(value)}
+								{value}
+							{/snippet}
+							{#each localeIds as localeId}
+								<Select.Option value={localeId}>{localeId}</Select.Option>
+							{/each}
+						</Select.Button>
+					</Group>
+				</Stack>
+			</Section>
 			<Section>
 				{#snippet header()}
 					Form empty
@@ -87,29 +98,29 @@
 					<FormControl id="textArea0">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField
-							multipleRows
-							minLength={5}
+							multirow
+							minlength={5}
 							placeholder="Example placeholder"
 						/>
 					</FormControl>
 					<FormControl id="textArea1">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField
-							multipleRows
-							maxLength={50}
+							multirow
+							maxlength={50}
 						/>
 					</FormControl>
 					<FormControl id="textArea2">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField
-							multipleRows
-							maxRows={4}
+							multirow
+							maxrows={4}
 						/>
 					</FormControl>
 					<FormControl id="textArea3">
 						<FormLabel>Text area field</FormLabel>
 						<FormTextField
-							multipleRows
+							multirow
 							rows={8}
 						/>
 					</FormControl>
@@ -126,7 +137,7 @@
 					</FormControl>
 					<FormControl id="textAreaAndStuff">
 						<FormLabel>Text area field</FormLabel>
-						<FormTextField multipleRows />
+						<FormTextField multirow />
 					</FormControl>
 					<FormControl id="formattedSingleLine">
 						<FormLabel>Text field formatted</FormLabel>
@@ -139,7 +150,7 @@
 					<FormControl id="formattedMultiLine">
 						<FormLabel>Text area formatted</FormLabel>
 						<FormTextField
-							multipleRows
+							multirow
 							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
 							placeholder="Aaa"
 						/>

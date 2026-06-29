@@ -24,7 +24,7 @@
 		font-weight: bold;
 	}
 	.asterisk {
-		color: var(--danger-500);
+		color: var(--danger-plainFore);
 	}
 	.hideAsterisk,
 	:not(.required) {

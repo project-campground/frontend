@@ -13,7 +13,7 @@ import { IntlProvider } from './lib/i18n/provider';
 // import { SessionProvider } from './session';
 import { Box, CssBaseline, CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { SvgDefs, SvgUse, theme } from '@campground/ui';
-import { SessionProvider } from './lib/context/session';
+import { SessionProvider } from './lib/api/session
 import { SnackbarContextProvider } from './lib/context/snackbar';
 import { ContextSuiteProvider } from './lib/context/context-suite';
 import { RightClickProvider } from './lib/context/mouse';

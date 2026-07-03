@@ -1,14 +1,14 @@
-import type { CampsiteViewDetailed } from 'types/campground/campsites';
+import type { CampsiteViewDetailed } from '$lib/types/campground/campsites';
 import { CurrentTentListContext } from './value';
-import type { GetTentsOutput } from 'types/campground/tent';
-import type { PermissionsDictionary } from 'types/campground/permissions';
+import type { GetTentsOutput } from '$lib/types/campground/tent';
+import type { PermissionsDictionary } from '$lib/types/campground/permissions';
 import {
 	aggregateAllPermissions,
 	invertGeneralPermission,
 	invertContentPermission,
 	maxPermissions,
 	type AggregatedPermissions,
-} from '~/util/permissions';
+} from '$lib/util/permissions';
 
 export const ownerPermissionsAggregated: AggregatedPermissions = {
 	role: maxPermissions,

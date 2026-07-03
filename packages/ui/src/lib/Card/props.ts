@@ -9,6 +9,7 @@ export interface RootProps {
 	children: Snippet;
 }
 export interface ContentProps {
+	gap?: ComponentSize;
 	class?: ClassValue;
 	children: Snippet;
 }

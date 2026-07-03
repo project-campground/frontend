@@ -33,15 +33,13 @@
 	.Group {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		gap: var(--Group-gap);
 		&.wrap {
 			flex-wrap: wrap;
 		}
 		&.alignVerticallyStart {
 			align-items: start;
-		}
-		&.alignVerticallyCenter {
-			align-items: center;
 		}
 		&.alignVerticallyEnd {
 			align-items: end;

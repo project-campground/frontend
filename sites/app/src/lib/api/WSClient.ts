@@ -2,8 +2,8 @@ import { decodeSequence, encode } from 'cbor2';
 import type { KeyValueEncoded } from 'cbor2/sorts';
 import { stringify } from 'uuid';
 import type HTTPAtprotoClient from './http/HTTPAtprotoClient';
-import type { TypeToPayload } from 'types/ws';
-import { defaultBackendDomain } from 'api.config';
+import type { TypeToPayload } from '$lib/types/ws';
+import { defaultBackendDomain } from '../../../api.config';
 
 type Config = { url: string };
 

@@ -1,18 +1,5 @@
-import HTTPAtprotoClient from '~/api/http/HTTPAtprotoClient';
-import type PreferenceManager from '~/api/preferences/PreferenceManager';
-import type WSClient from '~/api/WSClient';
-
-export interface Session {
-	auth: SessionAuth;
-	preferences: PreferenceManager;
-	atproto: HTTPAtprotoClient;
-	ws: WSClient;
-	setAuth(details: SessionAuth): void;
-	login(details: AuthCredentials): Promise<void>;
-	logout(): void;
-}
-export type Locale = 'en-US';
 export type SessionAuth = SessionAuthed | SessionUnauthed;
+
 interface SessionAuthState<T extends boolean> {
 	authenticated: T;
 }
@@ -25,6 +12,13 @@ export interface SessionUnauthed extends SessionAuthState<false> {}
 export interface AuthCredentials {
 	identifier: string;
 	password: string;
+}
+export interface SavedAuth {
+	server: string;
+	identifier: string;
+
+	accessJwt?: string;
+	refreshJwt?: string;
 }
 
 export interface SessionBasic {

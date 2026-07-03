@@ -5,6 +5,11 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 
 	const localeHeaders = defineMessages({
+		'': {
+			id: `app.auth.header`,
+			defaultMessage: `What do you want to do?`,
+			description: `The heading of the auth index page`,
+		},
 		login: {
 			id: `app.auth.login.header`,
 			defaultMessage: `Welcome back!`,
@@ -17,6 +22,11 @@
 		},
 	});
 	const localeDescriptions = defineMessages({
+		'': {
+			id: `app.auth.desc`,
+			defaultMessage: `Choose what you want to do with your account(s).`,
+			description: `The heading of the auth index page instructing the user`,
+		},
 		login: {
 			id: `app.auth.login.desc`,
 			defaultMessage: `Enter the login details of your existing account.`,
@@ -32,7 +42,7 @@
 
 <script lang="ts">
 	import type { LayoutProps } from './$types';
-	import { BrandLogo, Card, Para } from '@campground/ui';
+	import { BrandLogo, Card, Para, Stack } from '@campground/ui';
 	import { FormattedMessage } from '@campground/locale';
 
 	const { children, data }: LayoutProps = $props();
@@ -50,16 +60,21 @@
 			level="subtle"
 			size="xxl"
 		>
-			<Card.Content class="Auth content">
-				<Para
-					level="h2"
-					bMargin="md"
-				>
-					<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
-				</Para>
-				<Para>
-					<FormattedMessage {...localeDescriptions[data.page as 'login' | 'register']} />
-				</Para>
+			<Card.Content
+				class="Auth content"
+				gap="md"
+			>
+				<Stack gap={0.5}>
+					<Para
+						level="h2"
+						bMargin="md"
+					>
+						<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
+					</Para>
+					<Para>
+						<FormattedMessage {...localeDescriptions[data.page as 'login' | 'register']} />
+					</Para>
+				</Stack>
 				{@render children()}
 			</Card.Content>
 		</Card.Root>

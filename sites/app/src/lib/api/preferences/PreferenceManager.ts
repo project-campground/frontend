@@ -1,9 +1,10 @@
+import type { Session } from '$lib/api/session/Session.svelte';
 import type {
 	CampgroundPreference,
 	CampgroundPreferenceAppearance,
 	CampgroundPreferenceLocale,
 	CampgroundPreferenceCampsites,
-} from 'types/bluesky/preferences';
+} from '$lib/types/bluesky/preferences';
 import type HTTPAtprotoClient from '../http/HTTPAtprotoClient';
 
 export interface CampgroundPreferences {
@@ -12,19 +13,29 @@ export interface CampgroundPreferences {
 	campsites?: Omit<CampgroundPreferenceCampsites, '$type'>;
 }
 
+const preferenceStorageKey = 'preference';
+
 export default class PreferenceManager {
-	private _http: HTTPAtprotoClient;
+	private session: Session;
+
 	public global: Partial<CampgroundPreferences> = {};
 	public local: Partial<CampgroundPreferences> = {};
+
 	public hasInit: boolean = false;
 	public loaded: boolean = false;
-	private _isAuthenticated: boolean;
+
 	private static CAMPGROUND_PREFERENCE_PREFIX = 'app.bsky.actor.defs#' + 'campground:';
 	private _onInit?: Array<() => Promise<unknown> | unknown> = [];
 
-	constructor(http: HTTPAtprotoClient, isAuthenticated: boolean) {
-		this._http = http;
-		this._isAuthenticated = isAuthenticated;
+	constructor(session: Session) {
+		this.session = session;
+	}
+
+	private get _http(): HTTPAtprotoClient {
+		return this.session.atproto;
+	}
+	private get _isAuthenticated(): boolean {
+		return this.session.auth.authenticated;
 	}
 
 	public get full() {
@@ -44,14 +55,14 @@ export default class PreferenceManager {
 	}
 
 	public async init() {
+		if (!this._isAuthenticated) return;
+
 		if (this.hasInit) return;
 
 		this.hasInit = true;
 
-		const settingsInLocalStorage = localStorage.getItem('settings');
+		const settingsInLocalStorage = localStorage.getItem(preferenceStorageKey);
 		this.local = settingsInLocalStorage ? JSON.parse(settingsInLocalStorage) : {};
-
-		if (!this._isAuthenticated) return;
 
 		return this._http.preference.get().then((resp) => {
 			if (!resp.ok)
@@ -91,7 +102,7 @@ export default class PreferenceManager {
 		return this.updateCampsiteToListGlobally(newCampsiteList);
 	}
 
-	private finalizeInit(): Promise<unknown> {
+	private async finalizeInit(): Promise<unknown> {
 		return Promise.allSettled(this._onInit?.map((x) => x()) as unknown[]).then((resps) => {
 			for (const badResp of resps.filter((x) => x.status === 'rejected'))
 				console.error(badResp.reason);

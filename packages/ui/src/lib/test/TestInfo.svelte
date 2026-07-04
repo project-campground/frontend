@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		Alert,
+		Accordion,
 		Card,
 		GradientText,
 		Group,
@@ -195,6 +196,40 @@
 						{/snippet}
 						{gap} gap and header level {headerLevel} subtle
 					</Section>
+				</Group>
+			{/each}
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Accordion
+	{/snippet}
+	<Stack gap={8}>
+		{#each [true, false] as noBackground}
+			{#each sizes as gap}
+				<Group wrap>
+					<Accordion
+						{gap}
+						{noBackground}
+					>
+						{#snippet header()}
+							Accordion {gap} {noBackground ? 'no background' : ''}
+						{/snippet}
+						Example accordion {gap}
+						<GradientText colors={['#FF0000', '#00FF00', '#0000FF']}>Example 2</GradientText>
+					</Accordion>
+					<Accordion
+						{gap}
+						subtle
+						{noBackground}
+					>
+						{#snippet header()}
+							Accordion {gap} subtle {noBackground ? 'no background' : ''}
+						{/snippet}
+						Example accordion {gap}
+						<GradientText colors={['#FF0000', '#00FF00', '#0000FF']}>Example 2</GradientText>
+					</Accordion>
 				</Group>
 			{/each}
 		{/each}

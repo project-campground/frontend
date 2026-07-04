@@ -1,5 +1,8 @@
 {
-	"pdsUrl": "http://localhost:2583",
-	"backendUrl": "http://localhost:8080",
-	"backendDomain": "localhost:8080"
+	"defaultPds": "http://localhost:2583",
+	"defaultAppview": "http://localhost:8080",
+	"knownPds": [
+		{ "url": "http://localhost:2583", "name": "Local instance", "color": "primary" },
+		{ "url": "http://localhost:2583", "name": "Local instance #2", "color": "info" }
+	]
 }

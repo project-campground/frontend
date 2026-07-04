@@ -31,6 +31,7 @@
 	"dependencies": {
 		"@campground/locale": "1.0.0",
 		"@campground/ui": "1.0.0",
+		"@campground/form": "1.0.0",
 		"@fontsource-variable/ubuntu-sans": "^5.2.10",
 		"@fontsource/ubuntu": "^5.2.8",
 		"@fontsource/ubuntu-mono": "^5.2.8",

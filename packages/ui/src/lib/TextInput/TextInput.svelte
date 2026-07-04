@@ -115,7 +115,7 @@
 		padding: 0;
 		border: none;
 		background-color: transparent;
-		color: var(--foreground-subheading);
+		color: var(--foreground-body);
 		font-size: 1em;
 		font-family: var(--font-body);
 		resize: none;

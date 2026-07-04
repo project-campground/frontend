@@ -9,6 +9,7 @@
 		wrap,
 		withMobile,
 		mobileReversed,
+		reversed,
 		alignVertically,
 		...attributes
 	}: GroupProps = $props();
@@ -19,7 +20,7 @@
 	style:--Group-gap={toSpacingPx(gap ?? 1)}
 	class={[
 		'Group',
-		{ wrap, withMobile, mobileReversed },
+		{ wrap, reversed, withMobile, mobileReversed },
 		alignVertically && `alignVertically${capitalize(alignVertically)}`,
 		className,
 	]}
@@ -34,7 +35,13 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+
 		gap: var(--Group-gap);
+
+		&.reversed {
+			flex-direction: row-reverse;
+		}
+
 		&.wrap {
 			flex-wrap: wrap;
 		}

@@ -1,3 +1,4 @@
+export * from './Accordion/index.ts';
 export * from './Alert/index.ts';
 export * from './Avatar/index.ts';
 export * from './BrandLogo/index.ts';

@@ -2,7 +2,7 @@
 	import { capitalize } from '../util/component.ts';
 	import type { RootProps } from './props.ts';
 
-	const { class: className, size, level, children }: RootProps = $props();
+	const { class: className, size, level, overflow, children }: RootProps = $props();
 </script>
 
 <section
@@ -10,6 +10,7 @@
 		'Card CardRoot',
 		`size${capitalize(size ?? 'md')}`,
 		level && `level${capitalize(level)}`,
+		overflow && `overflow${capitalize(overflow)}`,
 		className,
 	]}
 >
@@ -32,6 +33,12 @@
 		border: solid 1px var(--neutral-border);
 		border-radius: var(--card-radius);
 		box-shadow: var(--shadow-md);
+		&.overflowAuto {
+			overflow: auto;
+		}
+		&.overflowVisible {
+			overflow: visible;
+		}
 	}
 	@each $size, $values in $card-padding {
 		.size#{capitalize($size)} {

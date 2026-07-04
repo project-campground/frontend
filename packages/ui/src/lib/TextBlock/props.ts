@@ -6,6 +6,9 @@ export default interface TextBlockProps {
 	weight?: 500 | 600 | 700 | 800 | 900;
 	align?: 'top' | 'center' | 'bottom';
 	float?: 'left' | 'right';
+
+	level?: 'background' | 'subtext' | 'body' | 'subheading' | 'heading';
+
 	pl?: number;
 	pr?: number;
 	hideOnMobile?: boolean;

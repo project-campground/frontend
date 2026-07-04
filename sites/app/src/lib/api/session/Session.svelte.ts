@@ -1,7 +1,7 @@
 import { createContext } from 'svelte';
 import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient';
 import PreferenceManager from '$lib/api/preferences/PreferenceManager';
-import { defaultAppApiUrl } from '../../../../api.config';
+import { defaultPds } from '../api.config';
 import type {
 	AuthCredentials,
 	SavedAuth,
@@ -50,7 +50,7 @@ export class Session {
 		const data = await HTTPAtprotoClient.login(details);
 
 		if (data.ok) {
-			this.auth = { authenticated: true, server: server ?? defaultAppApiUrl, user: data.content };
+			this.auth = { authenticated: true, server: server ?? defaultPds, user: data.content };
 		} else throw new Error(data.errorDescription);
 	}
 

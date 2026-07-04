@@ -21,8 +21,8 @@ export class FormInstance {
 		return this._mapInstance((x) => [x.id, x.value]);
 	}
 
-	public get submit() {
-		return this._submit();
+	public submit(ev?: MouseEvent | undefined) {
+		return this._submit()?.(this.values, ev);
 	}
 	public getControl(id: FormFieldId): FormControlInstance<any> | null {
 		return this.controls.find((x) => x.id === id) ?? null;

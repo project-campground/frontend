@@ -7,6 +7,7 @@ export interface RootProps {
 	class?: ClassValue;
 	size?: ComponentSize | 'xxl';
 	children: Snippet;
+	overflow?: 'auto' | 'visible';
 }
 export interface ContentProps {
 	gap?: ComponentSize;

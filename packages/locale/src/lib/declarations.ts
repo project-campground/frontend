@@ -28,6 +28,7 @@ export const globalLocale = defineMessages({
 			'Infinite amount of something. Used in invite creation placeholder when assigning the amount of times invite can be used',
 	},
 
+	// In forms and info display
 	info: {
 		id: 'info',
 		defaultMessage: 'Information',
@@ -110,13 +111,14 @@ export const globalLocale = defineMessages({
 		description: 'Description in campsites, bonfires and elsewhere',
 	},
 
+	// Commonly used in forms
 	'form.submit': {
 		id: 'form.submit',
 		defaultMessage: 'Submit',
 		description: 'Submit button in forms',
 	},
-	'form.uploadImage': {
-		id: 'form.uploadImage',
+	'form.upload.image': {
+		id: 'form.upload.image',
 		defaultMessage: 'Upload image',
 		description: 'Upload image modal header',
 	},

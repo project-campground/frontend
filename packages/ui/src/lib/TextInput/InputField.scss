@@ -38,6 +38,7 @@ $padding-sizes: create-size-map(
 }
 %InputField-decorator {
 	color: var(--foreground-background);
+	line-height: 0;
 }
 %InputField-error {
 	border: solid 1px var(--danger-inputBorder);

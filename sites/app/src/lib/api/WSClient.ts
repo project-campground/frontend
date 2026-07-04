@@ -3,7 +3,6 @@ import type { KeyValueEncoded } from 'cbor2/sorts';
 import { stringify } from 'uuid';
 import type HTTPAtprotoClient from './http/HTTPAtprotoClient';
 import type { TypeToPayload } from '$lib/types/ws';
-import { defaultBackendDomain } from '../../../api.config';
 
 type Config = { url: string };
 
@@ -45,6 +44,7 @@ export default class WSClient {
 	private _subscriptions: WSSubscription[];
 	private _client: WebSocket;
 	private _onOpen: Array<() => unknown> = [];
+
 	constructor(config: Config) {
 		this._config = config;
 		this._subscriptions = [];
@@ -63,15 +63,10 @@ export default class WSClient {
 		this._client.onopen = async () => {
 			console.log('WebSocket Open');
 			const serviceAuth = await restClient.getServiceAuth({
-				aud: `did:web:${defaultBackendDomain}`,
+				aud: `did:web:${this._config.url.split('/')[2]}`,
 				lxm: 'gg.campground.websocket.subscribe',
 			});
-			this._client.send(
-				encode({
-					op: 0,
-					payload: serviceAuth.ok ? { serviceAuth: serviceAuth.content.token } : undefined,
-				}),
-			);
+			this.send(0, serviceAuth.ok ? { serviceAuth: serviceAuth.content.token } : undefined);
 			console.log('Sent WebSocket auth frame');
 			setTimeout(() => {
 				this._internalInitOnOpen();
@@ -80,7 +75,7 @@ export default class WSClient {
 	}
 	public initWithoutAuth() {
 		this._client.onopen = () => {
-			this._client.send(encode({ op: 0 }));
+			this.send(0);
 			this._internalInitOnOpen();
 		};
 	}
@@ -99,14 +94,18 @@ export default class WSClient {
 	}
 	private _internalSetCampsite(campsiteId: string | null) {
 		console.log('Set campsite in WS', campsiteId);
-		this._client.send(encode({ op: 1, payload: { t: 'View', campsite: campsiteId || '' } }));
+		this.send(1, { t: 'View', campsite: campsiteId || '' });
 	}
 	public switchCampsite(campsiteId: string) {
-		this._client.send(encode({ op: 1, payload: { t: 'View', campsiteId } }));
+		this.send(1, { t: 'View', campsiteId });
 	}
 	public fetchPermissions() {
-		this._client.send(encode({ op: 1, payload: { t: 'ViewPermissions' } }));
+		this.send(1, { t: 'ViewPermissions' });
 	}
+	private send(op: 0 | 1, payload?: null | undefined | Record<string, any>) {
+		this._client.send(encode({ op, payload }));
+	}
+
 	private async _onMessage(msg: MessageEvent<any>) {
 		const [header, payload] = [
 			...decodeSequence(await (msg.data as Blob).bytes(), { createObject }),

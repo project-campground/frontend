@@ -136,7 +136,7 @@
 	--neutral-softForeHover: var(--foreground-subheading);
 	--neutral-softForeActive: var(--foreground-subtext);
 
-	--neutral-softBack: #{change(map.get($theme-shades, 600), $alpha: div(1, 8))};
-	--neutral-softBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 4))};
-	--neutral-softBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 16))};
+	--neutral-softBack: #{change(map.get($theme-shades, 600), $alpha: div(1, 4))};
+	--neutral-softBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 2))};
+	--neutral-softBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 8))};
 }

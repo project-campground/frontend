@@ -34,6 +34,8 @@
 		background-color: transparent;
 		padding: 0.75rem 1.25rem;
 
+		gap: 1ch;
+
 		color: var(--foreground-subheading);
 		border-radius: var(--radius-sm);
 
@@ -53,7 +55,7 @@
 		}
 		@each $color in $color-types {
 			.color#{capitalize($color)} > & {
-				color: var(--#{$color}-400);
+				color: var(--#{$color}-plainFore);
 				&:not(:disabled) {
 					&:hover {
 						color: var(--#{$color}-plainForeHover);

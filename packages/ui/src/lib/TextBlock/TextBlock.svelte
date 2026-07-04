@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LetterVSmall from '@tabler/icons-svelte/icons/letter-v-small';
 	import { capitalize, toSpacingPx } from '../util/component.ts';
 	import type TextBlockProps from './props.ts';
 
@@ -9,6 +10,7 @@
 		pl,
 		pr,
 		float,
+		level,
 		align,
 		weight,
 		fontSize,
@@ -22,6 +24,7 @@
 		float && `float${capitalize(float)}`,
 		align && `align${capitalize(align)}`,
 		weight && `weight${weight}`,
+		level && `level${capitalize(level)}`,
 		className,
 	]}
 	style:--TextBlock-paddingLeft={toSpacingPx(pl)}
@@ -34,6 +37,8 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 
+	$levels: background, subtext, body, subheading, heading;
+
 	.TextBlock {
 		display: inline-flex;
 		align-items: center;
@@ -42,6 +47,13 @@
 			right: var(--TextBlock-paddingRight);
 		}
 		font-size: var(--TextBlock-fontSize);
+
+		@each $level in $levels {
+			&.level#{capitalize($level)} {
+				color: var(--foreground-#{$level});
+			}
+		}
+
 		&.hideOnMobile {
 			@include tablet-down {
 				display: none;

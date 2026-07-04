@@ -18,6 +18,8 @@ export default interface TextInputProps
 	extends
 		AriaAttributes,
 		Pick<HTMLInputAttributes, 'tabindex' | 'disabled' | 'class' | 'maxlength' | 'placeholder'> {
+	type?: 'text' | 'password' | 'search' | 'email';
+
 	top?: Snippet;
 	bottom?: Snippet;
 	left?: Snippet;

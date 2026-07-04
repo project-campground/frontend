@@ -42,8 +42,9 @@
 
 <script lang="ts">
 	import type { LayoutProps } from './$types';
-	import { BrandLogo, Card, Para, Stack } from '@campground/ui';
+	import { BrandLogo, Button, Card, Group, Link, Para, Stack } from '@campground/ui';
 	import { FormattedMessage } from '@campground/locale';
+	import { IconCaretLeftFilled } from '@tabler/icons-svelte';
 
 	const { children, data }: LayoutProps = $props();
 </script>
@@ -59,6 +60,7 @@
 			class="Auth card"
 			level="subtle"
 			size="xxl"
+			overflow="visible"
 		>
 			<Card.Content
 				class="Auth content"
@@ -69,7 +71,20 @@
 						level="h2"
 						bMargin="md"
 					>
-						<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
+						<Group>
+							{#if data.page}
+								<Link href="/auth">
+									<Button
+										color="neutral"
+										variant="soft"
+										size="xs"
+									>
+										<IconCaretLeftFilled />
+									</Button>
+								</Link>
+							{/if}
+							<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
+						</Group>
 					</Para>
 					<Para>
 						<FormattedMessage {...localeDescriptions[data.page as 'login' | 'register']} />
@@ -82,18 +97,41 @@
 </div>
 
 <style lang="scss">
+	@use '@campground/ui' as *;
+
+	.header {
+		@include tablet-down {
+			display: none;
+		}
+	}
 	.container {
 		display: flex;
 		flex-direction: column;
 		padding: 1rem 2rem;
 		height: 100%;
+		@include tablet-down {
+			padding: 0;
+		}
 	}
 	.body {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		margin-top: calc(-1 * (3.5rem + 3.5rem / 16));
 		flex: 1;
+		@include tablet-down {
+			margin-top: 0;
+		}
+		& > :global(.card) {
+			width: 512px;
+			box-sizing: border-box;
+			@include tablet-down {
+				width: 100%;
+				height: 100%;
+				border-radius: 0;
+			}
+		}
 	}
 </style>

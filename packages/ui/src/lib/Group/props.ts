@@ -8,5 +8,6 @@ export default interface GroupProps extends AriaAttributes {
 	wrap?: boolean;
 	withMobile?: boolean;
 	mobileReversed?: boolean;
+	reversed?: boolean;
 	gap?: number;
 }

@@ -6,6 +6,7 @@
 	import { writable } from 'svelte/store';
 	import type { IntlShape } from '@formatjs/svelte-intl';
 	import { Session, setSession } from '$lib/api/session/Session.svelte';
+	import { onMount } from 'svelte';
 
 	const { children }: LayoutProps = $props();
 
@@ -26,6 +27,8 @@
 
 	setLocaleContext(localeWritable);
 	setSession(session);
+
+	onMount(async () => session.preferences.init());
 </script>
 
 <Main>

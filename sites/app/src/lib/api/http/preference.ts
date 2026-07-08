@@ -1,11 +1,11 @@
-import type { BlueskyPreference, CampgroundPreference } from 'types/bluesky/preferences';
+import type { BlueskyPreference, CampgroundPreference } from '$lib/types/bluesky/preferences';
 import HTTPAtprotoObjectManager from './base-atproto';
 
 export default class HTTPPreferenceManager extends HTTPAtprotoObjectManager {
 	public get() {
 		if (!this.client.actorDid) throw new Error('Operation not allowed while unauthenticated');
 
-		return this.client.get<{ preferences: Array<CampgroundPreference | BlueskyPreference> }>({
+		return this.client.get<{ preferences: Array<CampgroundPreference | BlueskyPreference> } | null>({
 			route: `app.bsky.actor.getPreferences`,
 		});
 	}
@@ -26,9 +26,9 @@ export default class HTTPPreferenceManager extends HTTPAtprotoObjectManager {
 			);
 
 		const newPreferencesTypes = newPreferences.map((x) => x.$type);
-		const filtered = previousPreferences.content.preferences.filter(
-			(x) => !newPreferencesTypes.includes(x.$type),
-		);
+		const filtered =
+			previousPreferences.content?.preferences.filter((x) => !newPreferencesTypes.includes(x.$type))
+			?? [];
 
 		return this.put(filtered.concat(newPreferences));
 	}
@@ -45,9 +45,8 @@ export default class HTTPPreferenceManager extends HTTPAtprotoObjectManager {
 				`Error while fetching previous preferences: ${previousPreferences.status} ${previousPreferences.errorHeader}: ${previousPreferences.errorDescription}`,
 			);
 
-		const filtered = previousPreferences.content.preferences.filter(
-			(x) => !preferenceTypes.includes(x.$type),
-		);
+		const filtered =
+			previousPreferences.content?.preferences.filter((x) => !preferenceTypes.includes(x.$type)) ?? [];
 
 		return this.put(filtered);
 	}

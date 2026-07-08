@@ -70,9 +70,10 @@ export default class PreferenceManager {
 					`Error while fetching preferences for the user: ${resp.status} ${resp.errorHeader} ${resp.errorDescription}`,
 				);
 
-			const preference = resp.content.preferences.filter((x) =>
-				x.$type.startsWith(PreferenceManager.CAMPGROUND_PREFERENCE_PREFIX),
-			) as CampgroundPreference[];
+			const preference =
+				resp.content?.preferences.filter((x) =>
+					x.$type.startsWith(PreferenceManager.CAMPGROUND_PREFERENCE_PREFIX),
+				) ?? ([] as CampgroundPreference[]);
 			const preferenceEntries = preference.map(({ $type, ...pref }) => [
 				$type.split('#')[1].split(':').slice(-1)[0].slice(0, -'Pref'.length),
 				pref,
@@ -81,6 +82,7 @@ export default class PreferenceManager {
 			this.global = Object.fromEntries(preferenceEntries);
 
 			this.loaded = true;
+
 			return this.finalizeInit();
 		});
 	}

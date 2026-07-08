@@ -26,9 +26,9 @@
 	@use 'sass:list';
 	@use '../index.scss' as *;
 	$avatar-sizes:
-		2rem 0.5rem,
-		2.5rem 0.75rem,
-		3.5rem 1rem,
+		2rem 0.75rem,
+		2.5rem 1rem,
+		3.5rem 1.25rem,
 		5rem 1.75rem,
 		7rem 2.75rem;
 	$avatar-size-map: create-size-map($avatar-sizes);
@@ -44,7 +44,7 @@
 		@include size(var(--Avatar-size));
 		background-color: var(--neutral-solidBack);
 
-		font-weight: 900;
+		font-weight: 700;
 		font-family: var(--font-display);
 
 		&.image {

@@ -20,27 +20,45 @@
 
 <script>
 	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
-	import { Card, Group, Stack } from '@campground/ui';
-	import { IconPlus, IconUserPlus } from '@tabler/icons-svelte';
+	import { Card, Group, Section, Stack } from '@campground/ui';
+	import { IconPlus, IconUserFilled, IconUserPlus } from '@tabler/icons-svelte';
+	import { getSession } from '$lib/api/session/Session.svelte';
+
+	const session = getSession();
 </script>
 
-<Stack>
-	<Card.Root>
-		<Card.Content>
-			<Group gap={1}>
-				<IconPlus />
-				<FormattedMessage {...localeMessages.login} />
-			</Group>
-		</Card.Content>
-		<Card.Link href="/auth/login" />
-	</Card.Root>
-	<Card.Root>
-		<Card.Content>
-			<Group gap={1}>
-				<IconUserPlus />
-				<FormattedMessage {...localeMessages.register} />
-			</Group>
-		</Card.Content>
-		<Card.Link href="/auth/register" />
-	</Card.Root>
+<Stack gap={2}>
+	<Section gap="sm">
+		{#each session.savedAuth as savedAuth}
+			<Card.Root>
+				<Card.Content>
+					<Group gap={1}>
+						<IconUserFilled />
+						{savedAuth.handle}
+					</Group>
+				</Card.Content>
+				<Card.Link href={`/auth/login?identifier=${savedAuth.handle}&server=${savedAuth.server}`} />
+			</Card.Root>
+		{/each}
+	</Section>
+	<Section gap="sm">
+		<Card.Root>
+			<Card.Content>
+				<Group gap={1}>
+					<IconPlus />
+					<FormattedMessage {...localeMessages.login} />
+				</Group>
+			</Card.Content>
+			<Card.Link href="/auth/login" />
+		</Card.Root>
+		<Card.Root>
+			<Card.Content>
+				<Group gap={1}>
+					<IconUserPlus />
+					<FormattedMessage {...localeMessages.register} />
+				</Group>
+			</Card.Content>
+			<Card.Link href="/auth/register" />
+		</Card.Root>
+	</Section>
 </Stack>

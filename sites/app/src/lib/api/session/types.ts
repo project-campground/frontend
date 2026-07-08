@@ -15,7 +15,8 @@ export interface AuthCredentials {
 }
 export interface SavedAuth {
 	server: string;
-	identifier: string;
+	email: string;
+	handle: string;
 
 	accessJwt?: string;
 	refreshJwt?: string;

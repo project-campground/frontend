@@ -35,9 +35,10 @@
 		type FormProps,
 	} from '@campground/form';
 	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
-	import { Svg, Group, Section, Select, TextBlock, Accordion } from '@campground/ui';
+	import { Svg, Group, Section, Select, TextBlock, Accordion, Alert } from '@campground/ui';
 	import { defaultPds, knownPds } from '../../../lib/api/api.config';
-	import { IconWorldFilled } from '@tabler/icons-svelte';
+	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
+	import { getSession } from '$lib/api/session/Session.svelte';
 
 	const domain = defaultPds.split('/')[2];
 	const domainNoPort = domain.split(':')[0];
@@ -45,13 +46,33 @@
 
 	const intl = getLocaleContext();
 
-	const onSubmit: FormProps['onSubmit'] = async (values) => console.log('Login', values);
+	const session = getSession();
+
+	let error: Error | null = $state(null);
+
+	const onSubmit: FormProps['onSubmit'] = async (fields: Record<string, any>) => {
+		const { pds, save, ...details } = fields as {
+			identifier: string;
+			password: string;
+			pds: string;
+			save: Array<'confirm'>;
+		};
+		const saveDetails = save.length > 0;
+
+		return await session
+			.login(details, saveDetails, pds)
+			.then(() => navigation.navigate('/'))
+			.catch((err) => (error = err as Error));
+	};
+
+	const queryValues = $derived(new URLSearchParams(window.location.search));
 </script>
 
 <Form {onSubmit}>
 	<Section>
 		<FormControl
 			id="identifier"
+			defaultValue={queryValues.get('identifier') ?? ''}
 			required
 		>
 			<FormLabel>
@@ -62,7 +83,7 @@
 				placeholder={`example_handle.${handleDomain}`}
 				format={{
 					regex:
-						/^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
+						/^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|([A-Za-z0-9_+-]{3,}[.])+([A-Za-z0-9_+-]{2,}))$/,
 					errorMessage: $intl.formatMessage(messages.expectedIdentifier),
 				}}
 			/>
@@ -97,7 +118,7 @@
 		{/snippet}
 		<FormControl
 			id="pds"
-			defaultValue={defaultPds}
+			defaultValue={queryValues.get('server') ?? defaultPds}
 			required
 		>
 			<FormTextField
@@ -131,5 +152,13 @@
 		<Group reversed>
 			<FormSubmit />
 		</Group>
+		{#if error}
+			<Alert color="danger">
+				{#snippet icon()}
+					<IconXFilled />
+				{/snippet}
+				{error}
+			</Alert>
+		{/if}
 	</Section>
 </Form>

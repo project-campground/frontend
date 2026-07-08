@@ -5,13 +5,17 @@
 	import { localeManagerStore } from '$lib/locale';
 	import { writable } from 'svelte/store';
 	import type { IntlShape } from '@formatjs/svelte-intl';
+	import { Session, setSession } from '$lib/api/session/Session.svelte';
 
 	const { children }: LayoutProps = $props();
 
 	const localeWritable = writable<IntlShape<DefaultMessageSegment>>();
 
+	const session = new Session();
+
 	localeManagerStore.subscribe((localeFetcher) => {
 		localeWritable.set(localeFetcher.createDefaultLocale());
+
 		localeFetcher
 			.fetchLocale('en-US')
 			.then(localeWritable.set)
@@ -21,6 +25,7 @@
 	});
 
 	setLocaleContext(localeWritable);
+	setSession(session);
 </script>
 
 <Main>

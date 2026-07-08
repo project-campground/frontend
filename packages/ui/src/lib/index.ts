@@ -34,4 +34,5 @@ export { theme, type Theme } from './theme/index.ts';
 export type * from './types/attributes.ts';
 export * from './util/component.ts';
 export * from './util/sample.ts';
+export * from './util/state.svelte.ts';
 export * from './contexts/outside.svelte.ts';

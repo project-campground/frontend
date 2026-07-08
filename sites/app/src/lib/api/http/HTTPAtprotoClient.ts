@@ -1,19 +1,23 @@
-import { defaultXrpcPrefix, defaultAppApiUrl } from 'api.config';
+import { defaultXrpcPrefix, defaultPds } from '../api.config';
 import type {
 	HttpResponseError,
 	HttpResponseOkWithContent,
 	HttpResponseWithContent,
 } from './HTTPResponse';
 import type { HTTPRefreshLogin } from './HTTPErrorHandler';
-import type { SessionAuthRefresh, SessionBasic } from '~/context/session/types';
-import type { AtprotoRecord, GetRecordListResponse, PutRecordResponse } from 'types/atproto/record';
+import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '$lib/api/session/types';
+import type {
+	AtprotoRecord,
+	GetRecordListResponse,
+	PutRecordResponse,
+} from '$lib/types/atproto/record';
 import HTTPPreferenceManager from './preference';
-import type { GetSession } from 'types/atproto/session';
+import type { GetSession } from '$lib/types/atproto/session';
 import HTTPAccountManager from './account';
-import type { DescribedServer } from 'types/atproto/server';
+import type { DescribedServer } from '$lib/types/atproto/server';
 import HTTPProfilePostRecordManager from './profilePostRecord';
 import HTTPBackendClient from './HTTPBackendClient';
-import type { CampsiteViewBasic, CreateCampsiteOutput } from 'types/campground/campsites';
+import type { CampsiteViewBasic, CreateCampsiteOutput } from '$lib/types/campground/campsites';
 import HTTPProfileRecordManager from './profileRecord';
 import HTTPInviteGlobalManager from './inviteGlobal';
 
@@ -43,7 +47,7 @@ export interface RequestConfig {
 
 export default class HTTPAtprotoClient {
 	private static _default: HTTPConfig = {
-		url: defaultAppApiUrl,
+		url: defaultPds,
 		routePrefix: defaultXrpcPrefix,
 		// auth: `...`,
 		// refreshAuth: `...`,
@@ -83,7 +87,7 @@ export default class HTTPAtprotoClient {
 		auth: { identifier: string; password: string },
 		requestConfig: Partial<RequestPrefixed> = {},
 	) {
-		return HTTPAtprotoClient.atprotoFetch({
+		return HTTPAtprotoClient.atprotoFetch<SessionAuthUser>({
 			method: 'POST',
 			route: 'com.atproto.server.createSession',
 			body: { ...auth, allowTakenDown: true },

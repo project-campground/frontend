@@ -10,6 +10,11 @@
 			defaultMessage: `Remember your account locally?`,
 			description: `Checkbox to remember account of the user in their local account list.`,
 		},
+		expectedInvite: {
+			id: `info.inviteCode.error`,
+			defaultMessage: `Expected a PDS invite code`,
+			description: `Error when the submitted PDS invite code has bad formatting`,
+		},
 		expectedHandle: {
 			id: `info.handle.error`,
 			defaultMessage: `Expected a user handle`,
@@ -54,22 +59,92 @@
 		type FormProps,
 	} from '@campground/form';
 	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
-	import { Svg, Group, Section, Select, TextBlock, Accordion, Para, Alert } from '@campground/ui';
+	import {
+		Svg,
+		Group,
+		Section,
+		Select,
+		TextBlock,
+		Accordion,
+		Alert,
+		DebouncedValue,
+		Para,
+	} from '@campground/ui';
 	import { defaultPds, knownPds } from '../../../lib/api/api.config';
-	import { IconInfoCircleFilled, IconWorldFilled } from '@tabler/icons-svelte';
-
-	const domain = defaultPds.split('/')[2];
-	const domainNoPort = domain.split(':')[0];
-	const handleDomain = domainNoPort === 'localhost' ? 'test' : domainNoPort;
+	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
+	import { getSession } from '$lib/api/session/Session.svelte';
+	import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient';
+	import type {
+		HttpResponseOkWithContent,
+		HttpResponseWithContent,
+	} from '$lib/api/http/HTTPResponse';
+	import type { DescribedServer } from '$lib/types/atproto/server';
 
 	let passwordToConfirm = $state('');
 
 	const intl = getLocaleContext();
+	let error: Error | null = $state(null);
 
-	const onSubmit: FormProps['onSubmit'] = async (values) => console.log('Register', values);
+	const session = getSession();
+
+	let pdsValue: string = $state(defaultPds);
+
+	let describedServer = new DebouncedValue<HttpResponseWithContent<DescribedServer> | Error, string>(
+		new Error('Not done fetching the PDS'),
+		1000,
+		(pdsValue) => HTTPAtprotoClient.describeServer({ url: pdsValue }).catch((err) => err as Error),
+	);
+
+	$effect(() => describedServer.derived(pdsValue));
+
+	const onSubmit: FormProps['onSubmit'] = async (fields: Record<string, any>) => {
+		const {
+			pds,
+			confirmPassword: _,
+			handle,
+			...details
+		} = fields as {
+			handle: string;
+			email: string;
+			password: string;
+			confirmPassword: string;
+			pds: string;
+		};
+		const description = (describedServer.value as HttpResponseOkWithContent<DescribedServer>).content;
+		const result = await HTTPAtprotoClient.register(
+			{ handle: handle + description.availableUserDomains[0], ...details },
+			{ url: pds },
+		);
+
+		if (!result.ok)
+			return (error = new Error(`${result.errorHeader ?? result.status}: ${result.errorDescription}`));
+
+		session.saveAccount({ handle: result.content.handle, email: details.email, server: pds });
+
+		return navigation.navigate('/auth');
+	};
 </script>
 
 <Form {onSubmit}>
+	{#if !(describedServer instanceof Error) && (describedServer.value as HttpResponseWithContent<DescribedServer>).ok && (describedServer.value as HttpResponseOkWithContent<DescribedServer>).content.inviteCodeRequired}
+		<Section>
+			<FormControl
+				id="inviteCode"
+				required
+			>
+				<FormLabel>
+					<FormattedMessageGlobal id="info.inviteCode" />
+				</FormLabel>
+				<FormTextField
+					format={{
+						regex: /^[A-Za-z0-9]+([-][A-Za-z0-9]+)+$/,
+						errorMessage: $intl.formatMessage(messages.expectedInvite),
+					}}
+				/>
+				<FormErrorLabel></FormErrorLabel>
+			</FormControl>
+		</Section>
+	{/if}
 	<Section>
 		<FormControl
 			id="handle"
@@ -81,14 +156,17 @@
 			<FormTextField
 				placeholder={`example_handle`}
 				format={{
-					regex: /^[A-Za-z0-9_+-]+$/,
+					regex: /^[A-Za-z0-9_+-]{3,}$/,
 					errorMessage: $intl.formatMessage(messages.expectedHandle),
 				}}
 			>
 				{#snippet right()}
-					<TextBlock level="body">
-						.{handleDomain}
-					</TextBlock>
+					{#if !(describedServer instanceof Error) && (describedServer.value as HttpResponseWithContent<DescribedServer>).ok}
+						<TextBlock level="body">
+							{(describedServer.value as HttpResponseWithContent<DescribedServer>).content
+								?.availableUserDomains[0]}
+						</TextBlock>
+					{/if}
 				{/snippet}
 			</FormTextField>
 			<FormErrorLabel></FormErrorLabel>
@@ -105,7 +183,7 @@
 				placeholder={`example@example.com`}
 				format={{
 					regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-					errorMessage: $intl.formatMessage(messages.expectedHandle),
+					errorMessage: $intl.formatMessage(messages.expectedEmail),
 				}}
 			/>
 			<FormErrorLabel></FormErrorLabel>
@@ -150,6 +228,7 @@
 		{/snippet}
 		<FormControl
 			id="pds"
+			bind:value={pdsValue}
 			defaultValue={defaultPds}
 			required
 		>
@@ -178,6 +257,17 @@
 				{/snippet}
 			</FormTextField>
 			<FormErrorLabel></FormErrorLabel>
+			<!-- Allow users to know if there was error fetching the PDS describe server or whatever -->
+			{#if describedServer.value instanceof Error}
+				<Para color="danger">
+					{describedServer.value.message}
+				</Para>
+			{:else if !describedServer.value.ok}
+				<Para color="danger">
+					{describedServer.value.errorHeader ?? describedServer.value.status}: {describedServer.value
+						.errorDescription}
+				</Para>
+			{/if}
 			<Alert color="info">
 				{#snippet icon()}
 					<IconInfoCircleFilled />
@@ -188,7 +278,18 @@
 	</Accordion>
 	<Section>
 		<Group reversed>
-			<FormSubmit />
+			<FormSubmit
+				disabled={describedServer.value instanceof Error
+					|| !(describedServer.value as HttpResponseWithContent<DescribedServer>).ok}
+			/>
 		</Group>
+		{#if error}
+			<Alert color="danger">
+				{#snippet icon()}
+					<IconXFilled />
+				{/snippet}
+				{error}
+			</Alert>
+		{/if}
 	</Section>
 </Form>

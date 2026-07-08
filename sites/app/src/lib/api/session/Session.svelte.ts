@@ -8,6 +8,7 @@ import type {
 	SessionAuth,
 	SessionAuthed,
 	SessionAuthRefresh,
+	SessionAuthUser,
 } from './types';
 
 const sessionStorageKey = 'session';
@@ -46,12 +47,20 @@ export class Session {
 		),
 	);
 
-	public async login(details: AuthCredentials, server?: string): Promise<void> {
+	public async login(
+		details: AuthCredentials,
+		save: boolean,
+		server: string,
+	): Promise<SessionAuthUser> {
 		const data = await HTTPAtprotoClient.login(details);
 
-		if (data.ok) {
-			this.auth = { authenticated: true, server: server ?? defaultPds, user: data.content };
-		} else throw new Error(data.errorDescription);
+		if (!data.ok) throw new Error(`${data.errorHeader ?? data.status}: ${data.errorDescription}`);
+		else if (save)
+			this.saveAccount({ handle: data.content.handle, email: data.content.email, server });
+
+		this.setAuth({ authenticated: true, server: server ?? defaultPds, user: data.content });
+
+		return data.content;
 	}
 
 	public logout(): void {
@@ -71,12 +80,14 @@ export class Session {
 	public saveAccount(details: SavedAuth) {
 		this.modifySavedAuths([
 			details,
-			...this.savedAuth.filter((x) => x.identifier !== details.identifier),
+			...this.savedAuth.filter((x) => x.handle !== details.handle && x.email !== details.email),
 		]);
 	}
 
-	public removeSavedAccount(identifier: string) {
-		this.modifySavedAuths(this.savedAuth.filter((x) => x.identifier === identifier));
+	public removeSavedAccount(details: Partial<Pick<SavedAuth, 'email' | 'handle'>>) {
+		this.modifySavedAuths(
+			this.savedAuth.filter((x) => x.handle !== details.handle && x.email !== details.email),
+		);
 	}
 }
 

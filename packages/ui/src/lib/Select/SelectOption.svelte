@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { OptionProps } from './props.ts';
 	import MenuItem from '$lib/Menu/MenuItem.svelte';
-	import { getSelect } from './context.svelte.ts';
+	import { getOnSelect } from './context.svelte.ts';
 
-	const selectInstance = getSelect();
+	const onSelect = getOnSelect();
 	let { value, class: className, ...attributes }: OptionProps = $props();
 </script>
 
 <MenuItem
 	class={[`Select SelectOption`, className]}
-	onclick={(ev) => (ev.stopPropagation(), selectInstance.setValue(value, ev))}
+	onclick={(ev) => onSelect(value, ev)}
 	{...attributes}
 />

@@ -12,9 +12,9 @@
 		type ComponentColor,
 		type ComponentSize,
 		type GradientMotion,
+		Svg,
 	} from '$lib/index.js';
 	import type { ParaLevel } from '$lib/Para/props.js';
-	import IconLogo from '$lib/svg/IconLogo.svelte';
 
 	const gradientMotions: GradientMotion[] = ['none', 'linear', 'wave', 'radial'];
 	const gradientTextMaxColors = [
@@ -32,7 +32,7 @@
 </script>
 
 {#snippet icon()}
-	<IconLogo size={2} />
+	<Svg.Logo size={2} />
 {/snippet}
 
 <Section headerLevel={1}>

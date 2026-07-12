@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { capitalize } from '$lib/util/component.js';
-	import type { MenuItemProps } from './props.ts';
+	import type { ItemProps } from './props.ts';
 
-	const { children, class: className, color, onclick, ...attributes }: MenuItemProps = $props();
+	const { children, class: className, color, onclick, ...attributes }: ItemProps = $props();
 </script>
 
 <li

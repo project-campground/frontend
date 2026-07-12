@@ -3,7 +3,9 @@
 	import { IconCaretDownFilled } from '@tabler/icons-svelte';
 	import type { ButtonProps } from './props.ts';
 	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
-	import { SelectInstance, setSelect } from './context.svelte.ts';
+	import { getMenuPortal, MenuPortalInstance } from '$lib/MenuPortalContainer/portals.svelte.js';
+	import SelectMenu from './SelectMenu.svelte';
+	import { onMount } from 'svelte';
 
 	let {
 		size,
@@ -15,31 +17,51 @@
 		...attributes
 	}: ButtonProps = $props();
 
-	const selectInstance = new SelectInstance(
-		(newValue, mouseEvent) => ((value = newValue), ($outsideClick = mouseEvent)),
-	);
+	const menuPortal = getMenuPortal();
+
 	const outsideClick = getOutsideClickBoundary();
 
 	function toggleMenu(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		// Prevent click-away
 		ev.stopPropagation();
 
-		const wasOpen = selectInstance.isOpen;
+		const wasOpen = !!instance;
 		// Close other selects whenever it's toggled
 		$outsideClick = ev;
 
-		if (!wasOpen) return (selectInstance.isOpen = true);
+		if (!wasOpen) return (instance = menuPortal.add(_internalMenu, button!));
 	}
-	outsideClick.subscribe(() => {
-		selectInstance.isOpen = false;
+	onMount(() =>
+		outsideClick.subscribe(() => {
+			if (instance) menuPortal.remove(instance);
+			instance = null;
+		}),
+	);
+	// When it's destroyed
+	$effect(() => {
+		if (instance && !menuPortal.includes(instance)) instance = null;
 	});
-	setSelect(selectInstance);
+
+	let button: HTMLElement | null = $state(null);
+	let instance: MenuPortalInstance | null = $state(null);
 </script>
 
+{#snippet _internalMenu(menu: MenuPortalInstance)}
+	<SelectMenu
+		onSelect={(newValue) => (value = newValue)}
+		instance={menu}
+	>
+		<Menu.List>
+			{@render children()}
+		</Menu.List>
+	</SelectMenu>
+{/snippet}
+
 <button
+	bind:this={button}
 	class={[
 		'Select SelectButton container',
-		{ isOpen: selectInstance.isOpen },
+		{ isOpen: menuPortal.includes(instance!) },
 		`size${capitalize(size ?? 'md')}`,
 		className,
 	]}
@@ -58,11 +80,6 @@
 	>
 		<IconCaretDownFilled size={12} />
 	</span>
-	<div class="Select SelectButton menuWrapper">
-		<Menu.List>
-			{@render children()}
-		</Menu.List>
-	</div>
 </button>
 
 <style lang="scss">
@@ -89,15 +106,6 @@
 		&.isOpen:not(:disabled) {
 			@extend %InputField-focused;
 		}
-	}
-	.container:not(.isOpen) > .menuWrapper {
-		display: none;
-	}
-	.menuWrapper {
-		position: absolute;
-		top: calc(100% + 0.5rem);
-		left: 0;
-		right: 0;
 	}
 	.caret {
 		color: var(--foreground-body);

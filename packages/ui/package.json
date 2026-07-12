@@ -52,6 +52,7 @@
 		}
 	},
 	"dependencies": {
+		"@floating-ui/dom": "^1.8.0",
 		"@tabler/icons-svelte": "^3.42.0",
 		"@tsconfig/svelte": "^5.0.8",
 		"uuid": "^14.0.0"

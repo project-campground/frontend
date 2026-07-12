@@ -10,6 +10,7 @@
 	import TestForm from '$lib/test/TestForm.svelte';
 	import TestInfo from '$lib/test/TestInfo.svelte';
 	import Stack from '$lib/Stack/Stack.svelte';
+	import TestFloating from '$lib/test/TestFloating.svelte';
 
 	let lightTheme: boolean = $state(false);
 
@@ -50,6 +51,9 @@
 					<TextBlock>Info and Hierarchy</TextBlock>
 				</Tabs.Item>
 				<Tabs.Item>
+					<TextBlock>Floating: Menus, Modals, Tooltips</TextBlock>
+				</Tabs.Item>
+				<Tabs.Item>
 					<TextBlock>Form and Input</TextBlock>
 				</Tabs.Item>
 			{/snippet}
@@ -59,10 +63,16 @@
 					<TestVisual />
 				</Stack>
 			</Tabs.Tab>
-			<!-- Info & Hierarchy -->
+			<!-- Floating -->
 			<Tabs.Tab>
 				<Stack gap={3}>
 					<TestInfo />
+				</Stack>
+			</Tabs.Tab>
+			<!-- Info & Hierarchy -->
+			<Tabs.Tab>
+				<Stack gap={3}>
+					<TestFloating />
 				</Stack>
 			</Tabs.Tab>
 			<!-- Form & Input -->

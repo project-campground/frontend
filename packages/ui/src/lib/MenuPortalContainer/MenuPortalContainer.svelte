@@ -30,6 +30,7 @@
 		height: 100%;
 		pointer-events: none;
 		overflow: hidden;
+		z-index: 1500;
 		& > :global(*) {
 			pointer-events: all;
 		}

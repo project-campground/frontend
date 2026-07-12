@@ -1,15 +1,9 @@
 import { createContext } from 'svelte';
 import type { SelectValue } from './props.ts';
 
-export class SelectInstance {
-	public isOpen = $state(false);
+export type OnSelect<T> = (
+	newValue: T,
+	mouseEvent: MouseEvent & { currentTarget: HTMLElement },
+) => unknown;
 
-	constructor(
-		public setValue: (
-			newValue: SelectValue | null,
-			mouseEvent: MouseEvent & { currentTarget: HTMLElement },
-		) => unknown,
-	) {}
-}
-
-export const [getSelect, setSelect] = createContext<SelectInstance>();
+export const [getOnSelect, setOnSelect] = createContext<OnSelect<SelectValue>>();

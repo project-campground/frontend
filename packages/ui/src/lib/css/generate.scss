@@ -91,6 +91,10 @@
 	--foreground-subtext: #{map.get($theme-shades, 300)};
 	--foreground-background: #{map.get($theme-shades, 400)};
 
+	--background-overlay: #{change(
+			map.get($theme-shades, $component-color + ($mode-subtraction * 2)),
+			$alpha: div(1, 2)
+		)};
 	--background-body: #{map.get($theme-shades, $component-color + ($mode-subtraction * 2))};
 	--background-subtle: #{map.get($theme-shades, $component-color + ($mode-subtraction * 1))};
 	--background-content: #{map.get($theme-shades, $component-color)};

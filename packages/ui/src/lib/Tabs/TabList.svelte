@@ -5,6 +5,12 @@
 	const { children }: ListProps = $props();
 
 	const tabContext = getTabsContext();
+
+	// Make the first one automatically checked
+	$effect(() => {
+		if (tabContext.tabItemsForm)
+			(tabContext.tabItemsForm.items as RadioNodeList).item(0).checked = true;
+	});
 </script>
 
 <div

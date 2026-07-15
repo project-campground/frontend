@@ -1,3 +1,3 @@
-import type { SessionAuthRefresh } from '~/context/session/types';
+import type { SessionAuthRefresh } from '../session/types';
 
 export type HTTPRefreshLogin = (refresh: SessionAuthRefresh) => void;

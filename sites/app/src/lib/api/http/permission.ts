@@ -1,5 +1,5 @@
-import type { GetPermissionsOutput } from 'types/campground/permissions';
-import type { CampsitePermissionView } from 'types/campground/permissions';
+import type { GetPermissionsOutput } from '$lib/types/campground/permissions';
+import type { CampsitePermissionView } from '$lib/types/campground/permissions';
 import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPPermissionManager extends HTTPBackendObjectManager {

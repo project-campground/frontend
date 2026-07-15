@@ -1,9 +1,4 @@
 import { defaultXrpcPrefix, defaultPds } from '../api.config';
-import type {
-	HttpResponseError,
-	HttpResponseOkWithContent,
-	HttpResponseWithContent,
-} from './HTTPResponse';
 import type { HTTPRefreshLogin } from './HTTPErrorHandler';
 import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '$lib/api/session/types';
 import type {
@@ -20,6 +15,7 @@ import HTTPBackendClient from './HTTPBackendClient';
 import type { CampsiteViewBasic, CreateCampsiteOutput } from '$lib/types/campground/campsites';
 import HTTPProfileRecordManager from './profileRecord';
 import HTTPInviteGlobalManager from './inviteGlobal';
+import XrpcError from '../XrpcError';
 
 type HTTPMethodXRPC = 'GET' | 'POST';
 type HTTPMethod = HTTPMethodXRPC | 'DELETE' | 'OPTION' | 'HEAD' | 'PUT' | 'PATCH';
@@ -139,7 +135,7 @@ export default class HTTPAtprotoClient {
 
 	public static async atprotoFetch<T = any | null>(
 		config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit },
-	): Promise<HttpResponseWithContent<T>> {
+	): Promise<T> {
 		const { url, queries, routePrefix, route, method, body, request, mode, headers } = {
 			...this._default,
 			...config,
@@ -161,24 +157,9 @@ export default class HTTPAtprotoClient {
 		const responseBodyRaw = response.body ? await response.text() : null;
 		const responseBody = responseBodyRaw ? JSON.parse(responseBodyRaw) : null;
 
-		if (!response.ok)
-			return {
-				ok: false,
-				url: response.url,
-				status: response.status,
-				content: undefined,
-				errorHeader: responseBody?.message ? responseBody.error : null,
-				errorDescription: responseBody?.message ?? responseBody?.error ?? 'Unknown error',
-			} satisfies HttpResponseError;
-		else
-			return {
-				ok: true,
-				url: response.url,
-				status: response.status,
-				content: responseBody as T,
-				errorHeader: undefined,
-				errorDescription: undefined,
-			} satisfies HttpResponseOkWithContent<T>;
+		if (!response.ok) throw new XrpcError(response, responseBody);
+
+		return responseBody as T;
 	}
 
 	public async refreshSession(requestConfig: Partial<RequestPrefixed> = {}) {
@@ -188,11 +169,14 @@ export default class HTTPAtprotoClient {
 			headers: { Authorization: `Bearer ${this._config.refreshAuth}` },
 			...requestConfig,
 		});
-		if (!resp.ok) return resp;
-		this._onRefreshLogin?.(resp.content!);
-		// Change in HTTP as well
-		this._config.auth = resp.content?.accessJwt ?? this._config.auth;
-		this._config.refreshAuth = resp.content?.refreshJwt ?? this._config.refreshAuth;
+
+		// Any custom handling
+		this._onRefreshLogin?.(resp);
+
+		// Change in Atproto client as well
+		this._config.auth = resp.accessJwt ?? this._config.auth;
+		this._config.refreshAuth = resp.refreshJwt ?? this._config.refreshAuth;
+
 		return resp;
 	}
 
@@ -222,19 +206,18 @@ export default class HTTPAtprotoClient {
 		console.log('Expired', this.authExpired);
 		const token =
 			this.authExpired ?
-				await this.refreshSession().then((refresh) =>
-					refresh.ok ? refresh.content!.accessJwt : this._config.auth,
-				)
+				await this.refreshSession()
+					.then((refresh) => refresh.accessJwt)
+					.catch(() => this._config.auth)
 			:	this._config.auth;
 
-		const resp = await doFetch(token);
-		if (!resp.ok && resp.errorHeader === 'ExpiredToken') {
+		return await doFetch(token).catch(async (e) => {
+			if (!(e instanceof XrpcError) || e.code !== 'ExpiredToken') throw e;
+
 			console.log('Expired token', this.authExpired);
-			return this.refreshSession().then((refresh) =>
-				refresh.ok ? doFetch(refresh.content!.accessJwt) : refresh,
-			);
-		}
-		return resp;
+
+			return this.refreshSession().then(async (refresh) => doFetch(refresh!.accessJwt));
+		});
 	}
 
 	public fetch<T>(request: RequestConfig) {
@@ -320,14 +303,7 @@ export default class HTTPAtprotoClient {
 		return this.fetchProxied<{ campsites: CampsiteViewBasic[] }>(domain, {
 			method: 'GET',
 			route: `gg.campground.campsite.getActorCampsites`,
-		}).then((resp) =>
-			resp.ok ?
-				({ ...resp, content: { ...resp.content, domain } } as HttpResponseOkWithContent<{
-					campsites: CampsiteViewBasic[];
-					domain: string;
-				}>)
-			:	resp,
-		);
+		}).then((resp) => ({ ...resp, domain }) as { campsites: CampsiteViewBasic[]; domain: string });
 	}
 	public createCampsiteInBackend(
 		domain: string,

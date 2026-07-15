@@ -1,5 +1,5 @@
-import type { GetRolesOutput } from 'types/campground/roles';
-import type { RoleView } from 'types/campground/roles';
+import type { GetRolesOutput } from '$lib/types/campground/roles';
+import type { RoleView } from '$lib/types/campground/roles';
 import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPRoleManager extends HTTPBackendObjectManager {

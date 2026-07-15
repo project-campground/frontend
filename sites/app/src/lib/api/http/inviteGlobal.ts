@@ -1,4 +1,4 @@
-import type { CampsiteInviteViewDetailed } from 'types/campground/invites';
+import type { CampsiteInviteViewDetailed } from '$lib/types/campground/invites';
 import HTTPAtprotoObjectManager from './base-atproto';
 
 export default class HTTPInviteGlobalManager extends HTTPAtprotoObjectManager {

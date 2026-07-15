@@ -1,5 +1,5 @@
-import type { GetTentsOutput, TentViewDetailed } from 'types/campground/tent';
-import type { MessageViewBasic } from 'types/campground/content';
+import type { GetTentsOutput, TentViewDetailed } from '$lib/types/campground/tent';
+import type { MessageViewBasic } from '$lib/types/campground/content';
 import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPTentManager extends HTTPBackendObjectManager {

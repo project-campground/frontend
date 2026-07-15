@@ -62,12 +62,27 @@ export default class WSClient {
 	public initWithAuth(restClient: HTTPAtprotoClient) {
 		this._client.onopen = async () => {
 			console.log('WebSocket Open');
-			const serviceAuth = await restClient.getServiceAuth({
-				aud: `did:web:${this._config.url.split('/')[2]}`,
-				lxm: 'gg.campground.websocket.subscribe',
-			});
-			this.send(0, serviceAuth.ok ? { serviceAuth: serviceAuth.content.token } : undefined);
+			// Used for backends to know it's legitimate authentication
+			const serviceAuth = await restClient
+				.getServiceAuth({
+					aud: `did:web:${this._config.url.split('/')[2]}`,
+					lxm: 'gg.campground.websocket.subscribe',
+				})
+				.then((resp) => ({ serviceAuth: resp.token }))
+				.catch(
+					(err) => (
+						console.warn(
+							'Could not get service auth for WebSocket. Using unauthenticated WebSocket',
+							err,
+						),
+						undefined
+					),
+				);
+
+			this.send(0, serviceAuth);
+
 			console.log('Sent WebSocket auth frame');
+
 			setTimeout(() => {
 				this._internalInitOnOpen();
 			}, 300);
@@ -84,9 +99,11 @@ export default class WSClient {
 		for (const onOpen of this._onOpen) onOpen();
 	}
 	public setCampsite(campsiteId: string | null) {
+		// Make sure it's set even if it hasn't initialized
 		if (this._client.readyState !== this._client.OPEN)
 			return this._onOpen.push(this._internalSetCampsite.bind(this, campsiteId));
 
+		// And if it has, continue
 		console.log('Setting campsite in WS', campsiteId);
 		setTimeout(() => {
 			this._internalSetCampsite(campsiteId);
@@ -107,10 +124,13 @@ export default class WSClient {
 	}
 
 	private async _onMessage(msg: MessageEvent<any>) {
+		// Similar to how Atprotocol handles firehose (CBOR with sequenced objects (NOT ARRAY OBJECTS))
 		const [header, payload] = [
 			...decodeSequence(await (msg.data as Blob).bytes(), { createObject }),
 		] as [WSFrameHeader<-1> | WSFrameHeaderTyped<1, string>, any];
+
 		const message: WSMessage = { ...header, payload } as WSMessage;
+
 		console.log('Message', message);
 		return await Promise.allSettled(this._subscriptions.map((x) => x.callback(message)));
 	}

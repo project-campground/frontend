@@ -1,5 +1,5 @@
-import type { BonfireViewDetailed } from 'types/campground/bonfires';
-import type { BonfireViewBasic } from 'types/campground/bonfires';
+import type { BonfireViewDetailed } from '$lib/types/campground/bonfires';
+import type { BonfireViewBasic } from '$lib/types/campground/bonfires';
 import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPBonfireManager extends HTTPBackendObjectManager {

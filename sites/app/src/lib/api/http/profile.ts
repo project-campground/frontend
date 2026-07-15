@@ -1,4 +1,4 @@
-import type { ProfileViewDetailed } from 'types/campground/user';
+import type { ProfileViewDetailed } from '$lib/types/campground/user';
 import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPProfileManager extends HTTPBackendObjectManager {

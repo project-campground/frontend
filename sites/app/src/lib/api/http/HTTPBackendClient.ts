@@ -10,9 +10,9 @@ import HTTPPermissionManager from './permission';
 import HTTPProfilePostManager from './profilePost';
 import HTTPRoleManager from './role';
 import HTTPTentManager from './tent';
-import type { Me } from 'types/campground/me';
-import type { Session } from '~/context/session/types';
+import type { Me } from '$lib/types/campground/me';
 import HTTPProfileManager from './profile';
+import type { Session } from '../session/Session.svelte';
 
 export default class HTTPBackendClient {
 	public domain: string;

@@ -1,4 +1,4 @@
-import type { MemberBanView, GetBansOutput } from 'types/campground/membership';
+import type { MemberBanView, GetBansOutput } from '$lib/types/campground/membership';
 import HTTPBackendObjectManager from './base-backend';
 
 export default class HTTPMemberBanManager extends HTTPBackendObjectManager {

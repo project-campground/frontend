@@ -65,15 +65,12 @@ export default class PreferenceManager {
 		this.local = settingsInLocalStorage ? JSON.parse(settingsInLocalStorage) : {};
 
 		return this._http.preference.get().then((resp) => {
-			if (!resp.ok)
-				throw new Error(
-					`Error while fetching preferences for the user: ${resp.status} ${resp.errorHeader} ${resp.errorDescription}`,
-				);
-
 			const preference =
-				resp.content?.preferences.filter((x) =>
+				resp?.preferences.filter((x) =>
 					x.$type.startsWith(PreferenceManager.CAMPGROUND_PREFERENCE_PREFIX),
 				) ?? ([] as CampgroundPreference[]);
+
+			// Basically `app.bsky.whatever#examplePref`, but we also add `campground:` before `example`
 			const preferenceEntries = preference.map(({ $type, ...pref }) => [
 				$type.split('#')[1].split(':').slice(-1)[0].slice(0, -'Pref'.length),
 				pref,
@@ -124,11 +121,6 @@ export default class PreferenceManager {
 		})) as CampgroundPreference[];
 		Object.assign(this.global, newPreference);
 
-		return this._http.preference.update(preferenceList).then((resp) => {
-			if (!resp.ok)
-				throw new Error(
-					`Error while updating preferences for the user: ${resp.status} ${resp.errorHeader} ${resp.errorDescription}`,
-				);
-		});
+		return this._http.preference.update(preferenceList);
 	}
 }

@@ -26,7 +26,10 @@
 	let error: Error | null = $state(null);
 
 	$effect(() => {
-		accountContext.init().catch((err) => (error = err));
+		accountContext
+			.init()
+			.then(() => 0)
+			.catch((err) => (error = err));
 	});
 
 	setAccount(accountContext);

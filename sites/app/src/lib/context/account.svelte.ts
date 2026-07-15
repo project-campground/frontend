@@ -3,7 +3,7 @@ import type { GetSession } from '$lib/types/atproto/session';
 import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campground/campsites';
 import type { CampgroundProfileRecord } from '$lib/types/campground/user';
 import type { Session } from '$lib/api/session/Session.svelte';
-import type { HttpResponseOkWithContent } from '$lib/api/http/HTTPResponse';
+import XrpcError from '$lib/api/XrpcError';
 
 export enum AccountInfoLoadState {
 	None = 0,
@@ -34,31 +34,19 @@ export class AccountInfo {
 			[...backendDomains].map((domain) => this.session.atproto.getBackendJoinedCampsites(domain)),
 		).then((backendRespPromises) => {
 			const backendResps = backendRespPromises
-				.filter((x) => x.status === 'fulfilled' && x.value.ok)
+				.filter((x) => x.status === 'fulfilled')
 				.map(
-					(x) =>
-						(
-							x as PromiseFulfilledResult<
-								HttpResponseOkWithContent<{ campsites: CampsiteViewBasic[]; domain: string }>
-							>
-						).value,
+					(x) => (x as PromiseFulfilledResult<{ campsites: CampsiteViewBasic[]; domain: string }>).value,
 				);
 
 			// Basically warning when certain back-end could not be fetched
-			for (const badResp of backendRespPromises.filter(
-				(x) => x.status === 'rejected' || !x.value.ok,
-			)) {
-				console.warn(
-					badResp.status === 'rejected' ?
-						'Rejected promise while fetching campsite list'
-					:	'HTTP Error while fetching campsite list',
-					badResp.status === 'rejected' ? badResp.reason : badResp.value,
-				);
+			for (const badResp of backendRespPromises.filter((x) => x.status === 'rejected')) {
+				console.warn('Rejected promise while fetching campsite list', badResp.reason);
 			}
 
 			this.campsites = backendResps.flatMap((resp) =>
-				resp.content!.campsites.map(
-					(campsite) => ({ ...campsite, _domain: resp.content.domain }) as CampsiteViewWithDomain,
+				resp.campsites.map(
+					(campsite) => ({ ...campsite, _domain: resp.domain }) as CampsiteViewWithDomain,
 				),
 			);
 
@@ -80,23 +68,23 @@ export class AccountInfo {
 		]);
 
 		if (sessionInfo.status === 'rejected') throw sessionInfo.reason;
-		else if (!sessionInfo.value.ok)
-			throw new Error(
-				`HTTP Error status while fetching session info: [${sessionInfo.value.status}] ${sessionInfo.value.errorHeader}: ${sessionInfo.value.errorDescription}`,
+
+		if (
+			profile.status === 'rejected'
+			&& (!(profile.reason instanceof XrpcError) || profile.reason.code !== 'RecordNotFound')
+		)
+			console.warn(
+				`Promise rejected (ERROR) while fetching profile info of the current account:`,
+				profile.reason,
 			);
 
-		if (profile.status === 'rejected')
-			console.warn(
-				`Promise rejected (ERROR) while fetching profile info of the current account: ${profile.reason}`,
-			);
-		else if (!profile.value.ok)
-			console.warn(
-				`HTTP Error status while fetching profile info of the current account: [${profile.value.status}] ${profile.value.errorHeader}: ${profile.value.errorDescription}`,
-			);
-
-		this.sessionInfo = sessionInfo.value.content;
+		this.sessionInfo = sessionInfo.value;
 		this.profile =
-			profile.status === 'fulfilled' && profile.value.ok ? profile.value.content.value : {};
+			profile.status === 'fulfilled' ? profile.value.value
+				// Profile does not exist
+			: profile.reason instanceof XrpcError && profile.reason.code === 'RecordNotFound' ? null
+				// Error with the profile
+			: {};
 
 		this.loadState = AccountInfoLoadState.All;
 	}

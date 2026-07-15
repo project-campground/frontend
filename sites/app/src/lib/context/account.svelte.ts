@@ -79,8 +79,7 @@ export class AccountInfo {
 			this.session.preferences.loaded && this.onPreferencesInit(),
 		]);
 
-		if (sessionInfo.status === 'rejected')
-			throw new Error(`Promise rejected (ERROR) while fetching session info: ${sessionInfo.reason}`);
+		if (sessionInfo.status === 'rejected') throw sessionInfo.reason;
 		else if (!sessionInfo.value.ok)
 			throw new Error(
 				`HTTP Error status while fetching session info: [${sessionInfo.value.status}] ${sessionInfo.value.errorHeader}: ${sessionInfo.value.errorDescription}`,

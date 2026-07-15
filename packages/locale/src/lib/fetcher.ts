@@ -28,7 +28,6 @@ export default class LocaleFetcher {
 	}
 
 	createLocale(locale: LocaleId, messages: Record<string, Message>) {
-		console.log({ messages });
 		return createIntl<DefaultMessageSegment>(
 			{
 				locale,
@@ -50,7 +49,6 @@ export default class LocaleFetcher {
 		const resp = await fetch(`/${this.prefix}/${locale}.json`, { method: 'GET' });
 
 		const respJson = await resp.json();
-		console.log(resp);
 
 		if (!resp.ok)
 			throw new Error(

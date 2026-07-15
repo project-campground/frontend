@@ -1,5 +1,6 @@
 import type { MenuPortalInstance } from '$lib/MenuPortalContainer/portals.svelte.js';
 import type { ComponentColorAll } from '$lib/types/attributes.js';
+import type { AutoPlacementOptions, Placement } from '@floating-ui/dom';
 import type { Snippet } from 'svelte';
 import type {
 	HTMLAttributes,
@@ -16,6 +17,9 @@ export type MenuPlacement = Exclude<
 >;
 export interface RootProps extends HTMLAttributes<HTMLDivElement> {
 	children?: Snippet;
+	placement?: Placement;
+	offset?: number;
+	autoPlacement?: AutoPlacementOptions;
 	instance: MenuPortalInstance;
 }
 export interface ListProps extends HTMLMenuAttributes {

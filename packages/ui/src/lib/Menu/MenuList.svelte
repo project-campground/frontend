@@ -41,6 +41,8 @@
 		}
 	}
 	.list {
+		box-sizing: border-box;
+
 		background-color: var(--background-content);
 		border: solid 1px var(--neutral-border);
 		box-shadow: var(--shadow-md);

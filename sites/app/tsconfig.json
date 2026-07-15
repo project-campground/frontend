@@ -4,7 +4,8 @@
 		"**/.server/**/*",
 		"**/.client/**/*",
 		"src",
-		"../../packages/locale/src/lib/declarations.ts"
+		"../../packages/locale/src/lib/declarations.ts",
+		"src/routes/(global)/GlobalNavbarProfile/.svelte"
 	],
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {

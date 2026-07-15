@@ -10,3 +10,4 @@ export const defaultPds = config.defaultPds;
 export const knownPds = config.knownPds as KnownPds[];
 export const defaultAppview = config.defaultAppview;
 export const defaultXrpcPrefix = `/xrpc/`;
+export const defaultAvatar = `/DefaultAvatar0.png`;

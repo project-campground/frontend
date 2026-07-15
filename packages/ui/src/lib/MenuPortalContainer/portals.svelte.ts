@@ -18,6 +18,3 @@ export class MenuPortal extends Portal<MenuPortalInstance, InstanceSnippet> {
 	}
 }
 export const [getMenuPortal, setMenuPortal] = createContext<MenuPortal>();
-
-// Menu list sorta-attachment
-export const menuList = (menu: MenuPortalInstance) => ({ id: `${menu.key}-menu` });

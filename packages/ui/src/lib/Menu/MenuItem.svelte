@@ -24,11 +24,13 @@
 	.container {
 		padding: 0;
 		margin: 0;
+		box-sizing: border-box;
 		&::marker {
 			display: none;
 		}
 	}
 	.button {
+		box-sizing: border-box;
 		width: 100%;
 		border: none;
 		background-color: transparent;

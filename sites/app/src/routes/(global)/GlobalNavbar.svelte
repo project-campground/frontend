@@ -1,7 +1,13 @@
 <script lang="ts">
-	import { Alert, Svg } from '@campground/ui';
+	import { Alert, Avatar, Svg } from '@campground/ui';
 	import GlobalNavbarButton from './GlobalNavbarButton.svelte';
 	import CampsiteButton from './CampsiteButton.svelte';
+	import { AccountInfoLoadState, getAccount } from '$lib/context/account.svelte';
+	import { defaultAvatar } from '$lib/api/api.config';
+	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
+	import GlobalNavbarProfile from './GlobalNavbarProfile.svelte';
+
+	const account = getAccount();
 </script>
 
 <div class="GlobalNavbar container">
@@ -30,9 +36,7 @@
 		</div>
 	{/if}
 	<div class="GlobalNavbar stack">
-		<GlobalNavbarButton selected={false}>
-			<Svg.Logo size={2.5} />
-		</GlobalNavbarButton>
+		<GlobalNavbarProfile />
 	</div>
 </div>
 

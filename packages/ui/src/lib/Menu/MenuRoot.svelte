@@ -1,9 +1,17 @@
 <script lang="ts">
-	import { autoUpdate } from '@floating-ui/dom';
+	import { autoPlacement, autoUpdate, type Middleware } from '@floating-ui/dom';
 	import type { RootProps } from './props.ts';
-	import { computePosition } from '@floating-ui/dom';
+	import { computePosition, offset } from '@floating-ui/dom';
 
-	const { children, class: className, instance, ...attributes }: RootProps = $props();
+	const {
+		children,
+		class: className,
+		instance,
+		offset: offsetProp,
+		autoPlacement: autoPlacementProp,
+		placement,
+		...attributes
+	}: RootProps = $props();
 
 	let menuFloating: HTMLElement | null = $state(null);
 	let pos: { x: number; y: number } = $state.raw({ x: 0, y: 0 });
@@ -12,7 +20,13 @@
 		if (!menuFloating) return;
 
 		return autoUpdate(instance.invoker, menuFloating, async () =>
-			computePosition(instance.invoker, menuFloating!).then((newPos) => (pos = newPos)),
+			computePosition(instance.invoker, menuFloating!, {
+				placement,
+				middleware: [
+					offsetProp && offset(offsetProp),
+					autoPlacementProp && autoPlacement(autoPlacementProp),
+				].filter((x) => x) as Middleware[],
+			}).then((newPos) => (pos = newPos)),
 		);
 	});
 </script>

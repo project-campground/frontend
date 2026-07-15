@@ -19,6 +19,7 @@ export {
 export * from './Link/index.ts';
 export { default as Main } from './Main/Main.svelte';
 export * as Menu from './Menu/index.ts';
+export * from './MenuPortalContainer/index.ts';
 export * from './PagePlaceholder/index.ts';
 export * from './Para/index.ts';
 export * from './Radio/index.ts';

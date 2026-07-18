@@ -1,4 +1,4 @@
-import type SectionProps from '$lib/Section/props.ts';
+import type SectionProps from '$lib/info/Section/props.ts';
 import type { Snippet } from 'svelte';
 
 export default interface AccordionProps extends Omit<SectionProps, 'header' | 'headerLevel'> {

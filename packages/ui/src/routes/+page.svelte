@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Group from '$lib/Group/Group.svelte';
-	import * as Tabs from '$lib/Tabs/index.js';
+	import * as Tabs from '$lib/info/Tabs/index.ts';
 	import TextBlock from '$lib/TextBlock/TextBlock.svelte';
 	import { theme } from '$lib/index.js';
 	import Section from '$lib/Section/Section.svelte';

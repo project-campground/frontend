@@ -1,4 +1,4 @@
-import type { MenuPortalInstance } from '$lib/MenuPortalContainer/portals.svelte.js';
+import type { MenuPortalInstance } from '$lib/floating/MenuPortalContainer/portals.svelte.ts';
 import type { ComponentColorAll } from '$lib/types/attributes.js';
 import type { AutoPlacementOptions, Placement } from '@floating-ui/dom';
 import type { Snippet } from 'svelte';

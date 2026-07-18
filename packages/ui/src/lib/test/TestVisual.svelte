@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Avatar, BrandLogo, Group, Image, Section, Stack } from '$lib/index.js';
-	import SvgUse from '$lib/svg/SvgUse.svelte';
+	import SvgUse from '$lib/visual/svg/SvgUse.svelte';
 	import type { ComponentSize, ComponentSizeWithNone } from '$lib/types/attributes.js';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

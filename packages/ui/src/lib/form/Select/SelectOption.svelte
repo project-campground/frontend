@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { OptionProps } from './props.ts';
-	import MenuItem from '$lib/Menu/MenuItem.svelte';
+	import MenuItem from '$lib/floating/Menu/MenuItem.svelte';
 	import { getOnSelect } from './context.svelte.ts';
 
 	const onSelect = getOnSelect();

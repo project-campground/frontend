@@ -1,5 +1,5 @@
 import type { Snippet } from 'svelte';
-import type { ComponentSize } from '../types/attributes.ts';
+import type { ComponentSize } from '../../types/attributes.ts';
 import type { AriaAttributes, EventHandler, HTMLInputAttributes } from 'svelte/elements';
 
 // Easier use of types; need to see if it significantly interferes with compilation time

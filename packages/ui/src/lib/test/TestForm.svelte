@@ -16,7 +16,7 @@
 		type ComponentSize,
 	} from '$lib/index.js';
 	import type { SelectValue } from '$lib/Select/props.js';
-	import IconLogo from '$lib/svg/IconLogo.svelte';
+	import IconLogo from '$lib/visual/svg/IconLogo.svelte';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { theme, type Theme } from '../theme/index.ts';
-	import SvgDefs from '../svg/SvgDefs.svelte';
-	import { MenuPortal, setMenuPortal } from '$lib/MenuPortalContainer/portals.svelte.js';
-	import MenuPortalContainer from '$lib/MenuPortalContainer/MenuPortalContainer.svelte';
-	import Portals from '$lib/Portals/Portals.svelte';
+	import SvgDefs from '../visual/svg/SvgDefs.svelte';
+	import { MenuPortal, setMenuPortal } from '$lib/floating/MenuPortalContainer/portals.svelte.js';
+	import MenuPortalContainer from '$lib/floating/MenuPortalContainer/MenuPortalContainer.svelte';
+	import Portals from '$lib/floating/Portals/Portals.svelte';
 	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
 	import { writable } from 'svelte/store';
 

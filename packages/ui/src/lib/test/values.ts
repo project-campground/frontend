@@ -1,4 +1,4 @@
-import type { GradientMotion } from '$lib/GradientText/props.js';
+import type { GradientMotion } from '$lib/info/GradientText/props.ts';
 import type {
 	ComponentColor,
 	ComponentSize,

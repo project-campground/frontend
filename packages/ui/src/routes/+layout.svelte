@@ -14,6 +14,8 @@
 </Main>
 
 <style lang="scss">
+	@use '../lib/index.scss' as *;
+
 	:global(#main) {
 		height: 100%;
 	}
@@ -26,6 +28,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		padding: 64px;
+		padding: 4rem;
+		@include tablet-only {
+			padding: 2rem;
+		}
+		@include mobile-only {
+			padding: 0.5rem;
+		}
 	}
 </style>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '$lib/util/component.js';
 	import type { Snippet } from 'svelte';
 	import type TextInputProps from './props.ts';
 
@@ -31,13 +30,13 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div
-	class={['TextInput container', { focused, hasError, disabled }, className]}
+	class={['container', { focused, hasError, disabled }, className]}
 	data-size={size ?? 'md'}
 	aria-disabled={disabled}
 	onclick={() => input?.focus()}
 >
 	{@render decorator(left)}
-	<div class="TextInput wrapper">
+	<div class="wrapper">
 		{@render decorator(top)}
 		{#if multirow}
 			<textarea
@@ -46,7 +45,7 @@
 				bind:focused
 				{disabled}
 				{...attributes}
-				class="TextInput input"
+				class="input"
 			></textarea>
 		{:else}
 			<input
@@ -55,7 +54,7 @@
 				bind:focused
 				{disabled}
 				{...attributes}
-				class="TextInput input"
+				class="input"
 			/>
 		{/if}
 		{@render decorator(bottom)}

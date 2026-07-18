@@ -32,7 +32,7 @@
 </script>
 
 <div
-	class={['Menu MenuRoot wrapper', className]}
+	class={['wrapper', className]}
 	{...attributes}
 	style:--Menu-x={`${pos.x}px`}
 	style:--Menu-y={`${pos.y}px`}
@@ -42,11 +42,11 @@
 >
 	<div
 		bind:this={menuFloating}
-		class="Menu MenuRoot floating"
+		class="floating"
 	>
 		{@render children?.()}
 	</div>
-	<div class="Menu MenuRoot mobileScrollableClose"></div>
+	<div class="mobileScrollableClose"></div>
 </div>
 
 <style lang="scss">

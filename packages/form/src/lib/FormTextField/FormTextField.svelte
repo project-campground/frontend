@@ -50,7 +50,7 @@
 	Select.setSelect(textFieldSelect);
 </script>
 
-<div class={['FormTextField container', { isOpen: textFieldSelect.isOpen }]}>
+<div class={['container', { isOpen: textFieldSelect.isOpen }]}>
 	<TextInput
 		bind:value={control.value}
 		error={!!control.error}
@@ -61,7 +61,7 @@
 		{...props}
 	/>
 	{#if known}
-		<div class="FormTextField menuWrapper">
+		<div class="menuWrapper">
 			<Menu.List>
 				{@render known()}
 			</Menu.List>

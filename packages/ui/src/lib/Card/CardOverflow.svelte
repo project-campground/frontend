@@ -1,17 +1,17 @@
 <script lang="ts">
 	import type { OverflowProps } from './props.ts';
 
-	const { class: className, children }: OverflowProps = $props();
+	const { children, ...props }: OverflowProps = $props();
 </script>
 
-<div class={['Card CardOverflow', className]}>
+<div {...props}>
 	{@render children()}
 </div>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.CardOverflow {
+	div {
 		:global(.CardRoot) > & {
 			margin-right: calc(-1 * var(--Card-paddingX));
 			margin-left: calc(-1 * var(--Card-paddingX));

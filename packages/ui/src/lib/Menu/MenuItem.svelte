@@ -1,18 +1,17 @@
 <script lang="ts">
-	import { capitalize } from '$lib/util/component.js';
 	import type { ItemProps } from './props.ts';
 
 	const { children, class: className, color, onclick, ...attributes }: ItemProps = $props();
 </script>
 
 <li
-	class={['Menu MenuItem container', className]}
+	class={['container', className]}
 	data-color={color}
 	role="menuitem"
 	{...attributes}
 >
 	<button
-		class={['Menu MenuItem button']}
+		class={['button']}
 		{onclick}
 	>
 		{@render children?.()}

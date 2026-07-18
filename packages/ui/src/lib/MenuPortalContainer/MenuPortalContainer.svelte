@@ -12,7 +12,7 @@
 </script>
 
 <div
-	class={['MenuPortalContainer', portal.items.length ? 'hasItems' : 'noItems']}
+	class={[portal.items.length ? 'hasItems' : 'noItems']}
 	onclick={(ev) => ev.stopPropagation()}
 	{...attributes}
 >
@@ -24,7 +24,7 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.MenuPortalContainer {
+	div {
 		position: relative;
 		width: 100%;
 		height: 100%;

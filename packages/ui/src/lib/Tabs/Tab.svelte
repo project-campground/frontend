@@ -4,15 +4,12 @@
 	const { children }: TabProps = $props();
 </script>
 
-<div
-	role="tabpanel"
-	class="Tabs Tab"
->
+<div role="tabpanel">
 	{@render children?.()}
 </div>
 
 <style lang="scss">
-	.Tab {
+	div {
 		width: 100%;
 		height: 100%;
 		overflow: auto;

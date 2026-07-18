@@ -37,9 +37,9 @@
 		Tabs
 	{/snippet}
 	<div
+		class="tabs-padded"
 		style:transition="background 0.5s"
 		style:background-color="var(--background-subtle)"
-		style:padding="16px 32px"
 		style:border-radius="var(--radius-lg)"
 	>
 		<Tabs.Root>
@@ -84,3 +84,14 @@
 		</Tabs.Root>
 	</div>
 </Section>
+
+<style lang="scss">
+	@use '../lib/index.scss' as *;
+
+	.tabs-padded {
+		padding: 1rem 2rem;
+		@include tablet-down {
+			padding: 0.5rem 1rem;
+		}
+	}
+</style>

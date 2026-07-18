@@ -11,21 +11,21 @@
 	}: GridProps = $props();
 </script>
 
-<grid
+<div
 	{...attributes}
-	class={['Grid', { noBreakpoint }, className]}
+	class={[{ noBreakpoint }, className]}
 	aria-colcount={columns ?? 2}
 	role="grid"
 >
 	{@render children?.()}
-</grid>
+</div>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 
 	$gaps: create-size-map((0.5rem, 1rem, 1.5rem, 2rem, 3rem));
 
-	.Grid {
+	div {
 		display: grid;
 		grid-template-columns: repeat(#{i}, 1fr);
 		gap: var(--Group-gap);

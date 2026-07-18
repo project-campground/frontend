@@ -15,7 +15,7 @@
 </script>
 
 <button
-	class={['Checkbox container', { checked }, className]}
+	class={['container', { checked }, className]}
 	data-size={size ?? 'md'}
 	role="checkbox"
 	data-checked={checked}
@@ -24,7 +24,7 @@
 	onclick={() => (checked = !checked)}
 	{...attributes}
 >
-	<CheckedComponent class="Checkbox icon" />
+	<CheckedComponent class="ui-Checkbox icon" />
 </button>
 
 <style lang="scss">

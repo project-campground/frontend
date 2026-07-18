@@ -1,15 +1,15 @@
 <script lang="ts">
 	import type FlexCenterProps from './props.ts';
 
-	const { children, class: className }: FlexCenterProps = $props();
+	const { children, ...props }: FlexCenterProps = $props();
 </script>
 
-<div class={['FlexCenter', className]}>
+<div {...props}>
 	{@render children()}
 </div>
 
 <style lang="scss">
-	.FlexCenter {
+	div {
 		display: flex;
 		width: 100%;
 		height: 100%;

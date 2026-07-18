@@ -59,19 +59,19 @@
 
 <button
 	bind:this={button}
-	class={['Select SelectButton container', { isOpen: menuPortal.includes(instance!) }, className]}
+	class={['container', { isOpen: menuPortal.includes(instance!) }, className]}
 	{disabled}
 	onclick={(ev) => toggleMenu(ev)}
 	data-size={size ?? 'md'}
 	{...attributes}
 >
-	<div class="Select SelectButton content">
-		<span class="Select SelectButton placeholder">
+	<div class="content">
+		<span class="placeholder">
 			{@render display(value)}
 		</span>
 	</div>
 	<span
-		class="Select SelectButton caret"
+		class="caret"
 		aria-hidden="true"
 	>
 		<IconCaretDownFilled size={12} />

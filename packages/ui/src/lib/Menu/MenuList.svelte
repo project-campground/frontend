@@ -5,11 +5,11 @@
 </script>
 
 <menu
-	class={['Menu MenuList list', className]}
+	class={['list', className]}
 	{...attributes}
 >
-	<header class="Menu MenuList touchPlace">
-		<hr class="Menu MenuList touchPlaceDivider" />
+	<header class="touchPlace">
+		<hr class="touchPlaceDivider" />
 	</header>
 	{@render children?.()}
 </menu>

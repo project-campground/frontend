@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { IconCheck, IconX } from '@tabler/icons-svelte';
-	import { capitalize } from '../util/component.ts';
 	import type SwitchProps from './props.ts';
 
 	let {
@@ -19,19 +18,19 @@
 </script>
 
 <button
-	class={['Switch input', { checked: value }, className]}
+	class={['input', { checked: value }, className]}
 	data-size={size ?? 'md'}
 	disabled={disabled ?? inputDisabled}
 	aria-disabled={disabled ?? inputDisabled}
 	onclick={() => (value = !value)}
 	{...attributes}
 >
-	<div class={['Switch backgroundIcons']}>
-		<CheckedComponent class="Switch icon" />
-		<span class="Switch spread"></span>
-		<UncheckedComponent class="Switch icon" />
+	<div class="backgroundIcons">
+		<CheckedComponent class="icon" />
+		<span class="spread"></span>
+		<UncheckedComponent class="icon" />
 	</div>
-	<div class={['Switch button']}></div>
+	<div class="button"></div>
 </button>
 
 <style lang="scss">
@@ -90,7 +89,7 @@
 		align-items: center;
 		padding: 0 calc(var(--BooleanField-size) / 8);
 		color: var(--neutral-regularFore);
-		& > :global(.Switch.icon) {
+		& > :global(.icon) {
 			width: 70%;
 			height: 70%;
 		}

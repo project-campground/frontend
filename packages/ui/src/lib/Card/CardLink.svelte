@@ -1,18 +1,15 @@
 <script lang="ts">
 	import type { LinkProps } from './props.ts';
 
-	const { class: className, ...props }: LinkProps = $props();
+	const { ...props }: LinkProps = $props();
 </script>
 
-<a
-	class={['Card CardLink', className]}
-	{...props}
-></a>
+<a {...props}></a>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.CardLink {
+	a {
 		position: absolute;
 		top: 0;
 		left: 0;

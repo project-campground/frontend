@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type ButtonProps from './props.ts';
 
 	const { children, size, variant, color, ...attributes }: ButtonProps = $props();
@@ -7,7 +6,6 @@
 
 <button
 	{...attributes}
-	class={['Button']}
 	data-size={size ?? 'md'}
 	data-variant={variant ?? 'glow'}
 	data-color={color ?? 'primary'}

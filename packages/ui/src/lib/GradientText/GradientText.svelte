@@ -19,7 +19,7 @@
 <span
 	style:--GradientText-gradient={gradient?.join(', ') || 'var(--foreground-heading)'}
 	style:--GradientText-time="{time}s"
-	class={['GradientText', colors?.length && 'withColors']}
+	class={[colors?.length && 'withColors']}
 	data-motion={motion ?? 'none'}
 >
 	{@render children()}
@@ -75,7 +75,7 @@
 		}
 	}
 
-	.GradientText {
+	span {
 		&.withColors {
 			-webkit-text-fill-color: transparent;
 			color: transparent;

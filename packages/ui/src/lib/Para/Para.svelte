@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type ParaProps from './props.ts';
 
 	const {

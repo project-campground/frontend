@@ -4,17 +4,14 @@
 	const { children, ...attributes }: PortalsProps = $props();
 </script>
 
-<div
-	class="Portals root"
-	{...attributes}
->
+<div {...attributes}>
 	{@render children()}
 </div>
 
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.root {
+	div {
 		position: absolute;
 		top: 0;
 		left: 0;

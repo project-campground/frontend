@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize, toSpacingPx } from '../util/component.ts';
+	import { toSpacingPx } from '../util/component.ts';
 	import type ImageProps from './props.ts';
 
 	const {
@@ -12,7 +12,6 @@
 		radius,
 		aspectRatio,
 		mobileAspectRatio,
-		class: className,
 		fit,
 		...attributes
 	}: ImageProps = $props();
@@ -26,7 +25,6 @@
 	style:--Image-height={h ? toSpacingPx(h) : 'auto'}
 	style:--Image-aspectRatio={aspectRatio}
 	style:--Image-mobileAspectRatio={mobileAspectRatio ?? aspectRatio}
-	class={['Image', className]}
 	data-fit={fit ?? 'cover'}
 	data-radius={radius ?? 'sm'}
 	{src}

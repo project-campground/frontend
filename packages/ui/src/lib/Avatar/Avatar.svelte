@@ -7,12 +7,12 @@
 <div
 	role="img"
 	aria-label={alt}
-	class={['Avatar container']}
+	class={['container']}
 	data-size={size ?? 'md'}
 >
 	{#if src}
 		<img
-			class="Avatar image"
+			class="image"
 			{src}
 			{alt}
 			{...attributes}
@@ -34,7 +34,7 @@
 		7rem 2.75rem;
 	$size-map: create-size-map($sizes);
 
-	.Avatar {
+	.container {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -64,9 +64,8 @@
 				}
 			}
 		}
-
-		&.image {
-			@include size(var(--Avatar-size));
-		}
+	}
+	.image {
+		@include size(var(--Avatar-size));
 	}
 </style>

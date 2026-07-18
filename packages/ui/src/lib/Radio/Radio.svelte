@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type RadioProps from './props.ts';
 
 	let {
@@ -14,7 +13,7 @@
 
 <input
 	type="radio"
-	class={['Radio', { disabled }, className]}
+	class={[{ disabled }, className]}
 	data-size={size ?? 'md'}
 	data-disabled={disabled}
 	aria-disabled={disabled}
@@ -29,7 +28,7 @@
 	@use 'sass:list';
 	@use '../Switch/BooleanField.scss' as *;
 
-	.Radio {
+	input {
 		appearance: none;
 		margin: 0;
 		padding: 0;

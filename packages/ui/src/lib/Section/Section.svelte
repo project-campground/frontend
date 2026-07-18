@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Para from '$lib/Para/Para.svelte';
-	import { capitalize } from '$lib/util/component.js';
 	import type SectionProps from './props.ts';
 
 	const {
@@ -16,11 +15,11 @@
 
 <section
 	{...attributes}
-	class={['Section container', { subtle }, className]}
+	class={['container', { subtle }, className]}
 	data-gap={gap}
 >
 	{#if header}
-		<header class="Section header">
+		<header class="header">
 			<Para level={`h${headerLevel ?? 2}`}>
 				{@render header()}
 			</Para>
@@ -38,13 +37,13 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		@each $size, $gap in $gap-sizes {
+			&[data-gap='#{$size}'] {
+				gap: $gap;
+			}
+		}
 	}
 	.subtle > .header > :global(.Para) {
 		color: var(--foreground-subtext);
-	}
-	@each $size, $gap in $gap-sizes {
-		[data-gap='#{$size}'] {
-			gap: $gap;
-		}
 	}
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize, toSpacingPx } from '../util/component.ts';
+	import { toSpacingPx } from '../util/component.ts';
 	import type GroupProps from './props.ts';
 
 	const {
@@ -18,7 +18,7 @@
 <div
 	{...attributes}
 	style:--Group-gap={toSpacingPx(gap ?? 1)}
-	class={['Group', { wrap, reversed, withMobile, mobileReversed }, className]}
+	class={[{ wrap, reversed, withMobile, mobileReversed }, className]}
 	data-align-vertically={alignVertically ?? 'center'}
 >
 	{@render children?.()}
@@ -27,7 +27,7 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.Group {
+	div {
 		display: flex;
 		flex-direction: row;
 		align-items: center;

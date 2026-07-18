@@ -42,7 +42,7 @@
 	<Stack>
 		{#each [500, 600, 700, 800, 900] as const as weight}
 			{#each ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'para', 'sub0', 'sub1'] as ParaLevel[] as level}
-				<Group>
+				<Group wrap>
 					{#each [undefined, ...colors] as color}
 						<Para
 							{level}

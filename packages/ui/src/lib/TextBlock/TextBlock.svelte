@@ -17,7 +17,7 @@
 </script>
 
 <span
-	class={['TextBlock', hideOnMobile && `hideOnMobile`, className]}
+	class={[hideOnMobile && `hideOnMobile`, className]}
 	data-float={float}
 	data-align={align}
 	data-weight={weight}
@@ -36,7 +36,7 @@
 	$floats: left, right;
 	$aligns: start, center, end;
 
-	.TextBlock {
+	span {
 		display: inline-flex;
 		align-items: center;
 		padding: {

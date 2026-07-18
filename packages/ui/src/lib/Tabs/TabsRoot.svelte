@@ -14,17 +14,17 @@
 </script>
 
 <section
-	class="Tab TabsRoot container"
+	class="container"
 	style:--Tabs-tabCount={tabContext.tabCount}
 	style:--Tabs-activeTabIndex={tabContext.activeTabIndex}
 >
 	<TabList>
 		{@render tabs()}
 	</TabList>
-	<div class="Tabs TabsRoot listContainer">
+	<div class="listContainer">
 		<div
 			bind:this={list}
-			class="Tabs TabsRoot list"
+			class="list"
 			onscrollend={(ev) =>
 				(tabContext.activeTabIndex = Math.round(
 					ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth,
@@ -38,29 +38,27 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.TabsRoot {
-		&.container {
-			width: 100%;
-		}
-		&.listContainer {
-			height: max-content;
-			overflow: hidden;
-		}
-		&.list {
-			display: grid;
-			scrollbar-color: transparent transparent;
-			scrollbar-width: none;
-			overflow-y: hidden;
-			overflow-x: auto;
+	.container {
+		width: 100%;
+	}
+	.listContainer {
+		height: max-content;
+		overflow: hidden;
+	}
+	.list {
+		display: grid;
+		scrollbar-color: transparent transparent;
+		scrollbar-width: none;
+		overflow-y: hidden;
+		overflow-x: auto;
 
-			transition: transform $transition-time-md;
+		transition: transform $transition-time-md;
 
-			grid-template-columns: repeat(var(--Tabs-tabCount), 100%);
+		grid-template-columns: repeat(var(--Tabs-tabCount), 100%);
 
-			width: 100%;
-			scroll-snap-type: x mandatory;
-			scroll-snap-stop: always;
-			scroll-behavior: smooth;
-		}
+		width: 100%;
+		scroll-snap-type: x mandatory;
+		scroll-snap-stop: always;
+		scroll-behavior: smooth;
 	}
 </style>

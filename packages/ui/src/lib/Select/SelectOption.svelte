@@ -8,7 +8,7 @@
 </script>
 
 <MenuItem
-	class={[`Select SelectOption`, className]}
+	class={[`ui-SelectOption`, className]}
 	onclick={(ev) => onSelect(value, ev)}
 	{...attributes}
 />

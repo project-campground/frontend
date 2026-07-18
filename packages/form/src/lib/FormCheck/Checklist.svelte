@@ -18,7 +18,7 @@
 </script>
 
 <Stack
-	class="FormChecklist"
+	class="form-Checklist"
 	{...props}
 >
 	{@render children?.()}

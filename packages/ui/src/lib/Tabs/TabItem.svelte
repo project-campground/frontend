@@ -11,13 +11,13 @@
 
 <button
 	role="tab"
-	class={['Tabs TabItem button', tabContext.activeTab === input && `active`]}
+	class={['button', tabContext.activeTab === input && `active`]}
 	tabindex={-1}
 >
 	{@render children()}
 	<input
 		bind:this={input}
-		class="Tabs TabItem input"
+		class="input"
 		type="radio"
 		name="items"
 		value={key}

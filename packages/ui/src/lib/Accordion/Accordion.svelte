@@ -16,22 +16,22 @@
 
 <section
 	{...attributes}
-	class={['Accordion container', { expanded, subtle, noBackground }, className]}
+	class={['container', { expanded, subtle, noBackground }, className]}
 	data-gap={gap}
 >
 	<button
-		class="Accordion button"
+		class="button"
 		aria-expanded={expanded}
 		onclick={() => (expanded = !expanded)}
 	>
-		<span class="Accordion header">
+		<span class="header">
 			{@render header()}
 		</span>
-		<span class="Accordion arrow">
+		<span class="arrow">
 			<IconCaretRightFilled size="1em" />
 		</span>
 	</button>
-	<article class="Accordion content">
+	<article class="content">
 		{@render children?.()}
 	</article>
 </section>

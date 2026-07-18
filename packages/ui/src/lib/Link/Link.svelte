@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type LinkProps from './props.ts';
 
-	const { children, color, underlined, ...attributes }: LinkProps = $props();
+	const { children, color, underlined, class: className, ...attributes }: LinkProps = $props();
 </script>
 
 <a
 	{...attributes}
-	class={['Link', { underlined }]}
+	class={[{ underlined }, className]}
 	data-color={color ?? 'primary'}
 >
 	{@render children()}
@@ -15,7 +15,7 @@
 <style lang="scss">
 	@use '../index.scss' as *;
 
-	.Link {
+	a {
 		display: inline-flex;
 		text-decoration: none;
 		flex-direction: row;

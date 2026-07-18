@@ -9,7 +9,7 @@
 	role="alert"
 	aria-live={color === 'danger' ? 'assertive' : 'polite'}
 	{...attributes}
-	class={['Alert container']}
+	class={['container']}
 	data-size={size ?? 'md'}
 	data-color={color ?? 'primary'}
 >
@@ -26,19 +26,14 @@
 
 	$padding: create-size-map((4px 6px, 8px 12px, 12px 16px, 16px 20px, 20px 32px));
 
-	.Alert {
-		&.container {
-			position: relative;
-			border-radius: var(--Alert-radius);
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			gap: 8px;
-			box-shadow: var(--template-inset-shadow-md) var(--Alert-glow);
-		}
-		&.icon {
-			line-height: 0;
-		}
+	.container {
+		position: relative;
+		border-radius: var(--Alert-radius);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		box-shadow: var(--template-inset-shadow-md) var(--Alert-glow);
 		@each $size, $values in $padding {
 			&[data-size='#{$size}'] {
 				padding: $values;
@@ -53,5 +48,8 @@
 				color: var(--#{$col}-softFore);
 			}
 		}
+	}
+	.icon {
+		line-height: 0;
 	}
 </style>

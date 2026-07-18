@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { ContentProps } from './props.ts';
 
-	const { class: className, gap, children }: ContentProps = $props();
+	const { class: className, gap, children, ...props }: ContentProps = $props();
 </script>
 
 <div
-	class={['Card CardContent', className]}
 	data-gap={gap}
+	{...props}
 >
 	{@render children()}
 </div>

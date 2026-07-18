@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { RootProps } from './props.ts';
 
-	const { class: className, size, level, overflow, children }: RootProps = $props();
+	const { size, level, overflow, children, ...props }: RootProps = $props();
 </script>
 
 <section
-	class={['Card CardRoot', className]}
+	{...props}
 	data-level={level}
 	data-overflow={overflow}
 	data-size={size ?? 'md'}
@@ -21,7 +21,7 @@
 		(0.25rem 0.375rem, 0.5px 0.75rem, 0.75rem 1rem, 1rem 1.25rem, 1.25rem 2rem, 2rem 3rem)
 	);
 
-	.CardRoot {
+	section {
 		position: relative;
 		overflow: hidden;
 

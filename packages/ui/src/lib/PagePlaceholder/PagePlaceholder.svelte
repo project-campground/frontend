@@ -6,51 +6,49 @@
 	const { status, title, icon, class: className, children }: PagePlaceholderProps = $props();
 </script>
 
-<section class={['PagePlaceholder container', status && 'hasStatus', className]}>
+<section class={['container', status && 'hasStatus', className]}>
 	<div
-		class="PagePlaceholder icon"
+		class="icon"
 		aria-hidden="true"
 	>
 		{pagePlaceholderIconValues[icon]}
 	</div>
 	<Para
-		class="PagePlaceholder header"
+		class="header"
 		level="h2"
 	>
 		{#if status}
-			<span class="PagePlaceholder status">
+			<span class="status">
 				{status}
 			</span>
 		{/if}
 		{' '}
 		{@render title()}
 	</Para>
-	<div class="PagePlaceholder body">
+	<div class="body">
 		{@render children()}
 	</div>
 </section>
 
 <style lang="scss">
-	.PagePlaceholder {
-		&.container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-		}
-		&.icon {
-			font-size: 2em;
-			font-weight: 900;
-			color: var(--foreground-subtext);
-			margin-bottom: 16px;
-		}
-		&.status {
-			color: var(--foreground-subtext);
-		}
-		&.body {
-			color: var(--foreground-subheading);
-		}
+	.container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+	}
+	.icon {
+		font-size: 2em;
+		font-weight: 900;
+		color: var(--foreground-subtext);
+		margin-bottom: 16px;
+	}
+	.status {
+		color: var(--foreground-subtext);
+	}
+	.body {
+		color: var(--foreground-subheading);
 	}
 </style>

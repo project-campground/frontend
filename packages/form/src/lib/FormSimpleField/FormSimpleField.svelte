@@ -14,14 +14,14 @@
 </script>
 
 <div
-	class={['FormSimpleField container', { reverse }, className]}
+	class={['container', { reverse }, className]}
 	{...props}
 >
-	<header class={['FormSimpleField header']}>
+	<header class="header">
 		{@render component(key)}
 		{#if header}
 			<label
-				class={['FormSimpleField title']}
+				class="title"
 				for={key}
 			>
 				{@render header()}
@@ -29,7 +29,7 @@
 		{/if}
 	</header>
 	{#if children}
-		<section class={['FormSimpleField description']}>
+		<section class="description">
 			{@render children()}
 		</section>
 	{/if}

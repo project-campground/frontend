@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class={['BrandLogo container', { hideWordmark }]}
+	class={['container', { hideWordmark }]}
 	role="banner"
 	data-size={size}
 >

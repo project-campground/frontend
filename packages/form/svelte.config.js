@@ -1,10 +1,15 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import packageJson from './package.json' with { type: 'json' };
+
+const packageName = packageJson.name.split('/').slice(-1)[0];
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	preprocess: vitePreprocess({ style: true, script: false }),
 	compilerOptions: {
+		// Makes theming a bit more predictable
+		cssHash: ({ name }) => `${packageName}-${name.replace('+', '_')}`,
 		// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
 		runes: ({ filename }) => (filename.split(/[/\\]/).includes('node_modules') ? undefined : true),
 	},

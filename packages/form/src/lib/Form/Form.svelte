@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '@campground/ui';
 	import type FormProps from './props.ts';
 	import { FormInstance, setForm } from './context.svelte.ts';
 
@@ -27,7 +26,7 @@
 <form
 	autocomplete={autocomplete ?? 'off'}
 	{...attributes}
-	class={['Form', { hideOverflow, inlineContent }, className]}
+	class={[{ hideOverflow, inlineContent }, className]}
 	data-gap={gap}
 >
 	{@render children?.()}

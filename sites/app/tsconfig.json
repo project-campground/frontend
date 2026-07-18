@@ -4,8 +4,7 @@
 		"**/.server/**/*",
 		"**/.client/**/*",
 		"src",
-		"../../packages/locale/src/lib/declarations.ts",
-		"src/routes/(global)/GlobalNavbarProfile/.svelte"
+		"../../packages/locale/src/lib/declarations.ts"
 	],
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
@@ -18,6 +17,7 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"moduleResolution": "bundler"
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext"
 	}
 }

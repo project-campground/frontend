@@ -1,0 +1,17 @@
+{
+	"tabWidth": 1,
+	"useTabs": true,
+	"printWidth": 100,
+	"endOfLine": "lf",
+
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"semi": true,
+
+	"objectWrap": "collapse",
+	"singleAttributePerLine": true,
+	"experimentalTernaries": true,
+	"experimentalOperatorPosition": "start",
+
+	"trailingComma": "all"
+}

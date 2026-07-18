@@ -45,6 +45,7 @@
 		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
+		"@campground/svelte-config": "1.0.0",
 		"@eslint/compat": "^2.0.4",
 		"@eslint/js": "^10.0.1",
 		"@fontsource/nunito-sans": "^5.2.6",

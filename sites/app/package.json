@@ -55,6 +55,7 @@
 		"uuid": "^13.0.0"
 	},
 	"devDependencies": {
+		"@campground/svelte-config": "1.0.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",

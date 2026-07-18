@@ -10,7 +10,6 @@
 		FormControl,
 		Form,
 		FormErrorLabel,
-		FormInstance,
 		FormSwitch,
 	} from '$lib/index.js';
 

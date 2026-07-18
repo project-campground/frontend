@@ -17,5 +17,8 @@ export default interface FormTextFieldProps extends TextInputProps {
 	format?: TextFieldFormatRegex | TextFieldFormatString;
 
 	maxrows?: number;
+	/**
+	 * For known values; this is used in registration pages for PDS and possibly in the future for tags
+	 */
 	known?: Snippet;
 }

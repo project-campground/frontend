@@ -34,12 +34,7 @@
 
 		if (!wasOpen) return (instance = menuPortal.add(_internalMenu, button!));
 	}
-	onMount(() =>
-		outsideClick.subscribe(() => {
-			if (instance) menuPortal.remove(instance);
-			instance = null;
-		}),
-	);
+
 	// When it's destroyed
 	$effect(() => {
 		if (instance && !menuPortal.includes(instance)) instance = null;
@@ -53,6 +48,7 @@
 	<SelectMenu
 		onSelect={(newValue) => (value = newValue)}
 		instance={menu}
+		offset={8}
 	>
 		<Menu.List>
 			{@render children()}

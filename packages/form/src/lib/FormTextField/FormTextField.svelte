@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getLocaleContext } from '@campground/locale';
-	import { getOutsideClickBoundary, Menu, Select, TextInput } from '@campground/ui';
+	import { getMenuPortal, Menu, MenuPortalInstance, Select, TextInput } from '@campground/ui';
 	import type FormTextFieldProps from './props.ts';
 	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { checkStringFormat, textFieldErrors } from './validation.ts';
@@ -12,7 +12,7 @@
 
 	// Error messages and feedback
 	const intl = getLocaleContext();
-	const clickAway = getOutsideClickBoundary();
+	const menuPortal = getMenuPortal();
 
 	// Formatting
 	const minLengthDerived = $derived(minlength ?? 0);
@@ -30,27 +30,35 @@
 		if (maxrows && rows.length > maxrows) control.value = rows.slice(0, maxrows).join('\n');
 	});
 
-	function onValueSelected(
-		value: Parameters<Select.SelectInstance['setValue']>[0],
-		ev: Parameters<Select.SelectInstance['setValue']>[1],
-	) {
-		control.value = value?.toString();
-		$clickAway = ev;
+	// When it's destroyed
+	$effect(() => {
+		if (instance && !menuPortal.includes(instance)) instance = null;
+	});
+
+	let instance: MenuPortalInstance | null = $state(null);
+
+	function onFocus(event: FocusEvent & { currentTarget: EventTarget & HTMLElement }) {
+		if (instance || !known) return;
+
+		instance = menuPortal.add(selectMenu, event.currentTarget);
 	}
-
-	const textFieldSelect = new Select.SelectInstance(onValueSelected);
-
-	function onFocus() {
-		textFieldSelect.isOpen = true;
-	}
-
-	$effect(() => clickAway.subscribe(() => (textFieldSelect.isOpen = false)));
-
-	// For known values; this is used in registration pages for PDS and possibly in the future for tags
-	Select.setSelect(textFieldSelect);
 </script>
 
-<div class={['container', { isOpen: textFieldSelect.isOpen }]}>
+<!-- For known values; this is used in registration pages for PDS and possibly in the future for tags -->
+{#snippet selectMenu(menu: MenuPortalInstance)}
+	<Select.Menu
+		onSelect={(newValue) => (control.value = newValue.toString())}
+		instance={menu}
+		offset={10}
+		placement="bottom-start"
+	>
+		<Menu.List>
+			{@render known?.()}
+		</Menu.List>
+	</Select.Menu>
+{/snippet}
+
+<div class={['container', { isOpen: !!instance }]}>
 	<TextInput
 		bind:value={control.value}
 		error={!!control.error}
@@ -60,27 +68,10 @@
 		onclick={(ev) => ev.stopPropagation()}
 		{...props}
 	/>
-	{#if known}
-		<div class="menuWrapper">
-			<Menu.List>
-				{@render known()}
-			</Menu.List>
-		</div>
-	{/if}
 </div>
 
 <style lang="scss">
 	.container {
 		position: relative;
-	}
-	.container:not(.isOpen) > .menuWrapper {
-		display: none;
-	}
-	.menuWrapper {
-		position: absolute;
-		top: calc(100% + 0.5rem);
-		z-index: 5;
-		left: 0;
-		right: 0;
 	}
 </style>

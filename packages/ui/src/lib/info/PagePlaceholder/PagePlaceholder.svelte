@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Para from '$lib/Para/Para.svelte';
+	import Para from '$lib/info/Para/Para.svelte';
 	import type PagePlaceholderProps from './props.ts';
 	import { pagePlaceholderIconValues } from './props.ts';
 

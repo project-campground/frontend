@@ -12,4 +12,5 @@ export {
 export { default as Main } from './Main/Main.svelte';
 export type * from './types/index.ts';
 export * from './util/index.ts';
+export * from './theme/index.ts';
 export * from './contexts/index.ts';

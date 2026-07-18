@@ -3,7 +3,10 @@
 	import { IconCaretDownFilled } from '@tabler/icons-svelte';
 	import type { ButtonProps } from './props.ts';
 	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
-	import { getMenuPortal, MenuPortalInstance } from '$lib/MenuPortalContainer/portals.svelte.js';
+	import {
+		getMenuPortal,
+		MenuPortalInstance,
+	} from '$lib/floating/MenuPortalContainer/portals.svelte.js';
 	import SelectMenu from './SelectMenu.svelte';
 	import { onMount } from 'svelte';
 
@@ -79,7 +82,7 @@
 </button>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 	@use 'sass:list';
 	@use '../TextInput/InputField.scss' as *;
 

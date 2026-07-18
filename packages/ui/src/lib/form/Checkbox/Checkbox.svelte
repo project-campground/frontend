@@ -28,7 +28,7 @@
 </button>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 	@use 'sass:list';
 	@use '../Switch/BooleanField.scss' as *;
 

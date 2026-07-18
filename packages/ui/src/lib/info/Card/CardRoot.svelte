@@ -15,7 +15,7 @@
 
 <style lang="scss">
 	@use 'sass:list';
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$card-padding: create-size-map(
 		(0.25rem 0.375rem, 0.5px 0.75rem, 0.75rem 1rem, 1rem 1.25rem, 1.25rem 2rem, 2rem 3rem)

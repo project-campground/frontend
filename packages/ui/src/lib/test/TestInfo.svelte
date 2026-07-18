@@ -12,9 +12,9 @@
 		type ComponentColor,
 		type ComponentSize,
 		type GradientMotion,
+		type ParaLevel,
 		Svg,
 	} from '$lib/index.js';
-	import type { ParaLevel } from '$lib/Para/props.js';
 
 	const gradientMotions: GradientMotion[] = ['none', 'linear', 'wave', 'radial'];
 	const gradientTextMaxColors = [

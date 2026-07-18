@@ -24,7 +24,7 @@
 
 <style lang="scss">
 	@use 'sass:list';
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$sizes:
 		2rem 0.75rem,

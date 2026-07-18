@@ -1,7 +1,15 @@
 <script lang="ts">
-	import { Avatar, BrandLogo, Group, Image, Section, Stack } from '$lib/index.js';
-	import SvgUse from '$lib/visual/svg/SvgUse.svelte';
-	import type { ComponentSize, ComponentSizeWithNone } from '$lib/types/attributes.js';
+	import {
+		Avatar,
+		BrandLogo,
+		Group,
+		Image,
+		Section,
+		Stack,
+		Svg,
+		type ComponentSize,
+		type ComponentSizeWithNone,
+	} from '$lib/index.js';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 	const sizesWithNone: ComponentSizeWithNone[] = ['none', 'xs', 'sm', 'md', 'lg', 'xl'];
@@ -63,12 +71,12 @@
 		SvgUse
 	{/snippet}
 	<Group wrap>
-		<SvgUse id="logo" />
-		<SvgUse
+		<Svg.Use id="logo" />
+		<Svg.Use
 			id="logo"
 			size={8}
 		/>
-		<SvgUse
+		<Svg.Use
 			id="logo"
 			w={3}
 			h={8}

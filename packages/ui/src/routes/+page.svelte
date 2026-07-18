@@ -1,15 +1,9 @@
 <script lang="ts">
-	import Group from '$lib/Group/Group.svelte';
-	import * as Tabs from '$lib/info/Tabs/index.ts';
-	import TextBlock from '$lib/TextBlock/TextBlock.svelte';
-	import { theme } from '$lib/index.js';
-	import Section from '$lib/Section/Section.svelte';
-	import Switch from '$lib/Switch/Switch.svelte';
+	import { Group, Tabs, Section, Switch, TextBlock, Stack, theme } from '$lib/index.js';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import TestVisual from '$lib/test/TestVisual.svelte';
 	import TestForm from '$lib/test/TestForm.svelte';
 	import TestInfo from '$lib/test/TestInfo.svelte';
-	import Stack from '$lib/Stack/Stack.svelte';
 	import TestFloating from '$lib/test/TestFloating.svelte';
 
 	let lightTheme: boolean = $state(false);

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toSpacingPx } from '../util/component.ts';
+	import { toSpacingPx } from '../../util/component.ts';
 	import type ImageProps from './props.ts';
 
 	const {
@@ -32,7 +32,7 @@
 />
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$fits: 'fill', 'contain', 'cover';
 

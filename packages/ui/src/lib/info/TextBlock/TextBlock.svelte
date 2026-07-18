@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize, toSpacingPx } from '../util/component.ts';
+	import { toSpacingPx } from '../../util/component.ts';
 	import type TextBlockProps from './props.ts';
 
 	const {
@@ -30,7 +30,7 @@
 </span>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$levels: background, subtext, body, subheading, heading;
 	$floats: left, right;

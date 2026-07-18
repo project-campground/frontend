@@ -25,7 +25,7 @@
 </div>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$sizes: 2.5rem 3rem 3.5rem 4.5rem 7.5rem;
 	$size-map: create-size-map($sizes);

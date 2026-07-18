@@ -15,7 +15,6 @@
 		type ComponentColorAll,
 		type ComponentSize,
 	} from '$lib/index.js';
-	import type { SelectValue } from '$lib/Select/props.js';
 	import IconLogo from '$lib/visual/svg/IconLogo.svelte';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 
@@ -26,7 +25,7 @@
 	let switchValue = $state(false);
 
 	let inputValue = $state('');
-	let selectValue = $state<SelectValue | undefined | null>(null);
+	let selectValue = $state<Select.Value | undefined | null>(null);
 
 	let radioGroup = $state('default');
 </script>
@@ -45,7 +44,7 @@
 		color="warning">Example #3 (bool)</Select.Option
 	>
 {/snippet}
-{#snippet selectRenderer(value: SelectValue | null | undefined)}
+{#snippet selectRenderer(value: Select.Value | null | undefined)}
 	Value: {JSON.stringify({ value })}
 {/snippet}
 

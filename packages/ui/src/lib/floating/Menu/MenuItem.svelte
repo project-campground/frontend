@@ -19,7 +19,7 @@
 </li>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	.container {
 		padding: 0;

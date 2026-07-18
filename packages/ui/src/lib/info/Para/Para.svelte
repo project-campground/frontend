@@ -38,7 +38,7 @@
 
 <style lang="scss">
 	@use 'sass:list';
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$hLevels:
 		1 2em,

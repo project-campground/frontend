@@ -15,7 +15,7 @@
 </menu>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	.touchPlace {
 		display: flex;

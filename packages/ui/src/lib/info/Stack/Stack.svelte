@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toSpacingPx } from '../util/component.ts';
+	import { toSpacingPx } from '../../util/component.ts';
 	import type StackProps from './props.ts';
 
 	const {
@@ -23,7 +23,7 @@
 </div>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$directions: column, column-reverse, row, row-reverse;
 

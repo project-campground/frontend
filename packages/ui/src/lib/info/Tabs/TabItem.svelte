@@ -27,7 +27,7 @@
 </button>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	.input {
 		position: absolute;

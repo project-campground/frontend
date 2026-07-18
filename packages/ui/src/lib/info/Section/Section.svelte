@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Para from '$lib/Para/Para.svelte';
+	import { Para } from '$lib/index.js';
 	import type SectionProps from './props.ts';
 
 	const {
@@ -29,7 +29,7 @@
 </section>
 
 <style lang="scss">
-	@use '../index.scss' as *;
+	@use '../../index.scss' as *;
 
 	$gap-sizes: create-size-map((0.25rem, 0.5rem, 1rem, 2rem, 3rem));
 

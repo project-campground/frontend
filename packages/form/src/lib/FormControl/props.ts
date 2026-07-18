@@ -14,7 +14,6 @@ export default interface FormControlProps extends AriaAttributes {
 	required?: boolean;
 	disabled?: boolean;
 
-	// Validation
-	maxLength?: number;
-	minLength?: number;
+	// Appearance
+	flex?: number;
 }

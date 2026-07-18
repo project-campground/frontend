@@ -3,6 +3,7 @@ export * as FormCheck from './FormCheck/index.ts';
 export * from './FormControl/index.ts';
 export * from './FormErrorLabel/index.ts';
 export * from './FormLabel/index.ts';
+export * from './FormObject/index.ts';
 export * as FormRadio from './FormRadio/index.ts';
 export * from './FormSimpleField/index.ts';
 export * from './FormSubmit/index.ts';

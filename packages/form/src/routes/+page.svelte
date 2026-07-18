@@ -1,6 +1,17 @@
 <script lang="ts">
 	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
-	import { Group, Main, Section, Select, Stack, Switch, TextBlock, theme } from '@campground/ui';
+	import {
+		Card,
+		Group,
+		Main,
+		Para,
+		Section,
+		Select,
+		Stack,
+		Switch,
+		TextBlock,
+		theme,
+	} from '@campground/ui';
 	import { writable } from 'svelte/store';
 	import {
 		FormRadio,
@@ -11,6 +22,7 @@
 		Form,
 		FormErrorLabel,
 		FormSwitch,
+		FormObject,
 	} from '$lib/index.js';
 
 	let lightTheme: boolean = $state(false);
@@ -147,18 +159,25 @@
 							{/snippet}
 						</FormTextField>
 					</FormControl>
-					<FormControl id="textAreaAndStuff">
-						<FormLabel>Text area field</FormLabel>
-						<FormTextField multirow />
-					</FormControl>
-					<FormControl id="formattedSingleLine">
-						<FormLabel>Text field formatted</FormLabel>
-						<FormTextField
-							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
-							placeholder="Aaa"
-						/>
-						<FormErrorLabel />
-					</FormControl>
+					<FormObject id="exampleObject">
+						<Card.Root>
+							<Card.Content gap="sm">
+								<Para level="h3">Sub-form (FormObject)</Para>
+								<FormControl id="textAreaAndStuff">
+									<FormLabel>Text area field</FormLabel>
+									<FormTextField multirow />
+								</FormControl>
+								<FormControl id="formattedSingleLine">
+									<FormLabel>Text field formatted</FormLabel>
+									<FormTextField
+										format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
+										placeholder="Aaa"
+									/>
+									<FormErrorLabel />
+								</FormControl>
+							</Card.Content>
+						</Card.Root>
+					</FormObject>
 					<FormControl id="formattedMultiLine">
 						<FormLabel>Text area formatted</FormLabel>
 						<FormTextField

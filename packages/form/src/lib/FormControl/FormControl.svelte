@@ -3,6 +3,7 @@
 	import { getForm } from '$lib/Form/context.svelte.js';
 	import { FormControlInstance, setFormControl } from './context.svelte.ts';
 	import { onMount } from 'svelte';
+	import { addControlToForm } from './state.ts';
 
 	let {
 		id,
@@ -10,6 +11,7 @@
 		disabled,
 		defaultValue,
 		value = $bindable(),
+		flex,
 		children,
 		...props
 	}: FormControlProps = $props();
@@ -25,18 +27,7 @@
 	);
 
 	// Make sure form is aware of controls, since it's harder to handle events in this case, such as submission
-	onMount(() => {
-		formContext.controls.push(formControl);
-
-		// We don't want to have control exist even after it has unmounted (if it exists conditionally)
-		return () => {
-			const index = formContext.controls.indexOf(formControl);
-			// For some odd reason form control disappeared and we don't want it to randomly cut off last element (-1 cuts off last element)
-			if (index < 0) return;
-
-			return formContext.controls.splice(index, 1);
-		};
-	});
+	onMount(() => addControlToForm(formContext, formControl));
 
 	// One-way binding for more reactive form
 	$effect(() => (value = formControl.value));
@@ -45,16 +36,18 @@
 </script>
 
 <div
-	class={['FormField', { disabled, required }]}
+	class={[{ disabled, required }]}
+	style:--FormControl-flex={1}
 	{...props}
 >
 	{@render children()}
 </div>
 
 <style lang="scss">
-	.FormField {
+	div {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+		flex: var(--FormControl-flex);
 	}
 </style>

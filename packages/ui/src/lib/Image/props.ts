@@ -4,10 +4,15 @@ import type { ComponentSize } from '../types/attributes.ts';
 export default interface ImageProps extends HTMLImgAttributes {
 	src: string;
 	alt?: string | null;
+	radius?: ComponentSize | 'none';
+	class?: ClassValue;
+
+	// Sizing
 	mw?: number;
 	mh?: number;
 	w?: number;
 	h?: number;
-	radius?: ComponentSize | 'none';
-	class?: ClassValue;
+	fit?: 'contain' | 'cover' | 'fill';
+	aspectRatio?: number;
+	mobileAspectRatio?: number;
 }

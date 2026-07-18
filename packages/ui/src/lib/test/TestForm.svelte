@@ -44,14 +44,6 @@
 		value={true}
 		color="warning">Example #3 (bool)</Select.Option
 	>
-	<Select.Option
-		value={null}
-		color="success">Example #4 (null)</Select.Option
-	>
-	<Select.Option
-		value={null}
-		color="info">Example #5 (null 2)</Select.Option
-	>
 {/snippet}
 {#snippet selectRenderer(value: SelectValue | null | undefined)}
 	Value: {JSON.stringify({ value })}

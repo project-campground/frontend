@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { capitalizePhrase, toSpacingPx } from '../util/component.ts';
-	import type GroupProps from './props.ts';
+	import type StackProps from './props.ts';
 
 	const {
 		children,
@@ -9,12 +9,12 @@
 		direction,
 		directionMobile,
 		...attributes
-	}: GroupProps = $props();
+	}: StackProps = $props();
 </script>
 
 <div
 	{...attributes}
-	style:--Group-gap={toSpacingPx(gap ?? 1)}
+	style:--Stack-gap={toSpacingPx(gap ?? 1)}
 	class={[
 		'Stack',
 		direction && `direction${capitalizePhrase(direction)}`,
@@ -31,7 +31,7 @@
 	.Stack {
 		display: flex;
 		flex-direction: column;
-		gap: var(--Group-gap);
+		gap: var(--Stack-gap);
 
 		&.directionColumn {
 			flex-direction: column;

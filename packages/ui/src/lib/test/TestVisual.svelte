@@ -13,24 +13,48 @@
 	{/snippet}
 	<Stack>
 		{#each sizesWithNone as radius}
-			<Group wrap>
-				<Image
-					w={10}
-					h={10}
-					{radius}
-					src="/example-banner.svg"
-				/>
-				<Image
-					mh={10}
-					{radius}
-					src="/example-banner.svg"
-				/>
-				<Image
-					mw={10}
-					{radius}
-					src="/example-banner.svg"
-				/>
-			</Group>
+			<Section headerLevel={2}>
+				{#snippet header()}
+					Radius {radius}
+				{/snippet}
+				<Group
+					wrap
+					withMobile
+					alignVertically="start"
+				>
+					<Image
+						w={10}
+						h={10}
+						{radius}
+						src="/example-banner.svg"
+					/>
+					<Image
+						mh={10}
+						{radius}
+						src="/example-banner.svg"
+					/>
+					<Image
+						mw={10}
+						{radius}
+						src="/example-banner.svg"
+					/>
+					{#each [2, 3, 0.5] as ratio}
+						<Image
+							src="/example-banner.svg"
+							w={10}
+							aspectRatio={ratio}
+							{radius}
+						/>
+						<Image
+							src="/example-banner.svg"
+							w={10}
+							aspectRatio={ratio}
+							mobileAspectRatio={ratio / 2}
+							{radius}
+						/>
+					{/each}
+				</Group>
+			</Section>
 		{/each}
 	</Stack>
 </Section>

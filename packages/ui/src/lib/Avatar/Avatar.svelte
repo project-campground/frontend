@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type AvatarProps from './props.ts';
 
 	const { size, src, alt, children, ...attributes }: AvatarProps = $props();
@@ -8,7 +7,8 @@
 <div
 	role="img"
 	aria-label={alt}
-	class={['Avatar container', `size${capitalize(size ?? 'md')}`]}
+	class={['Avatar container']}
+	data-size={size ?? 'md'}
 >
 	{#if src}
 		<img
@@ -25,13 +25,14 @@
 <style lang="scss">
 	@use 'sass:list';
 	@use '../index.scss' as *;
-	$avatar-sizes:
+
+	$sizes:
 		2rem 0.75rem,
 		2.5rem 1rem,
 		3.5rem 1.25rem,
 		5rem 1.75rem,
 		7rem 2.75rem;
-	$avatar-size-map: create-size-map($avatar-sizes);
+	$size-map: create-size-map($sizes);
 
 	.Avatar {
 		display: flex;
@@ -47,16 +48,13 @@
 		font-weight: 700;
 		font-family: var(--font-display);
 
-		&.image {
-			@include size(var(--Avatar-size));
-		}
-		@each $size, $value in $avatar-size-map {
-			$size-classname: capitalize($size);
-			$avatar-size: list.nth($value, 1);
+		@each $size, $value in $size-map {
+			$logo-size: list.nth($value, 1);
 			$font-size: list.nth($value, 2);
-			&.size#{$size-classname} {
+
+			&[data-size='#{$size}'] {
 				font-size: $font-size;
-				--Avatar-size: #{$avatar-size};
+				--Avatar-size: #{$logo-size};
 				border-radius: 30%;
 				// Since it's relatively new thing
 				// Makes it tad bit better
@@ -65,6 +63,10 @@
 					corner-shape: squircle;
 				}
 			}
+		}
+
+		&.image {
+			@include size(var(--Avatar-size));
 		}
 	}
 </style>

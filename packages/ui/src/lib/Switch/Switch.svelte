@@ -19,8 +19,8 @@
 </script>
 
 <button
-	class={['Switch input', { checked: value }, `size${capitalize(size ?? 'md')}`, className]}
-	data-shadow-reset
+	class={['Switch input', { checked: value }, className]}
+	data-size={size ?? 'md'}
 	disabled={disabled ?? inputDisabled}
 	aria-disabled={disabled ?? inputDisabled}
 	onclick={() => (value = !value)}

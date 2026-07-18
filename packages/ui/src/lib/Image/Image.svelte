@@ -26,12 +26,9 @@
 	style:--Image-height={h ? toSpacingPx(h) : 'auto'}
 	style:--Image-aspectRatio={aspectRatio}
 	style:--Image-mobileAspectRatio={mobileAspectRatio ?? aspectRatio}
-	class={[
-		'Image',
-		`radius${capitalize(radius ?? 'sm')}`,
-		`fit${capitalize(fit ?? 'cover')}`,
-		className,
-	]}
+	class={['Image', className]}
+	data-fit={fit ?? 'cover'}
+	data-radius={radius ?? 'sm'}
 	{src}
 	{alt}
 />
@@ -41,7 +38,7 @@
 
 	$fits: 'fill', 'contain', 'cover';
 
-	.Image {
+	img {
 		max-width: var(--Image-maxWidth);
 		max-height: var(--Image-maxHeight);
 		height: var(--Image-height, min-content);
@@ -55,16 +52,16 @@
 		}
 
 		@each $size in $size-names-with-xl {
-			&.radius#{capitalize($size)} {
+			&[data-radius='#{$size}'] {
 				border-radius: var(--radius-#{$size});
 			}
 		}
 		@each $fit in $fits {
-			&.fit#{capitalize($fit)} {
+			&[data-fit='#{$fit}'] {
 				object-fit: #{$fit};
 			}
 		}
-		&.radiusNone {
+		&[data-radius='none'] {
 			border-radius: 0;
 		}
 	}

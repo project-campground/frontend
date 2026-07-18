@@ -14,9 +14,10 @@
 
 <input
 	type="radio"
-	class={['Radio', { disabled }, `size${capitalize(size ?? 'md')}`, className]}
+	class={['Radio', { disabled }, className]}
+	data-size={size ?? 'md'}
+	data-disabled={disabled}
 	aria-disabled={disabled}
-	data-shadow-reset
 	bind:group
 	{value}
 	{disabled}

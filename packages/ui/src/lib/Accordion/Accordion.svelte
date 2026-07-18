@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '$lib/util/component.js';
 	import { IconCaretRightFilled } from '@tabler/icons-svelte';
 	import type AccordionProps from './props.ts';
 
@@ -17,12 +16,8 @@
 
 <section
 	{...attributes}
-	class={[
-		'Accordion container',
-		{ expanded, subtle, noBackground },
-		gap && `gap${capitalize(gap)}`,
-		className,
-	]}
+	class={['Accordion container', { expanded, subtle, noBackground }, className]}
+	data-gap={gap}
 >
 	<button
 		class="Accordion button"
@@ -57,6 +52,12 @@
 		border-radius: var(--radius-md);
 
 		gap: var(--Accordion-gap);
+
+		@each $size, $gap in $gap-sizes {
+			&[data-gap='#{$size}'] {
+				--Accordion-gap: #{$gap};
+			}
+		}
 
 		&.subtle > .button {
 			color: var(--foreground-subtext);
@@ -119,10 +120,5 @@
 		display: flex;
 		flex-direction: column;
 		padding: 0 1rem 0.5rem 1rem;
-	}
-	@each $size, $gap in $gap-sizes {
-		.gap#{capitalize($size)} {
-			--Accordion-gap: #{$gap};
-		}
 	}
 </style>

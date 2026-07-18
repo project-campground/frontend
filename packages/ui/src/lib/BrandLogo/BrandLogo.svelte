@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import SvgUse from '../svg/SvgUse.svelte';
 	import type BrandLogoProps from './props.ts';
 
@@ -7,8 +6,9 @@
 </script>
 
 <div
-	class={['BrandLogo container', { hideWordmark }, `size${capitalize(size ?? 'md')}`]}
+	class={['BrandLogo container', { hideWordmark }]}
 	role="banner"
+	data-size={size}
 >
 	<span class="BrandLogo icon">
 		<SvgUse
@@ -26,6 +26,9 @@
 
 <style lang="scss">
 	@use '../index.scss' as *;
+
+	$sizes: 2.5rem 3rem 3.5rem 4.5rem 7.5rem;
+	$size-map: create-size-map($sizes);
 
 	@mixin brand-logo-size($icon-size) {
 		$word-height: $icon-size * 0.75;
@@ -73,20 +76,10 @@
 		font-family: var(--font-brand);
 		gap: 8px;
 
-		&.sizeXs {
-			@include brand-logo-size(2.5rem);
-		}
-		&.sizeSm {
-			@include brand-logo-size(3rem);
-		}
-		&.sizeMd {
-			@include brand-logo-size(3.5rem);
-		}
-		&.sizeLg {
-			@include brand-logo-size(4.5rem);
-		}
-		&.sizeXl {
-			@include brand-logo-size(7.5rem);
+		@each $size-name, $size in $size-map {
+			&[data-size='#{$size-name}'] {
+				@include brand-logo-size($size);
+			}
 		}
 	}
 </style>

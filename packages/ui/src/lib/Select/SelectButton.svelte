@@ -59,14 +59,10 @@
 
 <button
 	bind:this={button}
-	class={[
-		'Select SelectButton container',
-		{ isOpen: menuPortal.includes(instance!) },
-		`size${capitalize(size ?? 'md')}`,
-		className,
-	]}
+	class={['Select SelectButton container', { isOpen: menuPortal.includes(instance!) }, className]}
 	{disabled}
 	onclick={(ev) => toggleMenu(ev)}
+	data-size={size ?? 'md'}
 	{...attributes}
 >
 	<div class="Select SelectButton content">

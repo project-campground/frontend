@@ -20,17 +20,14 @@
 
 <svelte:element
 	this={level?.startsWith('h') ? level : 'p'}
-	class={[
-		'Para',
-		level && `level${capitalize(level)}`,
-		align && `align${capitalize(align)}`,
-		weight && `weight${weight}`,
-		color && `color${capitalize(color)}`,
-		vMargin && `vMargin${capitalize(vMargin)}`,
-		tMargin && `tMargin${capitalize(tMargin)}`,
-		bMargin && `bMargin${capitalize(bMargin)}`,
-		className,
-	]}
+	class={['Para', className]}
+	data-level={level}
+	data-align={align}
+	data-weight={weight}
+	data-color={color}
+	data-v-margin={vMargin}
+	data-t-margin={tMargin}
+	data-b-margin={bMargin}
 	style:--Para-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
 	style:--Para-lineHeight={typeof lineHeight === 'number' ? `${lineHeight}rem` : lineHeight}
 	style:--Para-letterSpacing={typeof letterSpacing === 'number' ?
@@ -53,6 +50,7 @@
 		6 0.67em;
 	$margins: 0 0.125em 0.25em 0.5em 1em 2em 3em;
 	$margin-size-map: create-size-map-using($margins, $size-names-with-none);
+	$aligns: left, center, right, justify;
 
 	.Para {
 		display: block;
@@ -66,74 +64,58 @@
 		@each $level in $hLevels {
 			$index: list.nth($level, 1);
 			$fontSize: list.nth($level, 2);
-			&.levelH#{$index} {
+			&[data-level='h#{$index}'] {
 				color: var(--foreground-heading);
 				font-family: var(--font-display);
 				font-size: var(--Para-fontSize, #{$fontSize});
 			}
 		}
-		&.levelSub0 {
+		&[data-level='sub0'] {
 			color: var(--foreground-subtext);
 		}
-		&.levelSub1 {
+		&[data-level='sub1'] {
 			color: var(--foreground-background);
 		}
 
 		@each $color in $color-types {
-			&.color#{capitalize($color)} {
+			&[data-color='#{$color}'] {
 				color: var(--#{$color}-plainFore);
 				@each $level in $hLevels {
 					$index: list.nth($level, 1);
-					&.levelH#{$index} {
+					&[data-level='h#{$index}'] {
 						color: var(--#{$color}-plainForeHeading);
 					}
 				}
-				&.levelSub0 {
+				&[data-level='sub0'] {
 					color: var(--#{$color}-plainForeSubtext);
 				}
-				&.levelSub1 {
+				&[data-level='sub1'] {
 					color: var(--#{$color}-plainForeBackground);
 				}
 			}
 		}
 
-		&.alignLeft {
-			text-align: left;
-		}
-		&.alignCenter {
-			text-align: center;
-		}
-		&.alignJustify {
-			text-align: justify;
-		}
-		&.alignRight {
-			text-align: right;
+		@each $align in $aligns {
+			&[data-align='#{$align}'] {
+				text-align: $align;
+			}
 		}
 
-		&.weight500 {
-			font-weight: 500;
-		}
-		&.weight600 {
-			font-weight: 600;
-		}
-		&.weight700 {
-			font-weight: 700;
-		}
-		&.weight800 {
-			font-weight: 800;
-		}
-		&.weight900 {
-			font-weight: 900;
+		@for $i from 5 to 9 {
+			$weight: #{calc($i * 100)};
+			&[data-weight='#{$weight}'] {
+				font-weight: #{$weight};
+			}
 		}
 
 		@each $key, $value in $margin-size-map {
-			&.vMargin#{capitalize($key)} {
+			&[data-v-margin='#{$key}'] {
 				margin: $value 0;
 			}
-			&.tMargin#{capitalize($key)} {
+			&[data-t-margin='#{$key}'] {
 				margin-top: $value;
 			}
-			&.bMargin#{capitalize($key)} {
+			&[data-b-margin='#{$key}'] {
 				margin-bottom: $value;
 			}
 		}

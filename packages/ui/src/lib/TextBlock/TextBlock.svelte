@@ -1,5 +1,4 @@
 <script lang="ts">
-	import LetterVSmall from '@tabler/icons-svelte/icons/letter-v-small';
 	import { capitalize, toSpacingPx } from '../util/component.ts';
 	import type TextBlockProps from './props.ts';
 
@@ -18,15 +17,11 @@
 </script>
 
 <span
-	class={[
-		'TextBlock',
-		hideOnMobile && `hideOnMobile`,
-		float && `float${capitalize(float)}`,
-		align && `align${capitalize(align)}`,
-		weight && `weight${weight}`,
-		level && `level${capitalize(level)}`,
-		className,
-	]}
+	class={['TextBlock', hideOnMobile && `hideOnMobile`, className]}
+	data-float={float}
+	data-align={align}
+	data-weight={weight}
+	data-level={level}
 	style:--TextBlock-paddingLeft={toSpacingPx(pl)}
 	style:--TextBlock-paddingRight={toSpacingPx(pr)}
 	style:--TextBlock-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
@@ -38,6 +33,8 @@
 	@use '../index.scss' as *;
 
 	$levels: background, subtext, body, subheading, heading;
+	$floats: left, right;
+	$aligns: start, center, end;
 
 	.TextBlock {
 		display: inline-flex;
@@ -49,7 +46,7 @@
 		font-size: var(--TextBlock-fontSize);
 
 		@each $level in $levels {
-			&.level#{capitalize($level)} {
+			&[data-level='#{$level}'] {
 				color: var(--foreground-#{$level});
 			}
 		}
@@ -59,35 +56,23 @@
 				display: none;
 			}
 		}
-		&.floatLeft {
-			float: left;
+		@each $float in $floats {
+			&[data-float='#{$float}'] {
+				float: $float;
+			}
 		}
-		&.floatRight {
-			float: right;
+
+		@each $align in $aligns {
+			&[data-align='#{$align}'] {
+				align-items: $align;
+			}
 		}
-		&.alignTop {
-			align-items: start;
-		}
-		&.alignCenter {
-			align-items: center;
-		}
-		&.alignBottom {
-			align-items: end;
-		}
-		&.weight500 {
-			font-weight: 500;
-		}
-		&.weight600 {
-			font-weight: 600;
-		}
-		&.weight700 {
-			font-weight: 700;
-		}
-		&.weight800 {
-			font-weight: 800;
-		}
-		&.weight900 {
-			font-weight: 900;
+
+		@for $i from 5 to 9 {
+			$weight: #{calc($i * 100)};
+			&[data-weight='#{$weight}'] {
+				font-weight: #{$weight};
+			}
 		}
 	}
 </style>

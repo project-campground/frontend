@@ -6,7 +6,8 @@
 </script>
 
 <li
-	class={['Menu MenuItem container', color && `color${capitalize(color)}`, className]}
+	class={['Menu MenuItem container', className]}
+	data-color={color}
 	role="menuitem"
 	{...attributes}
 >
@@ -51,12 +52,8 @@
 		transition-property: color, background;
 		transition-duration: $transition-time-sm;
 
-		&:not(:disabled):hover {
-			color: var(--foreground-heading);
-			background-color: var(--background-subcontent);
-		}
 		@each $color in $color-types {
-			.color#{capitalize($color)} > & {
+			&[data-color='#{$color}'] > & {
 				color: var(--#{$color}-plainFore);
 				&:not(:disabled) {
 					&:hover {
@@ -70,6 +67,10 @@
 					}
 				}
 			}
+		}
+		&:not(:disabled):hover {
+			color: var(--foreground-heading);
+			background-color: var(--background-subcontent);
 		}
 	}
 </style>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type LinkProps from './props.ts';
 
 	const { children, color, underlined, ...attributes }: LinkProps = $props();
@@ -7,7 +6,8 @@
 
 <a
 	{...attributes}
-	class={['Link', `color${capitalize(color ?? 'primary')}`, { underlined }]}
+	class={['Link', { underlined }]}
+	data-color={color ?? 'primary'}
 >
 	{@render children()}
 </a>
@@ -31,7 +31,7 @@
 			filter: grayscale(65%);
 		}
 		@each $col in $color-types-all {
-			&.color#{capitalize($col)} {
+			&[data-color='#{$col}'] {
 				color: var(--#{$col}-plainFore);
 				&:not(:disabled):hover {
 					color: var(--#{$col}-plainForeHover);

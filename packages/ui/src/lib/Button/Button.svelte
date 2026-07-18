@@ -7,12 +7,10 @@
 
 <button
 	{...attributes}
-	class={[
-		'Button',
-		`size${capitalize(size ?? 'md')}`,
-		`variant${capitalize(variant ?? 'glow')}`,
-		`color${capitalize(color ?? 'primary')}`,
-	]}
+	class={['Button']}
+	data-size={size ?? 'md'}
+	data-variant={variant ?? 'glow'}
+	data-color={color ?? 'primary'}
 >
 	{@render children()}
 </button>
@@ -41,14 +39,14 @@
 		}
 		@include button-transform();
 		@each $size, $values in $button-padding {
-			&.size#{capitalize($size)} {
+			&[data-size='#{$size}'] {
 				padding: $values;
 				--Button-radius: var(--radius-#{$size});
 			}
 		}
 		@each $col in $color-types-all {
-			&.color#{capitalize($col)} {
-				&.variantGlow {
+			&[data-color='#{$col}'] {
+				&[data-variant='glow'] {
 					background: linear-gradient(
 						to bottom right,
 						var(--#{$col}-glowFirst),
@@ -91,7 +89,7 @@
 						background-color: #000;
 					}
 				}
-				&.variantPlain {
+				&[data-variant='plain'] {
 					border: none;
 					background-color: transparent;
 					color: var(--#{$col}-plainFore);
@@ -108,7 +106,7 @@
 						color: var(--#{$col}-plainForeDisabled);
 					}
 				}
-				&.variantSoft {
+				&[data-variant='soft'] {
 					border: none;
 					background-color: var(--#{$col}-softBack);
 					color: var(--#{$col}-softFore);
@@ -125,7 +123,7 @@
 						background-color: var(--#{$col}-softBackActive);
 					}
 				}
-				&.variantInverted {
+				&[data-variant='inverted'] {
 					border: none;
 					background-color: var(--#{$col}-invertedBack);
 					color: var(--#{$col}-invertedFore);

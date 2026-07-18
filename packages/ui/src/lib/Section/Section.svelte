@@ -16,7 +16,8 @@
 
 <section
 	{...attributes}
-	class={['Section container', { subtle }, gap && `gap${capitalize(gap)}`, className]}
+	class={['Section container', { subtle }, className]}
+	data-gap={gap}
 >
 	{#if header}
 		<header class="Section header">
@@ -42,7 +43,7 @@
 		color: var(--foreground-subtext);
 	}
 	@each $size, $gap in $gap-sizes {
-		.gap#{capitalize($size)} {
+		[data-gap='#{$size}'] {
 			gap: $gap;
 		}
 	}

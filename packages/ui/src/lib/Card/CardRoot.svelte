@@ -1,18 +1,14 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type { RootProps } from './props.ts';
 
 	const { class: className, size, level, overflow, children }: RootProps = $props();
 </script>
 
 <section
-	class={[
-		'Card CardRoot',
-		`size${capitalize(size ?? 'md')}`,
-		level && `level${capitalize(level)}`,
-		overflow && `overflow${capitalize(overflow)}`,
-		className,
-	]}
+	class={['Card CardRoot', className]}
+	data-level={level}
+	data-overflow={overflow}
+	data-size={size ?? 'md'}
 >
 	{@render children()}
 </section>
@@ -33,19 +29,19 @@
 		border: solid 1px var(--neutral-border);
 		border-radius: var(--card-radius);
 		box-shadow: var(--shadow-md);
-		&.overflowAuto {
+		&[data-overflow='auto'] {
 			overflow: auto;
 		}
-		&.overflowVisible {
+		&[data-overflow='visible'] {
 			overflow: visible;
 		}
-	}
-	@each $size, $values in $card-padding {
-		.size#{capitalize($size)} {
-			padding: $values;
-			--card-paddingY: #{list.nth($values, 1)};
-			--card-paddingX: #{list.nth($values, 2)};
-			--card-radius: var(--radius-#{$size});
+		@each $size, $values in $card-padding {
+			&[data-size='#{$size}'] {
+				padding: $values;
+				--card-paddingY: #{list.nth($values, 1)};
+				--card-paddingX: #{list.nth($values, 2)};
+				--card-radius: var(--radius-#{$size});
+			}
 		}
 	}
 	.levelSubtle {

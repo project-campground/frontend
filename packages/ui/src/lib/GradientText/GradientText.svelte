@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { capitalize } from '../util/component.ts';
 	import type GradientTextProps from './props.ts';
 
 	const { children, colors, motion }: GradientTextProps = $props();
@@ -20,7 +19,8 @@
 <span
 	style:--GradientText-gradient={gradient?.join(', ') || 'var(--foreground-heading)'}
 	style:--GradientText-time="{time}s"
-	class={['GradientText', colors?.length && 'withColors', motion && `motion${capitalize(motion)}`]}
+	class={['GradientText', colors?.length && 'withColors']}
+	data-motion={motion ?? 'none'}
 >
 	{@render children()}
 </span>
@@ -88,15 +88,15 @@
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
 		}
-		&.motionLinear {
+		&[data-motion='linear'] {
 			animation-name: motion-linear;
 			background-size: 8000%;
 		}
-		&.motionWave {
+		&[data-motion='wave'] {
 			animation-name: motion-wave;
 			background-size: 200%;
 		}
-		&.motionRadial {
+		&[data-motion='radial'] {
 			animation-name: motion-radial;
 			--GradientText-background: radial-gradient(
 				circle at center in oklch,

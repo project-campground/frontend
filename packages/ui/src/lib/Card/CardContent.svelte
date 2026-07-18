@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { capitalize } from '$lib/util/component.js';
 	import type { ContentProps } from './props.ts';
 
 	const { class: className, gap, children }: ContentProps = $props();
 </script>
 
-<div class={['Card CardContent', gap && `gap${capitalize(gap)}`, className]}>
+<div
+	class={['Card CardContent', className]}
+	data-gap={gap}
+>
 	{@render children()}
 </div>
 
@@ -18,7 +20,7 @@
 		display: flex;
 		flex-direction: column;
 		@each $size, $value in $gaps {
-			&.gap#{capitalize($size)} {
+			&[data-gap='#{$size}'] {
 				gap: $value;
 			}
 		}

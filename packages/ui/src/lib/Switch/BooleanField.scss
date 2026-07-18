@@ -4,7 +4,7 @@ $input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2.25rem, 2.75rem));
 
 %BooleanField-sized {
 	@each $size, $proportions in $input-sizes {
-		&.size#{capitalize($size)} {
+		&[data-size='#{$size}'] {
 			--BooleanField-size: #{$proportions};
 			--BooleanField-shadow: var(--template-inset-shadow-#{$size});
 		}

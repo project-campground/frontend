@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { IconCheck } from '@tabler/icons-svelte';
-	import { capitalize } from '../util/component.ts';
 	import type CheckboxProps from './props.ts';
 
 	let {
@@ -16,11 +15,12 @@
 </script>
 
 <button
-	class={['Checkbox container', { checked }, `size${capitalize(size ?? 'md')}`, className]}
+	class={['Checkbox container', { checked }, className]}
+	data-size={size ?? 'md'}
 	role="checkbox"
+	data-checked={checked}
 	aria-checked={checked}
 	{disabled}
-	data-shadow-reset
 	onclick={() => (checked = !checked)}
 	{...attributes}
 >

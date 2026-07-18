@@ -27,7 +27,8 @@
 <form
 	autocomplete={autocomplete ?? 'off'}
 	{...attributes}
-	class={['Form', gap && `gap${capitalize(gap)}`, { hideOverflow, inlineContent }, className]}
+	class={['Form', { hideOverflow, inlineContent }, className]}
+	data-gap={gap}
 >
 	{@render children?.()}
 </form>
@@ -43,7 +44,7 @@
 		gap: 1.5rem;
 		height: 100%;
 		@each $size, $value in $gaps {
-			&.gap#{capitalize($size)} {
+			&[data-gap='#{$size}'] {
 				gap: $value;
 			}
 		}

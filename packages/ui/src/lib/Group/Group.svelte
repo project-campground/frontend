@@ -18,12 +18,8 @@
 <div
 	{...attributes}
 	style:--Group-gap={toSpacingPx(gap ?? 1)}
-	class={[
-		'Group',
-		{ wrap, reversed, withMobile, mobileReversed },
-		alignVertically && `alignVertically${capitalize(alignVertically)}`,
-		className,
-	]}
+	class={['Group', { wrap, reversed, withMobile, mobileReversed }, className]}
+	data-align-vertically={alignVertically ?? 'center'}
 >
 	{@render children?.()}
 </div>
@@ -45,13 +41,13 @@
 		&.wrap {
 			flex-wrap: wrap;
 		}
-		&.alignVerticallyStart {
+		&[data-align-vertically='start'] {
 			align-items: start;
 		}
-		&.alignVerticallyEnd {
+		&[data-align-vertically='end'] {
 			align-items: end;
 		}
-		&.alignVerticallyStretch {
+		&[data-align-vertically='stretch'] {
 			align-items: stretch;
 		}
 		@include tablet-down() {

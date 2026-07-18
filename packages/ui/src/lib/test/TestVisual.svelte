@@ -103,6 +103,6 @@
 				{size}</Avatar
 			>
 		{/each}
-		<Avatar alt="example alt" />
+		<Avatar alt="example alt">None</Avatar>
 	</Group>
 </Section>

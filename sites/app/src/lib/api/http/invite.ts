@@ -1,7 +1,9 @@
-import type { GetInvitesOutput } from '$lib/types/campground/invites';
-import type { CampsiteInviteViewDetailed } from '$lib/types/campground/invites';
-import type { CampsiteInviteViewBasic } from '$lib/types/campground/invites';
-import HTTPBackendObjectManager from './base-backend';
+import type {
+	GetInvitesOutput,
+	CampsiteInviteViewBasic,
+	CampsiteInviteViewDetailed,
+} from '$lib/types/campground/invites.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPInviteManager extends HTTPBackendObjectManager {
 	get(invite_id: string) {

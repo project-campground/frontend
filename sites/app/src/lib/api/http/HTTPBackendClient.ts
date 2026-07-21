@@ -1,18 +1,18 @@
-import HTTPBonfireManager from './bonfire';
-import HTTPCampsiteManager from './campsite';
-import HTTPCategoryManager from './category';
-import type { RequestConfig } from './HTTPAtprotoClient';
-import HTTPInviteManager from './invite';
-import HTTPMemberManager from './member';
-import HTTPMemberBanManager from './memberBan';
-import HTTPMessageManager from './message';
-import HTTPPermissionManager from './permission';
-import HTTPProfilePostManager from './profilePost';
-import HTTPRoleManager from './role';
-import HTTPTentManager from './tent';
-import type { Me } from '$lib/types/campground/me';
-import HTTPProfileManager from './profile';
-import type { Session } from '../session/Session.svelte';
+import HTTPBonfireManager from './bonfire.js';
+import HTTPCampsiteManager from './campsite.js';
+import HTTPCategoryManager from './category.js';
+import type { RequestConfig } from './HTTPAtprotoClient.js';
+import HTTPInviteManager from './invite.js';
+import HTTPMemberManager from './member.js';
+import HTTPMemberBanManager from './memberBan.js';
+import HTTPMessageManager from './message.js';
+import HTTPPermissionManager from './permission.js';
+import HTTPProfilePostManager from './profilePost.js';
+import HTTPRoleManager from './role.js';
+import HTTPTentManager from './tent.js';
+import type { Me } from '$lib/types/campground/me.js';
+import HTTPProfileManager from './profile.js';
+import type { Session } from '../session/Session.svelte.js';
 
 export default class HTTPBackendClient {
 	public domain: string;

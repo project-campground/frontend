@@ -1,21 +1,21 @@
-import { defaultXrpcPrefix, defaultPds } from '../api.config';
-import type { HTTPRefreshLogin } from './HTTPErrorHandler';
-import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '$lib/api/session/types';
+import { defaultXrpcPrefix, defaultPds } from '../api.config.js';
+import type { HTTPRefreshLogin } from './HTTPErrorHandler.js';
+import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '$lib/api/session/types.js';
 import type {
 	AtprotoRecord,
 	GetRecordListResponse,
 	PutRecordResponse,
-} from '$lib/types/atproto/record';
-import HTTPPreferenceManager from './preference';
-import type { GetSession } from '$lib/types/atproto/session';
-import HTTPAccountManager from './account';
-import type { DescribedServer } from '$lib/types/atproto/server';
-import HTTPProfilePostRecordManager from './profilePostRecord';
-import HTTPBackendClient from './HTTPBackendClient';
-import type { CampsiteViewBasic, CreateCampsiteOutput } from '$lib/types/campground/campsites';
-import HTTPProfileRecordManager from './profileRecord';
-import HTTPInviteGlobalManager from './inviteGlobal';
-import XrpcError from '../XrpcError';
+} from '$lib/types/atproto/record.js';
+import HTTPPreferenceManager from './preference.ts';
+import type { GetSession } from '$lib/types/atproto/session.js';
+import HTTPAccountManager from './account.ts';
+import type { DescribedServer } from '$lib/types/atproto/server.js';
+import HTTPProfilePostRecordManager from './profilePostRecord.js';
+import HTTPBackendClient from './HTTPBackendClient.js';
+import type { CampsiteViewBasic, CreateCampsiteOutput } from '$lib/types/campground/campsites.js';
+import HTTPProfileRecordManager from './profileRecord.js';
+import HTTPInviteGlobalManager from './inviteGlobal.js';
+import XrpcError from '../XrpcError.js';
 
 type HTTPMethodXRPC = 'GET' | 'POST';
 type HTTPMethod = HTTPMethodXRPC | 'DELETE' | 'OPTION' | 'HEAD' | 'PUT' | 'PATCH';

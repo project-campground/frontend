@@ -1,5 +1,5 @@
-import type { CampsiteInviteViewDetailed } from '$lib/types/campground/invites';
-import HTTPAtprotoObjectManager from './base-atproto';
+import type { CampsiteInviteViewDetailed } from '$lib/types/campground/invites.js';
+import HTTPAtprotoObjectManager from './base-atproto.js';
 
 export default class HTTPInviteGlobalManager extends HTTPAtprotoObjectManager {
 	get(domain: string, invite_id: string) {

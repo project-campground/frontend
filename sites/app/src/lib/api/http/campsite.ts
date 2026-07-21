@@ -1,5 +1,5 @@
-import type { CampsiteViewBasic, CampsiteViewDetailed } from '$lib/types/campground/campsites';
-import HTTPBackendObjectManager from './base-backend';
+import type { CampsiteViewBasic, CampsiteViewDetailed } from '$lib/types/campground/campsites.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPCampsiteManager extends HTTPBackendObjectManager {
 	public get(campsite_id: string) {

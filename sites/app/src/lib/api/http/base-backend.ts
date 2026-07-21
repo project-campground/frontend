@@ -1,4 +1,4 @@
-import type HTTPBackendClient from './HTTPBackendClient';
+import type HTTPBackendClient from './HTTPBackendClient.js';
 
 export default class HTTPBackendObjectManager {
 	protected client: HTTPBackendClient;

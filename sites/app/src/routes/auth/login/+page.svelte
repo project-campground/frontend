@@ -36,7 +36,7 @@
 	} from '@campground/form';
 	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
 	import { Svg, Group, Section, Select, TextBlock, Accordion, Alert } from '@campground/ui';
-	import { defaultPds, knownPds } from '../../../lib/api/api.config';
+	import { defaultPds, knownPds } from '$lib/api/api.config.js';
 	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
 

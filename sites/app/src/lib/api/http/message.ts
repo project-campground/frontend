@@ -1,5 +1,5 @@
-import type { TentMessagesOutput, MessageViewBasic } from '$lib/types/campground/content';
-import HTTPBackendObjectManager from './base-backend';
+import type { TentMessagesOutput, MessageViewBasic } from '$lib/types/campground/content.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPMessageManager extends HTTPBackendObjectManager {
 	getMany(tent_id: string, offset: number = 0, limit: number = 50) {

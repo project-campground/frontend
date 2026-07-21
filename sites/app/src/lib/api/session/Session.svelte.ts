@@ -1,7 +1,7 @@
 import { createContext } from 'svelte';
-import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient';
-import PreferenceManager from '$lib/api/preferences/PreferenceManager';
-import { defaultPds } from '../api.config';
+import HTTPAtprotoClient from '../http/HTTPAtprotoClient.ts';
+import PreferenceManager from '../preferences/PreferenceManager.ts';
+import { defaultPds } from '../api.config.ts';
 import type {
 	AuthCredentials,
 	SavedAuth,
@@ -9,7 +9,7 @@ import type {
 	SessionAuthed,
 	SessionAuthRefresh,
 	SessionAuthUser,
-} from './types';
+} from './types.ts';
 
 const sessionStorageKey = 'session';
 const savedAuthStorageKey = 'frozen';
@@ -54,13 +54,11 @@ export class Session {
 	): Promise<SessionAuthUser> {
 		const data = await HTTPAtprotoClient.login(details);
 
-		if (!data.ok) throw new Error(`${data.errorHeader ?? data.status}: ${data.errorDescription}`);
-		else if (save)
-			this.saveAccount({ handle: data.content.handle, email: data.content.email, server });
+		if (save) this.saveAccount({ handle: data.handle, email: data.email, server });
 
-		this.setAuth({ authenticated: true, server: server ?? defaultPds, user: data.content });
+		this.setAuth({ authenticated: true, server: server ?? defaultPds, user: data });
 
-		return data.content;
+		return data;
 	}
 
 	public logout(): void {

@@ -1,6 +1,6 @@
-import type { GetTentsOutput, TentViewDetailed } from '$lib/types/campground/tent';
-import type { MessageViewBasic } from '$lib/types/campground/content';
-import HTTPBackendObjectManager from './base-backend';
+import type { GetTentsOutput, TentViewDetailed } from '$lib/types/campground/tent.js';
+import type { MessageViewBasic } from '$lib/types/campground/content.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPTentManager extends HTTPBackendObjectManager {
 	getMany(campsite_id: string, bonfire_id: string) {

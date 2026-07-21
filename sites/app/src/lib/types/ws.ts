@@ -2,8 +2,8 @@ import type { CampsiteViewBasic } from './campground/campsites';
 import type { BonfireViewBasic } from './campground/bonfires';
 import type { CampsitePermissionViewDetailed } from './campground/permissions';
 import type { MessageViewBasic } from './campground/content';
-import type { MemberBanView, MemberRolesModified } from './campground/membership';
-import type { CampsiteInviteViewBasic } from './campground/invites';
+import type { MemberBanView, MemberRolesModified } from './campground/membership.js';
+import type { CampsiteInviteViewBasic } from './campground/invites.js';
 import type { PermissionsDictionary, PermissionsStateDictionary } from './campground/permissions';
 import type { TentCategoryView, TentViewBasic } from './campground/tent';
 

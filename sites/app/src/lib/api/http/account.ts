@@ -1,4 +1,4 @@
-import HTTPAtprotoObjectManager from './base-atproto';
+import HTTPAtprotoObjectManager from './base-atproto.js';
 
 export default class HTTPAccountManager extends HTTPAtprotoObjectManager {
 	public confirmEmail(props: { email: string; token: string }) {

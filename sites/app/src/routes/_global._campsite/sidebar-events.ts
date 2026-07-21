@@ -1,4 +1,4 @@
-import type { GetTentsOutput } from 'types/campground/tent';
+import type { GetTentsOutput } from 'campground/tent.js';
 import type { TypeToPayload } from 'types/ws';
 import type TentSidebar from './TentSidebar';
 

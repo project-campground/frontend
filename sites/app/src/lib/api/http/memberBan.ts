@@ -1,5 +1,5 @@
-import type { MemberBanView, GetBansOutput } from '$lib/types/campground/membership';
-import HTTPBackendObjectManager from './base-backend';
+import type { MemberBanView, GetBansOutput } from '$lib/types/campground/membership.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPMemberBanManager extends HTTPBackendObjectManager {
 	getMany(campsite_id: string, offset: number = 0, limit: number = 50) {

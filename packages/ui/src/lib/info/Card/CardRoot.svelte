@@ -43,8 +43,8 @@
 				--card-radius: var(--radius-#{$size});
 			}
 		}
-	}
-	.levelSubtle {
-		background-color: var(--background-subtle);
+		&[data-level='subtle'] {
+			background-color: var(--background-subtle);
+		}
 	}
 </style>

@@ -2,8 +2,8 @@ import type {
 	ProfilePostViewBasic,
 	ProfilePostViewDetailed,
 	ProfilePostViewParented,
-} from '$lib/types/campground/user';
-import HTTPBackendObjectManager from './base-backend';
+} from '$lib/types/campground/user.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPProfilePostManager extends HTTPBackendObjectManager {
 	getMany(actor: string, replies: boolean = false, offset: number = 0, limit: number = 50) {

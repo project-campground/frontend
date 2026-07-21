@@ -1,7 +1,9 @@
-import type { MemberViewDetailed } from '$lib/types/campground/membership';
-import type { GetMembersDetailedOutput } from '$lib/types/campground/membership';
-import type { GetMembersOutput } from '$lib/types/campground/membership';
-import HTTPBackendObjectManager from './base-backend';
+import type {
+	MemberViewDetailed,
+	GetMembersDetailedOutput,
+	GetMembersOutput,
+} from '$lib/types/campground/membership.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPMemberManager extends HTTPBackendObjectManager {
 	getMany(campsite_id: string, offsetOrIds: string[] | number) {

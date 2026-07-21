@@ -1,5 +1,5 @@
-import type { ProfileViewDetailed } from '$lib/types/campground/user';
-import HTTPBackendObjectManager from './base-backend';
+import type { ProfileViewDetailed } from '$lib/types/campground/user.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPProfileManager extends HTTPBackendObjectManager {
 	public get(actor: string) {

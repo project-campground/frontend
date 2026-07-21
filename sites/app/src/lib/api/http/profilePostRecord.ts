@@ -1,4 +1,4 @@
-import HTTPAtprotoObjectManager from './base-atproto';
+import HTTPAtprotoObjectManager from './base-atproto.js';
 
 export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManager {
 	create(record: {

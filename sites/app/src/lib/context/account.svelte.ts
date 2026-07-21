@@ -1,7 +1,7 @@
 import { createContext } from 'svelte';
 import type { GetSession } from '$lib/types/atproto/session';
-import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campground/campsites';
-import type { CampgroundProfileRecord } from '$lib/types/campground/user';
+import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campground/campsites.js';
+import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
 import type { Session } from '$lib/api/session/Session.svelte';
 import XrpcError from '$lib/api/XrpcError';
 

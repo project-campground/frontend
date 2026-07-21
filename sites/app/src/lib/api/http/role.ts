@@ -1,6 +1,6 @@
-import type { GetRolesOutput } from '$lib/types/campground/roles';
-import type { RoleView } from '$lib/types/campground/roles';
-import HTTPBackendObjectManager from './base-backend';
+import type { GetRolesOutput } from '$lib/types/campground/roles.js';
+import type { RoleView } from '$lib/types/campground/roles.js';
+import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPRoleManager extends HTTPBackendObjectManager {
 	getMany(campsite_id: string) {

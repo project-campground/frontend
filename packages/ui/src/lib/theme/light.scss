@@ -12,5 +12,6 @@
 	@include generate.color-scheme('info', map.get($colors, 'cg-blue'), $background, $counter);
 	@include generate.color-scheme('warning', map.get($colors, 'cg-yellow'), $background, $counter);
 	@include generate.color-scheme('danger', map.get($colors, 'cg-red'), $background, $counter);
+
 	@include generate.neutral-color-scheme($shades-light, true);
 }

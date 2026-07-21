@@ -8,7 +8,7 @@
 <div
 	class={['container', { hideWordmark }]}
 	role="banner"
-	data-size={size}
+	data-size={size ?? 'md'}
 >
 	<span class="BrandLogo icon">
 		<SvgUse

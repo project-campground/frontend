@@ -1,5 +1,5 @@
 import type { ClassValue, HTMLImgAttributes } from 'svelte/elements';
-import type { ComponentSize } from '../types/attributes.ts';
+import type { ComponentSize } from '../../types/attributes.ts';
 
 export default interface ImageProps extends HTMLImgAttributes {
 	src: string;

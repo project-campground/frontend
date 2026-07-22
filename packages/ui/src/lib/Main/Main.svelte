@@ -56,6 +56,7 @@
 		margin: 0;
 	}
 	#main {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 

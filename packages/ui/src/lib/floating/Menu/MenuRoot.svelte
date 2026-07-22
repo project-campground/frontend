@@ -2,6 +2,7 @@
 	import { autoPlacement, autoUpdate, type Middleware } from '@floating-ui/dom';
 	import type { RootProps } from './props.ts';
 	import { computePosition, offset } from '@floating-ui/dom';
+	import { rem } from '$lib/util/component.js';
 
 	const {
 		children,
@@ -10,6 +11,14 @@
 		offset: offsetProp,
 		autoPlacement: autoPlacementProp,
 		placement,
+		// Sizing
+		w,
+		h,
+		maxw,
+		maxh,
+		minw,
+		minh,
+		// Rest
 		...attributes
 	}: RootProps = $props();
 
@@ -36,6 +45,12 @@
 	{...attributes}
 	style:--Menu-x={`${pos.x}px`}
 	style:--Menu-y={`${pos.y}px`}
+	style:--Menu-maxWidth={rem(maxw) ?? 'auto'}
+	style:--Menu-maxHeight={rem(maxh) ?? 'auto'}
+	style:--Menu-minWidth={rem(minw) ?? 'auto'}
+	style:--Menu-minHeight={rem(minh) ?? 'auto'}
+	style:--Menu-width={rem(w) ?? 'max-content'}
+	style:--Menu-height={rem(h) ?? 'max-content'}
 	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
 	// < 0, because of column-reverse
 	onscrollend={(ev) => (ev.currentTarget.scrollTop < 0 ? instance.destroy() : null)}
@@ -94,8 +109,14 @@
 		}
 		.floating {
 			position: absolute;
-			height: max-content;
-			width: max-content;
+
+			min-height: var(--Menu-minHeight);
+			min-width: var(--Menu-minWidth);
+			max-height: var(--Menu-maxHeight);
+			max-width: var(--Menu-maxWidth);
+			height: var(--Menu-height);
+			width: var(--Menu-width);
+
 			top: var(--Menu-y);
 			left: var(--Menu-x);
 		}

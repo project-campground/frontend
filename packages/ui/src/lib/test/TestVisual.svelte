@@ -57,25 +57,25 @@
 					alignVertically="start"
 				>
 					<Image
-						w={10}
-						h={10}
+						w={6}
+						h={6}
 						{radius}
 						src="/example-banner.svg"
 					/>
 					<Image
-						mh={10}
+						maxh={6}
 						{radius}
 						src="/example-banner.svg"
 					/>
 					<Image
-						mw={10}
+						maxw={6}
 						{radius}
 						src="/example-banner.svg"
 					/>
 					{#each [2, 3, 0.5] as ratio}
 						<Image
 							src="/example-banner.svg"
-							w={10}
+							w={6}
 							aspectRatio={ratio}
 							{radius}
 						/>

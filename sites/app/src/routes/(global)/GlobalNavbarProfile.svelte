@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { defaultAvatar } from '$lib/api/api.config';
+	import { defaultAvatar } from '$lib/api/api.config.js';
 	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
+	import UserCardMenu from '$lib/components/users/UserCardMenu.svelte';
 	import { getAccount } from '$lib/context/account.svelte';
-	import { getMenuPortal, getOutsideClickBoundary, Menu, MenuPortalInstance } from '@campground/ui';
+	import { getMenuPortal, getOutsideClickBoundary, MenuPortalInstance } from '@campground/ui';
 
 	let menuInstance: MenuPortalInstance | null = $state(null);
 
@@ -12,24 +13,26 @@
 	const account = getAccount();
 
 	function toggleMenuInstance(ev: MouseEvent & { currentTarget: HTMLElement }) {
-		if (menuInstance?.exists) return ($clickAway = ev);
+		$clickAway = ev;
 
 		menuInstance = menuPortal.add(profileMenu, ev.currentTarget);
 	}
 
 	$effect(() => {
-		if (menuInstance && menuPortal.items.includes(menuInstance)) menuInstance = null;
+		if (menuInstance && !menuPortal.items.includes(menuInstance)) menuInstance = null;
 	});
 </script>
 
 {#snippet profileMenu(instance: MenuPortalInstance)}
-	<Menu.Root
+	<UserCardMenu
 		{instance}
-		placement="bottom-end"
-		offset={8}
-	>
-		<Menu.List>aaaaaa</Menu.List>
-	</Menu.Root>
+		user={{
+			did: account.sessionInfo?.did ?? 'did:null',
+			handle: account.sessionInfo?.handle ?? 'handle.invalid',
+			avatar: account.profile?.avatar,
+			banner: account.profile?.banner,
+		}}
+	/>
 {/snippet}
 
 <button

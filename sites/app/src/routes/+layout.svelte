@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { Main } from '@campground/ui';
-	import type { LayoutProps } from './$types';
+	import type { LayoutProps } from './$types.js';
 	import { setLocaleContext, type DefaultMessageSegment } from '@campground/locale';
-	import { localeManagerStore } from '$lib/locale';
 	import { writable } from 'svelte/store';
 	import type { IntlShape } from '@formatjs/svelte-intl';
 	import { Session, setSession } from '$lib/api/session/Session.svelte';
 	import { onMount } from 'svelte';
+	import { localeManagerStore } from '$lib/locale/index.js';
 
 	const { children }: LayoutProps = $props();
 

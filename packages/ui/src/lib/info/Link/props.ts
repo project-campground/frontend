@@ -4,6 +4,7 @@ import type { HTMLAnchorAttributes } from 'svelte/elements';
 
 export default interface LinkProps extends HTMLAnchorAttributes {
 	children: Snippet;
-	underlined?: boolean;
+	underlined?: 'always' | 'hover' | 'never';
+	fullWidth?: boolean;
 	color?: ComponentColorAll;
 }

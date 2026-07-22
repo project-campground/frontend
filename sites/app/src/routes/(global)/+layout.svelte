@@ -13,10 +13,17 @@
 
 <script lang="ts">
 	import { AccountInfo, setAccount } from '$lib/context/account.svelte';
-	import type { LayoutProps } from './$types';
+	import type { LayoutProps } from './$types.js';
 	import GlobalLayout from './GlobalLayout.svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
-	import { PagePlaceholder, PagePlaceholderIcon } from '@campground/ui';
+	import {
+		MenuPortal,
+		MenuPortalContainer,
+		PagePlaceholder,
+		PagePlaceholderIcon,
+		Portals,
+		setMenuPortal,
+	} from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
 
@@ -32,7 +39,10 @@
 			.catch((err) => (error = err));
 	});
 
+	const menuPortal = new MenuPortal();
+
 	setAccount(accountContext);
+	setMenuPortal(menuPortal);
 </script>
 
 {#if error}
@@ -46,4 +56,7 @@
 	<GlobalLayout>
 		{@render children()}
 	</GlobalLayout>
+	<Portals>
+		<MenuPortalContainer portal={menuPortal} />
+	</Portals>
 {/if}

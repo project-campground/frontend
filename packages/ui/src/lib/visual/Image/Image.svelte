@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { toSpacingPx } from '../../util/component.ts';
+	import { em } from '../../util/component.ts';
 	import type ImageProps from './props.ts';
 
 	const {
-		mw,
-		mh,
+		maxw,
+		maxh,
+		minw,
+		minh,
 		w,
 		h,
 		src,
@@ -19,10 +21,12 @@
 
 <img
 	{...attributes}
-	style:--Image-maxWidth={mw ? toSpacingPx(mw) : 'auto'}
-	style:--Image-maxHeight={mh ? toSpacingPx(mh) : 'auto'}
-	style:--Image-width={w ? toSpacingPx(w) : 'auto'}
-	style:--Image-height={h ? toSpacingPx(h) : 'auto'}
+	style:--Image-maxWidth={em(maxw) ?? 'auto'}
+	style:--Image-maxHeight={em(maxh) ?? 'auto'}
+	style:--Image-minWidth={em(minw) ?? 'auto'}
+	style:--Image-minHeight={em(minh) ?? 'auto'}
+	style:--Image-width={em(w) ?? 'auto'}
+	style:--Image-height={em(h) ?? 'auto'}
 	style:--Image-aspectRatio={aspectRatio}
 	style:--Image-mobileAspectRatio={mobileAspectRatio ?? aspectRatio}
 	data-fit={fit ?? 'cover'}
@@ -39,6 +43,8 @@
 	img {
 		max-width: var(--Image-maxWidth);
 		max-height: var(--Image-maxHeight);
+		min-width: var(--Image-minWidth);
+		min-height: var(--Image-minHeight);
 		height: var(--Image-height, min-content);
 		width: var(--Image-width, min-content);
 		border-radius: var(--radius-sm);

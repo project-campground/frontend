@@ -20,6 +20,6 @@ export interface ButtonProps extends Omit<HTMLButtonAttributes, 'size' | 'placeh
 	children: Snippet;
 	display: Snippet<[SelectValue | undefined | null]>;
 }
-export interface OptionProps extends Omit<ItemProps, 'onclick'> {
+export interface OptionProps extends Omit<Menu.ButtonProps, 'onclick' | 'value'> {
 	value: SelectValue;
 }

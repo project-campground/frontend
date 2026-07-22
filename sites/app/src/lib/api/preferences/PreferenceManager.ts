@@ -1,11 +1,11 @@
-import type { Session } from '$lib/api/session/Session.svelte';
+import type { Session } from '$lib/api/session/Session.svelte.js';
 import type {
 	CampgroundPreference,
 	CampgroundPreferenceAppearance,
 	CampgroundPreferenceLocale,
 	CampgroundPreferenceCampsites,
-} from '$lib/types/bluesky/preferences';
-import type HTTPAtprotoClient from '../http/HTTPAtprotoClient';
+} from '$lib/types/bluesky/preferences.js';
+import type HTTPAtprotoClient from '../http/HTTPAtprotoClient.js';
 
 export interface CampgroundPreferences {
 	locale?: Omit<CampgroundPreferenceLocale, '$type'>;

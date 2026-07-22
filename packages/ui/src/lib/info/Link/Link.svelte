@@ -1,13 +1,21 @@
 <script lang="ts">
 	import type LinkProps from './props.ts';
 
-	const { children, color, underlined, class: className, ...attributes }: LinkProps = $props();
+	const {
+		children,
+		color,
+		underlined,
+		fullWidth,
+		class: className,
+		...attributes
+	}: LinkProps = $props();
 </script>
 
 <a
+	class={[{ fullWidth }, className]}
 	{...attributes}
-	class={[{ underlined }, className]}
 	data-color={color ?? 'primary'}
+	data-underlined={underlined ?? 'hover'}
 >
 	{@render children()}
 </a>
@@ -17,14 +25,33 @@
 
 	a {
 		display: inline-flex;
-		text-decoration: none;
+
+		text-decoration-line: underline;
+		text-decoration-color: transparent;
+
 		flex-direction: row;
 		align-items: center;
 		gap: 1ex;
-		border-bottom: solid 1px transparent;
 		transition-property: border-bottom-color, color, transform;
 		transition-duration: 0.2s;
+
 		@include button-transform();
+
+		&[data-underlined='hover'],
+		&[data-underlined='never'] {
+			text-decoration-color: transparent;
+		}
+
+		&[data-underlined='always']:hover,
+		&[data-underlined='hover']:hover {
+			text-decoration-color: inherit;
+		}
+
+		&.fullWidth {
+			display: flex;
+			width: 100%;
+		}
+
 		&:disabled {
 			cursor: not-allowed;
 			opacity: 0.65;
@@ -35,14 +62,9 @@
 				color: var(--#{$col}-plainFore);
 				&:not(:disabled):hover {
 					color: var(--#{$col}-plainForeHover);
-					border-bottom-color: var(--#{$col}-plainForeHover);
-				}
-				&.underlined {
-					border-bottom-color: var(--#{$col}-plainFore);
 				}
 				&:not(:disabled):active {
 					color: var(--#{$col}-plainForeActive);
-					border-bottom-color: var(--#{$col}-plainForeActive);
 				}
 			}
 		}

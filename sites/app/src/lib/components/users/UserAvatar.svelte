@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { defaultAvatar } from '$lib/api/api.config';
-	import { Avatar, type AvatarProps } from '@campground/ui';
+	import { defaultAvatar } from '$lib/api/api.config.js';
+	import { Avatar, Badge, type AvatarProps } from '@campground/ui';
 
 	interface Props extends AvatarProps {
 		showStatus?: boolean;
@@ -10,7 +10,9 @@
 	const { src, ...props }: Props = $props();
 </script>
 
-<Avatar
-	src={src || defaultAvatar}
-	{...props}
-/>
+<Badge color="online">
+	<Avatar
+		src={src || defaultAvatar}
+		{...props}
+	/>
+</Badge>

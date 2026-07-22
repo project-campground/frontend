@@ -1,4 +1,4 @@
-import type { SessionAuth } from '$lib/api/session/types';
+import type { SessionAuth } from '$lib/api/session/types.js';
 import { redirect } from '@sveltejs/kit';
 
 export function load() {

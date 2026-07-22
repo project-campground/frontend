@@ -29,14 +29,12 @@
 
 	const { children }: LayoutProps = $props();
 
-	const accountContext = new AccountInfo(getSession());
+	const session = getSession();
+	const accountContext = new AccountInfo(session);
 	let error: Error | null = $state(null);
 
 	$effect(() => {
-		accountContext
-			.init()
-			.then(() => 0)
-			.catch((err) => (error = err));
+		accountContext.init().catch((err) => (error = err));
 	});
 
 	const menuPortal = new MenuPortal();

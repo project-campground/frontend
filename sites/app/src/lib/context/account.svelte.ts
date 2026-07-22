@@ -87,6 +87,8 @@ export class AccountInfo {
 			: {};
 
 		this.loadState = AccountInfoLoadState.All;
+
+		return this;
 	}
 }
 

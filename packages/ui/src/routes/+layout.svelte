@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Portals } from '$lib/index.js';
 	import Main from '$lib/Main/Main.svelte';
 	import type { LayoutProps } from './$types.js';
 
@@ -6,11 +7,13 @@
 </script>
 
 <Main>
-	<div class="scrollable">
-		<div class="padded">
-			{@render children()}
+	<Portals.Root>
+		<div class="scrollable">
+			<div class="padded">
+				{@render children()}
+			</div>
 		</div>
-	</div>
+	</Portals.Root>
 </Main>
 
 <style lang="scss">

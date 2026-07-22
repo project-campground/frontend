@@ -1,2 +1,3 @@
-export type { default as PortalsProps } from './props.ts';
-export { default as Portals } from './Portals.svelte';
+export type * from './props.ts';
+export { default as Root } from './PortalsRoot.svelte';
+export { default as List } from './PortalsList.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type PortalsProps from './props.ts';
+	import type { ListProps } from './props.ts';
 
-	const { children, ...attributes }: PortalsProps = $props();
+	const { children, ...attributes }: ListProps = $props();
 </script>
 
 <div {...attributes}>
@@ -12,16 +12,18 @@
 	@use '../../index.scss' as *;
 
 	div {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
-		right: 0;
-		bottom: 0;
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: end;
 		justify-content: end;
 		pointer-events: none;
 		overflow: hidden;
+
+		z-index: 1000;
 	}
 </style>

@@ -47,6 +47,3 @@ export interface ButtonProps extends HTMLButtonAttributes {
 	color?: ComponentColorAll;
 	onclick?: MouseEventHandler<HTMLButtonElement>;
 }
-export interface LinkProps extends HTMLAnchorAttributes {
-	children?: Snippet;
-}

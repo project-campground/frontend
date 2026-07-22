@@ -8,7 +8,6 @@
 		MenuPortalInstance,
 	} from '$lib/floating/MenuPortalContainer/portals.svelte.js';
 	import SelectMenu from './SelectMenu.svelte';
-	import { onMount } from 'svelte';
 
 	let {
 		size,

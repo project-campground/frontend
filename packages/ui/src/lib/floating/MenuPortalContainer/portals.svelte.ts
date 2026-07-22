@@ -1,4 +1,4 @@
-import { Portal, PortalInstance } from '$lib/floating/portals.svelte.ts';
+import { Portal, PortalInstance } from '$lib/floating/portals.svelte.js';
 import { createContext, type Snippet } from 'svelte';
 
 type InstanceSnippet = Snippet<[MenuPortalInstance]>;

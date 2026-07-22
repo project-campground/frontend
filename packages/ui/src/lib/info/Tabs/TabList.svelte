@@ -41,6 +41,7 @@
 	.root {
 		position: relative;
 		width: 100%;
+		z-index: 0;
 	}
 	.highlight {
 		position: absolute;

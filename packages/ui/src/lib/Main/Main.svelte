@@ -2,40 +2,20 @@
 	import type { Snippet } from 'svelte';
 	import { theme, type Theme } from '../theme/index.ts';
 	import SvgDefs from '../visual/svg/SvgDefs.svelte';
-	import { MenuPortal, setMenuPortal } from '$lib/floating/MenuPortalContainer/portals.svelte.js';
-	import MenuPortalContainer from '$lib/floating/MenuPortalContainer/MenuPortalContainer.svelte';
-	import Portals from '$lib/floating/Portals/Portals.svelte';
-	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
-	import { writable } from 'svelte/store';
 
 	let themeValue = $state<Theme>(null!);
 	theme.subscribe((theme) => (themeValue = theme));
 
-	const menuPortal = new MenuPortal();
-
 	const { children }: { children: Snippet } = $props();
-	setMenuPortal(menuPortal);
-
-	const outsideClick: OutsideClick = writable(null);
-	setOutsideClickBoundary(outsideClick);
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <main
 	id="main"
 	lang="en-US"
 	data-theme={themeValue}
-	onclick={(ev) => {
-		$outsideClick = ev;
-		menuPortal.onOutsideClick(ev);
-	}}
 >
 	<SvgDefs />
 	{@render children()}
-	<Portals>
-		<MenuPortalContainer portal={menuPortal}></MenuPortalContainer>
-	</Portals>
 </main>
 
 <style lang="scss">

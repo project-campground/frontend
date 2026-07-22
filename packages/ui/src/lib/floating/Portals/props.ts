@@ -1,7 +1,11 @@
 import type { Snippet } from 'svelte';
 import type { AriaAttributes, ClassValue } from 'svelte/elements';
 
-export default interface PortalsProps extends AriaAttributes {
+export interface ListProps extends AriaAttributes {
+	class?: ClassValue;
+	children: Snippet;
+}
+export interface RootProps extends AriaAttributes {
 	class?: ClassValue;
 	children: Snippet;
 }

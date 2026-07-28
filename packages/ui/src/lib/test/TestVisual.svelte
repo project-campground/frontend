@@ -8,30 +8,18 @@
 		Section,
 		Stack,
 		Svg,
-		type ComponentColorAll,
-		type ComponentSize,
-		type ComponentSizeWithNone,
 		type StatusColor,
 		type PositionHorizontal,
 		type PositionVertical,
 	} from '$lib/index.js';
 	import { IconMoonFilled } from '@tabler/icons-svelte';
+	import { sizes, sizesWithNone } from './values.js';
 
-	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-	const sizesWithNone: ComponentSizeWithNone[] = ['none', 'xs', 'sm', 'md', 'lg', 'xl'];
 	const positions: `${PositionVertical}-${PositionHorizontal}`[] = [
 		'top-left',
 		'top-right',
 		'bottom-right',
 		'bottom-left',
-	];
-	const colorsWithNeutral: ComponentColorAll[] = [
-		'neutral',
-		'primary',
-		'success',
-		'info',
-		'warning',
-		'danger',
 	];
 </script>
 
@@ -52,9 +40,8 @@
 					Radius {radius}
 				{/snippet}
 				<Group
-					wrap
-					withMobile
-					alignVertically="start"
+					directionMobile="column"
+					align="start"
 				>
 					<Image
 						w={6}
@@ -96,7 +83,7 @@
 	{#snippet header()}
 		SvgUse
 	{/snippet}
-	<Group wrap>
+	<Group>
 		<Svg.Use id="logo" />
 		<Svg.Use
 			id="logo"
@@ -113,7 +100,7 @@
 	{#snippet header()}
 		BrandLogo
 	{/snippet}
-	<Group wrap>
+	<Group>
 		{#each sizes as size}
 			<BrandLogo {size} />
 		{/each}
@@ -123,7 +110,7 @@
 	{#snippet header()}
 		Avatar
 	{/snippet}
-	<Group wrap>
+	<Group>
 		{#each sizes as size}
 			<Avatar
 				src="/DefaultAvatar0.png"
@@ -144,7 +131,7 @@
 	{#snippet header()}
 		Badge
 	{/snippet}
-	<Group wrap>
+	<Group>
 		{#each ['mention', 'online', 'idle', 'dnd', 'notification', 'offline', 'online'] as StatusColor[] as color}
 			{#each positions as pos}
 				{#each [undefined, badgeIcon, badgeCount] as badge}

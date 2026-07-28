@@ -9,4 +9,6 @@ export default interface ButtonProps extends HTMLButtonAttributes {
 	size?: ComponentSize;
 	variant?: ButtonVariant;
 	color?: ComponentColorAll;
+
+	padding?: 'default' | 'equal';
 }

@@ -2,11 +2,17 @@
 	import type { Snippet } from 'svelte';
 	import { theme, type Theme } from '../theme/index.ts';
 	import SvgDefs from '../visual/svg/SvgDefs.svelte';
+	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
+	import { writable } from 'svelte/store';
 
 	let themeValue = $state<Theme>(null!);
 	theme.subscribe((theme) => (themeValue = theme));
 
+	const outsideClickBoundary: OutsideClick = writable(null);
+
 	const { children }: { children: Snippet } = $props();
+
+	setOutsideClickBoundary(outsideClickBoundary);
 </script>
 
 <main

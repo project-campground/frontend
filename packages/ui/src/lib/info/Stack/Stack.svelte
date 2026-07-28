@@ -4,10 +4,13 @@
 
 	const {
 		children,
-		gap,
 		class: className,
+		// Flex
+		gap,
+		align,
 		direction,
 		directionMobile,
+		wrap,
 		...attributes
 	}: StackProps = $props();
 </script>
@@ -18,6 +21,7 @@
 	class={['Stack', className]}
 	data-direction-mobile={directionMobile}
 	data-direction={direction}
+	data-align={align ?? 'stretch'}
 >
 	{@render children?.()}
 </div>
@@ -26,6 +30,8 @@
 	@use '../../index.scss' as *;
 
 	$directions: column, column-reverse, row, row-reverse;
+	$aligns: start, stretch, center, end;
+	$wraps: wrap, nowrap, wrap-reverse;
 
 	.Stack {
 		display: flex;
@@ -35,6 +41,16 @@
 		@each $direction in $directions {
 			&[data-direction='#{$direction}'] {
 				flex-direction: $direction;
+			}
+		}
+		@each $align in $aligns {
+			&[data-align='#{$align}'] {
+				align-items: $align;
+			}
+		}
+		@each $wrap in $wraps {
+			&[data-wrap='#{$wrap}'] {
+				flex-wrap: $wrap;
 			}
 		}
 

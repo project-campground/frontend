@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
 	import { Modal, setModal } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 
@@ -10,8 +9,6 @@
 		// Rest
 		...attributes
 	}: RootProps = $props();
-
-	const outsideClick = getOutsideClickBoundary();
 
 	setModal(new Modal(() => instance));
 </script>

@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { ContentProps } from './props.ts';
 
-	const { class: className, gap, children, ...props }: ContentProps = $props();
+	const { class: className, gap, orientation, children, ...props }: ContentProps = $props();
 </script>
 
 <div
 	data-gap={gap}
+	data-orientation={orientation ?? 'vertical'}
 	{...props}
 >
 	{@render children()}
@@ -23,6 +24,10 @@
 			&[data-gap='#{$size}'] {
 				gap: $value;
 			}
+		}
+
+		&[data-orientation='horizontal'] {
+			flex-direction: row;
 		}
 	}
 </style>

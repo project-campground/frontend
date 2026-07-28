@@ -8,6 +8,7 @@
 		Stack,
 		Group,
 		Modal,
+		Dialog,
 	} from '$lib/index.js';
 	import type { Snippet } from 'svelte';
 
@@ -42,13 +43,23 @@
 {/snippet}
 {#snippet regularModal(instance: MenuPortalInstance)}
 	<Modal.Root {instance}>
-		<Modal.Dialog
+		<Dialog.Root
 			size={instance.invoker.attributes.getNamedItem('data-modal-size')?.value as
 				| 'auto'
 				| 'max'
 				| 'full'
-				| null}>Aaaaaa</Modal.Dialog
+				| null}
 		>
+			<Dialog.Header>Example title</Dialog.Header>
+			<Dialog.Content>Aaaaaa</Dialog.Content>
+			<Dialog.Footer>
+				<Button color="primary">Okay</Button>
+				<Button
+					color="neutral"
+					variant="plain">Not okay</Button
+				>
+			</Dialog.Footer>
+		</Dialog.Root>
 	</Modal.Root>
 {/snippet}
 

@@ -12,6 +12,7 @@ export interface RootProps {
 export interface ContentProps {
 	gap?: ComponentSize;
 	class?: ClassValue;
+	orientation?: 'vertical' | 'horizontal';
 	children: Snippet;
 }
 export interface OverflowProps {

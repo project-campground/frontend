@@ -1,13 +1,15 @@
 <script lang="ts">
-	import type { DialogProps } from './props.ts';
+	import type { RootProps } from './props.ts';
 
-	const { children, class: className, size, ...attributes }: DialogProps = $props();
+	const { children, class: className, size, ...attributes }: RootProps = $props();
 </script>
 
 <article
 	class={['dialog', className]}
 	data-size={size ?? 'auto'}
 	{...attributes}
+	// Prevent outside click from being registered
+	onclick={(ev) => ev.stopPropagation()}
 >
 	{@render children?.()}
 </article>
@@ -17,19 +19,29 @@
 
 	.dialog {
 		position: relative;
+		display: flex;
+		flex-direction: column;
 
 		box-sizing: border-box;
 
-		background-color: var(--background-content);
-		border: solid 1px var(--neutral-border);
+		background-color: var(--background-subtle);
 		box-shadow: var(--shadow-md);
 		border-radius: var(--radius-lg);
+		border: solid 1px var(--neutral-border);
 		box-sizing: border-box;
 
-		padding: 1rem;
+		padding: var(--Dialog-paddingY) var(--Dialog-paddingX);
+		gap: var(--Dialog-gap);
+
+		--Dialog-paddingX: 0.5rem;
+		--Dialog-paddingY: 0.5rem;
+		--Dialog-gap: 1rem;
+
 		list-style: none;
 		margin: 0;
-		overflow: auto;
+		overflow: visible;
+
+		min-width: 15rem;
 
 		&[data-size='auto'] {
 			width: max-content;
@@ -40,7 +52,6 @@
 			height: calc(100% - 8rem);
 		}
 		&[data-size='full'] {
-			border-radius: 0;
 			border: none;
 			width: 100%;
 			height: 100%;

@@ -4,12 +4,14 @@ import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campg
 import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
 import type { Session } from '$lib/api/session/Session.svelte.js';
 import XrpcError from '$lib/api/XrpcError.js';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 export enum AccountInfoLoadState {
 	None = 0,
 	Started = 1,
 	Campsites = 2,
 	All = 3,
+	AllUnsigned = 4,
 }
 
 export class AccountInfo {
@@ -54,8 +56,14 @@ export class AccountInfo {
 		});
 	}
 
+	private async initUnsigned() {
+		this.loadState = AccountInfoLoadState.AllUnsigned;
+		return this;
+	}
+
 	public async init() {
-		if (!this.session.auth.authenticated || this.loadState !== AccountInfoLoadState.None) return;
+		if (!this.session.auth.authenticated) return this.initUnsigned();
+		else if (this.loadState !== AccountInfoLoadState.None) return this;
 
 		this.loadState = AccountInfoLoadState.Started;
 

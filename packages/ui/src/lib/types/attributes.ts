@@ -1,4 +1,5 @@
 export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ComponentOrientation = 'horizontal' | 'vertical';
 export type ComponentSizeWithNone = 'none' | ComponentSize;
 export type StatusColor = 'mention' | 'dnd' | 'idle' | 'notification' | 'online' | 'offline';
 export type GenericColor = 'red' | 'yellow' | 'green' | 'teal' | 'blue' | 'purple';
@@ -6,3 +7,5 @@ export type ComponentColor = 'primary' | 'secondary' | 'success' | 'danger' | 'w
 export type ComponentColorAll = ComponentColor | 'neutral';
 export type PositionVertical = 'top' | 'bottom';
 export type PositionHorizontal = 'left' | 'right';
+export type FlexAlignItem = 'start' | 'stretch' | 'center' | 'end';
+export type FlexDirection = 'column' | 'column-reverse' | 'row' | 'row-reverse';

@@ -8,6 +8,4 @@ export function load() {
 
 	const authParsed = JSON.parse(auth || '{}') as SessionAuth;
 	if (!authParsed.authenticated) return redirect(307, '/auth/login');
-
-	redirect(307, '/home');
 }

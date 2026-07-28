@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type ButtonProps from './props.ts';
 
-	const { children, size, variant, color, ...attributes }: ButtonProps = $props();
+	const { children, size, variant, color, padding, ...attributes }: ButtonProps = $props();
 </script>
 
 <button
@@ -9,12 +9,14 @@
 	data-size={size ?? 'md'}
 	data-variant={variant ?? 'glow'}
 	data-color={color ?? 'primary'}
+	data-padding={padding ?? 'default'}
 >
 	{@render children()}
 </button>
 
 <style lang="scss">
 	@use '../../index.scss' as *;
+	@use 'sass:list';
 
 	$button-padding: create-size-map((2px 4px, 4px 8px, 8px 24px, 12px 36px, 16px 48px));
 
@@ -37,8 +39,13 @@
 		}
 		@include button-transform();
 		@each $size, $values in $button-padding {
+			$first: list.nth($values, 1);
 			&[data-size='#{$size}'] {
 				padding: $values;
+				--Button-radius: var(--radius-#{$size});
+			}
+			&[data-padding='equal'][data-size='#{$size}'] {
+				padding: $first;
 				--Button-radius: var(--radius-#{$size});
 			}
 		}

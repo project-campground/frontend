@@ -14,7 +14,11 @@
 		type GradientMotion,
 		type ParaLevel,
 		Svg,
+		type ComponentOrientation,
+		Divider,
+		type StatusColor,
 	} from '$lib/index.js';
+	import { statusColors } from './values.ts';
 
 	const gradientMotions: GradientMotion[] = ['none', 'linear', 'wave', 'radial'];
 	const gradientTextMaxColors = [
@@ -42,7 +46,7 @@
 	<Stack>
 		{#each [500, 600, 700, 800, 900] as const as weight}
 			{#each ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'para', 'sub0', 'sub1'] as ParaLevel[] as level}
-				<Group wrap>
+				<Group>
 					{#each [undefined, ...colors] as color}
 						<Para
 							{level}
@@ -53,6 +57,40 @@
 				</Group>
 			{/each}
 		{/each}
+	</Stack>
+</Section>
+{#snippet dividerSnippet(orientation: ComponentOrientation)}
+	<div>
+		<Para>Example a 1</Para>
+		<Para>Example a 2</Para>
+		<Para>Example a 3</Para>
+		<Para>Example a 4</Para>
+		<Para>Example a 5</Para>
+	</div>
+	<Divider {orientation} />
+	<Divider {orientation} />
+	<span>Example b</span>
+	<span>Example c</span>
+	<Divider {orientation}>Divider</Divider>
+	{#each [...statusColors, 'background', 'neutral'] as (StatusColor | 'background' | 'neutral')[] as color}
+		<Divider
+			{orientation}
+			{color}>{color}</Divider
+		>
+	{/each}
+	<span>Example d</span>
+{/snippet}
+<Section headerLevel={1}>
+	{#snippet header()}
+		Dividers
+	{/snippet}
+	<Stack>
+		<Group align="stretch">
+			{@render dividerSnippet('vertical')}
+		</Group>
+		<Stack>
+			{@render dividerSnippet('horizontal')}
+		</Stack>
 	</Stack>
 </Section>
 <Section headerLevel={1}>
@@ -66,10 +104,7 @@
 					{size}
 				{/snippet}
 				{#each ['default', 'subtle'] as const as level}
-					<Group
-						wrap
-						alignVertically="start"
-					>
+					<Group align="start">
 						<Card.Root
 							{size}
 							{level}
@@ -135,7 +170,7 @@
 		style:font-size="2.5rem"
 	>
 		{#each gradientMotions as motion}
-			<Group wrap>
+			<Group>
 				<GradientText {motion}>0 colors {motion}</GradientText>
 				{#each gradientTextColors as colors}
 					<GradientText
@@ -154,7 +189,7 @@
 	<div>
 		{#each sizes as size}
 			<h2>{size}</h2>
-			<Group wrap>
+			<Group>
 				{#each colors as color}
 					<Alert
 						{icon}
@@ -176,7 +211,7 @@
 	<Stack gap={8}>
 		{#each sizes as gap}
 			{#each [1, 2, 3, 4, 5, 6] as const as headerLevel}
-				<Group wrap>
+				<Group>
 					<Section
 						{gap}
 						{headerLevel}
@@ -208,7 +243,7 @@
 	<Stack gap={8}>
 		{#each [true, false] as noBackground}
 			{#each sizes as gap}
-				<Group wrap>
+				<Group>
 					<Accordion
 						{gap}
 						{noBackground}

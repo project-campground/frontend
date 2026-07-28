@@ -19,10 +19,12 @@
 	import {
 		MenuPortal,
 		MenuPortalContainer,
+		Modal,
 		PagePlaceholder,
 		PagePlaceholderIcon,
 		Portals,
 		setMenuPortal,
+		type MenuPortalInstance,
 	} from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
@@ -34,7 +36,10 @@
 	let error: Error | null = $state(null);
 
 	$effect(() => {
-		accountContext.init().catch((err) => (error = err));
+		accountContext
+			.init()
+			.then((accountInfo) => menuPortal.add(createProfileModal, document.getElementById('main')!))
+			.catch((err) => (error = err));
 	});
 
 	const menuPortal = new MenuPortal();
@@ -42,6 +47,12 @@
 	setAccount(accountContext);
 	setMenuPortal(menuPortal);
 </script>
+
+{#snippet createProfileModal(instance: MenuPortalInstance)}
+	<Modal.Root {instance}>
+		<Modal.Dialog size="full">Aaaa</Modal.Dialog>
+	</Modal.Root>
+{/snippet}
 
 {#if error}
 	<PagePlaceholder icon={PagePlaceholderIcon.Error}>
@@ -54,7 +65,7 @@
 	<GlobalLayout>
 		{@render children()}
 	</GlobalLayout>
-	<Portals>
+	<Portals.List>
 		<MenuPortalContainer portal={menuPortal} />
-	</Portals>
+	</Portals.List>
 {/if}

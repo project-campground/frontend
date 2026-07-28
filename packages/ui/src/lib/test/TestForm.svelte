@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ButtonVariant } from '$lib/Button/props.js';
+	import type { ButtonVariant } from '$lib/form/Button/props.js';
 	import {
 		Button,
 		Checkbox,
@@ -11,16 +11,13 @@
 		Stack,
 		Switch,
 		TextInput,
-		type ComponentColor,
 		type ComponentColorAll,
-		type ComponentSize,
 	} from '$lib/index.js';
 	import IconLogo from '$lib/visual/svg/IconLogo.svelte';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
+	import { colors, sizes } from './values.js';
 
-	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 	const variants: ButtonVariant[] = ['glow', 'soft', 'plain'];
-	const colors: ComponentColor[] = ['primary', 'success', 'info', 'warning', 'danger'];
 
 	let switchValue = $state(false);
 
@@ -71,7 +68,7 @@
 								placeholder={size}
 								{...attr}
 							/>
-							<Group wrap>
+							<Group>
 								<TextInput
 									bind:value={inputValue}
 									{size}
@@ -123,7 +120,7 @@
 						{#snippet header()}
 							Attr: {JSON.stringify(Object.keys(attr))}
 						{/snippet}
-						<Group wrap>
+						<Group>
 							<Select.Button
 								bind:value={selectValue}
 								children={selectMenu}
@@ -151,7 +148,7 @@
 		Switch
 	{/snippet}
 	<Stack gap={1}>
-		<Group wrap>
+		<Group>
 			<Switch bind:value={switchValue} />
 		</Group>
 		{#each [false, true] as disabled}
@@ -182,12 +179,12 @@
 		Checkbox
 	{/snippet}
 	<Stack gap={1}>
-		<Group wrap>
+		<Group>
 			<Checkbox bind:checked={switchValue} />
 		</Group>
 		{#each [false, true] as disabled}
 			{#each [undefined, IconMoonFilled] as icon}
-				<Group wrap>
+				<Group>
 					<Checkbox
 						bind:checked={switchValue}
 						{disabled}
@@ -220,7 +217,7 @@
 			/>
 		</Group>
 		{#each [false, true] as disabled}
-			<Group wrap>
+			<Group>
 				<Radio
 					name="example-2"
 					value={`default${disabled ? `-disabled` : ``}`}
@@ -249,10 +246,7 @@
 			<h2>{size}</h2>
 			<Stack gap={2}>
 				{#each variants as variant}
-					<Group
-						wrap
-						gap={1}
-					>
+					<Group gap={1}>
 						{#each [...colors, 'neutral'] as ComponentColorAll[] as color}
 							<Button
 								{variant}

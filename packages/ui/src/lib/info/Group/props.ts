@@ -1,13 +1,3 @@
-import type { Snippet } from 'svelte';
-import type { AriaAttributes, ClassValue } from 'svelte/elements';
+import type StackProps from '../Stack/props.ts';
 
-export default interface GroupProps extends AriaAttributes {
-	children?: Snippet;
-	class?: ClassValue;
-	alignVertically?: 'start' | 'stretch' | 'center' | 'end';
-	wrap?: boolean;
-	withMobile?: boolean;
-	mobileReversed?: boolean;
-	reversed?: boolean;
-	gap?: number;
-}
+export default interface GroupProps extends StackProps {}

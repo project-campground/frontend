@@ -7,6 +7,7 @@ export * from './Group/index.ts';
 export * from './Link/index.ts';
 export * from './PagePlaceholder/index.ts';
 export * from './Para/index.ts';
+export * from './Divider/index.ts';
 export * from './Section/index.ts';
 export * from './Stack/index.ts';
 export * as Tabs from './Tabs/index.ts';

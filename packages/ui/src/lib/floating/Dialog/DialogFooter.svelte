@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Group, Stack } from '$lib/info/index.js';
+	import { Stack } from '$lib/index.js';
 	import DialogDivider from './DialogDivider.svelte';
 	import type { FooterProps } from './props.ts';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { capitalize, Menu } from '$lib/index.js';
+	import { Menu } from '$lib/index.js';
 	import { IconCaretDownFilled } from '@tabler/icons-svelte';
 	import type { ButtonProps } from './props.ts';
 	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';

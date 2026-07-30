@@ -17,6 +17,8 @@
 	import GlobalLayout from './GlobalLayout.svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
 	import {
+		Dialog,
+		FlexCenter,
 		MenuPortal,
 		MenuPortalContainer,
 		Modal,
@@ -28,6 +30,7 @@
 	} from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
+	import ProfileSetup from './ProfileSetup.svelte';
 
 	const { children }: LayoutProps = $props();
 
@@ -50,7 +53,9 @@
 
 {#snippet createProfileModal(instance: MenuPortalInstance)}
 	<Modal.Root {instance}>
-		<Modal.Dialog size="full">Aaaa</Modal.Dialog>
+		<Dialog.Root size="full">
+			<ProfileSetup />
+		</Dialog.Root>
 	</Modal.Root>
 {/snippet}
 

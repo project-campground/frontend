@@ -1,6 +1,7 @@
 export * from './floating/index.ts';
 export * from './form/index.ts';
 export * from './info/index.ts';
+export * from './hierarchy/index.ts';
 export * from './visual/index.ts';
 export {
 	observeIntersection,

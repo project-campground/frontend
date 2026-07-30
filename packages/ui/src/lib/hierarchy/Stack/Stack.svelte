@@ -19,6 +19,7 @@
 	{...attributes}
 	style:--Stack-gap={toSpacingPx(gap ?? 1)}
 	class={['Stack', className]}
+	data-wrap={wrap}
 	data-direction-mobile={directionMobile}
 	data-direction={direction}
 	data-align={align ?? 'stretch'}

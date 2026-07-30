@@ -1,14 +1,11 @@
 <script lang="ts">
 	import {
 		Alert,
-		Accordion,
-		Card,
 		GradientText,
 		Group,
 		Para,
 		Section,
 		Stack,
-		TextBlock,
 		type ComponentColor,
 		type ComponentSize,
 		type GradientMotion,
@@ -95,74 +92,6 @@
 </Section>
 <Section headerLevel={1}>
 	{#snippet header()}
-		Card
-	{/snippet}
-	<div>
-		{#each sizes as size}
-			<Section headerLevel={2}>
-				{#snippet header()}
-					{size}
-				{/snippet}
-				{#each ['default', 'subtle'] as const as level}
-					<Group align="start">
-						<Card.Root
-							{size}
-							{level}
-						>
-							<TextBlock>Example no content {size} level {level}</TextBlock>
-						</Card.Root>
-						<Card.Root
-							{size}
-							{level}
-						>
-							<Card.Content>
-								<TextBlock>Example {size} level {level}</TextBlock>
-							</Card.Content>
-						</Card.Root>
-						<Card.Root
-							{size}
-							{level}
-						>
-							<Card.Overflow>
-								<TextBlock>Example overflow {size} level {level}</TextBlock>
-							</Card.Overflow>
-							<Card.Content>
-								<TextBlock>Example</TextBlock>
-							</Card.Content>
-						</Card.Root>
-						<Card.Root
-							{size}
-							{level}
-						>
-							<Card.Overflow>
-								<TextBlock>Example overflow {size} level {level}</TextBlock>
-							</Card.Overflow>
-						</Card.Root>
-						<Card.Root
-							{size}
-							{level}
-						>
-							<Card.Content>
-								<TextBlock>Example content 1 {size} level {level}</TextBlock>
-							</Card.Content>
-							<Card.Content>
-								<TextBlock>Example content 2</TextBlock>
-							</Card.Content>
-							<Card.Content>
-								<TextBlock>Example content 3</TextBlock>
-							</Card.Content>
-							<Card.Content>
-								<TextBlock>Example content 4</TextBlock>
-							</Card.Content>
-						</Card.Root>
-					</Group>
-				{/each}
-			</Section>
-		{/each}
-	</div>
-</Section>
-<Section headerLevel={1}>
-	{#snippet header()}
 		GradientText
 	{/snippet}
 	<div
@@ -231,40 +160,6 @@
 						{/snippet}
 						{gap} gap and header level {headerLevel} subtle
 					</Section>
-				</Group>
-			{/each}
-		{/each}
-	</Stack>
-</Section>
-<Section headerLevel={1}>
-	{#snippet header()}
-		Accordion
-	{/snippet}
-	<Stack gap={8}>
-		{#each [true, false] as noBackground}
-			{#each sizes as gap}
-				<Group>
-					<Accordion
-						{gap}
-						{noBackground}
-					>
-						{#snippet header()}
-							Accordion {gap} {noBackground ? 'no background' : ''}
-						{/snippet}
-						Example accordion {gap}
-						<GradientText colors={['#FF0000', '#00FF00', '#0000FF']}>Example 2</GradientText>
-					</Accordion>
-					<Accordion
-						{gap}
-						subtle
-						{noBackground}
-					>
-						{#snippet header()}
-							Accordion {gap} subtle {noBackground ? 'no background' : ''}
-						{/snippet}
-						Example accordion {gap}
-						<GradientText colors={['#FF0000', '#00FF00', '#0000FF']}>Example 2</GradientText>
-					</Accordion>
 				</Group>
 			{/each}
 		{/each}

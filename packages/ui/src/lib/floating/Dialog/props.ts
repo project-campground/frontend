@@ -1,5 +1,5 @@
 import type { ButtonProps } from '$lib/form/index.js';
-import type { Card, StackProps, DividerProps as ComponentDividerProps } from '$lib/info/index.js';
+import type { Card, StackProps, DividerProps as ComponentDividerProps } from '$lib/index.js';
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 

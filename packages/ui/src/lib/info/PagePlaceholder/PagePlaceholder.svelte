@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Para from '$lib/info/Para/Para.svelte';
+	import { Para } from '$lib/info/index.js';
 	import type PagePlaceholderProps from './props.ts';
 	import { pagePlaceholderIconValues } from './props.ts';
 
@@ -38,12 +38,13 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
+		gap: 0.5rem;
 	}
 	.icon {
 		font-size: 2em;
 		font-weight: 900;
 		color: var(--foreground-subtext);
-		margin-bottom: 16px;
+		margin-bottom: 1rem;
 	}
 	.status {
 		color: var(--foreground-subtext);

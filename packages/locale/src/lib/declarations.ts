@@ -1,19 +1,26 @@
 import { defineMessages } from '@formatjs/svelte-intl';
 
 export const globalLocale = defineMessages({
-	// Common everywhere
+	/////////////////////////
+	/// Common everywhere ///
+	/////////////////////////
+
 	'common.copy': {
 		id: 'common.copy',
 		defaultMessage: 'Copy',
 		description: 'Text of button for copying text',
 	},
-	'common.create': { id: 'common.create', defaultMessage: 'Create', description: 'Create content' },
+
+	// Files
 	'common.download': {
 		id: 'common.download',
 		defaultMessage: 'Download',
 		description: 'Download content',
 	},
 	'common.upload': { id: 'common.upload', defaultMessage: 'Upload', description: 'Upload content' },
+
+	// Content manipulation
+	'common.create': { id: 'common.create', defaultMessage: 'Create', description: 'Create content' },
 	'common.edit': { id: 'common.edit', defaultMessage: 'Edit', description: 'Edit content' },
 	'common.delete': { id: 'common.delete', defaultMessage: 'Delete', description: 'Delete content' },
 	'common.cancel': {
@@ -21,6 +28,18 @@ export const globalLocale = defineMessages({
 		defaultMessage: 'Cancel',
 		description: 'Cancelling an action in settings, modals and content',
 	},
+
+	// Pages
+	'common.continue': {
+		id: 'common.continue',
+		defaultMessage: 'Continue',
+		description: 'Continue an action',
+	},
+	'common.skip': { id: 'common.skip', defaultMessage: 'Skip', description: 'Skip a page' },
+	'common.next': { id: 'common.next', defaultMessage: 'Next', description: 'Next page' },
+	'common.back': { id: 'common.back', defaultMessage: 'Back', description: 'Go back a page' },
+
+	// Values
 	'common.infinite': {
 		id: 'common.infinite',
 		defaultMessage: 'Infinite',
@@ -143,6 +162,9 @@ export const globalLocale = defineMessages({
 		description: 'Button for confirming deletion of content',
 	},
 
+	////////////////////
+	/// Landing page ///
+	////////////////////
 	// Campground common
 	'site.motto': {
 		id: 'site.motto',
@@ -211,6 +233,9 @@ export const globalLocale = defineMessages({
 		description: 'Discord social header',
 	},
 
+	///////////////
+	/// Web app ///
+	///////////////
 	// Profiles
 	'app.profiles.aboutMe': {
 		id: 'app.profiles.aboutMe',

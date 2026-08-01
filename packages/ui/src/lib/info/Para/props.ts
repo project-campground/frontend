@@ -7,6 +7,7 @@ export type RegularParagraphLevel = 'paragraph';
 export type SubtitleLevel = 'sub0' | 'sub1';
 export type ParaLevel = HeaderLevel | RegularParagraphLevel | SubtitleLevel;
 export type TextAlign = 'left' | 'right' | 'center' | 'justify';
+export type TextWrap = 'wrap' | 'nowrap' | 'balance' | 'pretty' | 'stable';
 
 export default interface ParaProps {
 	fontSize?: number | string;
@@ -15,6 +16,7 @@ export default interface ParaProps {
 	weight?: 500 | 600 | 700 | 800 | 900;
 	level?: ParaLevel;
 	align?: TextAlign;
+	textWrap?: TextWrap;
 	color?: ComponentColorAll;
 	vMargin?: ComponentSize;
 	tMargin?: ComponentSize;

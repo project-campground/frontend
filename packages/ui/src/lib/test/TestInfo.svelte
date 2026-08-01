@@ -14,8 +14,12 @@
 		type ComponentOrientation,
 		Divider,
 		type StatusColor,
+		Stepper,
 	} from '$lib/index.js';
+	import { IconCheck } from '@tabler/icons-svelte';
 	import { statusColors } from './values.ts';
+	import TextInput from '$lib/form/TextInput/TextInput.svelte';
+	import Button from '$lib/form/Button/Button.svelte';
 
 	const gradientMotions: GradientMotion[] = ['none', 'linear', 'wave', 'radial'];
 	const gradientTextMaxColors = [
@@ -88,6 +92,59 @@
 		<Stack>
 			{@render dividerSnippet('horizontal')}
 		</Stack>
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Stepper
+	{/snippet}
+	<Stack gap={6}>
+		{let stepperValue: number = $state(0)}
+		<Group>
+			<Button onclick={() => stepperValue--}>-</Button>
+			<Button onclick={() => stepperValue++}>+</Button>
+		</Group>
+		{#each ['horizontal', 'vertical'] as ComponentOrientation[] as orientation}
+			<Stack wrap="wrap" direction={orientation === 'vertical' ? 'row' : 'column'}>
+				{#each sizes as size}
+				<Stepper.Root
+					{orientation}
+					{size}
+					active={stepperValue}
+				>
+					{#each colors as color}
+						<Stepper.Step {color}>
+							{#snippet icon()}
+								<IconCheck />
+							{/snippet}
+							{color}
+						</Stepper.Step>
+					{/each}
+				</Stepper.Root>
+				{/each}
+				<Stepper.Root
+					{orientation}
+					size="md"
+					active={stepperValue}
+				>
+					{#each colors as color, i}
+						<Stepper.Step {color}>
+							{#snippet icon()}
+								<IconCheck />
+							{/snippet}
+							<Stack gap={0} align={orientation === "horizontal" ? "center" : "start"}>
+								<Para level="sub0" lineHeight="1rem" textWrap="nowrap">
+									Step {i + 1}
+								</Para>
+								<Para level="h3" lineHeight="1rem">
+									{color}
+								</Para>
+							</Stack>
+						</Stepper.Step>
+					{/each}
+				</Stepper.Root>
+			</Stack>
+		{/each}
 	</Stack>
 </Section>
 <Section headerLevel={1}>

@@ -7,3 +7,4 @@ export * from './Divider/index.ts';
 export * from './Section/index.ts';
 export * as Tabs from './Tabs/index.ts';
 export * from './TextBlock/index.ts';
+export * as Stepper from './Stepper/index.ts';

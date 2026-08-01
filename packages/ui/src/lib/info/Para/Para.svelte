@@ -12,6 +12,7 @@
 		fontSize,
 		vMargin,
 		letterSpacing,
+		textWrap,
 		tMargin,
 		bMargin,
 	}: ParaProps = $props();
@@ -27,6 +28,7 @@
 	data-v-margin={vMargin}
 	data-t-margin={tMargin}
 	data-b-margin={bMargin}
+	data-text-wrap={textWrap}
 	style:--Para-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
 	style:--Para-lineHeight={typeof lineHeight === 'number' ? `${lineHeight}rem` : lineHeight}
 	style:--Para-letterSpacing={typeof letterSpacing === 'number' ?
@@ -50,6 +52,7 @@
 	$margins: 0 0.125em 0.25em 0.5em 1em 2em 3em;
 	$margin-size-map: create-size-map-using($margins, $size-names-with-none);
 	$aligns: left, center, right, justify;
+	$text-wraps: wrap, nowrap, balance, pretty, stable;
 
 	.Para {
 		display: block;
@@ -97,6 +100,11 @@
 		@each $align in $aligns {
 			&[data-align='#{$align}'] {
 				text-align: $align;
+			}
+		}
+		@each $wrap in $text-wraps {
+			&[data-text-wrap='#{$wrap}'] {
+				text-wrap: $wrap;
 			}
 		}
 

@@ -1,5 +1,6 @@
 export * from './Form/index.ts';
 export * as FormCheck from './FormCheck/index.ts';
+export * from './FormImageField/index.ts';
 export * from './FormControl/index.ts';
 export * from './FormErrorLabel/index.ts';
 export * from './FormLabel/index.ts';

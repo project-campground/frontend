@@ -132,7 +132,11 @@
 
 	// Solid
 	--neutral-solidFore: var(--foreground-heading);
+
 	--neutral-solidBack: #{map.get($theme-shades, 600)};
+	--neutral-solidBackHover: #{map.get($theme-shades, 500)};
+	--neutral-solidBackActive: #{map.get($theme-shades, 700)};
+	--neutral-solidBackDisabled: #{map.get($theme-shades, 700)};
 
 	// Plain
 	--neutral-plainFore: var(--foreground-body);

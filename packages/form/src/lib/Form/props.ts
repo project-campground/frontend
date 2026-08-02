@@ -10,5 +10,8 @@ export default interface FormProps extends HTMLFormAttributes {
 	gap?: ComponentSize;
 
 	children: Snippet;
-	onSubmit?: (values: Record<FormFieldId, any>, ev?: MouseEvent | undefined) => Promise<unknown>;
+	onSubmit?: (
+		values: Record<FormFieldId, any>,
+		ev?: MouseEvent | undefined,
+	) => Promise<unknown> | unknown;
 }

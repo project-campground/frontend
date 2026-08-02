@@ -65,6 +65,8 @@
 		Stepper,
 	} from '@campground/ui';
 	import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-svelte';
+	import GettingStartedPage0 from './GettingStarted/GettingStartedPage0.svelte';
+	import GettingStartedPage1 from './GettingStarted/GettingStartedPage1.svelte';
 
 	let step: number = $state(0);
 	let maxSteps: number = $state(5);
@@ -78,16 +80,10 @@
 			count={maxSteps}
 		>
 			<Paged.Item>
-				<FlexCenter>
-					<PagePlaceholder icon={PagePlaceholderIcon.Welcome}>
-						{#snippet title()}
-							<FormattedMessage {...localeMessages.welcomeHeader} />
-						{/snippet}
-						<Para>
-							<FormattedMessage {...localeMessages.welcomeDescription} />
-						</Para>
-					</PagePlaceholder>
-				</FlexCenter>
+				<GettingStartedPage0 />
+			</Paged.Item>
+			<Paged.Item>
+				<GettingStartedPage1 />
 			</Paged.Item>
 		</Paged.Root>
 	</div>
@@ -97,7 +93,8 @@
 	>
 		<Stack
 			direction="row"
-			gap={2}
+			align="center"
+			gap={4}
 		>
 			<Button
 				disabled={step < 1}
@@ -106,6 +103,31 @@
 				<IconArrowLeft />
 				<FormattedMessageGlobal id="common.back" />
 			</Button>
+			<Stepper.Root
+				active={step}
+				size="lg"
+			>
+				{#each stepTitles as stepTitle, i (i)}
+					<Stepper.Step color="success">
+						{#snippet icon()}
+							<IconCheck />
+						{/snippet}
+						<Para
+							level="sub0"
+							lineHeight="1rem"
+						>
+							Step {i + 1}
+						</Para>
+						<Para
+							level="h3"
+							lineHeight="1rem"
+							tMargin="sm"
+						>
+							<FormattedMessage {...stepTitle} />
+						</Para>
+					</Stepper.Step>
+				{/each}
+			</Stepper.Root>
 			<Button
 				disabled={step == maxSteps - 1}
 				onclick={() => step++}
@@ -114,31 +136,6 @@
 				<IconArrowRight />
 			</Button>
 		</Stack>
-		<Stepper.Root
-			active={step}
-			size="lg"
-		>
-			{#each stepTitles as stepTitle, i (i)}
-				<Stepper.Step color="success">
-					{#snippet icon()}
-						<IconCheck />
-					{/snippet}
-					<Para
-						level="sub0"
-						lineHeight="1rem"
-					>
-						Step {i + 1}
-					</Para>
-					<Para
-						level="h3"
-						lineHeight="1rem"
-						tMargin="sm"
-					>
-						<FormattedMessage {...stepTitle} />
-					</Para>
-				</Stepper.Step>
-			{/each}
-		</Stepper.Root>
 	</Stack>
 </div>
 

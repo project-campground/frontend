@@ -33,8 +33,8 @@
 		padding: var(--Dialog-paddingY) var(--Dialog-paddingX);
 		gap: var(--Dialog-gap);
 
-		--Dialog-paddingX: 0.5rem;
-		--Dialog-paddingY: 0.5rem;
+		--Dialog-paddingX: 1rem;
+		--Dialog-paddingY: 1rem;
 		--Dialog-gap: 1rem;
 
 		list-style: none;

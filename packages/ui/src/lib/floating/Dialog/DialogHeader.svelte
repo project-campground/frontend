@@ -10,19 +10,16 @@
 	class="container"
 	{...attributes}
 >
-	<div class="content">
-		<div class="row left">
-			{@render left?.()}
-		</div>
-		<div class="row center">
-			{@render children?.()}
-		</div>
-		<div class="row right">
-			{@render right?.()}
-			<DialogClose />
-		</div>
+	<div class="row left">
+		{@render left?.()}
 	</div>
-	<DialogDivider />
+	<div class="row center">
+		{@render children?.()}
+	</div>
+	<div class="row right">
+		{@render right?.()}
+		<DialogClose />
+	</div>
 </div>
 
 <style lang="scss">
@@ -31,8 +28,8 @@
 	.container {
 		position: relative;
 		display: flex;
-		flex-direction: column;
-		align-items: stretch;
+		flex-direction: row;
+		align-items: center;
 		gap: var(--Dialog-gap);
 
 		// For titles
@@ -41,11 +38,6 @@
 		font-size: 0.9em;
 		font-family: var(--font-display);
 		letter-spacing: 0.05em;
-	}
-	.content {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
 	}
 	.row {
 		display: flex;

@@ -30,7 +30,7 @@
 	} from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
-	import ProfileSetup from './ProfileSetup.svelte';
+	import ProfileSetup from './GettingStartedModal.svelte';
 
 	const { children }: LayoutProps = $props();
 

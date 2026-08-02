@@ -68,6 +68,7 @@
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/package": "^2.5.7",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"@tabler/icons-svelte": "^3.34.1",
 		"@types/node": "^24",
 		"autoprefixer": "^10.5.0",
 		"eslint": "^10.2.0",

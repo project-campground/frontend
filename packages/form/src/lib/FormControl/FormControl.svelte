@@ -37,7 +37,7 @@
 
 <div
 	class={[{ disabled, required }]}
-	style:--FormControl-flex={1}
+	style:--FormControl-flex={flex}
 	{...props}
 >
 	{@render children()}

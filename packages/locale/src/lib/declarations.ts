@@ -58,6 +58,16 @@ export const globalLocale = defineMessages({
 		defaultMessage: 'Username',
 		description: 'Display name of the user',
 	},
+	'info.avatar': {
+		id: 'info.avatar',
+		defaultMessage: 'Avatar',
+		description: 'Display avatar of the user',
+	},
+	'info.banner': {
+		id: 'info.banner',
+		defaultMessage: 'Banner',
+		description: 'Display banner of the user',
+	},
 	'info.pds': {
 		id: 'info.pds',
 		defaultMessage: 'Personal server',
@@ -123,6 +133,17 @@ export const globalLocale = defineMessages({
 		id: 'info.about',
 		defaultMessage: 'About',
 		description: 'About header in settings and tents',
+	},
+	'info.tagline': { id: 'info.tagline', defaultMessage: 'Tagline', description: 'User tagline' },
+	'info.about.you': {
+		id: 'info.about.you',
+		defaultMessage: 'About you',
+		description: 'About me editing section in profiles',
+	},
+	'info.about.me': {
+		id: 'info.about.me',
+		defaultMessage: 'About me',
+		description: 'About me section in profiles',
 	},
 	'info.desc': {
 		id: 'info.desc',

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Main } from '@campground/ui';
+	import { Main, theme } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
 	import { setLocaleContext, type DefaultMessageSegment } from '@campground/locale';
 	import { writable } from 'svelte/store';
@@ -24,6 +24,10 @@
 				throw new Error(`Error fetching locale: ${err}`, { cause: err });
 			});
 	});
+
+	onMount(() =>
+		theme.subscribe((value) => session.preferences.updateLocal({ appearance: { theme: value } })),
+	);
 
 	setLocaleContext(localeWritable);
 	setSession(session);

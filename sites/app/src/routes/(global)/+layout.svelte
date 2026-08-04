@@ -18,7 +18,6 @@
 	import { getSession } from '$lib/api/session/Session.svelte';
 	import {
 		Dialog,
-		FlexCenter,
 		MenuPortal,
 		MenuPortalContainer,
 		Modal,
@@ -31,6 +30,7 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
 	import ProfileSetup from './GettingStartedModal.svelte';
+	import { onMount } from 'svelte';
 
 	const { children }: LayoutProps = $props();
 
@@ -38,10 +38,13 @@
 	const accountContext = new AccountInfo(session);
 	let error: Error | null = $state(null);
 
-	$effect(() => {
+	onMount(() => {
 		accountContext
 			.init()
-			.then((accountInfo) => menuPortal.add(createProfileModal, document.getElementById('main')!))
+			.then((accountInfo) => {
+				if (accountInfo.profile === null)
+					menuPortal.add(createProfileModal, document.getElementById('main')!);
+			})
 			.catch((err) => (error = err));
 	});
 

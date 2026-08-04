@@ -6,45 +6,45 @@
 
 	const localeMessages = defineMessages({
 		welcomeHeader: {
-			id: 'app.createProfile.welcome.header',
+			id: 'app.gettingStarted.welcome.header',
 			defaultMessage: 'Welcome to Campground!',
 			description: 'Getting started welcome header',
 		},
 		welcomeDescription: {
-			id: 'app.createProfile.welcome.desc',
+			id: 'app.gettingStarted.welcome.desc',
 			defaultMessage:
 				"Before we start, you need to create your profile for Campground. Don''t worry, this is a single time only process.",
 			description: 'Getting started welcome description',
 		},
 		step: {
-			id: 'app.createProfile.step',
+			id: 'app.gettingStarted.step',
 			defaultMessage: 'Step {count, number}',
 			description: 'Getting started nth step',
 		},
 	});
 	const stepTitles = [
 		defineMessage({
-			id: 'app.createProfile.steps.welcome',
+			id: 'app.gettingStarted.steps.welcome',
 			defaultMessage: 'Welcome',
 			description: 'Welcome step in the create profile stepper component',
 		}),
 		defineMessage({
-			id: 'app.createProfile.steps.appearance',
+			id: 'app.gettingStarted.steps.appearance',
 			defaultMessage: 'Appearance',
 			description: 'Appearance step in the create profile stepper component',
 		}),
 		defineMessage({
-			id: 'app.createProfile.steps.profile',
+			id: 'app.gettingStarted.steps.profile',
 			defaultMessage: 'Profile',
 			description: 'Profile step in the create profile stepper component',
 		}),
 		defineMessage({
-			id: 'app.createProfile.steps.profile',
+			id: 'app.gettingStarted.steps.profile',
 			defaultMessage: 'Socials',
 			description: 'Socials step in the create profile stepper component',
 		}),
 		defineMessage({
-			id: 'app.createProfile.steps.final',
+			id: 'app.gettingStarted.steps.final',
 			defaultMessage: 'Done',
 			description: 'Final step in the create profile stepper component',
 		}),
@@ -54,22 +54,19 @@
 <script lang="ts">
 	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
 
-	import {
-		Button,
-		FlexCenter,
-		Paged,
-		PagePlaceholder,
-		PagePlaceholderIcon,
-		Para,
-		Stack,
-		Stepper,
-	} from '@campground/ui';
+	import { Button, Paged, Para, Stack, Stepper } from '@campground/ui';
 	import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-svelte';
 	import GettingStartedPage0 from './GettingStarted/GettingStartedPage0.svelte';
 	import GettingStartedPage1 from './GettingStarted/GettingStartedPage1.svelte';
+	import GettingStartedPage2 from './GettingStarted/GettingStartedPage2.svelte';
+	import GettingStartedPage3 from './GettingStarted/GettingStartedPage3.svelte';
+	import GettingStartedPage4 from './GettingStarted/GettingStartedPage4.svelte';
+	import { GettingStarted } from './GettingStarted/context.svelte.ts';
 
 	let step: number = $state(0);
 	let maxSteps: number = $state(5);
+
+	const gettingStarted: GettingStarted = new GettingStarted();
 </script>
 
 <div class="container">
@@ -84,6 +81,15 @@
 			</Paged.Item>
 			<Paged.Item>
 				<GettingStartedPage1 />
+			</Paged.Item>
+			<Paged.Item>
+				<GettingStartedPage2 {gettingStarted} />
+			</Paged.Item>
+			<Paged.Item>
+				<GettingStartedPage3 />
+			</Paged.Item>
+			<Paged.Item>
+				<GettingStartedPage4 {gettingStarted} />
 			</Paged.Item>
 		</Paged.Root>
 	</div>

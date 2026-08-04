@@ -4,7 +4,6 @@ import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campg
 import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
 import type { Session } from '$lib/api/session/Session.svelte.js';
 import XrpcError from '$lib/api/XrpcError.js';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 export enum AccountInfoLoadState {
 	None = 0,
@@ -93,6 +92,7 @@ export class AccountInfo {
 			: profile.reason instanceof XrpcError && profile.reason.code === 'RecordNotFound' ? null
 				// Error with the profile
 			: {};
+		console.log('Aaaa');
 
 		this.loadState = AccountInfoLoadState.All;
 

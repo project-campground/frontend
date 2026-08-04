@@ -10,7 +10,7 @@ export default class HTTPProfileRecordManager extends HTTPAtprotoObjectManager {
 		});
 	}
 
-	public create(record: CampgroundProfileRecord) {
+	public create(record: Partial<CampgroundProfileRecord>) {
 		if (!this.client.actorDid) throw new Error('Operation not allowed while unauthenticated');
 
 		return this.client.putRecord({

@@ -257,11 +257,28 @@ export const globalLocale = defineMessages({
 	///////////////
 	/// Web app ///
 	///////////////
+	// Appearance
+	'app.appearance.theme': {
+		id: 'app.theme',
+		defaultMessage: 'Theme',
+		description: 'App theme section in the settings and Getting Started',
+	},
+	'app.appearance.light': {
+		id: 'app.theme.light',
+		defaultMessage: 'Light theme',
+		description: 'App light theme in the settings and Getting Started',
+	},
+	'app.appearance.dark': {
+		id: 'app.theme.dark',
+		defaultMessage: 'Dark theme',
+		description: 'App dark theme in the settings and Getting Started',
+	},
+
 	// Profiles
 	'app.profiles.aboutMe': {
 		id: 'app.profiles.aboutMe',
 		defaultMessage: 'About me',
-		description: 'About me section the user profile',
+		description: 'About me section in the user profile',
 	},
 	'app.profiles.feed': {
 		id: 'app.profiles.feed',

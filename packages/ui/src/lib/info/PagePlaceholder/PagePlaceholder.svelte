@@ -16,6 +16,7 @@
 	<Para
 		class="header"
 		level="h2"
+		align="center"
 	>
 		{#if status}
 			<span class="status">
@@ -51,5 +52,6 @@
 	}
 	.body {
 		color: var(--foreground-subheading);
+		text-align: justify;
 	}
 </style>

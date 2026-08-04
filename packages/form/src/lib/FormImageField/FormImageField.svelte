@@ -25,12 +25,16 @@
 
 		instance = menuPortal.add(selectMenu, ev.currentTarget);
 	}
+
+	function onSubmit(values: FormImageFieldValue) {
+		control.value = values;
+	}
 </script>
 
 <!-- For known values; this is used in registration pages for PDS and possibly in the future for tags -->
 {#snippet selectMenu(menu: MenuPortalInstance)}
 	<Modal.Root instance={menu}>
-		<FormImageDialog onSubmit={(values) => (control.value = values)} />
+		<FormImageDialog {onSubmit} />
 	</Modal.Root>
 {/snippet}
 
@@ -54,7 +58,7 @@
 			{#if control.value?.url || control.value?.blob}
 				<Image
 					src={control.value.url ?? control.value.blob!}
-					fit="contain"
+					fit="cover"
 					w="100%"
 					h="100%"
 				/>
@@ -78,7 +82,6 @@
 
 		width: max-content;
 		height: max-content;
-		aspect-ratio: var(--FormImageField-aspectRatio);
 
 		background-color: transparent;
 
@@ -111,6 +114,8 @@
 		width: var(--FormImageField-width);
 		height: var(--FormImageField-height);
 		aspect-ratio: var(--FormImageField-aspectRatio);
+
+		transition: background $transition-time-md;
 
 		@each $size in $size-names-with-none {
 			.button[data-radius='#{$size}'] & {

@@ -140,11 +140,23 @@
 </div>
 
 <style lang="scss">
+	@use '@campground/ui' as *;
+
 	.container {
 		display: flex;
 		flex-direction: column;
-		padding: 10rem 16rem;
+		padding: 6rem 10rem;
 		height: 100%;
+
+		@include desktop-sm-only {
+			padding: 4rem 8rem;
+		}
+		@include tablet-only {
+			padding: 1rem 2rem;
+		}
+		@include mobile-only {
+			padding: 1rem 0rem;
+		}
 	}
 	.content {
 		flex: 1;

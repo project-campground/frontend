@@ -10,7 +10,10 @@
 	const { src, ...props }: Props = $props();
 </script>
 
-<Badge color="online">
+<Badge
+	color="online"
+	size="xs"
+>
 	<Avatar
 		src={src || defaultAvatar}
 		{...props}

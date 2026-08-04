@@ -3,7 +3,7 @@
 	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
 	import UserCardMenu from '$lib/components/users/UserCardMenu.svelte';
 	import { getAccount } from '$lib/context/account.svelte';
-	import { getMenuPortal, getOutsideClickBoundary, MenuPortalInstance } from '@campground/ui';
+	import { getMenuPortal, getOutsideClickBoundary, Menu, MenuPortalInstance } from '@campground/ui';
 
 	let menuInstance: MenuPortalInstance | null = $state(null);
 
@@ -24,15 +24,21 @@
 </script>
 
 {#snippet profileMenu(instance: MenuPortalInstance)}
-	<UserCardMenu
+	<Menu.Root
 		{instance}
-		user={{
-			did: account.sessionInfo?.did ?? 'did:null',
-			handle: account.sessionInfo?.handle ?? 'handle.invalid',
-			avatar: account.profile?.avatar,
-			banner: account.profile?.banner,
-		}}
-	/>
+		placement="bottom-end"
+		offset={8}
+		w={20}
+	>
+		<UserCardMenu
+			user={{
+				did: account.sessionInfo?.did ?? 'did:null',
+				handle: account.sessionInfo?.handle ?? 'handle.invalid',
+				avatar: account.profile?.avatar,
+				banner: account.profile?.banner,
+			}}
+		/>
+	</Menu.Root>
 {/snippet}
 
 <button

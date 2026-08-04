@@ -9,10 +9,13 @@
 </script>
 
 <header class="container">
-	<UserBanner src={avatar} />
+	<UserBanner src={banner} />
 	<div class="display">
 		<div class="avatarWrapper">
-			<UserAvatar src={banner} />
+			<UserAvatar
+				src={avatar}
+				size="lg"
+			/>
 		</div>
 	</div>
 </header>

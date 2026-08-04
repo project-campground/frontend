@@ -41,23 +41,18 @@
 	import { getAccount } from '$lib/context/account.svelte.js';
 
 	interface Props {
+		hideButtons?: boolean;
 		user: ProfileViewBasic;
-		instance: MenuPortalInstance;
 	}
 
 	const session = getAccount();
 	const currentUserDid = session.sessionInfo?.did ?? null;
 
-	const { user, instance }: Props = $props();
+	const { hideButtons, user }: Props = $props();
 </script>
 
-<Menu.Root
-	{instance}
-	placement="bottom-end"
-	offset={8}
-	w={20}
->
-	<Menu.List>
+<Menu.List>
+	<div class={['container', { hideButtons }]}>
 		<UserHeader
 			avatar={user.avatar}
 			banner={user.banner}
@@ -128,8 +123,8 @@
 				</Menu.Item>
 			{/if}
 		</div>
-	</Menu.List>
-</Menu.Root>
+	</div>
+</Menu.List>
 
 <style lang="scss">
 	.content {
@@ -141,5 +136,8 @@
 		margin: 0 0.5rem;
 		padding: 0.25rem;
 		margin-top: 1rem;
+		.hideButtons & {
+			display: none;
+		}
 	}
 </style>

@@ -34,8 +34,7 @@
 			user={{
 				did: account.sessionInfo?.did ?? 'did:null',
 				handle: account.sessionInfo?.handle ?? 'handle.invalid',
-				avatar: account.profile?.avatar,
-				banner: account.profile?.banner,
+				...(account.profile ?? {}),
 			}}
 		/>
 	</Menu.Root>

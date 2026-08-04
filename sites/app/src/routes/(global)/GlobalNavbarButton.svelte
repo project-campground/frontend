@@ -16,7 +16,7 @@
 
 		display: flex;
 		flex-direction: row;
-		gap: 2ch;
+		gap: 1.25ch;
 
 		font-size: 1rem;
 		font-family: var(--font-body);

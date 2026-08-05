@@ -11,10 +11,10 @@ import type {
 	SessionAuthUser,
 } from './types.ts';
 
-const sessionStorageKey = 'session';
-const savedAuthStorageKey = 'frozen';
-
 export class Session {
+	public static sessionStorageKey = 'session';
+	public static savedAuthStorageKey = 'frozen';
+
 	private _refreshSession = (refresh: SessionAuthRefresh) =>
 		this.setAuth({
 			authenticated: true,
@@ -27,10 +27,10 @@ export class Session {
 		});
 
 	public auth: SessionAuth = $state(
-		JSON.parse(localStorage.getItem(sessionStorageKey) || '{"authenticated":false}'),
+		JSON.parse(localStorage.getItem(Session.sessionStorageKey) || '{"authenticated":false}'),
 	);
 	public savedAuth: SavedAuth[] = $state(
-		JSON.parse(localStorage.getItem(savedAuthStorageKey) ?? '[]'),
+		JSON.parse(localStorage.getItem(Session.savedAuthStorageKey) ?? '[]'),
 	);
 	public preferences: PreferenceManager = new PreferenceManager(this);
 
@@ -67,12 +67,12 @@ export class Session {
 
 	public setAuth(auth: SessionAuth) {
 		this.auth = auth;
-		localStorage.setItem(sessionStorageKey, JSON.stringify(auth));
+		localStorage.setItem(Session.sessionStorageKey, JSON.stringify(auth));
 	}
 
 	private modifySavedAuths(newAuths: SavedAuth[]) {
 		this.savedAuth = newAuths;
-		localStorage.setItem(savedAuthStorageKey, JSON.stringify(this.savedAuth));
+		localStorage.setItem(Session.savedAuthStorageKey, JSON.stringify(this.savedAuth));
 	}
 
 	public saveAccount(details: SavedAuth) {

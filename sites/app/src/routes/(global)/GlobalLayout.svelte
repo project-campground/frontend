@@ -15,12 +15,13 @@
 
 	.GlobalLayoutRoot {
 		display: grid;
-		grid-template-rows: 64px calc(100% - 64px);
-		grid-template-columns: 320px 1fr 320px;
+		grid-template-rows: 4rem calc(100% - 4rem);
+		grid-template-columns: 20rem 1fr 20rem;
 		height: 100%;
 		width: 100%;
 		overflow-y: hidden;
-		gap: 0 8px;
+		gap: 0 0.5rem;
+
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;
 		scroll-snap-stop: always;
@@ -31,7 +32,7 @@
 		}
 		@include mobile-only {
 			grid-template-rows: 100%;
-			grid-template-columns: 100% 100% 1000% 100%;
+			grid-template-columns: 100% 100% 200% 100%;
 		}
 	}
 </style>

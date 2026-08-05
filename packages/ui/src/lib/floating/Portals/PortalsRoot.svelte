@@ -6,7 +6,7 @@
 	import PortalsList from './PortalsList.svelte';
 	import type { RootProps } from './props.ts';
 
-	const { children, ...attributes }: RootProps = $props();
+	const { flex, fullSize, children, ...attributes }: RootProps = $props();
 
 	const menuPortal = new MenuPortal();
 
@@ -19,6 +19,7 @@
 
 <div
 	{...attributes}
+	class={[{ flex, fullSize }]}
 	onclick={(ev) => {
 		ev.stopPropagation();
 		$outsideClick = ev;
@@ -32,4 +33,12 @@
 
 <style lang="scss">
 	@use '../../index.scss' as *;
+
+	.flex {
+		flex: 1;
+	}
+	.fullSize {
+		width: 100%;
+		height: 100%;
+	}
 </style>

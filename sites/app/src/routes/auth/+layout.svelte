@@ -41,60 +41,62 @@
 </script>
 
 <script lang="ts">
-	import type { LayoutProps } from './$types';
-	import { BrandLogo, Button, Card, Group, Link, Para, Stack } from '@campground/ui';
+	import type { LayoutProps } from './$types.d.ts';
+	import { BrandLogo, Button, Card, Group, Link, Para, Stack, Portals } from '@campground/ui';
 	import { FormattedMessage } from '@campground/locale';
 	import { IconCaretLeftFilled } from '@tabler/icons-svelte';
 
 	const { children, data }: LayoutProps = $props();
 </script>
 
-<div class="Auth container">
-	<header class="Auth header">
-		<div class="Auth brand">
-			<BrandLogo />
-		</div>
-	</header>
-	<div class="Auth body">
-		<Card.Root
-			class="Auth card"
-			level="subtle"
-			size="xxl"
-			overflow="visible"
-		>
-			<Card.Content
-				class="Auth content"
-				gap="md"
+<Portals.Root flex>
+	<div class="Auth container">
+		<header class="Auth header">
+			<div class="Auth brand">
+				<BrandLogo />
+			</div>
+		</header>
+		<div class="Auth body">
+			<Card.Root
+				class="Auth card"
+				level="subtle"
+				size="xxl"
+				overflow="visible"
 			>
-				<Stack gap={0.5}>
-					<Para
-						level="h2"
-						bMargin="md"
-					>
-						<Group>
-							{#if data.page}
-								<Link href="/auth">
-									<Button
-										color="neutral"
-										variant="soft"
-										size="xs"
-									>
-										<IconCaretLeftFilled />
-									</Button>
-								</Link>
-							{/if}
-							<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
-						</Group>
-					</Para>
-					<Para>
-						<FormattedMessage {...localeDescriptions[data.page as 'login' | 'register']} />
-					</Para>
-				</Stack>
-				{@render children()}
-			</Card.Content>
-		</Card.Root>
+				<Card.Content
+					class="Auth content"
+					gap="md"
+				>
+					<Stack gap={0.5}>
+						<Para
+							level="h2"
+							bMargin="md"
+						>
+							<Group>
+								{#if data.page}
+									<Link href="/auth">
+										<Button
+											color="neutral"
+											variant="soft"
+											size="xs"
+										>
+											<IconCaretLeftFilled />
+										</Button>
+									</Link>
+								{/if}
+								<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
+							</Group>
+						</Para>
+						<Para>
+							<FormattedMessage {...localeDescriptions[data.page as 'login' | 'register']} />
+						</Para>
+					</Stack>
+					{@render children()}
+				</Card.Content>
+			</Card.Root>
+		</div>
 	</div>
-</div>
+</Portals.Root>
 
 <style lang="scss">
 	@use '@campground/ui' as *;

@@ -7,5 +7,7 @@ export interface ListProps extends AriaAttributes {
 }
 export interface RootProps extends AriaAttributes {
 	class?: ClassValue;
+	flex?: boolean;
+	fullSize?: boolean;
 	children: Snippet;
 }

@@ -16,6 +16,7 @@ import type { CampsiteViewBasic, CreateCampsiteOutput } from '$lib/types/campgro
 import HTTPProfileRecordManager from './profileRecord.js';
 import HTTPInviteGlobalManager from './inviteGlobal.js';
 import XrpcError from '../XrpcError.js';
+import HTTPIdentityManager from './identity.js';
 
 type HTTPMethodXRPC = 'GET' | 'POST';
 type HTTPMethod = HTTPMethodXRPC | 'DELETE' | 'OPTION' | 'HEAD' | 'PUT' | 'PATCH';
@@ -55,6 +56,7 @@ export default class HTTPAtprotoClient {
 
 	public invitesGlobal = new HTTPInviteGlobalManager(this);
 	public account = new HTTPAccountManager(this);
+	public identity = new HTTPIdentityManager(this);
 	public profileRecords = new HTTPProfileRecordManager(this);
 	public profilePostRecords = new HTTPProfilePostRecordManager(this);
 	public preference = new HTTPPreferenceManager(this);

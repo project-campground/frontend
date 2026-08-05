@@ -1,5 +1,12 @@
 type PdsRecordErrorCode = 'RecordNotFound';
-type ErrorCode = PdsRecordErrorCode | string;
+type BadRequestErrorCode = 'InvalidRequest' | 'ExpiredToken' | 'InvalidToken';
+type UnauthorizedErrorCode = 'AuthMissing';
+type AtprotoIdentityErrorCode = 'HandleNotFound';
+type ErrorCode =
+	| PdsRecordErrorCode
+	| BadRequestErrorCode
+	| UnauthorizedErrorCode
+	| AtprotoIdentityErrorCode;
 
 /**
  * Represents a successful requests that has returned HTTP error status code.

@@ -11,9 +11,14 @@
 		type StatusColor,
 		type PositionHorizontal,
 		type PositionVertical,
+		type ComponentSize,
+		Skeleton,
+		Para,
+		type ParaLevel,
 	} from '$lib/index.js';
 	import { IconMoonFilled } from '@tabler/icons-svelte';
 	import { sizes, sizesWithNone } from './values.js';
+	import TextBlock from '$lib/info/TextBlock/TextBlock.svelte';
 
 	const positions: `${PositionVertical}-${PositionHorizontal}`[] = [
 		'top-left',
@@ -129,34 +134,84 @@
 </Section>
 <Section headerLevel={1}>
 	{#snippet header()}
-		Badge
+		Skeleton
 	{/snippet}
 	<Group>
-		{#each ['mention', 'online', 'idle', 'dnd', 'notification', 'offline', 'online'] as StatusColor[] as color}
-			{#each positions as pos}
-				{#each [undefined, badgeIcon, badgeCount] as badge}
+		{#each [...sizesWithNone, 'avatar'] as ComponentSize[] as radius}
+			<Section headerLevel={2}>
+				{#snippet header()}
+					Radius {radius}
+				{/snippet}
+				<Group>
+					<Stack>
+						{#each ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'paragraph', 'sub0', 'sub1'] as ParaLevel[] as paraLevel}
+							<Para level={paraLevel}>
+								<Skeleton {radius}>abcdef</Skeleton>
+							</Para>
+						{/each}
+					</Stack>
+					<Stack>
+						{#each sizes as size}
+							<Group>
+								<Skeleton {radius}>
+									<Avatar {size} />
+								</Skeleton>
+								<Badge
+									{size}
+									color="skeleton"
+								>
+									<Skeleton {radius}>
+										<Avatar {size} />
+									</Skeleton>
+								</Badge>
+							</Group>
+						{/each}
+					</Stack>
+				</Group>
+			</Section>
+		{/each}
+	</Group>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Badge
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Group>
+				{#each ['mention', 'online', 'idle', 'dnd', 'notification', 'offline', 'online', 'skeleton', 'neutral'] as StatusColor[] as color}
+					{#each positions as pos}
+						{#each [undefined, badgeIcon, badgeCount] as badge}
+							<Badge
+								position={pos}
+								{color}
+								{badge}
+								{size}
+							>
+								<Avatar
+									src="/DefaultAvatar0.png"
+									alt="example alt"
+									{size}
+								>
+									{color.slice(0, 3)}
+								</Avatar>
+							</Badge>
+						{/each}
+					{/each}
 					<Badge
-						position={pos}
 						{color}
-						{badge}
+						{size}
 					>
 						<Avatar
 							src="/DefaultAvatar0.png"
 							alt="example alt"
+							{size}
 						>
 							{color.slice(0, 3)}
 						</Avatar>
 					</Badge>
 				{/each}
-			{/each}
-			<Badge {color}>
-				<Avatar
-					src="/DefaultAvatar0.png"
-					alt="example alt"
-				>
-					{color.slice(0, 3)}
-				</Avatar>
-			</Badge>
+			</Group>
 		{/each}
-	</Group>
+	</Stack>
 </Section>

@@ -1,0 +1,12 @@
+@use '../../index.scss' as *;
+
+%Badge-position {
+	@each $vertical in $position-vertical {
+		@each $horizontal in $position-horizontal {
+			[data-badge-position='#{$vertical}-#{$horizontal}'] > & {
+				#{$horizontal}: -0.25rem;
+				#{$vertical}: -0.25rem;
+			}
+		}
+	}
+}

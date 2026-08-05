@@ -10,7 +10,7 @@ import type { HTMLAttributes } from 'svelte/elements';
 type BadgePosition = `${PositionVertical}-${PositionHorizontal}`;
 
 export default interface BadgeProps extends HTMLAttributes<HTMLElementTagNameMap['div']> {
-	color?: StatusColor | 'neutral';
+	color?: StatusColor | 'neutral' | 'skeleton';
 	size?: ComponentSize;
 	position?: BadgePosition;
 	children: Snippet;

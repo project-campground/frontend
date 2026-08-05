@@ -109,7 +109,7 @@
 	--background-subcontent: #{map.get($theme-shades, $component-color + ($mode-addition * 1))};
 
 	--background-skeleton: #{map.get($theme-shades, 600)};
-	--background-skeletonPulse: #{map.get($theme-shades, 700)};
+	--background-skeletonPulse: #{map.get($theme-shades, 500)};
 
 	// Misc
 	--neutral-border: #{change(

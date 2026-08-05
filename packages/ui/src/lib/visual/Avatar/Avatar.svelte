@@ -25,6 +25,7 @@
 <style lang="scss">
 	@use 'sass:list';
 	@use '../../index.scss' as *;
+	@use './Avatar.scss' as *;
 
 	$sizes:
 		2rem 0.75rem,
@@ -48,6 +49,8 @@
 		font-weight: 700;
 		font-family: var(--font-display);
 
+		@extend %Squircle;
+
 		@each $size, $value in $size-map {
 			$logo-size: list.nth($value, 1);
 			$font-size: list.nth($value, 2);
@@ -55,13 +58,6 @@
 			&[data-size='#{$size}'] {
 				font-size: $font-size;
 				--Avatar-size: #{$logo-size};
-				border-radius: 30%;
-				// Since it's relatively new thing
-				// Makes it tad bit better
-				@supports (corner-shape: squircle) {
-					border-radius: 100%;
-					corner-shape: squircle;
-				}
 			}
 		}
 	}

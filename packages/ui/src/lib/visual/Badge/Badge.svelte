@@ -28,13 +28,11 @@
 <style lang="scss">
 	@use 'sass:list';
 	@use '../../index.scss' as *;
+	@use '../Avatar/Avatar.scss' as *;
+	@use './Badge.scss' as *;
+	@use '../Skeleton/Skeleton.scss' as *;
 
-	$sizes:
-		1rem 0.5rem,
-		1.25rem 0.75rem,
-		1.5rem 1rem,
-		2rem 1.5rem,
-		3rem 2rem;
+	$sizes: 1rem, 1.25rem, 1.5rem, 1.75rem, 2.25rem;
 	$size-map: create-size-map($sizes);
 	$available-colors: mention, dnd, away, idle, online, offline, notification;
 
@@ -54,10 +52,16 @@
 		align-items: center;
 		justify-content: center;
 
+		box-sizing: border-box;
+
 		font-size: 0.8em;
 		font-weight: 700;
-		border-radius: var(--radius-md);
-		border: solid 3px var(--background-body);
+
+		border: solid 0.125rem var(--background-body);
+
+		@extend %Squircle;
+		@extend %Badge-position;
+
 		@each $color in $available-colors {
 			[data-badge-color='#{$color}'] > & {
 				background: linear-gradient(to bottom right, var(--#{$color}), var(--#{$color}-alt));
@@ -68,21 +72,15 @@
 			background: var(--neutral-solidBack);
 			color: var(--neutral-solidFore);
 		}
-		@each $vertical in $position-vertical {
-			@each $horizontal in $position-horizontal {
-				[data-badge-position='#{$vertical}-#{$horizontal}'] > & {
-					#{$horizontal}: -0.25rem;
-					#{$vertical}: -0.25rem;
-				}
-			}
+		[data-badge-color='skeleton'] > & {
+			@extend %Skeleton-pulse;
 		}
 		@each $size, $value in $size-map {
-			$height: list.nth($value, 1);
-			$width: list.nth($value, 2);
 			[data-badge-size='#{$size}'] > & {
-				min-width: $width;
-				height: $height;
-				padding: 0 calc($width / 2);
+				min-width: $value;
+				height: $value;
+				padding: 0 calc($value / 4);
+				border-width: calc($value / 8);
 			}
 		}
 	}

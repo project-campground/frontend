@@ -50,6 +50,14 @@
 		&[data-size='max'] {
 			width: calc(100% - 8rem);
 			height: calc(100% - 8rem);
+			@include tablet-only {
+				width: calc(100% - 4rem);
+				height: calc(100% - 4rem);
+			}
+			@include mobile-only {
+				width: calc(100% - 1rem);
+				height: calc(100% - 1rem);
+			}
 		}
 		&[data-size='full'] {
 			border: none;

@@ -10,6 +10,7 @@
 	wrap={wrap ?? 'wrap'}
 	align={align ?? 'center'}
 	direction={direction ?? 'row'}
+	{...attributes}
 >
 	{@render children?.()}
 </Stack>

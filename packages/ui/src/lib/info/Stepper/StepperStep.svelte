@@ -22,20 +22,21 @@
 	data-color={color ?? 'primary'}
 	{...attributes}
 >
-	<div class="display">
-		<div class="progress">
-			<span class="progressActive"></span>
-		</div>
+	<div
+		class="progress"
+		aria-hidden="true"
+	>
+		<span class="progressActive"></span>
+	</div>
+	<div class="content">
 		<div class="icon">
 			<span class="iconContent">
 				{@render icon()}
 			</span>
 		</div>
-	</div>
-	<div class="content">
-		<div class="label">
+		<span class="label">
 			{@render children()}
-		</div>
+		</span>
 	</div>
 </div>
 
@@ -43,85 +44,44 @@
 	@use '../../index.scss' as *;
 	@use 'sass:list';
 
-	.display {
-		display: flex;
-		align-items: center;
-		gap: var(--Stepper-gap);
-	}
 	.content {
 		position: relative;
+		width: fit-content;
+		height: fit-content;
+	}
+	.label {
+		position: absolute;
 	}
 	.container {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-
+		display: contents;
+		/////// Variants & Colors ///////////
+		@each $color in $color-types {
+			&[data-color='#{$color}'] {
+				.icon::before {
+					background: linear-gradient(
+						to bottom right,
+						var(--#{$color}-glowFirst),
+						var(--#{$color}-glowSecond)
+					);
+					box-shadow: 0 0 4px var(--#{$color}-glowFirst);
+				}
+				.icon {
+					color: var(--#{$color}-glowFore);
+				}
+				.progressActive {
+					background: linear-gradient(
+						to bottom right,
+						var(--#{$color}-glowFirst),
+						var(--#{$color}-glowSecond)
+					);
+					box-shadow: 0 0 4px var(--#{$color}-glowFirst);
+				}
+			}
+		}
+		/////// States ///////////
 		&:first-of-type .progress {
 			display: none;
 		}
-
-		:global([data-orientation='vertical']) > & {
-			flex-direction: row;
-			.display {
-				flex-direction: column;
-			}
-			& .progress {
-				height: var(--Stepper-lineSize);
-				width: 0.25rem;
-				.progressActive {
-					left: 0;
-					right: 0;
-					top: 0;
-					height: 0.01%;
-				}
-			}
-			&.active .progress .progressActive {
-				height: 100%;
-			}
-			&:not(:first-of-type) .content {
-				margin-top: var(--Stepper-lineSize);
-			}
-		}
-		:global([data-orientation='horizontal']) > & {
-			flex-direction: column;
-			.display {
-				flex-direction: row;
-			}
-			& .progress {
-				height: 0.25rem;
-				width: var(--Stepper-lineSize);
-				.progressActive {
-					top: 0;
-					bottom: 0;
-					left: 0;
-					width: 0.01%;
-				}
-			}
-			&.active .progress .progressActive {
-				width: 100%;
-			}
-			// Completely different from vertical, since it needs to be aligned to the center for it to make sense
-			// Vertical can be aligned to the side just by the icon
-			.content {
-				position: relative;
-			}
-			.label {
-				position: absolute;
-				// Alignment
-				left: calc((var(--Stepper-lineSize) + var(--Stepper-gap)) / 2);
-				transform: translateX(-50%);
-				text-align: center;
-				// Appearance
-				color: var(--foreground-subtext);
-				// Additional
-				align-items: center;
-			}
-			&:first-of-type .label {
-				left: 50%;
-			}
-		}
-
-		/////// States ///////////
 		&.active {
 			.label {
 				color: var(--foreground-subheading);
@@ -137,26 +97,42 @@
 				opacity: 100%;
 			}
 		}
-		/////// Variants & Colors ///////////
-		@each $color in $color-types {
-			&[data-color='#{$color}'] {
-				.icon::before {
-					background: linear-gradient(
-						to bottom right,
-						var(--#{$color}-glowFirst),
-						var(--#{$color}-glowSecond)
-					);
-				}
-				.icon {
-					color: var(--#{$color}-glowFore);
-				}
+		:global([data-orientation='vertical']) > & {
+			& .progress {
+				width: 0.25rem;
 				.progressActive {
-					background: linear-gradient(
-						to bottom right,
-						var(--#{$color}-glowFirst),
-						var(--#{$color}-glowSecond)
-					);
+					left: 0;
+					right: 0;
+					top: 0;
+					height: 0.01%;
 				}
+			}
+			&.active .progress .progressActive {
+				height: 100%;
+			}
+			.label {
+				left: calc(var(--Stepper-iconSize) + 1ch);
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+		:global([data-orientation='horizontal']) > & {
+			& .progress {
+				height: 0.25rem;
+				.progressActive {
+					top: 0;
+					bottom: 0;
+					left: 0;
+					width: 0.01%;
+				}
+			}
+			&.active .progress .progressActive {
+				width: 100%;
+			}
+			.label {
+				top: calc(var(--Stepper-iconSize) + 0.5rem);
+				left: 50%;
+				transform: translateX(-50%);
 			}
 		}
 	}
@@ -170,7 +146,6 @@
 		width: var(--Stepper-iconSize);
 		height: var(--Stepper-iconSize);
 
-		overflow: hidden;
 		line-height: 0;
 
 		background-color: var(--neutral-regularBack);
@@ -178,6 +153,7 @@
 
 		&::before {
 			position: absolute;
+			border-radius: var(--Stepper-radius);
 			content: '';
 			top: 0;
 			bottom: 0;
@@ -212,7 +188,7 @@
 		position: relative;
 		background-color: var(--neutral-regularBack);
 		border-radius: 0.25rem;
-		overflow: hidden;
+		flex: 1;
 
 		// For animation
 		.progressActive {
@@ -221,10 +197,5 @@
 			transition-duration: $transition-time-md;
 			transition-delay: $transition-time-md;
 		}
-	}
-	/////// Text below or to the side /////////////
-	.label {
-		display: flex;
-		flex-direction: column;
 	}
 </style>

@@ -94,8 +94,11 @@
 
 	.tabs-padded {
 		padding: 1rem 2rem;
-		@include tablet-down {
+		@include tablet-only {
 			padding: 0.5rem 1rem;
+		}
+		@include mobile-only {
+			padding: 0.5rem 0;
 		}
 	}
 </style>

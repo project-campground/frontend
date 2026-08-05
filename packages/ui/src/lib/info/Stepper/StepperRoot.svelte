@@ -38,10 +38,9 @@
 	div {
 		display: flex;
 		flex-direction: row;
-		gap: var(--Stepper-gap);
-		--Stepper-gap: 0.25rem;
+		align-items: center;
 
-		padding-bottom: 1rem;
+		gap: 0.5rem;
 
 		&[data-orientation='vertical'] {
 			flex-direction: column;
@@ -49,7 +48,6 @@
 
 		@each $size, $proportions in $input-sizes {
 			&[data-size='#{$size}'] {
-				--Stepper-lineSize: #{calc($proportions * 2.5)};
 				--Stepper-iconSize: #{$proportions};
 				--Stepper-radius: var(--radius-#{$size});
 			}

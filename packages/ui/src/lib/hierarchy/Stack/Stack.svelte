@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toSpacingPx } from '../../util/component.ts';
+	import { rem } from '../../util/component.js';
 	import type StackProps from './props.ts';
 
 	const {
@@ -17,7 +17,7 @@
 
 <div
 	{...attributes}
-	style:--Stack-gap={toSpacingPx(gap ?? 1)}
+	style:--Stack-gap={rem(gap ?? 1)}
 	class={['Stack', className]}
 	data-wrap={wrap}
 	data-direction-mobile={directionMobile}

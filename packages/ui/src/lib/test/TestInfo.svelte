@@ -15,6 +15,7 @@
 		Divider,
 		type StatusColor,
 		Stepper,
+		type DistanceArgument,
 	} from '$lib/index.js';
 	import { IconCheck } from '@tabler/icons-svelte';
 	import { statusColors } from './values.ts';
@@ -98,7 +99,7 @@
 	{#snippet header()}
 		Stepper
 	{/snippet}
-	<Stack gap={6}>
+	<Stack gap={2}>
 		{let stepperValue: number = $state(0)}
 		<Group>
 			<Button onclick={() => stepperValue--}>-</Button>
@@ -107,20 +108,20 @@
 		{#each ['horizontal', 'vertical'] as ComponentOrientation[] as orientation}
 			<Stack wrap="wrap" direction={orientation === 'vertical' ? 'row' : 'column'}>
 				{#each sizes as size}
-				<Stepper.Root
-					{orientation}
-					{size}
-					active={stepperValue}
-				>
-					{#each colors as color}
-						<Stepper.Step {color}>
-							{#snippet icon()}
-								<IconCheck />
-							{/snippet}
-							{color}
-						</Stepper.Step>
-					{/each}
-				</Stepper.Root>
+					<Stepper.Root
+						{orientation}
+						{size}
+						active={stepperValue}
+					>
+						{#each colors as color}
+							<Stepper.Step {color}>
+								{#snippet icon()}
+									<IconCheck />
+								{/snippet}
+								{color}
+							</Stepper.Step>
+						{/each}
+					</Stepper.Root>
 				{/each}
 				<Stepper.Root
 					{orientation}

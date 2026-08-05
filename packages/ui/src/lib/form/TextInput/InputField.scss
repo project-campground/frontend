@@ -49,5 +49,6 @@ $padding-sizes: create-size-map(
 	--InputField-glow: var(--primary-inputGlow);
 }
 %InputField-disabled {
+	cursor: not-allowed;
 	background-color: var(--background-subtle);
 }

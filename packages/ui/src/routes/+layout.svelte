@@ -33,10 +33,10 @@
 		gap: 8px;
 		padding: 4rem;
 		@include tablet-only {
-			padding: 2rem;
+			padding: 1rem;
 		}
 		@include mobile-only {
-			padding: 0.5rem;
+			padding: 0;
 		}
 	}
 </style>

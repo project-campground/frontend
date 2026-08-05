@@ -1,6 +1,6 @@
 {
 	"defaultPds": "http://localhost:2583",
-	"defaultAppview": "http://localhost:8080",
+	"defaultAppview": "http://localhost:3984",
 	"knownPds": [
 		{ "url": "http://localhost:2583", "name": "Local instance", "color": "primary" },
 		{ "url": "http://localhost:2583", "name": "Local instance #2", "color": "info" }

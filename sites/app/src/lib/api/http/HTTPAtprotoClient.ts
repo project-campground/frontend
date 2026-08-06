@@ -82,13 +82,13 @@ export default class HTTPAtprotoClient {
 	}
 
 	public static login(
-		auth: { identifier: string; password: string },
+		{ authFactorToken, ...auth }: { identifier: string; authFactorToken?: string; password: string },
 		requestConfig: Partial<RequestPrefixed> = {},
 	) {
 		return HTTPAtprotoClient.atprotoFetch<SessionAuthUser>({
 			method: 'POST',
 			route: 'com.atproto.server.createSession',
-			body: { ...auth, allowTakenDown: true },
+			body: { ...auth, authFactorToken: authFactorToken ?? '', allowTakenDown: true },
 			...requestConfig,
 		});
 	}

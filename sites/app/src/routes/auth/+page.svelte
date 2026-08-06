@@ -19,7 +19,7 @@
 </script>
 
 <script>
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { FormattedMessage } from '@campground/locale';
 	import { Card, Group, Section, Stack } from '@campground/ui';
 	import { IconPlus, IconUserFilled, IconUserPlus } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
@@ -29,7 +29,7 @@
 
 <Stack gap={2}>
 	<Section gap="sm">
-		{#each session.savedAuth as savedAuth}
+		{#each session.savedAuth as savedAuth (savedAuth.handle)}
 			<Card.Root>
 				<Card.Content>
 					<Group gap={1}>

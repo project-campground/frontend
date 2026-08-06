@@ -41,6 +41,7 @@ export class Session {
 					auth: this.auth.user.accessJwt,
 					refreshAuth: this.auth.user.refreshJwt,
 					userDid: this.auth.user.did,
+					url: this.auth.server,
 				}
 			:	{},
 			this._refreshSession,
@@ -52,7 +53,7 @@ export class Session {
 		save: boolean,
 		server: string,
 	): Promise<SessionAuthUser> {
-		const data = await HTTPAtprotoClient.login(details);
+		const data = await HTTPAtprotoClient.login(details, { url: server });
 
 		if (save) this.saveAccount({ handle: data.handle, email: data.email, server });
 

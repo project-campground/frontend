@@ -2,26 +2,8 @@
 	lang="ts"
 	module
 >
-	import { defineMessage, defineMessages } from '@formatjs/svelte-intl';
+	import { defineMessage } from '@formatjs/svelte-intl';
 
-	const localeMessages = defineMessages({
-		welcomeHeader: {
-			id: 'app.gettingStarted.welcome.header',
-			defaultMessage: 'Welcome to Campground!',
-			description: 'Getting started welcome header',
-		},
-		welcomeDescription: {
-			id: 'app.gettingStarted.welcome.desc',
-			defaultMessage:
-				"Before we start, you need to create your profile for Campground. Don''t worry, this is a single time only process.",
-			description: 'Getting started welcome description',
-		},
-		step: {
-			id: 'app.gettingStarted.step',
-			defaultMessage: 'Step {count, number}',
-			description: 'Getting started nth step',
-		},
-	});
 	const stepTitles = [
 		defineMessage({
 			id: 'app.gettingStarted.steps.welcome',
@@ -54,7 +36,7 @@
 <script lang="ts">
 	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
 
-	import { Button, Paged, Para, Stack, Stepper } from '@campground/ui';
+	import { Button, Paged, Para, Stack, Stepper, Group } from '@campground/ui';
 	import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-svelte';
 	import GettingStartedPage0 from './GettingStarted/GettingStartedPage0.svelte';
 	import GettingStartedPage1 from './GettingStarted/GettingStartedPage1.svelte';
@@ -93,22 +75,15 @@
 			</Paged.Item>
 		</Paged.Root>
 	</div>
-	<Stack
-		align="center"
-		gap={5}
-	>
-		<Stack
-			direction="row"
-			align="center"
-			gap={4}
+	<Group gap={4}>
+		<Button
+			disabled={step < 1}
+			onclick={() => step--}
 		>
-			<Button
-				disabled={step < 1}
-				onclick={() => step--}
-			>
-				<IconArrowLeft />
-				<FormattedMessageGlobal id="common.back" />
-			</Button>
+			<IconArrowLeft />
+			<FormattedMessageGlobal id="common.back" />
+		</Button>
+		<div class="stepper">
 			<Stepper.Root
 				active={step}
 				size="lg"
@@ -134,15 +109,15 @@
 					</Stepper.Step>
 				{/each}
 			</Stepper.Root>
-			<Button
-				disabled={step == maxSteps - 1}
-				onclick={() => step++}
-			>
-				<FormattedMessageGlobal id="common.next" />
-				<IconArrowRight />
-			</Button>
-		</Stack>
-	</Stack>
+		</div>
+		<Button
+			disabled={step == maxSteps - 1}
+			onclick={() => step++}
+		>
+			<FormattedMessageGlobal id="common.next" />
+			<IconArrowRight />
+		</Button>
+	</Group>
 </div>
 
 <style lang="scss">
@@ -165,6 +140,9 @@
 		}
 	}
 	.content {
+		flex: 1;
+	}
+	.stepper {
 		flex: 1;
 	}
 </style>

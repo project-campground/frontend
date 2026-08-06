@@ -36,7 +36,7 @@
 <script lang="ts">
 	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
 
-	import { Button, Paged, Para, Stack, Stepper, Group } from '@campground/ui';
+	import { Button, Paged, Para, Stepper, Group } from '@campground/ui';
 	import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-svelte';
 	import GettingStartedPage0 from './GettingStarted/GettingStartedPage0.svelte';
 	import GettingStartedPage1 from './GettingStarted/GettingStartedPage1.svelte';

@@ -15,7 +15,7 @@
 </button>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 	@use 'sass:list';
 
 	$button-padding: create-size-map((2px 4px, 4px 8px, 8px 24px, 12px 36px, 16px 48px));

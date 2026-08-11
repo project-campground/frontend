@@ -28,7 +28,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 
 	$directions: column, column-reverse, row, row-reverse;
 	$aligns: start, stretch, center, end;

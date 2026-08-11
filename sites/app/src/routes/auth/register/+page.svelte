@@ -70,15 +70,12 @@
 		DebouncedValue,
 		Para,
 	} from '@campground/ui';
-	import { defaultPds, knownPds } from '../../../lib/api/api.config';
+	import { defaultPds, knownPds } from '../../../lib/api/api.config.js';
 	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
-	import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient';
-	import type {
-		HttpResponseOkWithContent,
-		HttpResponseWithContent,
-	} from '$lib/api/http/HTTPResponse';
-	import type { DescribedServer } from '$lib/types/atproto/server';
+	import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.js';
+	import type { DescribedServer } from '$lib/types/atproto/server.js';
+	import XrpcError from '$lib/api/XrpcError.js';
 
 	let passwordToConfirm = $state('');
 
@@ -89,7 +86,7 @@
 
 	let pdsValue: string = $state(defaultPds);
 
-	let describedServer = new DebouncedValue<HttpResponseWithContent<DescribedServer> | Error, string>(
+	let describedServer = new DebouncedValue<DescribedServer | Error, string>(
 		new Error('Not done fetching the PDS'),
 		1000,
 		(pdsValue) => HTTPAtprotoClient.describeServer({ url: pdsValue }).catch((err) => err as Error),
@@ -97,36 +94,28 @@
 
 	$effect(() => describedServer.derived(pdsValue));
 
-	const onSubmit: FormProps['onSubmit'] = async (fields: Record<string, any>) => {
-		const {
-			pds,
-			confirmPassword: _,
-			handle,
-			...details
-		} = fields as {
+	const onSubmit: FormProps['onSubmit'] = async (fields: Record<string, string>) => {
+		const { pds, handle, ...details } = fields as {
 			handle: string;
 			email: string;
 			password: string;
 			confirmPassword: string;
 			pds: string;
 		};
-		const description = (describedServer.value as HttpResponseOkWithContent<DescribedServer>).content;
+		const description = describedServer.value as DescribedServer;
 		const result = await HTTPAtprotoClient.register(
 			{ handle: handle + description.availableUserDomains[0], ...details },
 			{ url: pds },
 		);
 
-		if (!result.ok)
-			return (error = new Error(`${result.errorHeader ?? result.status}: ${result.errorDescription}`));
-
-		session.saveAccount({ handle: result.content.handle, email: details.email, server: pds });
+		session.saveAccount({ handle: result.handle, email: details.email, server: pds });
 
 		return navigation.navigate('/auth');
 	};
 </script>
 
 <Form {onSubmit}>
-	{#if !(describedServer instanceof Error) && (describedServer.value as HttpResponseWithContent<DescribedServer>).ok && (describedServer.value as HttpResponseOkWithContent<DescribedServer>).content.inviteCodeRequired}
+	{#if !(describedServer instanceof Error) && (describedServer.value as DescribedServer).inviteCodeRequired}
 		<Section>
 			<FormControl
 				id="inviteCode"
@@ -137,7 +126,7 @@
 				</FormLabel>
 				<FormTextField
 					format={{
-						regex: /^[A-Za-z0-9]+([-][A-Za-z0-9]+)+$/,
+						regex: /^[A-Za-z0-9]+([-][A-Za-z0-9]+(?:[:][0-9]+)?)+$/,
 						errorMessage: $intl.formatMessage(messages.expectedInvite),
 					}}
 				/>
@@ -154,17 +143,16 @@
 				<FormattedMessageGlobal id="info.handle" />
 			</FormLabel>
 			<FormTextField
-				placeholder={`example_handle`}
+				placeholder="example_handle"
 				format={{
 					regex: /^[A-Za-z0-9_+-]{3,}$/,
 					errorMessage: $intl.formatMessage(messages.expectedHandle),
 				}}
 			>
 				{#snippet right()}
-					{#if !(describedServer instanceof Error) && (describedServer.value as HttpResponseWithContent<DescribedServer>).ok}
+					{#if describedServer.value && !(describedServer.value instanceof Error)}
 						<TextBlock level="body">
-							{(describedServer.value as HttpResponseWithContent<DescribedServer>).content
-								?.availableUserDomains[0]}
+							{(describedServer.value as DescribedServer)?.availableUserDomains[0]}
 						</TextBlock>
 					{/if}
 				{/snippet}
@@ -180,7 +168,7 @@
 			</FormLabel>
 			<FormTextField
 				type="email"
-				placeholder={`example@example.com`}
+				placeholder="example@example.com"
 				format={{
 					regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
 					errorMessage: $intl.formatMessage(messages.expectedEmail),
@@ -243,7 +231,7 @@
 					<IconWorldFilled />
 				{/snippet}
 				{#snippet known()}
-					{#each knownPds as pds}
+					{#each knownPds as pds (pds.url)}
 						<Select.Option
 							value={pds.url}
 							color={pds.color}
@@ -258,14 +246,14 @@
 			</FormTextField>
 			<FormErrorLabel></FormErrorLabel>
 			<!-- Allow users to know if there was error fetching the PDS describe server or whatever -->
-			{#if describedServer.value instanceof Error}
+			{#if describedServer.value instanceof XrpcError}
 				<Para color="danger">
-					{describedServer.value.message}
+					{describedServer.value.code} [{describedServer.value.status}]: {describedServer.value
+						.description}
 				</Para>
-			{:else if !describedServer.value.ok}
+			{:else if describedServer.value instanceof Error}
 				<Para color="danger">
-					{describedServer.value.errorHeader ?? describedServer.value.status}: {describedServer.value
-						.errorDescription}
+					{describedServer.value}
 				</Para>
 			{/if}
 			<Alert color="info">
@@ -277,10 +265,9 @@
 		</FormControl>
 	</Accordion>
 	<Section>
-		<Group reversed>
+		<Group direction="row-reverse">
 			<FormSubmit
-				disabled={describedServer.value instanceof Error
-					|| !(describedServer.value as HttpResponseWithContent<DescribedServer>).ok}
+				disabled={describedServer.value instanceof Error || !(describedServer.value as DescribedServer)}
 			/>
 		</Group>
 		{#if error}

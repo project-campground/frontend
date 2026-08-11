@@ -31,6 +31,9 @@
 	import { FormattedMessage } from '@campground/locale';
 	import ProfileSetup from './GettingStartedModal.svelte';
 	import { onMount } from 'svelte';
+	import { setAppview } from '$lib/context/api.js';
+	import HTTPBackendClient from '$lib/api/http/HTTPBackendClient.js';
+	import { defaultAppview } from '$lib/api/api.config.js';
 
 	const { children }: LayoutProps = $props();
 
@@ -50,6 +53,7 @@
 
 	const menuPortal = new MenuPortal();
 
+	setAppview(new HTTPBackendClient(session, defaultAppview.split('//')[1]));
 	setAccount(accountContext);
 	setMenuPortal(menuPortal);
 </script>

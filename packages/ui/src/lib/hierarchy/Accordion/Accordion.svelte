@@ -37,7 +37,7 @@
 </section>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 
 	$gap-sizes: create-size-map((0.25rem, 0.5rem, 1rem, 2rem, 3rem));
 

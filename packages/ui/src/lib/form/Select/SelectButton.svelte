@@ -77,7 +77,7 @@
 </button>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 	@use 'sass:list';
 	@use '../TextInput/InputField.scss' as *;
 

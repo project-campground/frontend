@@ -21,7 +21,7 @@
 
 <style lang="scss">
 	@use 'sass:list';
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 	@use '../Avatar/Avatar.scss' as *;
 	@use './Skeleton.scss' as *;
 

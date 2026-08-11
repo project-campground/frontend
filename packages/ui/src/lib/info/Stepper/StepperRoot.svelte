@@ -30,7 +30,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 	@use 'sass:list';
 
 	$input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2.25rem, 2.75rem));

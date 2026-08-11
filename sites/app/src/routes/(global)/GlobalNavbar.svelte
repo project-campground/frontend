@@ -51,9 +51,6 @@
 		align-items: stretch;
 		scroll-snap-align: start;
 
-		flex: 1;
-		grid-row: 1;
-		grid-column: 1;
 		gap: 1rem;
 
 		@include tablet-up {
@@ -61,7 +58,6 @@
 			width: calc(100vw - 1rem);
 			align-items: center;
 			flex-direction: row;
-			grid-column: 1 / 4;
 		}
 	}
 	.campsites {

@@ -34,7 +34,7 @@
 </button>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 	@use 'sass:list';
 	@use 'sass:math' as *;
 	@use './BooleanField.scss' as *;

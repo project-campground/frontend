@@ -30,7 +30,7 @@
 </span>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 
 	$levels: background, subtext, body, subheading, heading;
 	$floats: left, right;

@@ -26,7 +26,7 @@
 
 <style lang="scss">
 	@use '../theme/index.scss';
-	@use '../index.scss' as *;
+	@use '../common.scss' as *;
 
 	:global(html),
 	:global(body) {

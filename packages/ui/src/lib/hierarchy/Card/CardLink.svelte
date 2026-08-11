@@ -7,7 +7,7 @@
 <a {...props}></a>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 
 	a {
 		position: absolute;

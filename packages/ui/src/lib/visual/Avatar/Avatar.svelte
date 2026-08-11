@@ -24,7 +24,7 @@
 
 <style lang="scss">
 	@use 'sass:list';
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 	@use './Avatar.scss' as *;
 
 	$sizes:

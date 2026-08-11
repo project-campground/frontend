@@ -26,7 +26,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 
 	div {
 		display: grid;

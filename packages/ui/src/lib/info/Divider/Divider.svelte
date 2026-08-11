@@ -22,7 +22,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../index.scss' as *;
+	@use '../../common.scss' as *;
 
 	$thickness-map: create-size-map((0.0625rem, 0.125rem, 0.1875rem, 0.25rem, 0.375rem));
 

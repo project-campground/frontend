@@ -7,15 +7,16 @@
 		src?: string | null;
 	}
 
-	const { src, ...props }: Props = $props();
+	const { size, src, ...props }: Props = $props();
 </script>
 
 <Badge
 	color="online"
-	size="xs"
+	{size}
 >
 	<Avatar
 		src={src || defaultAvatar}
+		{size}
 		{...props}
 	/>
 </Badge>

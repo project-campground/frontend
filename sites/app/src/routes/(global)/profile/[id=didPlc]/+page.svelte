@@ -6,6 +6,8 @@
 	import type { PageProps } from './$types.js';
 	import { FormattedMessageGlobal } from '@campground/locale';
 	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
+	import ProfileFeed from './ProfileFeed.svelte';
+	import ProfilePost from '$lib/components/content/ProfilePost.svelte';
 
 	const appview = getAppview();
 	const { params }: PageProps = $props();
@@ -66,8 +68,25 @@
 						<FormattedMessageGlobal id="app.profiles.replies" />
 					</Tabs.Item>
 				{/snippet}
-				<Tabs.Tab>Aaaa</Tabs.Tab>
-				<Tabs.Tab>Bbbb</Tabs.Tab>
+				<Tabs.Tab>
+					<ProfileFeed>
+						<ProfilePost
+							profilePost={{
+								parentUri: null,
+								author: profile,
+								uri: '',
+								content: 'Example',
+								tags: [],
+								createdAt: new Date().toISOString(),
+								indexedAt: new Date().toISOString(),
+								updatedAt: null,
+							}}
+						/>
+					</ProfileFeed>
+				</Tabs.Tab>
+				<Tabs.Tab>
+					<ProfileFeed>Bbb</ProfileFeed>
+				</Tabs.Tab>
 			</Tabs.Root>
 		</div>
 		<aside class="about">

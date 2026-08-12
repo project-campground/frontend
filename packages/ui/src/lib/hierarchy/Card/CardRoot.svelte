@@ -27,7 +27,7 @@
 
 		background-color: var(--background-content);
 		border: solid 1px var(--neutral-border);
-		border-radius: var(--card-radius);
+		border-radius: var(--Card-radius);
 		box-shadow: var(--shadow-md);
 		&[data-overflow='auto'] {
 			overflow: auto;
@@ -38,9 +38,9 @@
 		@each $size, $values in $card-padding {
 			&[data-size='#{$size}'] {
 				padding: $values;
-				--card-paddingY: #{list.nth($values, 1)};
-				--card-paddingX: #{list.nth($values, 2)};
-				--card-radius: var(--radius-#{$size});
+				--Card-paddingY: #{list.nth($values, 1)};
+				--Card-paddingX: #{list.nth($values, 2)};
+				--Card-radius: var(--radius-#{$size});
 			}
 		}
 		&[data-level='subtle'] {

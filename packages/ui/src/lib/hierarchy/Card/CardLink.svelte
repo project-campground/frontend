@@ -17,7 +17,7 @@
 		bottom: 0;
 		z-index: 5;
 
-		border-radius: var(--card-radius);
+		border-radius: var(--Card-radius);
 		background-color: var(--neutral-700);
 		opacity: 0;
 		transition: opacity $transition-time-md;

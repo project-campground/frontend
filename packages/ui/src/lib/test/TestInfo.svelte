@@ -6,8 +6,6 @@
 		Para,
 		Section,
 		Stack,
-		type ComponentColor,
-		type ComponentSize,
 		type GradientMotion,
 		type ParaLevel,
 		Svg,
@@ -15,12 +13,12 @@
 		Divider,
 		type StatusColor,
 		Stepper,
-		type DistanceArgument,
+		type LinkProps,
 	} from '$lib/index.js';
-	import { IconCheck } from '@tabler/icons-svelte';
-	import { statusColors } from './values.ts';
-	import TextInput from '$lib/form/TextInput/TextInput.svelte';
+	import { IconCheck, IconMessageFilled } from '@tabler/icons-svelte';
+	import { colors, colorsWithNeutral, sizes, statusColors } from './values.ts';
 	import Button from '$lib/form/Button/Button.svelte';
+	import Link from '$lib/info/Link/Link.svelte';
 
 	const gradientMotions: GradientMotion[] = ['none', 'linear', 'wave', 'radial'];
 	const gradientTextMaxColors = [
@@ -33,8 +31,7 @@
 			.map((_, i) => x.slice(0, i + 1)),
 	);
 
-	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-	const colors: ComponentColor[] = ['primary', 'success', 'info', 'warning', 'danger'];
+	type Underlined = LinkProps['underlined'];
 </script>
 
 {#snippet icon()}
@@ -58,6 +55,30 @@
 					{/each}
 				</Group>
 			{/each}
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Links
+	{/snippet}
+	<Stack>
+		{#each ['always', 'hover', 'never', undefined] as Underlined[] as underlined}
+			<Section>
+				{#snippet header()}
+					{underlined ?? 'undefined'} underlined
+				{/snippet}
+				<Group>
+					{#each [undefined, ...colorsWithNeutral] as color}
+						<Link {underlined} {color}>
+							<IconMessageFilled /> {color ?? 'no color'}
+						</Link>
+						<Link {underlined} {color} href="/">
+							{color ?? 'no color'} [href]
+						</Link>
+					{/each}
+				</Group>
+			</Section>
 		{/each}
 	</Stack>
 </Section>

@@ -33,10 +33,11 @@
 
 	.container {
 		width: 100%;
-		padding: 4px 8px;
+		padding: 0.25rem 0.5rem;
 		border-radius: var(--radius-sm);
 		background-color: var(--background-body);
 		transition: background $transition-time-lg;
+		box-sizing: border-box;
 	}
 	.root {
 		position: relative;

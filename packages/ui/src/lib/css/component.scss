@@ -12,6 +12,7 @@ $color-types-all: list.join($color-types, ('neutral'));
 
 $position-horizontal: left, right;
 $position-vertical: top, bottom;
+$positions: list.join($position-horizontal, $position-vertical);
 
 @mixin button-transform($hover: 1.025, $active: 0.925) {
 	transition-duration: $transition-time-sm;

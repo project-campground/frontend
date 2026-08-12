@@ -8,8 +8,11 @@
 	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
 	import ProfileFeed from './ProfileFeed.svelte';
 	import ProfilePost from '$lib/components/content/ProfilePost.svelte';
+	import { getAccount } from '$lib/context/account.svelte.js';
+	import ProfilePostCreator from './ProfilePostCreator.svelte';
 
 	const appview = getAppview();
+	const currentUser = getAccount();
 	const { params }: PageProps = $props();
 </script>
 
@@ -70,6 +73,9 @@
 				{/snippet}
 				<Tabs.Tab>
 					<ProfileFeed>
+						{#if params.id === currentUser.sessionInfo?.did}
+							<ProfilePostCreator />
+						{/if}
 						<ProfilePost
 							profilePost={{
 								parentUri: null,
@@ -108,12 +114,12 @@
 	.container {
 		display: grid;
 		width: 100%;
-		grid-template-columns: 5rem 3fr 7fr 3fr 5rem;
+		grid-template-columns: 5rem 4fr 7fr 4fr 5rem;
 		grid-template-rows: auto 1fr;
 		background-color: var(--background-subtle);
 		padding: 1rem;
 		box-sizing: border-box;
-		gap: 2rem 5rem;
+		gap: 2rem 3rem;
 	}
 	.top {
 		display: flex;

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { LinkProps } from './props.ts';
+	import type { ClickProps } from './props.ts';
 
-	const { ...props }: LinkProps = $props();
+	const props: ClickProps = $props();
 </script>
 
 <a {...props}></a>
@@ -18,13 +18,13 @@
 		z-index: 5;
 
 		border-radius: var(--Card-radius);
-		background-color: var(--neutral-700);
+		background-color: var(--neutral-solidBackHover);
 		opacity: 0;
 		transition: opacity $transition-time-md;
 		cursor: pointer;
 
 		&:hover {
-			opacity: 12.5%;
+			opacity: 25%;
 		}
 	}
 </style>

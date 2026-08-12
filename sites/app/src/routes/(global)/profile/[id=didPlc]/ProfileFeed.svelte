@@ -31,7 +31,7 @@
 </script>
 
 <div class="padding">
-	<Stack gap={2}>
+	<Stack gap={1}>
 		{@render children()}
 		<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
 			{#snippet title()}

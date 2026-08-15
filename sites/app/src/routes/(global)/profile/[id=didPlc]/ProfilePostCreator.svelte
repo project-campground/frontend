@@ -12,6 +12,8 @@
 </script>
 
 <script lang="ts">
+	import BasicPostEditor from '$lib/components/editor/BasicPostEditor.svelte';
+
 	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { FormattedMessage } from '@campground/locale';
@@ -25,7 +27,10 @@
 
 <Card.Root>
 	{#if open}
-		Open
+		<BasicPostEditor
+			onCancel={() => (open = false)}
+			onSubmit={(value) => console.info(value)}
+		></BasicPostEditor>
 	{:else}
 		<Card.Content>
 			<Group>

@@ -39,10 +39,8 @@
 	const appview = getAppview();
 	const { did, withReplies }: Props = $props();
 
-	let posts = $state([] as ProfilePostViewParented[]);
-
-	onMount(() =>
-		appview.profilePosts.getMany(did, withReplies ?? false).then((value) => (posts = value.posts)),
+	let posts = $derived(
+		await appview.profilePosts.getMany(did, withReplies ?? false).then((value) => value.posts),
 	);
 </script>
 

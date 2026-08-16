@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Avatar, Gradient, Group, loremIpsum, Skeleton } from '@campground/ui';
+	import { Avatar, Group, loremIpsum, Skeleton } from '@campground/ui';
 	import type { PageProps } from './$types.js';
 	import ProfilePage from './ProfilePage.svelte';
 	import ProfilePageHeader from './ProfilePageHeader.svelte';
@@ -73,7 +73,7 @@
 		{#snippet failed(error)}
 			FAILED: {error}
 		{/snippet}
-		<ProfilePage did={params.id} />
+		<ProfilePage did={params.profile} />
 	</svelte:boundary>
 </div>
 

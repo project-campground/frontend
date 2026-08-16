@@ -5,7 +5,10 @@
 	import { IconMessage2Filled, IconRotate } from '@tabler/icons-svelte';
 	import Markdown from '../../markdown/Markdown.svelte';
 
-	const { profilePost }: { profilePost: ProfilePostViewBasic } = $props();
+	const {
+		profilePost,
+		hideReplyCount,
+	}: { profilePost: ProfilePostViewBasic; hideReplyCount?: boolean } = $props();
 
 	const id = $derived(profilePost.uri.split('/').slice(-1)[0]);
 </script>
@@ -24,13 +27,15 @@
 				<Markdown value={profilePost.content} />
 			</div>
 			<Group>
-				<Link
-					color="neutral"
-					href={`/profile/${profilePost.author.did}/posts/${id}`}
-				>
-					<IconMessage2Filled />
-					{profilePost.replyCount} Replies
-				</Link>
+				{#if !hideReplyCount}
+					<Link
+						color="neutral"
+						href={`/profile/${profilePost.author.did}/posts/${id}`}
+					>
+						<IconMessage2Filled />
+						{profilePost.replyCount} Replies
+					</Link>
+				{/if}
 				<Link
 					color="neutral"
 					href={`/profile/${profilePost.author.did}/posts/${id}`}

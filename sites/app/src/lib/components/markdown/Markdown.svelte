@@ -31,6 +31,8 @@
 	@use '../../css/markdown.scss' as *;
 
 	.container {
+		text-wrap: wrap;
+		line-break: normal;
 		@extend %MarkdownContent-basic;
 	}
 </style>

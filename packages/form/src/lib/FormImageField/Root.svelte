@@ -3,7 +3,7 @@
 	import type { FormImageFieldProps, FormImageFieldValue } from './props.ts';
 	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { IconPencilFilled } from '@tabler/icons-svelte';
-	import FormImageDialog from './FormImageDialog.svelte';
+	import FormImageDialog from './Dialog.svelte';
 
 	const { children, width, height, aspectRatio, radius }: FormImageFieldProps = $props();
 

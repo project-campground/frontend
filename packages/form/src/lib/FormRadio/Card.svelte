@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Card, Radio } from '@campground/ui';
 	import type { FormRadioItemProps } from './props.ts';
-	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
+	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
 	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 
 	const { header, children, value, ...props }: FormRadioItemProps = $props();

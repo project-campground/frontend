@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Card, Checkbox } from '@campground/ui';
 	import type { FormCheckboxProps, FormCheckValue } from './props.ts';
-	import FormSimpleField from '$lib/FormSimpleField/FormSimpleField.svelte';
+	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
 	import { getFormControl, type FormControlInstance } from '$lib/FormControl/context.svelte.js';
 	import { getFormControlkey } from '$lib/FormCheck/context.svelte.js';
 

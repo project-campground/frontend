@@ -8,7 +8,10 @@ export class FormInstance {
 	constructor(
 		private _submit: () =>
 			| undefined
-			| ((values: Record<FormFieldId, any>, ev?: MouseEvent | undefined) => Promise<unknown>),
+			| ((
+					values: Record<FormFieldId, any>,
+					ev?: MouseEvent | undefined,
+			  ) => Promise<unknown> | unknown),
 	) {}
 
 	public get valid(): Record<FormFieldId, boolean> {

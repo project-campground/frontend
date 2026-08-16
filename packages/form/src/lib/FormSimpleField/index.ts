@@ -1,2 +1,2 @@
 export type { default as FormSimpleFieldProps } from './props.ts';
-export { default as FormSimpleField } from './FormSimpleField.svelte';
+export { default as FormSimpleField } from './Root.svelte';

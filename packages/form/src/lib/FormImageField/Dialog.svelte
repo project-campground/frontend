@@ -19,7 +19,7 @@
 <script lang="ts">
 	import { Form } from '$lib/Form/index.js';
 	import { FormControl } from '$lib/FormControl/index.js';
-	import FormLabel from '$lib/FormLabel/FormLabel.svelte';
+	import FormLabel from '$lib/FormLabel/Root.svelte';
 	import { FormSubmit } from '$lib/FormSubmit/index.js';
 	import { FormTextField } from '$lib/FormTextField/index.js';
 

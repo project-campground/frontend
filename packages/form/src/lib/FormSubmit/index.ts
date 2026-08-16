@@ -1,2 +1,2 @@
 export type { default as FormSubmitProps } from './props.ts';
-export { default as FormSubmit } from './FormSubmit.svelte';
+export { default as FormSubmit } from './Root.svelte';

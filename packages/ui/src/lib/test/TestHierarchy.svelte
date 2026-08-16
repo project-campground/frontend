@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/form/Button/Button.svelte';
+	import ThreadedRoot from '$lib/hierarchy/Threaded/ThreadedRoot.svelte';
 	import {
 		Accordion,
 		Card,
@@ -10,6 +11,8 @@
 		Paged,
 		Section,
 		GradientText,
+		Threaded,
+		Para,
 	} from '$lib/index.js';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
@@ -109,6 +112,68 @@
 				{/each}
 			</Section>
 		{/each}
+	</div>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Threaded
+	{/snippet}
+	<div>
+		<Stack>
+			{#each sizes as size}
+				<Group>
+					<Threaded.Root {size}>
+						{#snippet parent()}
+							<Card.Root {size}>
+								<Card.Content>
+									<Para>Threaded size {size}</Para>
+									<Para>Parent</Para>
+								</Card.Content>
+							</Card.Root>
+						{/snippet}
+						<Threaded.Item>
+							<Card.Root {size}>Example item #1</Card.Root>
+						</Threaded.Item>
+						<Threaded.SubRoot>
+							{#snippet parent()}
+								<Card.Root {size}>Example item #2</Card.Root>
+							{/snippet}
+							{#each [1, 2, 3] as i}
+								<Threaded.Item>
+									<Card.Root {size}>Example item #2.{i}</Card.Root>
+								</Threaded.Item>
+							{/each}
+						</Threaded.SubRoot>
+						<Threaded.Item>
+							<Card.Root size="xl">Example item #3</Card.Root>
+						</Threaded.Item>
+					</Threaded.Root>
+					<Threaded.Root {size}>
+						{#snippet parent()}
+							<Card.Root {size}>
+								<Card.Content>
+									<Para>Threaded size {size}</Para>
+									<Para>Parent</Para>
+								</Card.Content>
+							</Card.Root>
+						{/snippet}
+						<Threaded.Item>
+							<Card.Root>Example item #1</Card.Root>
+						</Threaded.Item>
+						<Threaded.SubRoot>
+							{#snippet parent()}
+								<Card.Root size="xl">Example item #2</Card.Root>
+							{/snippet}
+							{#each [1, 2, 3] as i}
+								<Threaded.Item>
+									<Card.Root>Example item #2.{i}</Card.Root>
+								</Threaded.Item>
+							{/each}
+						</Threaded.SubRoot>
+					</Threaded.Root>
+				</Group>
+			{/each}
+		</Stack>
 	</div>
 </Section>
 <Section headerLevel={1}>

@@ -1,6 +1,6 @@
 import type { Snippet } from 'svelte';
 import type { ComponentSize } from '../../types/attributes.ts';
-import type { ClassValue, HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
+import type { ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
 import type { DistanceArgument } from '$lib/util/component.js';
 
 export interface RootProps {

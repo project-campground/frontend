@@ -33,7 +33,6 @@ export interface ProfilePostView {
 	uri: string;
 	parentUri?: string | null;
 	content: string;
-	tags: string[];
 	createdAt: string;
 	indexedAt: string | null;
 	updatedAt: string | null;

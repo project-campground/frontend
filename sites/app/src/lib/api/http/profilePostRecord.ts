@@ -1,6 +1,9 @@
 import HTTPAtprotoObjectManager from './base-atproto.js';
+import { TID } from '@atproto/common-web';
 
 export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManager {
+	public static RecordType: string = 'gg.campground.profile.post';
+
 	create(record: {
 		parentUri?: string | undefined;
 		content: string;
@@ -11,9 +14,9 @@ export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManag
 
 		return this.client.putRecord({
 			repo: this.client.actorDid,
-			collection: 'gg.campground.profile.post',
-			rkey: '',
-			record: { ...record, $type: 'gg.campground.profile.post' },
+			collection: HTTPProfilePostRecordManager.RecordType,
+			rkey: TID.next().toString(),
+			record: { ...record, $type: HTTPProfilePostRecordManager.RecordType },
 		});
 	}
 
@@ -22,16 +25,20 @@ export default class HTTPProfilePostRecordManager extends HTTPAtprotoObjectManag
 
 		return this.client.putRecord({
 			repo: this.client.actorDid,
-			collection: 'gg.campground.profile.post',
+			collection: HTTPProfilePostRecordManager.RecordType,
 			rkey: uri.split('/')[4],
-			record: { ...record, updatedAt: new Date().toISOString(), $type: 'gg.campground.profile.post' },
+			record: {
+				...record,
+				updatedAt: new Date().toISOString(),
+				$type: HTTPProfilePostRecordManager.RecordType,
+			},
 		});
 	}
 
 	async delete(uri: string) {
 		const a = await this.client.deleteRecord({
 			repo: this.client.actorDid!,
-			collection: 'gg.campground.profile.post',
+			collection: HTTPProfilePostRecordManager.RecordType,
 			// at://did:.../gg.campground.profile.post/...
 			rkey: uri.split('/')[4],
 		});

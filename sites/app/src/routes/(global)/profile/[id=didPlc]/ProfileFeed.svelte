@@ -17,22 +17,40 @@
 </script>
 
 <script lang="ts">
+	import { getAppview } from '$lib/context/api.js';
+	import type { ProfilePostViewParented } from '$lib/types/campground/user.js';
+
 	import { FormattedMessage } from '@campground/locale';
 
 	import { PagePlaceholder, PagePlaceholderIcon, Stack } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import type { Snippet } from 'svelte';
+	import { onMount } from 'svelte';
+	import ProfileFeedPost from './ProfileFeedPost.svelte';
 
 	interface Props {
-		children: Snippet;
+		did: string;
+		withReplies?: boolean;
 	}
 
-	const { children }: Props = $props();
+	export function onAddPost(post: ProfilePostViewParented) {
+		posts = [post, ...posts];
+	}
+
+	const appview = getAppview();
+	const { did, withReplies }: Props = $props();
+
+	let posts = $state([] as ProfilePostViewParented[]);
+
+	onMount(() =>
+		appview.profilePosts.getMany(did, withReplies ?? false).then((value) => (posts = value.posts)),
+	);
 </script>
 
 <div class="padding">
 	<Stack gap={1}>
-		{@render children()}
+		{#each posts as post (post.uri)}
+			<ProfileFeedPost profilePost={post} />
+		{/each}
 		<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
 			{#snippet title()}
 				<FormattedMessage {...messages.finalTitle} />

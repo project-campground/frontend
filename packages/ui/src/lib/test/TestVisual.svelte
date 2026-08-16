@@ -5,6 +5,7 @@
 		BrandLogo,
 		Group,
 		Image,
+		Gradient,
 		Section,
 		Stack,
 		Svg,
@@ -17,8 +18,9 @@
 		type ParaLevel,
 	} from '$lib/index.js';
 	import { IconMoonFilled } from '@tabler/icons-svelte';
-	import { sizes, sizesWithNone } from './values.js';
-	import TextBlock from '$lib/info/TextBlock/TextBlock.svelte';
+	import { genericColors, sizes, sizesWithNone } from './values.js';
+	import type { VisualObjectProps } from '$lib/visual/Image/props.js';
+	import type { Snippet } from 'svelte';
 
 	const positions: `${PositionVertical}-${PositionHorizontal}`[] = [
 		'top-left',
@@ -35,54 +37,53 @@
 {#snippet badgeCount()}
 	99+
 {/snippet}
+{#snippet ImageVisualObject(props: VisualObjectProps)}
+	<Image
+		{...props}
+		src="/example-banner.svg"
+	/>
+{/snippet}
+{#snippet GradientVisualObject(props: VisualObjectProps)}
+	{const color = genericColors[Math.ceil(Math.random() * (genericColors.length + 1))]}
+	<Gradient {...props} {color}>
+		adasdas
+	</Gradient>
+{/snippet}
+{#snippet VisualObjectTest(visualObject: Snippet<[VisualObjectProps]>)}
+	{#each sizesWithNone as radius (radius)}
+		<Section headerLevel={2}>
+			{#snippet header()}
+				Radius {radius}
+			{/snippet}
+			<Group
+				directionMobile="column"
+				align="start"
+			>
+				{@render visualObject({ w: 6, h: 6, radius })}
+				{@render visualObject({ maxh: 6, radius })}
+				{@render visualObject({ maxw: 6, radius })}
+				{#each [2, 3, 0.5] as ratio (ratio)}
+					{@render visualObject({ w: 6, aspectRatio: ratio, radius })}
+					{@render visualObject({ w: 10, aspectRatio: ratio, mobileAspectRatio: ratio / 2, radius })}
+				{/each}
+			</Group>
+		</Section>
+	{/each}
+{/snippet}
 <Section headerLevel={1}>
 	{#snippet header()}
 		Image
 	{/snippet}
 	<Stack>
-		{#each sizesWithNone as radius}
-			<Section headerLevel={2}>
-				{#snippet header()}
-					Radius {radius}
-				{/snippet}
-				<Group
-					directionMobile="column"
-					align="start"
-				>
-					<Image
-						w={6}
-						h={6}
-						{radius}
-						src="/example-banner.svg"
-					/>
-					<Image
-						maxh={6}
-						{radius}
-						src="/example-banner.svg"
-					/>
-					<Image
-						maxw={6}
-						{radius}
-						src="/example-banner.svg"
-					/>
-					{#each [2, 3, 0.5] as ratio}
-						<Image
-							src="/example-banner.svg"
-							w={6}
-							aspectRatio={ratio}
-							{radius}
-						/>
-						<Image
-							src="/example-banner.svg"
-							w={10}
-							aspectRatio={ratio}
-							mobileAspectRatio={ratio / 2}
-							{radius}
-						/>
-					{/each}
-				</Group>
-			</Section>
-		{/each}
+		{@render VisualObjectTest(ImageVisualObject)}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Gradient
+	{/snippet}
+	<Stack>
+		{@render VisualObjectTest(GradientVisualObject)}
 	</Stack>
 </Section>
 <Section headerLevel={1}>

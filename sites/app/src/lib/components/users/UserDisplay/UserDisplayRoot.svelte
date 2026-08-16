@@ -1,21 +1,16 @@
-<script
-	lang="ts"
-	module
->
-	import type { ProfileViewBasic } from '$lib/types/campground/user.js';
-
-	export interface Props extends Pick<StackProps, 'align'> {
-		user: ProfileViewBasic;
-		size?: ComponentSize;
-		displayHandle?: boolean;
-	}
-</script>
-
 <script lang="ts">
-	import { type ComponentSize, type StackProps } from '@campground/ui';
-	import UserAvatar from './UserAvatar.svelte';
+	import type { Snippet } from 'svelte';
+	import type { UserDisplayProps } from './props.ts';
 
-	const { user, align, displayHandle, size }: Props = $props();
+	const {
+		displayName,
+		avatar,
+		handle,
+		align,
+		displayHandle,
+		size,
+	}: Omit<UserDisplayProps, 'user'> & { avatar: Snippet; displayName: Snippet; handle?: Snippet } =
+		$props();
 </script>
 
 <div
@@ -23,16 +18,13 @@
 	data-align={align ?? 'center'}
 	data-size={size ?? 'md'}
 >
-	<UserAvatar
-		src={user.avatar}
-		{size}
-	/>
+	{@render avatar()}
 	<span class="name">
-		{user.displayName ?? user.handle}
+		{@render displayName()}
 	</span>
 	{#if displayHandle}
 		<span class="handle">
-			@{user.handle}
+			{@render handle?.()}
 		</span>
 	{/if}
 </div>

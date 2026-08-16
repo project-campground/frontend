@@ -3,13 +3,16 @@
 	import UserAvatar from './UserAvatar.svelte';
 	import UserBanner from './UserBanner.svelte';
 
-	interface Props extends Pick<ProfileViewBasic, 'avatar' | 'banner'> {}
+	interface Props extends Pick<ProfileViewBasic, 'did' | 'avatar' | 'banner'> {}
 
-	const { avatar, banner }: Props = $props();
+	const { did, avatar, banner }: Props = $props();
 </script>
 
 <header class="container">
-	<UserBanner src={banner} />
+	<UserBanner
+		{did}
+		src={banner}
+	/>
 	<div class="display">
 		<div class="avatarWrapper">
 			<UserAvatar

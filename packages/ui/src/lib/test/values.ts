@@ -2,6 +2,7 @@ import type {
 	ComponentColor,
 	ComponentSize,
 	ComponentSizeWithNone,
+	GenericColor,
 	StatusColor,
 } from '$lib/types/attributes.js';
 
@@ -16,4 +17,13 @@ export const statusColors: StatusColor[] = [
 	'notification',
 	'offline',
 	'online',
+];
+export const genericColors: GenericColor[] = [
+	'red',
+	'yellow',
+	'green',
+	'teal',
+	'blue',
+	'purple',
+	'grey',
 ];

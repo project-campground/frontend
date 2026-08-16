@@ -5,6 +5,7 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const createConfig = (packageName) => ({
 	preprocess: vitePreprocess({ style: true, script: false }),
 	compilerOptions: {
+		experimental: { async: true },
 		// Makes theming a bit more predictable
 		cssHash: ({ name }) => `${packageName}-${name.replace('+', '_')}`,
 		// Force runes mode for the project, except for libraries. Can be removed in svelte 6.

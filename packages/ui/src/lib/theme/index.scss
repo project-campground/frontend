@@ -2,6 +2,7 @@
 @use './dark.scss' as *;
 @use './light.scss' as *;
 @use '../css/color.scss' as *;
+@use '../css/component.scss' as *;
 @use '../css/border.scss' as *;
 @use '../css/font.scss' as *;
 @use '../css/generate.scss';
@@ -50,13 +51,9 @@
 	@include generate.generic-color-scheme('online', map.get($colors, 'cg-green'));
 	@include generate.generic-color-scheme('offline', map.get($colors, 'cg-grey'));
 
-	@include generate.generic-color-scheme('red', map.get($colors, 'cg-red'));
-	@include generate.generic-color-scheme('yellow', map.get($colors, 'cg-yellow'));
-	@include generate.generic-color-scheme('green', map.get($colors, 'cg-green'));
-	@include generate.generic-color-scheme('teal', map.get($colors, 'cg-teal'));
-	@include generate.generic-color-scheme('blue', map.get($colors, 'cg-blue'));
-	@include generate.generic-color-scheme('purple', map.get($colors, 'cg-purple'));
-	@include generate.generic-color-scheme('grey', map.get($colors, 'cg-grey'));
+	@each $color in $generic-color-types {
+		@include generate.generic-color-scheme('#{$color}', map.get($colors, 'cg-#{$color}'));
+	}
 
 	font-family: var(--font-body);
 	color: var(--foreground-body);

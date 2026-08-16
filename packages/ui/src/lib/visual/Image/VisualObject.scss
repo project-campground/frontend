@@ -1,0 +1,41 @@
+@use '../../common.scss' as *;
+
+$fits: 'fill', 'contain', 'cover';
+
+%VisualObject {
+	@extend %VisualObject-sizing;
+
+	@include tablet-down {
+		aspect-ratio: var(--Visual-mobileAspectRatio, var(--Visual-aspectRatio));
+	}
+
+	@each $size in $size-names-with-xl {
+		&[data-radius='#{$size}'] {
+			border-radius: var(--radius-#{$size});
+		}
+	}
+	@each $fit in $fits {
+		&[data-fit='#{$fit}'] {
+			object-fit: #{$fit};
+		}
+	}
+	&[data-radius='none'] {
+		border-radius: 0;
+	}
+}
+
+%VisualObject-sizing {
+	max-width: var(--Visual-maxWidth);
+	max-height: var(--Visual-maxHeight);
+	min-width: var(--Visual-minWidth);
+	min-height: var(--Visual-minHeight);
+	height: var(--Visual-height, min-content);
+	width: var(--Visual-width, min-content);
+	border-radius: var(--radius-sm);
+
+	aspect-ratio: var(--Visual-aspectRatio);
+
+	@include tablet-down {
+		aspect-ratio: var(--Visual-mobileAspectRatio, var(--Visual-aspectRatio));
+	}
+}

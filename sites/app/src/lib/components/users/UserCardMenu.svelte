@@ -54,6 +54,7 @@
 <Menu.List>
 	<div class={['container', { hideButtons }]}>
 		<UserHeader
+			did={user.did}
 			avatar={user.avatar}
 			banner={user.banner}
 		/>

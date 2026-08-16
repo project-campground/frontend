@@ -54,6 +54,12 @@
 				<Tabs.Item>
 					<TextBlock>Form and Input</TextBlock>
 				</Tabs.Item>
+				<Tabs.Item>
+					<TextBlock>Test Async #1</TextBlock>
+				</Tabs.Item>
+				<Tabs.Item>
+					<TextBlock>Test Async #2</TextBlock>
+				</Tabs.Item>
 			{/snippet}
 			<!-- Visual -->
 			<Tabs.Tab>
@@ -85,6 +91,22 @@
 					<TestForm />
 				</Stack>
 			</Tabs.Tab>
+			<!-- Async tab #1 -->
+			<Tabs.AsyncTab>
+				{#snippet skeleton()}
+					Skeleton 1
+				{/snippet}
+				Abcdef
+				{console.log('Render tab #1')}
+			</Tabs.AsyncTab>
+			<!-- Async tab #2 -->
+			<Tabs.AsyncTab alwaysRenderOnceSeen>
+				{#snippet skeleton()}
+					Skeleton 2 (takes 2 secs)
+				{/snippet}
+				{await new Promise((resolve) => setTimeout(() => resolve('Abcdefghijkl'), 2000))}
+				{console.log('Render tab #2')}
+			</Tabs.AsyncTab>
 		</Tabs.Root>
 	</div>
 </Section>

@@ -1,21 +1,35 @@
+<script lang="ts" module>
+	const gradientColors: GenericColor[] = ['red', 'yellow', 'green', 'blue', 'teal', 'purple', 'grey'];
+</script>
+
 <script lang="ts">
-	import { Image, type ImageProps } from '@campground/ui';
+	import { Gradient, Image, type GenericColor, type ImageProps } from '@campground/ui';
 
 	interface Props extends Omit<ImageProps, 'src'> {
+		did: string;
 		src?: string | null | undefined;
 	}
 
-	const { aspectRatio, mobileAspectRatio, src }: Props = $props();
+	const { did, aspectRatio, mobileAspectRatio, src }: Props = $props();
 </script>
 
-<Image
-	src={src ?? '/DefaultAvatar0.png'}
-	aspectRatio={aspectRatio ?? 3}
-	mobileAspectRatio={mobileAspectRatio ?? 3}
-	maxw="100%"
-	minw="100%"
-	radius="lg"
-/>
-
-<style lang="scss">
-</style>
+{#if src}
+	<Image
+		src={src!}
+		aspectRatio={aspectRatio ?? 3}
+		mobileAspectRatio={mobileAspectRatio ?? 3}
+		maxw="100%"
+		minw="100%"
+		radius="lg"
+	/>
+{:else}
+	{const color = gradientColors[did.split(':')[2].charCodeAt(0) % gradientColors.length]!}
+	<Gradient
+		{color}
+		aspectRatio={aspectRatio ?? 3}
+		mobileAspectRatio={mobileAspectRatio ?? 3}
+		maxw="100%"
+		minw="100%"
+		radius="lg"
+	/>
+{/if}

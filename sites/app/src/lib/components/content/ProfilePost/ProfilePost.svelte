@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { Card, Group, Link } from '@campground/ui';
-	import UserDisplay from '../users/UserDisplay.svelte';
-	import type { ProfilePostView } from '$lib/types/campground/user.js';
+	import { UserDisplay } from '$lib/components/users/UserDisplay/index.js';
+	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
 	import { IconMessage2Filled, IconRotate } from '@tabler/icons-svelte';
+	import Markdown from '../../markdown/Markdown.svelte';
 
-	const { profilePost }: { profilePost: ProfilePostView } = $props();
+	const { profilePost }: { profilePost: ProfilePostViewBasic } = $props();
 
 	const id = $derived(profilePost.uri.split('/').slice(-1)[0]);
 </script>
@@ -20,7 +21,7 @@
 		</header>
 		<div class="post">
 			<div class="content">
-				{profilePost.content}
+				<Markdown value={profilePost.content} />
 			</div>
 			<Group>
 				<Link
@@ -28,7 +29,7 @@
 					href={`/profile/${profilePost.author.did}/posts/${id}`}
 				>
 					<IconMessage2Filled />
-					0 Replies
+					{profilePost.replyCount} Replies
 				</Link>
 				<Link
 					color="neutral"
@@ -47,12 +48,12 @@
 		display: flex;
 		flex-direction: row;
 		gap: 2ch;
-		margin-bottom: -2rem;
+		margin-bottom: -1.5rem;
 	}
 	.post {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		padding-left: calc(3.5rem + 1ch);
+		padding-left: calc(3rem + 1ch);
 	}
 </style>

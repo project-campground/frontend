@@ -9,6 +9,11 @@ export interface ListProps {
 export interface TabProps {
 	children?: Snippet;
 }
+export interface AsyncTabProps {
+	skeleton: Snippet;
+	children: Snippet;
+	alwaysRenderOnceSeen?: boolean;
+}
 export interface RootProps {
 	tabs: Snippet;
 	children: Snippet;

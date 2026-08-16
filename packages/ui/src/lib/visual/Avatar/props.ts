@@ -3,6 +3,6 @@ import type { ComponentSize } from '../../types/attributes.ts';
 import type { HTMLImgAttributes } from 'svelte/elements';
 
 export default interface AvatarProps extends HTMLImgAttributes {
-	size?: ComponentSize | 'xxl';
+	size?: ComponentSize | 'xxl' | 'xxxl';
 	children?: Snippet;
 }

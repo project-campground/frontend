@@ -1,13 +1,35 @@
 <script lang="ts">
+	import { em } from '$lib/util/component.ts';
 	import type { SkeletonProps } from './props.ts';
 
-	const { children, class: className, radius, ...attributes }: SkeletonProps = $props();
+	const {
+		children,
+		class: className,
+		radius,
+		h,
+		w,
+		maxw,
+		maxh,
+		minw,
+		minh,
+		aspectRatio,
+		mobileAspectRatio,
+		...attributes
+	}: SkeletonProps = $props();
 </script>
 
 <div
 	class={['container', className]}
 	{...attributes}
 	data-radius={radius ?? 'md'}
+	style:--Visual-maxWidth={em(maxw)}
+	style:--Visual-maxHeight={em(maxh)}
+	style:--Visual-minWidth={em(minw)}
+	style:--Visual-minHeight={em(minh)}
+	style:--Visual-width={em(w) ?? 'fit-content'}
+	style:--Visual-height={em(h) ?? 'fit-content'}
+	style:--Visual-aspectRatio={aspectRatio}
+	style:--Visual-mobileAspectRatio={mobileAspectRatio ?? aspectRatio}
 >
 	{#if children}
 		<span
@@ -23,13 +45,13 @@
 	@use 'sass:list';
 	@use '../../common.scss' as *;
 	@use '../Avatar/Avatar.scss' as *;
+	@use '../Image/VisualObject.scss' as *;
 	@use './Skeleton.scss' as *;
 
 	.container {
 		display: inline-block;
-		width: fit-content;
-		height: fit-content;
 
+		@extend %VisualObject-sizing;
 		@extend %Skeleton-pulse;
 
 		@each $size in $size-names-with-none {

@@ -1,171 +1,108 @@
 <script lang="ts">
-	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
-	import UserBanner from '$lib/components/users/UserBanner.svelte';
-	import { getAppview } from '$lib/context/api.js';
-	import { PagePlaceholder, PagePlaceholderIcon, Para, Tabs } from '@campground/ui';
+	import { Avatar, Gradient, Group, loremIpsum, Skeleton } from '@campground/ui';
 	import type { PageProps } from './$types.js';
-	import { FormattedMessageGlobal } from '@campground/locale';
-	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
-	import ProfileFeed from './ProfileFeed.svelte';
-	import ProfilePost from '$lib/components/content/ProfilePost.svelte';
-	import { getAccount } from '$lib/context/account.svelte.js';
-	import ProfilePostCreator from './ProfilePostCreator.svelte';
+	import ProfilePage from './ProfilePage.svelte';
+	import ProfilePageHeader from './ProfilePageHeader.svelte';
+	import ProfilePageColumn from './ProfilePageColumn.svelte';
+	import ProfileFeedSkeleton from './ProfileFeedSkeleton.svelte';
 
-	const appview = getAppview();
-	const currentUser = getAccount();
 	const { params }: PageProps = $props();
 </script>
 
 <div class="container">
-	{#await appview.profiles.get(params.id)}
-		<p>Example profile {params.id}</p>
-	{:then profile}
-		<header class="top">
-			<UserBanner
-				src={profile.banner}
-				aspectRatio={12}
-			/>
-			<div class="avatar">
-				<UserAvatar
-					src={profile.avatar}
-					size="xl"
-				/>
-			</div>
-			<div class="info">
-				<Para
-					level="h1"
-					align="center">{profile.displayName ?? profile.did}</Para
-				>
-				<Para
-					level="sub0"
-					align="center">@{profile.handle}</Para
-				>
-				{#if profile.tagline}
-					<Para
-						level="paragraph"
-						align="center">{profile.tagline}</Para
-					>
-				{/if}
-			</div>
-		</header>
-		<aside class="socials">
-			<Para level="h2">
-				<FormattedMessageGlobal id="site.social" />
-			</Para>
-			<PagePlaceholder icon={PagePlaceholderIcon.WIP}>
-				{#snippet title()}
-					WIP
-				{/snippet}
-				WIP
-			</PagePlaceholder>
-		</aside>
-		<div class="content">
-			{#if params.id === currentUser.sessionInfo?.did}
-				<ProfilePostCreator onSubmit={(value) => console.info('Value', value)} />
-			{/if}
-			<Tabs.Root>
-				{#snippet tabs()}
-					<Tabs.Item>
-						<IconFlameFilled />
-						<FormattedMessageGlobal id="app.profiles.feed" />
-					</Tabs.Item>
-					<Tabs.Item>
-						<IconArrowBack />
-						<FormattedMessageGlobal id="app.profiles.replies" />
-					</Tabs.Item>
-				{/snippet}
-				<!-- TODO: Add Async tabs -->
-				<Tabs.Tab>
-					<ProfileFeed>
-						<ProfilePost
-							profilePost={{
-								parentUri: null,
-								author: profile,
-								uri: '',
-								content: 'Example',
-								tags: [],
-								createdAt: new Date().toISOString(),
-								indexedAt: new Date().toISOString(),
-								updatedAt: null,
-							}}
+	<svelte:boundary>
+		{#snippet pending()}
+			<ProfilePageHeader>
+				{#snippet banner()}
+					<div class="stretch">
+						<Skeleton
+							maxw="100%"
+							minw="100%"
+							aspectRatio={8}
+							mobileAspectRatio={3}
+							radius="lg"
 						/>
-					</ProfileFeed>
-				</Tabs.Tab>
-				<Tabs.Tab>
-					<ProfileFeed>Bbb</ProfileFeed>
-				</Tabs.Tab>
-			</Tabs.Root>
-		</div>
-		<aside class="about">
-			<Para level="h2">
-				<FormattedMessageGlobal id="info.about.me" />
-			</Para>
-			{#if profile.description}
-				<Para level="paragraph">
-					{profile.description}
-				</Para>
-			{/if}
-		</aside>
-	{/await}
+					</div>
+				{/snippet}
+				{#snippet avatar()}
+					<Skeleton radius="avatar">
+						<Avatar
+							size="xxl"
+							src="/DefaultAvatar0.png"
+						/>
+					</Skeleton>
+				{/snippet}
+				{#snippet displayName()}
+					<Skeleton>
+						{loremIpsum.sm}
+					</Skeleton>
+				{/snippet}
+				{#snippet handle()}
+					<Skeleton>
+						{loremIpsum.sm}
+					</Skeleton>
+				{/snippet}
+				{#snippet tagline()}
+					<Skeleton>
+						{loremIpsum.sm}
+					</Skeleton>
+				{/snippet}
+			</ProfilePageHeader>
+			<ProfilePageColumn>
+				<Skeleton>
+					{loremIpsum.sm}
+				</Skeleton>
+			</ProfilePageColumn>
+			<ProfilePageColumn>
+				<Group gap={2}>
+					<Skeleton>
+						{loremIpsum.sm}
+					</Skeleton>
+					<Skeleton>
+						{loremIpsum.sm}
+					</Skeleton>
+				</Group>
+				<ProfileFeedSkeleton />
+			</ProfilePageColumn>
+			<ProfilePageColumn>
+				<Skeleton>
+					{loremIpsum.sm}
+				</Skeleton>
+			</ProfilePageColumn>
+		{/snippet}
+		{#snippet failed(error)}
+			FAILED: {error}
+		{/snippet}
+		<ProfilePage did={params.id} />
+	</svelte:boundary>
 </div>
 
 <style lang="scss">
 	@use '@campground/ui' as *;
 
+	.stretch {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+	}
 	.container {
+		--Page-padding: 8rem;
+
 		display: grid;
 		width: 100%;
-		grid-template-columns: 5rem 4fr 7fr 4fr 5rem;
+		grid-template-columns: 4fr 7fr 4fr;
 		grid-template-rows: auto 1fr;
 		background-color: var(--background-subtle);
-		padding: 1rem;
 		box-sizing: border-box;
 		gap: 2rem 2rem;
+		overflow-y: auto;
+
+		padding-block: 1rem;
+		padding-inline: var(--Page-padding);
+
 		@include desktop-sm-down {
 			grid-template-columns: 4fr 7fr 4fr;
 		}
-	}
-	.top {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		grid-column: 1 / 6;
-		gap: 0.5rem;
-		height: fit-content;
-		@include tablet-down {
-			grid-column: 2 / 3;
-		}
-	}
-	.avatar {
-		margin-top: -3.5rem;
-		padding: 0.25rem;
-		background-color: var(--background-subtle);
-		@extend %Squircle;
-	}
-	.socials {
-		grid-column: 2 / 3;
-		@include desktop-sm-down {
-			grid-column: 1 / 2;
-		}
-	}
-	.content {
-		grid-column: 3 / 4;
-		@include desktop-sm-down {
-			grid-column: 2 / 3;
-		}
-	}
-	.about {
-		grid-column: 4 / 5;
-		@include desktop-sm-down {
-			grid-column: 3 / 4;
-		}
-	}
-	.socials,
-	.content,
-	.about {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		grid-row: 2;
 	}
 </style>

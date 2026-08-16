@@ -21,14 +21,14 @@
 
 <img
 	{...attributes}
-	style:--Image-maxWidth={em(maxw) ?? 'auto'}
-	style:--Image-maxHeight={em(maxh) ?? 'auto'}
-	style:--Image-minWidth={em(minw) ?? 'auto'}
-	style:--Image-minHeight={em(minh) ?? 'auto'}
-	style:--Image-width={em(w) ?? 'auto'}
-	style:--Image-height={em(h) ?? 'auto'}
-	style:--Image-aspectRatio={aspectRatio}
-	style:--Image-mobileAspectRatio={mobileAspectRatio ?? aspectRatio}
+	style:--Visual-maxWidth={em(maxw) ?? 'auto'}
+	style:--Visual-maxHeight={em(maxh) ?? 'auto'}
+	style:--Visual-minWidth={em(minw) ?? 'auto'}
+	style:--Visual-minHeight={em(minh) ?? 'auto'}
+	style:--Visual-width={em(w) ?? 'auto'}
+	style:--Visual-height={em(h) ?? 'auto'}
+	style:--Visual-aspectRatio={aspectRatio}
+	style:--Visual-mobileAspectRatio={mobileAspectRatio ?? aspectRatio}
 	data-fit={fit ?? 'cover'}
 	data-radius={radius ?? 'sm'}
 	{src}
@@ -37,36 +37,9 @@
 
 <style lang="scss">
 	@use '../../common.scss' as *;
-
-	$fits: 'fill', 'contain', 'cover';
+	@use './VisualObject.scss' as *;
 
 	img {
-		max-width: var(--Image-maxWidth);
-		max-height: var(--Image-maxHeight);
-		min-width: var(--Image-minWidth);
-		min-height: var(--Image-minHeight);
-		height: var(--Image-height, min-content);
-		width: var(--Image-width, min-content);
-		border-radius: var(--radius-sm);
-
-		aspect-ratio: var(--Image-aspectRatio);
-
-		@include tablet-down {
-			aspect-ratio: var(--Image-mobileAspectRatio, var(--Image-aspectRatio));
-		}
-
-		@each $size in $size-names-with-xl {
-			&[data-radius='#{$size}'] {
-				border-radius: var(--radius-#{$size});
-			}
-		}
-		@each $fit in $fits {
-			&[data-fit='#{$fit}'] {
-				object-fit: #{$fit};
-			}
-		}
-		&[data-radius='none'] {
-			border-radius: 0;
-		}
+		@extend %VisualObject;
 	}
 </style>

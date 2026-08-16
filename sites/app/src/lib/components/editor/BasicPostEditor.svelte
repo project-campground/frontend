@@ -55,6 +55,8 @@
 </article>
 
 <style lang="scss">
+	@use '@campground/ui' as *;
+
 	.container {
 		display: flex;
 		flex-direction: column;
@@ -63,5 +65,9 @@
 	.footer {
 		display: flex;
 		flex-direction: row-reverse;
+
+		@include tablet-down {
+			flex-direction: column;
+		}
 	}
 </style>

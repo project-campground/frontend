@@ -3,14 +3,12 @@
 	module
 >
 	import type { ProseKitProps } from 'prosekit/svelte';
-
-	interface Props extends ProseKitProps {}
 </script>
 
 <script lang="ts">
 	import { ProseKit } from 'prosekit/svelte';
 
-	const { editor, children }: Props = $props();
+	const { editor, children }: ProseKitProps = $props();
 </script>
 
 <div class="container">

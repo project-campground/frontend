@@ -18,19 +18,26 @@
 	@use '../../common.scss' as *;
 	@use 'sass:list';
 
-	$button-padding: create-size-map((2px 4px, 4px 8px, 8px 24px, 12px 36px, 16px 48px));
+	$button-padding: create-size-map(
+		(0.125rem 0.25rem, 0.25rem 0.5rem, 0.5rem 1.5rem, 0.75rem 2.25rem, 1rem 3rem)
+	);
 
 	button {
-		display: flex;
-		flex-direction: row;
-		gap: 8px;
-		font-weight: bold;
-		outline: none;
 		position: relative;
+		gap: 0.5rem;
+		outline: none;
 		border-radius: var(--Button-radius);
-		cursor: pointer;
+
+		flex-direction: row;
+		display: flex;
 		align-items: center;
+		justify-content: center;
+
+		font-weight: bold;
 		font-family: var(--font-body);
+
+		cursor: pointer;
+
 		&:disabled {
 			cursor: not-allowed;
 		}

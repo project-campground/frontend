@@ -37,6 +37,12 @@
 				border-radius: var(--radius-#{$size});
 			}
 		}
+		@for $i from 1 to 4 {
+			$size: '#{string-repeat('x', $i)}l';
+			&[data-radius='#{$size}'] {
+				border-radius: var(--radius-#{$size});
+			}
+		}
 		&[data-radius='avatar'] {
 			@extend %Squircle;
 		}

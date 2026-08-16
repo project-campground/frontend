@@ -8,6 +8,7 @@
 		// Flex
 		gap,
 		align,
+		justify,
 		direction,
 		directionMobile,
 		wrap,
@@ -23,6 +24,7 @@
 	data-direction-mobile={directionMobile}
 	data-direction={direction}
 	data-align={align ?? 'stretch'}
+	data-justify={justify}
 >
 	{@render children?.()}
 </div>
@@ -33,6 +35,7 @@
 	$directions: column, column-reverse, row, row-reverse;
 	$aligns: start, stretch, center, end;
 	$wraps: wrap, nowrap, wrap-reverse;
+	$justifies: start, baseline, center, end;
 
 	.Stack {
 		display: flex;
@@ -52,6 +55,11 @@
 		@each $wrap in $wraps {
 			&[data-wrap='#{$wrap}'] {
 				flex-wrap: $wrap;
+			}
+		}
+		@each $justify in $justifies {
+			&[data-justify='#{$justify}'] {
+				justify-content: $justify;
 			}
 		}
 

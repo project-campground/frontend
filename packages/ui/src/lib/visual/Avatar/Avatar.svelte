@@ -27,14 +27,6 @@
 	@use '../../common.scss' as *;
 	@use './Avatar.scss' as *;
 
-	$sizes:
-		2rem 0.75rem,
-		2.5rem 1rem,
-		3.5rem 1.25rem,
-		5rem 1.75rem,
-		7rem 2.75rem;
-	$size-map: create-size-map($sizes);
-
 	.container {
 		display: flex;
 		flex-direction: row;
@@ -51,12 +43,9 @@
 
 		@extend %Squircle;
 
-		@each $size, $value in $size-map {
-			$logo-size: list.nth($value, 1);
-			$font-size: list.nth($value, 2);
-
+		@each $size, $logo-size in $avatar-size-map {
 			&[data-size='#{$size}'] {
-				font-size: $font-size;
+				font-size: calc($logo-size * 0.4);
 				--Avatar-size: #{$logo-size};
 			}
 		}

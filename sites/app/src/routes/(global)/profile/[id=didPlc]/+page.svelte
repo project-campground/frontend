@@ -60,6 +60,9 @@
 			</PagePlaceholder>
 		</aside>
 		<div class="content">
+			{#if params.id === currentUser.sessionInfo?.did}
+				<ProfilePostCreator onSubmit={(value) => console.info('Value', value)} />
+			{/if}
 			<Tabs.Root>
 				{#snippet tabs()}
 					<Tabs.Item>
@@ -71,11 +74,9 @@
 						<FormattedMessageGlobal id="app.profiles.replies" />
 					</Tabs.Item>
 				{/snippet}
+				<!-- TODO: Add Async tabs -->
 				<Tabs.Tab>
 					<ProfileFeed>
-						{#if params.id === currentUser.sessionInfo?.did}
-							<ProfilePostCreator />
-						{/if}
 						<ProfilePost
 							profilePost={{
 								parentUri: null,
@@ -119,7 +120,10 @@
 		background-color: var(--background-subtle);
 		padding: 1rem;
 		box-sizing: border-box;
-		gap: 2rem 3rem;
+		gap: 2rem 2rem;
+		@include desktop-sm-down {
+			grid-template-columns: 4fr 7fr 4fr;
+		}
 	}
 	.top {
 		display: flex;
@@ -140,12 +144,21 @@
 	}
 	.socials {
 		grid-column: 2 / 3;
+		@include desktop-sm-down {
+			grid-column: 1 / 2;
+		}
 	}
 	.content {
 		grid-column: 3 / 4;
+		@include desktop-sm-down {
+			grid-column: 2 / 3;
+		}
 	}
 	.about {
 		grid-column: 4 / 5;
+		@include desktop-sm-down {
+			grid-column: 3 / 4;
+		}
 	}
 	.socials,
 	.content,

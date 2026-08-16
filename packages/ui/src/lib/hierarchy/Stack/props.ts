@@ -1,4 +1,4 @@
-import type { FlexAlignItem, FlexDirection } from '$lib/types/attributes.js';
+import type { FlexAlignItem, FlexDirection, JustifyContent } from '$lib/types/attributes.js';
 import type { Snippet } from 'svelte';
 import type { AriaAttributes, ClassValue } from 'svelte/elements';
 
@@ -8,6 +8,7 @@ export default interface StackProps extends AriaAttributes {
 	align?: FlexAlignItem;
 	direction?: FlexDirection;
 	directionMobile?: FlexDirection;
+	justify?: JustifyContent;
 	wrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
 	gap?: number;
 }

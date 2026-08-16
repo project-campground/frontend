@@ -15,6 +15,7 @@
 
 	.container {
 		position: relative;
+		box-sizing: border-box;
 		padding: 0.25rem 0.75rem;
 
 		overflow-x: hidden;

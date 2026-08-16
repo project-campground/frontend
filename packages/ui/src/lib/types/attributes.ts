@@ -9,3 +9,4 @@ export type PositionVertical = 'top' | 'bottom';
 export type PositionHorizontal = 'left' | 'right';
 export type FlexAlignItem = 'start' | 'stretch' | 'center' | 'end';
 export type FlexDirection = 'column' | 'column-reverse' | 'row' | 'row-reverse';
+export type JustifyContent = 'center' | 'start' | 'end';

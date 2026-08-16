@@ -27,13 +27,12 @@
 
 <style lang="scss">
 	@use 'sass:list';
+	@use 'sass:math';
 	@use '../../common.scss' as *;
 	@use '../Avatar/Avatar.scss' as *;
 	@use './Badge.scss' as *;
 	@use '../Skeleton/Skeleton.scss' as *;
 
-	$sizes: 1rem, 1.25rem, 1.5rem, 1.75rem, 2.25rem;
-	$size-map: create-size-map($sizes);
 	$available-colors: mention, dnd, away, idle, online, offline, notification;
 
 	.wrapper {
@@ -75,12 +74,17 @@
 		[data-badge-color='skeleton'] > & {
 			@extend %Skeleton-pulse;
 		}
-		@each $size, $value in $size-map {
+		$i: 0;
+		@each $size, $value in $avatar-size-map {
+			$i: $i + 1;
+			$div: calc(2 * sqrt(sqrt($i)));
+			$size-value: calc($value / $div);
+			$badge-size: calc(math.ceil($size-value * 10) / 10);
 			[data-badge-size='#{$size}'] > & {
-				min-width: $value;
-				height: $value;
-				padding: 0 calc($value / 4);
-				border-width: calc($value / 8);
+				min-width: $badge-size;
+				height: $badge-size;
+				padding: 0 calc($badge-size / 4);
+				border-width: calc($badge-size / 8);
 			}
 		}
 	}

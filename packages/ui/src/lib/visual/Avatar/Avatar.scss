@@ -1,9 +1,15 @@
+@use '../../common.scss' as *;
+
+$avatar-sizes: 2rem, 2.5rem, 3rem, 4rem, 4.75rem, 5.5rem, 6.5rem;
+$avatar-size-map: create-size-map($avatar-sizes);
+
 %Squircle {
-	border-radius: 30%;
+	border-radius: 35%;
 	// Since it's relatively new thing
 	// Makes it tad bit better
 	@supports (corner-shape: squircle) {
 		border-radius: 100%;
 		corner-shape: squircle;
+		corner-shape: superellipse(1.75);
 	}
 }

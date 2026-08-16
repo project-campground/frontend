@@ -26,6 +26,7 @@
 		'bottom-right',
 		'bottom-left',
 	];
+	const extendedSize = [...sizes, 'xxl'] as const;
 </script>
 
 {#snippet badgeIcon()}
@@ -116,7 +117,7 @@
 		Avatar
 	{/snippet}
 	<Group>
-		{#each sizes as size}
+		{#each extendedSize as size}
 			<Avatar
 				src="/DefaultAvatar0.png"
 				{size}
@@ -151,7 +152,7 @@
 						{/each}
 					</Stack>
 					<Stack>
-						{#each sizes as size}
+						{#each extendedSize as size}
 							<Group>
 								<Skeleton {radius}>
 									<Avatar {size} />
@@ -177,7 +178,7 @@
 		Badge
 	{/snippet}
 	<Stack>
-		{#each sizes as size}
+		{#each extendedSize as size}
 			<Group>
 				{#each ['mention', 'online', 'idle', 'dnd', 'notification', 'offline', 'online', 'skeleton', 'neutral'] as StatusColor[] as color}
 					{#each positions as pos}

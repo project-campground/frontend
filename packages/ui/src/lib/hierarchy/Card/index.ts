@@ -1,5 +1,5 @@
 export * from './props.ts';
-export { default as Root } from './CardRoot.svelte';
-export { default as Content } from './CardContent.svelte';
-export { default as Click } from './CardClick.svelte';
-export { default as Overflow } from './CardOverflow.svelte';
+export { default as Root } from './Root.svelte';
+export { default as Content } from './Content.svelte';
+export { default as Click } from './Click.svelte';
+export { default as Overflow } from './Overflow.svelte';

@@ -1,2 +1,2 @@
 export type { default as StackProps } from './props.ts';
-export { default as Stack } from './Stack.svelte';
+export { default as Stack } from './Root.svelte';

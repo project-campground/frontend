@@ -11,9 +11,9 @@
 		Stack,
 		Switch,
 		TextInput,
+		Svg,
 		type ComponentColorAll,
 	} from '$lib/index.js';
-	import IconLogo from '$lib/visual/svg/IconLogo.svelte';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import { colors, sizes } from './values.js';
 
@@ -28,7 +28,7 @@
 </script>
 
 {#snippet icon()}
-	<IconLogo size={2} />
+	<Svg.Logo size={2} />
 {/snippet}
 {#snippet selectMenu()}
 	<Select.Option value={'firstValue'}>Example #1 (str)</Select.Option>

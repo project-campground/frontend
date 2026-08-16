@@ -1,6 +1,8 @@
 <script lang="ts">
 	import {
 		Alert,
+		Button,
+		Link,
 		GradientText,
 		Group,
 		Para,
@@ -17,8 +19,6 @@
 	} from '$lib/index.js';
 	import { IconCheck, IconMessageFilled } from '@tabler/icons-svelte';
 	import { colors, colorsWithNeutral, sizes, statusColors } from './values.ts';
-	import Button from '$lib/form/Button/Button.svelte';
-	import Link from '$lib/info/Link/Link.svelte';
 
 	const gradientMotions: GradientMotion[] = ['none', 'linear', 'wave', 'radial'];
 	const gradientTextMaxColors = [

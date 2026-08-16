@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TabList from './TabsList.svelte';
+	import TabList from './List.svelte';
 	import { setTabsContext, TabsContext } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 

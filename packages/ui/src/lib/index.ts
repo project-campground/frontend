@@ -10,7 +10,7 @@ export {
 	createIntersectionObservable,
 	type ObserveStore,
 } from './intersectionObserver/index.ts';
-export { default as Main } from './Main/Main.svelte';
+export { default as Main } from './Main/Root.svelte';
 export type * from './types/index.ts';
 export * from './util/index.ts';
 export * from './theme/index.ts';

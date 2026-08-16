@@ -1,5 +1,5 @@
 export type * from './props.ts';
-export { default as Root } from './MenuRoot.svelte';
-export { default as List } from './MenuList.svelte';
-export { default as Item } from './MenuItem.svelte';
-export { default as Button } from './MenuButton.svelte';
+export { default as Root } from './Root.svelte';
+export { default as List } from './List.svelte';
+export { default as Item } from './Item.svelte';
+export { default as Button } from './Button.svelte';

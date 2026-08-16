@@ -6,4 +6,4 @@ export type {
 	ParaLevel,
 	TextAlign,
 } from './props.ts';
-export { default as Para } from './Para.svelte';
+export { default as Para } from './Root.svelte';

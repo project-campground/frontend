@@ -1,8 +1,7 @@
 <script lang="ts">
-	import Button from '$lib/form/Button/Button.svelte';
-	import ThreadedRoot from '$lib/hierarchy/Threaded/ThreadedRoot.svelte';
 	import {
 		Accordion,
+		Button,
 		Card,
 		Group,
 		Stack,

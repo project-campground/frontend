@@ -1,6 +1,6 @@
 <script lang="ts">
-	import DialogClose from './DialogClose.svelte';
-	import DialogDivider from './DialogDivider.svelte';
+	import DialogClose from './Close.svelte';
+	import DialogDivider from './Divider.svelte';
 	import type { HeaderProps } from './props.ts';
 
 	const { children, left, right, ...attributes }: HeaderProps = $props();

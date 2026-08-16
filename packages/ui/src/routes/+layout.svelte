@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Portals } from '$lib/index.js';
-	import Main from '$lib/Main/Main.svelte';
+	import Main from '$lib/Main/Root.svelte';
 	import type { LayoutProps } from './$types.js';
 
 	const { children }: LayoutProps = $props();

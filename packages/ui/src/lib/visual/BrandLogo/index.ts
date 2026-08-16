@@ -1,2 +1,2 @@
 export { type default as BrandLogoProps } from './props.ts';
-export { default as BrandLogo } from './BrandLogo.svelte';
+export { default as BrandLogo } from './Root.svelte';

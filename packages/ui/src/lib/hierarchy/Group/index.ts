@@ -1,2 +1,2 @@
 export type { default as GroupProps } from './props.ts';
-export { default as Group } from './Group.svelte';
+export { default as Group } from './Root.svelte';

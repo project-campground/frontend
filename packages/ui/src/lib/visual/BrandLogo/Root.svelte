@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SvgUse from '../svg/SvgUse.svelte';
+	import SvgUse from '../Svg/Use.svelte';
 	import type BrandLogoProps from './props.ts';
 
 	const { size, hideWordmark }: BrandLogoProps = $props();

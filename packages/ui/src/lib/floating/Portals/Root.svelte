@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
 	import { writable } from 'svelte/store';
-	import MenuPortalContainer from '../MenuPortalContainer/MenuPortalContainer.svelte';
+	import MenuPortalContainer from '../MenuPortalContainer/Root.svelte';
 	import { MenuPortal, setMenuPortal } from '../MenuPortalContainer/portals.svelte.ts';
-	import PortalsList from './PortalsList.svelte';
+	import PortalsList from './List.svelte';
 	import type { RootProps } from './props.ts';
 
 	const { flex, fullSize, children, ...attributes }: RootProps = $props();

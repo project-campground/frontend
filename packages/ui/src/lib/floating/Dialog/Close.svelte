@@ -2,7 +2,7 @@
 	import { IconX } from '@tabler/icons-svelte';
 	import type { CloseProps } from './props.ts';
 	import { getModal } from '../Modal/context.svelte.ts';
-	import DialogHeaderButton from './DialogHeaderButton.svelte';
+	import DialogHeaderButton from './HeaderButton.svelte';
 
 	const modal = getModal();
 

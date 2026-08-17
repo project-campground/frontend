@@ -16,6 +16,7 @@
 	<div class="display">
 		<div class="avatarWrapper">
 			<UserAvatar
+				{did}
 				src={avatar}
 				size="lg"
 			/>

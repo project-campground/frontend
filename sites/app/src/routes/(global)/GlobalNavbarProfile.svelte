@@ -40,12 +40,17 @@
 	</Menu.Root>
 {/snippet}
 
-<button
-	class={['GlobalNavbarProfile', menuInstance && 'isOpen']}
-	onclick={(ev) => (ev.stopPropagation(), toggleMenuInstance(ev))}
->
-	<UserAvatar src={account.profile?.avatar ?? defaultAvatar} />
-</button>
+{#if account.sessionInfo}
+	<button
+		class={['GlobalNavbarProfile', menuInstance && 'isOpen']}
+		onclick={(ev) => (ev.stopPropagation(), toggleMenuInstance(ev))}
+	>
+		<UserAvatar
+			did={account.sessionInfo!.did}
+			src={account.profile?.avatar ?? defaultAvatar}
+		/>
+	</button>
+{/if}
 
 <style lang="scss">
 	@use '@campground/ui' as *;

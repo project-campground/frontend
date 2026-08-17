@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	const gradientColors: GenericColor[] = ['red', 'yellow', 'green', 'blue', 'teal', 'purple', 'grey'];
+	export const gradientColors: GenericColor[] = ['red', 'yellow', 'green', 'blue', 'teal', 'purple', 'grey'];
 </script>
 
 <script lang="ts">

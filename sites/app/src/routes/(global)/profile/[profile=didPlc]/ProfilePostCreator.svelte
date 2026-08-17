@@ -39,7 +39,10 @@
 		<Card.Content>
 			<Group wrap="nowrap">
 				<span class="avatar">
-					<UserAvatar src={currentUser.profile?.avatar} />
+					<UserAvatar
+						did={currentUser.sessionInfo!.did}
+						src={currentUser.profile?.avatar}
+					/>
 				</span>
 				<span class="placeholder">
 					<span class="icon">

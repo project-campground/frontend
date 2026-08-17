@@ -61,6 +61,7 @@
 	{/snippet}
 	{#snippet avatar()}
 		<UserAvatar
+			did={profile.did}
 			src={profile.avatar}
 			size="xxxl"
 		/>

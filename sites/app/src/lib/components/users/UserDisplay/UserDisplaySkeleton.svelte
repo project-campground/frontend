@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Skeleton } from '@campground/ui';
-	import UserAvatar from '../UserAvatar.svelte';
+	import { Avatar, Skeleton, Badge } from '@campground/ui';
 	import type { UserDisplayProps } from './props.ts';
 	import UserDisplayRoot from './UserDisplayRoot.svelte';
 
@@ -12,9 +11,11 @@
 	{...props}
 >
 	{#snippet avatar()}
-		<Skeleton radius="avatar">
-			<UserAvatar {size} />
-		</Skeleton>
+		<Badge color="skeleton">
+			<Skeleton radius="avatar">
+				<Avatar {size} />
+			</Skeleton>
+		</Badge>
 	{/snippet}
 	{#snippet displayName()}
 		<Skeleton>Example</Skeleton>

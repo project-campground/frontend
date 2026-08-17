@@ -27,7 +27,7 @@
 </script>
 
 <script lang="ts">
-	import { Link, Menu, Para, type MenuPortalInstance } from '@campground/ui';
+	import { Link, Menu, Para } from '@campground/ui';
 	import UserHeader from './UserHeader.svelte';
 	import type { ProfileViewBasic } from '$lib/types/campground/user.js';
 	import {

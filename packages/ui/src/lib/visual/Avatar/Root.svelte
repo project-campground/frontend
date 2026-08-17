@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type AvatarProps from './props.ts';
 
-	const { size, src, alt, children, ...attributes }: AvatarProps = $props();
+	const { size, src, alt, color, children, ...attributes }: AvatarProps = $props();
 </script>
 
 <div
@@ -9,6 +9,7 @@
 	aria-label={alt}
 	class={['container']}
 	data-size={size ?? 'md'}
+	data-color={color ?? 'neutral'}
 >
 	{#if src}
 		<img
@@ -47,6 +48,11 @@
 			&[data-size='#{$size}'] {
 				font-size: calc($logo-size * 0.4);
 				--Avatar-size: #{$logo-size};
+			}
+		}
+		@each $color in $generic-color-types {
+			&[data-color='#{$color}'] {
+				background: linear-gradient(to bottom right, var(--#{$color}), var(--#{$color}-alt));
 			}
 		}
 	}

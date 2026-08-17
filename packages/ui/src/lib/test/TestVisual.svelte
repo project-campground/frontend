@@ -118,20 +118,24 @@
 		Avatar
 	{/snippet}
 	<Group>
-		{#each extendedSize as size}
-			<Avatar
-				src="/DefaultAvatar0.png"
-				{size}
-				alt="example alt"
-			/>
-			<Avatar
-				alt="example alt"
-				{size}
-			>
-				{size}</Avatar
-			>
+		{#each genericColors as color}
+			{#each extendedSize as size}
+				<Avatar
+					src="/DefaultAvatar0.png"
+					{size}
+					{color}
+					alt="example alt"
+				/>
+				<Avatar
+					alt="example alt"
+					{size}
+					{color}
+				>
+					{size}</Avatar
+				>
+			{/each}
+			<Avatar alt="example alt" {color}>None</Avatar>
 		{/each}
-		<Avatar alt="example alt">None</Avatar>
 	</Group>
 </Section>
 <Section headerLevel={1}>

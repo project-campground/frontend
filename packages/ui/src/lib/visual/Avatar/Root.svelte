@@ -52,6 +52,7 @@
 		}
 		@each $color in $generic-color-types {
 			&[data-color='#{$color}'] {
+				color: var(--primary-glowFore);
 				background: linear-gradient(to bottom right, var(--#{$color}), var(--#{$color}-alt));
 			}
 		}

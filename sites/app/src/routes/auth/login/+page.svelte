@@ -37,8 +37,9 @@
 	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
 	import { Svg, Group, Section, Select, TextBlock, Accordion, Alert } from '@campground/ui';
 	import { defaultPds, knownPds } from '$lib/api/api.config.js';
-	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
+	import { IconBrandBluesky, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
+	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 
 	const domain = defaultPds.split('/')[2];
 	const domainNoPort = domain.split(':')[0];
@@ -132,24 +133,17 @@
 					<IconWorldFilled />
 				{/snippet}
 				{#snippet known()}
-					{#each knownPds as pds}
-						<Select.Option
-							value={pds.url}
-							color={pds.color}
-						>
-							<Svg.Logo size={2} />
-							<TextBlock>
-								{pds.name ?? pds.url}
-							</TextBlock>
-						</Select.Option>
-					{/each}
+					<KnownPdsOptions />
 				{/snippet}
 			</FormTextField>
 			<FormErrorLabel></FormErrorLabel>
 		</FormControl>
 	</Accordion>
 	<Section>
-		<Group reversed>
+		<Group
+			direction="row-reverse"
+			directionMobile="column"
+		>
 			<FormSubmit />
 		</Group>
 		{#if error}

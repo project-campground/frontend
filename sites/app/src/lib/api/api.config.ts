@@ -1,8 +1,10 @@
 import type { ComponentColor } from '@campground/ui';
 import config from '../../../config.json' with { type: 'json' };
 
-interface KnownPds {
+export type KnownPdsIcon = 'campground' | 'bluesky';
+export interface KnownPds {
 	url: string;
+	icon?: KnownPdsIcon;
 	name?: string;
 	color?: ComponentColor;
 }

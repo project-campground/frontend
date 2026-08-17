@@ -109,9 +109,11 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		gap: 0.5ch;
 		flex: 1;
 	}
 	.decorator {
+		line-height: 0;
 		transition-property: color;
 		transition-duration: $transition-time-sm;
 

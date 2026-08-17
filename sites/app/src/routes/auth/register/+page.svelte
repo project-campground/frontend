@@ -76,6 +76,7 @@
 	import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.js';
 	import type { DescribedServer } from '$lib/types/atproto/server.js';
 	import XrpcError from '$lib/api/XrpcError.js';
+	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 
 	let passwordToConfirm = $state('');
 
@@ -231,17 +232,7 @@
 					<IconWorldFilled />
 				{/snippet}
 				{#snippet known()}
-					{#each knownPds as pds (pds.url)}
-						<Select.Option
-							value={pds.url}
-							color={pds.color}
-						>
-							<Svg.Logo size={2} />
-							<TextBlock>
-								{pds.name ?? pds.url}
-							</TextBlock>
-						</Select.Option>
-					{/each}
+					<KnownPdsOptions />
 				{/snippet}
 			</FormTextField>
 			<FormErrorLabel></FormErrorLabel>
@@ -265,7 +256,10 @@
 		</FormControl>
 	</Accordion>
 	<Section>
-		<Group direction="row-reverse">
+		<Group
+			direction="row-reverse"
+			directionMobile="column"
+		>
 			<FormSubmit
 				disabled={describedServer.value instanceof Error || !(describedServer.value as DescribedServer)}
 			/>

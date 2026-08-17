@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { autoPlacement, autoUpdate, type Middleware } from '@floating-ui/dom';
+	import { autoPlacement, autoUpdate, size, type Middleware } from '@floating-ui/dom';
 	import type { RootProps } from './props.ts';
 	import { computePosition, offset } from '@floating-ui/dom';
 	import { rem } from '$lib/util/component.js';
@@ -34,6 +34,17 @@
 				middleware: [
 					offsetProp && offset(offsetProp),
 					autoPlacementProp && autoPlacement(autoPlacementProp),
+					size({
+						apply: ({ availableHeight, availableWidth, elements }) => {
+							console.log({ availableHeight, availableWidth, elements });
+							console.log(elements.floating.style);
+							Object.assign(elements.floating.style, {
+								maxWidth: `${Math.max(0, availableWidth)}px`,
+								maxHeight: `${Math.max(0, availableHeight)}px`,
+							});
+							console.log('After', elements.floating.style);
+						},
+					}),
 				].filter((x) => x) as Middleware[],
 			}).then((newPos) => (pos = newPos)),
 		);
@@ -49,8 +60,8 @@
 	style:--Menu-maxHeight={rem(maxh) ?? 'auto'}
 	style:--Menu-minWidth={rem(minw) ?? 'auto'}
 	style:--Menu-minHeight={rem(minh) ?? 'auto'}
-	style:--Menu-width={rem(w) ?? 'max-content'}
-	style:--Menu-height={rem(h) ?? 'max-content'}
+	style:--Menu-width={rem(w) ?? 'fit-content'}
+	style:--Menu-height={rem(h) ?? 'auto'}
 	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
 	// < 0, because of column-reverse
 	onscrollend={(ev) => (ev.currentTarget.scrollTop < 0 ? instance.destroy() : null)}
@@ -83,7 +94,8 @@
 		background-color: var(--background-overlay);
 	}
 	.floating {
-		width: 100%;
+		display: flex;
+		flex-direction: column;
 		height: max-content;
 
 		scroll-snap-align: start;

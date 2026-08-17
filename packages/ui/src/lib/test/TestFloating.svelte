@@ -9,6 +9,7 @@
 		Group,
 		Modal,
 		Dialog,
+		Svg,
 	} from '$lib/index.js';
 	import type { Snippet } from 'svelte';
 
@@ -37,6 +38,20 @@
 			<Menu.Item>Example item</Menu.Item>
 			<Menu.Item>
 				<Menu.Button>Example button</Menu.Button>
+			</Menu.Item>
+			<Menu.Item>
+				<Menu.Button color="primary">
+					<Svg.Logo size={2} />
+					Example button
+				</Menu.Button>
+			</Menu.Item>
+			<Menu.Item>
+				<Menu.Button color="info">
+					{#snippet left()}
+						<Svg.Logo size={2} />
+					{/snippet}
+					Example button
+				</Menu.Button>
 			</Menu.Item>
 		</Menu.List>
 	</Menu.Root>

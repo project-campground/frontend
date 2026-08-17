@@ -24,7 +24,6 @@
 
 	import { PagePlaceholder, PagePlaceholderIcon, Stack } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { onMount } from 'svelte';
 	import ProfileFeedPost from './ProfileFeedPost.svelte';
 
 	interface Props {

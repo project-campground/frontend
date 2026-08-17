@@ -144,8 +144,8 @@
 	--neutral-plainForeActive: var(--foreground-subtext);
 	--neutral-plainForeDisabled: var(--foreground-background);
 
-	--neutral-plainBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 8))};
-	--neutral-plainBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 16))};
+	--neutral-plainBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 2))};
+	--neutral-plainBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 4))};
 
 	// Soft
 	--neutral-softFore: var(--foreground-subtext);

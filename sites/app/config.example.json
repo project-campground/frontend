@@ -2,7 +2,48 @@
 	"defaultPds": "http://localhost:2583",
 	"defaultAppview": "http://localhost:3984",
 	"knownPds": [
-		{ "url": "http://localhost:2583", "name": "Local instance", "color": "primary" },
-		{ "url": "http://localhost:2583", "name": "Local instance #2", "color": "info" }
+		{
+			"url": "http://localhost:2583",
+			"name": "Local instance",
+			"color": "primary",
+			"icon": "campground"
+		},
+		{
+			"url": "https://morel.us-east.host.bsky.network",
+			"name": "Bluesky (Morel)",
+			"color": "info",
+			"icon": "bluesky"
+		},
+		{
+			"url": "https://oyster.us-east.host.bsky.network",
+			"name": "Bluesky (Oyster)",
+			"color": "info",
+			"icon": "bluesky"
+		},
+		{
+			"url": "https://enoki.us-east.host.bsky.network",
+			"name": "Bluesky (Enoki)",
+			"color": "info",
+			"icon": "bluesky"
+		},
+		{
+			"url": "https://puffball.us-east.host.bsky.network",
+			"name": "Bluesky (Puffball)",
+			"color": "info",
+			"icon": "bluesky"
+		},
+		{
+			"url": "https://shiitake.us-east.host.bsky.network",
+			"name": "Bluesky (Shiitake)",
+			"color": "info",
+			"icon": "bluesky"
+		},
+		{
+			"url": "https://lepista.us-west.host.bsky.network",
+			"name": "Bluesky (Lepista)",
+			"color": "info",
+			"icon": "bluesky"
+		},
+		{ "url": "https://eurosky.social", "name": "Eurosky", "color": "info" }
 	]
 }

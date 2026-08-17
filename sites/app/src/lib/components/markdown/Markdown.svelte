@@ -1,5 +1,6 @@
 <script lang="ts">
 	import rehypeRaw from 'rehype-raw';
+	import remarkBreaks from 'remark-breaks';
 	import rehypeSanitize from 'rehype-sanitize';
 	import rehypeStringify from 'rehype-stringify';
 	import remarkParse from 'remark-parse';
@@ -14,6 +15,7 @@
 	const htmlFromMarkdown = $derived(
 		await unified()
 			.use(remarkParse)
+			.use(remarkBreaks)
 			.use(remarkRehype, { allowDangerousHtml: false })
 			.use(rehypeRaw)
 			.use(rehypeSanitize)
@@ -24,6 +26,7 @@
 </script>
 
 <div class="container">
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html htmlFromMarkdown}
 </div>
 

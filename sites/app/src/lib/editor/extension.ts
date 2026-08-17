@@ -1,8 +1,9 @@
-import { union } from 'prosekit/core';
+import { defineBaseCommands, defineBaseKeymap, defineHistory, union } from 'prosekit/core';
 import { defineRoot } from './nodes/root.ts';
 import { defineText } from './nodes/text.ts';
 import { defineParagraph } from 'prosekit/extensions/paragraph';
 import { defineBlockquote } from 'prosekit/extensions/blockquote';
+import { definePlaceholder } from 'prosekit/extensions/placeholder';
 import { defineBlockKeymap } from './keybind/index.ts';
 import {
 	defineHardBreakCommands,
@@ -10,7 +11,7 @@ import {
 	defineHardBreakSpec,
 } from 'prosekit/extensions/hard-break';
 
-export function definePostExtension() {
+export function definePostExtension(placeholder?: string) {
 	return union(
 		// Special nodes
 		defineRoot(),
@@ -24,5 +25,10 @@ export function definePostExtension() {
 		defineText(),
 		// Key maps
 		defineBlockKeymap(),
+		defineBaseKeymap(),
+		// Additional
+		defineBaseCommands(),
+		defineHistory(),
+		definePlaceholder({ strategy: 'doc', placeholder: placeholder ?? '' }),
 	);
 }

@@ -3,6 +3,7 @@
 	module
 >
 	interface Props {
+		placeholder?: string;
 		submitType?: 'post' | 'update';
 		onCancel?: () => unknown;
 		onSubmit?: (content: string) => unknown;
@@ -19,23 +20,18 @@
 	import { serializeMarkdown } from '$lib/editor/mdast/markdown.js';
 	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
 
-	const extension = definePostExtension();
-	const editor = createEditor({ extension });
+	const { placeholder, submitType, onSubmit, onCancel }: Props = $props();
 
-	const { submitType, onSubmit, onCancel }: Props = $props();
+	const extension = $derived(definePostExtension(placeholder));
+	const editor = $derived(createEditor({ extension }));
 </script>
 
 <article class="container">
 	<BlockTextEditor {editor}>
-		<TextEditor {editor}></TextEditor>
+		<TextEditor></TextEditor>
 	</BlockTextEditor>
 	<footer class="footer">
-		<Button
-			onclick={() => (
-				console.log(editor.getDocJSON()),
-				onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())))
-			)}
-		>
+		<Button onclick={() => onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())))}>
 			{#if submitType === 'update'}
 				<FormattedMessageGlobal id="common.edit" />
 			{:else}

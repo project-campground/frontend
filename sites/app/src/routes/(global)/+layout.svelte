@@ -53,7 +53,7 @@
 
 	const menuPortal = new MenuPortal();
 
-	setAppview(new HTTPBackendClient(session, defaultAppview.split('//')[1]));
+	setAppview(new HTTPBackendClient(session, defaultAppview.url.split('//')[1]));
 	setAccount(accountContext);
 	setMenuPortal(menuPortal);
 </script>

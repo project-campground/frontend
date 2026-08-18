@@ -2,7 +2,7 @@
 	lang="ts"
 	module
 >
-	const pdsIconToComponent: Partial<Record<KnownPdsIcon, typeof IconBrandBluesky>> = {
+	const pdsIconToComponent: Partial<Record<KnownInstanceIcon, typeof IconBrandBluesky>> = {
 		bluesky: IconBrandBluesky,
 	};
 </script>
@@ -10,7 +10,7 @@
 <script lang="ts">
 	import { Select, Svg, TextBlock } from '@campground/ui';
 
-	import { knownPds, type KnownPds, type KnownPdsIcon } from '../../lib/api/api.config.ts';
+	import { knownPds, type KnownInstance, type KnownInstanceIcon } from '../../lib/api/api.config.ts';
 	import { IconBrandBluesky } from '@tabler/icons-svelte';
 </script>
 

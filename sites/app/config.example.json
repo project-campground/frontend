@@ -1,6 +1,12 @@
 {
-	"defaultPds": "http://localhost:2583",
-	"defaultAppview": "http://localhost:3984",
+	"knownAppviews": [
+		{
+			"url": "http://localhost:2583",
+			"name": "Local instance",
+			"color": "primary",
+			"icon": "campground"
+		}
+	],
 	"knownPds": [
 		{
 			"url": "http://localhost:2583",

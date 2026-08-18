@@ -44,7 +44,7 @@ export interface RequestConfig {
 
 export default class HTTPAtprotoClient {
 	private static _default: HTTPConfig = {
-		url: defaultPds,
+		url: defaultPds.url,
 		routePrefix: defaultXrpcPrefix,
 		// auth: `...`,
 		// refreshAuth: `...`,

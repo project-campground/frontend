@@ -70,7 +70,7 @@
 		DebouncedValue,
 		Para,
 	} from '@campground/ui';
-	import { defaultPds, knownPds } from '../../../lib/api/api.config.js';
+	import { defaultPds } from '../../../lib/api/api.config.js';
 	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
 	import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.js';
@@ -85,7 +85,7 @@
 
 	const session = getSession();
 
-	let pdsValue: string = $state(defaultPds);
+	let pdsValue: string = $state(defaultPds.url);
 
 	let describedServer = new DebouncedValue<DescribedServer | Error, string>(
 		new Error('Not done fetching the PDS'),

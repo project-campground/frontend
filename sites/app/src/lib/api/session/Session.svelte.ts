@@ -1,7 +1,6 @@
 import { createContext } from 'svelte';
 import HTTPAtprotoClient from '../http/HTTPAtprotoClient.ts';
 import PreferenceManager from '../preferences/PreferenceManager.ts';
-import { defaultPds } from '../api.config.ts';
 import type {
 	AuthCredentials,
 	SavedAuth,
@@ -57,7 +56,7 @@ export class Session {
 
 		if (save) this.saveAccount({ handle: data.handle, email: data.email, server });
 
-		this.setAuth({ authenticated: true, server: server ?? defaultPds, user: data });
+		this.setAuth({ authenticated: true, server: server, user: data });
 
 		return data;
 	}

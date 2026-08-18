@@ -1,15 +1,16 @@
 import type { ComponentColor } from '@campground/ui';
 import config from '../../../config.json' with { type: 'json' };
 
-export type KnownPdsIcon = 'campground' | 'bluesky';
-export interface KnownPds {
+export type KnownInstanceIcon = 'campground' | 'bluesky';
+export interface KnownInstance {
 	url: string;
-	icon?: KnownPdsIcon;
+	icon?: KnownInstanceIcon;
 	name?: string;
 	color?: ComponentColor;
 }
-export const defaultPds = config.defaultPds;
-export const knownPds = config.knownPds as KnownPds[];
-export const defaultAppview = config.defaultAppview;
+export const knownPds = config.knownPds as KnownInstance[];
+export const knownAppviews = config.knownAppviews as KnownInstance[];
+export const defaultPds = knownPds[0];
+export const defaultAppview = knownAppviews[0];
 export const defaultXrpcPrefix = `/xrpc/`;
 export const defaultAvatar = `/DefaultAvatar0.png`;

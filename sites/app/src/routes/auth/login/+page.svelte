@@ -35,15 +35,11 @@
 		type FormProps,
 	} from '@campground/form';
 	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
-	import { Svg, Group, Section, Select, TextBlock, Accordion, Alert } from '@campground/ui';
-	import { defaultPds, knownPds } from '$lib/api/api.config.js';
-	import { IconBrandBluesky, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
+	import { Group, Section, Accordion, Alert } from '@campground/ui';
+	import { defaultPds } from '$lib/api/api.config.js';
+	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
-
-	const domain = defaultPds.split('/')[2];
-	const domainNoPort = domain.split(':')[0];
-	const handleDomain = domainNoPort === 'localhost' ? 'test' : domainNoPort;
 
 	const intl = getLocaleContext();
 
@@ -81,7 +77,7 @@
 			</FormLabel>
 			<FormTextField
 				type="email"
-				placeholder={`example_handle.${handleDomain}`}
+				placeholder={`example_user@example.com`}
 				format={{
 					regex:
 						/^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|([A-Za-z0-9_+-]{3,}[.])+([A-Za-z0-9_+-]{2,}))$/,
@@ -119,11 +115,11 @@
 		{/snippet}
 		<FormControl
 			id="pds"
-			defaultValue={queryValues.get('server') ?? defaultPds}
+			defaultValue={queryValues.get('server') ?? defaultPds.url}
 			required
 		>
 			<FormTextField
-				placeholder={defaultPds}
+				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{4,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
 					errorMessage: $intl.formatMessage(messages.expectedIdentifier),

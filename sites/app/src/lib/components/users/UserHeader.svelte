@@ -25,6 +25,8 @@
 </header>
 
 <style lang="scss">
+	@use '@campground/ui' as *;
+
 	.display {
 		display: flex;
 		flex-direction: row;
@@ -34,6 +36,6 @@
 	.avatarWrapper {
 		background-color: var(--background-content);
 		padding: 0.25rem;
-		border-radius: 30%;
+		@extend %Squircle;
 	}
 </style>

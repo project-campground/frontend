@@ -39,7 +39,9 @@
 	const { did, withReplies }: Props = $props();
 
 	let posts = $derived(
-		await appview.profilePosts.getMany(did, withReplies ?? false).then((value) => value.posts),
+		did ?
+			await appview.profilePosts.getMany(did, withReplies ?? false).then((value) => value.posts)
+		:	[],
 	);
 </script>
 

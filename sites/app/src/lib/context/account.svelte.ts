@@ -28,7 +28,7 @@ export class AccountInfo {
 
 	private async onPreferencesInit() {
 		const backendDomains = new Set(
-			this.session.preferences.full.campsites?.campsites.map((x) => x.split('@')[0]) ?? [],
+			this.session.preferences.full.campsites?.campsites.map((x) => x.domain) ?? [],
 		);
 
 		return Promise.allSettled(
@@ -92,7 +92,6 @@ export class AccountInfo {
 			: profile.reason instanceof XrpcError && profile.reason.code === 'RecordNotFound' ? null
 				// Error with the profile
 			: {};
-		console.log('Aaaa');
 
 		this.loadState = AccountInfoLoadState.All;
 

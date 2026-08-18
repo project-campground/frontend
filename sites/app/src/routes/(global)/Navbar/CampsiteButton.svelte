@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Avatar, Group, Stack, TextBlock } from '@campground/ui';
-	import GlobalNavbarButton from './GlobalNavbarButton.svelte';
+	import NavbarButton from './NavbarButton.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
 	import { FormattedMessageGlobal } from '@campground/locale';
 
@@ -16,10 +16,10 @@
 		isVerified?: boolean;
 		isOwner?: boolean;
 	}
-	const { avatar, name, memberCount, isSelected }: Props = $props();
+	const { id, avatar, name, memberCount, isSelected }: Props = $props();
 </script>
 
-<GlobalNavbarButton selected={isSelected ?? false}>
+<NavbarButton href={`/c/${id}`}>
 	<Avatar
 		src={avatar}
 		size="sm"
@@ -46,7 +46,7 @@
 		</TextBlock>
 	</Stack>
 	<div class="CampsiteButton margin"></div>
-</GlobalNavbarButton>
+</NavbarButton>
 
 <style lang="scss">
 	.margin {

@@ -1,37 +1,34 @@
 <script lang="ts">
 	import { Alert, Svg } from '@campground/ui';
-	import GlobalNavbarButton from './GlobalNavbarButton.svelte';
+	import GlobalNavbarButton from './NavbarButton.svelte';
 	import CampsiteButton from './CampsiteButton.svelte';
-	import GlobalNavbarProfile from './GlobalNavbarProfile.svelte';
+	import NavbarProfile from './NavbarProfile.svelte';
+	import { getAccount } from '$lib/context/account.svelte.js';
+
+	const account = getAccount();
 </script>
 
 <div class="GlobalNavbar container">
 	<div class="GlobalNavbar stack">
-		<GlobalNavbarButton selected={false}>
+		<GlobalNavbarButton href="/home">
 			<Svg.Logo size={2.5} />
 		</GlobalNavbarButton>
 	</div>
-	{#if false}
-		<Alert color="danger">
-			{#snippet icon()}
-				a
-			{/snippet}
-			abc
-		</Alert>
-	{:else}
-		<div class="GlobalNavbar divider"></div>
-		<div class="GlobalNavbar campsites stack">
+	<div class="GlobalNavbar divider"></div>
+	<div class="GlobalNavbar campsites stack">
+		{#each account.campsites as campsite (campsite.id)}
 			<CampsiteButton
-				name="Example"
+				name={campsite.name}
 				isSelected={false}
-				id="a"
-				domain="b"
-				memberCount={2}
+				id={campsite.id}
+				domain={campsite._domain}
+				memberCount={campsite.memberCount}
 			/>
-		</div>
-	{/if}
+		{/each}
+	</div>
+	<div class="GlobalNavbar divider"></div>
 	<div class="GlobalNavbar stack">
-		<GlobalNavbarProfile />
+		<NavbarProfile />
 	</div>
 </div>
 

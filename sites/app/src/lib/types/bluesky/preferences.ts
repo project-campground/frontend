@@ -27,7 +27,7 @@ export interface CampgroundPreferenceLocale extends AtprotoPreference<`${Campgro
 	language: 'en-US';
 }
 export interface CampgroundPreferenceCampsites extends AtprotoPreference<`${CampgroundPreferencePrefix}.campsitesPref`> {
-	campsites: string[];
+	campsites: Array<{ domain: string; id: string }>;
 }
 export interface CampgroundPreferenceAppearance extends AtprotoPreference<`${CampgroundPreferencePrefix}.appearancePref`> {
 	theme: 'dark' | 'light' | 'system';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import GlobalNavbar from './GlobalNavbar.svelte';
+	import GlobalNavbar from './Navbar/Navbar.svelte';
 
 	const { children }: { children: Snippet } = $props();
 </script>

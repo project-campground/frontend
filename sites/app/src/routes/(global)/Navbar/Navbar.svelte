@@ -1,9 +1,24 @@
+<script
+	lang="ts"
+	module
+>
+	const messages = defineMessages({
+		emptyCampsiteList: {
+			id: 'app.navbar.emptyList',
+			defaultMessage: 'Join campsites to fill this list!',
+			description: 'Link to discover campsites when the campsite list is empty',
+		},
+	});
+</script>
+
 <script lang="ts">
-	import { Alert, Svg } from '@campground/ui';
+	import { Link, Svg } from '@campground/ui';
 	import GlobalNavbarButton from './NavbarButton.svelte';
 	import CampsiteButton from './CampsiteButton.svelte';
 	import NavbarProfile from './NavbarProfile.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
+	import { defineMessages } from '@formatjs/svelte-intl';
+	import { FormattedMessage } from '@campground/locale';
 
 	const account = getAccount();
 </script>
@@ -16,6 +31,14 @@
 	</div>
 	<div class="GlobalNavbar divider"></div>
 	<div class="GlobalNavbar campsites stack">
+		{#if !account.campsites.length}
+			<Link
+				color="neutral"
+				href="/discover"
+			>
+				<FormattedMessage {...messages.emptyCampsiteList} />
+			</Link>
+		{/if}
 		{#each account.campsites as campsite (campsite.id)}
 			<CampsiteButton
 				name={campsite.name}

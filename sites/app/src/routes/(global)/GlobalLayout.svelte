@@ -15,10 +15,11 @@
 
 	.GlobalLayoutRoot {
 		display: grid;
-		grid-template-rows: 4rem calc(100% - 4rem);
+		grid-template-rows: var(--GlobalLayout-navHeight) calc(100% - var(--GlobalLayout-navHeight));
 		height: 100%;
 		width: 100%;
 		overflow-y: hidden;
+		--GlobalLayout-navHeight: 4rem;
 
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;

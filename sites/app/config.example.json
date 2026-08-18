@@ -1,7 +1,7 @@
 {
 	"knownAppviews": [
 		{
-			"url": "http://localhost:2583",
+			"url": "http://localhost:3984",
 			"name": "Local instance",
 			"color": "primary",
 			"icon": "campground"

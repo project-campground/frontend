@@ -13,7 +13,9 @@
 **/.svelte-kit
 **/.svelte-kit/**/*
 **/dist/**/*
+**/build/**/*
 **/dist
+**/build
 sites/*/.svelte-kit/**/*
 sites/*/.svelte-kit
 

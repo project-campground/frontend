@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { defaultAvatar } from '$lib/api/api.config.js';
 	import { Avatar, Badge, type AvatarProps } from '@campground/ui';
 	import { gradientColors } from './UserBanner.svelte';
+	import { defaultAvatar } from '$lib/api/api.config.js';
 
 	interface Props extends AvatarProps {
 		did: string;

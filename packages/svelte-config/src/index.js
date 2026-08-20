@@ -1,4 +1,4 @@
-import adapterStatic from '@sveltejs/adapter-static';
+import adapterNode from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import path from 'node:path';
 
@@ -30,7 +30,7 @@ const createConfig = (packageName, type = 'auto') => ({
 		// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
 		runes: ({ filename }) => (filename.split(/[/\\]/).includes('node_modules') ? undefined : true),
 	},
-	kit: { adapter: adapterStatic({ precompress: true, strict: true }) },
+	kit: { adapter: type === 'static' ? undefined : adapterNode({ precompress: false }) },
 });
 
 export default createConfig;

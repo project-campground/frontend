@@ -38,8 +38,8 @@
 		}
 	},
 	"dependencies": {
-		"@tsconfig/svelte": "^5.0.8",
-		"@formatjs/svelte-intl": "^1.1.6"
+		"@formatjs/svelte-intl": "^1.1.6",
+		"@tsconfig/svelte": "^5.0.8"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"
@@ -48,8 +48,6 @@
 		"@campground/svelte-config": "1.0.0",
 		"@eslint/compat": "^2.0.4",
 		"@eslint/js": "^10.0.1",
-		"@fontsource/nunito-sans": "^5.2.6",
-		"@fontsource/quicksand": "^5.2.9",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/package": "^2.5.7",

@@ -19,7 +19,7 @@
 	}: ImageProps = $props();
 </script>
 
-<img
+<enhanced:img
 	{...attributes}
 	style:--Visual-maxWidth={em(maxw) ?? 'auto'}
 	style:--Visual-maxHeight={em(maxh) ?? 'auto'}

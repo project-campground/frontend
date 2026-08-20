@@ -42,7 +42,7 @@
 			{/snippet}
 		</FormSimpleField>
 	</Card.Content>
-	<Card.Link
+	<Card.Click
 		onclick={onInput}
 		tabindex={-1}
 	/>

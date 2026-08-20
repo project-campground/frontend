@@ -12,7 +12,7 @@
 	data-color={color ?? 'neutral'}
 >
 	{#if src}
-		<img
+		<enhanced:img
 			class="image"
 			{src}
 			{alt}

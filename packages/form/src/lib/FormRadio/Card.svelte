@@ -29,7 +29,7 @@
 			{/snippet}
 		</FormSimpleField>
 	</Card.Content>
-	<Card.Link
+	<Card.Click
 		onclick={() => (control.value = value)}
 		tabindex={-1}
 	/>

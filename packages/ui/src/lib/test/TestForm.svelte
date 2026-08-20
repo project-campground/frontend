@@ -17,7 +17,7 @@
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import { colors, sizes } from './values.js';
 
-	const variants: ButtonVariant[] = ['glow', 'soft', 'plain'];
+	const variants: ButtonVariant[] = ['glow', 'soft', 'plain', 'selected'];
 
 	let switchValue = $state(false);
 

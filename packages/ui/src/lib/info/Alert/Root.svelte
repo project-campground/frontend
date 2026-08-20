@@ -24,7 +24,9 @@
 <style lang="scss">
 	@use '../../common.scss' as *;
 
-	$padding: create-size-map((4px 6px, 8px 12px, 12px 16px, 16px 20px, 20px 32px));
+	$padding: create-size-map(
+		(0.25rem 0.375rem, 0.5rem 0.75rem, 0.75rem 1rem, 1rem 1.25rem, 1.25rem 2rem)
+	);
 
 	.container {
 		position: relative;

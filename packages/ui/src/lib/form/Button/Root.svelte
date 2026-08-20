@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type ButtonProps from './props.ts';
 
-	const { children, size, variant, color, padding, ...attributes }: ButtonProps = $props();
+	const { children, size, variant, justify, color, padding, ...attributes }: ButtonProps = $props();
 </script>
 
 <button
@@ -9,18 +9,20 @@
 	data-size={size ?? 'md'}
 	data-variant={variant ?? 'glow'}
 	data-color={color ?? 'primary'}
-	data-padding={padding ?? 'default'}
+	data-padding={padding}
+	data-justify={justify}
 >
 	{@render children()}
 </button>
 
 <style lang="scss">
 	@use '../../common.scss' as *;
+	@use './Button.scss' as *;
 	@use 'sass:list';
 
-	$button-padding: create-size-map(
-		(0.125rem 0.25rem, 0.25rem 0.5rem, 0.5rem 1.5rem, 0.75rem 2.25rem, 1rem 3rem)
-	);
+	$button-padding: create-size-map((0.125, 0.25, 0.5, 0.75, 1));
+	$justifies: start, baseline, center, end;
+	$regular-variants: plain, selected, soft;
 
 	button {
 		position: relative;
@@ -44,16 +46,19 @@
 		&:focus-visible {
 			transform: scale(1.15);
 		}
-		@include button-transform();
-		@each $size, $values in $button-padding {
-			$first: list.nth($values, 1);
+		@extend %Button-transform;
+		@each $size, $value in $button-padding {
 			&[data-size='#{$size}'] {
-				padding: $values;
+				padding: calc($value * 1rem) calc($value * sqrt($value) * 2.5rem);
 				--Button-radius: var(--radius-#{$size});
 			}
 			&[data-padding='equal'][data-size='#{$size}'] {
-				padding: $first;
-				--Button-radius: var(--radius-#{$size});
+				padding: calc($value * 1rem);
+			}
+		}
+		@each $justify in $justifies {
+			&[data-justify='#{$justify}'] {
+				justify-content: $justify;
 			}
 		}
 		@each $col in $color-types-all {
@@ -101,51 +106,23 @@
 						background-color: #000;
 					}
 				}
-				&[data-variant='plain'] {
-					border: none;
-					background-color: transparent;
-					color: var(--#{$col}-plainFore);
-					&:not(:disabled):hover {
-						color: var(--#{$col}-plainForeHover);
-						background-color: var(--#{$col}-plainBackHover);
-					}
-					&:not(:disabled):active {
-						color: var(--#{$col}-plainForeActive);
-						background-color: var(--#{$col}-plainBackActive);
-					}
-					&:disabled {
-						background-color: transparent;
-						color: var(--#{$col}-plainForeDisabled);
-					}
-				}
-				&[data-variant='soft'] {
-					border: none;
-					background-color: var(--#{$col}-softBack);
-					color: var(--#{$col}-softFore);
-					&:disabled {
-						color: var(--#{$col}-softForeDisabled);
-						background-color: var(--#{$col}-softBackDisabled);
-					}
-					&:not(:disabled):hover {
-						color: var(--#{$col}-softForeHover);
-						background-color: var(--#{$col}-softBackHover);
-					}
-					&:not(:disabled):active {
-						color: var(--#{$col}-softForeActive);
-						background-color: var(--#{$col}-softBackActive);
-					}
-				}
-				&[data-variant='inverted'] {
-					border: none;
-					background-color: var(--#{$col}-invertedBack);
-					color: var(--#{$col}-invertedFore);
-					&:not(:disabled):hover {
-						color: var(--#{$col}-invertedForeHover);
-						background-color: var(--#{$col}-invertedBackHover);
-					}
-					&:not(:disabled):active {
-						color: var(--#{$col}-softForeActive);
-						background-color: var(--#{$col}-invertedBackActive);
+				@each $variant in $regular-variants {
+					&[data-variant='#{$variant}'] {
+						border: none;
+						background: var(--#{$col}-#{$variant}Back);
+						color: var(--#{$col}-#{$variant}Fore);
+						&:not(:disabled):hover {
+							color: var(--#{$col}-#{$variant}ForeHover);
+							background: var(--#{$col}-#{$variant}BackHover);
+						}
+						&:not(:disabled):active {
+							color: var(--#{$col}-#{$variant}ForeActive);
+							background: var(--#{$col}-#{$variant}BackActive);
+						}
+						&:disabled {
+							background: var(--#{$col}-#{$variant}BackDisabled);
+							color: var(--#{$col}-#{$variant}ForeDisabled);
+						}
 					}
 				}
 			}

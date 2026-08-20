@@ -1,0 +1,5 @@
+@use '../../common.scss' as *;
+
+%Button-transform {
+	@include button-transform();
+}

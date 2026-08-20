@@ -63,6 +63,16 @@
 	--#{$name}-plainBackHover: #{change($accent, $alpha: div(1, 8))};
 	--#{$name}-plainBackActive: #{change($accent, $alpha: div(1, 16))};
 
+	// Selected
+	--#{$name}-selectedFore: #{mix($counter, $accent, $weight: 25%)};
+	--#{$name}-selectedForeHover: #{mix($counter, $accent, $weight: 50%)};
+	--#{$name}-selectedForeActive: #{change($accent, $alpha: div(3, 4))};
+	--#{$name}-selectedForeDisabled: #{change($accent, $alpha: div(1, 2))};
+
+	--#{$name}-selectedBack: #{change(mix($counter, $accent, $weight: 25%), $alpha: div(1, 8))};
+	--#{$name}-selectedBackHover: #{change(mix($counter, $accent, $weight: 25%), $alpha: div(1, 4))};
+	--#{$name}-selectedBackActive: #{change($accent, $alpha: div(1, 16))};
+
 	// Soft
 	--#{$name}-softFore: #{change($accent, $alpha: div(3, 4))};
 	--#{$name}-softForeHover: #{$accent};
@@ -140,12 +150,21 @@
 
 	// Plain
 	--neutral-plainFore: var(--foreground-body);
-	--neutral-plainForeHover: var(--foreground-subheading);
+	--neutral-plainForeHover: var(--foreground-heading);
 	--neutral-plainForeActive: var(--foreground-subtext);
 	--neutral-plainForeDisabled: var(--foreground-background);
 
 	--neutral-plainBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 2))};
 	--neutral-plainBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 4))};
+
+	--neutral-selectedFore: var(--foreground-subheading);
+	--neutral-selectedForeHover: var(--foreground-heading);
+	--neutral-selectedForeActive: var(--foreground-body);
+	--neutral-selectedForeDisabled: var(--foreground-background);
+
+	--neutral-selectedBack: #{change(map.get($theme-shades, 600), $alpha: div(1, 2))};
+	--neutral-selectedBackHover: #{change(map.get($theme-shades, 600), $alpha: div(1, 1.5))};
+	--neutral-selectedBackActive: #{change(map.get($theme-shades, 600), $alpha: div(1, 4))};
 
 	// Soft
 	--neutral-softFore: var(--foreground-subtext);

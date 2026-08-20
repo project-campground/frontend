@@ -10,13 +10,14 @@
 		class: className,
 		expanded = $bindable(false),
 		noBackground,
+		noPadding,
 		...attributes
 	}: AccordionProps = $props();
 </script>
 
 <section
 	{...attributes}
-	class={['container', { expanded, subtle, noBackground }, className]}
+	class={['container', { expanded, subtle, noBackground, noPadding }, className]}
 	data-gap={gap}
 >
 	<button
@@ -104,6 +105,8 @@
 	}
 	.header {
 		flex: 1;
+		font-weight: 700;
+		font-size: 0.9em;
 	}
 	.arrow {
 		transition: transform $transition-time-md;
@@ -120,5 +123,8 @@
 		display: flex;
 		flex-direction: column;
 		padding: 0 1rem 0.5rem 1rem;
+		.noPadding > & {
+			padding: 0;
+		}
 	}
 </style>

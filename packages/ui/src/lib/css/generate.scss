@@ -44,9 +44,14 @@
 
 	--#{$name}-glowFirst: #{$accent};
 	--#{$name}-glowSecond: #{$accent-alt};
-	--#{$name}-glowFirstDisabled: #{change(mix($counter, $accent, $weight: 25%), $alpha: div(1, 4))};
+	--#{$name}-glowFirstDisabled: #{change(
+			mix($counter, $accent, $weight: 25%),
+			$saturation: 50%,
+			$alpha: div(1, 4)
+		)};
 	--#{$name}-glowSecondDisabled: #{change(
 			mix($counter, $accent-alt, $weight: 25%),
+			$saturation: 50%,
 			$alpha: div(1, 4)
 		)};
 

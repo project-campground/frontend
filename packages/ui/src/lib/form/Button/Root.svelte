@@ -20,7 +20,6 @@
 	@use './Button.scss' as *;
 	@use 'sass:list';
 
-	$button-padding: create-size-map((0.125, 0.25, 0.5, 0.75, 1));
 	$justifies: start, baseline, center, end;
 	$regular-variants: plain, selected, soft;
 
@@ -47,15 +46,8 @@
 			transform: scale(1.15);
 		}
 		@extend %Button-transform;
-		@each $size, $value in $button-padding {
-			&[data-size='#{$size}'] {
-				padding: calc($value * 1rem) calc($value * sqrt($value) * 2.5rem);
-				--Button-radius: var(--radius-#{$size});
-			}
-			&[data-padding='equal'][data-size='#{$size}'] {
-				padding: calc($value * 1rem);
-			}
-		}
+		@extend %Button-sizing;
+		@extend %Button-sizingWithTypes;
 		@each $justify in $justifies {
 			&[data-justify='#{$justify}'] {
 				justify-content: $justify;

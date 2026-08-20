@@ -1,5 +1,26 @@
 @use '../../common.scss' as *;
 
+$button-padding: create-size-map((0.125, 0.25, 0.5, 0.75, 1));
+
+@function button-padding-x($value) {
+	@return calc($value * sqrt($value) * 2.5rem);
+}
+
 %Button-transform {
 	@include button-transform();
+}
+%Button-sizing {
+	@each $size, $value in $button-padding {
+		&[data-size='#{$size}'] {
+			padding: calc($value * 1rem) calc($value * sqrt($value) * 2.5rem);
+			--Button-radius: var(--radius-#{$size});
+		}
+	}
+}
+%Button-sizingWithTypes {
+	@each $size, $value in $button-padding {
+		&[data-padding='equal'][data-size='#{$size}'] {
+			padding: calc($value * 1rem);
+		}
+	}
 }

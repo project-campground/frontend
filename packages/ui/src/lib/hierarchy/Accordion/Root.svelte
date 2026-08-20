@@ -5,20 +5,19 @@
 	let {
 		children,
 		header,
-		gap,
 		subtle,
 		class: className,
+		size,
 		expanded = $bindable(false),
 		noBackground,
-		noPadding,
 		...attributes
 	}: AccordionProps = $props();
 </script>
 
 <section
 	{...attributes}
-	class={['container', { expanded, subtle, noBackground, noPadding }, className]}
-	data-gap={gap}
+	class={['container', { expanded, subtle, noBackground }, className]}
+	data-size={size ?? 'md'}
 >
 	<button
 		class="button"
@@ -39,8 +38,7 @@
 
 <style lang="scss">
 	@use '../../common.scss' as *;
-
-	$gap-sizes: create-size-map((0.25rem, 0.5rem, 1rem, 2rem, 3rem));
+	@use '../../form/Button/Button.scss' as *;
 
 	.container {
 		display: flex;
@@ -52,11 +50,9 @@
 		transition-duration: $transition-time-md;
 		border-radius: var(--radius-md);
 
-		gap: var(--Accordion-gap);
-
-		@each $size, $gap in $gap-sizes {
-			&[data-gap='#{$size}'] {
-				--Accordion-gap: #{$gap};
+		@each $size, $value in $button-padding {
+			&[data-size='#{$size}'] > .button {
+				padding: calc($value * 1rem) button-padding-x($value);
 			}
 		}
 
@@ -117,14 +113,16 @@
 		}
 	}
 	:not(.expanded) > .content {
-		display: none;
+		height: 0;
 	}
 	.content {
 		display: flex;
 		flex-direction: column;
-		padding: 0 1rem 0.5rem 1rem;
-		.noPadding > & {
-			padding: 0;
-		}
+		overflow: hidden;
+		height: auto;
+		transition-property: height, content-visibility;
+		transition-duration: $transition-time-md;
+		interpolate-size: allow-keywords;
+		transition-behavior: allow-discrete;
 	}
 </style>

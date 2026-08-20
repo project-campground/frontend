@@ -23,26 +23,18 @@
 
 <style lang="scss">
 	@use '../../common.scss' as *;
-
-	$padding: create-size-map(
-		(0.25rem 0.375rem, 0.5rem 0.75rem, 0.75rem 1rem, 1rem 1.25rem, 1.25rem 2rem)
-	);
+	@use '../../form/Button/Button.scss' as *;
 
 	.container {
 		position: relative;
-		border-radius: var(--Alert-radius);
+		border-radius: var(--Button-radius);
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		gap: 8px;
 		box-shadow: var(--template-inset-shadow-md) var(--Alert-glow);
-		@each $size, $values in $padding {
-			&[data-size='#{$size}'] {
-				padding: $values;
-				--Alert-radius: var(--radius-#{$size});
-				box-shadow: var(--template-inset-shadow-#{$size}) var(--Alert-glow);
-			}
-		}
+		@extend %Button-sizing;
+
 		@each $col in $color-types {
 			&[data-color='#{$col}'] {
 				--Alert-glow: var(--#{$col}-softBack);

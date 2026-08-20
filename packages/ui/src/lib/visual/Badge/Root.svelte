@@ -6,6 +6,7 @@
 		children,
 		position,
 		badge,
+		hideBadge,
 		size,
 		class: className,
 		...attributes
@@ -20,9 +21,11 @@
 	{...attributes}
 >
 	{@render children()}
-	<span class="badge">
-		{@render badge?.()}
-	</span>
+	{#if !hideBadge}
+		<span class="badge">
+			{@render badge?.()}
+		</span>
+	{/if}
 </div>
 
 <style lang="scss">

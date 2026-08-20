@@ -11,11 +11,11 @@
 		Svg,
 		type StatusColor,
 		type PositionHorizontal,
-		type PositionVertical,
 		type ComponentSize,
 		Skeleton,
 		Para,
 		type ParaLevel,
+		type PositionVertical,
 	} from '$lib/index.js';
 	import { IconMoonFilled } from '@tabler/icons-svelte';
 	import { genericColors, sizes, sizesWithNone } from './values.js';
@@ -32,7 +32,7 @@
 </script>
 
 {#snippet badgeIcon()}
-	<IconMoonFilled size="0.8rem" />
+	<IconMoonFilled size="0.9rem" />
 {/snippet}
 {#snippet badgeCount()}
 	99+
@@ -195,11 +195,10 @@
 								{size}
 							>
 								<Avatar
-									src="/DefaultAvatar0.png"
 									alt="example alt"
 									{size}
 								>
-									{color.slice(0, 3)}
+									{size.toUpperCase()}
 								</Avatar>
 							</Badge>
 						{/each}
@@ -209,11 +208,10 @@
 						{size}
 					>
 						<Avatar
-							src="/DefaultAvatar0.png"
 							alt="example alt"
 							{size}
 						>
-							{color.slice(0, 3)}
+							{size.toUpperCase()}
 						</Avatar>
 					</Badge>
 				{/each}

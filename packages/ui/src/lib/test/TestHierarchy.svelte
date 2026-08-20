@@ -181,27 +181,27 @@
 	{/snippet}
 	<Stack gap={8}>
 		{#each [true, false] as noBackground}
-			{#each sizes as gap}
+			{#each sizes as size}
 				<Group>
 					<Accordion
-						{gap}
 						{noBackground}
+						{size}
 					>
 						{#snippet header()}
-							Accordion {gap} {noBackground ? 'no background' : ''}
+							Accordion {size} {noBackground ? 'no background' : ''}
 						{/snippet}
-						Example accordion {gap}
+						Example accordion {size}
 						<GradientText colors={['#FF0000', '#00FF00', '#0000FF']}>Example 2</GradientText>
 					</Accordion>
 					<Accordion
-						{gap}
 						subtle
 						{noBackground}
+						{size}
 					>
 						{#snippet header()}
-							Accordion {gap} subtle {noBackground ? 'no background' : ''}
+							Accordion {size} subtle {noBackground ? 'no background' : ''}
 						{/snippet}
-						Example accordion {gap}
+						Example accordion {size}
 						<GradientText colors={['#FF0000', '#00FF00', '#0000FF']}>Example 2</GradientText>
 					</Accordion>
 				</Group>

@@ -17,7 +17,7 @@
 </script>
 
 <script lang="ts">
-	import { Divider, Stack, Card, Accordion } from '@campground/ui';
+	import { Stack, Card, Accordion } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
 	import HomeNavbarButton from './HomeNavbarButton.svelte';
 	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
@@ -26,13 +26,8 @@
 		IconCirclePlusFilled,
 		IconCompassFilled,
 		IconFlameFilled,
-		IconTent,
 	} from '@tabler/icons-svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
-	import { getAccount } from '$lib/context/account.svelte.js';
-
-	const account = getAccount();
 
 	const { children }: LayoutProps = $props();
 </script>
@@ -56,11 +51,14 @@
 						{#snippet header()}
 							<FormattedMessageGlobal id="site.social" />
 						{/snippet}
-						<HomeNavbarButton color="primary">
+						<HomeNavbarButton
+							color="primary"
+							href="/"
+						>
 							<IconFlameFilled />
 							<FormattedMessage {...messages.whatsNew} />
 						</HomeNavbarButton>
-						<HomeNavbarButton>
+						<HomeNavbarButton href="/discover">
 							<IconCompassFilled />
 							<FormattedMessageGlobal id="site.discovery" />
 						</HomeNavbarButton>
@@ -73,11 +71,11 @@
 						{#snippet header()}
 							<FormattedMessageGlobal id="site.campsites" />
 						{/snippet}
-						<HomeNavbarButton>
+						<HomeNavbarButton href="/create/campsite">
 							<IconCirclePlusFilled />
 							<FormattedMessageGlobal id="app.campsites.create" />
 						</HomeNavbarButton>
-						<HomeNavbarButton>
+						<HomeNavbarButton href="/campsites">
 							<IconCampfireFilled />
 							<FormattedMessage {...messages.myCampsites} />
 						</HomeNavbarButton>
@@ -87,11 +85,7 @@
 		</Card.Overflow>
 	</Card.Root>
 	<div class="wrapper">
-		<Card.Root level="subtle">
-			<Card.Overflow>
-				{@render children()}
-			</Card.Overflow>
-		</Card.Root>
+		{@render children()}
 	</div>
 </div>
 

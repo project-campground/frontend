@@ -1,17 +1,20 @@
 <script lang="ts">
-	import { Button, type ButtonProps, Link, type LinkProps } from '@campground/ui';
+	import { page } from '$app/state';
+	import { Button, type ButtonProps, type LinkProps } from '@campground/ui';
 
 	const {
 		href,
 		color,
 		children,
 	}: Pick<ButtonProps, 'color' | 'children'> & Pick<LinkProps, 'href'> = $props();
+
+	const isActive = $derived(page.url.pathname === href);
 </script>
 
 <a {href}>
 	<Button
 		color={color ?? 'neutral'}
-		variant="plain"
+		variant={isActive ? 'selected' : 'plain'}
 		justify="start"
 	>
 		{@render children()}

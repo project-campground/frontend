@@ -25,7 +25,10 @@
 
 <div class="GlobalNavbar container">
 	<div class="GlobalNavbar stack">
-		<GlobalNavbarButton href="/home">
+		<GlobalNavbarButton
+			href="/"
+			activeExcept={['/c/', '/profile/']}
+		>
 			<Svg.Logo size={2.5} />
 		</GlobalNavbarButton>
 	</div>

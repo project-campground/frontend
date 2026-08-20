@@ -1,14 +1,24 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { Card } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 
-	const { href, children }: { href: string; children: Snippet } = $props();
+	const {
+		activeExcept,
+		href,
+		children,
+	}: { href: string; children: Snippet; activeExcept?: string[] } = $props();
+
+	const isActive = $derived(
+		!activeExcept?.some((x) => page.url.pathname.startsWith(x)) && page.url.pathname.startsWith(href),
+	);
 </script>
 
-<div class="container">
+<div class={['container', { active: isActive }]}>
 	<Card.Root
 		size="md"
 		class={['navbarButton']}
+		level={isActive ? 'default' : 'subtle'}
 	>
 		<Card.Overflow>
 			<div class="content">

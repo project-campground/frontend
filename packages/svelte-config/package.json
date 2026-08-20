@@ -10,13 +10,6 @@
 	"author": "Team Campground",
 	"license": "AGPL-3.0-or-later",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build && npm run prepack",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
-		"prepack": "svelte-kit sync && svelte-package",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."
 	},
@@ -28,6 +21,7 @@
 	],
 	"types": "./index.d.ts",
 	"dependencies": {
+		"@sveltejs/adapter-static": "^3.0.10",
 		"@tsconfig/svelte": "^5.0.8"
 	},
 	"devDependencies": {

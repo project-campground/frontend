@@ -4,6 +4,6 @@ import packageJson from './package.json' with { type: 'json' };
 const packageName = packageJson.name.split('/').slice(-1)[0];
 
 /** @type {import('@sveltejs/kit').Config} */
-const config = createConfig(packageName);
+const config = createConfig(packageName, 'static');
 
 export default config;

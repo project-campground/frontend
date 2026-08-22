@@ -11,6 +11,7 @@
 		justify,
 		direction,
 		directionMobile,
+		flex,
 		wrap,
 		...attributes
 	}: StackProps = $props();
@@ -19,6 +20,7 @@
 <div
 	{...attributes}
 	style:--Stack-gap={rem(gap ?? 1)}
+	style:--Stack-flex={flex}
 	class={['Stack', className]}
 	data-wrap={wrap}
 	data-direction-mobile={directionMobile}
@@ -31,8 +33,8 @@
 
 <style lang="scss">
 	@use '../../common.scss' as *;
+	@use './Stackable.scss' as *;
 
-	$directions: column, column-reverse, row, row-reverse;
 	$aligns: start, stretch, center, end;
 	$wraps: wrap, nowrap, wrap-reverse;
 	$justifies: start, baseline, center, end;
@@ -41,28 +43,17 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--Stack-gap);
+		flex: var(--Stack-flex);
 
-		@each $direction in $directions {
-			&[data-direction='#{$direction}'] {
-				flex-direction: $direction;
-			}
-		}
-		@each $align in $aligns {
-			&[data-align='#{$align}'] {
-				align-items: $align;
-			}
-		}
+		@extend %Stackable-direction;
+		@extend %Stackable-align;
+		@extend %Stackable-justify;
+
 		@each $wrap in $wraps {
 			&[data-wrap='#{$wrap}'] {
 				flex-wrap: $wrap;
 			}
 		}
-		@each $justify in $justifies {
-			&[data-justify='#{$justify}'] {
-				justify-content: $justify;
-			}
-		}
-
 		@include tablet-down() {
 			@each $direction in $directions {
 				&[data-direction-mobile='#{$direction}'] {

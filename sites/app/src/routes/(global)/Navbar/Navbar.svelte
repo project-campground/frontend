@@ -14,15 +14,13 @@
 <script lang="ts">
 	import { Link, Svg } from '@campground/ui';
 	import GlobalNavbarButton from './NavbarButton.svelte';
-	import CampsiteButton from './CampsiteButton.svelte';
 	import NavbarProfile from './NavbarProfile.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
-	import { getSession } from '$lib/api/session/Session.svelte.ts';
+	import NavbarItem from './NavbarItem.svelte';
 
 	const account = getAccount();
-	const session = getSession();
 </script>
 
 <div class="GlobalNavbar container">
@@ -36,7 +34,7 @@
 	</div>
 	<div class="GlobalNavbar divider"></div>
 	<div class="GlobalNavbar campsites stack">
-		{#if !session.preferences.full.nav?.items.length}
+		{#if !account.navbarItems.length}
 			<Link
 				color="neutral"
 				href="/discover"
@@ -44,16 +42,8 @@
 				<FormattedMessage {...messages.emptyCampsiteList} />
 			</Link>
 		{/if}
-		{#each session.preferences.full?.nav?.items ?? [] as item (item.id)}
-			{#if item.$type === 'gg.campground.actor.defs#navCampsitePref'}
-				<CampsiteButton
-					id={campsite.id}
-					name={campsite.name}
-					isSelected={false}
-					domain={campsite._domain}
-					memberCount={campsite.memberCount}
-				/>
-			{/if}
+		{#each account.navbarItems as item (item.id)}
+			<NavbarItem {item} />
 		{/each}
 	</div>
 	<div class="GlobalNavbar divider"></div>

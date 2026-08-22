@@ -3,6 +3,7 @@
 	import NavbarButton from './NavbarButton.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
 	import { FormattedMessageGlobal } from '@campground/locale';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		avatar?: string;
@@ -11,12 +12,16 @@
 		name: string;
 		memberCount: number;
 		isSelected?: boolean;
+		additional?: Snippet;
 	}
-	const { id, avatar, domain, name, memberCount, isSelected }: Props = $props();
+	const { id, avatar, domain, name, memberCount, isSelected, additional }: Props = $props();
 </script>
 
 <NavbarButton href={`/c/${id}@${domain}`}>
-	<div class="margin"></div>
+	<!-- Keep it even though it has nothing to keep the margin -->
+	<div class="additional">
+		{@render additional?.()}
+	</div>
 	<div class="content">
 		<TextBlock
 			level="subheading"
@@ -28,7 +33,7 @@
 			weight={700}
 		>
 			<Group gap={0.5}>
-				<IconUserFilled size={12} />
+				<IconUserFilled size="0.75rem" />
 				<FormattedMessageGlobal
 					id="app.campsites.members"
 					values={{ count: memberCount }}
@@ -45,8 +50,8 @@
 </NavbarButton>
 
 <style lang="scss">
-	.margin {
-		width: 0;
+	.additional {
+		z-index: 10;
 	}
 	.content {
 		display: flex;

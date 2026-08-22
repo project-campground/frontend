@@ -51,16 +51,17 @@
 	let avatar: string | undefined | null = $state(null);
 
 	async function createCampsite({ appview, ...props }: FormFields) {
-		const createdCampsite = await session.atproto.createCampsiteInBackend(
-			appview.split('/')[2],
-			props,
-		);
+		const appviewDomain = appview.split('/')[2];
+
+		const createdCampsite = await session.atproto.createCampsiteInBackend(appviewDomain, props);
 
 		return await Promise.all([
 			session.preferences.addCampsiteToListGlobally(appview, createdCampsite.campsite.id),
 			appview
 				&& session.preferences.updateGlobal({
-					instances: { domains: [appview, ...(session.preferences.global.instances?.domains ?? [])] },
+					instances: {
+						domains: [appviewDomain, ...(session.preferences.global.instances?.domains ?? [])],
+					},
 				}),
 		])
 			.catch((err) => console.error('Error dealing with created campsite', err))
@@ -181,7 +182,7 @@
 								</TextBlock>
 							</Stack>
 							<Avatar
-								src={avatar}
+								src={avatar ?? undefined}
 								size="md"
 							>
 								{name[0]}

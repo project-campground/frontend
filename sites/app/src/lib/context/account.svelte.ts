@@ -4,7 +4,10 @@ import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campg
 import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
 import type { Session } from '$lib/api/session/Session.svelte.js';
 import XrpcError from '$lib/api/XrpcError.js';
-import type { PreferenceNavCampsite } from '$lib/types/bluesky/preferences.js';
+import type {
+	PreferenceNavbarItemAny,
+	PreferenceNavCampsite,
+} from '$lib/types/bluesky/preferences.js';
 import { toLookup } from '$lib/util/array.js';
 
 export enum AccountInfoLoadState {
@@ -14,12 +17,15 @@ export enum AccountInfoLoadState {
 	All = 3,
 	AllUnsigned = 4,
 }
+export enum AccountNavbarItemType {
+	Campsite = 0,
+}
 
-export interface AccountNavbarItem<T extends string> {
+export interface AccountNavbarItem<T extends AccountNavbarItemType> {
 	type: T;
 	id: string;
 }
-export interface AccountNavbarCampsite extends AccountNavbarItem<'campsite'> {
+export interface AccountNavbarCampsite extends AccountNavbarItem<AccountNavbarItemType.Campsite> {
 	campsite: CampsiteViewWithDomain;
 }
 export type AccountNavbarItemAny = AccountNavbarCampsite;
@@ -43,7 +49,10 @@ export class AccountInfo {
 
 		const backendDomains: Record<string, PreferenceNavCampsite[]> = toLookup(
 			this.session.preferences.full.nav.items.filter(
-				(x) => x.$type === 'gg.campground.actor.defs#navCampsitePref',
+				(x) =>
+					x.$type === 'gg.campground.actor.defs#navCampsitePref'
+					&& typeof x.domain === 'string'
+					&& typeof x.id === 'string',
 			) ?? [],
 			(item) => item.domain,
 		);
@@ -63,6 +72,7 @@ export class AccountInfo {
 				(x) => (x as PromiseFulfilledResult<{ campsites: CampsiteViewBasic[]; domain: string }>).value,
 			);
 
+		console.log('Backend resps', backendResps);
 		// Basically warning when certain back-end could not be fetched
 		for (const badResp of backendRespPromises.filter((x) => x.status === 'rejected')) {
 			console.warn('Rejected promise while fetching campsite list', badResp.reason);
@@ -74,17 +84,52 @@ export class AccountInfo {
 			),
 		);
 
+		console.log('Campsites', campsites);
+
 		this.navbarItems = this.session.preferences.full.nav.items
-			.map((x) => {
-				if (x.$type !== 'gg.campground.actor.defs#navCampsitePref') return;
-
-				const campsite = campsites.find((y) => y._domain === x.domain && y.id === x.id);
-
-				return { type: 'campsite', id: `${x.id}@${x.domain}`, campsite } as AccountNavbarCampsite;
-			})
+			.map((x) => this.getNavbarItem(campsites, x))
 			.filter((x) => x) as unknown as AccountNavbarItemAny[];
 
 		return (this.loadState = AccountInfoLoadState.Campsites);
+	}
+
+	private getNavbarItem(
+		campsites: CampsiteViewWithDomain[],
+		navItem: PreferenceNavbarItemAny,
+	): AccountNavbarItemAny | void {
+		if (navItem.$type !== 'gg.campground.actor.defs#navCampsitePref') return;
+
+		const campsite = campsites.find((y) => y._domain === navItem.domain && y.id === navItem.id);
+		console.log({ campsites, navItem, campsite });
+
+		if (!campsite) return;
+
+		return {
+			type: AccountNavbarItemType.Campsite,
+			id: `${navItem.id}@${navItem.domain}`,
+			campsite,
+		} as AccountNavbarCampsite;
+	}
+
+	public async addCampsiteToNavbar(domain: string, campsite: CampsiteViewBasic) {
+		this.navbarItems.push({
+			type: AccountNavbarItemType.Campsite,
+			id: `${campsite.id}@${domain}`,
+			campsite: { ...campsite, _domain: domain },
+		});
+		return this.session.preferences.addCampsiteToListGlobally(domain, campsite.id);
+	}
+
+	public async removeCampsiteFromNavbar(domain: string, campsiteId: string) {
+		const index = this.navbarItems.findIndex(
+			(x) => x.campsite.id === campsiteId && x.campsite._domain === domain,
+		);
+
+		if (index < 0) return;
+
+		this.navbarItems.splice(index, 1);
+
+		return this.session.preferences.removeCampsiteFromListGlobally(domain, campsiteId);
 	}
 
 	private async initUnsigned() {

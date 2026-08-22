@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { Avatar, TextBlock, Skeleton, loremIpsum } from '@campground/ui';
+	import { Avatar, TextBlock, Skeleton, loremIpsum, Group } from '@campground/ui';
 	import NavbarButton from './NavbarButton.svelte';
+	import { IconUserFilled } from '@tabler/icons-svelte';
 </script>
 
 <NavbarButton>
@@ -15,9 +16,14 @@
 			level="subtext"
 			fontSize={0.85}
 		>
-			<Skeleton>
-				{loremIpsum.sm}
-			</Skeleton>
+			<Group gap={0.5}>
+				<Skeleton>
+					<IconUserFilled size="0.75rem" />
+				</Skeleton>
+				<Skeleton>
+					{loremIpsum.sm}
+				</Skeleton>
+			</Group>
 		</TextBlock>
 	</div>
 	<Skeleton radius="avatar">

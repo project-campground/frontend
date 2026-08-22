@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { RootProps } from './props.ts';
 
-	const { size, level, overflow, children, ...props }: RootProps = $props();
+	const { size, level, overflow, children, direction, ...props }: RootProps = $props();
 </script>
 
 <section
-	{...props}
 	data-level={level}
 	data-overflow={overflow}
+	data-direction={direction}
 	data-size={size ?? 'md'}
+	{...props}
 >
 	{@render children()}
 </section>
@@ -22,6 +23,8 @@
 	);
 
 	section {
+		display: flex;
+		flex-direction: column;
 		position: relative;
 		overflow: hidden;
 
@@ -29,6 +32,7 @@
 		border: solid 1px var(--neutral-border);
 		border-radius: var(--Card-radius);
 		box-shadow: var(--shadow-md);
+
 		&[data-overflow='auto'] {
 			overflow: auto;
 		}

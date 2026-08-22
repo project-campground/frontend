@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { Card } from '@campground/ui';
 	import type { Snippet } from 'svelte';
+	import { scale } from 'svelte/transition';
 
 	const {
 		activeExcept,
@@ -37,6 +38,7 @@
 	@use '@campground/ui' as *;
 
 	.container {
+		opacity: 100%;
 		@include button-transform();
 	}
 

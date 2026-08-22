@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Accordion, Alert, Group, Svg, TextBlock } from '@campground/ui';
+	import { Accordion, Alert, Group, Svg } from '@campground/ui';
 	import AppviewInstanceCampsites from './AppviewInstanceCampsites.svelte';
 	import CampsiteButtonSkeleton from '../../Navbar/CampsiteButtonSkeleton.svelte';
 	import { IconExclamationCircleFilled } from '@tabler/icons-svelte';
@@ -14,7 +14,7 @@
 	{#snippet header()}
 		<Group gap={0.5}>
 			<Svg.Logo size={2} />
-			{domain.split('/')[2]}
+			{domain}
 		</Group>
 	{/snippet}
 	<div class="grid">

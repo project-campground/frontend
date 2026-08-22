@@ -1,26 +1,28 @@
 import type { Snippet } from 'svelte';
-import type { ComponentSize } from '../../types/attributes.ts';
+import type { ComponentSize, FlexDirection } from '../../types/attributes.ts';
 import type { ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
 import type { DistanceArgument } from '$lib/util/component.js';
+import type StackProps from '../Stack/props.ts';
 
-export interface RootProps {
+export interface RootProps extends Pick<StackProps, 'direction'> {
+	direction?: FlexDirection;
 	level?: 'default' | 'subtle';
 	class?: ClassValue;
 	size?: ComponentSize | 'xxl';
 	children: Snippet;
 	overflow?: 'auto' | 'visible';
 }
-export interface ContentProps {
+export interface ContentProps extends Pick<StackProps, 'direction'> {
+	direction?: FlexDirection;
 	gap?: ComponentSize;
 	class?: ClassValue;
-	orientation?: 'vertical' | 'horizontal';
 	children: Snippet;
 	pt?: DistanceArgument;
 	pb?: DistanceArgument;
 	pl?: DistanceArgument;
 	pr?: DistanceArgument;
 }
-export interface OverflowProps {
+export interface OverflowProps extends Pick<StackProps, 'direction'> {
 	mb?: DistanceArgument;
 	mt?: DistanceArgument;
 	class?: ClassValue;

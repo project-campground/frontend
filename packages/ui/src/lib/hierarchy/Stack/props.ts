@@ -10,5 +10,6 @@ export default interface StackProps extends AriaAttributes {
 	directionMobile?: FlexDirection;
 	justify?: JustifyContent;
 	wrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
+	flex?: number;
 	gap?: number;
 }

@@ -37,7 +37,7 @@ type QueryType = string | number | boolean | undefined | null;
 export interface RequestConfig {
 	method: HTTPMethod;
 	route: string;
-	body?: any;
+	body?: unknown;
 	request?: RequestInit;
 	queries?: Record<string, QueryType | QueryType[]>;
 }
@@ -69,7 +69,7 @@ export default class HTTPAtprotoClient {
 	public get authExpired(): boolean | null {
 		try {
 			return this._config.auth ?
-					JSON.parse(atob(this._config.auth?.split('.')[1]!)).exp * 1000 < new Date().getTime()
+					JSON.parse(atob(this._config.auth!.split('.')[1])).exp * 1000 < new Date().getTime()
 				:	null;
 		} catch (err) {
 			console.warn(err);
@@ -114,7 +114,7 @@ export default class HTTPAtprotoClient {
 		},
 		requestConfig: Partial<RequestPrefixed> = {},
 	) {
-		return HTTPAtprotoClient.atprotoFetch<SessionBasic & { didDoc: any }>({
+		return HTTPAtprotoClient.atprotoFetch<SessionBasic & { didDoc: unknown }>({
 			method: 'POST',
 			route: `com.atproto.server.createAccount`,
 			body: props,
@@ -122,20 +122,20 @@ export default class HTTPAtprotoClient {
 		});
 	}
 
-	private static convertValueToArray([key, value]: [string, any]) {
+	private static convertValueToArray([key, value]: [string, unknown]) {
 		return Array.isArray(value) ?
 				value.filter((y) => typeof y !== 'undefined' && y !== null).map((y) => [key, y.toString()])
-			:	[[key, value.toString()]];
+			:	[[key, value?.toString()]];
 	}
 
-	public static convertObjectToQuery(value: Record<string, any>): URLSearchParams {
+	public static convertObjectToQuery(value: Record<string, unknown>): URLSearchParams {
 		const newValue = Object.entries(value)
-			.filter(([_, key]) => typeof key !== 'undefined' && key !== null)
+			.filter(([, key]) => typeof key !== 'undefined' && key !== null)
 			.flatMap(this.convertValueToArray);
 		return new URLSearchParams(newValue);
 	}
 
-	public static async atprotoFetch<T = any | null>(
+	public static async atprotoFetch<T = unknown | null>(
 		config: Partial<RequestPrefixed> & RequestConfig & { headers?: HeadersInit },
 	): Promise<T> {
 		const { url, queries, routePrefix, route, method, body, request, mode, headers } = {

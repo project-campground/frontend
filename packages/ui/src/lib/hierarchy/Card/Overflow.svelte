@@ -2,12 +2,13 @@
 	import { rem } from '$lib/util/component.js';
 	import type { OverflowProps } from './props.ts';
 
-	const { children, mt, mb, ...props }: OverflowProps = $props();
+	const { children, mt, mb, direction, ...props }: OverflowProps = $props();
 </script>
 
 <div
 	style:--CardOverflow-marginTop={rem(mt)}
 	style:--CardOverflow-marginBottom={rem(mb)}
+	data-direction={direction}
 	{...props}
 >
 	{@render children()}
@@ -15,18 +16,20 @@
 
 <style lang="scss">
 	@use '../../common.scss' as *;
+	@use '../Stack/Stackable.scss' as *;
 
 	div {
-		margin-right: calc(-1 * var(--Card-paddingX));
-		margin-left: calc(-1 * var(--Card-paddingX));
-		margin-top: var(--CardOverflow-marginTop);
-		margin-bottom: var(--CardOverflow-marginBottom);
+		margin-inline: calc(-1 * var(--Card-paddingX));
+		margin-block-start: var(--CardOverflow-marginTop);
+		margin-block-end: var(--CardOverflow-marginBottom);
+
+		@extend %Stackable-direction;
 
 		&:first-of-type {
-			margin-top: var(--CardOverflow-marginTop, calc(-1 * var(--Card-paddingY)));
+			margin-block-start: var(--CardOverflow-marginTop, calc(-1 * var(--Card-paddingY)));
 		}
 		&:last-of-type {
-			margin-bottom: var(--CardOverflow-marginBottom, calc(-1 * var(--Card-paddingY)));
+			margin-block-end: var(--CardOverflow-marginBottom, calc(-1 * var(--Card-paddingY)));
 		}
 	}
 </style>

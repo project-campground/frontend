@@ -18,9 +18,9 @@
 <style lang="scss">
 	@use '../../common.scss' as *;
 	@use './Button.scss' as *;
+	@use '../../hierarchy/Stack/Stackable.scss' as *;
 	@use 'sass:list';
 
-	$justifies: start, baseline, center, end;
 	$regular-variants: plain, selected, soft;
 
 	button {
@@ -48,11 +48,7 @@
 		@extend %Button-transform;
 		@extend %Button-sizing;
 		@extend %Button-sizingWithTypes;
-		@each $justify in $justifies {
-			&[data-justify='#{$justify}'] {
-				justify-content: $justify;
-			}
-		}
+		@extend %Stackable-justify;
 		@each $col in $color-types-all {
 			&[data-color='#{$col}'] {
 				&[data-variant='glow'] {

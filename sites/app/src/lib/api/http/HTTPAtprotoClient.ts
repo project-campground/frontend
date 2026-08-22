@@ -301,10 +301,11 @@ export default class HTTPAtprotoClient {
 		});
 	}
 
-	public getBackendJoinedCampsites(domain: string) {
+	public getBackendJoinedCampsites(domain: string, campsites?: string[]) {
 		return this.fetchProxied<{ campsites: CampsiteViewBasic[] }>(domain, {
 			method: 'GET',
 			route: `gg.campground.campsite.getActorCampsites`,
+			queries: { campsites },
 		}).then((resp) => ({ ...resp, domain }) as { campsites: CampsiteViewBasic[]; domain: string });
 	}
 	public createCampsiteInBackend(

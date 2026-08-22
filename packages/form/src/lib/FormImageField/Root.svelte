@@ -50,6 +50,7 @@
 	<Badge
 		color="neutral"
 		position="bottom-right"
+		size="lg"
 	>
 		{#snippet badge()}
 			<IconPencilFilled size="1rem" />
@@ -95,18 +96,14 @@
 		}
 		@each $size in $size-names-with-none {
 			&[data-radius='#{$size}'] {
-				border-radius: var(--radius-#{$size});
+				border-radius: calc(var(--radius-#{$size}) + 0.125rem);
 			}
 		}
-		&[data-radius='avatar'],
+		&[data-radius='avatar'] {
+			border-radius: calc(35% + 0.125rem);
+		}
 		&[data-radius='avatar'] .container {
-			border-radius: 30%;
-			// Since it's relatively new thing
-			// Makes it tad bit better
-			@supports (corner-shape: squircle) {
-				border-radius: 100%;
-				corner-shape: squircle;
-			}
+			border-radius: 35%;
 		}
 	}
 	.container {

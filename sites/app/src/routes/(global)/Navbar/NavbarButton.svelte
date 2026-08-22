@@ -7,10 +7,12 @@
 		activeExcept,
 		href,
 		children,
-	}: { href: string; children: Snippet; activeExcept?: string[] } = $props();
+	}: { href?: string; children: Snippet; activeExcept?: string[] } = $props();
 
 	const isActive = $derived(
-		!activeExcept?.some((x) => page.url.pathname.startsWith(x)) && page.url.pathname.startsWith(href),
+		href
+			&& !activeExcept?.some((x) => page.url.pathname.startsWith(x))
+			&& page.url.pathname.startsWith(href),
 	);
 </script>
 
@@ -25,7 +27,9 @@
 				{@render children()}
 			</div>
 		</Card.Overflow>
-		<Card.Click {href} />
+		{#if href}
+			<Card.Click {href} />
+		{/if}
 	</Card.Root>
 </div>
 
@@ -38,13 +42,15 @@
 
 	.content {
 		display: flex;
-		flex-direction: row;
+		flex-direction: row-reverse;
 		align-items: center;
 		justify-content: center;
 		height: calc(var(--GlobalLayout-navHeight) - 0.5rem - 2px);
 		min-width: calc(var(--GlobalLayout-navHeight) - 0.5rem - 2px);
 		color: var(--foreground-body);
 		transition: color $transition-time-md;
+		gap: 1ch;
+		padding: 0 0.5rem;
 
 		.container:hover & {
 			color: var(--foreground-heading);

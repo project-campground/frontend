@@ -77,6 +77,7 @@
 	import type { DescribedServer } from '$lib/types/atproto/server.js';
 	import XrpcError from '$lib/api/XrpcError.js';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
+	import { authMessages } from '../messages.ts';
 
 	let passwordToConfirm = $state('');
 
@@ -222,10 +223,10 @@
 			required
 		>
 			<FormTextField
-				placeholder={defaultPds}
+				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{4,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
-					errorMessage: $intl.formatMessage(messages.expectedHandle),
+					errorMessage: $intl.formatMessage(authMessages.expectedPds),
 				}}
 			>
 				{#snippet left()}

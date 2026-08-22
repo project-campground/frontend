@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Avatar, Group, Stack, TextBlock } from '@campground/ui';
+	import { Avatar, Group, TextBlock } from '@campground/ui';
 	import NavbarButton from './NavbarButton.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
 	import { FormattedMessageGlobal } from '@campground/locale';
@@ -10,23 +10,14 @@
 		domain: string;
 		name: string;
 		memberCount: number;
-		hasNotification?: boolean;
-		pingCount?: number;
 		isSelected?: boolean;
-		isVerified?: boolean;
-		isOwner?: boolean;
 	}
-	const { id, avatar, name, memberCount, isSelected }: Props = $props();
+	const { id, avatar, domain, name, memberCount, isSelected }: Props = $props();
 </script>
 
-<NavbarButton href={`/c/${id}`}>
-	<Avatar
-		src={avatar}
-		size="sm"
-	>
-		{name[0]}
-	</Avatar>
-	<Stack gap={0.25}>
+<NavbarButton href={`/c/${id}@${domain}`}>
+	<div class="margin"></div>
+	<div class="content">
 		<TextBlock
 			level="subheading"
 			weight={isSelected ? 900 : 700}>{name}</TextBlock
@@ -44,12 +35,22 @@
 				/>
 			</Group>
 		</TextBlock>
-	</Stack>
-	<div class="CampsiteButton margin"></div>
+	</div>
+	<Avatar
+		src={avatar}
+		size="sm"
+	>
+		{name[0].toUpperCase()}
+	</Avatar>
 </NavbarButton>
 
 <style lang="scss">
 	.margin {
 		width: 0;
+	}
+	.content {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
 	}
 </style>

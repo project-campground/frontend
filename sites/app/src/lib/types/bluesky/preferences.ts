@@ -20,17 +20,28 @@ export interface BlueskyPreference extends AtprotoPreference<
 	| 'app.bsky.actor.defs#liveEventPreferences'
 > {}
 
-// export type CampgroundPreferencePrefix = "gg.campground.actor.defs";
-export type CampgroundPreferencePrefix = 'app.bsky.actor.defs#gg.campground.actor.defs';
+export type CampgroundPreferencePrefix = 'gg.campground.actor.defs';
+export type CampgroundBlueskyPreferencePrefix = 'app.bsky.actor.defs#gg.campground.actor.defs';
 
-export interface CampgroundPreferenceLocale extends AtprotoPreference<`${CampgroundPreferencePrefix}.localePref`> {
+export interface CampgroundPreferenceLocale extends AtprotoPreference<`${CampgroundBlueskyPreferencePrefix}.localePref`> {
 	language: 'en-US';
 }
-export interface CampgroundPreferenceCampsites extends AtprotoPreference<`${CampgroundPreferencePrefix}.campsitesPref`> {
-	campsites: Array<{ domain: string; id: string }>;
+export interface PreferenceNavbarItem<T extends string> {
+	$type: T;
+	id: string;
 }
-export interface CampgroundPreferenceAppearance extends AtprotoPreference<`${CampgroundPreferencePrefix}.appearancePref`> {
+export interface PreferenceNavCampsite extends PreferenceNavbarItem<`${CampgroundPreferencePrefix}#navCampsitePref`> {
+	domain: string;
+}
+export type PreferenceNavbarItemAny = PreferenceNavCampsite;
+export interface CampgroundPreferenceNav extends AtprotoPreference<`${CampgroundBlueskyPreferencePrefix}.navPref`> {
+	items: Array<PreferenceNavbarItemAny>;
+}
+export interface CampgroundPreferenceAppearance extends AtprotoPreference<`${CampgroundBlueskyPreferencePrefix}.appearancePref`> {
 	theme: 'dark' | 'light' | 'system';
 }
+export interface CampgroundPreferenceInstances extends AtprotoPreference<`${CampgroundBlueskyPreferencePrefix}.instancesPref`> {
+	domains: string[];
+}
 
-export type CampgroundPreference = CampgroundPreferenceAppearance;
+export type CampgroundPreference = CampgroundPreferenceAppearance | CampgroundPreferenceNav;

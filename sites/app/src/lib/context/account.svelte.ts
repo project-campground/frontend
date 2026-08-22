@@ -4,6 +4,8 @@ import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campg
 import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
 import type { Session } from '$lib/api/session/Session.svelte.js';
 import XrpcError from '$lib/api/XrpcError.js';
+import type { PreferenceNavCampsite } from '$lib/types/bluesky/preferences.js';
+import { toLookup } from '$lib/util/array.js';
 
 export enum AccountInfoLoadState {
 	None = 0,
@@ -13,10 +15,19 @@ export enum AccountInfoLoadState {
 	AllUnsigned = 4,
 }
 
+export interface AccountNavbarItem<T extends string> {
+	type: T;
+	id: string;
+}
+export interface AccountNavbarCampsite extends AccountNavbarItem<'campsite'> {
+	campsite: CampsiteViewWithDomain;
+}
+export type AccountNavbarItemAny = AccountNavbarCampsite;
+
 export class AccountInfo {
 	public loadState: AccountInfoLoadState = $state(AccountInfoLoadState.None);
 	public profile: CampgroundProfileRecord | null = $state(null);
-	public campsites: CampsiteViewWithDomain[] = $state([]);
+	public navbarItems: AccountNavbarItemAny[] = $state([]);
 	public sessionInfo: GetSession | null = $state(null);
 	public userSettingsOpen = $state(false);
 
@@ -27,32 +38,53 @@ export class AccountInfo {
 	}
 
 	private async onPreferencesInit() {
-		const backendDomains = new Set(
-			this.session.preferences.full.campsites?.campsites.map((x) => x.domain) ?? [],
+		if (!this.session.preferences.full?.nav?.items)
+			return (this.loadState = AccountInfoLoadState.Campsites);
+
+		const backendDomains: Record<string, PreferenceNavCampsite[]> = toLookup(
+			this.session.preferences.full.nav.items.filter(
+				(x) => x.$type === 'gg.campground.actor.defs#navCampsitePref',
+			) ?? [],
+			(item) => item.domain,
 		);
 
-		return Promise.allSettled(
-			[...backendDomains].map((domain) => this.session.atproto.getBackendJoinedCampsites(domain)),
-		).then((backendRespPromises) => {
-			const backendResps = backendRespPromises
-				.filter((x) => x.status === 'fulfilled')
-				.map(
-					(x) => (x as PromiseFulfilledResult<{ campsites: CampsiteViewBasic[]; domain: string }>).value,
-				);
-
-			// Basically warning when certain back-end could not be fetched
-			for (const badResp of backendRespPromises.filter((x) => x.status === 'rejected')) {
-				console.warn('Rejected promise while fetching campsite list', badResp.reason);
-			}
-
-			this.campsites = backendResps.flatMap((resp) =>
-				resp.campsites.map(
-					(campsite) => ({ ...campsite, _domain: resp.domain }) as CampsiteViewWithDomain,
+		const backendRespPromises = await Promise.allSettled(
+			Object.entries(backendDomains).map(([domain, items]) =>
+				this.session.atproto.getBackendJoinedCampsites(
+					domain,
+					items.map((x) => x.id),
 				),
+			),
+		);
+
+		const backendResps = backendRespPromises
+			.filter((x) => x.status === 'fulfilled')
+			.map(
+				(x) => (x as PromiseFulfilledResult<{ campsites: CampsiteViewBasic[]; domain: string }>).value,
 			);
 
-			return (this.loadState = AccountInfoLoadState.Campsites);
-		});
+		// Basically warning when certain back-end could not be fetched
+		for (const badResp of backendRespPromises.filter((x) => x.status === 'rejected')) {
+			console.warn('Rejected promise while fetching campsite list', badResp.reason);
+		}
+
+		const campsites = backendResps.flatMap((resp) =>
+			resp.campsites.map(
+				(campsite) => ({ ...campsite, _domain: resp.domain }) as CampsiteViewWithDomain,
+			),
+		);
+
+		this.navbarItems = this.session.preferences.full.nav.items
+			.map((x) => {
+				if (x.$type !== 'gg.campground.actor.defs#navCampsitePref') return;
+
+				const campsite = campsites.find((y) => y._domain === x.domain && y.id === x.id);
+
+				return { type: 'campsite', id: `${x.id}@${x.domain}`, campsite } as AccountNavbarCampsite;
+			})
+			.filter((x) => x) as unknown as AccountNavbarItemAny[];
+
+		return (this.loadState = AccountInfoLoadState.Campsites);
 	}
 
 	private async initUnsigned() {

@@ -19,8 +19,10 @@
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { FormattedMessage } from '@campground/locale';
+	import { getSession } from '$lib/api/session/Session.svelte.ts';
 
 	const account = getAccount();
+	const session = getSession();
 </script>
 
 <div class="GlobalNavbar container">
@@ -34,7 +36,7 @@
 	</div>
 	<div class="GlobalNavbar divider"></div>
 	<div class="GlobalNavbar campsites stack">
-		{#if !account.campsites.length}
+		{#if !session.preferences.full.nav?.items.length}
 			<Link
 				color="neutral"
 				href="/discover"
@@ -42,14 +44,16 @@
 				<FormattedMessage {...messages.emptyCampsiteList} />
 			</Link>
 		{/if}
-		{#each account.campsites as campsite (campsite.id)}
-			<CampsiteButton
-				name={campsite.name}
-				isSelected={false}
-				id={campsite.id}
-				domain={campsite._domain}
-				memberCount={campsite.memberCount}
-			/>
+		{#each session.preferences.full?.nav?.items ?? [] as item (item.id)}
+			{#if item.$type === 'gg.campground.actor.defs#navCampsitePref'}
+				<CampsiteButton
+					id={campsite.id}
+					name={campsite.name}
+					isSelected={false}
+					domain={campsite._domain}
+					memberCount={campsite.memberCount}
+				/>
+			{/if}
 		{/each}
 	</div>
 	<div class="GlobalNavbar divider"></div>

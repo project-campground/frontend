@@ -1,7 +1,7 @@
-import type { TentViewBasic } from './tent';
-import type { RoleView } from './roles';
-import type { MemberViewBasic } from './membership';
-import type { BonfireViewBasic } from './bonfires';
+import type { TentViewBasic } from './tent.js';
+import type { RoleView } from './roles.js';
+import type { MemberViewBasic } from './membership.js';
+import type { BonfireViewBasic } from './bonfires.js';
 
 export interface CampsiteView {
 	id: string;

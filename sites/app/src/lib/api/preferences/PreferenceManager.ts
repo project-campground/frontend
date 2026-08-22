@@ -2,15 +2,18 @@ import type { Session } from '$lib/api/session/Session.svelte.js';
 import type {
 	CampgroundPreference,
 	CampgroundPreferenceAppearance,
+	CampgroundPreferenceInstances,
 	CampgroundPreferenceLocale,
-	CampgroundPreferenceCampsites,
+	CampgroundPreferenceNav,
+	PreferenceNavbarItemAny,
 } from '$lib/types/bluesky/preferences.js';
 import type HTTPAtprotoClient from '../http/HTTPAtprotoClient.js';
 
 export interface CampgroundPreferences {
 	locale?: Omit<CampgroundPreferenceLocale, '$type'>;
 	appearance?: Omit<CampgroundPreferenceAppearance, '$type'>;
-	campsites?: Omit<CampgroundPreferenceCampsites, '$type'>;
+	nav?: Omit<CampgroundPreferenceNav, '$type'>;
+	instances?: Omit<CampgroundPreferenceInstances, '$type'>;
 }
 
 const preferenceStorageKey = 'preference';
@@ -24,7 +27,7 @@ export default class PreferenceManager {
 	public hasInit: boolean = false;
 	public loaded: boolean = false;
 
-	private static CAMPGROUND_PREFERENCE_PREFIX = 'app.bsky.actor.defs#' + 'campground:';
+	private static CAMPGROUND_PREFERENCE_PREFIX = 'app.bsky.actor.defs#' + 'gg.campground.actor.defs.';
 	private _onInit?: Array<() => Promise<unknown> | unknown> = [];
 
 	constructor(session: Session) {
@@ -70,9 +73,9 @@ export default class PreferenceManager {
 					x.$type.startsWith(PreferenceManager.CAMPGROUND_PREFERENCE_PREFIX),
 				) ?? ([] as CampgroundPreference[]);
 
-			// Basically `app.bsky.whatever#examplePref`, but we also add `campground:` before `example`
+			// Basically `app.bsky.whatever#examplePref`, but we also add `gg.campground.actor.defs` before `example`
 			const preferenceEntries = preference.map(({ $type, ...pref }) => [
-				$type.split('#')[1].split(':').slice(-1)[0].slice(0, -'Pref'.length),
+				$type.split('#')[1].split('.').slice(-1)[0].slice(0, -'Pref'.length),
 				pref,
 			]);
 
@@ -84,21 +87,34 @@ export default class PreferenceManager {
 		});
 	}
 
-	private updateCampsiteToListGlobally(campsites: string[]) {
-		return this.updateGlobal({ campsites: { ...this.global.campsites, campsites } });
+	private updateNavbarList(items: PreferenceNavbarItemAny[]) {
+		return this.updateGlobal({ nav: { ...this.global.nav, items } });
 	}
 
-	public addCampsiteToListGlobally(domain: string, campsiteId: string) {
-		const entry = `${domain}@${campsiteId}`;
+	public addCampsiteToListGlobally(domain: string, id: string) {
+		const entry: PreferenceNavbarItemAny = {
+			$type: 'gg.campground.actor.defs#navCampsitePref',
+			domain,
+			id,
+		};
 
-		const newCampsiteList = this.global.campsites?.campsites.concat(entry) ?? [entry];
-		return this.updateCampsiteToListGlobally(newCampsiteList);
+		return this.addNavbarItem(entry);
+	}
+
+	public addNavbarItem(entry: PreferenceNavbarItemAny) {
+		const newCampsiteList = this.global.nav?.items.concat(entry) ?? [entry];
+		return this.updateNavbarList(newCampsiteList);
 	}
 
 	public removeCampsiteFromListGlobally(domain: string, campsiteId: string) {
 		const newCampsiteList =
-			this.global.campsites?.campsites.filter((x) => x !== `${domain}@${campsiteId}`) ?? [];
-		return this.updateCampsiteToListGlobally(newCampsiteList);
+			this.global.nav?.items.filter(
+				(x) =>
+					x.$type !== 'gg.campground.actor.defs#navCampsitePref'
+					|| x.id !== campsiteId
+					|| x.domain !== domain,
+			) ?? [];
+		return this.updateNavbarList(newCampsiteList);
 	}
 
 	private async finalizeInit(): Promise<unknown> {

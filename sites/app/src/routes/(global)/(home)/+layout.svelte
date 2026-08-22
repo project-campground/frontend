@@ -46,7 +46,6 @@
 					<Accordion
 						expanded={true}
 						noBackground
-						noPadding
 					>
 						{#snippet header()}
 							<FormattedMessageGlobal id="site.social" />
@@ -65,13 +64,12 @@
 					</Accordion>
 					<Accordion
 						noBackground
-						noPadding
 						expanded={true}
 					>
 						{#snippet header()}
 							<FormattedMessageGlobal id="site.campsites" />
 						{/snippet}
-						<HomeNavbarButton href="/create/campsite">
+						<HomeNavbarButton href="/campsites/create">
 							<IconCirclePlusFilled />
 							<FormattedMessageGlobal id="app.campsites.create" />
 						</HomeNavbarButton>
@@ -84,24 +82,18 @@
 			</div>
 		</Card.Overflow>
 	</Card.Root>
-	<div class="wrapper">
-		{@render children()}
-	</div>
+	{@render children()}
 </div>
 
 <style lang="scss">
 	.container {
 		display: grid;
 		gap: 0.5rem;
-		grid-template-columns: 16rem 1fr;
+		grid-template-columns: 16rem 1fr 16rem;
 		grid-template-rows: 1fr;
 		padding: 0.5rem;
 	}
 	.side {
 		padding: 0.5rem 0.5rem;
-	}
-	.wrapper {
-		display: grid;
-		grid-template-columns: 1fr 16rem;
 	}
 </style>

@@ -40,6 +40,7 @@
 	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
+	import { authMessages } from '../messages.ts';
 
 	const intl = getLocaleContext();
 
@@ -122,7 +123,7 @@
 				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{4,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
-					errorMessage: $intl.formatMessage(messages.expectedIdentifier),
+					errorMessage: $intl.formatMessage(authMessages.expectedPds),
 				}}
 			>
 				{#snippet left()}

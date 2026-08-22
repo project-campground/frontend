@@ -122,7 +122,7 @@
 			<FormTextField
 				placeholder={defaultPds.url}
 				format={{
-					regex: /^(https?[:]\/\/)(localhost[:][0-9]{4,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
+					regex: /^(https?[:]\/\/)(localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
 					errorMessage: $intl.formatMessage(authMessages.expectedPds),
 				}}
 			>

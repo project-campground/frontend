@@ -15,9 +15,6 @@ import HTTPProfileManager from './profile.js';
 import type { Session } from '../session/Session.svelte.js';
 
 export default class HTTPBackendClient {
-	public domain: string;
-	public session: Session;
-
 	public profiles = new HTTPProfileManager(this);
 	public profilePosts = new HTTPProfilePostManager(this);
 
@@ -35,11 +32,14 @@ export default class HTTPBackendClient {
 	public permissions = new HTTPPermissionManager(this);
 	public messages = new HTTPMessageManager(this);
 
-	constructor(session: Session, backendDomain: string) {
-		this.session = session;
-		this.domain = backendDomain;
-	}
+	constructor(
+		public session: Session,
+		private _getBackendDomain: () => string,
+	) {}
 
+	public get domain(): string {
+		return this._getBackendDomain();
+	}
 	public get atproto() {
 		return this.session.atproto;
 	}

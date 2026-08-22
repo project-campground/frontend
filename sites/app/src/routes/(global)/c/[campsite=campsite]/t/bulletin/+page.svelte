@@ -1,0 +1,1 @@
+<p>Bulletin board</p>

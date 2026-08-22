@@ -52,8 +52,9 @@
 	});
 
 	const menuPortal = new MenuPortal();
+	const defaultAppviewDomain = defaultAppview.url.split('//')[1];
 
-	setAppview(new HTTPBackendClient(session, defaultAppview.url.split('//')[1]));
+	setAppview(new HTTPBackendClient(session, () => defaultAppviewDomain));
 	setAccount(accountContext);
 	setMenuPortal(menuPortal);
 </script>

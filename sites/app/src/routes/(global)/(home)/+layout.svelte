@@ -89,7 +89,7 @@
 	.container {
 		display: grid;
 		gap: 0.5rem;
-		grid-template-columns: 16rem 1fr 16rem;
+		grid-template-columns: 20rem 1fr 20rem;
 		grid-template-rows: 1fr;
 		padding: 0.5rem;
 	}

@@ -1,25 +1,26 @@
 <script lang="ts">
-	import { Avatar, Badge, type AvatarProps } from '@campground/ui';
-	import { gradientColors } from './UserBanner.svelte';
+	import { Badge, type AvatarProps } from '@campground/ui';
 	import { defaultAvatar } from '$lib/api/api.config.js';
+	import ProfileAvatar from '../pages/ProfileAvatar.svelte';
 
-	interface Props extends AvatarProps {
+	interface Props extends Omit<AvatarProps, 'id' | 'placeholder'> {
 		did: string;
 		showStatus?: boolean;
-		src?: string | null;
 	}
 
-	const { did, size, src, ...props }: Props = $props();
+	const { did, size, children, ...props }: Props = $props();
 </script>
 
 <Badge
 	color="online"
 	{size}
 >
-	<Avatar
-		src={src || defaultAvatar}
-		color={gradientColors[(did.split(':')[2]?.charCodeAt(0) ?? 0) % gradientColors.length]!}
+	<ProfileAvatar
+		id={did.split(':')[2]}
+		defaultSrc={defaultAvatar}
 		{size}
 		{...props}
-	/>
+	>
+		{@render children?.()}
+	</ProfileAvatar>
 </Badge>

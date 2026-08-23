@@ -18,9 +18,9 @@ export default interface ParaProps {
 	align?: TextAlign;
 	textWrap?: TextWrap;
 	color?: ComponentColorAll;
-	vMargin?: ComponentSize;
-	tMargin?: ComponentSize;
-	bMargin?: ComponentSize;
+	mv?: ComponentSize;
+	mt?: ComponentSize;
+	mb?: ComponentSize;
 	class?: ClassValue;
 	children?: Snippet;
 }

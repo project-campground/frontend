@@ -4,19 +4,39 @@
 	import { setAppview } from '$lib/context/api.js';
 	import { Card } from '@campground/ui';
 	import type { LayoutProps } from './$types.ts';
+	import { getAccount } from '$lib/context/account.svelte.js';
+	import { CampsiteContext, setCampsiteContext } from './context.svelte.ts';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
 
 	const session = getSession();
+	const account = getAccount();
 
-	setAppview(new HTTPBackendClient(session, () => domain));
+	const appview = new HTTPBackendClient(session, () => domain);
+	const campsiteContext = new CampsiteContext(appview, session, account);
+
+	setAppview(appview);
+	setCampsiteContext(campsiteContext);
+
+	const _ = $derived(await campsiteContext.init(campsiteId));
+	$effect(() => _);
 </script>
 
-<div class="container">
-	<Card.Root>
-		{domain}
-		{campsiteId}
-	</Card.Root>
-	{@render children()}
-</div>
+<Card.Root level="subtle">
+	{domain}
+	{campsiteId}
+</Card.Root>
+{#if !campsiteContext.campsite}
+	...
+{:else}
+	<svelte:boundary>
+		{#snippet pending()}
+			Aaaaa
+		{/snippet}
+		{#snippet failed(err)}
+			Failed: {err}
+		{/snippet}
+		{@render children()}
+	</svelte:boundary>
+{/if}

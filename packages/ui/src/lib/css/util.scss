@@ -29,8 +29,14 @@
 
 @function create-size-map-using($array, $map-names) {
 	$returned-map: ();
+	$map-name-length: list.length($map-names);
 	@for $i from 1 through list.length($array) {
-		$name: if(sass($i > 4): string-repeat('x', $i - 4) + 'l' ; else: list.nth($map-names, $i));
+		$name: if(
+			sass($i > $map-name-length): string-repeat('x', $i - $map-name-length) +
+				'l'
+				;
+				else: list.nth($map-names, $i)
+		);
 		$returned-map: map.set($returned-map, $name, list.nth($array, $i));
 	}
 	@return $returned-map;

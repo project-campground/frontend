@@ -10,11 +10,11 @@
 		align,
 		weight,
 		fontSize,
-		vMargin,
+		mv: vMargin,
 		letterSpacing,
 		textWrap,
-		tMargin,
-		bMargin,
+		mt: tMargin,
+		mb: bMargin,
 	}: ParaProps = $props();
 </script>
 
@@ -49,7 +49,7 @@
 		4 1em,
 		5 0.83em,
 		6 0.67em;
-	$margins: 0 0.125em 0.25em 0.5em 1em 2em 3em;
+	$margins: 0 0.125em 0.25em 0.5em 1em 1.5em 2.5em 3.5rem;
 	$margin-size-map: create-size-map-using($margins, $size-names-with-none);
 	$aligns: left, center, right, justify;
 	$text-wraps: wrap, nowrap, balance, pretty, stable;

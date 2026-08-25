@@ -16,7 +16,7 @@
 	<Layout>
 		{#snippet banner()}
 			<ProfileBanner
-				id={currentBonfire.id}
+				id={currentBonfire.id.slice(-1)}
 				src={currentBonfire.bannerUri}
 				aspectRatio={2.5}
 			/>
@@ -24,7 +24,7 @@
 		<ProfileAvatarWrapper>
 			<ProfileAvatar
 				size="sm"
-				id={currentBonfire.id}
+				id={currentBonfire.id.slice(-1)}
 				src={currentBonfire.avatarUri ?? undefined}
 			>
 				{currentBonfire.name[0].toUpperCase()}

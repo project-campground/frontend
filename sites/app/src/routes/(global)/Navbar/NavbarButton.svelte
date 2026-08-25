@@ -47,11 +47,12 @@
 		flex-direction: row-reverse;
 		align-items: center;
 		justify-content: center;
-		height: calc(var(--GlobalLayout-navHeight) - 0.5rem - 2px);
-		min-width: calc(var(--GlobalLayout-navHeight) - 0.5rem - 2px);
 		color: var(--foreground-body);
 		transition: color $transition-time-md;
 		gap: 1ch;
+		// - 2px for border and - 1rem for padding
+		height: calc(var(--GlobalLayout-navHeight) - 0.5rem - 2px);
+		min-width: calc(var(--GlobalLayout-navHeight) - 0.5rem - 1rem - 2px);
 		padding: 0 0.5rem;
 
 		.container:hover & {

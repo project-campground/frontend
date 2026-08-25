@@ -4,6 +4,7 @@
 	import { IconUserFilled } from '@tabler/icons-svelte';
 	import { FormattedMessageGlobal } from '@campground/locale';
 	import type { Snippet } from 'svelte';
+	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
 
 	interface Props {
 		avatar?: string;
@@ -41,12 +42,13 @@
 			</Group>
 		</TextBlock>
 	</div>
-	<Avatar
+	<ProfileAvatar
+		id={id.slice(-1)}
 		src={avatar}
 		size="sm"
 	>
 		{name[0].toUpperCase()}
-	</Avatar>
+	</ProfileAvatar>
 </NavbarButton>
 
 <style lang="scss">

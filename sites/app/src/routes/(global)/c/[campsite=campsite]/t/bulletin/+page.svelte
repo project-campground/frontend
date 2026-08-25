@@ -23,13 +23,13 @@
 	{/snippet}
 	<div class="content">
 		<ProfileBanner
-			id={campsite.id}
+			id={campsite.id.slice(-1)}
 			src={campsite.bannerUri}
 			aspectRatio={7}
 		/>
 		<div class="avatar">
 			<ProfileAvatar
-				id={campsite.id}
+				id={campsite.id.slice(-1)}
 				src={campsite.avatarUri ?? undefined}
 				size="xxl"
 			>

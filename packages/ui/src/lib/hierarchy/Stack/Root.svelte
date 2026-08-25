@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { rem } from '../../util/component.js';
+	import { stackableProps } from '../layout.ts';
 	import type StackProps from './props.ts';
 
 	const {
@@ -7,51 +8,34 @@
 		class: className,
 		// Flex
 		gap,
-		align,
-		justify,
-		direction,
-		directionMobile,
 		flex,
 		gridColumn,
 		gridRow,
-		wrap,
 		...attributes
 	}: StackProps = $props();
 </script>
 
 <div
-	{...attributes}
 	style:--Stack-gap={rem(gap ?? 1)}
 	style:--Layout-flex={flex}
 	style:--Layout-gridColumn={gridColumn}
 	style:--Layout-gridRow={gridRow}
 	class={['Stack', className]}
-	data-wrap={wrap}
-	data-direction-mobile={directionMobile}
-	data-direction={direction}
-	data-align={align ?? 'stretch'}
-	data-justify={justify}
+	{...stackableProps(attributes)}
 >
 	{@render children?.()}
 </div>
 
 <style lang="scss">
 	@use '../../common.scss' as *;
-	@use './Stackable.scss' as *;
 	@use '../Layout.scss' as *;
-
-	$aligns: start, stretch, center, end;
-	$wraps: wrap, nowrap, wrap-reverse;
-	$justifies: start, baseline, center, end;
 
 	.Stack {
 		display: flex;
 		flex-direction: column;
 		gap: var(--Stack-gap);
 
-		@extend %Stackable-direction;
-		@extend %Stackable-align;
-		@extend %Stackable-justify;
+		@extend %Stackable;
 		@extend %InLayout;
 
 		@each $wrap in $wraps {

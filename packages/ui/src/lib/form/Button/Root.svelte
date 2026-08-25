@@ -1,27 +1,37 @@
 <script lang="ts">
+	import { stackableProps } from '$lib/hierarchy/layout.js';
 	import type ButtonProps from './props.ts';
 
-	const { children, size, variant, justify, color, padding, ...attributes }: ButtonProps = $props();
+	const {
+		children,
+		size,
+		variant,
+		color,
+		padding,
+		fullWidth,
+		class: className,
+		...attributes
+	}: ButtonProps = $props();
 </script>
 
 <button
-	{...attributes}
+	class={[{ fullWidth }, className]}
 	data-size={size ?? 'md'}
 	data-variant={variant ?? 'glow'}
 	data-color={color ?? 'primary'}
 	data-padding={padding}
-	data-justify={justify}
+	{...stackableProps(attributes)}
 >
 	{@render children()}
 </button>
 
 <style lang="scss">
+	@use 'sass:list';
 	@use '../../common.scss' as *;
 	@use './Button.scss' as *;
-	@use '../../hierarchy/Stack/Stackable.scss' as *;
-	@use 'sass:list';
+	@use '../../hierarchy/Layout.scss' as *;
 
-	$regular-variants: plain, selected, soft;
+	$regular-variants: 'plain', 'selected', 'soft';
 
 	button {
 		position: relative;
@@ -29,10 +39,12 @@
 		outline: none;
 		border-radius: var(--Button-radius);
 
-		flex-direction: row;
 		display: flex;
+		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+
+		@extend %Stackable;
 
 		font-weight: bold;
 		font-family: var(--font-body);
@@ -45,10 +57,15 @@
 		&:focus-visible {
 			transform: scale(1.15);
 		}
+
 		@extend %Button-transform;
 		@extend %Button-sizing;
 		@extend %Button-sizingWithTypes;
-		@extend %Stackable-justify;
+
+		&.fullWidth {
+			width: 100%;
+		}
+
 		@each $col in $color-types-all {
 			&[data-color='#{$col}'] {
 				&[data-variant='glow'] {

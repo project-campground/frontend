@@ -1,5 +1,43 @@
+@use '../common.scss' as *;
+
+$directions: column, column-reverse, row, row-reverse;
+$aligns: start, stretch, center, end;
+$wraps: wrap, nowrap, wrap-reverse;
+$justifies: start, baseline, center, end;
+
+%Stackable {
+	@each $direction in $directions {
+		&[data-direction='#{$direction}'] {
+			flex-direction: $direction;
+		}
+	}
+	@each $align in $aligns {
+		&[data-align='#{$align}'] {
+			align-items: $align;
+		}
+	}
+	@each $justify in $justifies {
+		&[data-justify='#{$justify}'] {
+			justify-content: $justify;
+		}
+	}
+	@each $wrap in $wraps {
+		&[data-wrap='#{$wrap}'] {
+			flex-wrap: $wrap;
+		}
+	}
+	@include tablet-down() {
+		@each $direction in $directions {
+			&[data-direction-mobile='#{$direction}'] {
+				flex-direction: $direction;
+			}
+		}
+	}
+}
+
 %InLayout {
 	flex: var(--Layout-flex);
 	grid-column: var(--Layout-gridColumn);
 	grid-row: var(--Layout-gridRow);
+	flex-wrap: var(--Layout-wrap);
 }

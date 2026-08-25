@@ -32,7 +32,7 @@
 	level="subtle"
 	size="xl"
 >
-	<Card.Overflow>
+	<Card.Overflow align="stretch">
 		<BonfireBanner />
 		<BonfireContent />
 	</Card.Overflow>

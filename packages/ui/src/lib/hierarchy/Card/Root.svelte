@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { stackableProps } from '../layout.ts';
 	import type { RootProps } from './props.ts';
 
 	const {
@@ -22,7 +23,7 @@
 	style:--Layout-flex={flex}
 	style:--Layout-gridColumn={gridColumn}
 	style:--Layout-gridRow={gridRow}
-	{...props}
+	{...stackableProps(props)}
 >
 	{@render children()}
 </section>
@@ -39,6 +40,8 @@
 	section {
 		display: flex;
 		flex-direction: column;
+		align-items: stretch;
+
 		position: relative;
 		overflow: hidden;
 
@@ -48,12 +51,16 @@
 		box-shadow: var(--shadow-md);
 
 		@extend %InLayout;
+		@extend %Stackable;
 
 		&[data-overflow='auto'] {
 			overflow: auto;
 		}
 		&[data-overflow='visible'] {
 			overflow: visible;
+		}
+		&[data-level='subtle'] {
+			background-color: var(--background-subtle);
 		}
 		@each $size, $values in $card-padding {
 			&[data-size='#{$size}'] {
@@ -62,9 +69,6 @@
 				--Card-paddingX: #{list.nth($values, 2)};
 				--Card-radius: var(--radius-#{$size});
 			}
-		}
-		&[data-level='subtle'] {
-			background-color: var(--background-subtle);
 		}
 	}
 </style>

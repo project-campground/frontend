@@ -62,10 +62,14 @@
 				</Menu.Button>
 			</Menu.Item>
 			<Menu.Item>
+				<Menu.Button color="primary" variant="selected">
+					<Svg.Logo size={2} />
+					Example button
+				</Menu.Button>
+			</Menu.Item>
+			<Menu.Item>
 				<Menu.Button color="info">
-					{#snippet left()}
-						<Svg.Logo size={2} />
-					{/snippet}
+					<Svg.Logo size={2} />
 					Example button
 				</Menu.Button>
 			</Menu.Item>

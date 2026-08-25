@@ -13,6 +13,7 @@
 <Card.Root
 	level="subtle"
 	size="xl"
+	overflow="visible"
 >
 	<Card.Overflow>
 		<header class="header">
@@ -27,7 +28,10 @@
 			</span>
 		</header>
 		<div class="divider">
-			<Divider color="background" />
+			<Divider
+				color="background"
+				thickness="md"
+			/>
 		</div>
 		<div class="content">
 			{@render children()}
@@ -43,9 +47,7 @@
 		padding: 1rem 1.5rem;
 	}
 	.divider {
-		position: absolute;
-		left: -1px;
-		right: -1px;
+		margin-inline: -1px;
 	}
 	.title {
 		display: flex;

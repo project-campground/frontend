@@ -18,10 +18,18 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import type { Snippet } from 'svelte';
 
-	const { banner, children }: { banner: Snippet; children: Snippet } = $props();
+	const {
+		banner,
+		children,
+		onClick,
+	}: { banner: Snippet; children: Snippet; onClick?: (ev: MouseEvent) => unknown } = $props();
 </script>
 
-<header class="header">
+<button
+	class="header"
+	onclick={onClick}
+	oncontextmenu={onClick ? (ev) => (ev.preventDefault(), onClick(ev)) : null}
+>
 	<div class="banner">
 		<FadingBox>
 			{@render banner()}
@@ -35,17 +43,28 @@
 			{@render children()}
 		</Group>
 	</div>
-</header>
+</button>
 
 <style lang="scss">
 	@use '@campground/ui' as *;
 
 	.header {
 		position: relative;
+
+		display: block;
+		text-align: left;
+		font-size: 1rem;
+		font-family: var(--font-body);
+
+		cursor: pointer;
+
+		background-color: transparent;
+		border: none;
+		outline: none;
+
 		margin: 0.5rem;
 		aspect-ratio: 2.5;
 		padding: 0 1rem;
-		cursor: pointer;
 		z-index: 2;
 
 		& > :global(div) {

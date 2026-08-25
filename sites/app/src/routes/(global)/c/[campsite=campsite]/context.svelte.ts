@@ -1,12 +1,18 @@
 import type HTTPBackendClient from '$lib/api/http/HTTPBackendClient.ts';
 import type { Session } from '$lib/api/session/Session.svelte.js';
 import type { AccountInfo } from '$lib/context/account.svelte.js';
+import type { BonfireViewBasic } from '$lib/types/campground/bonfires.js';
 import type { CampsiteViewDetailed } from '$lib/types/campground/campsites.js';
 import type {
+	CampsitePermissionViewBasic,
 	PermissionsDictionary,
 	PermissionsStateDictionary,
 } from '$lib/types/campground/permissions.js';
-import type { GetTentsOutput } from '$lib/types/campground/tent.js';
+import type {
+	GetTentsOutput,
+	TentCategoryView,
+	TentViewBasic,
+} from '$lib/types/campground/tent.js';
 import {
 	aggregateAllPermissions,
 	invertContentPermission,
@@ -79,35 +85,35 @@ export class CampsiteTents {
 	}
 
 	// Content of tent list
-	public get campsite() {
+	public get campsite(): CampsiteViewDetailed {
 		return this.campsiteContext.campsite!;
 	}
-	public get bonfire() {
+	public get bonfire(): BonfireViewBasic {
 		return this.campsiteContext.campsite!.bonfires.find((x) => x.id === this.bonfireId)!;
 	}
-	public get isBonfireDefault() {
+	public get isBonfireDefault(): boolean {
 		return this.campsite.bonfires[0].id === this.bonfire.id;
 	}
-	public get categories() {
+	public get categories(): TentCategoryView[] {
 		return this.tentOutput.categories;
 	}
-	public get tents() {
+	public get tents(): TentViewBasic[] {
 		return this.tentOutput.tents;
 	}
-	public get permissions() {
+	public get permissions(): CampsitePermissionViewBasic[] {
 		return this.tentOutput.permissions;
 	}
 
-	public get categoryPermissions() {
+	public get categoryPermissions(): Record<string, PermissionsDictionary> {
 		return this.aggregatedPermissions.categories;
 	}
-	public get bonfirePermissions() {
+	public get bonfirePermissions(): PermissionsDictionary {
 		return this.aggregatedPermissions.bonfire;
 	}
-	public get rolePermissions() {
+	public get rolePermissions(): PermissionsDictionary {
 		return this.aggregatedPermissions.role;
 	}
-	public getTentPermission(tentId: string, categoryId?: string | null) {
+	public getTentPermission(tentId: string, categoryId?: string | null): PermissionsDictionary {
 		// No need to calculate it; they have all perms
 		if (this.campsiteContext.userIsOwner) return maxPermissions;
 		// Possibly already cached

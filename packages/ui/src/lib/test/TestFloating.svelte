@@ -11,6 +11,7 @@
 		Dialog,
 		Svg,
 	} from '$lib/index.js';
+	import { rightClickMenu } from '$lib/info/rightClick.ts';
 	import type { Snippet } from 'svelte';
 
 	const menuPortal = getMenuPortal();
@@ -85,6 +86,9 @@
 	<Stack>
 		<Group>
 			<Button onclick={(ev) => toggleMenu(ev, regularMenu)}>Open menu</Button>
+		</Group>
+		<Group>
+			<Button {@attach rightClickMenu(menuPortal, regularMenu)}>Right click to open menu</Button>
 		</Group>
 	</Stack>
 </Section>

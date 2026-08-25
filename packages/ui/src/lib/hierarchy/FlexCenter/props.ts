@@ -1,7 +1,3 @@
-import type { Snippet } from 'svelte';
-import type { ClassValue } from 'svelte/elements';
+import type StackProps from '../Stack/props.ts';
 
-export default interface FlexCenterProps {
-	children: Snippet;
-	class?: ClassValue;
-}
+export default interface FlexCenterProps extends StackProps {}

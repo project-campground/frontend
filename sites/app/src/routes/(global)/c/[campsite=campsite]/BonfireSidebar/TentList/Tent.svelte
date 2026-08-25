@@ -11,8 +11,8 @@
 	import { page } from '$app/state';
 	import TentIcon from '$lib/components/tents/TentIcon.svelte';
 	import type { TentType, TentViewBasic } from '$lib/types/campground/tent.js';
-	import type { PseudoTentType } from './pseudoTents.ts';
-	import TentListItem from './TentListItem.svelte';
+	import type { PseudoTentType } from '../pseudoTents.ts';
+	import TentListItem from './Item.svelte';
 
 	const { tent, domain }: { tent: TentItem; domain: string } = $props();
 

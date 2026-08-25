@@ -12,6 +12,8 @@
 		direction,
 		directionMobile,
 		flex,
+		gridColumn,
+		gridRow,
 		wrap,
 		...attributes
 	}: StackProps = $props();
@@ -20,7 +22,9 @@
 <div
 	{...attributes}
 	style:--Stack-gap={rem(gap ?? 1)}
-	style:--Stack-flex={flex}
+	style:--Layout-flex={flex}
+	style:--Layout-gridColumn={gridColumn}
+	style:--Layout-gridRow={gridRow}
 	class={['Stack', className]}
 	data-wrap={wrap}
 	data-direction-mobile={directionMobile}
@@ -34,6 +38,7 @@
 <style lang="scss">
 	@use '../../common.scss' as *;
 	@use './Stackable.scss' as *;
+	@use '../Layout.scss' as *;
 
 	$aligns: start, stretch, center, end;
 	$wraps: wrap, nowrap, wrap-reverse;
@@ -43,11 +48,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--Stack-gap);
-		flex: var(--Stack-flex);
 
 		@extend %Stackable-direction;
 		@extend %Stackable-align;
 		@extend %Stackable-justify;
+		@extend %InLayout;
 
 		@each $wrap in $wraps {
 			&[data-wrap='#{$wrap}'] {

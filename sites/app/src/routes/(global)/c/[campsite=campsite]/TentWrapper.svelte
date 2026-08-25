@@ -10,7 +10,10 @@
 	}: { children: Snippet; icon?: Snippet; title: Snippet; buttons?: Snippet } = $props();
 </script>
 
-<Card.Root level="subtle">
+<Card.Root
+	level="subtle"
+	size="xl"
+>
 	<Card.Overflow>
 		<header class="header">
 			<span class="title">

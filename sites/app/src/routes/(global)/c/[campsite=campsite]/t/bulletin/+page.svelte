@@ -49,7 +49,7 @@
 </TentWrapper>
 <Card.Root
 	level="subtle"
-	size="lg">Abcd</Card.Root
+	size="xl">Abcd</Card.Root
 >
 
 <style lang="scss">

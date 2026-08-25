@@ -3,10 +3,12 @@
 	import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
 	import { toLookup } from '$lib/util/array.js';
 	import { Divider } from '@campground/ui';
-	import { getCampsiteContext } from '../context.svelte.js';
-	import TentCategory from './TentCategory.svelte';
-	import TentList from './TentList.svelte';
-	import { psuedoTentList } from './pseudoTents.ts';
+	import { getCampsiteContext } from '../../context.svelte.ts';
+	import TentCategory from '../TentCategory.svelte';
+	import TentList from '../TentList/Root.svelte';
+	import { psuedoTentList } from '../pseudoTents.ts';
+	import Wrapper from './Wrapper.svelte';
+	import Skeleton from './Skeleton.svelte';
 
 	const campsiteContext = getCampsiteContext();
 	const categoryList = $derived(
@@ -36,37 +38,32 @@
 	const intl = getLocaleContext();
 </script>
 
-<div class="list">
-	{#if isDefaultBonfire}
-		<TentList
-			tents={psuedoTentList.map((tent) => ({
-				...tent,
-				campsiteId: campsiteContext.campsite!.id,
-				name: $intl.formatMessage(globalLocale[`app.tents.${tent.id}` as 'app.tents.bulletin']),
-			}))}
-			domain={campsiteContext.domain!}
-		/>
-		<Divider />
-	{/if}
-	<TentList
-		tents={nonCategorizedTents}
-		domain={campsiteContext.domain!}
-	/>
-	{#each categorizedTents as { category, tents } (category.id)}
-		<TentCategory {category}>
+{#if campsiteContext.campsite && campsiteContext.tents}
+	<Wrapper>
+		{#if isDefaultBonfire}
 			<TentList
-				{tents}
+				tents={psuedoTentList.map((tent) => ({
+					...tent,
+					campsiteId: campsiteContext.campsite!.id,
+					name: $intl.formatMessage(globalLocale[`app.tents.${tent.id}` as 'app.tents.bulletin']),
+				}))}
 				domain={campsiteContext.domain!}
 			/>
-		</TentCategory>
-	{/each}
-</div>
-
-<style lang="scss">
-	.list {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		padding: 1rem;
-	}
-</style>
+			<Divider />
+		{/if}
+		<TentList
+			tents={nonCategorizedTents}
+			domain={campsiteContext.domain!}
+		/>
+		{#each categorizedTents as { category, tents } (category.id)}
+			<TentCategory {category}>
+				<TentList
+					{tents}
+					domain={campsiteContext.domain!}
+				/>
+			</TentCategory>
+		{/each}
+	</Wrapper>
+{:else}
+	<Skeleton />
+{/if}

@@ -3,8 +3,9 @@ import type { ComponentSize, FlexDirection } from '../../types/attributes.ts';
 import type { ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
 import type { DistanceArgument } from '$lib/util/component.js';
 import type StackProps from '../Stack/props.ts';
+import type { InFlexLayout, InGridLayout } from '../layout.ts';
 
-export interface RootProps extends Pick<StackProps, 'direction'> {
+export interface RootProps extends Pick<StackProps, 'direction'>, InGridLayout, InFlexLayout {
 	direction?: FlexDirection;
 	level?: 'default' | 'subtle';
 	class?: ClassValue;

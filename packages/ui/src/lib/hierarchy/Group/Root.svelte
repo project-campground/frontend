@@ -6,7 +6,7 @@
 </script>
 
 <Stack
-	class={['group', className]}
+	class={['Group', className]}
 	wrap={wrap ?? 'wrap'}
 	align={align ?? 'center'}
 	direction={direction ?? 'row'}

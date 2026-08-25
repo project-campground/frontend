@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Stack } from '@campground/ui';
-	import TentListTent, { type TentItem } from './TentListTent.svelte';
+	import TentListTent, { type TentItem } from './Tent.svelte';
 
 	const { tents, domain }: { tents: TentItem[]; domain: string } = $props();
 </script>

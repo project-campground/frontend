@@ -21,6 +21,21 @@ $breakpoint-desktop-md: 1200px;
 	}
 }
 
+$breakpoint-list-small: (
+	'mobile': (
+		$breakpoint-null,
+		$breakpoint-phone,
+	),
+	'tablet': (
+		$breakpoint-phone + 1,
+		$breakpoint-tablet,
+	),
+	'desktop-sm': (
+		$breakpoint-tablet + 1,
+		$breakpoint-desktop-sm,
+	),
+);
+
 @mixin mobile-only {
 	@include breakpoint-only($breakpoint-null, $breakpoint-phone) {
 		@content;

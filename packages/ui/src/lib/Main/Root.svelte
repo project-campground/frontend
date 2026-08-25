@@ -15,10 +15,13 @@
 	setOutsideClickBoundary(outsideClickBoundary);
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <main
 	id="main"
 	lang="en-US"
 	data-theme={themeValue}
+	onclick={(ev) => ($outsideClickBoundary = ev)}
 >
 	<SvgDefs />
 	{@render children()}

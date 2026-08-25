@@ -36,13 +36,10 @@
 					autoPlacementProp && autoPlacement(autoPlacementProp),
 					size({
 						apply: ({ availableHeight, availableWidth, elements }) => {
-							console.log({ availableHeight, availableWidth, elements });
-							console.log(elements.floating.style);
 							Object.assign(elements.floating.style, {
 								maxWidth: `${Math.max(0, availableWidth)}px`,
 								maxHeight: `${Math.max(0, availableHeight)}px`,
 							});
-							console.log('After', elements.floating.style);
 						},
 					}),
 				].filter((x) => x) as Middleware[],

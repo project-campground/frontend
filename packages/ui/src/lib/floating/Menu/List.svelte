@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ListProps } from './props.ts';
 
-	const { children, invokerRect, placement, class: className, ...attributes }: ListProps = $props();
+	const { children, class: className, ...attributes }: ListProps = $props();
 </script>
 
 <menu

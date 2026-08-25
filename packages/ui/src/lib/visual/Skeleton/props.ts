@@ -5,7 +5,7 @@ import type { VisualObjectProps } from '../Image/props.ts';
 
 export interface SkeletonProps
 	extends
-		HTMLAttributes<HTMLElementTagNameMap['div']>,
+		HTMLAttributes<HTMLElementTagNameMap['span']>,
 		Pick<
 			VisualObjectProps,
 			'w' | 'h' | 'minh' | 'maxh' | 'minw' | 'maxw' | 'aspectRatio' | 'mobileAspectRatio'

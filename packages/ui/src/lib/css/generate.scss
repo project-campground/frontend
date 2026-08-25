@@ -104,8 +104,8 @@
 	$component-color: if(sass($light-mode): 1000; else: 800);
 
 	--shadow-color: #{if(
-			sass($light-mode): change(map.get($theme-shades, 0), $alpha: div(1, 8)) ;
-				else: change(map.get($theme-shades, 1000), $alpha: div(1, 4))
+			sass($light-mode): change(map.get($theme-shades, 400), $alpha: div(27, 100)) ;
+				else: change(map.get($theme-shades, 1000), $alpha: div(1.5, 2))
 		)};
 
 	--foreground-heading: #{map.get($theme-shades, 0)};
@@ -122,6 +122,9 @@
 	--background-subtle: #{map.get($theme-shades, $component-color + ($mode-subtraction * 1))};
 	--background-content: #{map.get($theme-shades, $component-color)};
 	--background-subcontent: #{map.get($theme-shades, $component-color + ($mode-addition * 1))};
+
+	--background-tooltip: #{map.get($theme-shades, $component-color + ($mode-subtraction * 2))};
+	--border-tooltip: #{map.get($theme-shades, 500)};
 
 	--background-skeleton: #{map.get($theme-shades, 600)};
 	--background-skeletonPulse: #{map.get($theme-shades, 500)};

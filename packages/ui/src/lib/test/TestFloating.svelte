@@ -10,9 +10,16 @@
 		Modal,
 		Dialog,
 		Svg,
+		Tooltip,
 	} from '$lib/index.js';
-	import { rightClickMenu } from '$lib/info/rightClick.ts';
+	import {
+		hoverAction,
+		rightClickAction,
+		rightClickMenu,
+		tooltip,
+	} from '$lib/floating/attachments.js';
 	import type { Snippet } from 'svelte';
+	import type { Placement } from '@floating-ui/dom';
 
 	const menuPortal = getMenuPortal();
 
@@ -33,6 +40,14 @@
 	}
 </script>
 
+{#snippet regularTooltip(instance: MenuPortalInstance)}
+	{const randomPlacements: Placement[] = ['top', 'right', 'left', 'bottom']}
+	{const placement = randomPlacements[Math.floor(Math.random() * randomPlacements.length)]}
+	<Tooltip
+		{instance}
+		{placement}>Example tooltip {placement}</Tooltip
+	>
+{/snippet}
 {#snippet regularMenu(instance: MenuPortalInstance)}
 	<Menu.Root {instance}>
 		<Menu.List>
@@ -88,7 +103,16 @@
 			<Button onclick={(ev) => toggleMenu(ev, regularMenu)}>Open menu</Button>
 		</Group>
 		<Group>
+			<Button {@attach rightClickAction((ev) => console.log('Right clicked', ev.currentTarget))}
+				>Right click and check console</Button
+			>
 			<Button {@attach rightClickMenu(menuPortal, regularMenu)}>Right click to open menu</Button>
+		</Group>
+		<Group>
+			<Button {@attach hoverAction((ev) => console.log('Hovered', ev.currentTarget))}
+				>Hover and see console</Button
+			>
+			<Button {@attach tooltip(menuPortal, regularTooltip)}>Hover to open tooltip</Button>
 		</Group>
 	</Stack>
 </Section>

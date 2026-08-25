@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { em } from '$lib/util/component.ts';
+	import { em } from '$lib/util/component.js';
 	import type { SkeletonProps } from './props.ts';
 
 	const {
@@ -18,7 +18,7 @@
 	}: SkeletonProps = $props();
 </script>
 
-<div
+<span
 	class={['container', className]}
 	{...attributes}
 	data-radius={radius ?? 'md'}
@@ -39,7 +39,7 @@
 			{@render children?.()}
 		</span>
 	{/if}
-</div>
+</span>
 
 <style lang="scss">
 	@use 'sass:list';

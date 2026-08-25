@@ -1,28 +1,18 @@
 import type { MenuPortalInstance } from '$lib/floating/MenuPortalContainer/portals.svelte.js';
 import type { ComponentColorAll } from '$lib/types/attributes.js';
 import type { DistanceArgument } from '$lib/util/component.js';
-import type { AutoPlacementOptions, Placement } from '@floating-ui/dom';
 import type { Snippet } from 'svelte';
 import type {
-	HTMLAnchorAttributes,
 	HTMLAttributes,
 	HTMLButtonAttributes,
 	HTMLLiAttributes,
 	HTMLMenuAttributes,
 	MouseEventHandler,
 } from 'svelte/elements';
+import type { CommonFloatingProps, MenuPlacement } from '../common-floating.ts';
 
-export type MenuPlacementHorizontal = 'left' | 'center' | 'right';
-export type MenuPlacementVertical = 'top' | 'middle' | 'bottom';
-export type MenuPlacement = Exclude<
-	`${MenuPlacementVertical}-${MenuPlacementHorizontal}`,
-	'middle-center'
->;
-export interface RootProps extends HTMLAttributes<HTMLDivElement> {
+export interface RootProps extends HTMLAttributes<HTMLDivElement>, CommonFloatingProps {
 	children?: Snippet;
-	placement?: Placement;
-	offset?: number;
-	autoPlacement?: AutoPlacementOptions;
 	instance: MenuPortalInstance;
 
 	w?: DistanceArgument;

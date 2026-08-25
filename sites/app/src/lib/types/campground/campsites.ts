@@ -14,7 +14,7 @@ export interface CampsiteView {
 	memberCount: number;
 	owner: string;
 }
-export interface CampsiteViewBasic extends CampsiteView {}
+export type CampsiteViewBasic = CampsiteView;
 export interface CampsiteViewWithDomain extends CampsiteViewBasic {
 	_domain: string;
 }

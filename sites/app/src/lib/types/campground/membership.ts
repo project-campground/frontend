@@ -1,5 +1,5 @@
-import type { RoleView } from './roles';
-import type { ProfileViewEmpty, ProfileViewBasic, ProfileViewDetailed } from './user';
+import type { RoleView } from './roles.js';
+import type { ProfileViewEmpty, ProfileViewBasic, ProfileViewDetailed } from './user.js';
 
 export interface MemberBanView {
 	user: ProfileViewBasic;
@@ -26,7 +26,7 @@ export interface GetMembersOutput {
 export interface GetMembersDetailedOutput {
 	members: MemberViewDetailed[];
 }
-export interface MemberViewBasic extends MemberView<ProfileViewBasic> {}
+export type MemberViewBasic = MemberView<ProfileViewBasic>;
 export interface MemberView<TUser extends ProfileViewEmpty> {
 	user: TUser;
 	nickname: string | null | undefined;

@@ -6,6 +6,8 @@
 	import type { LayoutProps } from './$types.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { CampsiteContext, setCampsiteContext } from './context.svelte.ts';
+	import BonfireBanner from './BonfireSidebar/BonfireBanner.svelte';
+	import BonfireContent from './BonfireSidebar/BonfireContent.svelte';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
@@ -19,14 +21,20 @@
 	setAppview(appview);
 	setCampsiteContext(campsiteContext);
 
-	const _ = $derived(await campsiteContext.init(campsiteId));
+	const _ = $derived(await campsiteContext.init(domain, campsiteId));
 	$effect(() => _);
 </script>
 
-<Card.Root level="subtle">
-	{domain}
-	{campsiteId}
+<Card.Root
+	level="subtle"
+	size="xl"
+>
+	<Card.Overflow>
+		<BonfireBanner />
+		<BonfireContent />
+	</Card.Overflow>
 </Card.Root>
+
 {#if !campsiteContext.campsite}
 	...
 {:else}

@@ -6,9 +6,12 @@
 	import { FormattedMessageGlobal } from '@campground/locale';
 	import ProfileBanner from '$lib/components/pages/ProfileBanner.svelte';
 	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
+	import { onMount } from 'svelte';
 
 	const campsiteContext = getCampsiteContext();
 	const campsite = $derived(campsiteContext.campsite!);
+
+	onMount(() => campsiteContext.setOpenBonfire(campsite.bonfires[0].id));
 </script>
 
 <TentWrapper>
@@ -55,12 +58,6 @@
 		flex-direction: column;
 		align-items: center;
 		padding: 1rem;
-	}
-	.header {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 2rem;
 	}
 	.avatar {
 		width: fit-content;

@@ -1,5 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { enhancedImages } from '@sveltejs/enhanced-img';
 import path from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
@@ -15,6 +16,7 @@ export default defineConfig({
 		},
 	},
 	plugins: [
+		enhancedImages(),
 		sveltekit(),
 		viteStaticCopy({
 			targets: [

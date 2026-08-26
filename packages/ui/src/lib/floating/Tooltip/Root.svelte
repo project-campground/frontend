@@ -78,6 +78,9 @@
 	data-placement={pos.placement.split('-')[0]}
 	data-tooltip
 	aria-hidden="true"
+	// ARIA
+	role="tooltip"
+	id={instance.key}
 	// Events
 	onmouseleave={() => instance.destroy()}
 >

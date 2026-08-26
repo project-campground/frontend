@@ -9,6 +9,7 @@
 	data-orientation={orientation ?? 'horizontal'}
 	data-color={color ?? 'neutral'}
 	data-thickness={thickness ?? 'sm'}
+	role="separator"
 >
 	<div class="side">
 		<div class="line"></div>

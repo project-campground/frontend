@@ -1,3 +1,19 @@
+<script
+	lang="ts"
+	module
+>
+	import type { ComponentColor } from '$lib/types/attributes.js';
+	import type { AriaRole } from 'svelte/elements';
+
+	const colorToRole: Record<ComponentColor, AriaRole> = {
+		danger: 'alert',
+		warning: 'alert',
+		info: 'note',
+		success: 'status',
+		primary: 'status',
+	};
+</script>
+
 <script lang="ts">
 	import type AlertProps from './props.ts';
 
@@ -6,7 +22,7 @@
 
 <div
 	// To not have to reassign every single time
-	role="alert"
+	role={colorToRole[color ?? 'primary']}
 	aria-live={color === 'danger' ? 'assertive' : 'polite'}
 	{...attributes}
 	class={['container']}

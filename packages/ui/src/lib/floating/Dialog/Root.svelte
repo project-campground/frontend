@@ -7,6 +7,7 @@
 <article
 	class={['dialog', className]}
 	data-size={size ?? 'auto'}
+	role="dialog"
 	{...attributes}
 	// Prevent outside click from being registered
 	onclick={(ev) => ev.stopPropagation()}

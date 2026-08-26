@@ -22,6 +22,8 @@
 	data-size={size ?? 'md'}
 	disabled={disabled ?? inputDisabled}
 	aria-disabled={disabled ?? inputDisabled}
+	role="switch"
+	aria-checked={value}
 	onclick={() => (value = !value)}
 	{...attributes}
 >

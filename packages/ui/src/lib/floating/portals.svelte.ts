@@ -1,16 +1,14 @@
 import { v4 as uuid } from 'uuid';
 
 export abstract class PortalInstance<TPortal extends Portal<PortalInstance<TPortal>, any>> {
-	// Necessary, because {#each } doesn't have key and can't tell if you just cleared and put another instance or
+	// Key is necessary, because {#each } doesn't have key and can't tell if you just cleared and put another instance or
 	// it's the same instance and has been updated (with no apparent changes to the container)
-	public key: string = uuid();
-	public portal: TPortal;
-	public invoker: HTMLElement;
-
-	constructor(portal: TPortal, invoker: HTMLElement) {
-		this.portal = portal;
-		this.invoker = invoker;
-	}
+	// It also gives better accessibility for screen readers for tooltips
+	constructor(
+		public key: string,
+		public portal: TPortal,
+		public invoker: HTMLElement,
+	) {}
 	public destroy() {
 		return this.portal.remove(this);
 	}
@@ -26,7 +24,7 @@ export abstract class Portal<
 	private _outsideClickHandlers: null | ((ev: MouseEvent) => unknown) = null;
 	public items = $state<TInstance[]>([]);
 
-	public abstract add(item: TConfig, invoker: HTMLElement): TInstance;
+	public abstract add(item: TConfig, invoker: HTMLElement, key?: string): TInstance;
 	public remove(item: TInstance) {
 		return (this.items = this.items.filter((x) => x !== item));
 	}

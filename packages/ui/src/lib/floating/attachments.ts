@@ -1,6 +1,7 @@
 import type { MenuPortal, MenuPortalInstance } from '$lib/floating/index.js';
 import type { Snippet } from 'svelte';
 import type { Attachment } from 'svelte/attachments';
+import { v4 as uuid } from 'uuid';
 
 export const rightClickAction: <T extends HTMLElement>(
 	action: (event: PointerEvent) => unknown,
@@ -26,17 +27,19 @@ export function hoverAction<TElement extends HTMLElement>(
 	return (element: HTMLElement) => {
 		let hoverCallback: HoverCallback | null = null;
 
-		element.addEventListener('mouseenter', (ev) => {
+		// So they can be removed
+		const mouseEnter = (ev: MouseEvent) => {
 			ev.stopPropagation();
 			ev.preventDefault();
 			return (hoverCallback = onHover(ev) ?? null);
-		});
-
+		};
 		const mouseLeave = (ev: MouseEvent) => {
 			ev.stopPropagation();
 			ev.preventDefault();
 			return hoverCallback?.(ev);
 		};
+
+		element.addEventListener('mouseenter', mouseEnter);
 		element.addEventListener('mouseleave', mouseLeave);
 
 		return () => (
@@ -46,15 +49,42 @@ export function hoverAction<TElement extends HTMLElement>(
 	};
 }
 
-export const tooltip = (menuPortal: MenuPortal, tooltip: Snippet<[MenuPortalInstance]>) =>
-	hoverAction((event) => {
-		const instance = menuPortal.add(tooltip, event.currentTarget as HTMLElement);
+export function tooltip<TElement extends HTMLElement>(
+	menuPortal: MenuPortal,
+	tooltip: Snippet<[MenuPortalInstance]>,
+): Attachment<TElement> {
+	return (element: HTMLElement) => {
+		let hoverCallback: HoverCallback | null = null;
 
-		// Destroy when leaving the button and it's not a tooltip
-		return (leaveEvent) => {
-			const attribute = (leaveEvent.relatedTarget as HTMLElement).attributes?.getNamedItem(
-				'data-tooltip',
-			);
-			if (!attribute) instance.destroy();
+		const id = uuid();
+		element.setAttribute('aria-describedby', id);
+
+		const mouseEnter = (ev: MouseEvent) => {
+			ev.stopPropagation();
+			ev.preventDefault();
+
+			const instance = menuPortal.add(tooltip, ev.currentTarget as HTMLElement, id);
+
+			// Destroy when leaving the button and it's not a tooltip
+			return (hoverCallback = (leaveEvent) => {
+				const attribute = (leaveEvent.relatedTarget as HTMLElement).attributes?.getNamedItem(
+					'data-tooltip',
+				);
+				if (!attribute) instance.destroy();
+			});
 		};
-	});
+		element.addEventListener('mouseenter', mouseEnter);
+
+		const mouseLeave = (ev: MouseEvent) => {
+			ev.stopPropagation();
+			ev.preventDefault();
+			return hoverCallback?.(ev);
+		};
+		element.addEventListener('mouseleave', mouseLeave);
+
+		return () => (
+			element.removeEventListener('mouseenter', mouseEnter),
+			element.removeEventListener('mouseleave', mouseLeave)
+		);
+	};
+}

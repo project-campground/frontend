@@ -28,13 +28,13 @@
 	import { IconArrowRight } from '@tabler/icons-svelte';
 </script>
 
-<section class="FinalSection container">
+<section class="container">
 	<div
-		class="FinalSection background"
+		class="background"
 		aria-hidden="true"
 	></div>
-	<div class="FinalSection content">
-		<div class="FinalSection motto">
+	<div class="content">
+		<div class="motto">
 			<Para level="h1">
 				<FormattedMessage {...locale['landing.try.title']} />
 			</Para>
@@ -42,12 +42,15 @@
 				<FormattedMessage {...locale['landing.try.desc']} />
 			</Para>
 		</div>
-		<div class="FinalSection buttons">
+		<div class="buttons">
 			<a
 				href="#try-campground"
-				class="FinalSection button-link"
+				class="button-link"
 			>
-				<Button variant="inverted">
+				<Button
+					variant="soft"
+					color="primary"
+				>
 					<FormattedMessage {...locale['landing.try']} />
 					<IconArrowRight />
 				</Button>
@@ -76,7 +79,7 @@
 		bottom: 25px;
 		z-index: -1;
 		// transform: rotate(1.5deg);
-		background: linear-gradient(90deg, var(--primary-500), var(--primary-alt));
+		background: linear-gradient(90deg, var(--primary-glowFirst), var(--primary-glowSecond));
 		mask: radial-gradient(50% 50% at center, white 95.5%, transparent 96%);
 		mask-size: 400% 100%;
 		mask-position: -150vw;
@@ -88,7 +91,7 @@
 			bottom: 0;
 			right: 0;
 			left: 0;
-			background: linear-gradient(0deg, var(--info-500), transparent, var(--warning-500));
+			background: linear-gradient(0deg, var(--info-glowFirst), transparent, var(--warning-glowFirst));
 			z-index: 2;
 			opacity: 6.25%;
 		}
@@ -114,5 +117,15 @@
 	}
 	.button-link {
 		text-decoration: none;
+		& > :global(button[data-variant='soft'][data-color='primary']) {
+			background-color: rgba(255, 255, 255, 0.75);
+			&:not(:disabled):hover {
+				background-color: rgba(255, 255, 255, 0.85);
+			}
+			&:not(:disabled):hover:active,
+			&:not(:disabled):active {
+				background-color: rgba(255, 255, 255, 0.5);
+			}
+		}
 	}
 </style>

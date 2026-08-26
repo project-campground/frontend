@@ -186,13 +186,13 @@
 	/>
 </svelte:head>
 
-<div class="Index container">
+<div class="container">
 	<section
-		class="Index initial"
+		class="initial"
 		id="try-campground"
 	>
-		<div class="Index initial-left">
-			<div class="Index motto">
+		<div class="initial-left">
+			<div class="motto">
 				<Para
 					level="h1"
 					fontSize={3.5}
@@ -210,25 +210,25 @@
 					<FormattedMessageGlobal id="site.desc" />
 				</Para>
 			</div>
-			<div class="Index buttons">
+			<div class="buttons">
 				<a href="/download">
 					<Button size="lg">
 						<IconBrandDebian />
 						<FormattedMessageGlobal id="common.download" />
-						<span class="Index buttons-label">({os.name})</span>
+						<span class="buttons-label">({os.name})</span>
 					</Button>
 				</a>
 				<a href="/app">
 					<Button
 						size="lg"
-						variant="outlined"
+						variant="soft"
 					>
 						<FormattedMessage {...locale['landing.inBrowser']} />
 					</Button>
 				</a>
 			</div>
 		</div>
-		<aside class="Index initial-right"></aside>
+		<aside class="initial-right"></aside>
 	</section>
 	<FeatureList>
 		{#snippet side(currentId)}
@@ -348,7 +348,7 @@
 	.buttons-label {
 		padding: 2px 4px;
 		border-radius: var(--radius-sm);
-		background-color: var(--primary-950);
+		background-color: var(--background-body);
 		color: var(--primary-alt);
 		font-weight: bold;
 	}

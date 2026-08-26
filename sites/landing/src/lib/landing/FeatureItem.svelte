@@ -19,39 +19,39 @@
 </script>
 
 <section
-	class="FeatureItem container"
+	class="container"
 	{...createIntersectionObservable(id)}
 >
 	<div
-		class="FeatureItem background"
+		class="background"
 		aria-hidden="true"
 	></div>
-	<article class="FeatureItem content">
+	<article class="content">
 		<Para
 			level="sub0"
-			class="FeatureItem subtitle"
+			class="subtitle"
 		>
-			<Group alignVertically="center">
+			<Group align="center">
 				{@render subtitle()}
 			</Group>
 		</Para>
 		<Para
 			level="h1"
 			fontSize={3}
-			class="FeatureItem title"
-			tMargin="sm"
-			bMargin="sm"
+			class="title"
+			mt="sm"
+			mb="sm"
 			letterSpacing={2}
 		>
 			<GradientText
-				colors={[`var(--${color}-500)`, 'var(--primary-500)', 'var(--primary-alt)']}
+				colors={[`var(--${color}-glowFirst)`, 'var(--primary-glowFirst)', 'var(--primary-glowSecond)']}
 				motion="radial"
 			>
 				{@render title()}
 			</GradientText>
 		</Para>
 		<Para
-			class="FeatureItem description"
+			class="description"
 			fontSize={1.5}
 			letterSpacing={0.5}
 			lineHeight={2}

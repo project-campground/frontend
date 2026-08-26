@@ -1,0 +1,12 @@
+@use 'sass:list';
+
+$min-columns: 2;
+$max-columns: 5;
+
+@function get-breakpoint-broken($prefix, $postfix, $min, $max) {
+	$list: ();
+	@for $i from $min through $max {
+		$list: list.append($list, '#{$prefix}#{$i}#{$postfix}', $separator: comma);
+	}
+	@return $list;
+}

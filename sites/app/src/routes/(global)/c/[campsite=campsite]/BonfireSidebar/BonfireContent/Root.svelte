@@ -23,18 +23,29 @@
 			},
 		),
 	);
+	const emptyCategories = $derived(
+		campsiteContext.tents?.categories
+			.filter(
+				(category) => !campsiteContext.tents?.tents.some((tent) => tent.categoryId === category.id),
+			)
+			.map((x) => ({ category: x, tents: [] })) ?? [],
+	);
 	const nonCategorizedTents = $derived(
 		categoryList.filter((x) => !x.category).flatMap((x) => x.tents),
 	);
 	const categorizedTents = $derived(
 		categoryList
 			.filter((x) => x.category)
+			.concat(emptyCategories)
 			.sort((a, b) => a.category!.position - b.category!.position) as {
 			category: TentCategoryView;
 			tents: TentViewBasic[];
 		}[],
 	);
 	const isDefaultBonfire = $derived(campsiteContext.tents?.isBonfireDefault ?? false);
+	$effect(() => {
+		console.log({ categoryList, nonCategorizedTents, categorizedTents, isDefaultBonfire });
+	});
 	const intl = getLocaleContext();
 </script>
 

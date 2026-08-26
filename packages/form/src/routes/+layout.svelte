@@ -52,7 +52,7 @@
 								{#snippet display(value)}
 									{value}
 								{/snippet}
-								{#each localeIds as localeId}
+								{#each localeIds as localeId (localeId)}
 									<Select.Option value={localeId}>{localeId}</Select.Option>
 								{/each}
 							</Select.Button>

@@ -8,7 +8,9 @@
 	const { format, maxrows, minlength, known, ...props }: FormTextFieldProps = $props();
 
 	// Functionality
-	const control: FormControlInstance<string | undefined> = getFormControl();
+	const control: FormControlInstance<string | undefined> = getFormControl() as FormControlInstance<
+		string | undefined
+	>;
 
 	// Error messages and feedback
 	const intl = getLocaleContext();

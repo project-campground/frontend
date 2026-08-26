@@ -4,6 +4,7 @@
 	import { FormInstance, getForm, setForm } from '$lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
 	import { addControlToForm } from '$lib/FormControl/state.js';
+	import type { FormObjectValue } from './props.ts';
 
 	let {
 		children,
@@ -11,11 +12,11 @@
 		hideOverflow,
 		gap,
 		inlineContent,
-		onSubmit,
 		autocomplete,
 		id,
 		required,
 		disabled,
+		// eslint-disable-next-line no-useless-assignment
 		value = $bindable({}),
 		...attributes
 	}: FormProps = $props();
@@ -27,9 +28,9 @@
 	const form = new FormInstance(() => undefined);
 	setForm(form);
 
-	const formControl = new FormControlInstance<any>(
+	const formControl = new FormControlInstance<FormObjectValue>(
 		key,
-		() => {},
+		() => ({}) as FormObjectValue,
 		() => id,
 		() => required ?? false,
 		() => disabled ?? false,
@@ -42,7 +43,9 @@
 	onMount(() => addControlToForm(formContext, formControl));
 
 	// One-way binding for more reactive form
-	$effect(() => (value = formControl.value));
+	$effect(() => {
+		value = formControl.value;
+	});
 	$effect(() => {
 		formControl.value = Object.fromEntries(form.controls.map((x) => [x.id, x.value]));
 		formControl.error = form.controls.find((x) => x.error !== null)?.error ?? null;

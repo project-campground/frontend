@@ -1,13 +1,16 @@
-import type { ComponentSize } from '$lib/types/attributes.js';
-import type { Snippet } from 'svelte';
-import type { AriaAttributes, ClassValue } from 'svelte/elements';
+import type { HTMLAttributes } from 'svelte/elements';
+import type { InFlexLayout, InGridLayout } from '../layout.ts';
+import type { DistanceArgument } from '$lib/util/component.js';
 
 export type GridSizing = 'auto' | 'stretch';
-export default interface GridProps extends AriaAttributes {
-	gap?: ComponentSize;
-	class?: ClassValue;
+export interface RootProps
+	extends HTMLAttributes<HTMLElementTagNameMap['div']>, InFlexLayout, InGridLayout {
+	gap?: DistanceArgument;
 	columns?: 2 | 3 | 4 | 5;
 	columnSizing?: GridSizing;
 	noBreakpoint?: boolean;
-	children?: Snippet;
+}
+export interface CellProps extends HTMLAttributes<HTMLElementTagNameMap['div']> {
+	start?: 1 | 2 | 3 | 4 | 5;
+	end?: 1 | 2 | 3 | 4 | 5;
 }

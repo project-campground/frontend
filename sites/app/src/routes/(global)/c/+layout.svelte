@@ -37,6 +37,7 @@
 						Error
 					{/snippet}
 					{err}
+					{console.error(err)}
 				</PagePlaceholder>
 			</FullPageTent>
 		{/snippet}

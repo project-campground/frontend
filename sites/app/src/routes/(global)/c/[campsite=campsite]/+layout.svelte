@@ -2,7 +2,16 @@
 	import HTTPBackendClient from '$lib/api/http/HTTPBackendClient.js';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { setAppview } from '$lib/context/api.js';
-	import { loremIpsum, PagePlaceholder, PagePlaceholderIcon, Skeleton } from '@campground/ui';
+	import {
+		loremIpsum,
+		MenuPortal,
+		MenuPortalContainer,
+		PagePlaceholder,
+		PagePlaceholderIcon,
+		Portals,
+		setMenuPortal,
+		Skeleton,
+	} from '@campground/ui';
 	import type { LayoutProps } from './$types.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { CampsiteContext, setCampsiteContext } from './context.svelte.ts';
@@ -22,6 +31,9 @@
 
 	setAppview(appview);
 	setCampsiteContext(campsiteContext);
+
+	const menuPortal = new MenuPortal();
+	setMenuPortal(menuPortal);
 
 	const _ = $derived(await campsiteContext.init(domain, campsiteId));
 	$effect(() => _);
@@ -65,3 +77,7 @@
 		{@render children()}
 	</svelte:boundary>
 {/if}
+
+<Portals.List>
+	<MenuPortalContainer portal={menuPortal} />
+</Portals.List>

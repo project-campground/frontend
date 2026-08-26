@@ -26,7 +26,7 @@
 	const campsiteContext = getCampsiteContext();
 </script>
 
-{#snippet contextMenu(instance: MenuPortalInstance)}
+{#snippet contextMenu(instance: MenuPortalInstance<PointerEvent>)}
 	<Menu.Root {instance}>
 		<Menu.List>
 			<Menu.Item>
@@ -62,7 +62,7 @@
 			>
 				{bonfire.name[0].toUpperCase()}
 			</ProfileAvatar>
-			<Stack>
+			<Stack align="start">
 				<Para level="h4">{bonfire.name}</Para>
 				{#if bonfire.description}
 					<Para level="sub0">{bonfire.description}</Para>

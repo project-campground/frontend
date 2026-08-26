@@ -96,7 +96,8 @@
 		&:active {
 			transform: scale(0.85);
 		}
-		&:focus-visible {
+		&:focus-visible,
+		&:not(:disabled):focus-visible:hover {
 			@extend %BooleanField-focused;
 			&::after {
 				opacity: 100%;

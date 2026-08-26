@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Para, Section, Select, Tabs } from '@campground/ui';
+	import { Card, Para, Select, Tabs, Grid } from '@campground/ui';
 	import {
 		FormRadio,
 		FormLabel,
@@ -12,6 +12,12 @@
 		FormObject,
 	} from '$lib/index.js';
 	import { FormImageField } from '$lib/FormImageField/index.js';
+	import {
+		IconCheckbox,
+		IconDeviceSpeakerFilled,
+		IconFileFilled,
+		IconHash,
+	} from '@tabler/icons-svelte';
 
 	let reactiveForm: Form | null = $state(null);
 </script>
@@ -64,9 +70,9 @@
 					maxlength={50}
 				>
 					{#snippet known()}
-						<Select.Option value={'example value'}>Example value</Select.Option>
+						<Select.Option value="example value">Example value</Select.Option>
 						<Select.Option
-							value={'example value\nmultiline\n here and stuff'}
+							value="example value\nmultiline\n here and stuff"
 							color="danger">Example value multiline</Select.Option
 						>
 					{/snippet}
@@ -95,7 +101,7 @@
 				<FormTextField>
 					{#snippet known()}
 						<Select.Option value="example">Example known value</Select.Option>
-						<Select.Option value={'example value\n2'}>Example known value 2</Select.Option>
+						<Select.Option value="example value\n2">Example known value 2</Select.Option>
 					{/snippet}
 				</FormTextField>
 			</FormControl>
@@ -205,6 +211,47 @@
 							Duplicate 0 value
 						{/snippet}
 					</FormRadio.Item>
+				</FormRadio.List>
+				<FormErrorLabel />
+			</FormControl>
+			<FormControl id="radiogrid">
+				<FormLabel>Radio Grid</FormLabel>
+				<FormRadio.List>
+					<Grid.Root
+						gap={1}
+						columns={3}
+					>
+						<Grid.Cell>
+							<FormRadio.Button value="text">
+								<IconHash />
+								Text
+							</FormRadio.Button>
+						</Grid.Cell>
+						<Grid.Cell>
+							<FormRadio.Button value="voice">
+								<IconDeviceSpeakerFilled />
+								Voice
+							</FormRadio.Button>
+						</Grid.Cell>
+						<Grid.Cell>
+							<FormRadio.Button value="docs">
+								<IconFileFilled />
+								Docs
+							</FormRadio.Button>
+						</Grid.Cell>
+						<Grid.Cell>
+							<FormRadio.Button value="list">
+								<IconCheckbox />
+								List
+							</FormRadio.Button>
+						</Grid.Cell>
+						<Grid.Cell>
+							<FormRadio.Button value="list">
+								<IconCheckbox />
+								List
+							</FormRadio.Button>
+						</Grid.Cell>
+					</Grid.Root>
 				</FormRadio.List>
 				<FormErrorLabel />
 			</FormControl>

@@ -26,6 +26,10 @@ $input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2.25rem, 2.75rem));
 	background-color: var(--primary-regularBack);
 	--BooleanField-glow: var(--primary-regularGlow);
 }
+%BooleanField-focusedHover {
+	background-color: var(--primary-regularBackHover);
+	--BooleanField-glow: var(--primary-regularGlowHover);
+}
 %BooleanField-hover {
 	background-color: var(--neutral-regularBackHover);
 	--BooleanField-glow: var(--neutral-regularGlowHover);

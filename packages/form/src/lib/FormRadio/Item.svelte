@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Radio } from '@campground/ui';
-	import { getFormControlkey } from '../FormCheck/context.svelte.ts';
 	import type { FormRadioItemProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
 	import { getFormControl } from '$lib/FormControl/context.svelte.js';
@@ -9,11 +8,9 @@
 
 	// Functionality
 	const control = getFormControl();
-	let checked = $state(false);
 </script>
 
 <FormSimpleField
-	class={{ checked }}
 	{header}
 	{children}
 >

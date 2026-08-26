@@ -1,2 +1,3 @@
-export type { default as GridProps } from './props.ts';
-export { default as Grid } from './Root.svelte';
+export type * from './props.ts';
+export { default as Root } from './Root.svelte';
+export { default as Cell } from './Cell.svelte';

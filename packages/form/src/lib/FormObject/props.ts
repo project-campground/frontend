@@ -4,15 +4,18 @@ import type { ComponentSize } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';
 
+export type FormObjectValue = Record<FormFieldId, unknown>;
+
 export default interface FormObjectProps
-	extends Omit<HTMLFormAttributes, 'id'>, Pick<FormControlProps, 'id' | 'required' | 'disabled'> {
+	extends
+		Omit<HTMLFormAttributes, 'id'>,
+		Pick<FormControlProps<FormObjectValue>, 'id' | 'required' | 'disabled'> {
 	inlineContent?: boolean;
 	hideOverflow?: boolean;
 	class?: ClassValue;
 	gap?: ComponentSize;
 
-	value?: Record<FormFieldId, any>;
+	value?: FormObjectValue;
 
 	children: Snippet;
-	onSubmit?: (values: Record<FormFieldId, any>, ev?: MouseEvent | undefined) => Promise<unknown>;
 }

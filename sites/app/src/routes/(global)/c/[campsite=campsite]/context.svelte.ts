@@ -77,6 +77,8 @@ export class CampsiteTents {
 	) {
 		if (!this.campsiteContext.campsite || this.campsiteContext.userIsOwner) return;
 
+		tentOutput.categories.sort((a, b) => a.position - b.position);
+
 		this.aggregatedPermissions = aggregateAllPermissions(
 			this.campsiteContext.campsite.me,
 			this.campsiteContext.campsite.roles,

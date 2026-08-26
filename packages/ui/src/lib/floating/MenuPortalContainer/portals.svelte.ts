@@ -2,21 +2,27 @@ import { v4 as uuid } from 'uuid';
 import { Portal, PortalInstance } from '$lib/floating/portals.svelte.js';
 import { createContext, type Snippet } from 'svelte';
 
-type InstanceSnippet = Snippet<[MenuPortalInstance]>;
+type InstanceSnippet<T extends Event = Event> = Snippet<[MenuPortalInstance<T>]>;
 
-export class MenuPortalInstance extends PortalInstance<MenuPortal> {
+export class MenuPortalInstance<T extends Event = Event> extends PortalInstance<MenuPortal> {
 	constructor(
 		key: string,
 		portal: MenuPortal,
 		invoker: HTMLElement,
-		public snippet: InstanceSnippet,
+		public snippet: InstanceSnippet<T>,
+		public event?: T,
 	) {
 		super(key, portal, invoker);
 	}
 }
 export class MenuPortal extends Portal<MenuPortalInstance, InstanceSnippet> {
-	public add(item: InstanceSnippet, invoker: HTMLElement, key: string = uuid()): MenuPortalInstance {
-		const instance = new MenuPortalInstance(key, this, invoker, item);
+	public add(
+		item: InstanceSnippet,
+		invoker: HTMLElement,
+		key: string = uuid(),
+		event?: Event,
+	): MenuPortalInstance {
+		const instance = new MenuPortalInstance(key, this, invoker, item, event);
 		this.items.push(instance);
 		return instance;
 	}

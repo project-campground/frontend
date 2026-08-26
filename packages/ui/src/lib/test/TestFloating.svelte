@@ -16,6 +16,7 @@
 		hoverAction,
 		rightClickAction,
 		rightClickMenu,
+		rightClickMenuProps,
 		tooltip,
 	} from '$lib/floating/attachments.js';
 	import type { Snippet } from 'svelte';
@@ -48,8 +49,8 @@
 		{placement}>Example tooltip {placement}</Tooltip
 	>
 {/snippet}
-{#snippet regularMenu(instance: MenuPortalInstance)}
-	<Menu.Root {instance}>
+{#snippet regularMenu(instance: MenuPortalInstance<PointerEvent>)}
+	<Menu.Root {...rightClickMenuProps(instance)}>
 		<Menu.List>
 			<Menu.Item>Example item</Menu.Item>
 			<Menu.Item>

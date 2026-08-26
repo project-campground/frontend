@@ -2,15 +2,14 @@
 	import HTTPBackendClient from '$lib/api/http/HTTPBackendClient.js';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { setAppview } from '$lib/context/api.js';
-	import { Card, loremIpsum, PagePlaceholder, PagePlaceholderIcon, Skeleton } from '@campground/ui';
+	import { loremIpsum, PagePlaceholder, PagePlaceholderIcon, Skeleton } from '@campground/ui';
 	import type { LayoutProps } from './$types.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { CampsiteContext, setCampsiteContext } from './context.svelte.ts';
-	import BonfireBanner from './BonfireSidebar/BonfireBanner/Root.svelte';
-	import BonfireContent from './BonfireSidebar/BonfireContent/Root.svelte';
 	import FullPageTent from '../FullPageTent.svelte';
 	import TentWrapper from './TentWrapper.svelte';
 	import TentIcon from '$lib/components/tents/TentIcon.svelte';
+	import Sidebar from './BonfireSidebar/Sidebar.svelte';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
@@ -28,15 +27,7 @@
 	$effect(() => _);
 </script>
 
-<Card.Root
-	level="subtle"
-	size="xl"
->
-	<Card.Overflow align="stretch">
-		<BonfireBanner />
-		<BonfireContent />
-	</Card.Overflow>
-</Card.Root>
+<Sidebar />
 
 {#if !campsiteContext.campsite}
 	<FullPageTent>...</FullPageTent>

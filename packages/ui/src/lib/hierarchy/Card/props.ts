@@ -11,7 +11,7 @@ export interface RootProps extends StackableProps, InGridLayout, InFlexLayout {
 	children: Snippet;
 	overflow?: 'auto' | 'visible';
 }
-export interface ContentProps extends StackableProps {
+export interface ContentProps extends StackableProps, InFlexLayout {
 	gap?: ComponentSize;
 	class?: ClassValue;
 	children: Snippet;
@@ -20,7 +20,7 @@ export interface ContentProps extends StackableProps {
 	pl?: DistanceArgument;
 	pr?: DistanceArgument;
 }
-export interface OverflowProps extends StackableProps {
+export interface OverflowProps extends StackableProps, InFlexLayout {
 	mb?: DistanceArgument;
 	mt?: DistanceArgument;
 	class?: ClassValue;

@@ -3,7 +3,7 @@
 	import { stackableProps } from '../layout.ts';
 	import type { ContentProps } from './props.ts';
 
-	const { children, pt, pl, pr, pb, ...props }: ContentProps = $props();
+	const { children, pt, pl, pr, pb, flex, ...props }: ContentProps = $props();
 </script>
 
 <div
@@ -11,6 +11,7 @@
 	style:--CardContent-paddingBottom={rem(pb)}
 	style:--CardContent-paddingLeft={rem(pl)}
 	style:--CardContent-paddingRight={rem(pr)}
+	style:--Layout-flex={flex}
 	{...stackableProps(props)}
 >
 	{@render children()}
@@ -28,6 +29,7 @@
 		align-items: stretch;
 
 		@extend %Stackable;
+		@extend %InLayout;
 
 		@each $position in $positions {
 			padding-#{$position}: var(--CardContent-padding#{capitalize($position)});

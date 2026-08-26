@@ -1,4 +1,4 @@
-import type { MenuPortal, MenuPortalInstance } from '$lib/floating/index.js';
+import type { Menu, MenuPortal, MenuPortalInstance } from '$lib/floating/index.js';
 import type { Snippet } from 'svelte';
 import type { Attachment } from 'svelte/attachments';
 import { v4 as uuid } from 'uuid';
@@ -14,10 +14,26 @@ export const rightClickAction: <T extends HTMLElement>(
 	return () => element.removeEventListener('contextmenu', onRightClick);
 };
 
-export const rightClickMenu = (menuPortal: MenuPortal, menu: Snippet<[MenuPortalInstance]>) =>
+export const rightClickMenu = (
+	menuPortal: MenuPortal,
+	menu: Snippet<[MenuPortalInstance<PointerEvent>]>,
+) =>
 	rightClickAction((event) => {
-		menuPortal.add(menu, event.currentTarget as HTMLElement);
+		menuPortal.add(
+			menu as Snippet<[MenuPortalInstance]>,
+			event.currentTarget as HTMLElement,
+			uuid(),
+			event,
+		);
 	});
+
+export const rightClickMenuProps = (
+	instance: MenuPortalInstance<PointerEvent>,
+): Pick<Menu.RootProps<PointerEvent>, 'placement' | 'instance' | 'virtual'> => ({
+	virtual: instance.event!,
+	instance,
+	placement: 'bottom-start',
+});
 
 type HoverCallback = (event: MouseEvent) => unknown;
 

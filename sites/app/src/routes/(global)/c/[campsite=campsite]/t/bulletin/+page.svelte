@@ -7,6 +7,7 @@
 	import ProfileBanner from '$lib/components/pages/ProfileBanner.svelte';
 	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
 	import { onMount } from 'svelte';
+	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
 
 	const campsiteContext = getCampsiteContext();
 	const campsite = $derived(campsiteContext.campsite!);
@@ -28,13 +29,15 @@
 			aspectRatio={7}
 		/>
 		<div class="avatar">
-			<ProfileAvatar
-				id={campsite.id.slice(-1)}
-				src={campsite.avatarUri ?? undefined}
-				size="xxl"
-			>
-				{campsite.name[0].toUpperCase()}
-			</ProfileAvatar>
+			<ProfileAvatarWrapper>
+				<ProfileAvatar
+					id={campsite.id.slice(-1)}
+					src={campsite.avatarUri ?? undefined}
+					size="xxl"
+				>
+					{campsite.name[0].toUpperCase()}
+				</ProfileAvatar>
+			</ProfileAvatarWrapper>
 		</div>
 		<Para
 			level="h2"
@@ -63,8 +66,6 @@
 		width: fit-content;
 		height: fit-content;
 		box-sizing: border-box;
-		border: solid 0.25rem var(--background-subtle);
 		margin-top: -3rem;
-		border-radius: 35%;
 	}
 </style>

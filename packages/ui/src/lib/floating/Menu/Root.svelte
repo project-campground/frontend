@@ -1,5 +1,14 @@
-<script lang="ts">
-	import { autoPlacement, autoUpdate, size, type Middleware } from '@floating-ui/dom';
+<script
+	lang="ts"
+	generics="T extends Event = Event"
+>
+	import {
+		autoPlacement,
+		autoUpdate,
+		size,
+		type Middleware,
+		type ReferenceElement,
+	} from '@floating-ui/dom';
 	import type { RootProps } from './props.ts';
 	import { computePosition, offset } from '@floating-ui/dom';
 	import { rem } from '$lib/util/component.js';
@@ -7,7 +16,10 @@
 	const {
 		children,
 		class: className,
+		// Relations
 		instance,
+		virtual,
+		// Middleware
 		offset: offsetProp,
 		autoPlacement: autoPlacementProp,
 		placement,
@@ -20,7 +32,7 @@
 		minh,
 		// Rest
 		...attributes
-	}: RootProps = $props();
+	}: RootProps<T> = $props();
 
 	let menuFloating: HTMLElement | null = $state(null);
 	let pos: { x: number; y: number } = $state.raw({ x: 0, y: 0 });
@@ -28,12 +40,34 @@
 	$effect(() => {
 		if (!menuFloating) return;
 
-		return autoUpdate(instance.invoker, menuFloating, async () =>
-			computePosition(instance.invoker, menuFloating!, {
+		// For right click events and such to display menus in accurate places
+		const virtualOrInvoker: ReferenceElement =
+			virtual ?
+				{
+					getBoundingClientRect() {
+						return {
+							height: virtual.height ?? 1,
+							width: virtual.width ?? 1,
+							x: virtual.x,
+							y: virtual.y,
+							top: virtual.y,
+							bottom: virtual.y,
+							left: virtual.x,
+							right: virtual.x,
+						} satisfies Omit<DOMRect, 'toJSON'>;
+					},
+					contextElement: instance.invoker,
+				}
+			:	instance.invoker;
+
+		return autoUpdate(virtualOrInvoker, menuFloating, async () =>
+			computePosition(virtualOrInvoker, menuFloating!, {
 				placement,
 				middleware: [
+					// Optional stuff that are set by props
 					offsetProp && offset(offsetProp),
 					autoPlacementProp && autoPlacement(autoPlacementProp),
+					// Non-optional forced
 					size({
 						apply: ({ availableHeight, availableWidth, elements }) => {
 							Object.assign(elements.floating.style, {
@@ -51,6 +85,7 @@
 <div
 	class={['wrapper', className]}
 	{...attributes}
+	// For correct positioning. Not used by this element, but elements below.
 	style:--Menu-x={`${pos.x}px`}
 	style:--Menu-y={`${pos.y}px`}
 	style:--Menu-maxWidth={rem(maxw) ?? 'auto'}
@@ -59,6 +94,7 @@
 	style:--Menu-minHeight={rem(minh) ?? 'auto'}
 	style:--Menu-width={rem(w) ?? 'fit-content'}
 	style:--Menu-height={rem(h) ?? 'auto'}
+	// Since this basically is displayed over the whole screen
 	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
 	// < 0, because of column-reverse
 	onscrollend={(ev) => (ev.currentTarget.scrollTop < 0 ? instance.destroy() : null)}

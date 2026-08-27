@@ -28,6 +28,7 @@
 		Tooltip,
 		tooltip,
 		MenuPortalInstance,
+		Modal,
 	} from '@campground/ui';
 	import {
 		IconCampfireFilled,
@@ -39,6 +40,7 @@
 	import BonfireItem from '../BonfireItem.svelte';
 	import { GeneralPermissionConsts } from '$lib/util/permissions.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
+	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
 
 	const campsiteContext = getCampsiteContext();
 	const menuPortal = getMenuPortal();
@@ -51,6 +53,11 @@
 	<Tooltip {instance}>
 		<FormattedMessage {...messages.leaveOwnerError} />
 	</Tooltip>
+{/snippet}
+{#snippet bonfireCreationModal(instance: MenuPortalInstance)}
+	<Modal.Root {instance}>
+		<BonfireCreation />
+	</Modal.Root>
 {/snippet}
 
 <div class={['menu', { open }]}>
@@ -91,7 +98,7 @@
 		{/each}
 		{#if ((campsiteContext.tents?.rolePermissions.general ?? 0) & GeneralPermissionConsts.MANAGE_BONFIRES) === GeneralPermissionConsts.MANAGE_BONFIRES}
 			<Menu.Item>
-				<Menu.Button>
+				<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
 					<Group>
 						<Avatar size="sm">
 							<IconPlus />

@@ -62,7 +62,10 @@
 			>
 				{bonfire.name[0].toUpperCase()}
 			</ProfileAvatar>
-			<Stack align="start">
+			<Stack
+				align="start"
+				gap={0}
+			>
 				<Para level="h4">{bonfire.name}</Para>
 				{#if bonfire.description}
 					<Para level="sub0">{bonfire.description}</Para>

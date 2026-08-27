@@ -23,7 +23,7 @@
 		radius="xl"
 	/>
 {:else}
-	{const color = bannerGenericColors[id.charCodeAt(0) % bannerGenericColors.length]!}
+	{const color = $derived(bannerGenericColors[id.charCodeAt(0) % bannerGenericColors.length]!)}
 	<Gradient
 		{color}
 		aspectRatio={aspectRatio ?? 3}

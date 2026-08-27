@@ -11,6 +11,7 @@
 
 	const campsiteContext = getCampsiteContext();
 	const currentBonfire = $derived(campsiteContext.tents?.bonfire);
+	const lastBonfireChar = $derived(campsiteContext.tents?.bonfireId.slice(-1) ?? 'a');
 	let menuOpen = $state(false);
 	const outsideClick = getOutsideClickBoundary();
 
@@ -25,7 +26,7 @@
 	<Layout onClick={(ev) => (ev.stopPropagation(), (menuOpen = !menuOpen))}>
 		{#snippet banner()}
 			<ProfileBanner
-				id={currentBonfire.id.slice(-1)}
+				id={lastBonfireChar}
 				src={currentBonfire.bannerUri}
 				aspectRatio={2.5}
 			/>

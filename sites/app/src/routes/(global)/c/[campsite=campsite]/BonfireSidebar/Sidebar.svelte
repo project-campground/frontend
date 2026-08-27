@@ -12,7 +12,7 @@
 	import { BonfireBanner, BonfireContent } from './index.ts';
 	import { IconPlus } from '@tabler/icons-svelte';
 	import { FormattedMessageGlobal } from '@campground/locale';
-	import { TentCreation } from '../TentCreation/index.ts';
+	import { TentCreation } from '../Modals/TentCreation/index.ts';
 
 	const menuPortal = getMenuPortal();
 </script>

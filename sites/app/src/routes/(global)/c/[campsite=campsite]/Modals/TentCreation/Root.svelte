@@ -29,7 +29,7 @@
 	import { Dialog, Section, Grid, Stack, Modal } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconHash, IconListDetailsFilled, IconTent } from '@tabler/icons-svelte';
-	import { getCampsiteContext } from '../context.svelte.ts';
+	import { getCampsiteContext } from '../../context.svelte.ts';
 
 	let what: 'tent' | 'category' = $state('tent');
 	const appview = getAppview();

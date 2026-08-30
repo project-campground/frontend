@@ -6,26 +6,28 @@
 		placeholder?: string;
 		submitType?: 'post' | 'update';
 		onCancel?: () => unknown;
-		onSubmit?: (content: string) => unknown;
+		onSubmit?: (content: string, replies: string[]) => unknown;
 	}
 </script>
 
 <script lang="ts">
-	import { Button, Card, Stack, Group } from '@campground/ui';
-	import BlockTextEditor from './BlockTextEditor.svelte';
+	import { Button, Card, Group } from '@campground/ui';
 	import TextEditor from './TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
-	import { FormattedMessageGlobal } from '@campground/locale';
 	import { definePostExtension } from '$lib/editor/extension.js';
 	import { serializeMarkdown } from '$lib/editor/mdast/markdown.js';
 	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
-	import { IconSend2, IconSendFilled } from '@tabler/icons-svelte';
+	import { IconSend2 } from '@tabler/icons-svelte';
 	import { ProseKit } from 'prosekit/svelte';
 
 	const { placeholder, onSubmit }: Props = $props();
 
 	const extension = $derived(definePostExtension(placeholder));
 	const editor = $derived(createEditor({ extension }));
+
+	function submitMessage() {
+		return onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())), []);
+	}
 </script>
 
 <Card.Root
@@ -40,7 +42,7 @@
 		</div>
 		<aside class="buttons">
 			<Button
-				onclick={() => onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())))}
+				onclick={submitMessage}
 				variant="plain"
 				color="neutral"
 				padding="equal"

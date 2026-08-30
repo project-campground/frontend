@@ -1,4 +1,4 @@
-import type { MemberViewAuthor } from './membership';
+import type { MemberViewAuthor } from './membership.js';
 
 export type TentMessageType = 'default' | 'system';
 

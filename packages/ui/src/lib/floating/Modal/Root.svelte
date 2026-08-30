@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Modal, setModal } from './context.svelte.ts';
+	import { ModalContext, setModal } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 
 	const {
@@ -10,7 +10,7 @@
 		...attributes
 	}: RootProps = $props();
 
-	setModal(new Modal(() => instance));
+	setModal(new ModalContext(() => instance));
 </script>
 
 <div

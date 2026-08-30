@@ -21,46 +21,28 @@ import {
 	type AggregatedPermissions,
 } from '$lib/util/permissions.js';
 import { createContext } from 'svelte';
+import type { Readable } from 'svelte/store';
 
-export class CampsiteContext {
-	public campsite: CampsiteViewDetailed | null = $state(null);
-	public tents: CampsiteTents | null = $state(null);
-	private openBonfireId: string | null = $state(null);
-	public domain: string | null = $state(null);
-
+export class CampsiteReference {
 	constructor(
-		private appview: HTTPBackendClient,
-		private session: Session,
-		private account: AccountInfo,
+		public domain: string,
+		public campsiteId: string,
+		public campsite: CampsiteViewDetailed,
 	) {}
 
 	public get userIsOwner() {
 		return this.campsite?.owner === this.campsite?.me.user.did;
 	}
-
-	public async init(domain: string, campsiteId: string) {
-		this.campsite = await this.appview.campsites.get(campsiteId);
-		this.domain = domain;
-		// Since it comes unsorted
-		this.campsite.bonfires = this.campsite.bonfires.sort((a, b) => a.position - b.position);
-
-		if (this.openBonfireId) return await this.setTents(this.openBonfireId);
-	}
-
-	public async setOpenBonfire(bonfireId: string) {
-		// No re-fetching
-		if (this.openBonfireId === bonfireId) return;
-		// Let it be dealt with when campsite is fetched
-		else if (!this.campsite) return (this.openBonfireId = bonfireId);
-
-		return this.setTents(bonfireId);
-	}
-	public async setTents(bonfireId: string) {
-		const tents = await this.appview.tents.getMany(this.campsite!.id, bonfireId);
-		this.tents = new CampsiteTents(this, bonfireId, tents);
-	}
 }
-export class CampsiteTents {
+
+export class CampsiteContext {
+	constructor(
+		public campsite: Readable<CampsiteReference | null>,
+		public openBonfire: Readable<BonfireContext | null>,
+		public setActiveBonfire: (id: string) => unknown,
+	) {}
+}
+export class BonfireContext {
 	public static ownerPermissionsAggregated: AggregatedPermissions = {
 		role: maxPermissions,
 		bonfire: maxPermissions,
@@ -68,30 +50,30 @@ export class CampsiteTents {
 		tents: {},
 	};
 	private _tentToPermissions: Record<string, PermissionsDictionary> = {};
-	private aggregatedPermissions: AggregatedPermissions = CampsiteTents.ownerPermissionsAggregated;
+	private aggregatedPermissions: AggregatedPermissions = BonfireContext.ownerPermissionsAggregated;
 
 	constructor(
-		public campsiteContext: CampsiteContext,
 		public bonfireId: string,
+		public campsiteReference: CampsiteReference,
 		public tentOutput: GetTentsOutput,
 	) {
-		if (!this.campsiteContext.campsite || this.campsiteContext.userIsOwner) return;
+		if (!this.campsiteReference.campsite || this.campsiteReference.userIsOwner) return;
 
 		tentOutput.categories.sort((a, b) => a.position - b.position);
 
 		this.aggregatedPermissions = aggregateAllPermissions(
-			this.campsiteContext.campsite.me,
-			this.campsiteContext.campsite.roles,
+			this.campsiteReference.campsite.me,
+			this.campsiteReference.campsite.roles,
 			this.tentOutput.permissions,
 		);
 	}
 
 	// Content of tent list
 	public get campsite(): CampsiteViewDetailed {
-		return this.campsiteContext.campsite!;
+		return this.campsiteReference.campsite!;
 	}
 	public get bonfire(): BonfireViewBasic {
-		return this.campsiteContext.campsite!.bonfires.find((x) => x.id === this.bonfireId)!;
+		return this.campsiteReference.campsite!.bonfires.find((x) => x.id === this.bonfireId)!;
 	}
 	public get isBonfireDefault(): boolean {
 		return this.campsite.bonfires[0].id === this.bonfire.id;
@@ -117,7 +99,7 @@ export class CampsiteTents {
 	}
 	public getTentPermission(tentId: string, categoryId?: string | null): PermissionsDictionary {
 		// No need to calculate it; they have all perms
-		if (this.campsiteContext.userIsOwner) return maxPermissions;
+		if (this.campsiteReference.userIsOwner) return maxPermissions;
 		// Possibly already cached
 		else if (this._tentToPermissions[tentId]) return this._tentToPermissions[tentId];
 

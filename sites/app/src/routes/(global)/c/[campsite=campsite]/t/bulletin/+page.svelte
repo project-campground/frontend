@@ -10,9 +10,10 @@
 	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
 
 	const campsiteContext = getCampsiteContext();
-	const campsite = $derived(campsiteContext.campsite!);
+	const campsiteRef = $derived(campsiteContext.campsite);
+	const campsite = $derived($campsiteRef!.campsite);
 
-	onMount(() => campsiteContext.setOpenBonfire(campsite.bonfires[0].id));
+	onMount(() => campsiteContext.setActiveBonfire(campsite.bonfires[0].id));
 </script>
 
 <TentWrapper>

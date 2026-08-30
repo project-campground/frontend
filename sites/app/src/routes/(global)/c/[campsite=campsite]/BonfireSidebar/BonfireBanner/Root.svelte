@@ -10,34 +10,40 @@
 	import BonfireList from './Menu.svelte';
 
 	const campsiteContext = getCampsiteContext();
-	const currentBonfire = $derived(campsiteContext.tents?.bonfire);
-	const lastBonfireChar = $derived(campsiteContext.tents?.bonfireId.slice(-1) ?? 'a');
+	const campsiteRef = $derived(campsiteContext.campsite);
+	const activeBonfire = $derived(campsiteContext.openBonfire);
+	const lastBonfireChar = $derived(
+		$activeBonfire?.bonfireId.slice(-1)
+			?? $campsiteRef?.campsite.bonfires[0].name.slice(-1)[0]
+			?? 'a',
+	);
+
 	let menuOpen = $state(false);
 	const outsideClick = getOutsideClickBoundary();
 
 	async function setBonfire(bonfireId: string) {
-		return campsiteContext.setOpenBonfire(bonfireId);
+		return campsiteContext.setActiveBonfire(bonfireId);
 	}
 
 	$effect(() => outsideClick.subscribe(() => (menuOpen = false)));
 </script>
 
-{#if currentBonfire}
+{#if $campsiteRef && $activeBonfire}
 	<Layout onClick={(ev) => (ev.stopPropagation(), (menuOpen = !menuOpen))}>
 		{#snippet banner()}
 			<ProfileBanner
 				id={lastBonfireChar}
-				src={currentBonfire.bannerUri}
+				src={$activeBonfire.bonfire.bannerUri}
 				aspectRatio={2.5}
 			/>
 		{/snippet}
 		<ProfileAvatarWrapper>
 			<ProfileAvatar
 				size="sm"
-				id={currentBonfire.id.slice(-1)}
-				src={currentBonfire.avatarUri ?? undefined}
+				id={$activeBonfire.bonfire.id.slice(-1)}
+				src={$activeBonfire.bonfire.avatarUri ?? undefined}
 			>
-				{currentBonfire.name[0].toUpperCase()}
+				{$activeBonfire.bonfire.name[0].toUpperCase()}
 			</ProfileAvatar>
 		</ProfileAvatarWrapper>
 		<Stack
@@ -45,10 +51,10 @@
 			flex={1}
 		>
 			<Para level="h4">
-				{currentBonfire?.name}
+				{$activeBonfire.bonfire.name}
 			</Para>
 			<Para level="sub0">
-				{currentBonfire?.description}
+				{$activeBonfire.bonfire.description}
 			</Para>
 		</Stack>
 		<Button
@@ -61,6 +67,8 @@
 		</Button>
 	</Layout>
 	<BonfireList
+		campsite={$campsiteRef}
+		activeBonfire={$activeBonfire}
 		open={menuOpen}
 		onBonfireOpen={setBonfire}
 	/>

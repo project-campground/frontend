@@ -44,10 +44,14 @@
 			:	createTent(content as { name: string; description: string; type: TentType });
 	}
 	async function createCategory(value: { name: string; description: string }) {
-		return appview.categories.create(campsiteContext.campsite!.id, campsiteContext.tents!.bonfireId, {
-			...value,
-			position: (campsiteContext.tents!.categories.slice(-1)[0]?.position ?? 0) + 1,
-		});
+		return appview.categories.create(
+			campsiteContext.campsite!.id,
+			campsiteContext.openBonfire!.bonfireId,
+			{
+				...value,
+				position: (campsiteContext.openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+			},
+		);
 	}
 	async function createTent({
 		type,
@@ -57,11 +61,15 @@
 		description: string;
 		type: TentType;
 	}) {
-		return appview.tents.create(campsiteContext.campsite!.id, campsiteContext.tents!.bonfireId, {
-			...value,
-			type: typeToInteger[type],
-			position: (campsiteContext.tents!.categories.slice(-1)[0]?.position ?? 0) + 1,
-		});
+		return appview.tents.create(
+			campsiteContext.campsite!.id,
+			campsiteContext.openBonfire!.bonfireId,
+			{
+				...value,
+				type: typeToInteger[type],
+				position: (campsiteContext.openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+			},
+		);
 	}
 </script>
 

@@ -1,7 +1,7 @@
 import { createContext } from 'svelte';
 import type { MenuPortalInstance } from '../MenuPortalContainer/portals.svelte.ts';
 
-export class Modal {
+export class ModalContext {
 	constructor(private _getInstance: () => MenuPortalInstance) {}
 
 	public get instance() {
@@ -12,4 +12,4 @@ export class Modal {
 	}
 }
 
-export const [getModal, setModal] = createContext<Modal>();
+export const [getModal, setModal] = createContext<ModalContext>();

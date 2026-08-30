@@ -18,9 +18,9 @@
 </script>
 
 {#snippet channelCreationModal(instance: MenuPortalInstance)}
-	<Modal.Root {instance}>
+	<Modal {instance}>
 		<TentCreation />
-	</Modal.Root>
+	</Modal>
 {/snippet}
 
 {#snippet emptyPlaceRightClick(instance: MenuPortalInstance<PointerEvent>)}

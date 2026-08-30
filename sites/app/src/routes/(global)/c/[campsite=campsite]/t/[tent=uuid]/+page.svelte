@@ -1,17 +1,32 @@
 <script lang="ts">
-	import { CampsiteTents, getCampsiteContext } from '../../context.svelte.ts';
+	import { getAppview } from '$lib/context/api.js';
+	import { onMount } from 'svelte';
+	import { getCampsiteContext } from '../../context.svelte.ts';
+	import { PermissionsContext, setPermissions } from '../../permissions.svelte.ts';
 	import type { PageProps } from './$types.js';
+	import TextTent from './Text/TextTent.svelte';
 
 	const { params }: PageProps = $props();
 	const tentId = $derived(params.tent);
 	const campsiteContext = getCampsiteContext();
+	const appview = getAppview();
 
-	let perms = $state(CampsiteTents.ownerPermissionsAggregated.bonfire);
-	const tent = $derived(campsiteContext.tents?.tents.find((x) => x.id === tentId));
+	let perms = new PermissionsContext();
+	setPermissions(perms);
 
-	$effect(() => {
-		if (tent) perms = campsiteContext.tents?.getTentPermission(tentId, tent.categoryId);
+	const tent = $derived(await appview.tents.get(tentId));
+
+	onMount(() => {
+		if (tent) campsiteContext.setActiveBonfire(tent.bonfireId);
 	});
+
+	onMount(
+		campsiteContext.openBonfire.subscribe((value) => {
+			perms.permissions = value?.getTentPermission(tentId, tent.categoryId) ?? perms.permissions;
+		}),
+	);
 </script>
 
-<p>Tent {tentId} with perms {JSON.stringify(perms)}</p>
+{#if tent?.type === 'text'}
+	<TextTent {tent} />
+{/if}

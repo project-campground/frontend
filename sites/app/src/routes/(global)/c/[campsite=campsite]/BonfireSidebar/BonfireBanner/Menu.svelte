@@ -36,17 +36,25 @@
 		IconPlus,
 		IconSettingsFilled,
 	} from '@tabler/icons-svelte';
-	import { getCampsiteContext } from '../../context.svelte.ts';
+	import { type BonfireContext, type CampsiteReference } from '../../context.svelte.ts';
 	import BonfireItem from '../BonfireItem.svelte';
 	import { GeneralPermissionConsts } from '$lib/util/permissions.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
 
-	const campsiteContext = getCampsiteContext();
 	const menuPortal = getMenuPortal();
 
-	const { open, onBonfireOpen }: { open: boolean; onBonfireOpen: (bonfireId: string) => unknown } =
-		$props();
+	const {
+		open,
+		onBonfireOpen,
+		campsite: campsiteRef,
+		activeBonfire,
+	}: {
+		campsite: CampsiteReference;
+		activeBonfire: BonfireContext;
+		open: boolean;
+		onBonfireOpen: (bonfireId: string) => unknown;
+	} = $props();
 </script>
 
 {#snippet ownerErrorTooltip(instance: MenuPortalInstance)}
@@ -55,9 +63,9 @@
 	</Tooltip>
 {/snippet}
 {#snippet bonfireCreationModal(instance: MenuPortalInstance)}
-	<Modal.Root {instance}>
+	<Modal {instance}>
 		<BonfireCreation />
-	</Modal.Root>
+	</Modal>
 {/snippet}
 
 <div class={['menu', { open }]}>
@@ -77,7 +85,7 @@
 		<Menu.Item>
 			<Menu.Button
 				color="danger"
-				disabled={campsiteContext.userIsOwner}
+				disabled={campsiteRef.userIsOwner}
 				{@attach tooltip(menuPortal, ownerErrorTooltip)}
 			>
 				<IconLogout2 />
@@ -90,13 +98,13 @@
 		>
 			<Divider />
 		</Menu.Item>
-		{#each campsiteContext.campsite?.bonfires as bonfire (bonfire.id)}
+		{#each campsiteRef.campsite.bonfires as bonfire (bonfire.id)}
 			<BonfireItem
 				{bonfire}
 				onClick={() => onBonfireOpen(bonfire.id)}
 			/>
 		{/each}
-		{#if ((campsiteContext.tents?.rolePermissions.general ?? 0) & GeneralPermissionConsts.MANAGE_BONFIRES) === GeneralPermissionConsts.MANAGE_BONFIRES}
+		{#if ((activeBonfire.rolePermissions.general ?? 0) & GeneralPermissionConsts.MANAGE_BONFIRES) === GeneralPermissionConsts.MANAGE_BONFIRES}
 			<Menu.Item>
 				<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
 					<Group>

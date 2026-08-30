@@ -7,10 +7,10 @@
 		Section,
 		Stack,
 		Group,
-		Modal,
 		Dialog,
 		Svg,
 		Tooltip,
+		Modal,
 	} from '$lib/index.js';
 	import {
 		hoverAction,
@@ -78,7 +78,7 @@
 	</Menu.Root>
 {/snippet}
 {#snippet regularModal(instance: MenuPortalInstance)}
-	<Modal.Root {instance}>
+	<Modal {instance}>
 		<Dialog.Root
 			size={instance.invoker.attributes.getNamedItem('data-modal-size')?.value as
 				| 'auto'
@@ -96,7 +96,7 @@
 				>
 			</Dialog.Footer>
 		</Dialog.Root>
-	</Modal.Root>
+	</Modal>
 {/snippet}
 
 <Section headerLevel={1}>
@@ -105,7 +105,7 @@
 	{/snippet}
 	<Stack>
 		<Group>
-			<Button onclick={(ev) => toggleMenu(ev, regularMenu)}>Open menu</Button>
+			<Button onclick={(ev) => toggleMenu(ev, regularMenu as Snippet<[MenuPortalInstance]>)}>Open menu</Button>
 		</Group>
 		<Group>
 			<Button {@attach rightClickAction((ev) => console.log('Right clicked', ev.currentTarget))}

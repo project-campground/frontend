@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { rem } from '../../util/component.js';
-	import { stackableProps } from '../layout.ts';
+	import { stackedProps } from '../layout.ts';
 	import type StackProps from './props.ts';
 
 	const {
@@ -21,7 +21,7 @@
 	style:--Layout-gridColumn={gridColumn}
 	style:--Layout-gridRow={gridRow}
 	class={['Stack', className]}
-	{...stackableProps(attributes)}
+	{...stackedProps(attributes)}
 >
 	{@render children?.()}
 </div>
@@ -35,7 +35,7 @@
 		flex-direction: column;
 		gap: var(--Stack-gap);
 
-		@extend %Stackable;
+		@extend %Stacked;
 		@extend %InLayout;
 
 		@each $wrap in $wraps {

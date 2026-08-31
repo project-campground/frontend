@@ -15,7 +15,10 @@
 	size="xl"
 	overflow="visible"
 >
-	<Card.Overflow flex={1}>
+	<Card.Overflow
+		flex={1}
+		h="full"
+	>
 		<header class="header">
 			<span class="title">
 				<span class="icon">
@@ -67,5 +70,6 @@
 		display: flex;
 		flex-direction: column;
 		flex: 1;
+		overflow: hidden;
 	}
 </style>

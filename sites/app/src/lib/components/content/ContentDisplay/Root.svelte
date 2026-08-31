@@ -8,8 +8,6 @@
 		content,
 		components,
 	}: Pick<MessageViewBasic, 'createdBy' | 'content' | 'components'> = $props();
-
-	$effect(() => console.log({ createdBy, content, components }));
 </script>
 
 <Markdown value={content}></Markdown>

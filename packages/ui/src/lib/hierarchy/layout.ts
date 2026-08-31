@@ -12,7 +12,7 @@ export interface InGridLayout {
 export interface InFlexLayout {
 	flex?: number;
 }
-export interface StackableProps {
+export interface StackedProps {
 	align?: FlexAlignItem;
 	direction?: FlexDirection;
 	directionMobile?: FlexDirection;
@@ -20,7 +20,7 @@ export interface StackableProps {
 	wrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
 }
 
-export function stackableProps<T extends StackableProps>({
+export function stackedProps<T extends StackedProps>({
 	align,
 	direction,
 	directionMobile,

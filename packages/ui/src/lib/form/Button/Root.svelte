@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { stackableProps } from '$lib/hierarchy/layout.js';
+	import { stackedProps } from '$lib/hierarchy/layout.js';
 	import type ButtonProps from './props.ts';
 
 	const {
@@ -20,7 +20,7 @@
 	data-variant={variant ?? 'glow'}
 	data-color={color ?? 'primary'}
 	data-padding={padding}
-	{...stackableProps(attributes)}
+	{...stackedProps(attributes)}
 >
 	{@render children()}
 </button>
@@ -44,7 +44,7 @@
 		align-items: center;
 		justify-content: center;
 
-		@extend %Stackable;
+		@extend %Stacked;
 
 		font-weight: bold;
 		font-family: var(--font-body);

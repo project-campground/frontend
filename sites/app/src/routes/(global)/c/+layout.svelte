@@ -51,6 +51,7 @@
 	.container {
 		display: grid;
 		grid-template-columns: 20rem 1fr 20rem;
+		grid-template-rows: 100%;
 		padding: 0.5rem;
 		gap: 0.5rem;
 	}

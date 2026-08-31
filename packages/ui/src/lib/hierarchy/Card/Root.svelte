@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { stackableProps } from '../layout.ts';
+	import { stackedProps } from '../layout.ts';
 	import type { RootProps } from './props.ts';
 
 	const {
@@ -23,7 +23,7 @@
 	style:--Layout-flex={flex}
 	style:--Layout-gridColumn={gridColumn}
 	style:--Layout-gridRow={gridRow}
-	{...stackableProps(props)}
+	{...stackedProps(props)}
 >
 	{@render children()}
 </section>
@@ -51,7 +51,7 @@
 		box-shadow: var(--shadow-md);
 
 		@extend %InLayout;
-		@extend %Stackable;
+		@extend %Stacked;
 
 		&[data-overflow='auto'] {
 			overflow: auto;

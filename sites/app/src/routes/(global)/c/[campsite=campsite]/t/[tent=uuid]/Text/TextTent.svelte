@@ -40,14 +40,17 @@
 		</Stack>
 	</div>
 	<div class="input">
-		<MessageEditor onSubmit={createMessage} />
+		<MessageEditor
+			onSubmit={createMessage}
+			tentName={tent.name}
+		/>
 	</div>
 </TentWrapper>
 
 <style lang="scss">
 	.content {
 		display: flex;
-		flex-direction: column;
+		flex-direction: column-reverse;
 		padding: 0.5rem 0;
 
 		flex: 1;

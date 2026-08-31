@@ -3,30 +3,42 @@
 	module
 >
 	interface Props {
-		placeholder?: string;
+		tentName?: string;
 		submitType?: 'post' | 'update';
 		onCancel?: () => unknown;
 		onSubmit?: (content: string, replies: string[]) => unknown;
 	}
+	const placeholder = defineMessage({
+		id: 'app.tents.text.placeholder',
+		defaultMessage: 'Message #{tent}',
+		description: 'The placeholder for message editor in text tents',
+	});
 </script>
 
 <script lang="ts">
 	import { Button, Card, Group } from '@campground/ui';
 	import TextEditor from './TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
-	import { definePostExtension } from '$lib/editor/extension.js';
+	import { defineMessageExtension } from '$lib/editor/extension.js';
 	import { serializeMarkdown } from '$lib/editor/mdast/markdown.js';
 	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
 	import { IconSend2 } from '@tabler/icons-svelte';
 	import { ProseKit } from 'prosekit/svelte';
+	import { defineMessage } from '@formatjs/svelte-intl';
+	import { getLocaleContext } from '@campground/locale';
 
-	const { placeholder, onSubmit }: Props = $props();
+	const { tentName: tent, onSubmit }: Props = $props();
 
-	const extension = $derived(definePostExtension(placeholder));
+	const intl = getLocaleContext();
+	const extension = $derived(
+		defineMessageExtension(submitMessage, $intl.formatMessage(placeholder, { tent })),
+	);
 	const editor = $derived(createEditor({ extension }));
 
 	function submitMessage() {
-		return onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())), []);
+		onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())), []);
+		editor.setContent({ type: 'root', content: [{ type: 'paragraph', content: [] }] });
+		console.log('Editor json', editor.getDocJSON());
 	}
 </script>
 

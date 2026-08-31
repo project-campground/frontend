@@ -1,11 +1,11 @@
 import type { Snippet } from 'svelte';
 import type { ComponentColorAll, ComponentSize, JustifyContent } from '../../types/attributes.ts';
 import type { HTMLButtonAttributes } from 'svelte/elements';
-import type { StackableProps } from '$lib/hierarchy/layout.js';
+import type { StackedProps } from '$lib/hierarchy/layout.js';
 
 export type ButtonVariant = 'glow' | 'soft' | 'plain' | 'selected';
 
-export default interface ButtonProps extends StackableProps, HTMLButtonAttributes {
+export default interface ButtonProps extends StackedProps, HTMLButtonAttributes {
 	children: Snippet;
 
 	fullWidth?: boolean;

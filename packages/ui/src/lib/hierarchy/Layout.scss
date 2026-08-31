@@ -5,7 +5,7 @@ $aligns: start, stretch, center, end;
 $wraps: wrap, nowrap, wrap-reverse;
 $justifies: start, baseline, center, end;
 
-%Stackable {
+%Stacked {
 	@each $direction in $directions {
 		&[data-direction='#{$direction}'] {
 			flex-direction: $direction;

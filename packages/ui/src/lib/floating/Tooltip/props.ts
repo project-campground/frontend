@@ -1,4 +1,4 @@
-import type { DistanceArgument } from '$lib/util/component.js';
+import type { Size } from '$lib/util/component.js';
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { CommonFloatingProps } from '../common-floating.ts';
@@ -9,10 +9,10 @@ export interface TooltipProps
 	children?: Snippet;
 	instance: MenuPortalInstance;
 
-	w?: DistanceArgument;
-	h?: DistanceArgument;
-	maxw?: DistanceArgument;
-	maxh?: DistanceArgument;
-	minw?: DistanceArgument;
-	minh?: DistanceArgument;
+	w?: Size;
+	h?: Size;
+	maxw?: Size;
+	maxh?: Size;
+	minw?: Size;
+	minh?: Size;
 }

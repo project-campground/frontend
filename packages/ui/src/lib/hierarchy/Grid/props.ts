@@ -1,11 +1,11 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { InFlexLayout, InGridLayout } from '../layout.ts';
-import type { DistanceArgument } from '$lib/util/component.js';
+import type { Size } from '$lib/util/component.js';
 
 export type GridSizing = 'auto' | 'stretch';
 export interface RootProps
 	extends HTMLAttributes<HTMLElementTagNameMap['div']>, InFlexLayout, InGridLayout {
-	gap?: DistanceArgument;
+	gap?: Size;
 	columns?: 2 | 3 | 4 | 5;
 	columnSizing?: GridSizing;
 	noBreakpoint?: boolean;

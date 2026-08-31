@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { em } from '$lib/util/component.ts';
+	import { baseTextProps } from '../props.ts';
 	import type ParaProps from './props.ts';
 
 	const {
@@ -8,13 +10,12 @@
 		lineHeight,
 		color,
 		align,
-		weight,
 		fontSize,
 		mv: vMargin,
 		letterSpacing,
-		textWrap,
 		mt: tMargin,
 		mb: bMargin,
+		...props
 	}: ParaProps = $props();
 </script>
 
@@ -23,17 +24,14 @@
 	class={['Para', className]}
 	data-level={level}
 	data-align={align}
-	data-weight={weight}
 	data-color={color}
 	data-v-margin={vMargin}
 	data-t-margin={tMargin}
 	data-b-margin={bMargin}
-	data-text-wrap={textWrap}
-	style:--Para-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
-	style:--Para-lineHeight={typeof lineHeight === 'number' ? `${lineHeight}rem` : lineHeight}
-	style:--Para-letterSpacing={typeof letterSpacing === 'number' ?
-		`${letterSpacing}px`
-	:	letterSpacing}
+	{...baseTextProps(props)}
+	style:--BaseText-fontSize={em(fontSize)}
+	style:--Para-lineHeight={em(lineHeight)}
+	style:--Para-letterSpacing={em(letterSpacing)}
 >
 	{@render children?.()}
 </svelte:element>
@@ -41,6 +39,7 @@
 <style lang="scss">
 	@use 'sass:list';
 	@use '../../common.scss' as *;
+	@use '../Text.scss' as *;
 
 	$hLevels:
 		1 2em,
@@ -62,6 +61,8 @@
 
 		color: var(--foreground-subheading);
 		margin: 0;
+
+		@extend %Text-base;
 
 		@each $level in $hLevels {
 			$index: list.nth($level, 1);
@@ -105,13 +106,6 @@
 		@each $wrap in $text-wraps {
 			&[data-text-wrap='#{$wrap}'] {
 				text-wrap: $wrap;
-			}
-		}
-
-		@for $i from 5 to 9 {
-			$weight: #{calc($i * 100)};
-			&[data-weight='#{$weight}'] {
-				font-weight: #{$weight};
 			}
 		}
 

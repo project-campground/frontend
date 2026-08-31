@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
 import type { ComponentSize } from '../../types/attributes.ts';
 import type { ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
-import type { DistanceArgument } from '$lib/util/component.js';
+import type { Size } from '$lib/util/component.js';
 import type { InFlexLayout, InGridLayout, StackableProps } from '../layout.ts';
 
 export interface RootProps extends StackableProps, InGridLayout, InFlexLayout {
@@ -15,14 +15,14 @@ export interface ContentProps extends StackableProps, InFlexLayout {
 	gap?: ComponentSize;
 	class?: ClassValue;
 	children: Snippet;
-	pt?: DistanceArgument;
-	pb?: DistanceArgument;
-	pl?: DistanceArgument;
-	pr?: DistanceArgument;
+	pt?: Size;
+	pb?: Size;
+	pl?: Size;
+	pr?: Size;
 }
 export interface OverflowProps extends StackableProps, InFlexLayout {
-	mb?: DistanceArgument;
-	mt?: DistanceArgument;
+	mb?: Size;
+	mt?: Size;
 	class?: ClassValue;
 	children: Snippet;
 }

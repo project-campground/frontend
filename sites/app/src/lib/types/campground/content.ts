@@ -26,6 +26,7 @@ export type ContentComponent = SystemMessageComponent;
 
 export interface MessageView<T> {
 	id: string;
+
 	campsiteId: string;
 	bonfireId: string;
 	tentId: string;
@@ -39,7 +40,7 @@ export interface MessageView<T> {
 	createdAt: string;
 	updatedAt?: string | null;
 }
-export interface MessageViewBasic extends MessageView<string> {}
+export type MessageViewBasic = MessageView<string>;
 export interface MessageViewWithReplies extends MessageView<MessageViewBasic> {
 	replyingToCount: number;
 }

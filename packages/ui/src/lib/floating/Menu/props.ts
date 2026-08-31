@@ -1,5 +1,5 @@
 import type { MenuPortalInstance } from '$lib/floating/MenuPortalContainer/portals.svelte.js';
-import type { DistanceArgument } from '$lib/util/component.js';
+import type { Size } from '$lib/util/component.js';
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes, HTMLLiAttributes, HTMLMenuAttributes } from 'svelte/elements';
 import type { CommonFloatingProps, MenuPlacement } from '../common-floating.ts';
@@ -12,12 +12,12 @@ export interface RootProps<T extends Event = Event>
 	instance: MenuPortalInstance<T>;
 	virtual?: { x: number; y: number; width?: number; height?: number };
 
-	w?: DistanceArgument;
-	h?: DistanceArgument;
-	maxw?: DistanceArgument;
-	maxh?: DistanceArgument;
-	minw?: DistanceArgument;
-	minh?: DistanceArgument;
+	w?: Size;
+	h?: Size;
+	maxw?: Size;
+	maxh?: Size;
+	minw?: Size;
+	minh?: Size;
 }
 export interface ListProps extends HTMLMenuAttributes {
 	children?: Snippet;

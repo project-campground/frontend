@@ -1,15 +1,15 @@
 export const toSpacingPx = (value: number | undefined | null) => (value ? `${value * 8}px` : null);
 
-export type DistanceUnit = 'rem' | 'em' | 'cm' | 'ch' | 'rch' | 'px' | '%' | 'vw' | 'vh';
-export type DistanceNumber = `${number}${DistanceUnit}`;
+export type SizeUnit = 'rem' | 'em' | 'cm' | 'ch' | 'rch' | 'px' | '%' | 'vw' | 'vh';
+export type SizeNumber = `${number}${SizeUnit}`;
 
-export type DistanceArgument = number | DistanceNumber | undefined | null;
+export type Size = number | SizeNumber | undefined | null;
 
-export const suffixedWidth = (value: DistanceArgument, suffix: string) =>
+export const suffixedWidth = (value: Size, suffix: string) =>
 	typeof value === 'number' ? `${value}${suffix}` : (value ?? null);
 
-export const rem = (value: DistanceArgument) => suffixedWidth(value, 'rem');
-export const em = (value: DistanceArgument) => suffixedWidth(value, 'em');
+export const rem = (value: Size) => suffixedWidth(value, 'rem');
+export const em = (value: Size) => suffixedWidth(value, 'em');
 
 export const capitalize = (value: string) =>
 	value.substring(0, 1).toUpperCase() + value.substring(1);

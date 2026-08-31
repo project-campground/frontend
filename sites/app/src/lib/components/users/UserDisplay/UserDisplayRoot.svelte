@@ -8,6 +8,7 @@
 		handle,
 		align,
 		displayHandle,
+		hideAvatar,
 		size,
 	}: Omit<UserDisplayProps, 'user'> & { avatar: Snippet; displayName: Snippet; handle?: Snippet } =
 		$props();
@@ -18,7 +19,9 @@
 	data-align={align ?? 'center'}
 	data-size={size ?? 'md'}
 >
-	{@render avatar()}
+	{#if !hideAvatar}
+		{@render avatar()}
+	{/if}
 	<span class="name">
 		{@render displayName()}
 	</span>

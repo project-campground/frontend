@@ -1,0 +1,22 @@
+$whitespaces: pre, pre-wrap, pre-line;
+$text-overflows: clip, ellipsis, '-';
+
+%Text-base {
+	font-size: var(--BaseText-fontSize);
+	@each $whitespace in $whitespaces {
+		&[data-whitespace='#{$whitespace}'] {
+			white-space: $whitespace;
+		}
+	}
+	@each $overflow in $text-overflows {
+		&[data-text-overflow='#{$overflow}'] {
+			text-overflow: $overflow;
+		}
+	}
+	@for $i from 5 to 9 {
+		$weight: #{calc($i * 100)};
+		&[data-weight='#{$weight}'] {
+			font-weight: #{$weight};
+		}
+	}
+}

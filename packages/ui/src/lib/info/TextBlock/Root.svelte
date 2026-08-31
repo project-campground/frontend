@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { toSpacingPx } from '../../util/component.ts';
+	import { em, toSpacingPx } from '../../util/component.ts';
+	import { baseTextProps } from '../props.ts';
 	import type TextBlockProps from './props.ts';
 
 	const {
@@ -11,8 +12,8 @@
 		float,
 		level,
 		align,
-		weight,
 		fontSize,
+		...props
 	}: TextBlockProps = $props();
 </script>
 
@@ -20,17 +21,18 @@
 	class={[hideOnMobile && `hideOnMobile`, className]}
 	data-float={float}
 	data-align={align}
-	data-weight={weight}
 	data-level={level}
+	{...baseTextProps(props)}
+	style:--BaseText-fontSize={em(fontSize)}
 	style:--TextBlock-paddingLeft={toSpacingPx(pl)}
 	style:--TextBlock-paddingRight={toSpacingPx(pr)}
-	style:--TextBlock-fontSize={typeof fontSize === 'number' ? `${fontSize}rem` : fontSize}
 >
 	{@render children?.()}
 </span>
 
 <style lang="scss">
 	@use '../../common.scss' as *;
+	@use '../Text.scss' as *;
 
 	$levels: background, subtext, body, subheading, heading;
 	$floats: left, right;
@@ -44,6 +46,8 @@
 			right: var(--TextBlock-paddingRight);
 		}
 		font-size: var(--TextBlock-fontSize);
+
+		@extend %Text-base;
 
 		@each $level in $levels {
 			&[data-level='#{$level}'] {
@@ -65,13 +69,6 @@
 		@each $align in $aligns {
 			&[data-align='#{$align}'] {
 				align-items: $align;
-			}
-		}
-
-		@for $i from 5 to 9 {
-			$weight: #{calc($i * 100)};
-			&[data-weight='#{$weight}'] {
-				font-weight: #{$weight};
 			}
 		}
 	}

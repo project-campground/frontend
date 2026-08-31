@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
+	import { ContentDisplay } from '../index.ts';
 	import Default from './Default.svelte';
 	import System from './System.svelte';
 
@@ -16,14 +17,14 @@
 	<div class="wrapper">
 		{#if message.type === 'system'}
 			<System createdAt={message.createdAt}>
-				{message.content}
+				<ContentDisplay {...message} />
 			</System>
 		{:else}
 			<Default
 				createdBy={message.createdBy}
 				createdAt={message.createdAt}
 			>
-				{message.content}
+				<ContentDisplay {...message} />
 			</Default>
 		{/if}
 	</div>

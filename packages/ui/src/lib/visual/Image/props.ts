@@ -1,6 +1,6 @@
 import type { ClassValue, HTMLImgAttributes } from 'svelte/elements';
 import type { ComponentSize } from '../../types/attributes.ts';
-import type { DistanceArgument } from '$lib/util/component.js';
+import type { Size } from '$lib/util/component.js';
 import type { Picture } from '@sveltejs/enhanced-img';
 
 export interface VisualObjectProps {
@@ -8,12 +8,12 @@ export interface VisualObjectProps {
 	class?: ClassValue;
 
 	// Sizing
-	maxw?: DistanceArgument;
-	maxh?: DistanceArgument;
-	minw?: DistanceArgument;
-	minh?: DistanceArgument;
-	w?: DistanceArgument;
-	h?: DistanceArgument;
+	maxw?: Size;
+	maxh?: Size;
+	minw?: Size;
+	minh?: Size;
+	w?: Size;
+	h?: Size;
 	fit?: 'contain' | 'cover' | 'fill';
 	aspectRatio?: number;
 	mobileAspectRatio?: number;

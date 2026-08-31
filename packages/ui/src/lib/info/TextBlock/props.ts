@@ -1,9 +1,8 @@
 import type { Snippet } from 'svelte';
 import type { ClassValue } from 'svelte/elements';
+import type { BaseTextProps } from '../props.ts';
 
-export default interface TextBlockProps {
-	fontSize?: number | string;
-	weight?: 500 | 600 | 700 | 800 | 900;
+export default interface TextBlockProps extends BaseTextProps {
 	align?: 'top' | 'center' | 'bottom';
 	float?: 'left' | 'right';
 
@@ -13,5 +12,6 @@ export default interface TextBlockProps {
 	pr?: number;
 	hideOnMobile?: boolean;
 	class?: ClassValue;
+
 	children?: Snippet;
 }

@@ -13,7 +13,7 @@
 	{#snippet avatar()}
 		<UserAvatar
 			did={user.did}
-			src={user.avatar}
+			src={user.avatar ?? undefined}
 			{size}
 		/>
 	{/snippet}

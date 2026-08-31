@@ -5,4 +5,5 @@ export interface UserDisplayProps extends Pick<StackProps, 'align'> {
 	user: ProfileViewBasic;
 	size?: ComponentSize;
 	displayHandle?: boolean;
+	hideAvatar?: boolean;
 }

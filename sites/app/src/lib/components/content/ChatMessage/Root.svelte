@@ -8,6 +8,9 @@
 	import { IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { FormattedMessageGlobal } from '@campground/locale';
 	import type { Snippet } from 'svelte';
+	import { getTextTent } from './context.svelte.ts';
+	import MessageEditor from '$lib/components/editor/MessageEditor.svelte';
+	import { getAppview } from '$lib/context/api.js';
 
 	const menuPortal = getMenuPortal();
 
@@ -16,6 +19,16 @@
 		state,
 		error,
 	}: { message: MessageViewWithReplies; state?: MessageState; error?: Error } = $props();
+
+	const appview = getAppview();
+
+	async function updateMessage(content: string) {
+		textTent.clearEditingMessage();
+		return appview.messages.update(message.tentId, message.id, { content });
+	}
+
+	const textTent = getTextTent();
+	const beingEdited = $derived(textTent.editingMessage?.id === message.id);
 </script>
 
 {#snippet actionMenu(instance: MenuPortalInstance<PointerEvent>)}
@@ -25,7 +38,7 @@
 	>
 		<Menu.List>
 			<Menu.Item>
-				<Menu.Button>
+				<Menu.Button onclick={() => textTent.setEditingMessage(message.id)}>
 					<IconPencilFilled />
 					<FormattedMessageGlobal id="common.edit" />
 				</Menu.Button>
@@ -38,6 +51,17 @@
 			</Menu.Item>
 		</Menu.List>
 	</Menu.Root>
+{/snippet}
+
+{#snippet content()}
+	{#if beingEdited}
+		<MessageEditor
+			onSubmit={updateMessage}
+			onCancel={() => textTent.clearEditingMessage()}
+		/>
+	{:else}
+		<ContentDisplay {...message} />
+	{/if}
 {/snippet}
 
 <div
@@ -60,16 +84,17 @@
 	<div class="wrapper">
 		{#if message.type === 'system'}
 			<System createdAt={message.createdAt}>
-				<ContentDisplay {...message} />
+				{@render content()}
 			</System>
 		{:else}
 			<Default
 				{state}
 				{error}
+				updatedAt={message.updatedAt}
 				createdBy={message.createdBy}
 				createdAt={message.createdAt}
 			>
-				<ContentDisplay {...message} />
+				{@render content()}
 			</Default>
 		{/if}
 	</div>

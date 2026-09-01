@@ -4,7 +4,6 @@
 >
 	interface Props {
 		tentName?: string;
-		submitType?: 'post' | 'update';
 		onCancel?: () => unknown;
 		onSubmit?: (content: string) => unknown;
 	}
@@ -27,18 +26,21 @@
 	import { defineMessage } from '@formatjs/svelte-intl';
 	import { getLocaleContext } from '@campground/locale';
 
-	const { tentName: tent, onSubmit }: Props = $props();
+	const { tentName: tent, onSubmit, onCancel }: Props = $props();
 
 	const intl = getLocaleContext();
 	const extension = $derived(
-		defineMessageExtension(submitMessage, $intl.formatMessage(placeholder, { tent })),
+		defineMessageExtension(
+			submitMessage,
+			onCancel,
+			tent ? $intl.formatMessage(placeholder, { tent }) : '',
+		),
 	);
 	const editor = $derived(createEditor({ extension }));
 
 	function submitMessage() {
 		onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())));
 		editor.setContent({ type: 'root', content: [{ type: 'paragraph', content: [] }] });
-		console.log('Editor json', editor.getDocJSON());
 	}
 </script>
 

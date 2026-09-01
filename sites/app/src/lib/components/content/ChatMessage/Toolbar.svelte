@@ -18,13 +18,6 @@
 			padding="equal"
 			color="neutral"
 			variant="plain"
-		>
-			<IconPencilFilled size="1.25rem" />
-		</Button>
-		<Button
-			padding="equal"
-			color="neutral"
-			variant="plain"
 			onclick={onOverflow}
 		>
 			<IconDots size="1.25rem" />

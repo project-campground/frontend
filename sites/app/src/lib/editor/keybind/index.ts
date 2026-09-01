@@ -9,6 +9,6 @@ export function defineBlockKeymap() {
 export function definePostKeymap() {
 	return defineKeymap({ Enter: editorEnter() });
 }
-export function defineMessageKeymap(onSubmit: () => unknown) {
-	return defineKeymap({ Enter: () => (onSubmit(), true) });
+export function defineMessageKeymap(onSubmit: () => unknown, onCancel?: () => unknown) {
+	return defineKeymap({ Enter: () => (onSubmit(), true), Escape: () => (onCancel?.(), true) });
 }

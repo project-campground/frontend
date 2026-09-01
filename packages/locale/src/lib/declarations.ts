@@ -311,6 +311,11 @@ export const globalLocale = defineMessages({
 		defaultMessage: 'Expires',
 		description: 'Content expires',
 	},
+	'app.common.edited': {
+		id: 'app.common.edited',
+		defaultMessage: 'Edited',
+		description: 'Content has been edited',
+	},
 	// Generally just reused
 	'app.threads': {
 		id: 'app.threads',

@@ -15,6 +15,10 @@
 		type MessageViewInChat,
 	} from '$lib/components/content/ChatMessage/types.js';
 	import { v4 as uuid } from 'uuid';
+	import {
+		setTextTent,
+		TextTentContext,
+	} from '$lib/components/content/ChatMessage/context.svelte.js';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 
@@ -26,7 +30,7 @@
 	async function createMessage(content: string) {
 		const createdMessageKey = uuid();
 
-		messages.unshift({
+		textTent.messages.unshift({
 			key: createdMessageKey,
 			id: createdMessageKey,
 			campsiteId: tent.campsiteId,
@@ -42,7 +46,7 @@
 
 		return appview.messages.create(tent.id, { content, replies: [] }).catch((err) => {
 			// Since modifying object directly doesn't change it
-			const existingMessage = messages.find((x) => x.key === createdMessageKey);
+			const existingMessage = textTent.messages.find((x) => x.key === createdMessageKey);
 
 			if (!existingMessage) return;
 
@@ -54,14 +58,16 @@
 		[K in keyof WSMessageTypeToPayload]: (value: WSMessageTypeToPayload[K]) => unknown;
 	}> = {
 		MessageCreated(message) {
-			const existingMessage = messages.find(
+			if (message.tentId !== tent.id) return;
+
+			const existingMessage = textTent.messages.find(
 				(x) => x.content === message.content && x.state === MessageState.Creating,
 			);
 
 			if (existingMessage)
 				return Object.assign(existingMessage, { id: message.id, state: MessageState.Created });
 
-			return messages.unshift({
+			return textTent.messages.unshift({
 				...message,
 				// Added
 				key: message.id,
@@ -72,18 +78,25 @@
 				replyingToCount: 0,
 			} satisfies MessageViewInChat);
 		},
+		MessageUpdated(message) {
+			if (message.tentId !== tent.id) return;
+
+			const existingMessage = textTent.messages.find((x) => x.id === message.id);
+
+			if (existingMessage) return Object.assign(existingMessage, message);
+		},
 	};
 
 	function modifyMessage(value: MessageViewWithReplies): MessageViewInChat {
 		return { ...value, key: value.id, state: MessageState.Loaded };
 	}
 
-	const messages: MessageViewInChat[] = $state([]);
+	const textTent = new TextTentContext();
 
 	$effect(() => {
 		appview.messages
 			.getMany(tent.id, 0, 50)
-			.then((value) => messages.push(...value.messages.map(modifyMessage)));
+			.then((value) => textTent.messages.push(...value.messages.map(modifyMessage)));
 	});
 
 	$effect(
@@ -93,6 +106,8 @@
 				return eventHandlers[ev.t]?.(payload as never);
 			}).unsubscribe,
 	);
+
+	setTextTent(textTent);
 </script>
 
 <TentWrapper>
@@ -114,7 +129,7 @@
 				{#snippet failed(err)}
 					Err: {err}
 				{/snippet}
-				{#each messages as message (message.key)}
+				{#each textTent.messages as message (message.key)}
 					<ChatMessage
 						{message}
 						state={message.state}

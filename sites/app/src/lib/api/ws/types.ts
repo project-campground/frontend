@@ -51,4 +51,5 @@ export type WSMessageTypeToPayload = {
 	PermissionView: PermissionViewPayload;
 
 	MessageCreated: MessageViewBasic;
+	MessageUpdated: MessageViewBasic;
 };

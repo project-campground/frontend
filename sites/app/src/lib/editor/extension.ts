@@ -33,7 +33,11 @@ export function definePostExtension(placeholder?: string) {
 		definePlaceholder({ strategy: 'doc', placeholder: placeholder ?? '' }),
 	);
 }
-export function defineMessageExtension(onSubmit: () => unknown, placeholder?: string) {
+export function defineMessageExtension(
+	onSubmit: () => unknown,
+	onCancel: (() => unknown) | undefined,
+	placeholder?: string,
+) {
 	return union(
 		// Special nodes
 		defineRoot(),
@@ -47,7 +51,7 @@ export function defineMessageExtension(onSubmit: () => unknown, placeholder?: st
 		defineText(),
 		// Key maps
 		defineBlockKeymap(),
-		defineMessageKeymap(onSubmit),
+		defineMessageKeymap(onSubmit, onCancel),
 		defineBaseKeymap(),
 		// Additional
 		defineBaseCommands(),

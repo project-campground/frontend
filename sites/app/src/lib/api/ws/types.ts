@@ -1,11 +1,14 @@
-import type { CampsiteViewBasic } from './campground/campsites';
-import type { BonfireViewBasic } from './campground/bonfires';
-import type { CampsitePermissionViewDetailed } from './campground/permissions';
-import type { MessageViewBasic } from './campground/content';
-import type { MemberBanView, MemberRolesModified } from './campground/membership.js';
-import type { CampsiteInviteViewBasic } from './campground/invites.js';
-import type { PermissionsDictionary, PermissionsStateDictionary } from './campground/permissions';
-import type { TentCategoryView, TentViewBasic } from './campground/tent';
+import type { CampsiteViewBasic } from '../../types/campground/campsites.ts';
+import type { BonfireViewBasic } from '../../types/campground/bonfires.ts';
+import type { CampsitePermissionViewDetailed } from '../../types/campground/permissions.ts';
+import type { MessageViewBasic } from '../../types/campground/content.ts';
+import type { MemberBanView, MemberRolesModified } from '../../types/campground/membership.ts';
+import type { CampsiteInviteViewBasic } from '../../types/campground/invites.ts';
+import type {
+	PermissionsDictionary,
+	PermissionsStateDictionary,
+} from '../../types/campground/permissions.ts';
+import type { TentCategoryView, TentViewBasic } from '../../types/campground/tent.ts';
 
 export interface PermissionViewPayload {
 	roles: PermissionsDictionary;
@@ -14,7 +17,7 @@ export interface PermissionViewPayload {
 	tents: Record<string, PermissionsStateDictionary>;
 }
 
-export type TypeToPayload = {
+export type WSMessageTypeToPayload = {
 	CampsiteLeft: { id: string };
 	CampsiteCreated: CampsiteViewBasic;
 	CampsiteUpdated: CampsiteViewBasic;

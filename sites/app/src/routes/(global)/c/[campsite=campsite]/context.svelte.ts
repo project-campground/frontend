@@ -1,5 +1,6 @@
 import type HTTPBackendClient from '$lib/api/http/HTTPBackendClient.ts';
 import type { Session } from '$lib/api/session/Session.svelte.js';
+import type WSClient from '$lib/api/ws/WSClient.ts';
 import type { AccountInfo } from '$lib/context/account.svelte.js';
 import type { BonfireViewBasic } from '$lib/types/campground/bonfires.js';
 import type { CampsiteViewDetailed } from '$lib/types/campground/campsites.js';
@@ -39,6 +40,7 @@ export class CampsiteContext {
 	constructor(
 		public campsite: Readable<CampsiteReference | null>,
 		public openBonfire: Readable<BonfireContext | null>,
+		public webSocket: Readable<WSClient | null>,
 		public setActiveBonfire: (id: string) => unknown,
 	) {}
 }

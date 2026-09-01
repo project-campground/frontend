@@ -6,7 +6,7 @@
 		tentName?: string;
 		submitType?: 'post' | 'update';
 		onCancel?: () => unknown;
-		onSubmit?: (content: string, replies: string[]) => unknown;
+		onSubmit?: (content: string) => unknown;
 	}
 	const placeholder = defineMessage({
 		id: 'app.tents.text.placeholder',
@@ -36,7 +36,7 @@
 	const editor = $derived(createEditor({ extension }));
 
 	function submitMessage() {
-		onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())), []);
+		onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())));
 		editor.setContent({ type: 'root', content: [{ type: 'paragraph', content: [] }] });
 		console.log('Editor json', editor.getDocJSON());
 	}

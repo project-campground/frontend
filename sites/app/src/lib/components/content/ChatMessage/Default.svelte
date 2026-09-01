@@ -1,16 +1,34 @@
 <script lang="ts">
 	import { UserAvatar } from '$lib/components/users/index.js';
 	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
-	import { GradientText, TextBlock } from '@campground/ui';
+	import {
+		GradientText,
+		TextBlock,
+		Tooltip,
+		tooltip,
+		MenuPortalInstance,
+		getMenuPortal,
+	} from '@campground/ui';
 	import type { Snippet } from 'svelte';
 	import { Datestamp } from '../Datestamp/index.ts';
+	import { MessageState } from './types.js';
+	import { IconDots, IconExclamationCircleFilled } from '@tabler/icons-svelte';
+
+	const menuPortal = getMenuPortal();
 
 	const {
 		createdBy,
 		createdAt,
+		state,
+		error,
 		children,
-	}: { createdBy: MessageViewWithReplies['createdBy']; createdAt: string; children: Snippet } =
-		$props();
+	}: {
+		createdBy: MessageViewWithReplies['createdBy'];
+		createdAt: string;
+		state?: MessageState;
+		error?: Error;
+		children: Snippet;
+	} = $props();
 </script>
 
 <UserAvatar
@@ -33,6 +51,19 @@
 				date={createdAt}
 			/>
 		</TextBlock>
+		{#if state === MessageState.Failed}
+			{#snippet stateTooltip(instance: MenuPortalInstance)}
+				<Tooltip {instance}>
+					{error}
+				</Tooltip>
+			{/snippet}
+			<span
+				class="info"
+				{@attach tooltip(menuPortal, stateTooltip)}
+			>
+				<IconExclamationCircleFilled size="1rem" />
+			</span>
+		{/if}
 	</div>
 	<div class="content">
 		{@render children()}
@@ -52,5 +83,14 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 1ch;
+	}
+	.info {
+		cursor: help;
+		line-height: 0;
+		color: var(--foreground-body);
+
+		:global([data-state='failed']) & {
+			color: var(--danger-plainFore);
+		}
 	}
 </style>

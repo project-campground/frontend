@@ -4,16 +4,95 @@
 	import type { TentViewBasic } from '$lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
 	import MessageEditor from '$lib/components/editor/MessageEditor.svelte';
-	import MessageScroller from './MessageScroller.svelte';
 	import { getAppview } from '$lib/context/api.js';
+	import { getCampsiteContext } from '../../../context.svelte.ts';
+	import { filter } from 'rxjs';
+	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
+	import type { WSMessageTypeToPayload } from '$lib/api/ws/types.js';
+	import { ChatMessage } from '$lib/components/index.js';
+	import {
+		MessageState,
+		type MessageViewInChat,
+	} from '$lib/components/content/ChatMessage/types.js';
+	import { v4 as uuid } from 'uuid';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 
+	const campsiteContext = getCampsiteContext();
+	const webSocket = $derived(campsiteContext.webSocket);
+	const campsiteRef = $derived(campsiteContext.campsite);
 	const appview = getAppview();
 
-	async function createMessage(content: string, replies: string[]) {
-		return appview.messages.create(tent.id, { content, replies });
+	async function createMessage(content: string) {
+		const createdMessageKey = uuid();
+
+		messages.unshift({
+			key: createdMessageKey,
+			id: createdMessageKey,
+			campsiteId: tent.campsiteId,
+			bonfireId: tent.bonfireId,
+			tentId: tent.id,
+			state: MessageState.Creating,
+			content,
+			replyingTo: [],
+			replyingToCount: 0,
+			createdBy: { ...$campsiteRef!.campsite.me, isMember: true },
+			createdAt: new Date().toISOString(),
+		});
+
+		return appview.messages.create(tent.id, { content, replies: [] }).catch((err) => {
+			// Since modifying object directly doesn't change it
+			const existingMessage = messages.find((x) => x.key === createdMessageKey);
+
+			if (!existingMessage) return;
+
+			Object.assign(existingMessage, { state: MessageState.Failed, stateMessage: err });
+		});
 	}
+
+	const eventHandlers: Partial<{
+		[K in keyof WSMessageTypeToPayload]: (value: WSMessageTypeToPayload[K]) => unknown;
+	}> = {
+		MessageCreated(message) {
+			const existingMessage = messages.find(
+				(x) => x.content === message.content && x.state === MessageState.Creating,
+			);
+
+			if (existingMessage)
+				return Object.assign(existingMessage, { id: message.id, state: MessageState.Created });
+
+			return messages.unshift({
+				...message,
+				// Added
+				key: message.id,
+				state: MessageState.Loaded,
+
+				// Overwritten
+				replyingTo: [],
+				replyingToCount: 0,
+			} satisfies MessageViewInChat);
+		},
+	};
+
+	function modifyMessage(value: MessageViewWithReplies): MessageViewInChat {
+		return { ...value, key: value.id, state: MessageState.Loaded };
+	}
+
+	const messages: MessageViewInChat[] = $state([]);
+
+	$effect(() => {
+		appview.messages
+			.getMany(tent.id, 0, 50)
+			.then((value) => messages.push(...value.messages.map(modifyMessage)));
+	});
+
+	$effect(
+		() =>
+			$webSocket?.messages.pipe(filter((value) => value.op === 1)).subscribe((ev) => {
+				const payload = ev.payload as WSMessageTypeToPayload[keyof WSMessageTypeToPayload];
+				return eventHandlers[ev.t]?.(payload as never);
+			}).unsubscribe,
+	);
 </script>
 
 <TentWrapper>
@@ -35,7 +114,13 @@
 				{#snippet failed(err)}
 					Err: {err}
 				{/snippet}
-				<MessageScroller tentId={tent.id} />
+				{#each messages as message (message.key)}
+					<ChatMessage
+						{message}
+						state={message.state}
+						error={message.stateMessage}
+					/>
+				{/each}
 			</svelte:boundary>
 		</Stack>
 	</div>
@@ -51,7 +136,7 @@
 	.content {
 		display: flex;
 		flex-direction: column-reverse;
-		padding: 0.5rem 0;
+		padding: 1.25rem 0;
 
 		flex: 1;
 		overflow-y: scroll;

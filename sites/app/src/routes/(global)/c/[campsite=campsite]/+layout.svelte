@@ -23,7 +23,9 @@
 	import TentWrapper from './TentWrapper.svelte';
 	import TentIcon from '$lib/components/tents/TentIcon.svelte';
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
-	import { writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
+	import WSClient from '$lib/api/ws/WSClient.js';
+	import { filter } from 'rxjs';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
@@ -42,9 +44,11 @@
 		const tents = await appview.tents.getMany(campsiteId, bonfireId);
 		$activeBonfire = new BonfireContext(bonfireId, $campsite!, tents);
 	}
+
+	const webSocket: Writable<WSClient | null> = writable();
 	const campsite = writable<CampsiteReference | null>(null);
 	const activeBonfire = writable<BonfireContext | null>(null);
-	const campsiteContext = new CampsiteContext(campsite, activeBonfire, setBonfire);
+	const campsiteContext = new CampsiteContext(campsite, activeBonfire, webSocket, setBonfire);
 	setCampsiteContext(campsiteContext);
 
 	$effect(() => {
@@ -54,6 +58,19 @@
 		appview.campsites
 			.get(campsiteId)
 			.then((value) => ($campsite = new CampsiteReference(domain, campsiteId, value)));
+	});
+	$effect(() => {
+		if ($webSocket?.isOpen) return $webSocket.setCampsite(campsiteId);
+
+		$webSocket?.messages
+			.pipe(filter((value) => value.op === 0 && value.t === 'open'))
+			.subscribe(() => $webSocket!.setCampsite(campsiteId));
+	});
+	$effect(() => {
+		$webSocket = new WSClient({
+			url: `${domain?.split(':')[0] === 'localhost' ? 'http' : 'https'}://${domain}/ws/v1`,
+			httpClient: session.atproto,
+		});
 	});
 </script>
 
@@ -80,7 +97,6 @@
 				{/snippet}
 				...
 			</TentWrapper>
-			<FullPageTent>...</FullPageTent>
 		{/snippet}
 		{#snippet failed(err)}
 			<FullPageTent>

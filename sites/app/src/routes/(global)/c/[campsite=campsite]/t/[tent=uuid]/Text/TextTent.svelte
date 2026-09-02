@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { Stack } from '@campground/ui';
-	import TentWrapper from '../../../TentWrapper.svelte';
+	import TentWrapper from '../../TentWrapper.svelte';
 	import type { TentViewBasic } from '$lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
 	import MessageEditor from '$lib/components/editor/MessageEditor.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import { getCampsiteContext } from '../../../context.svelte.ts';
 	import { filter } from 'rxjs';
-	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
 	import type { WSMessageTypeToPayload } from '$lib/api/ws/types.js';
-	import { ChatMessage } from '$lib/components/index.js';
 	import {
 		MessageState,
 		type MessageViewInChat,
@@ -19,6 +17,7 @@
 		setTextTent,
 		TextTentContext,
 	} from '$lib/components/content/ChatMessage/context.svelte.js';
+	import TentMessageList from './TentMessageList.svelte';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 
@@ -87,25 +86,18 @@
 		},
 	};
 
-	function modifyMessage(value: MessageViewWithReplies): MessageViewInChat {
-		return { ...value, key: value.id, state: MessageState.Loaded };
-	}
-
 	const textTent = new TextTentContext();
 
 	$effect(() => {
-		appview.messages
-			.getMany(tent.id, 0, 50)
-			.then((value) => textTent.messages.push(...value.messages.map(modifyMessage)));
-	});
-
-	$effect(
-		() =>
-			$webSocket?.messages.pipe(filter((value) => value.op === 1)).subscribe((ev) => {
+		const subscription = $webSocket?.messages
+			.pipe(filter((value) => value.op === 1))
+			.subscribe((ev) => {
 				const payload = ev.payload as WSMessageTypeToPayload[keyof WSMessageTypeToPayload];
 				return eventHandlers[ev.t]?.(payload as never);
-			}).unsubscribe,
-	);
+			});
+
+		return () => subscription?.unsubscribe();
+	});
 
 	setTextTent(textTent);
 </script>
@@ -129,13 +121,7 @@
 				{#snippet failed(err)}
 					Err: {err}
 				{/snippet}
-				{#each textTent.messages as message (message.key)}
-					<ChatMessage
-						{message}
-						state={message.state}
-						error={message.stateMessage}
-					/>
-				{/each}
+				<TentMessageList {tent} />
 			</svelte:boundary>
 		</Stack>
 	</div>

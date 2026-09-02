@@ -1,20 +1,22 @@
 <script lang="ts">
 	import { Card, Para } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
-	import TentWrapper from '../../TentWrapper.svelte';
+	import TentWrapper from '../TentWrapper.svelte';
 	import { IconLayout2Filled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import ProfileBanner from '$lib/components/pages/ProfileBanner.svelte';
 	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
-	import { onMount } from 'svelte';
 	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
 	import { localeStrings } from '$lib/locale/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const campsiteRef = $derived(campsiteContext.campsite);
-	const campsite = $derived($campsiteRef!.campsite);
+	const campsite = $derived($campsiteRef?.campsite);
 
-	onMount(() => campsiteContext.setActiveBonfire(campsite.bonfires[0].id));
+	$effect(() => {
+		if ($campsiteRef?.campsite.bonfires[0].id)
+			campsiteContext.setActiveBonfire($campsiteRef?.campsite.bonfires[0].id);
+	});
 </script>
 
 <TentWrapper>
@@ -25,31 +27,35 @@
 		<LocaleMessage {...localeStrings.tents.bulletin} />
 	{/snippet}
 	<div class="content">
-		<ProfileBanner
-			id={campsite.id.slice(-1)}
-			src={campsite.bannerUri}
-			aspectRatio={7}
-		/>
-		<div class="avatar">
-			<ProfileAvatarWrapper>
-				<ProfileAvatar
-					id={campsite.id.slice(-1)}
-					src={campsite.avatarUri ?? undefined}
-					size="xxl"
-				>
-					{campsite.name[0].toUpperCase()}
-				</ProfileAvatar>
-			</ProfileAvatarWrapper>
-		</div>
-		<Para
-			level="h2"
-			mt="sm"
-		>
-			{campsite.name}
-		</Para>
-		<Para mt="sm">
-			{campsite.description}
-		</Para>
+		{#if campsite}
+			<ProfileBanner
+				id={campsite.id.slice(-1)}
+				src={campsite.bannerUri}
+				aspectRatio={7}
+			/>
+			<div class="avatar">
+				<ProfileAvatarWrapper>
+					<ProfileAvatar
+						id={campsite.id.slice(-1)}
+						src={campsite.avatarUri ?? undefined}
+						size="xxl"
+					>
+						{campsite.name[0].toUpperCase()}
+					</ProfileAvatar>
+				</ProfileAvatarWrapper>
+			</div>
+			<Para
+				level="h2"
+				mt="sm"
+			>
+				{campsite.name}
+			</Para>
+			<Para mt="sm">
+				{campsite.description}
+			</Para>
+		{:else}
+			...
+		{/if}
 	</div>
 </TentWrapper>
 <Card.Root

@@ -2,16 +2,7 @@
 	import HTTPBackendClient from '$lib/api/http/HTTPBackendClient.js';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { setAppview } from '$lib/context/api.js';
-	import {
-		loremIpsum,
-		MenuPortal,
-		MenuPortalContainer,
-		PagePlaceholder,
-		PagePlaceholderIcon,
-		Portals,
-		setMenuPortal,
-		Skeleton,
-	} from '@campground/ui';
+	import { MenuPortal, MenuPortalContainer, Portals, setMenuPortal } from '@campground/ui';
 	import type { LayoutProps } from './$types.ts';
 	import {
 		BonfireContext,
@@ -19,9 +10,6 @@
 		CampsiteReference,
 		setCampsiteContext,
 	} from './context.svelte.ts';
-	import FullPageTent from '../FullPageTent.svelte';
-	import TentWrapper from './TentWrapper.svelte';
-	import TentIcon from '$lib/components/tents/TentIcon.svelte';
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import WSClient from '$lib/api/ws/WSClient.js';
@@ -76,42 +64,7 @@
 
 <Sidebar />
 
-{#if !$campsite}
-	<FullPageTent>...</FullPageTent>
-{:else}
-	<svelte:boundary>
-		{#snippet pending()}
-			<TentWrapper>
-				{#snippet icon()}
-					<Skeleton>
-						<TentIcon
-							type="text"
-							viewType={0}
-						/>
-					</Skeleton>
-				{/snippet}
-				{#snippet title()}
-					<Skeleton>
-						{loremIpsum.sm}
-					</Skeleton>
-				{/snippet}
-				...
-			</TentWrapper>
-		{/snippet}
-		{#snippet failed(err)}
-			<FullPageTent>
-				<PagePlaceholder icon={PagePlaceholderIcon.Error}>
-					{#snippet title()}
-						Error
-					{/snippet}
-					{err}
-					{console.error(err)}
-				</PagePlaceholder>
-			</FullPageTent>
-		{/snippet}
-		{@render children()}
-	</svelte:boundary>
-{/if}
+{@render children()}
 
 <Portals.List>
 	<MenuPortalContainer portal={menuPortal} />

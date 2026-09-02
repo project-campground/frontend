@@ -70,7 +70,7 @@
 					<Stack gap={0.5}>
 						<Para
 							level="h2"
-							bMargin="md"
+							mb="md"
 						>
 							<Group>
 								{#if data.page}
@@ -87,7 +87,7 @@
 								<LocaleMessage {...localeHeaders[data.page as 'login' | 'register']} />
 							</Group>
 						</Para>
-						<Para>
+						<Para mb="xl">
 							<LocaleMessage {...localeDescriptions[data.page as 'login' | 'register']} />
 						</Para>
 					</Stack>

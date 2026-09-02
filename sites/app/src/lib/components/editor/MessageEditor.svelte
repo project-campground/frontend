@@ -4,6 +4,7 @@
 >
 	interface Props {
 		tentName?: string;
+		defaultValue?: string;
 		onCancel?: () => unknown;
 		onSubmit?: (content: string) => unknown;
 	}
@@ -19,14 +20,15 @@
 	import TextEditor from './TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
 	import { defineMessageExtension } from '$lib/editor/extension.js';
-	import { serializeMarkdown } from '$lib/editor/mdast/markdown.js';
+	import { deserializeMarkdown, serializeMarkdown } from '$lib/editor/mdast/markdown.js';
 	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
 	import { IconSend2 } from '@tabler/icons-svelte';
 	import { ProseKit } from 'prosekit/svelte';
 	import { defineMessage } from '@formatjs/svelte-intl';
 	import { getLocale } from '@campground/locale';
+	import { mdastRootToEditor } from '$lib/editor/mdast/markdown-to-editor.js';
 
-	const { tentName: tent, onSubmit, onCancel }: Props = $props();
+	const { tentName: tent, defaultValue, onSubmit, onCancel }: Props = $props();
 
 	const intl = getLocale();
 	const extension = $derived(
@@ -37,6 +39,10 @@
 		),
 	);
 	const editor = $derived(createEditor({ extension }));
+
+	$effect(() => {
+		if (defaultValue) editor.setContent(mdastRootToEditor(deserializeMarkdown(defaultValue)));
+	});
 
 	function submitMessage() {
 		onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())));

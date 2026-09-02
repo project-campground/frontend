@@ -14,6 +14,10 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { TentCreation } from '../Modals/TentCreation/index.ts';
 	import { localeStrings } from '$lib/locale/index.js';
+	import { getCampsiteContext } from '../context.svelte.ts';
+
+	const campsiteContext = getCampsiteContext();
+	const campsite = $derived(campsiteContext.campsite);
 
 	const menuPortal = getMenuPortal();
 </script>
@@ -45,11 +49,16 @@
 		align="stretch"
 		flex={1}
 	>
-		<BonfireBanner.Root />
-		<BonfireContent.Root />
-		<Stack
-			flex={1}
-			{@attach rightClickMenu(menuPortal, emptyPlaceRightClick)}
-		></Stack>
+		{#if !$campsite}
+			<BonfireBanner.Skeleton />
+			<BonfireContent.Skeleton />
+		{:else}
+			<BonfireBanner.Root />
+			<BonfireContent.Root />
+			<Stack
+				flex={1}
+				{@attach rightClickMenu(menuPortal, emptyPlaceRightClick)}
+			></Stack>
+		{/if}
 	</Card.Overflow>
 </Card.Root>

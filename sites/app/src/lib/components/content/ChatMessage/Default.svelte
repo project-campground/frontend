@@ -13,7 +13,8 @@
 	import { Datestamp } from '../Datestamp/index.ts';
 	import { MessageState } from './types.js';
 	import { IconExclamationCircleFilled, IconPencilFilled } from '@tabler/icons-svelte';
-	import { getLocale } from '@campground/locale';
+	import { getLocale, LocaleMessage } from '@campground/locale';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const menuPortal = getMenuPortal();
 	const locale = getLocale();
@@ -27,7 +28,7 @@
 		children,
 	}: {
 		createdBy: MessageViewWithReplies['createdBy'];
-		updatedAt?: string;
+		updatedAt?: string | null;
 		createdAt: string;
 		state?: MessageState;
 		error?: Error;
@@ -61,13 +62,16 @@
 					{new Date(updatedAt).toLocaleString(locale.id)}
 				</Tooltip>
 			{/snippet}
-			<TextBlock
-				level="subtext"
-				fontSize={0.9}
-				{@attach tooltip(menuPortal, editTooltip)}
-			>
-				<IconPencilFilled />
-			</TextBlock>
+			<span class="hasTooltip">
+				<TextBlock
+					level="subtext"
+					fontSize={0.9}
+					{@attach tooltip(menuPortal, editTooltip)}
+				>
+					<IconPencilFilled />
+					<LocaleMessage {...localeStrings.messages.edited} />
+				</TextBlock>
+			</span>
 		{/if}
 		{#if state === MessageState.Failed}
 			{#snippet stateTooltip(instance: MenuPortalInstance)}
@@ -102,6 +106,10 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 1ch;
+	}
+	.hasTooltip {
+		cursor: help;
+		line-height: 0;
 	}
 	.info {
 		cursor: help;

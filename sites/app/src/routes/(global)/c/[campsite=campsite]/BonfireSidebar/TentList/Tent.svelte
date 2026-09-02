@@ -16,7 +16,7 @@
 
 	const { tent, domain }: { tent: TentItem; domain: string } = $props();
 
-	const isActive = $derived(tent.id === page.url.pathname.split('/t/')[1].split('/')[0]);
+	const isActive = $derived(tent.id === page.url.pathname.split('/t/')[1]?.split('/')[0]);
 </script>
 
 <a href={`/c/${tent.campsiteId}@${domain}/t/${tent.id}`}>

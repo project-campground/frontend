@@ -41,13 +41,13 @@
 			<Menu.Item>
 				<Menu.Button onclick={() => textTent.setEditingMessage(message.id)}>
 					<IconPencilFilled />
-					<LocaleMessage {...localeStrings.content.edit} />
+					<LocaleMessage {...localeStrings.messages.edit} />
 				</Menu.Button>
 			</Menu.Item>
 			<Menu.Item>
 				<Menu.Button color="danger">
 					<IconTrashFilled />
-					<LocaleMessage {...localeStrings.content.delete} />
+					<LocaleMessage {...localeStrings.messages.delete} />
 				</Menu.Button>
 			</Menu.Item>
 		</Menu.List>
@@ -59,6 +59,7 @@
 		<MessageEditor
 			onSubmit={updateMessage}
 			onCancel={() => textTent.clearEditingMessage()}
+			defaultValue={message.content}
 		/>
 	{:else}
 		<ContentDisplay {...message} />

@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { Button, Card } from '@campground/ui';
-	import { IconDots } from '@tabler/icons-svelte';
+	import { IconArrowBackUp, IconDots } from '@tabler/icons-svelte';
+	import type { MessageMenuProps } from './props.ts';
 
-	const {
-		onOverflow,
-	}: {
-		onOverflow: (event: MouseEvent & { currentTarget: HTMLButtonElement & EventTarget }) => unknown;
-	} = $props();
+	const { onOverflow, toggleReply, cantToggleReply }: MessageMenuProps = $props();
 </script>
 
 <Card.Root size="xs">
@@ -14,6 +11,15 @@
 		flex={1}
 		direction="row"
 	>
+		<Button
+			padding="equal"
+			color="neutral"
+			variant="plain"
+			disabled={cantToggleReply}
+			onclick={toggleReply}
+		>
+			<IconArrowBackUp size="1.25rem" />
+		</Button>
 		<Button
 			padding="equal"
 			color="neutral"

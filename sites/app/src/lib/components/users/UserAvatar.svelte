@@ -5,14 +5,15 @@
 
 	interface Props extends Omit<AvatarProps, 'id' | 'placeholder'> {
 		did: string;
-		showStatus?: boolean;
+		hideStatus?: boolean;
 	}
 
-	const { did, size, children, ...props }: Props = $props();
+	const { did, size, children, hideStatus, ...props }: Props = $props();
 </script>
 
 <Badge
 	color="online"
+	hideBadge={hideStatus}
 	{size}
 >
 	<ProfileAvatar

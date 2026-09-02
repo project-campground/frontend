@@ -52,4 +52,5 @@ export type WSMessageTypeToPayload = {
 
 	MessageCreated: MessageViewBasic;
 	MessageUpdated: MessageViewBasic;
+	MessageDeleted: MessageViewBasic;
 };

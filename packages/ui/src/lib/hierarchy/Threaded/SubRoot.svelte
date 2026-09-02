@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { SubRootProps } from './props.ts';
 
-	const { children, parent, ...attributes }: SubRootProps = $props();
+	const { children, parent, direction, ...attributes }: SubRootProps = $props();
 </script>
 
 <div
 	class="container"
+	data-threaded-direction={direction ?? 'to-bottom'}
 	{...attributes}
 >
 	<div class="lineStart">
@@ -16,8 +17,8 @@
 	<div class="parent">
 		{@render parent()}
 	</div>
-	<div class="content">
-		{@render children()}
+	<div class="items">
+		{@render children?.()}
 	</div>
 </div>
 
@@ -37,6 +38,21 @@
 			}
 			& > .lineStart > .lineStartFirst {
 				border-bottom-left-radius: var(--ThreadedRoot-radius);
+			}
+		}
+		&[data-threaded-direction='to-top'] {
+			.parent {
+				grid-row: 2 / 3;
+			}
+			.items {
+				flex-direction: column-reverse;
+				grid-row: 1 / 2;
+			}
+			.lineEnd {
+				grid-row: 1 / 2;
+			}
+			.lineStart {
+				grid-row: 2 / 3;
 			}
 		}
 	}
@@ -65,7 +81,11 @@
 		grid-row: 1 / 2;
 		grid-column: 2 / 3;
 	}
-	.content {
+	.items {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+
 		grid-row: 2 / 3;
 		grid-column: 2 / 3;
 		.container:first-of-type > & {

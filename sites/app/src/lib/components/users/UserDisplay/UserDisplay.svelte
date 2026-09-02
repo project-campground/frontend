@@ -3,7 +3,7 @@
 	import type { UserDisplayProps } from './props.ts';
 	import UserDisplayRoot from './UserDisplayRoot.svelte';
 
-	const { user, size, ...props }: UserDisplayProps = $props();
+	const { user, size, hideStatus, ...props }: UserDisplayProps = $props();
 </script>
 
 <UserDisplayRoot
@@ -14,6 +14,7 @@
 		<UserAvatar
 			did={user.did}
 			src={user.avatar ?? undefined}
+			{hideStatus}
 			{size}
 		/>
 	{/snippet}

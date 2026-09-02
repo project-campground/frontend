@@ -37,6 +37,7 @@
 </script>
 
 <UserAvatar
+	hideStatus
 	did={createdBy.user.did}
 	src={createdBy.user.avatar ?? undefined}
 />

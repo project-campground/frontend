@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Stack } from '@campground/ui';
+	import { Stack, Threaded } from '@campground/ui';
 	import TentWrapper from '../../TentWrapper.svelte';
 	import type { TentViewBasic } from '$lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
@@ -37,13 +37,19 @@
 			tentId: tent.id,
 			state: MessageState.Creating,
 			content,
-			replyingTo: [],
-			replyingToCount: 0,
+			replyingTo: textTent.replyingTo.map((message) => ({
+				...message,
+				replyingTo: message.replyingTo.map((sub) => sub.id),
+			})),
+			replyingToCount: textTent.replyingTo.length,
 			createdBy: { ...$campsiteRef!.campsite.me, isMember: true },
 			createdAt: new Date().toISOString(),
 		});
 
-		return appview.messages.create(tent.id, { content, replies: [] }).catch((err) => {
+		const replies = textTent.replyingTo.map((message) => message.id);
+		textTent.clearReplies();
+
+		return appview.messages.create(tent.id, { content, replies }).catch((err) => {
 			// Since modifying object directly doesn't change it
 			const existingMessage = textTent.messages.find((x) => x.key === createdMessageKey);
 
@@ -84,6 +90,15 @@
 
 			if (existingMessage) return Object.assign(existingMessage, message);
 		},
+		MessageDeleted(message) {
+			if (message.tentId !== tent.id) return;
+			// To disallow replying to removed messages
+			else if (textTent.isReplyingTo(message.id)) textTent.removeReplyingTo(message.id);
+
+			const existingMessage = textTent.messages.findIndex((x) => x.id === message.id);
+
+			if (existingMessage >= 0) return textTent.messages.splice(existingMessage, 1);
+		},
 	};
 
 	const textTent = new TextTentContext();
@@ -113,6 +128,7 @@
 		<Stack
 			direction="column-reverse"
 			flex={1}
+			gap={0}
 		>
 			<svelte:boundary>
 				{#snippet pending()}
@@ -126,10 +142,22 @@
 		</Stack>
 	</div>
 	<div class="input">
-		<MessageEditor
-			onSubmit={createMessage}
-			tentName={tent.name}
-		/>
+		<Threaded.Root
+			direction="to-top"
+			size="sm"
+		>
+			{#snippet parent()}
+				<MessageEditor
+					onSubmit={createMessage}
+					tentName={tent.name}
+				/>
+			{/snippet}
+			{#each textTent.replyingTo as reply (reply.id)}
+				<Threaded.Item>
+					{reply.id}
+				</Threaded.Item>
+			{/each}
+		</Threaded.Root>
 	</div>
 </TentWrapper>
 

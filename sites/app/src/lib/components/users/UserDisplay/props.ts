@@ -6,4 +6,5 @@ export interface UserDisplayProps extends Pick<StackProps, 'align'> {
 	size?: ComponentSize;
 	displayHandle?: boolean;
 	hideAvatar?: boolean;
+	hideStatus?: boolean;
 }

@@ -3,7 +3,7 @@
 	import type { UserDisplayProps } from './props.ts';
 	import UserDisplayRoot from './UserDisplayRoot.svelte';
 
-	const { size, ...props }: Omit<UserDisplayProps, 'user'> = $props();
+	const { size, hideStatus, ...props }: Omit<UserDisplayProps, 'user'> = $props();
 </script>
 
 <UserDisplayRoot
@@ -11,7 +11,10 @@
 	{...props}
 >
 	{#snippet avatar()}
-		<Badge color="skeleton">
+		<Badge
+			color="skeleton"
+			hideBadge={hideStatus}
+		>
 			<Skeleton radius="avatar">
 				<Avatar {size} />
 			</Skeleton>

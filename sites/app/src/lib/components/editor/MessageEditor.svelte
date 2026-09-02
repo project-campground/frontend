@@ -45,7 +45,9 @@
 	});
 
 	function submitMessage() {
-		onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())));
+		const value = serializeMarkdown(editorRootToMdast(editor.getDocJSON()));
+
+		onSubmit?.(value);
 		editor.setContent({ type: 'root', content: [{ type: 'paragraph', content: [] }] });
 	}
 </script>
@@ -61,14 +63,16 @@
 			</ProseKit>
 		</div>
 		<aside class="buttons">
-			<Button
-				onclick={submitMessage}
-				variant="plain"
-				color="neutral"
-				padding="equal"
-			>
-				<IconSend2 />
-			</Button>
+			<span class="mobile-only">
+				<Button
+					onclick={submitMessage}
+					variant="plain"
+					color="neutral"
+					padding="equal"
+				>
+					<IconSend2 />
+				</Button>
+			</span>
 		</aside>
 	</Group>
 </Card.Root>
@@ -80,5 +84,10 @@
 		flex: 1;
 		max-height: 16rem;
 		overflow: auto;
+	}
+	.mobile-only {
+		@include desktop-sm-up {
+			display: none;
+		}
 	}
 </style>

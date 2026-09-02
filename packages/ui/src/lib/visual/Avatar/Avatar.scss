@@ -1,6 +1,6 @@
 @use '../../common.scss' as *;
 
-$avatar-sizes: 2rem, 2.5rem, 3rem, 4rem, 4.75rem, 5.5rem, 6.5rem;
+$avatar-sizes: 1.5rem, 2rem, 2.5rem, 3rem, 4.25rem, 5.5rem, 6.5rem;
 $avatar-size-map: create-size-map($avatar-sizes);
 
 %Squircle {

@@ -1,18 +1,19 @@
 <script lang="ts">
 	import type { RootProps } from './props.ts';
 
-	const { children, parent, reverse, size }: RootProps = $props();
+	const { children, parent, direction, size }: RootProps = $props();
 </script>
 
 <div
-	class={['container', { reverse }]}
+	class={['container']}
 	data-size={size ?? 'md'}
+	data-threaded-direction={direction ?? 'to-bottom'}
 >
 	<div class="parent">
 		{@render parent()}
 	</div>
 	<div class="items">
-		{@render children()}
+		{@render children?.()}
 	</div>
 </div>
 
@@ -30,8 +31,11 @@
 		--ThreadedRoot-width: 3rem;
 		--ThreadedRoot-radius: 3rem;
 
-		&.reverse {
+		&[data-threaded-direction='to-top'] {
 			flex-direction: column-reverse;
+			.items {
+				flex-direction: column-reverse;
+			}
 		}
 		@each $size, $value in $threaded-sizes-map {
 			&[data-size='#{$size}'] {

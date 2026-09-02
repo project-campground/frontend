@@ -10,6 +10,12 @@
 	--#{$name}: #{$accent};
 	--#{$name}-alt: #{$accent-alt};
 	--#{$name}-background: #{change($accent, $alpha: 75%)};
+
+	// Soft stuff
+	--#{$name}-softBack: #{change($accent, $alpha: div(1, 8))};
+	--#{$name}-softBackHover: #{change($accent, $alpha: div(2, 8))};
+	--#{$name}-softBackActive: #{change($accent, $alpha: div(1, 16))};
+	--#{$name}-softBackDisabled: #{change($accent, $alpha: div(1, 16))};
 }
 @mixin color-scheme($name, $accents, $background, $counter) {
 	$accent: list.nth($accents, 1);

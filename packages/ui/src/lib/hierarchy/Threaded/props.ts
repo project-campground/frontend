@@ -4,11 +4,11 @@ import type { HTMLAttributes } from 'svelte/elements';
 
 export interface RootProps extends HTMLAttributes<HTMLElementTagNameMap['div']> {
 	parent: Snippet;
-	children: Snippet;
-	reverse?: boolean;
+	children?: Snippet;
+	direction?: 'to-bottom' | 'to-top';
 	size?: ComponentSize;
 }
 export interface ItemProps extends HTMLAttributes<HTMLElementTagNameMap['div']> {
 	children: Snippet;
 }
-export interface SubRootProps extends ItemProps, Omit<RootProps, 'size'> {}
+export interface SubRootProps extends Omit<ItemProps, 'children'>, Omit<RootProps, 'size'> {}

@@ -24,7 +24,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, getLocale } from '@campground/locale';
 
 	import {
 		Button,
@@ -33,21 +33,21 @@
 		PagePlaceholderIcon,
 		Para,
 		Stack,
-		Modal,
 		Alert,
 		theme,
+		getModal,
 	} from '@campground/ui';
 	import { IconArrowRight, IconExclamationCircleFilled } from '@tabler/icons-svelte';
 	import type { GettingStarted } from './context.svelte.ts';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 
-	const intl = getLocaleContext();
+	const intl = getLocale();
 
 	interface Props {
 		gettingStarted: GettingStarted;
 	}
 	const { gettingStarted }: Props = $props();
-	const modal = Modal.getModal();
+	const modal = getModal();
 	const session = getSession();
 
 	let error: Error | null = $state(null);
@@ -67,20 +67,20 @@
 <FlexCenter>
 	<PagePlaceholder icon={PagePlaceholderIcon.Ok}>
 		{#snippet title()}
-			<FormattedMessage {...localeMessages.header} />
+			<LocaleMessage {...localeMessages.header} />
 		{/snippet}
 		<Stack
 			gap={3}
 			align="center"
 		>
 			<Para>
-				<FormattedMessage
+				<LocaleMessage
 					{...localeMessages.description}
-					values={{ button: $intl.formatMessage(localeMessages.button) }}
+					values={{ button: intl.formatMessage(localeMessages.button) }}
 				/>
 			</Para>
 			<Button onclick={finalize}>
-				<FormattedMessage {...localeMessages.button} />
+				<LocaleMessage {...localeMessages.button} />
 				<IconArrowRight />
 			</Button>
 			{#if error}

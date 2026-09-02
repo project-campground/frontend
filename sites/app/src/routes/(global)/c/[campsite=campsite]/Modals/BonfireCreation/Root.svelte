@@ -10,9 +10,10 @@
 		FormSubmit,
 		FormTextField,
 	} from '@campground/form';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Dialog, Section, Stack, Modal, Group } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.js';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
@@ -31,7 +32,7 @@
 
 <Dialog.Root>
 	<Dialog.Header>
-		<FormattedMessageGlobal id="app.bonfires.create" />
+		<LocaleMessage {...localeStrings.bonfires.create} />
 	</Dialog.Header>
 	<Form {onSubmit}>
 		<Dialog.Content>
@@ -54,7 +55,7 @@
 							required
 						>
 							<FormLabel>
-								<FormattedMessageGlobal id="info.name" />
+								<LocaleMessage {...localeStrings.content.name} />
 							</FormLabel>
 							<FormTextField
 								minlength={3}
@@ -67,7 +68,7 @@
 				<Section>
 					<FormControl id="description">
 						<FormLabel>
-							<FormattedMessageGlobal id="info.topic" />
+							<LocaleMessage {...localeStrings.content.topic} />
 						</FormLabel>
 						<FormTextField
 							multirow
@@ -81,7 +82,7 @@
 		</Dialog.Content>
 		<Dialog.Footer>
 			<FormSubmit>
-				<FormattedMessageGlobal id="common.create" />
+				<LocaleMessage {...localeStrings.content.create} />
 			</FormSubmit>
 		</Dialog.Footer>
 	</Form>

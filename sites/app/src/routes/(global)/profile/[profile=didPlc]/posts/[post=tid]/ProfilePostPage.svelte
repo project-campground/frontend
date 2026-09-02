@@ -25,7 +25,7 @@
 	import ProfilePostCreator from '../../ProfilePostCreator.svelte';
 	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	const appview = getAppview();
 	const currentUser = getAccount();
@@ -94,9 +94,9 @@
 <div class="final">
 	<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
 		{#snippet title()}
-			<FormattedMessage {...messages.finalTitle} />
+			<LocaleMessage {...messages.finalTitle} />
 		{/snippet}
-		<FormattedMessage {...messages.finalDescription} />
+		<LocaleMessage {...messages.finalDescription} />
 	</PagePlaceholder>
 </div>
 

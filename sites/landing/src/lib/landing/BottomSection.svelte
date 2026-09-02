@@ -22,7 +22,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Button, Para } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconArrowRight } from '@tabler/icons-svelte';
@@ -36,10 +36,10 @@
 	<div class="content">
 		<div class="motto">
 			<Para level="h1">
-				<FormattedMessage {...locale['landing.try.title']} />
+				<LocaleMessage {...locale['landing.try.title']} />
 			</Para>
 			<Para level="h4">
-				<FormattedMessage {...locale['landing.try.desc']} />
+				<LocaleMessage {...locale['landing.try.desc']} />
 			</Para>
 		</div>
 		<div class="buttons">
@@ -51,7 +51,7 @@
 					variant="soft"
 					color="primary"
 				>
-					<FormattedMessage {...locale['landing.try']} />
+					<LocaleMessage {...locale['landing.try']} />
 					<IconArrowRight />
 				</Button>
 			</a>

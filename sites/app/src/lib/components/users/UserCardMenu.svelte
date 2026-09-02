@@ -36,9 +36,10 @@
 		IconShieldFilled,
 		IconUserFilled,
 	} from '@tabler/icons-svelte';
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getAccount } from '$lib/context/account.svelte.js';
+	import { localeStrings } from '$lib/locale/index.ts';
 
 	interface Props {
 		hideButtons?: boolean;
@@ -84,7 +85,7 @@
 						{#snippet left()}
 							<IconUserFilled />
 						{/snippet}
-						<FormattedMessage {...localeMessages.viewProfile} />
+						<LocaleMessage {...localeMessages.viewProfile} />
 					</Menu.Button>
 				</Link>
 			</Menu.Item>
@@ -94,7 +95,7 @@
 						{#snippet left()}
 							<IconSettingsFilled />
 						{/snippet}
-						<FormattedMessage {...localeMessages.openSettings} />
+						<LocaleMessage {...localeMessages.openSettings} />
 					</Menu.Button>
 				</Menu.Item>
 				<Menu.Item color="danger">
@@ -102,7 +103,7 @@
 						{#snippet left()}
 							<IconLogout2 />
 						{/snippet}
-						<FormattedMessageGlobal id="form.logout" />
+						<LocaleMessage {...localeStrings.session.logout} />
 					</Menu.Button>
 				</Menu.Item>
 			{:else}
@@ -111,7 +112,7 @@
 						{#snippet left()}
 							<IconSettingsFilled />
 						{/snippet}
-						<FormattedMessage {...localeMessages.openSettings} />
+						<LocaleMessage {...localeMessages.openSettings} />
 					</Menu.Button>
 				</Menu.Item>
 				<Menu.Item color="danger">
@@ -119,7 +120,7 @@
 						{#snippet left()}
 							<IconShieldFilled />
 						{/snippet}
-						<FormattedMessage {...localeMessages.blockUser} />
+						<LocaleMessage {...localeMessages.blockUser} />
 					</Menu.Button>
 				</Menu.Item>
 			{/if}

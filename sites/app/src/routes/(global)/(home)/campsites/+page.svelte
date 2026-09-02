@@ -22,7 +22,7 @@
 	import AppviewInstance from './AppviewInstance.svelte';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	const session = getSession();
 	let instanceList = $state(session.preferences.full.instances?.domains ?? []);
@@ -44,9 +44,9 @@
 			<FlexCenter>
 				<PagePlaceholder icon={PagePlaceholderIcon.Empty}>
 					{#snippet title()}
-						<FormattedMessage {...messages.emptyTitle} />
+						<LocaleMessage {...messages.emptyTitle} />
 					{/snippet}
-					<FormattedMessage {...messages.emptyDescription} />
+					<LocaleMessage {...messages.emptyDescription} />
 				</PagePlaceholder>
 			</FlexCenter>
 		{/if}

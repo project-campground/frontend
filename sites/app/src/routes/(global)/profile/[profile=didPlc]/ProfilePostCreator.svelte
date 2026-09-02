@@ -16,14 +16,14 @@
 
 	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
-	import { FormattedMessage, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, getLocale } from '@campground/locale';
 	import { Card, Group } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconPencilFilled } from '@tabler/icons-svelte';
 
 	let open = $state(false);
 	const currentUser = getAccount();
-	const intl = getLocaleContext();
+	const intl = getLocale();
 
 	const { onSubmit }: { onSubmit: (value: string) => unknown } = $props();
 </script>
@@ -33,7 +33,7 @@
 		<BasicPostEditor
 			onCancel={() => (open = false)}
 			{onSubmit}
-			placeholder={$intl.formatMessage(messages.placeholder)}
+			placeholder={intl.formatMessage(messages.placeholder)}
 		></BasicPostEditor>
 	{:else}
 		<Card.Content>
@@ -48,7 +48,7 @@
 					<span class="icon">
 						<IconPencilFilled />
 					</span>
-					<FormattedMessage {...messages.placeholder} />
+					<LocaleMessage {...messages.placeholder} />
 				</span>
 			</Group>
 		</Card.Content>

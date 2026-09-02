@@ -29,12 +29,13 @@
 		FormSubmit,
 		FormTextField,
 	} from '@campground/form';
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Accordion, Avatar, Card, Group, Para, Stack, TextBlock, Alert } from '@campground/ui';
 	import KnownAppviewOptions from '../../../KnownAppviewOptions.svelte';
 	import { defaultAppview } from '$lib/api/api.config.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconInfoCircleFilled } from '@tabler/icons-svelte';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const session = getSession();
 
@@ -77,7 +78,7 @@
 		<div class="grid">
 			<Form onSubmit={(values) => createCampsite(values as FormFields)}>
 				<Para level="h2">
-					<FormattedMessageGlobal id="app.campsites.create" />
+					<LocaleMessage {...localeStrings.campsites.create} />
 				</Para>
 				<Group>
 					<FormControl
@@ -98,7 +99,7 @@
 						flex={1}
 					>
 						<FormLabel>
-							<FormattedMessageGlobal id="app.campsites.name" />
+							<LocaleMessage {...localeStrings.content.name} />
 						</FormLabel>
 						<FormTextField
 							minlength={3}
@@ -109,7 +110,7 @@
 				</Group>
 				<FormControl id="description">
 					<FormLabel>
-						<FormattedMessageGlobal id="info.topic" />
+						<LocaleMessage {...localeStrings.content.topic} />
 					</FormLabel>
 					<FormTextField
 						multirow
@@ -119,7 +120,7 @@
 				</FormControl>
 				<Accordion>
 					{#snippet header()}
-						<FormattedMessage {...messages.appview} />
+						<LocaleMessage {...messages.appview} />
 					{/snippet}
 					<div class="appview">
 						<FormControl
@@ -135,7 +136,7 @@
 								{#snippet icon()}
 									<IconInfoCircleFilled />
 								{/snippet}
-								<FormattedMessage {...messages.appviewDesc} />
+								<LocaleMessage {...messages.appviewDesc} />
 							</Alert>
 							<FormErrorLabel />
 						</FormControl>
@@ -146,7 +147,7 @@
 					directionMobile="column"
 				>
 					<FormSubmit>
-						<FormattedMessageGlobal id="common.create" />
+						<LocaleMessage {...localeStrings.content.create} />
 					</FormSubmit>
 				</Group>
 			</Form>
@@ -175,8 +176,8 @@
 									weight={700}
 									fontSize={0.9}
 								>
-									<FormattedMessageGlobal
-										id="app.campsites.members"
+									<LocaleMessage
+										{...localeStrings.campsites.members}
 										values={{ count: 1 }}
 									/>
 								</TextBlock>

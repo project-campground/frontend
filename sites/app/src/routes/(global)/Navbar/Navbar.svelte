@@ -17,7 +17,7 @@
 	import NavbarProfile from './NavbarProfile.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import NavbarItem from './NavbarItem.svelte';
 
 	const account = getAccount();
@@ -39,7 +39,7 @@
 				color="neutral"
 				href="/discover"
 			>
-				<FormattedMessage {...messages.emptyCampsiteList} />
+				<LocaleMessage {...messages.emptyCampsiteList} />
 			</Link>
 		{/if}
 		{#each account.navbarItems as item (item.id)}

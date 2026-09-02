@@ -13,6 +13,16 @@
 			defaultMessage: 'Invalid image URL',
 			description: 'Error in URL formatting to the image in image upload modal',
 		},
+		imageUpload: {
+			id: 'form.image.upload',
+			defaultMessage: 'Upload image',
+			description: 'The button for uploading image',
+		},
+		cancel: {
+			id: 'form.image.cancel',
+			defaultMessage: 'Cancel',
+			description: 'The button for cancelling uploading an image',
+		},
 	});
 </script>
 
@@ -23,22 +33,22 @@
 	import { FormSubmit } from '$lib/FormSubmit/index.js';
 	import { FormTextField } from '$lib/FormTextField/index.js';
 
-	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, getLocale } from '@campground/locale';
 
-	import { Button, Dialog, Modal } from '@campground/ui';
+	import { Button, Dialog, getModal } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import type { FormImageDialogProps } from './props.ts';
 	import { FormErrorLabel } from '$lib/FormErrorLabel/index.js';
 
-	const modal = Modal.getModal();
-	const intl = getLocaleContext();
+	const modal = getModal();
+	const locale = getLocale();
 
 	const { onSubmit }: FormImageDialogProps = $props();
 </script>
 
 <Dialog.Root size="auto">
 	<Dialog.Header>
-		<FormattedMessageGlobal id="form.upload.image" />
+		<LocaleMessage {...localeMessages.imageUpload} />
 	</Dialog.Header>
 	<Form onSubmit={(values) => (onSubmit(values), modal.closeModal())}>
 		<Dialog.Content>
@@ -47,13 +57,13 @@
 				required
 			>
 				<FormLabel>
-					<FormattedMessage {...localeMessages.imageUrl} />
+					<LocaleMessage {...localeMessages.imageUrl} />
 				</FormLabel>
 				<FormTextField
 					placeholder="https://example.com/abc.png"
 					format={{
 						regex: /^(https?:\/\/)?([a-zA-Z0-9-_]+[.])+([A-Za-z]{2,})[/]/,
-						errorMessage: $intl.formatMessage(localeMessages.imageUrlError),
+						errorMessage: locale.formatMessage(localeMessages.imageUrlError),
 					}}
 				/>
 				<FormErrorLabel />
@@ -61,14 +71,14 @@
 		</Dialog.Content>
 		<Dialog.Footer>
 			<FormSubmit>
-				<FormattedMessageGlobal id="form.upload.image" />
+				<LocaleMessage {...localeMessages.imageUpload} />
 			</FormSubmit>
 			<Button
 				color="neutral"
 				variant="plain"
 				onclick={() => modal.closeModal()}
 			>
-				<FormattedMessageGlobal id="common.cancel" />
+				<LocaleMessage {...localeMessages.cancel} />
 			</Button>
 		</Dialog.Footer>
 	</Form>

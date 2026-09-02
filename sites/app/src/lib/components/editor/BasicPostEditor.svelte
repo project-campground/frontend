@@ -15,10 +15,11 @@
 	import BlockTextEditor from './BlockTextEditor.svelte';
 	import TextEditor from './TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { definePostExtension } from '$lib/editor/extension.js';
 	import { serializeMarkdown } from '$lib/editor/mdast/markdown.js';
 	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const { placeholder, submitType, onSubmit, onCancel }: Props = $props();
 
@@ -33,9 +34,9 @@
 	<footer class="footer">
 		<Button onclick={() => onSubmit?.(serializeMarkdown(editorRootToMdast(editor.getDocJSON())))}>
 			{#if submitType === 'update'}
-				<FormattedMessageGlobal id="common.edit" />
+				<LocaleMessage {...localeStrings.content.edit} />
 			{:else}
-				<FormattedMessageGlobal id="common.create" />
+				<LocaleMessage {...localeStrings.content.create} />
 			{/if}
 		</Button>
 		{#if onCancel}
@@ -44,7 +45,7 @@
 				variant="plain"
 				onclick={onCancel}
 			>
-				<FormattedMessageGlobal id="common.cancel" />
+				<LocaleMessage {...localeStrings.common.cancel} />
 			</Button>
 		{/if}
 	</footer>

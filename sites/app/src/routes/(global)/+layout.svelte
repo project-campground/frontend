@@ -28,7 +28,7 @@
 		type MenuPortalInstance,
 	} from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import ProfileSetup from './GettingStartedModal.svelte';
 	import { onMount } from 'svelte';
 	import { setAppview } from '$lib/context/api.js';
@@ -60,17 +60,17 @@
 </script>
 
 {#snippet createProfileModal(instance: MenuPortalInstance)}
-	<Modal.Root {instance}>
+	<Modal {instance}>
 		<Dialog.Root size="full">
 			<ProfileSetup />
 		</Dialog.Root>
-	</Modal.Root>
+	</Modal>
 {/snippet}
 
 {#if error}
 	<PagePlaceholder icon={PagePlaceholderIcon.Error}>
 		{#snippet title()}
-			<FormattedMessage {...errors.sessionError} />
+			<LocaleMessage {...errors.sessionError} />
 		{/snippet}
 		{error}
 	</PagePlaceholder>

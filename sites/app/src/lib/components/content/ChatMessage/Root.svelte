@@ -6,11 +6,12 @@
 	import System from './System.svelte';
 	import Toolbar from './Toolbar.svelte';
 	import { IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import type { Snippet } from 'svelte';
 	import { getTextTent } from './context.svelte.ts';
 	import MessageEditor from '$lib/components/editor/MessageEditor.svelte';
 	import { getAppview } from '$lib/context/api.js';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const menuPortal = getMenuPortal();
 
@@ -40,13 +41,13 @@
 			<Menu.Item>
 				<Menu.Button onclick={() => textTent.setEditingMessage(message.id)}>
 					<IconPencilFilled />
-					<FormattedMessageGlobal id="common.edit" />
+					<LocaleMessage {...localeStrings.content.edit} />
 				</Menu.Button>
 			</Menu.Item>
 			<Menu.Item>
 				<Menu.Button color="danger">
 					<IconTrashFilled />
-					<FormattedMessageGlobal id="common.delete" />
+					<LocaleMessage {...localeStrings.content.delete} />
 				</Menu.Button>
 			</Menu.Item>
 		</Menu.List>

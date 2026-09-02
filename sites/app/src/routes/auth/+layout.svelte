@@ -43,7 +43,7 @@
 <script lang="ts">
 	import type { LayoutProps } from './$types.d.ts';
 	import { BrandLogo, Button, Card, Group, Link, Para, Stack, Portals } from '@campground/ui';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { IconCaretLeftFilled } from '@tabler/icons-svelte';
 
 	const { children, data }: LayoutProps = $props();
@@ -84,11 +84,11 @@
 										</Button>
 									</Link>
 								{/if}
-								<FormattedMessage {...localeHeaders[data.page as 'login' | 'register']} />
+								<LocaleMessage {...localeHeaders[data.page as 'login' | 'register']} />
 							</Group>
 						</Para>
 						<Para>
-							<FormattedMessage {...localeDescriptions[data.page as 'login' | 'register']} />
+							<LocaleMessage {...localeDescriptions[data.page as 'login' | 'register']} />
 						</Para>
 					</Stack>
 					{@render children()}

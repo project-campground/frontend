@@ -34,15 +34,16 @@
 		FormTextField,
 		type FormProps,
 	} from '@campground/form';
-	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, getLocale } from '@campground/locale';
 	import { Group, Section, Accordion, Alert } from '@campground/ui';
 	import { defaultPds } from '$lib/api/api.config.js';
 	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 	import { authMessages } from '../messages.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
-	const intl = getLocaleContext();
+	const locale = getLocale();
 
 	const session = getSession();
 
@@ -74,7 +75,7 @@
 			required
 		>
 			<FormLabel>
-				<FormattedMessageGlobal id="info.handleOrEmail" />
+				<LocaleMessage {...localeStrings.users.handleOrEmail} />
 			</FormLabel>
 			<FormTextField
 				type="email"
@@ -82,7 +83,7 @@
 				format={{
 					regex:
 						/^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|([A-Za-z0-9_+-]{3,}[.])+([A-Za-z0-9_+-]{2,}))$/,
-					errorMessage: $intl.formatMessage(messages.expectedIdentifier),
+					errorMessage: locale.formatMessage(messages.expectedIdentifier) as string,
 				}}
 			/>
 			<FormErrorLabel></FormErrorLabel>
@@ -92,11 +93,11 @@
 			required
 		>
 			<FormLabel>
-				<FormattedMessageGlobal id="info.password" />
+				<LocaleMessage {...localeStrings.password.password} />
 			</FormLabel>
 			<FormTextField
 				type="password"
-				placeholder={$intl.formatMessage(messages.passwordPlaceholder)}
+				placeholder={locale.formatMessage(localeStrings.password.placeholder) as string}
 			/>
 			<FormErrorLabel></FormErrorLabel>
 		</FormControl>
@@ -104,15 +105,15 @@
 			<FormCheck.List>
 				<FormCheck.Item value="confirm">
 					{#snippet header()}
-						<FormattedMessage {...messages.rememberAccount} />
+						<LocaleMessage {...messages.rememberAccount} />
 					{/snippet}
 				</FormCheck.Item>
 			</FormCheck.List>
 		</FormControl>
 	</Section>
-	<Accordion gap="xs">
+	<Accordion>
 		{#snippet header()}
-			<FormattedMessageGlobal id="info.pds" />
+			<LocaleMessage {...localeStrings.users.pds} />
 		{/snippet}
 		<FormControl
 			id="pds"
@@ -123,7 +124,7 @@
 				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
-					errorMessage: $intl.formatMessage(authMessages.expectedPds),
+					errorMessage: locale.formatMessage(authMessages.expectedPds) as string,
 				}}
 			>
 				{#snippet left()}

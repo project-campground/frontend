@@ -3,11 +3,12 @@
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentWrapper from '../../TentWrapper.svelte';
 	import { IconLayout2Filled } from '@tabler/icons-svelte';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import ProfileBanner from '$lib/components/pages/ProfileBanner.svelte';
 	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
 	import { onMount } from 'svelte';
 	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const campsiteRef = $derived(campsiteContext.campsite);
@@ -21,7 +22,7 @@
 		<IconLayout2Filled />
 	{/snippet}
 	{#snippet title()}
-		<FormattedMessageGlobal id="app.tents.bulletin" />
+		<LocaleMessage {...localeStrings.tents.bulletin} />
 	{/snippet}
 	<div class="content">
 		<ProfileBanner

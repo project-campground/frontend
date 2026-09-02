@@ -12,8 +12,9 @@
 	} from '@campground/ui';
 	import { getCampsiteContext } from '../context.svelte.ts';
 	import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { getAppview } from '$lib/context/api.js';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	async function deleteBonfire() {
 		return appview.bonfires.delete(bonfire.campsiteId, bonfire.id);
@@ -32,7 +33,7 @@
 			<Menu.Item>
 				<Menu.Button>
 					<IconSettingsFilled />
-					<FormattedMessageGlobal id="app.bonfires.settings" />
+					<LocaleMessage {...localeStrings.bonfires.settings} />
 				</Menu.Button>
 			</Menu.Item>
 			<Menu.Item>
@@ -42,7 +43,7 @@
 					disabled={campsiteContext.campsite!.bonfires.length < 2}
 				>
 					<IconTrashFilled />
-					<FormattedMessageGlobal id="app.bonfires.delete" />
+					<LocaleMessage {...localeStrings.bonfires.delete} />
 				</Menu.Button>
 			</Menu.Item>
 		</Menu.List>

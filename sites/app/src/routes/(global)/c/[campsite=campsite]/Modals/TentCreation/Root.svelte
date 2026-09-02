@@ -25,11 +25,12 @@
 		FormSubmit,
 		FormTextField,
 	} from '@campground/form';
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Dialog, Section, Grid, Stack, Modal } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconHash, IconListDetailsFilled, IconTent } from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../context.svelte.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	let what: 'tent' | 'category' = $state('tent');
 	const appview = getAppview();
@@ -75,7 +76,7 @@
 
 <Dialog.Root>
 	<Dialog.Header>
-		<FormattedMessageGlobal id="app.tents.create" />
+		<LocaleMessage {...localeStrings.tents.create} />
 	</Dialog.Header>
 	<Form {onSubmit}>
 		<Dialog.Content>
@@ -117,7 +118,7 @@
 						required
 					>
 						<FormLabel>
-							<FormattedMessageGlobal id="info.name" />
+							<LocaleMessage {...localeStrings.content.name} />
 						</FormLabel>
 						<FormTextField
 							minlength={3}
@@ -127,7 +128,7 @@
 					</FormControl>
 					<FormControl id="description">
 						<FormLabel>
-							<FormattedMessageGlobal id="info.topic" />
+							<LocaleMessage {...localeStrings.content.topic} />
 						</FormLabel>
 						<FormTextField
 							multirow
@@ -145,7 +146,7 @@
 							required
 						>
 							<FormLabel>
-								<FormattedMessage {...messages.type} />
+								<LocaleMessage {...messages.type} />
 							</FormLabel>
 							<FormRadio.List>
 								<Grid.Root
@@ -155,7 +156,7 @@
 									<Grid.Cell>
 										<FormRadio.Button value="text">
 											<IconHash />
-											<FormattedMessageGlobal id="app.tents.text" />
+											<LocaleMessage {...localeStrings.tents.text} />
 										</FormRadio.Button>
 									</Grid.Cell>
 								</Grid.Root>
@@ -167,7 +168,7 @@
 		</Dialog.Content>
 		<Dialog.Footer>
 			<FormSubmit>
-				<FormattedMessageGlobal id="common.create" />
+				<LocaleMessage {...localeStrings.content.create} />
 			</FormSubmit>
 		</Dialog.Footer>
 	</Form>

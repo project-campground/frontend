@@ -20,7 +20,7 @@
 	import { getAppview } from '$lib/context/api.js';
 	import type { ProfilePostViewParented } from '$lib/types/campground/user.js';
 
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	import { PagePlaceholder, PagePlaceholderIcon, Stack } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
@@ -52,9 +52,9 @@
 		{/each}
 		<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
 			{#snippet title()}
-				<FormattedMessage {...messages.finalTitle} />
+				<LocaleMessage {...messages.finalTitle} />
 			{/snippet}
-			<FormattedMessage {...messages.finalDescription} />
+			<LocaleMessage {...messages.finalDescription} />
 		</PagePlaceholder>
 	</Stack>
 </div>

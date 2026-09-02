@@ -1,9 +1,32 @@
+<script
+	lang="ts"
+	module
+>
+	const messages = defineMessages({
+		social: {
+			id: 'app.profiles.social',
+			defaultMessage: 'Socials',
+			description: 'Socials header in user profiles',
+		},
+		posts: {
+			id: 'app.profiles.tabs.posts',
+			defaultMessage: 'Posts',
+			description: 'Posts tab header in user profiles',
+		},
+		postsAndReplies: {
+			id: 'app.profiles.tabs.postsAndReplies',
+			defaultMessage: 'Posts & Replies',
+			description: 'Posts & replies tab header in user profiles',
+		},
+	});
+</script>
+
 <script lang="ts">
 	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
 	import UserBanner from '$lib/components/users/UserBanner.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import { PagePlaceholder, PagePlaceholderIcon, Para, Tabs } from '@campground/ui';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
 	import ProfileFeed from './ProfileFeed.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
@@ -11,6 +34,8 @@
 	import ProfilePageColumn from './ProfilePageColumn.svelte';
 	import ProfilePageHeader from './ProfilePageHeader.svelte';
 	import ProfileFeedSkeleton from './ProfileFeedSkeleton.svelte';
+	import { defineMessages } from '@formatjs/svelte-intl';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const appview = getAppview();
 	const currentUser = getAccount();
@@ -78,7 +103,7 @@
 </ProfilePageHeader>
 <ProfilePageColumn>
 	<Para level="h2">
-		<FormattedMessageGlobal id="site.social" />
+		<LocaleMessage {...messages.social} />
 	</Para>
 	<PagePlaceholder icon={PagePlaceholderIcon.WIP}>
 		{#snippet title()}
@@ -95,11 +120,11 @@
 		{#snippet tabs()}
 			<Tabs.Item>
 				<IconFlameFilled />
-				<FormattedMessageGlobal id="app.profiles.feed" />
+				<LocaleMessage {...messages.posts} />
 			</Tabs.Item>
 			<Tabs.Item>
 				<IconArrowBack />
-				<FormattedMessageGlobal id="app.profiles.replies" />
+				<LocaleMessage {...messages.postsAndReplies} />
 			</Tabs.Item>
 		{/snippet}
 		<Tabs.AsyncTab>
@@ -124,7 +149,7 @@
 </ProfilePageColumn>
 <ProfilePageColumn>
 	<Para level="h2">
-		<FormattedMessageGlobal id="info.about.me" />
+		<LocaleMessage {...localeStrings.users.about} />
 	</Para>
 	{#if profile.description}
 		<Para level="paragraph">

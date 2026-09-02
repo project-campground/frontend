@@ -13,7 +13,7 @@
 
 <script lang="ts">
 	import FadingBox from '$lib/components/content/FadingBox/FadingBox.svelte';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Group } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import type { Snippet } from 'svelte';
@@ -37,7 +37,7 @@
 	</div>
 	<div class="content">
 		<div class="hint">
-			<FormattedMessage {...messages.bannerHint} />
+			<LocaleMessage {...messages.bannerHint} />
 		</div>
 		<Group gap={0.5}>
 			{@render children()}

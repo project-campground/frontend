@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Card } from '@campground/ui';
-	import { IconDots, IconPencilFilled } from '@tabler/icons-svelte';
+	import { IconDots } from '@tabler/icons-svelte';
 
 	const {
 		onOverflow,

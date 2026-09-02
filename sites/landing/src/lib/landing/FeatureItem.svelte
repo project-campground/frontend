@@ -41,7 +41,7 @@
 			class="title"
 			mt="sm"
 			mb="sm"
-			letterSpacing={2}
+			letterSpacing={0.075}
 		>
 			<GradientText
 				colors={[`var(--${color}-glowFirst)`, 'var(--primary-glowFirst)', 'var(--primary-glowSecond)']}
@@ -53,7 +53,7 @@
 		<Para
 			class="description"
 			fontSize={1.5}
-			letterSpacing={0.5}
+			letterSpacing={0.05}
 			lineHeight={2}
 		>
 			{@render children()}

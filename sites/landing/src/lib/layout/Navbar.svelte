@@ -19,18 +19,18 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, commonLocale, getLocale } from '@campground/locale';
 	import { BrandLogo, Button } from '@campground/ui';
 	import { IconArrowRight } from '@tabler/icons-svelte';
 
-	const localeContext = getLocaleContext();
+	const locale = getLocale();
 </script>
 
 <nav class="Navbar container">
 	<ul class="Navbar list">
 		<li class="Navbar item brand">
 			<a
-				href={`/${$localeContext.locale}`}
+				href={`/${locale.id}`}
 				class="Navbar button"
 			>
 				<BrandLogo size="md" />
@@ -47,7 +47,7 @@
 					variant="plain"
 					color="neutral"
 				>
-					<FormattedMessage {...localeFeatures['landing.features']} />
+					<LocaleMessage {...localeFeatures['landing.features']} />
 				</Button>
 			</a>
 		</li>
@@ -61,7 +61,7 @@
 					variant="plain"
 					color="neutral"
 				>
-					<FormattedMessage {...localeFeatures['landing.docs']} />
+					<LocaleMessage {...localeFeatures['landing.docs']} />
 				</Button>
 			</a>
 		</li>
@@ -74,7 +74,7 @@
 					size="lg"
 					variant="plain"
 				>
-					<FormattedMessageGlobal id="common.download" />
+					<LocaleMessage {...commonLocale.download} />
 				</Button>
 			</a>
 		</li>
@@ -84,7 +84,7 @@
 				class="Navbar button"
 			>
 				<Button size="lg">
-					<FormattedMessageGlobal id="form.login" />
+					<LocaleMessage {...commonLocale.login} />
 					<IconArrowRight size={16} />
 				</Button>
 			</a>

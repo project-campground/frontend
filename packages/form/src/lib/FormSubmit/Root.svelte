@@ -1,8 +1,20 @@
+<script
+	lang="ts"
+	module
+>
+	const submitMessage = defineMessage({
+		id: 'form.submit',
+		defaultMessage: 'Submit',
+		description: 'The default submission button text in forms',
+	});
+</script>
+
 <script lang="ts">
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Button } from '@campground/ui';
 	import type FormSubmitProps from './props.ts';
 	import { getForm } from '$lib/Form/context.svelte.js';
+	import { defineMessage } from '@formatjs/svelte-intl';
 
 	const { children, disabled, ...props }: FormSubmitProps = $props();
 
@@ -19,6 +31,6 @@
 	{#if children}
 		{@render children()}
 	{:else}
-		<FormattedMessageGlobal id="form.submit" />
+		<LocaleMessage {...submitMessage} />
 	{/if}
 </Button>

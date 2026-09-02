@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import {
 		Avatar,
 		Divider,
@@ -41,6 +41,7 @@
 	import { GeneralPermissionConsts } from '$lib/util/permissions.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const menuPortal = getMenuPortal();
 
@@ -59,7 +60,7 @@
 
 {#snippet ownerErrorTooltip(instance: MenuPortalInstance)}
 	<Tooltip {instance}>
-		<FormattedMessage {...messages.leaveOwnerError} />
+		<LocaleMessage {...messages.leaveOwnerError} />
 	</Tooltip>
 {/snippet}
 {#snippet bonfireCreationModal(instance: MenuPortalInstance)}
@@ -73,13 +74,13 @@
 		<Menu.Item>
 			<Menu.Button>
 				<IconCampfireFilled />
-				<FormattedMessageGlobal id="app.bonfires.settings" />
+				<LocaleMessage {...localeStrings.bonfires.settings} />
 			</Menu.Button>
 		</Menu.Item>
 		<Menu.Item>
 			<Menu.Button>
 				<IconSettingsFilled />
-				<FormattedMessageGlobal id="app.campsites.settings" />
+				<LocaleMessage {...localeStrings.campsites.settings} />
 			</Menu.Button>
 		</Menu.Item>
 		<Menu.Item>
@@ -89,7 +90,7 @@
 				{@attach tooltip(menuPortal, ownerErrorTooltip)}
 			>
 				<IconLogout2 />
-				<FormattedMessage {...messages.leave} />
+				<LocaleMessage {...messages.leave} />
 			</Menu.Button>
 		</Menu.Item>
 		<Menu.Item
@@ -111,7 +112,7 @@
 						<Avatar size="sm">
 							<IconPlus />
 						</Avatar>
-						<FormattedMessageGlobal id="app.bonfires.create" />
+						<LocaleMessage {...localeStrings.bonfires.create} />
 					</Group>
 				</Menu.Button>
 			</Menu.Item>

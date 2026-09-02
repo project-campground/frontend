@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { Avatar, Group, TextBlock } from '@campground/ui';
+	import { Group, TextBlock } from '@campground/ui';
 	import NavbarButton from './NavbarButton.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
-	import { FormattedMessageGlobal } from '@campground/locale';
 	import type { Snippet } from 'svelte';
 	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
+	import { localeStrings } from '$lib/locale/index.ts';
+	import { LocaleMessage } from '@campground/locale';
 
 	interface Props {
 		avatar?: string;
@@ -35,8 +36,8 @@
 		>
 			<Group gap={0.5}>
 				<IconUserFilled size="0.75rem" />
-				<FormattedMessageGlobal
-					id="app.campsites.members"
+				<LocaleMessage
+					{...localeStrings.campsites.members}
 					values={{ count: memberCount }}
 				/>
 			</Group>

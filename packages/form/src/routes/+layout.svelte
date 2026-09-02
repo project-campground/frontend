@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LocaleFetcher, setLocaleContext, localeIds, type LocaleId } from '@campground/locale';
+	import { LocaleContext, setLocale, localeIds, type LocaleId } from '@campground/locale';
 	import {
 		Group,
 		Main,
@@ -12,22 +12,18 @@
 		Portals,
 	} from '@campground/ui';
 	import type { Snippet } from 'svelte';
-	import { writable } from 'svelte/store';
 
 	let lightTheme: boolean = $state(false);
 
-	const localeManager = new LocaleFetcher();
-	const locale = writable(localeManager.createDefaultLocale());
+	const locale = new LocaleContext();
 
 	let localeValue = $state<LocaleId>('en-US');
 
-	setLocaleContext(locale);
+	setLocale(locale);
 
 	$effect(() => theme.set(lightTheme ? 'light' : 'dark'));
 	$effect(() => {
-		localeManager.fetchLocale(localeValue).then((newLocale) => {
-			locale.set(newLocale);
-		});
+		locale.fetchLocale(localeValue).catch((err) => console.error('Error switching locale', err));
 	});
 
 	const { children }: { children: Snippet } = $props();

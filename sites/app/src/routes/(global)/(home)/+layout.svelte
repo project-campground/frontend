@@ -20,7 +20,7 @@
 	import { Stack, Card, Accordion } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
 	import HomeNavbarButton from './HomeNavbarButton.svelte';
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage, siteLocale } from '@campground/locale';
 	import {
 		IconCampfireFilled,
 		IconCirclePlusFilled,
@@ -28,6 +28,7 @@
 		IconFlameFilled,
 	} from '@tabler/icons-svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const { children }: LayoutProps = $props();
 </script>
@@ -48,18 +49,18 @@
 						noBackground
 					>
 						{#snippet header()}
-							<FormattedMessageGlobal id="site.social" />
+							<LocaleMessage id="site.social" />
 						{/snippet}
 						<HomeNavbarButton
 							color="primary"
 							href="/"
 						>
 							<IconFlameFilled />
-							<FormattedMessage {...messages.whatsNew} />
+							<LocaleMessage {...messages.whatsNew} />
 						</HomeNavbarButton>
 						<HomeNavbarButton href="/discover">
 							<IconCompassFilled />
-							<FormattedMessageGlobal id="site.discovery" />
+							<LocaleMessage {...siteLocale.discovery} />
 						</HomeNavbarButton>
 					</Accordion>
 					<Accordion
@@ -67,15 +68,15 @@
 						expanded={true}
 					>
 						{#snippet header()}
-							<FormattedMessageGlobal id="site.campsites" />
+							<LocaleMessage {...siteLocale.campsites} />
 						{/snippet}
 						<HomeNavbarButton href="/campsites/create">
 							<IconCirclePlusFilled />
-							<FormattedMessageGlobal id="app.campsites.create" />
+							<LocaleMessage {...localeStrings.campsites.create} />
 						</HomeNavbarButton>
 						<HomeNavbarButton href="/campsites">
 							<IconCampfireFilled />
-							<FormattedMessage {...messages.myCampsites} />
+							<LocaleMessage {...messages.myCampsites} />
 						</HomeNavbarButton>
 					</Accordion>
 				</Stack>

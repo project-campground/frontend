@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getLocaleContext, globalLocale } from '@campground/locale';
+	import { getLocale } from '@campground/locale';
 	import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
 	import { toLookup } from '$lib/util/array.js';
 	import { Divider } from '@campground/ui';
@@ -9,6 +9,7 @@
 	import { psuedoTentList } from '../pseudoTents.ts';
 	import Wrapper from './Wrapper.svelte';
 	import Skeleton from './Skeleton.svelte';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const bonfire = $derived(campsiteContext.openBonfire);
@@ -43,10 +44,8 @@
 		}[],
 	);
 	const isDefaultBonfire = $derived($bonfire?.isBonfireDefault ?? false);
-	// $effect(() => {
-	// 	console.log({ categoryList, nonCategorizedTents, categorizedTents, isDefaultBonfire });
-	// });
-	const intl = getLocaleContext();
+
+	const intl = getLocale();
 </script>
 
 {#if $campsite && $bonfire}
@@ -56,7 +55,7 @@
 				tents={psuedoTentList.map((tent) => ({
 					...tent,
 					campsiteId: $campsite!.campsiteId,
-					name: $intl.formatMessage(globalLocale[`app.tents.${tent.id}` as 'app.tents.bulletin']),
+					name: intl.formatMessage(localeStrings.tents[tent.id as 'bulletin']),
 				}))}
 				{domain}
 			/>

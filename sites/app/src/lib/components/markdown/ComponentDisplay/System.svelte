@@ -30,7 +30,7 @@
 		MessageViewWithReplies,
 		SystemMessageComponent,
 	} from '$lib/types/campground/content.js';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Group, TextBlock } from '@campground/ui';
 	import { defineMessage } from '@formatjs/svelte-intl';
 	import { IconPencilFilled, IconPlusFilled } from '@tabler/icons-svelte';
@@ -63,7 +63,7 @@
 		<IconComponent />
 	</TextBlock>
 	<TextBlock whitespace="pre-wrap">
-		<FormattedMessage
+		<LocaleMessage
 			{...messageTranslation[systemMessageType]}
 			values={{ executor }}
 		/>

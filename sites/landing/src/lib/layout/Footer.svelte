@@ -1,6 +1,19 @@
+<script
+	lang="ts"
+	module
+>
+	const messages = defineMessages({
+		socials: {
+			id: 'landing.socials',
+			defaultMessage: 'Socials',
+			description: 'Socials header in landing page footer',
+		},
+	});
+</script>
+
 <script lang="ts">
 	import { BrandLogo, Link } from '@campground/ui';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage, siteLocale } from '@campground/locale';
 	import {
 		IconBrandBluesky,
 		IconBrandDiscord,
@@ -11,6 +24,7 @@
 		IconFile,
 		IconSettings,
 	} from '@tabler/icons-svelte';
+	import { defineMessages } from '@formatjs/svelte-intl';
 </script>
 
 <footer class="Footer container">
@@ -20,7 +34,7 @@
 	<div class="Footer content">
 		<section class="Footer section">
 			<h4>
-				<FormattedMessageGlobal id="site.social" />
+				<LocaleMessage {...messages.socials} />
 			</h4>
 			<ul class="Footer list">
 				<li>
@@ -29,7 +43,7 @@
 						color="neutral"
 					>
 						<IconBrandGithub />
-						<FormattedMessageGlobal id="site.social.github" />
+						GitHub
 					</Link>
 				</li>
 				<li>
@@ -38,7 +52,7 @@
 						color="neutral"
 					>
 						<IconBrandBluesky />
-						<FormattedMessageGlobal id="site.social.bsky" />
+						Bluesky
 					</Link>
 				</li>
 				<li>
@@ -47,14 +61,14 @@
 						color="neutral"
 					>
 						<IconBrandDiscord />
-						<FormattedMessageGlobal id="site.social.discord" />
+						Discord
 					</Link>
 				</li>
 			</ul>
 		</section>
 		<section class="Footer section">
 			<h4>
-				<FormattedMessageGlobal id="site.discovery" />
+				<LocaleMessage {...siteLocale.discovery} />
 			</h4>
 			<ul class="Footer list">
 				<li>
@@ -63,7 +77,7 @@
 						color="neutral"
 					>
 						<IconChristmasTreeFilled />
-						<FormattedMessageGlobal id="site.instances" />
+						<LocaleMessage {...siteLocale.instances} />
 					</Link>
 				</li>
 				<li>
@@ -72,7 +86,7 @@
 						color="neutral"
 					>
 						<IconCampfireFilled />
-						<FormattedMessageGlobal id="site.campsites" />
+						<LocaleMessage {...siteLocale.campsites} />
 					</Link>
 				</li>
 				<li>
@@ -81,14 +95,14 @@
 						color="neutral"
 					>
 						<IconCamper />
-						<FormattedMessageGlobal id="site.people" />
+						<LocaleMessage {...siteLocale.people} />
 					</Link>
 				</li>
 			</ul>
 		</section>
 		<section class="Footer section">
 			<h4>
-				<FormattedMessageGlobal id="site.docs" />
+				<LocaleMessage {...siteLocale.docs} />
 			</h4>
 			<ul class="Footer list">
 				<li>
@@ -97,7 +111,7 @@
 						color="neutral"
 					>
 						<IconFile />
-						<FormattedMessageGlobal id="site.docs" />
+						<LocaleMessage {...siteLocale.docs} />
 					</Link>
 				</li>
 				<li>
@@ -106,7 +120,7 @@
 						color="neutral"
 					>
 						<IconSettings />
-						<FormattedMessageGlobal id="site.api" />
+						<LocaleMessage {...siteLocale.API} />
 					</Link>
 				</li>
 			</ul>

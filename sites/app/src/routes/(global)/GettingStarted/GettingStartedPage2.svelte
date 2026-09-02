@@ -29,22 +29,18 @@
 		type FormImageFieldValue,
 	} from '@campground/form';
 	import { Section, Group, Para, Stack } from '@campground/ui';
-	import {
-		FormattedMessage,
-		FormattedMessageGlobal,
-		getLocaleContext,
-		globalLocale,
-	} from '@campground/locale';
+	import { LocaleMessage, getLocale } from '@campground/locale';
 	import UserCardMenu from '$lib/components/users/UserCardMenu.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import type { GettingStarted } from './context.svelte.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	interface Props {
 		gettingStarted: GettingStarted;
 	}
 	const { gettingStarted }: Props = $props();
 
-	const intl = getLocaleContext();
+	const intl = getLocale();
 	const account = getAccount();
 </script>
 
@@ -52,10 +48,10 @@
 	<Form>
 		<Stack>
 			<Para level="h1">
-				<FormattedMessage {...localeMessages.header} />
+				<LocaleMessage {...localeMessages.header} />
 			</Para>
 			<Para level="paragraph">
-				<FormattedMessage {...localeMessages.desc} />
+				<LocaleMessage {...localeMessages.desc} />
 			</Para>
 		</Stack>
 		<Section>
@@ -68,7 +64,7 @@
 				}
 			>
 				<FormLabel>
-					<FormattedMessageGlobal id="info.banner" />
+					<LocaleMessage {...localeStrings.users.banner} />
 				</FormLabel>
 				<FormImageField
 					radius="lg"
@@ -88,7 +84,7 @@
 					}
 				>
 					<FormLabel>
-						<FormattedMessageGlobal id="info.avatar" />
+						<LocaleMessage {...localeStrings.users.avatar} />
 					</FormLabel>
 					<div class="avatarField">
 						<FormImageField
@@ -106,7 +102,7 @@
 					defaultValue={account.sessionInfo?.handle}
 				>
 					<FormLabel>
-						<FormattedMessageGlobal id="info.username" />
+						<LocaleMessage {...localeStrings.users.name} />
 					</FormLabel>
 					<FormTextField
 						type="text"
@@ -125,11 +121,11 @@
 				defaultValue=""
 			>
 				<FormLabel>
-					<FormattedMessageGlobal id="info.about.you" />
+					<LocaleMessage {...localeStrings.users.aboutYou} />
 				</FormLabel>
 				<FormTextField
 					multirow
-					placeholder={$intl.formatMessage(globalLocale['info.desc'])}
+					placeholder={intl.formatMessage(localeStrings.users.aboutYou)}
 					maxlength={200}
 				/>
 			</FormControl>

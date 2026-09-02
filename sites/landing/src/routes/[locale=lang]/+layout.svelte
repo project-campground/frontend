@@ -1,20 +1,22 @@
 <script lang="ts">
-	import type { LayoutProps } from './$types';
+	import type { LayoutProps } from './$types.js';
 	import Navbar from '$lib/layout/Navbar.svelte';
-	import { setLocaleContext } from '@campground/locale';
-	import { globalAppLocale } from '$lib/locale';
+	import { setLocale, LocaleContext, type DefaultMessageSegment } from '@campground/locale';
 	import Footer from '$lib/layout/Footer.svelte';
 	import { createIntl } from '@formatjs/svelte-intl';
 
 	const { children, params, data }: LayoutProps = $props();
 
-	$effect.pre(() => {
-		globalAppLocale.set(
-			createIntl({ locale: params.locale, defaultLocale: params.locale, messages: data }),
-		);
-	});
+	const localeContext = new LocaleContext();
+	setLocale(localeContext);
 
-	setLocaleContext(globalAppLocale);
+	$effect.pre(() => {
+		localeContext.shape = createIntl<DefaultMessageSegment>({
+			locale: params.locale,
+			defaultLocale: params.locale,
+			messages: data,
+		});
+	});
 </script>
 
 <div

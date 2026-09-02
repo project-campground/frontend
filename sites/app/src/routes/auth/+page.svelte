@@ -19,7 +19,7 @@
 </script>
 
 <script>
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { Card, Group, Section, Stack, Divider, TextBlock, Button } from '@campground/ui';
 	import { IconPlus, IconUserFilled, IconUserPlus, IconX } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
@@ -61,7 +61,7 @@
 			<Card.Content>
 				<Group gap={1}>
 					<IconPlus />
-					<FormattedMessage {...localeMessages.login} />
+					<LocaleMessage {...localeMessages.login} />
 				</Group>
 			</Card.Content>
 			<Card.Click href="/auth/login" />
@@ -70,7 +70,7 @@
 			<Card.Content>
 				<Group gap={1}>
 					<IconUserPlus />
-					<FormattedMessage {...localeMessages.register} />
+					<LocaleMessage {...localeMessages.register} />
 				</Group>
 			</Card.Content>
 			<Card.Click href="/auth/register" />

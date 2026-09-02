@@ -11,8 +11,9 @@
 	} from '@campground/ui';
 	import { BonfireBanner, BonfireContent } from './index.ts';
 	import { IconPlus } from '@tabler/icons-svelte';
-	import { FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { TentCreation } from '../Modals/TentCreation/index.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	const menuPortal = getMenuPortal();
 </script>
@@ -29,7 +30,7 @@
 			<Menu.Item onclick={(ev) => menuPortal.add(channelCreationModal, ev.currentTarget)}>
 				<Menu.Button>
 					<IconPlus />
-					<FormattedMessageGlobal id="app.tents.create" />
+					<LocaleMessage {...localeStrings.tents.create} />
 				</Menu.Button>
 			</Menu.Item>
 		</Menu.List>

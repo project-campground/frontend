@@ -19,7 +19,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	import { FlexCenter, PagePlaceholder, PagePlaceholderIcon, Para, Stack } from '@campground/ui';
 	import { Form } from '@campground/form';
@@ -29,10 +29,10 @@
 	<Form>
 		<Stack>
 			<Para level="h1">
-				<FormattedMessage {...localeMessages.header} />
+				<LocaleMessage {...localeMessages.header} />
 			</Para>
 			<Para level="paragraph">
-				<FormattedMessage {...localeMessages.description} />
+				<LocaleMessage {...localeMessages.description} />
 			</Para>
 		</Stack>
 		<FlexCenter>

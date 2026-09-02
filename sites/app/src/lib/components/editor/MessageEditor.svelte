@@ -24,16 +24,16 @@
 	import { IconSend2 } from '@tabler/icons-svelte';
 	import { ProseKit } from 'prosekit/svelte';
 	import { defineMessage } from '@formatjs/svelte-intl';
-	import { getLocaleContext } from '@campground/locale';
+	import { getLocale } from '@campground/locale';
 
 	const { tentName: tent, onSubmit, onCancel }: Props = $props();
 
-	const intl = getLocaleContext();
+	const intl = getLocale();
 	const extension = $derived(
 		defineMessageExtension(
 			submitMessage,
 			onCancel,
-			tent ? $intl.formatMessage(placeholder, { tent }) : '',
+			tent ? (intl.formatMessage(placeholder, { tent }) as string) : '',
 		),
 	);
 	const editor = $derived(createEditor({ extension }));

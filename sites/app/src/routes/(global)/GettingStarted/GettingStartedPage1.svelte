@@ -19,10 +19,11 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	import { Card, loremIpsum, Para, Section, Stack, theme } from '@campground/ui';
 	import { Form, FormControl, FormLabel, FormRadio } from '@campground/form';
+	import { localeStrings } from '$lib/locale/index.js';
 </script>
 
 {#snippet themePreview()}
@@ -47,10 +48,10 @@
 	<Form>
 		<Stack>
 			<Para level="h1">
-				<FormattedMessage {...localeMessages.header} />
+				<LocaleMessage {...localeMessages.header} />
 			</Para>
 			<Para level="paragraph">
-				<FormattedMessage {...localeMessages.desc} />
+				<LocaleMessage {...localeMessages.desc} />
 			</Para>
 		</Stack>
 		<Section>
@@ -61,12 +62,12 @@
 				bind:value={() => $theme, (value) => ($theme = value)}
 			>
 				<FormLabel>
-					<FormattedMessageGlobal id="app.appearance.theme" />
+					<LocaleMessage {...localeStrings.appearance.theme} />
 				</FormLabel>
 				<FormRadio.List>
 					<FormRadio.Card value="dark">
 						{#snippet header()}
-							<FormattedMessageGlobal id="app.appearance.dark" />
+							<LocaleMessage {...localeStrings.appearance.dark} />
 						{/snippet}
 						<div data-theme="dark">
 							{@render themePreview()}
@@ -74,7 +75,7 @@
 					</FormRadio.Card>
 					<FormRadio.Card value="light">
 						{#snippet header()}
-							<FormattedMessageGlobal id="app.appearance.light" />
+							<LocaleMessage {...localeStrings.appearance.light} />
 						{/snippet}
 						<div data-theme="light">
 							{@render themePreview()}

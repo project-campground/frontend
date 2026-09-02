@@ -12,11 +12,11 @@
 	import type { Snippet } from 'svelte';
 	import { Datestamp } from '../Datestamp/index.ts';
 	import { MessageState } from './types.js';
-	import { IconExclamationCircleFilled } from '@tabler/icons-svelte';
-	import { FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
+	import { IconExclamationCircleFilled, IconPencilFilled } from '@tabler/icons-svelte';
+	import { getLocale } from '@campground/locale';
 
 	const menuPortal = getMenuPortal();
-	const intl = getLocaleContext();
+	const locale = getLocale();
 
 	const {
 		createdBy,
@@ -58,7 +58,7 @@
 		{#if updatedAt}
 			{#snippet editTooltip(instance: MenuPortalInstance)}
 				<Tooltip {instance}>
-					{new Date(updatedAt).toLocaleString($intl.locale)}
+					{new Date(updatedAt).toLocaleString(locale.id)}
 				</Tooltip>
 			{/snippet}
 			<TextBlock
@@ -66,7 +66,7 @@
 				fontSize={0.9}
 				{@attach tooltip(menuPortal, editTooltip)}
 			>
-				(<FormattedMessageGlobal id="app.common.edited" />)
+				<IconPencilFilled />
 			</TextBlock>
 		{/if}
 		{#if state === MessageState.Failed}

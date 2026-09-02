@@ -24,7 +24,7 @@
 	import Markdown from '../../markdown/Markdown.svelte';
 	import { ContentOverflow } from '../ContentOverflow/index.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import BasicPostEditor from '$lib/components/editor/BasicPostEditor.svelte';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
@@ -99,7 +99,7 @@
 					<Menu.Item>
 						<Menu.Button onclick={() => (beingEdited = true)}>
 							<IconPencilFilled />
-							<FormattedMessage {...messages.edit} />
+							<LocaleMessage {...messages.edit} />
 						</Menu.Button>
 					</Menu.Item>
 					<Menu.Item>
@@ -108,7 +108,7 @@
 							onclick={deletePost}
 						>
 							<IconTrashFilled />
-							<FormattedMessage {...messages.delete} />
+							<LocaleMessage {...messages.delete} />
 						</Menu.Button>
 					</Menu.Item>
 				{/if}

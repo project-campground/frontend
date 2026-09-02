@@ -68,7 +68,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, getLocale } from '@campground/locale';
 
 	import { getMenuPortal, tooltip, MenuPortalInstance, Tooltip } from '@campground/ui';
 	import { defineMessage, defineMessages } from '@formatjs/svelte-intl';
@@ -89,19 +89,19 @@
 			: 'now'
 		:	'none',
 	);
-	const intl = getLocaleContext();
+	const locale = getLocale();
 	const time = $derived(getUnitAndValue(Math.abs(delta)));
 </script>
 
 {#snippet timeDisplay()}
-    {const timeFormatted = $derived($intl.formatMessage({ ...timeUnits[time[1]] }, { time: Math.round(time[0]) }))}
-	<FormattedMessage
+    {const timeFormatted = $derived(locale.formatMessage({ ...timeUnits[time[1]] }, { time: Math.round(time[0]) }))}
+	<LocaleMessage
 		{...datestampFormatByType[dateType]}
 		values={{ timestamp: timeFormatted }}
 	/>
 {/snippet}
 {#snippet dateDisplay()}
-	{dateUsed.toLocaleString($intl.locale)}
+	{dateUsed.toLocaleString(locale.id)}
 {/snippet}
 
 {#snippet dateTooltip(instance: MenuPortalInstance)}

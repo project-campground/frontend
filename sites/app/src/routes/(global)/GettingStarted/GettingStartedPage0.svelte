@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	import { FlexCenter, PagePlaceholder, PagePlaceholderIcon, Para } from '@campground/ui';
 </script>
@@ -28,10 +28,10 @@
 <FlexCenter>
 	<PagePlaceholder icon={PagePlaceholderIcon.Welcome}>
 		{#snippet title()}
-			<FormattedMessage {...localeMessages.welcomeHeader} />
+			<LocaleMessage {...localeMessages.welcomeHeader} />
 		{/snippet}
 		<Para>
-			<FormattedMessage {...localeMessages.welcomeDescription} />
+			<LocaleMessage {...localeMessages.welcomeDescription} />
 		</Para>
 	</PagePlaceholder>
 </FlexCenter>

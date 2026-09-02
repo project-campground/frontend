@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getLocaleContext } from '@campground/locale';
+	import { getLocale } from '@campground/locale';
 	import { getMenuPortal, Menu, MenuPortalInstance, Select, TextInput } from '@campground/ui';
 	import type FormTextFieldProps from './props.ts';
 	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
@@ -13,7 +13,7 @@
 	>;
 
 	// Error messages and feedback
-	const intl = getLocaleContext();
+	const intl = getLocale();
 	const menuPortal = getMenuPortal();
 
 	// Formatting
@@ -24,7 +24,7 @@
 		control.error =
 			control.required && (control.value?.length ?? 0) < 1 ? ''
 			: (control.value?.length ?? 0) < minLengthDerived ?
-				$intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
+				intl.formatMessage(textFieldErrors.minLength, { length: minLengthDerived })
 			: format ? checkStringFormat(control.value ?? '', format)
 			: null;
 

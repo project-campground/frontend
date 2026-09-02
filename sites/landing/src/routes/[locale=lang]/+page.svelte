@@ -138,7 +138,7 @@
 
 	import FeatureList from '$lib/landing/FeatureList.svelte';
 
-	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
+	import { LocaleMessage, commonLocale, siteLocale } from '@campground/locale';
 
 	import { Button, Para } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
@@ -153,13 +153,10 @@
 	import FeatureOpenSource from '$lib/landing/features/FeatureOpenSource.svelte';
 
 	const { os } = UAParser(navigator.userAgent);
-	console.log(UAParser);
 </script>
 
 <svelte:head>
-	<title>
-		Campground — {'Gather around the fire, friends'}
-	</title>
+	<title>Campground — Gather around the fire, friends</title>
 	<meta
 		property="og:site_name"
 		content="Campground"
@@ -196,25 +193,25 @@
 				<Para
 					level="h1"
 					fontSize={3.5}
-					letterSpacing={2.5}
+					letterSpacing={0.1}
 				>
-					<FormattedMessageGlobal id="site.motto" />
+					<LocaleMessage {...siteLocale.motto} />
 				</Para>
 				<Para
 					level="paragraph"
 					fontSize={1.5}
-					letterSpacing={0.5}
-					tMargin="md"
+					letterSpacing={0.05}
+					mt="md"
 					align="justify"
 				>
-					<FormattedMessageGlobal id="site.desc" />
+					<LocaleMessage {...siteLocale.description} />
 				</Para>
 			</div>
 			<div class="buttons">
 				<a href="/download">
 					<Button size="lg">
 						<IconBrandDebian />
-						<FormattedMessageGlobal id="common.download" />
+						<LocaleMessage {...commonLocale.download} />
 						<span class="buttons-label">({os.name})</span>
 					</Button>
 				</a>
@@ -223,7 +220,7 @@
 						size="lg"
 						variant="soft"
 					>
-						<FormattedMessage {...locale['landing.inBrowser']} />
+						<LocaleMessage {...locale['landing.inBrowser']} />
 					</Button>
 				</a>
 			</div>
@@ -264,60 +261,60 @@
 			color="success"
 		>
 			{#snippet title()}
-				<FormattedMessage {...locale['landing.features.openSource.title']} />
+				<LocaleMessage {...locale['landing.features.openSource.title']} />
 			{/snippet}
 			{#snippet subtitle()}
 				<IconBrandOpenSourceFilled />
 				<span>
-					<FormattedMessage {...locale['landing.features.openSource']} />
+					<LocaleMessage {...locale['landing.features.openSource']} />
 				</span>
 			{/snippet}
-			<FormattedMessage {...locale['landing.features.openSource.desc']} />
+			<LocaleMessage {...locale['landing.features.openSource.desc']} />
 		</FeatureItem>
 		<FeatureItem
 			id="bonfires"
 			color="info"
 		>
 			{#snippet title()}
-				<FormattedMessage {...locale['landing.features.bonfires.title']} />
+				<LocaleMessage {...locale['landing.features.bonfires.title']} />
 			{/snippet}
 			{#snippet subtitle()}
 				<IconCampfireFilled />
 				<span>
-					<FormattedMessage {...locale['landing.features.bonfires']} />
+					<LocaleMessage {...locale['landing.features.bonfires']} />
 				</span>
 			{/snippet}
-			<FormattedMessage {...locale['landing.features.bonfires.desc']} />
+			<LocaleMessage {...locale['landing.features.bonfires.desc']} />
 		</FeatureItem>
 		<FeatureItem
 			id="instances"
 			color="primary"
 		>
 			{#snippet title()}
-				<FormattedMessage {...locale['landing.features.instances.title']} />
+				<LocaleMessage {...locale['landing.features.instances.title']} />
 			{/snippet}
 			{#snippet subtitle()}
 				<IconServer2 />
 				<span>
-					<FormattedMessage {...locale['landing.features.instances']} />
+					<LocaleMessage {...locale['landing.features.instances']} />
 				</span>
 			{/snippet}
-			<FormattedMessage {...locale['landing.features.instances.desc']} />
+			<LocaleMessage {...locale['landing.features.instances.desc']} />
 		</FeatureItem>
 		<FeatureItem
 			id="customization"
 			color="success"
 		>
 			{#snippet title()}
-				<FormattedMessage {...locale['landing.features.customization.title']} />
+				<LocaleMessage {...locale['landing.features.customization.title']} />
 			{/snippet}
 			{#snippet subtitle()}
 				<IconPaletteFilled />
 				<span>
-					<FormattedMessage {...locale['landing.features.customization']} />
+					<LocaleMessage {...locale['landing.features.customization']} />
 				</span>
 			{/snippet}
-			<FormattedMessage {...locale['landing.features.customization.desc']} />
+			<LocaleMessage {...locale['landing.features.customization.desc']} />
 		</FeatureItem>
 	</FeatureList>
 	<BottomSection />

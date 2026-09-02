@@ -34,7 +34,7 @@
 </script>
 
 <script lang="ts">
-	import { FormattedMessage, FormattedMessageGlobal } from '@campground/locale';
+	import { LocaleMessage } from '@campground/locale';
 
 	import { Button, Paged, Para, Stepper, Group } from '@campground/ui';
 	import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-svelte';
@@ -44,6 +44,7 @@
 	import GettingStartedPage3 from './GettingStarted/GettingStartedPage3.svelte';
 	import GettingStartedPage4 from './GettingStarted/GettingStartedPage4.svelte';
 	import { GettingStarted } from './GettingStarted/context.svelte.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	let step: number = $state(0);
 	let maxSteps: number = $state(5);
@@ -81,7 +82,7 @@
 			onclick={() => step--}
 		>
 			<IconArrowLeft />
-			<FormattedMessageGlobal id="common.back" />
+			<LocaleMessage {...localeStrings.common.back} />
 		</Button>
 		<div class="stepper">
 			<Stepper.Root
@@ -102,9 +103,9 @@
 						<Para
 							level="h3"
 							lineHeight="1rem"
-							tMargin="sm"
+							mt="sm"
 						>
-							<FormattedMessage {...stepTitle} />
+							<LocaleMessage {...stepTitle} />
 						</Para>
 					</Stepper.Step>
 				{/each}
@@ -114,7 +115,7 @@
 			disabled={step == maxSteps - 1}
 			onclick={() => step++}
 		>
-			<FormattedMessageGlobal id="common.next" />
+			<LocaleMessage {...localeStrings.common.next} />
 			<IconArrowRight />
 		</Button>
 	</Group>

@@ -1,7 +1,5 @@
-export * from './FormattedMessage/index.ts';
-export { default as FormattedMessageGlobal } from './FormattedMessageGlobal.svelte';
-export * from './context.ts';
-export { globalLocale } from './declarations.ts';
-export { default as LocaleFetcher } from './fetcher.ts';
+export * from './LocaleMessage/index.ts';
+export * from './context.svelte.ts';
+export * from './declarations.ts';
 export { type LocaleId, localeIds } from './localeList.ts';
-export type { DefaultMessageSegment } from './FormattedMessage/props.ts';
+export type { DefaultMessageSegment } from './LocaleMessage/props.ts';

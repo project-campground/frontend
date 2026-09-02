@@ -58,18 +58,8 @@
 		FormTextField,
 		type FormProps,
 	} from '@campground/form';
-	import { FormattedMessage, FormattedMessageGlobal, getLocaleContext } from '@campground/locale';
-	import {
-		Svg,
-		Group,
-		Section,
-		Select,
-		TextBlock,
-		Accordion,
-		Alert,
-		DebouncedValue,
-		Para,
-	} from '@campground/ui';
+	import { LocaleMessage, getLocale } from '@campground/locale';
+	import { Group, Section, TextBlock, Accordion, Alert, DebouncedValue, Para } from '@campground/ui';
 	import { defaultPds } from '../../../lib/api/api.config.js';
 	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
@@ -78,10 +68,11 @@
 	import XrpcError from '$lib/api/XrpcError.js';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 	import { authMessages } from '../messages.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	let passwordToConfirm = $state('');
 
-	const intl = getLocaleContext();
+	const intl = getLocale();
 	let error: Error | null = $state(null);
 
 	const session = getSession();
@@ -124,12 +115,12 @@
 				required
 			>
 				<FormLabel>
-					<FormattedMessageGlobal id="info.inviteCode" />
+					<LocaleMessage {...localeStrings.users.inviteCode} />
 				</FormLabel>
 				<FormTextField
 					format={{
 						regex: /^[A-Za-z0-9]+([-][A-Za-z0-9]+(?:[:][0-9]+)?)+$/,
-						errorMessage: $intl.formatMessage(messages.expectedInvite),
+						errorMessage: intl.formatMessage(messages.expectedInvite) as string,
 					}}
 				/>
 				<FormErrorLabel></FormErrorLabel>
@@ -142,13 +133,13 @@
 			required
 		>
 			<FormLabel>
-				<FormattedMessageGlobal id="info.handle" />
+				<LocaleMessage {...localeStrings.users.handle} />
 			</FormLabel>
 			<FormTextField
 				placeholder="example_handle"
 				format={{
 					regex: /^[A-Za-z0-9_+-]{3,}$/,
-					errorMessage: $intl.formatMessage(messages.expectedHandle),
+					errorMessage: intl.formatMessage(messages.expectedHandle),
 				}}
 			>
 				{#snippet right()}
@@ -166,14 +157,14 @@
 			required
 		>
 			<FormLabel>
-				<FormattedMessageGlobal id="info.email" />
+				<LocaleMessage {...localeStrings.users.email} />
 			</FormLabel>
 			<FormTextField
 				type="email"
 				placeholder="example@example.com"
 				format={{
 					regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-					errorMessage: $intl.formatMessage(messages.expectedEmail),
+					errorMessage: intl.formatMessage(messages.expectedEmail),
 				}}
 			/>
 			<FormErrorLabel></FormErrorLabel>
@@ -186,11 +177,11 @@
 			required
 		>
 			<FormLabel>
-				<FormattedMessageGlobal id="info.password" />
+				<LocaleMessage {...localeStrings.password.password} />
 			</FormLabel>
 			<FormTextField
 				type="password"
-				placeholder={$intl.formatMessage(messages.passwordPlaceholder)}
+				placeholder={intl.formatMessage(messages.passwordPlaceholder)}
 			/>
 			<FormErrorLabel></FormErrorLabel>
 		</FormControl>
@@ -199,34 +190,34 @@
 			required
 		>
 			<FormLabel>
-				<FormattedMessageGlobal id="info.password.confirm" />
+				<LocaleMessage {...localeStrings.password.confirmPassword} />
 			</FormLabel>
 			<FormTextField
 				type="password"
-				placeholder={$intl.formatMessage(messages.passwordConfirmPlaceholder)}
+				placeholder={intl.formatMessage(messages.passwordConfirmPlaceholder)}
 				format={{
 					value: passwordToConfirm,
-					errorMessage: $intl.formatMessage(messages.passwordMismatch),
+					errorMessage: intl.formatMessage(messages.passwordMismatch),
 				}}
 			/>
 			<FormErrorLabel></FormErrorLabel>
 		</FormControl>
 	</Section>
-	<Accordion gap="xs">
+	<Accordion>
 		{#snippet header()}
-			<FormattedMessageGlobal id="info.pds" />
+			<LocaleMessage {...localeStrings.users.pds} />
 		{/snippet}
 		<FormControl
 			id="pds"
 			bind:value={pdsValue}
-			defaultValue={defaultPds}
+			defaultValue={defaultPds.url}
 			required
 		>
 			<FormTextField
 				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
-					errorMessage: $intl.formatMessage(authMessages.expectedPds),
+					errorMessage: intl.formatMessage(authMessages.expectedPds),
 				}}
 			>
 				{#snippet left()}
@@ -252,7 +243,7 @@
 				{#snippet icon()}
 					<IconInfoCircleFilled />
 				{/snippet}
-				<FormattedMessage {...messages.pdsNote} />
+				<LocaleMessage {...messages.pdsNote} />
 			</Alert>
 		</FormControl>
 	</Accordion>

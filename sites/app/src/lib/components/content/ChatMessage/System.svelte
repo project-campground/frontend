@@ -12,10 +12,7 @@
 	</div>
 	<div class="meta">
 		<TextBlock level="subtext">
-			<Datestamp
-				when
-				date={createdAt}
-			/>
+			<Datestamp date={createdAt} />
 		</TextBlock>
 	</div>
 </div>
@@ -29,5 +26,6 @@
 		align-items: center;
 		flex-wrap: wrap;
 		gap: 0.25rem;
+		grid-column: 1 / 3;
 	}
 </style>

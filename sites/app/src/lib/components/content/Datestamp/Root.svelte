@@ -18,7 +18,6 @@
 			defaultMessage: 'In {timestamp}',
 			description: 'When something will happen in specific time',
 		},
-		none: { id: 'app.time.none', defaultMessage: '{timestamp}', description: 'Unformatted timestamp' },
 	});
 	const timeUnits: Record<
 		DatestampUnit,
@@ -68,7 +67,7 @@
 </script>
 
 <script lang="ts">
-	import { LocaleMessage, getLocale } from '@campground/locale';
+	import { getLocale } from '@campground/locale';
 
 	import { getMenuPortal, tooltip, MenuPortalInstance, Tooltip } from '@campground/ui';
 	import { defineMessage, defineMessages } from '@formatjs/svelte-intl';
@@ -76,48 +75,51 @@
 	import type { DatestampProps, DatestampUnit } from './props.ts';
 	import { getUnitAndValue } from './values.ts';
 
-	const { date, when, long }: DatestampProps = $props();
+	const { date, type }: DatestampProps = $props();
 
 	const menuPortal = getMenuPortal();
 	const dateUsed: Date = $derived(typeof date === 'string' ? new Date(date) : date);
+	const locale = getLocale();
 	const dateNow = new SvelteDate();
-	const delta = $derived(dateNow.getTime() - dateUsed.getTime());
-	const dateType: 'ago' | 'now' | 'in' | 'none' = $derived(
-		when ?
+
+	function getWhenTypeTime() {
+		const delta = dateNow.getTime() - dateUsed.getTime();
+		const dateType: 'ago' | 'now' | 'in' =
 			delta < -1000 ? 'in'
 			: delta > 1000 ? 'ago'
-			: 'now'
-		:	'none',
-	);
-	const locale = getLocale();
-	const time = $derived(getUnitAndValue(Math.abs(delta)));
-</script>
+			: 'now';
+		const time = getUnitAndValue(Math.abs(delta));
+		const timeFormatted = locale.formatMessage(
+			{ ...timeUnits[time[1]] },
+			{ time: Math.round(time[0]) },
+		);
 
-{#snippet timeDisplay()}
-    {const timeFormatted = $derived(locale.formatMessage({ ...timeUnits[time[1]] }, { time: Math.round(time[0]) }))}
-	<LocaleMessage
-		{...datestampFormatByType[dateType]}
-		values={{ timestamp: timeFormatted }}
-	/>
-{/snippet}
-{#snippet dateDisplay()}
-	{dateUsed.toLocaleString(locale.id)}
-{/snippet}
+		return locale.formatMessage(datestampFormatByType[dateType], { timestamp: timeFormatted });
+	}
+
+	// Time
+	const timeShown = $derived(
+		!type || type === 'when' ?
+			getWhenTypeTime()
+		:	dateUsed.toLocaleTimeString(locale.id, { hour: '2-digit', minute: '2-digit' }),
+	);
+	const dateShown = $derived(dateUsed.toLocaleString(locale.id));
+</script>
 
 {#snippet dateTooltip(instance: MenuPortalInstance)}
 	<Tooltip {instance}>
-		{#if long}
-			{@render timeDisplay()}
+		{#if type === 'date-first'}
+			{timeShown}
 		{:else}
-			{@render dateDisplay()}
+			{dateShown}
 		{/if}
 	</Tooltip>
 {/snippet}
 
 <span {@attach tooltip(menuPortal, dateTooltip)}>
-	{#if long}
-		{@render dateDisplay()}
+	{#if type === 'date-first'}
+		{dateShown}
 	{:else}
-		{@render timeDisplay()}
+		{timeShown}
 	{/if}
 </span>

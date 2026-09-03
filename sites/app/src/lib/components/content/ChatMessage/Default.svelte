@@ -1,23 +1,11 @@
 <script lang="ts">
 	import { UserAvatar } from '$lib/components/users/index.js';
 	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
-	import {
-		GradientText,
-		TextBlock,
-		Tooltip,
-		tooltip,
-		MenuPortalInstance,
-		getMenuPortal,
-	} from '@campground/ui';
+	import { GradientText, TextBlock } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 	import { Datestamp } from '../Datestamp/index.ts';
 	import { MessageState } from './types.js';
-	import { IconExclamationCircleFilled, IconPencilFilled } from '@tabler/icons-svelte';
-	import { getLocale, LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
-
-	const menuPortal = getMenuPortal();
-	const locale = getLocale();
+	import Info from './Info.svelte';
 
 	const {
 		createdBy,
@@ -52,41 +40,13 @@
 			level="subtext"
 			fontSize={0.9}
 		>
-			<Datestamp
-				when
-				date={createdAt}
-			/>
+			<Datestamp date={createdAt} />
 		</TextBlock>
-		{#if updatedAt}
-			{#snippet editTooltip(instance: MenuPortalInstance)}
-				<Tooltip {instance}>
-					{new Date(updatedAt).toLocaleString(locale.id)}
-				</Tooltip>
-			{/snippet}
-			<span class="hasTooltip">
-				<TextBlock
-					level="subtext"
-					fontSize={0.9}
-					{@attach tooltip(menuPortal, editTooltip)}
-				>
-					<IconPencilFilled />
-					<LocaleMessage {...localeStrings.messages.edited} />
-				</TextBlock>
-			</span>
-		{/if}
-		{#if state === MessageState.Failed}
-			{#snippet stateTooltip(instance: MenuPortalInstance)}
-				<Tooltip {instance}>
-					{error}
-				</Tooltip>
-			{/snippet}
-			<span
-				class="info"
-				{@attach tooltip(menuPortal, stateTooltip)}
-			>
-				<IconExclamationCircleFilled size="1rem" />
-			</span>
-		{/if}
+		<Info
+			{updatedAt}
+			{state}
+			{error}
+		/>
 	</div>
 	<div class="content">
 		{@render children()}
@@ -107,18 +67,5 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 1ch;
-	}
-	.hasTooltip {
-		cursor: help;
-		line-height: 0;
-	}
-	.info {
-		cursor: help;
-		line-height: 0;
-		color: var(--foreground-body);
-
-		:global([data-state='failed']) & {
-			color: var(--danger-plainFore);
-		}
 	}
 </style>

@@ -11,6 +11,7 @@
 	import ContextMenu from './ContextMenu.svelte';
 	import Toolbar from './Toolbar.svelte';
 	import Reply from './Reply.svelte';
+	import Continued from './Continued.svelte';
 
 	const menuPortal = getMenuPortal();
 
@@ -18,7 +19,13 @@
 		message,
 		state,
 		error,
-	}: { message: MessageViewWithReplies; state?: MessageState; error?: Error } = $props();
+		continuousMessage,
+	}: {
+		message: MessageViewWithReplies;
+		state?: MessageState;
+		error?: Error;
+		continuousMessage?: boolean;
+	} = $props();
 
 	const appview = getAppview();
 
@@ -100,7 +107,7 @@
 					<System createdAt={message.createdAt}>
 						{@render content()}
 					</System>
-				{:else}
+				{:else if !continuousMessage}
 					<Default
 						{state}
 						{error}
@@ -110,6 +117,16 @@
 					>
 						{@render content()}
 					</Default>
+				{:else}
+					<Continued
+						{state}
+						{error}
+						updatedAt={message.updatedAt}
+						createdBy={message.createdBy}
+						createdAt={message.createdAt}
+					>
+						{@render content()}
+					</Continued>
 				{/if}
 			</div>
 		{/snippet}
@@ -173,9 +190,9 @@
 		transition: opacity $transition-time-md;
 	}
 	.wrapper {
-		display: flex;
-		flex-direction: row;
-		padding: 0.5rem 1.5rem;
-		gap: 0.75rem;
+		display: grid;
+		grid-template-columns: 3rem 1fr;
+		gap: 0.5rem;
+		padding: 0.25rem 1.5rem;
 	}
 </style>

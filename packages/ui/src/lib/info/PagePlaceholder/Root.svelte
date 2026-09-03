@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Para } from '$lib/info/index.js';
 	import type PagePlaceholderProps from './props.ts';
-	import { pagePlaceholderIconValues } from './props.ts';
 
 	const { status, title, icon, class: className, children }: PagePlaceholderProps = $props();
 </script>
@@ -11,7 +10,7 @@
 		class="icon"
 		aria-hidden="true"
 	>
-		{pagePlaceholderIconValues[icon]}
+		{icon}
 	</div>
 	<Para
 		class="header"
@@ -44,6 +43,7 @@
 		font-weight: 900;
 		color: var(--foreground-subtext);
 		margin-bottom: 1rem;
+		font-family: sans-serif;
 	}
 	.status {
 		color: var(--foreground-subtext);

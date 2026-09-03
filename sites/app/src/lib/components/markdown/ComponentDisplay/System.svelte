@@ -54,11 +54,7 @@
 	</TextBlock>
 {/snippet}
 
-<Group
-	align="center"
-	gap={1}
-	flex={1}
->
+<div class="container">
 	<TextBlock level="subtext">
 		<IconComponent />
 	</TextBlock>
@@ -68,4 +64,12 @@
 			values={{ executor }}
 		/>
 	</TextBlock>
-</Group>
+</div>
+
+<style lang="scss">
+	.container {
+		display: grid;
+		grid-template-columns: 3rem 1fr;
+		gap: 0.5rem;
+	}
+</style>

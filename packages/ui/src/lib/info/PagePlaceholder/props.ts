@@ -9,26 +9,14 @@ export default interface PagePlaceholderProps {
 	children: Snippet;
 }
 export enum PagePlaceholderIcon {
-	Welcome,
-	Ok,
-	NotOk,
-	Appreciation,
-	Error,
-	NotFound,
-	Unrecognized,
-	Empty,
-	NoMore,
-	WIP,
+	Welcome = '(￣▽￣)ノ',
+	Error = '(✖╭╮✖)',
+	NotFound = '┐(￣ ヘ￣)┌',
+	NoMore = '(づ ◕‿◕ )づ',
+	Empty = 'd(￣◇￣)b',
+	WIP = '（◞‸◟）',
+	NotOk = '(╥﹏╥)',
+	Unrecognized = '(>⌓<｡)',
+	Appreciation = '(ɔˆ ³(ˆ⌣ˆc)',
+	Ok = '(｡^‿^｡)',
 }
-export const pagePlaceholderIconValues: Record<PagePlaceholderIcon, string> = {
-	[PagePlaceholderIcon.Welcome]: '(￣▽￣)ノ',
-	[PagePlaceholderIcon.Error]: '(✖╭╮✖)',
-	[PagePlaceholderIcon.NotFound]: '┐(￣ ヘ￣)┌',
-	[PagePlaceholderIcon.NoMore]: '(づ ◕‿◕ )づ',
-	[PagePlaceholderIcon.Empty]: 'd(￣◇￣)b',
-	[PagePlaceholderIcon.WIP]: '（◞‸◟）',
-	[PagePlaceholderIcon.NotOk]: '(╥﹏╥)',
-	[PagePlaceholderIcon.Unrecognized]: '(>⌓<｡)',
-	[PagePlaceholderIcon.Appreciation]: '(ɔˆ ³(ˆ⌣ˆc)',
-	[PagePlaceholderIcon.Ok]: '(｡^‿^｡)',
-};

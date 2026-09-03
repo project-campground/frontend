@@ -18,6 +18,7 @@
 		TextTentContext,
 	} from '$lib/components/content/ChatMessage/context.svelte.js';
 	import TentMessageList from './TentMessageList.svelte';
+	import type { MessageViewWithReplies, TentMessagesOutput } from '$lib/types/campground/content.js';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 
@@ -101,6 +102,30 @@
 	};
 
 	const textTent = new TextTentContext();
+	let reachedLastMessages = $derived(false);
+
+	function onScroll(ev: UIEvent & { currentTarget: EventTarget & HTMLDivElement }) {
+		const list = ev.currentTarget;
+		// scrollTop negative due to column-reverse
+		const remainingScrollTop = list.scrollTop + (list.scrollHeight - list.offsetHeight);
+
+		// Ignore if it has not scrolled to near top
+		if (remainingScrollTop > 128) return;
+
+		// Otherwise load additional 50 messages
+		return fetchAdditionalMessages();
+	}
+	async function fetchAdditionalMessages() {
+		const newMessages = await appview.messages.getMany(tent.id, textTent.messages.length, 50);
+
+		return onMessagesCollected(newMessages);
+	}
+	function onMessagesCollected(output: TentMessagesOutput) {
+		textTent.messages.push(...output.messages.map(giveStateToMessage));
+
+		// To show that the tent end has been reached
+		if (output.messages.length < 50) reachedLastMessages = true;
+	}
 
 	$effect(() => {
 		const subscription = campsiteContext.webSocket?.messages
@@ -113,6 +138,15 @@
 		return () => subscription?.unsubscribe();
 	});
 
+	function giveStateToMessage(value: MessageViewWithReplies): MessageViewInChat {
+		return { ...value, key: value.id, state: MessageState.Loaded };
+	}
+
+	$effect(() => {
+		textTent.messages = [];
+		appview.messages.getMany(tent.id, 0, 50).then(onMessagesCollected);
+	});
+
 	setTextTent(textTent);
 </script>
 
@@ -123,22 +157,11 @@
 	{#snippet title()}
 		{tent?.name}
 	{/snippet}
-	<div class="content">
-		<Stack
-			direction="column-reverse"
-			flex={1}
-			gap={0}
-		>
-			<svelte:boundary>
-				{#snippet pending()}
-					Loading messages...
-				{/snippet}
-				{#snippet failed(err)}
-					Err: {err}
-				{/snippet}
-				<TentMessageList {tent} />
-			</svelte:boundary>
-		</Stack>
+	<div
+		class="content"
+		onscrollend={onScroll}
+	>
+		<TentMessageList {reachedLastMessages} />
 	</div>
 	<div class="input">
 		<Threaded.Root

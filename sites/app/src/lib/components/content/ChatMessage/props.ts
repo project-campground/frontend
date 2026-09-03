@@ -5,4 +5,5 @@ export interface MessageMenuProps {
 	onOverflow: (event: MouseEvent & { currentTarget: HTMLButtonElement & EventTarget }) => unknown;
 	toggleReply: () => unknown;
 	setEditingMessage: () => unknown;
+	deleteMessage: () => unknown;
 }

@@ -4,16 +4,24 @@
 	import SvgDefs from '../visual/Svg/Defs.svelte';
 	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
 	import { writable } from 'svelte/store';
+	import { ActiveKeyContext, setActiveKeys } from '$lib/contexts/key.svelte.js';
 
 	let themeValue = $state<Theme>(null!);
 	theme.subscribe((theme) => (themeValue = theme));
 
 	const outsideClickBoundary: OutsideClick = writable(null);
+	const activeKeyContext = new ActiveKeyContext();
 
 	const { children }: { children: Snippet } = $props();
 
 	setOutsideClickBoundary(outsideClickBoundary);
+	setActiveKeys(activeKeyContext);
 </script>
+
+<svelte:document
+	onkeydown={(ev) => (activeKeyContext.keys = ActiveKeyContext.getKeyValueFrom(ev))}
+	onkeyup={(ev) => (activeKeyContext.keys = ActiveKeyContext.getKeyValueFrom(ev))}
+/>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->

@@ -9,6 +9,7 @@
 		beingRepliedTo,
 		toggleReply,
 		setEditingMessage,
+		deleteMessage,
 		cantToggleReply,
 		pseudoMessage,
 	}: Omit<MessageMenuProps, 'onOverflow'> = $props();
@@ -36,7 +37,10 @@
 		</Menu.Button>
 	</Menu.Item>
 	<Menu.Item>
-		<Menu.Button color="danger">
+		<Menu.Button
+			color="danger"
+			onclick={deleteMessage}
+		>
 			<IconTrashFilled />
 			<LocaleMessage {...localeStrings.messages.delete} />
 		</Menu.Button>

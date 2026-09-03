@@ -101,7 +101,7 @@
 		},
 	};
 
-	const textTent = new TextTentContext();
+	const textTent = new TextTentContext(appview);
 	let reachedLastMessages = $derived(false);
 
 	function onScroll(ev: UIEvent & { currentTarget: EventTarget & HTMLDivElement }) {

@@ -12,12 +12,13 @@
 	import Toolbar from './Toolbar.svelte';
 	import Reply from './Reply.svelte';
 	import Continued from './Continued.svelte';
+	import { fade } from 'svelte/transition';
 
 	const menuPortal = getMenuPortal();
 
 	const {
 		message,
-		state,
+		state: loadState,
 		error,
 		continuousMessage,
 	}: {
@@ -33,6 +34,9 @@
 		textTent.clearEditingMessage();
 		return appview.messages.update(message.tentId, message.id, { content });
 	}
+	async function deleteMessage() {
+		return textTent.deleteMessage(message.tentId, message.id);
+	}
 	function setEditingMessage() {
 		return textTent.setEditingMessage(message.id);
 	}
@@ -40,11 +44,15 @@
 		return beingRepliedTo ? textTent.removeReplyingTo(message.id) : textTent.addReplyingTo(message);
 	}
 
+	let hover: boolean = $state(false);
+
 	const textTent = getTextTent();
 	const beingEdited = $derived(textTent.editingMessage?.id === message.id);
 
 	const beingRepliedTo = $derived(textTent.replyingTo.includes(message));
-	const pseudoMessage = $derived(state === MessageState.Creating || state === MessageState.Failed);
+	const pseudoMessage = $derived(
+		loadState === MessageState.Creating || loadState === MessageState.Failed,
+	);
 	const cantToggleReply = $derived(
 		pseudoMessage || (textTent.replyingTo.length >= 5 && !beingRepliedTo),
 	);
@@ -61,6 +69,7 @@
 			{beingRepliedTo}
 			{toggleReply}
 			{setEditingMessage}
+			{deleteMessage}
 		/>
 	</Menu.Root>
 {/snippet}
@@ -77,6 +86,7 @@
 	{/if}
 {/snippet}
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class={['container']}
 	data-message-id={message.id}
@@ -84,22 +94,32 @@
 	data-campsite-id={message.campsiteId}
 	data-bonfire-id={message.bonfireId}
 	data-load-state={Object.entries(MessageState)
-		.find((x) => x[1] === state)?.[0]
+		.find((x) => x[1] === loadState)?.[0]
 		.toLowerCase() ?? 'loaded'}
 	data-state={beingRepliedTo ? 'replying' : 'default'}
+	// Events
+	onmouseenter={() => (hover = true)}
+	onmouseleave={() => (hover = false)}
 	{@attach rightClickMenu(menuPortal, actionMenu)}
 >
-	<div class="toolbar">
-		<Toolbar
-			onOverflow={(ev) =>
-				menuPortal.add(actionMenu as Snippet<[MenuPortalInstance]>, ev.currentTarget)}
-			{toggleReply}
-			{cantToggleReply}
-			{pseudoMessage}
-			{beingRepliedTo}
-			{setEditingMessage}
-		/>
-	</div>
+	{#if hover}
+		<div
+			class="toolbar"
+			in:fade={{ duration: 300 }}
+			out:fade={{ duration: 300 }}
+		>
+			<Toolbar
+				onOverflow={(ev) =>
+					menuPortal.add(actionMenu as Snippet<[MenuPortalInstance]>, ev.currentTarget)}
+				{toggleReply}
+				{cantToggleReply}
+				{pseudoMessage}
+				{beingRepliedTo}
+				{setEditingMessage}
+				{deleteMessage}
+			/>
+		</div>
+	{/if}
 	<Threaded.Root direction="to-top">
 		{#snippet parent()}
 			<div class="wrapper">
@@ -109,7 +129,7 @@
 					</System>
 				{:else if !continuousMessage}
 					<Default
-						{state}
+						state={loadState}
 						{error}
 						updatedAt={message.updatedAt}
 						createdBy={message.createdBy}
@@ -119,7 +139,7 @@
 					</Default>
 				{:else}
 					<Continued
-						{state}
+						state={loadState}
 						{error}
 						updatedAt={message.updatedAt}
 						createdBy={message.createdBy}

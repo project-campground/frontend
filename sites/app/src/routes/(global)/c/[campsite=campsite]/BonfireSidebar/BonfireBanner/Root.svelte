@@ -39,7 +39,7 @@
 		{/snippet}
 		<ProfileAvatarWrapper>
 			<ProfileAvatar
-				size="sm"
+				size="md"
 				id={$activeBonfire.bonfire.id.slice(-1)}
 				src={$activeBonfire.bonfire.avatarUri ?? undefined}
 			>

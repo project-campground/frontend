@@ -29,7 +29,7 @@
 			href="/"
 			activeExcept={['/c/', '/profile/']}
 		>
-			<Svg.Logo size={2.5} />
+			<Svg.Logo size={2} />
 		</GlobalNavbarButton>
 	</div>
 	<div class="GlobalNavbar divider"></div>

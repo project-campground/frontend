@@ -11,21 +11,22 @@
 		FormTextField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
-	import { Dialog, Section, Stack, Modal, Group } from '@campground/ui';
+	import { Dialog, Section, Stack, Group, getModal } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.js';
 	import { localeStrings } from '$lib/locale/index.js';
 
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
-	const modal = Modal.getModal();
+	const campsite = $derived(campsiteContext.campsite);
+	const modal = getModal();
 
 	async function onSubmit(value: Record<string, unknown>) {
 		modal.closeModal();
 		const bonfireContent = value as { name: string; description: string };
 
-		return appview.bonfires.create(campsiteContext.campsite!.id, {
+		return appview.bonfires.create($campsite!.campsiteId, {
 			...bonfireContent,
-			position: (campsiteContext.campsite?.bonfires.slice(-1)[0]?.position ?? 0) + 1,
+			position: ($campsite?.campsite.bonfires.slice(-1)[0]?.position ?? 0) + 1,
 		});
 	}
 </script>

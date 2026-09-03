@@ -26,7 +26,7 @@
 		FormTextField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
-	import { Dialog, Section, Grid, Stack, Modal } from '@campground/ui';
+	import { Dialog, Section, Grid, Stack, Modal, getModal } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconHash, IconListDetailsFilled, IconTent } from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../context.svelte.ts';
@@ -35,7 +35,9 @@
 	let what: 'tent' | 'category' = $state('tent');
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
-	const modal = Modal.getModal();
+	const modal = getModal();
+	const campsite = $derived(campsiteContext.campsite);
+	const openBonfire = $derived(campsiteContext.openBonfire);
 
 	async function onSubmit({ what, ...content }: Record<string, unknown>) {
 		modal.closeModal();
@@ -45,14 +47,10 @@
 			:	createTent(content as { name: string; description: string; type: TentType });
 	}
 	async function createCategory(value: { name: string; description: string }) {
-		return appview.categories.create(
-			campsiteContext.campsite!.id,
-			campsiteContext.openBonfire!.bonfireId,
-			{
-				...value,
-				position: (campsiteContext.openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
-			},
-		);
+		return appview.categories.create($campsite!.campsiteId, $openBonfire!.bonfireId, {
+			...value,
+			position: ($openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+		});
 	}
 	async function createTent({
 		type,
@@ -62,15 +60,11 @@
 		description: string;
 		type: TentType;
 	}) {
-		return appview.tents.create(
-			campsiteContext.campsite!.id,
-			campsiteContext.openBonfire!.bonfireId,
-			{
-				...value,
-				type: typeToInteger[type],
-				position: (campsiteContext.openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
-			},
-		);
+		return appview.tents.create($campsite!.campsiteId, $openBonfire!.bonfireId, {
+			...value,
+			type: typeToInteger[type],
+			position: ($openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+		});
 	}
 </script>
 

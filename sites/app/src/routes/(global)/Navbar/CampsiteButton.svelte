@@ -27,6 +27,7 @@
 	<div class="content">
 		<TextBlock
 			level="subheading"
+			fontSize={0.95}
 			weight={isSelected ? 900 : 700}>{name}</TextBlock
 		>
 		<TextBlock

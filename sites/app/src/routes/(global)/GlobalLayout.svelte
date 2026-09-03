@@ -19,7 +19,7 @@
 		height: 100%;
 		width: 100%;
 		overflow-y: hidden;
-		--GlobalLayout-navHeight: 4rem;
+		--GlobalLayout-navHeight: 3.5rem;
 
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;

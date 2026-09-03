@@ -45,7 +45,6 @@
 			left: var(--TextBlock-paddingLeft);
 			right: var(--TextBlock-paddingRight);
 		}
-		font-size: var(--TextBlock-fontSize);
 
 		@extend %Text-base;
 

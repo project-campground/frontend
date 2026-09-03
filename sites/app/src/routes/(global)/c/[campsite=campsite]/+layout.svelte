@@ -11,9 +11,8 @@
 		setCampsiteContext,
 	} from './context.svelte.ts';
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
-	import { writable, type Writable } from 'svelte/store';
 	import WSClient from '$lib/api/ws/WSClient.js';
-	import { filter } from 'rxjs';
+	import { filter, type Unsubscribable } from 'rxjs';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
@@ -23,43 +22,50 @@
 	const appview = new HTTPBackendClient(session, () => domain);
 	setAppview(appview);
 
-	const menuPortal = new MenuPortal();
-	setMenuPortal(menuPortal);
+	const campsiteContext = new CampsiteContext(setBonfire);
+	setCampsiteContext(campsiteContext);
 
 	async function setBonfire(bonfireId: string) {
-		if ($activeBonfire?.bonfireId === bonfireId) return;
+		if (campsiteContext.openBonfire?.bonfireId === bonfireId || !campsiteContext.campsiteReference)
+			return;
 
 		const tents = await appview.tents.getMany(campsiteId, bonfireId);
-		$activeBonfire = new BonfireContext(bonfireId, $campsite!, tents);
+		campsiteContext.openBonfire = new BonfireContext(
+			bonfireId,
+			campsiteContext.campsiteReference,
+			tents,
+		);
 	}
 
-	const webSocket: Writable<WSClient | null> = writable();
-	const campsite = writable<CampsiteReference | null>(null);
-	const activeBonfire = writable<BonfireContext | null>(null);
-	const campsiteContext = new CampsiteContext(campsite, activeBonfire, webSocket, setBonfire);
-	setCampsiteContext(campsiteContext);
+	let webSocketUnsubscribe: Unsubscribable | null = null;
+
+	async function fetchCampsite(domain: string, campsiteId: string) {
+		const campsite = await appview.campsites.get(campsiteId);
+		const webSocket = new WSClient({
+			httpClient: session.atproto,
+			url: `${domain?.split(':')[0] === 'localhost' ? 'http' : 'https'}://${domain}/ws/v1`,
+		});
+
+		webSocketUnsubscribe = webSocket?.messages
+			.pipe(filter((value) => value.op === 0 && value.t === 'open'))
+			.subscribe(() => webSocket.setCampsite(campsiteId));
+
+		campsiteContext.campsiteReference = new CampsiteReference(domain, campsite, webSocket);
+	}
 
 	$effect(() => {
 		// Make sure there is nothing trying to find bonfire that does not exist
-		$activeBonfire = null;
-		$campsite = null;
-		appview.campsites
-			.get(campsiteId)
-			.then((value) => ($campsite = new CampsiteReference(domain, campsiteId, value)));
-	});
-	$effect(() => {
-		if ($webSocket?.isOpen) return $webSocket.setCampsite(campsiteId);
+		campsiteContext.openBonfire = null;
+		campsiteContext.campsiteReference = null;
+		fetchCampsite(domain, campsiteId);
 
-		$webSocket?.messages
-			.pipe(filter((value) => value.op === 0 && value.t === 'open'))
-			.subscribe(() => $webSocket!.setCampsite(campsiteId));
+		return () => (webSocketUnsubscribe?.unsubscribe(), (webSocketUnsubscribe = null));
 	});
-	$effect(() => {
-		$webSocket = new WSClient({
-			url: `${domain?.split(':')[0] === 'localhost' ? 'http' : 'https'}://${domain}/ws/v1`,
-			httpClient: session.atproto,
-		});
-	});
+
+	// Since portals would otherwise lack all the campsite context
+	// Svelte does not work like React and does not pass context through portals
+	const menuPortal = new MenuPortal();
+	setMenuPortal(menuPortal);
 </script>
 
 <Sidebar />

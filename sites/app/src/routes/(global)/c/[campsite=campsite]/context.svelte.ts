@@ -1,9 +1,13 @@
+import type HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.ts';
 import type HTTPBackendClient from '$lib/api/http/HTTPBackendClient.ts';
 import type { Session } from '$lib/api/session/Session.svelte.js';
-import type WSClient from '$lib/api/ws/WSClient.ts';
+import WSClient from '$lib/api/ws/WSClient.js';
 import type { AccountInfo } from '$lib/context/account.svelte.js';
 import type { BonfireViewBasic } from '$lib/types/campground/bonfires.js';
-import type { CampsiteViewDetailed } from '$lib/types/campground/campsites.js';
+import type {
+	CampsiteViewDetailed,
+	CampsiteViewWithDomain,
+} from '$lib/types/campground/campsites.js';
 import type {
 	CampsitePermissionViewBasic,
 	PermissionsDictionary,
@@ -22,13 +26,12 @@ import {
 	type AggregatedPermissions,
 } from '$lib/util/permissions.js';
 import { createContext } from 'svelte';
-import type { Readable } from 'svelte/store';
 
 export class CampsiteReference {
 	constructor(
 		public domain: string,
-		public campsiteId: string,
 		public campsite: CampsiteViewDetailed,
+		public webSocket: WSClient,
 	) {}
 
 	public get userIsOwner() {
@@ -37,12 +40,29 @@ export class CampsiteReference {
 }
 
 export class CampsiteContext {
-	constructor(
-		public campsite: Readable<CampsiteReference | null>,
-		public openBonfire: Readable<BonfireContext | null>,
-		public webSocket: Readable<WSClient | null>,
-		public setActiveBonfire: (id: string) => unknown,
-	) {}
+	public campsiteReference: CampsiteReference | null = $state(null);
+	public openBonfire: BonfireContext | null = $state(null);
+
+	constructor(public setActiveBonfire: (id: string) => unknown) {}
+
+	public get campsite() {
+		return this.campsiteReference?.campsite;
+	}
+	public get bonfires() {
+		return this.campsiteReference?.campsite.bonfires;
+	}
+	public get userIsOwner() {
+		return this.campsiteReference?.campsite.owner === this.campsiteReference?.campsite.me.user.did;
+	}
+	public get roles() {
+		return this.campsiteReference?.campsite.roles;
+	}
+	public get webSocket() {
+		return this.campsiteReference?.webSocket;
+	}
+	public get domain() {
+		return this.campsiteReference?.domain;
+	}
 }
 export class BonfireContext {
 	public static ownerPermissionsAggregated: AggregatedPermissions = {

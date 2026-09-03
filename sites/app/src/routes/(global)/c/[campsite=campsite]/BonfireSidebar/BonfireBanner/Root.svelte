@@ -10,11 +10,11 @@
 	import BonfireList from './Menu.svelte';
 
 	const campsiteContext = getCampsiteContext();
-	const campsiteRef = $derived(campsiteContext.campsite);
+	const campsiteRef = $derived(campsiteContext.campsiteReference);
 	const activeBonfire = $derived(campsiteContext.openBonfire);
 	const lastBonfireChar = $derived(
-		$activeBonfire?.bonfireId.slice(-1)
-			?? $campsiteRef?.campsite.bonfires[0].name.slice(-1)[0]
+		activeBonfire?.bonfireId.slice(-1)
+			?? campsiteContext.campsite?.bonfires[0].name.slice(-1)[0]
 			?? 'a',
 	);
 
@@ -28,22 +28,22 @@
 	$effect(() => outsideClick.subscribe(() => (menuOpen = false)));
 </script>
 
-{#if $campsiteRef && $activeBonfire}
+{#if campsiteRef && activeBonfire}
 	<Layout onClick={(ev) => (ev.stopPropagation(), (menuOpen = !menuOpen))}>
 		{#snippet banner()}
 			<ProfileBanner
 				id={lastBonfireChar}
-				src={$activeBonfire.bonfire.bannerUri}
+				src={activeBonfire.bonfire.bannerUri}
 				aspectRatio={2.5}
 			/>
 		{/snippet}
 		<ProfileAvatarWrapper>
 			<ProfileAvatar
 				size="md"
-				id={$activeBonfire.bonfire.id.slice(-1)}
-				src={$activeBonfire.bonfire.avatarUri ?? undefined}
+				id={activeBonfire.bonfire.id.slice(-1)}
+				src={activeBonfire.bonfire.avatarUri ?? undefined}
 			>
-				{$activeBonfire.bonfire.name[0].toUpperCase()}
+				{activeBonfire.bonfire.name[0].toUpperCase()}
 			</ProfileAvatar>
 		</ProfileAvatarWrapper>
 		<Stack
@@ -51,10 +51,10 @@
 			flex={1}
 		>
 			<Para level="h4">
-				{$activeBonfire.bonfire.name}
+				{activeBonfire.bonfire.name}
 			</Para>
 			<Para level="sub0">
-				{$activeBonfire.bonfire.description}
+				{activeBonfire.bonfire.description}
 			</Para>
 		</Stack>
 		<Button
@@ -67,8 +67,8 @@
 		</Button>
 	</Layout>
 	<BonfireList
-		campsite={$campsiteRef}
-		activeBonfire={$activeBonfire}
+		campsite={campsiteRef}
+		{activeBonfire}
 		open={menuOpen}
 		onBonfireOpen={setBonfire}
 	/>

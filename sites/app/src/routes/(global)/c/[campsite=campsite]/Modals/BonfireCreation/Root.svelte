@@ -17,7 +17,7 @@
 
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
-	const campsite = $derived(campsiteContext.campsite);
+	const campsite = $derived(campsiteContext.campsiteReference);
 	const modal = getModal();
 
 	async function onSubmit(value: Record<string, unknown>) {

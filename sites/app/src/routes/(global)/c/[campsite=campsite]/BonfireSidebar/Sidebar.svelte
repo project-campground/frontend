@@ -17,7 +17,7 @@
 	import { getCampsiteContext } from '../context.svelte.ts';
 
 	const campsiteContext = getCampsiteContext();
-	const campsite = $derived(campsiteContext.campsite);
+	const campsite = $derived(campsiteContext.campsiteReference);
 
 	const menuPortal = getMenuPortal();
 </script>
@@ -49,7 +49,7 @@
 		align="stretch"
 		flex={1}
 	>
-		{#if !$campsite}
+		{#if !campsite}
 			<BonfireBanner.Skeleton />
 			<BonfireContent.Skeleton />
 		{:else}

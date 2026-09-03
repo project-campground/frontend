@@ -36,7 +36,7 @@
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
 	const modal = getModal();
-	const campsite = $derived(campsiteContext.campsite);
+	const campsite = $derived(campsiteContext.campsiteReference);
 	const openBonfire = $derived(campsiteContext.openBonfire);
 
 	async function onSubmit({ what, ...content }: Record<string, unknown>) {

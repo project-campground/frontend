@@ -22,8 +22,7 @@
 	const { tent }: { tent: TentViewBasic } = $props();
 
 	const campsiteContext = getCampsiteContext();
-	const webSocket = $derived(campsiteContext.webSocket);
-	const campsiteRef = $derived(campsiteContext.campsite);
+	const campsite = $derived(campsiteContext.campsite!);
 	const appview = getAppview();
 
 	async function createMessage(content: string) {
@@ -42,7 +41,7 @@
 				replyingTo: message.replyingTo.map((sub) => sub.id),
 			})),
 			replyingToCount: textTent.replyingTo.length,
-			createdBy: { ...$campsiteRef!.campsite.me, isMember: true },
+			createdBy: { ...campsite.me, isMember: true },
 			createdAt: new Date().toISOString(),
 		});
 
@@ -104,7 +103,7 @@
 	const textTent = new TextTentContext();
 
 	$effect(() => {
-		const subscription = $webSocket?.messages
+		const subscription = campsiteContext.webSocket?.messages
 			.pipe(filter((value) => value.op === 1))
 			.subscribe((ev) => {
 				const payload = ev.payload as WSMessageTypeToPayload[keyof WSMessageTypeToPayload];

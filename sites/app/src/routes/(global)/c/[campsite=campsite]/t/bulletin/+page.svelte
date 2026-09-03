@@ -10,12 +10,11 @@
 	import { localeStrings } from '$lib/locale/index.js';
 
 	const campsiteContext = getCampsiteContext();
-	const campsiteRef = $derived(campsiteContext.campsite);
-	const campsite = $derived($campsiteRef?.campsite);
+	const campsite = $derived(campsiteContext.campsiteReference?.campsite);
 
 	$effect(() => {
-		if ($campsiteRef?.campsite.bonfires[0].id)
-			campsiteContext.setActiveBonfire($campsiteRef?.campsite.bonfires[0].id);
+		if (campsiteContext.campsiteReference?.campsite.bonfires[0].id)
+			campsiteContext.setActiveBonfire(campsiteContext.campsiteReference?.campsite.bonfires[0].id);
 	});
 </script>
 

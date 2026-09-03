@@ -13,22 +13,22 @@
 
 	const campsiteContext = getCampsiteContext();
 	const bonfire = $derived(campsiteContext.openBonfire);
-	const campsite = $derived(campsiteContext.campsite);
-	const domain = $derived($campsite!.domain);
+	const campsiteReference = $derived(campsiteContext.campsiteReference);
+	const domain = $derived(campsiteReference!.domain);
 
 	const categoryList = $derived(
-		Object.entries(toLookup($bonfire?.tents ?? [], (tent) => tent.categoryId ?? '')).map(
+		Object.entries(toLookup(bonfire?.tents ?? [], (tent) => tent.categoryId ?? '')).map(
 			([categoryId, tents]) => {
 				const category =
-					categoryId ? ($bonfire?.categories.find((x) => x.id === categoryId) ?? null) : null;
+					categoryId ? (bonfire?.categories.find((x) => x.id === categoryId) ?? null) : null;
 
 				return { category, tents };
 			},
 		),
 	);
 	const emptyCategories = $derived(
-		$bonfire?.categories
-			.filter((category) => !$bonfire?.tents.some((tent) => tent.categoryId === category.id))
+		bonfire?.categories
+			.filter((category) => !bonfire?.tents.some((tent) => tent.categoryId === category.id))
 			.map((x) => ({ category: x, tents: [] })) ?? [],
 	);
 	const nonCategorizedTents = $derived(
@@ -43,18 +43,18 @@
 			tents: TentViewBasic[];
 		}[],
 	);
-	const isDefaultBonfire = $derived($bonfire?.isBonfireDefault ?? false);
+	const isDefaultBonfire = $derived(bonfire?.isBonfireDefault ?? false);
 
 	const intl = getLocale();
 </script>
 
-{#if $campsite && $bonfire}
+{#if campsiteReference && bonfire}
 	<Wrapper>
 		{#if isDefaultBonfire}
 			<TentList
 				tents={psuedoTentList.map((tent) => ({
 					...tent,
-					campsiteId: $campsite!.campsiteId,
+					campsiteId: campsiteReference.campsite.id,
 					name: intl.formatMessage(localeStrings.tents[tent.id as 'bulletin']),
 				}))}
 				{domain}

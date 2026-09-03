@@ -15,6 +15,7 @@
 		toggleReply,
 		cantToggleReply,
 		setEditingMessage,
+		messageType,
 		deleteMessage,
 	}: MessageMenuProps = $props();
 </script>
@@ -34,14 +35,16 @@
 			<IconArrowBackUp size="1.25rem" />
 		</Button>
 		{#if showExtraKeys}
-			<Button
-				padding="equal"
-				color="neutral"
-				variant="plain"
-				onclick={setEditingMessage}
-			>
-				<IconPencilFilled size="1.25rem" />
-			</Button>
+			{#if messageType !== 'system'}
+				<Button
+					padding="equal"
+					color="neutral"
+					variant="plain"
+					onclick={setEditingMessage}
+				>
+					<IconPencilFilled size="1.25rem" />
+				</Button>
+			{/if}
 			<Button
 				padding="equal"
 				color="danger"

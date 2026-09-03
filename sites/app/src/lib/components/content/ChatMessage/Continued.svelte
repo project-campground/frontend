@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
 	import { TextBlock } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 	import { Datestamp } from '../Datestamp/index.ts';
@@ -13,7 +12,6 @@
 		error,
 		children,
 	}: {
-		createdBy: MessageViewWithReplies['createdBy'];
 		updatedAt?: string | null;
 		createdAt: string;
 		state?: MessageState;

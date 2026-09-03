@@ -10,6 +10,7 @@
 		toggleReply,
 		setEditingMessage,
 		deleteMessage,
+		messageType,
 		cantToggleReply,
 		pseudoMessage,
 	}: Omit<MessageMenuProps, 'onOverflow'> = $props();
@@ -30,7 +31,7 @@
 	<Menu.Item>
 		<Menu.Button
 			onclick={setEditingMessage}
-			disabled={pseudoMessage}
+			disabled={pseudoMessage || messageType === 'system'}
 		>
 			<IconPencilFilled />
 			<LocaleMessage {...localeStrings.messages.edit} />

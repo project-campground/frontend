@@ -43,6 +43,22 @@
 	function toggleReply() {
 		return beingRepliedTo ? textTent.removeReplyingTo(message.id) : textTent.addReplyingTo(message);
 	}
+	function openOverflowMenu(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
+		contextMenuInstanceFromOverflow = menuPortal.add(
+			actionMenu as Snippet<[MenuPortalInstance]>,
+			ev.currentTarget,
+		);
+	}
+
+	let contextMenuInstanceFromOverflow: MenuPortalInstance | null = $state(null);
+
+	$effect(() => {
+		if (
+			contextMenuInstanceFromOverflow
+			&& !menuPortal.items.includes(contextMenuInstanceFromOverflow)
+		)
+			contextMenuInstanceFromOverflow = null;
+	});
 
 	let hover: boolean = $state(false);
 
@@ -64,6 +80,7 @@
 		virtual={instance.event}
 	>
 		<ContextMenu
+			messageType={message.type}
 			{cantToggleReply}
 			{pseudoMessage}
 			{beingRepliedTo}
@@ -102,15 +119,15 @@
 	onmouseleave={() => (hover = false)}
 	{@attach rightClickMenu(menuPortal, actionMenu)}
 >
-	{#if hover}
+	{#if hover || contextMenuInstanceFromOverflow}
 		<div
 			class="toolbar"
 			in:fade={{ duration: 300 }}
 			out:fade={{ duration: 300 }}
 		>
 			<Toolbar
-				onOverflow={(ev) =>
-					menuPortal.add(actionMenu as Snippet<[MenuPortalInstance]>, ev.currentTarget)}
+				messageType={message.type}
+				onOverflow={openOverflowMenu}
 				{toggleReply}
 				{cantToggleReply}
 				{pseudoMessage}
@@ -142,7 +159,6 @@
 						state={loadState}
 						{error}
 						updatedAt={message.updatedAt}
-						createdBy={message.createdBy}
 						createdAt={message.createdAt}
 					>
 						{@render content()}
@@ -186,9 +202,6 @@
 				background: linear-gradient(to bottom, var(--primary-glowFirst), var(--primary-glowSecond));
 			}
 		}
-		&:hover .toolbar {
-			opacity: 1;
-		}
 		&::before {
 			position: absolute;
 			content: '';
@@ -205,7 +218,6 @@
 		position: absolute;
 		top: -1rem;
 		right: 1rem;
-		opacity: 0;
 		z-index: 10;
 		transition: opacity $transition-time-md;
 	}

@@ -9,7 +9,7 @@ const specialNodes: Partial<TransformerMap> = {
 		// Each line except last one gets 'hardBreak' at the end
 		node.value
 			.split('\n')
-			.flatMap((x) => [{ type: 'text', value: x }, { type: 'hardBreak' }])
+			.flatMap((x) => [{ type: 'text', text: x }, { type: 'hardBreak' }])
 			.slice(0, -1),
 };
 

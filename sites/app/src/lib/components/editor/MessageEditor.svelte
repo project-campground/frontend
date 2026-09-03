@@ -41,7 +41,11 @@
 	const editor = $derived(createEditor({ extension }));
 
 	$effect(() => {
-		if (defaultValue) editor.setContent(mdastRootToEditor(deserializeMarkdown(defaultValue)));
+		if (!defaultValue) return;
+
+		const mdastNodes = deserializeMarkdown(defaultValue);
+		const editorNodes = mdastRootToEditor(mdastNodes);
+		editor.setContent(editorNodes);
 	});
 
 	function submitMessage() {

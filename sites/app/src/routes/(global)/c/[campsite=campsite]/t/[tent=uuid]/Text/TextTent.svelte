@@ -3,7 +3,7 @@
 	import TentWrapper from '../../TentWrapper.svelte';
 	import type { TentViewBasic } from '$lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
-	import MessageEditor from '$lib/components/editor/MessageEditor.svelte';
+	import MessageEditor from '$lib/components/editor/MessageEditor/Root.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import { getCampsiteContext } from '../../../context.svelte.ts';
 	import { filter } from 'rxjs';

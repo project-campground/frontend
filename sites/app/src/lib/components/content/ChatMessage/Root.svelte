@@ -6,7 +6,7 @@
 	import System from './System.svelte';
 	import type { Snippet } from 'svelte';
 	import { getTextTent } from './context.svelte.ts';
-	import MessageEditor from '$lib/components/editor/MessageEditor.svelte';
+	import MessageEditor from '$lib/components/editor/MessageEditor/Root.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import ContextMenu from './ContextMenu.svelte';
 	import Toolbar from './Toolbar.svelte';

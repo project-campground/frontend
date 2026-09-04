@@ -16,21 +16,31 @@
 </script>
 
 <script lang="ts">
-	import { Button, Card, Group } from '@campground/ui';
-	import TextEditor from './TextEditor.svelte';
+	import {
+		Button,
+		Card,
+		Divider,
+		getMenuPortal,
+		Group,
+		Menu,
+		MenuPortalInstance,
+	} from '@campground/ui';
+	import TextEditor from '../TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
 	import { defineMessageExtension } from '$lib/editor/extension.js';
 	import { deserializeMarkdown, serializeMarkdown } from '$lib/editor/mdast/markdown.js';
 	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
-	import { IconSend2 } from '@tabler/icons-svelte';
+	import { IconPlus, IconSend2 } from '@tabler/icons-svelte';
 	import { ProseKit } from 'prosekit/svelte';
 	import { defineMessage } from '@formatjs/svelte-intl';
 	import { getLocale } from '@campground/locale';
 	import { mdastRootToEditor } from '$lib/editor/mdast/markdown-to-editor.js';
+	import LeftSideMenu from './LeftSideMenu.svelte';
 
 	const { tentName: tent, defaultValue, onSubmit, onCancel }: Props = $props();
 
 	const intl = getLocale();
+	const menu = getMenuPortal();
 	const extension = $derived(
 		defineMessageExtension(
 			submitMessage,
@@ -56,17 +66,52 @@
 	}
 </script>
 
+{#snippet leftSideMenu(instance: MenuPortalInstance)}
+	<Menu.Root
+		{instance}
+		placement="top"
+	>
+		<LeftSideMenu {editor} />
+	</Menu.Root>
+{/snippet}
+
 <Card.Root
 	direction="row"
 	size="xs"
 >
-	<Group>
-		<div class="editor">
-			<ProseKit {editor}>
-				<TextEditor></TextEditor>
-			</ProseKit>
-		</div>
-		<aside class="buttons">
+	<Group
+		gap={0}
+		align="stretch"
+	>
+		<Group
+			class="MessageEditor buttons left"
+			align="stretch"
+			flex={0}
+			gap={0.5}
+			wrap="nowrap"
+		>
+			<Button
+				variant="plain"
+				color="neutral"
+				padding="equal"
+				onclick={(ev) => menu.add(leftSideMenu, ev.currentTarget)}
+			>
+				<IconPlus />
+			</Button>
+			<Divider orientation="vertical" />
+		</Group>
+		<Group>
+			<div class="editor">
+				<ProseKit {editor}>
+					<TextEditor></TextEditor>
+				</ProseKit>
+			</div>
+		</Group>
+		<Group
+			class="MessageEditor buttons right"
+			flex={0}
+			wrap="nowrap"
+		>
 			<span class="mobile-only">
 				<Button
 					onclick={submitMessage}
@@ -77,7 +122,7 @@
 					<IconSend2 />
 				</Button>
 			</span>
-		</aside>
+		</Group>
 	</Group>
 </Card.Root>
 

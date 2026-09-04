@@ -8,7 +8,7 @@
 	const { children, width, height, aspectRatio, radius }: FormImageFieldProps = $props();
 
 	// Functionality
-	const control: FormControlInstance<FormImageFieldValue | undefined> = getFormControl();
+	const control = getFormControl() as FormControlInstance<FormImageFieldValue | undefined>;
 
 	// Error messages and feedback
 	const menuPortal = getMenuPortal();
@@ -33,9 +33,9 @@
 
 <!-- For known values; this is used in registration pages for PDS and possibly in the future for tags -->
 {#snippet selectMenu(menu: MenuPortalInstance)}
-	<Modal.Root instance={menu}>
+	<Modal instance={menu}>
 		<FormImageDialog {onSubmit} />
-	</Modal.Root>
+	</Modal>
 {/snippet}
 
 <button

@@ -143,8 +143,12 @@
 	}
 
 	$effect(() => {
+		textTent.loadingMessages = true;
 		textTent.messages = [];
-		appview.messages.getMany(tent.id, 0, 50).then(onMessagesCollected);
+		appview.messages
+			.getMany(tent.id, 0, 50)
+			.then(onMessagesCollected)
+			.then(() => (textTent.loadingMessages = false));
 	});
 
 	setTextTent(textTent);

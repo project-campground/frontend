@@ -5,6 +5,7 @@ import { createContext } from 'svelte';
 
 export class TextTentContext {
 	public messages: MessageViewInChat[] = $state([]);
+	public loadingMessages: boolean = $state(true);
 
 	public replyingTo: MessageViewWithReplies[] = $state([]);
 

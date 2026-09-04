@@ -6,6 +6,7 @@
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
 	import { unified } from 'unified';
+	import MarkdownFormatted from './MarkdownFormatted.svelte';
 
 	interface Props {
 		value: string;
@@ -25,17 +26,7 @@
 	);
 </script>
 
-<div class="container">
+<MarkdownFormatted>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html htmlFromMarkdown}
-</div>
-
-<style lang="scss">
-	@use '../../css/markdown.scss' as *;
-
-	.container {
-		text-wrap: wrap;
-		line-break: normal;
-		@extend %MarkdownContent-basic;
-	}
-</style>
+</MarkdownFormatted>

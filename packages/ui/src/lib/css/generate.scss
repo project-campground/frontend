@@ -132,8 +132,8 @@
 	--background-tooltip: #{map.get($theme-shades, $component-color + ($mode-subtraction * 2))};
 	--border-tooltip: #{map.get($theme-shades, 500)};
 
-	--background-skeleton: #{map.get($theme-shades, 600)};
-	--background-skeletonPulse: #{map.get($theme-shades, 500)};
+	--background-skeleton: #{map.get($theme-shades, 700)};
+	--background-skeletonPulse: #{map.get($theme-shades, 600)};
 
 	// Misc
 	--neutral-border: #{change(

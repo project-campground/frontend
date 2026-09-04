@@ -8,6 +8,8 @@ export default interface FormProps extends HTMLFormAttributes {
 	hideOverflow?: boolean;
 	class?: ClassValue;
 	gap?: ComponentSize;
+	flex?: number;
+	h?: 'full';
 
 	children: Snippet;
 	onSubmit?: (

@@ -10,6 +10,7 @@
 		FormErrorLabel,
 		FormSwitch,
 		FormObject,
+		FormArray,
 	} from '$lib/index.js';
 	import { FormImageField } from '$lib/FormImageField/index.js';
 	import {
@@ -20,6 +21,7 @@
 	} from '@tabler/icons-svelte';
 
 	let reactiveForm: Form | null = $state(null);
+	let objectForm: Form | null = $state(null);
 </script>
 
 <Tabs.Root>
@@ -29,6 +31,7 @@
 		<Tabs.Item>Text field</Tabs.Item>
 		<Tabs.Item>Text areas</Tabs.Item>
 		<Tabs.Item>Reactive</Tabs.Item>
+		<Tabs.Item>Objects &and; Arrays</Tabs.Item>
 	{/snippet}
 	<Tabs.Tab>
 		<Form>
@@ -105,25 +108,6 @@
 					{/snippet}
 				</FormTextField>
 			</FormControl>
-			<FormObject id="exampleObject">
-				<Card.Root>
-					<Card.Content gap="sm">
-						<Para level="h3">Sub-form (FormObject)</Para>
-						<FormControl id="textAreaAndStuff">
-							<FormLabel>Text area field</FormLabel>
-							<FormTextField multirow />
-						</FormControl>
-						<FormControl id="formattedSingleLine">
-							<FormLabel>Text field formatted</FormLabel>
-							<FormTextField
-								format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
-								placeholder="Aaa"
-							/>
-							<FormErrorLabel />
-						</FormControl>
-					</Card.Content>
-				</Card.Root>
-			</FormObject>
 			<FormControl id="formattedMultiLine">
 				<FormLabel>Text area formatted</FormLabel>
 				<FormTextField
@@ -259,6 +243,41 @@
 				<pre><code
 						>{JSON.stringify(
 							Object.fromEntries(reactiveForm?.getForm().controls.map((x) => [x.id, x.value]) ?? []),
+							undefined,
+							4,
+						)}</code
+					></pre>
+			</div>
+		</Form>
+	</Tabs.Tab>
+	<Tabs.Tab>
+		<Form bind:this={objectForm}>
+			<FormObject id="exampleObject">
+				<Card.Root>
+					<Card.Content gap="sm">
+						<Para level="h3">Sub-form (FormObject)</Para>
+						<FormControl id="textAreaAndStuff">
+							<FormLabel>Text area field</FormLabel>
+							<FormTextField multirow />
+						</FormControl>
+						<FormControl id="formattedSingleLine">
+							<FormLabel>Text field formatted</FormLabel>
+							<FormTextField
+								format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
+								placeholder="Aaa"
+							/>
+							<FormErrorLabel />
+						</FormControl>
+					</Card.Content>
+				</Card.Root>
+			</FormObject>
+			<FormArray id="exampleArray">
+				<FormTextField />
+			</FormArray>
+			<div>
+				<pre><code
+						>{JSON.stringify(
+							Object.fromEntries(objectForm?.getForm().controls.map((x) => [x.id, x.value]) ?? []),
 							undefined,
 							4,
 						)}</code

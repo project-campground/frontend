@@ -1,25 +1,17 @@
 <script lang="ts">
+	import { rem } from '$lib/util/component.ts';
 	import { stackedProps } from '../layout.ts';
 	import type { RootProps } from './props.ts';
 
-	const {
-		size,
-		level,
-		overflow,
-		children,
-		direction,
-		flex,
-		gridColumn,
-		gridRow,
-		...props
-	}: RootProps = $props();
+	const { size, level, overflow, children, flex, gap, gridColumn, gridRow, ...props }: RootProps =
+		$props();
 </script>
 
 <section
 	data-level={level}
 	data-overflow={overflow}
-	data-direction={direction}
 	data-size={size ?? 'md'}
+	style:--Card-gap={rem(gap)}
 	style:--Layout-flex={flex}
 	style:--Layout-gridColumn={gridColumn}
 	style:--Layout-gridRow={gridRow}
@@ -49,6 +41,7 @@
 		border: solid 1px var(--neutral-border);
 		border-radius: var(--Card-radius);
 		box-shadow: var(--shadow-md);
+		gap: var(--Card-gap);
 
 		@extend %InLayout;
 		@extend %Stacked;

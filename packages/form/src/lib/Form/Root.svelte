@@ -10,6 +10,8 @@
 		inlineContent,
 		onSubmit,
 		autocomplete,
+		h,
+		flex,
 		...attributes
 	}: FormProps = $props();
 
@@ -28,8 +30,15 @@
 	{...attributes}
 	class={[{ hideOverflow, inlineContent }, className]}
 	data-gap={gap}
+	data-height={h ?? 'default'}
+	style:--Form-flex={flex}
 >
-	{@render children?.()}
+	<svelte:boundary>
+		{#snippet failed(err)}
+			ERR: {err}
+		{/snippet}
+		{@render children?.()}
+	</svelte:boundary>
 </form>
 
 <style lang="scss">
@@ -41,7 +50,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		height: 100%;
+		flex: var(--Form-flex);
+		&[data-height='full'] {
+			height: 100%;
+		}
 		@each $size, $value in $gaps {
 			&[data-gap='#{$size}'] {
 				gap: $value;

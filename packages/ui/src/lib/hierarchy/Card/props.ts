@@ -8,6 +8,7 @@ export interface RootProps extends StackedProps, InGridLayout, InFlexLayout {
 	level?: 'default' | 'subtle';
 	class?: ClassValue;
 	size?: ComponentSize | 'xxl';
+	gap?: Size;
 	children: Snippet;
 	overflow?: 'auto' | 'visible';
 }

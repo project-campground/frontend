@@ -1,18 +1,8 @@
+import { rightClickAction } from '../attachments/mouse.js';
 import type { Menu, MenuPortal, MenuPortalInstance } from '$lib/floating/index.js';
 import type { Snippet } from 'svelte';
 import type { Attachment } from 'svelte/attachments';
 import { v4 as uuid } from 'uuid';
-
-export const rightClickAction: <T extends HTMLElement>(
-	action: (event: PointerEvent) => unknown,
-) => Attachment<T> = (onRightClick) => (element: HTMLElement) => {
-	element.addEventListener('contextmenu', (ev) => {
-		ev.preventDefault();
-		return onRightClick(ev);
-	});
-
-	return () => element.removeEventListener('contextmenu', onRightClick);
-};
 
 export const rightClickMenu = (
 	menuPortal: MenuPortal,

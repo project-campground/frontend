@@ -11,10 +11,10 @@
 		Svg,
 		Tooltip,
 		Modal,
+		rightClickAction,
 	} from '$lib/index.js';
 	import {
 		hoverAction,
-		rightClickAction,
 		rightClickMenu,
 		rightClickMenuProps,
 		tooltip,

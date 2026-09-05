@@ -1,3 +1,4 @@
+export * from './attachments/index.ts';
 export * from './floating/index.ts';
 export * from './form/index.ts';
 export * from './info/index.ts';

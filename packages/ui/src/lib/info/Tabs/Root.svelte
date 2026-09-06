@@ -1,22 +1,29 @@
 <script lang="ts">
+	import { setPickContext } from '$lib/form/Pick/context.svelte.js';
 	import TabList from './List.svelte';
-	import { setTabsContext, TabsContext } from './context.svelte.ts';
+	import { TabsContext } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 
 	const tabContext = new TabsContext();
 
-	$effect(() => list?.scrollTo(list?.clientWidth * tabContext.activeTabIndex, 0));
+	$effect(() => {
+		list?.scrollTo(list?.clientWidth * tabContext.activeItemIndex, 0);
+	});
+
+	$effect(() => {
+		if (tabContext.itemsForm) tabContext.items.item(0).checked = true;
+	});
 
 	const { tabs, children }: RootProps = $props();
 	let list: HTMLDivElement | null = $state(null);
 
-	setTabsContext(tabContext);
+	setPickContext(tabContext);
 </script>
 
 <section
 	class="container"
-	style:--Tabs-tabCount={tabContext.tabCount}
-	style:--Tabs-activeTabIndex={tabContext.activeTabIndex}
+	style:--Pick-count={tabContext.itemCount}
+	style:--Pick-activeIndex={tabContext.activeItemIndex}
 >
 	<TabList>
 		{@render tabs()}
@@ -26,7 +33,7 @@
 			bind:this={list}
 			class="list"
 			onscrollend={(ev) =>
-				(tabContext.activeTabIndex = Math.round(
+				(tabContext.activeItemIndex = Math.round(
 					ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth,
 				))}
 		>
@@ -54,7 +61,7 @@
 
 		transition: transform $transition-time-md;
 
-		grid-template-columns: repeat(var(--Tabs-tabCount), 100%);
+		grid-template-columns: repeat(var(--Pick-count), 100%);
 
 		width: 100%;
 		scroll-snap-type: x mandatory;

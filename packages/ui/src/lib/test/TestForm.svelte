@@ -13,6 +13,7 @@
 		TextInput,
 		Svg,
 		type ComponentColorAll,
+		Pick,
 	} from '$lib/index.js';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import { colors, sizes } from './values.js';
@@ -21,6 +22,7 @@
 
 	let switchValue = $state(false);
 
+	let pickValue: number = $state(0);
 	let inputValue = $state('');
 	let selectValue = $state<Select.Value | undefined | null>(null);
 
@@ -44,6 +46,90 @@
 {#snippet selectRenderer(value: Select.Value | null | undefined)}
 	Value: {JSON.stringify({ value })}
 {/snippet}
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Pick
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Pick.Root
+				bind:value={pickValue}
+				onChange={(value) => (pickValue = value)}
+			>
+				<Pick.List {size}>
+					{#each Array(5) as _, i (i)}
+						<Pick.Item>
+							{i}
+							{size}
+						</Pick.Item>
+					{/each}
+				</Pick.List>
+			</Pick.Root>
+		{/each}
+	</Stack>
+</Section>
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Text Input
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Section headerLevel={2}>
+				{#snippet header()}
+					{size}
+				{/snippet}
+				{#each [{}, { left: icon }, { right: icon }, { left: icon, right: icon }, { top: icon }, { bottom: icon }, { rows: 4 }] as attr}
+					<Section headerLevel={3}>
+						{#snippet header()}
+							Attr: {JSON.stringify(Object.keys(attr))}
+						{/snippet}
+						<Stack>
+							<TextInput
+								multirow
+								bind:value={inputValue}
+								{size}
+								placeholder={size}
+								{...attr}
+							/>
+							<Group>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size}
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` disabled`}
+									disabled
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` has error`}
+									error
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` disabled, has error`}
+									disabled
+									error
+									{...attr}
+								/>
+							</Group>
+						</Stack>
+					</Section>
+				{/each}
+			</Section>
+		{/each}
+	</Stack>
+</Section>
 
 <Section headerLevel={1}>
 	{#snippet header()}

@@ -21,6 +21,7 @@
 		IconHash,
 	} from '@tabler/icons-svelte';
 	import Tab from './Tab.svelte';
+	import { FormTristate } from '$lib/FormTristate/index.ts';
 </script>
 
 <Tabs.Root>
@@ -98,6 +99,20 @@
 		</FormControl>
 	</Tab>
 	<Tab>
+		<Card.Root>
+			<Card.Content>
+				<FormControl id="tristate">
+					<FormLabel>Tristate</FormLabel>
+					<FormTristate>
+						{#snippet header()}
+							Example tristate
+						{/snippet}
+						Example description
+					</FormTristate>
+					<FormErrorLabel />
+				</FormControl>
+			</Card.Content>
+		</Card.Root>
 		<FormControl id="switch">
 			<FormLabel>Switch</FormLabel>
 			<FormSwitch>

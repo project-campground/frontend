@@ -1,4 +1,3 @@
-import type { DragAndDropContext } from '$lib/contexts/draggable.js';
 import type { Attachment } from 'svelte/attachments';
 
 export interface DraggableProps {

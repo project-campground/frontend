@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { RootProps } from './props.ts';
 
-	const { children, size, color }: RootProps = $props();
+	const { children, size, color, ...attributes }: RootProps = $props();
 </script>
 
 <span
 	data-size={size ?? 'md'}
 	data-color={color ?? 'neutral'}
+	{...attributes}
 >
 	{@render children()}
 </span>

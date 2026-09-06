@@ -16,6 +16,7 @@
 		type StatusColor,
 		Stepper,
 		type LinkProps,
+		Chip,
 	} from '$lib/index.js';
 	import { IconCheck, IconMessageFilled } from '@tabler/icons-svelte';
 	import { colors, colorsWithNeutral, sizes, statusColors } from './values.ts';
@@ -55,6 +56,22 @@
 					{/each}
 				</Group>
 			{/each}
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Chip
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Group>
+				{#each colorsWithNeutral as color}
+					<Chip {size} {color}>
+						{color} {size}
+					</Chip>
+				{/each}
+			</Group>
 		{/each}
 	</Stack>
 </Section>

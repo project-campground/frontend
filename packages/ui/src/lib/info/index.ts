@@ -1,4 +1,5 @@
 export * from './Alert/index.ts';
+export * from './Chip/index.ts';
 export * from './Divider/index.ts';
 export * from './GradientText/index.ts';
 export * from './Link/index.ts';

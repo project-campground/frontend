@@ -25,6 +25,9 @@
 		scroll-behavior: smooth;
 		scroll-snap-stop: always;
 
+		@include desktop-sm-up {
+			overflow: hidden;
+		}
 		@include tablet-only {
 			grid-template-rows: 100%;
 			grid-template-columns: 50% auto;

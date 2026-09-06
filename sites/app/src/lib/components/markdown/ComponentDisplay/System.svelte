@@ -54,22 +54,27 @@
 	</TextBlock>
 {/snippet}
 
-<div class="container">
-	<TextBlock level="subtext">
+<span class="container">
+	<span class="icon">
 		<IconComponent />
-	</TextBlock>
-	<TextBlock whitespace="pre-wrap">
+	</span>
+	<TextBlock>
 		<LocaleMessage
 			{...messageTranslation[systemMessageType]}
 			values={{ executor }}
 		/>
 	</TextBlock>
-</div>
+</span>
 
 <style lang="scss">
 	.container {
-		display: grid;
-		grid-template-columns: 3rem 1fr;
-		gap: 0.5rem;
+		vertical-align: middle;
+	}
+	.icon {
+		display: block;
+		float: left;
+		color: var(--foreground-subtext);
+		width: 3rem;
+		line-height: 0;
 	}
 </style>

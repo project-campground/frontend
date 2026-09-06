@@ -39,7 +39,7 @@
 	$aligns: start, center, end;
 
 	span {
-		display: inline-flex;
+		display: inline;
 		align-items: center;
 		padding: {
 			left: var(--TextBlock-paddingLeft);

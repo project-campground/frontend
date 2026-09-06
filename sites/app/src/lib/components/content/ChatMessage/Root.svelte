@@ -114,6 +114,7 @@
 		.find((x) => x[1] === loadState)?.[0]
 		.toLowerCase() ?? 'loaded'}
 	data-state={beingRepliedTo ? 'replying' : 'default'}
+	data-continuous-message={continuousMessage}
 	// Events
 	onmouseenter={() => (hover = true)}
 	onmouseleave={() => (hover = false)}
@@ -213,6 +214,10 @@
 			border-radius: var(--radius-sm);
 		}
 		border-radius: var(--radius-md);
+
+		&:not([data-continuous-message='true']) {
+			margin-top: 1rem;
+		}
 	}
 	.toolbar {
 		position: absolute;

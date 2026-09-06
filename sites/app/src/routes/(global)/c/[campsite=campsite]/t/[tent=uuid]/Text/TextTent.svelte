@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Stack, Threaded } from '@campground/ui';
+	import { Threaded } from '@campground/ui';
 	import TentWrapper from '../../TentWrapper.svelte';
 	import type { TentViewBasic } from '$lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
@@ -18,7 +18,7 @@
 		TextTentContext,
 	} from '$lib/components/content/ChatMessage/context.svelte.js';
 	import TentMessageList from './TentMessageList.svelte';
-	import type { MessageViewWithReplies, TentMessagesOutput } from '$lib/types/campground/content.js';
+	import type { TentMessagesOutput } from '$lib/types/campground/content.js';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 
@@ -74,9 +74,6 @@
 
 			return textTent.messages.unshift({
 				...message,
-				// Added
-				key: message.id,
-				state: MessageState.Loaded,
 
 				// Overwritten
 				replyingTo: [],
@@ -105,6 +102,11 @@
 	let reachedLastMessages = $derived(false);
 
 	function onScroll(ev: UIEvent & { currentTarget: EventTarget & HTMLDivElement }) {
+		// To not cause duplicate messages if you switch tent and instantly scroll up while loading, which would error out due to Svelte's
+		// duplicate key detection. Not checking for reachedLastMessages can also force client to try fetching additional messages that
+		// do not exist
+		if (textTent.loadingMessages || reachedLastMessages) return;
+
 		const list = ev.currentTarget;
 		// scrollTop negative due to column-reverse
 		const remainingScrollTop = list.scrollTop + (list.scrollHeight - list.offsetHeight);
@@ -121,7 +123,7 @@
 		return onMessagesCollected(newMessages);
 	}
 	function onMessagesCollected(output: TentMessagesOutput) {
-		textTent.messages.push(...output.messages.map(giveStateToMessage));
+		textTent.messages.push(...output.messages);
 
 		// To show that the tent end has been reached
 		if (output.messages.length < 50) reachedLastMessages = true;
@@ -137,10 +139,6 @@
 
 		return () => subscription?.unsubscribe();
 	});
-
-	function giveStateToMessage(value: MessageViewWithReplies): MessageViewInChat {
-		return { ...value, key: value.id, state: MessageState.Loaded };
-	}
 
 	$effect(() => {
 		textTent.loadingMessages = true;

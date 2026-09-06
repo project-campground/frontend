@@ -36,7 +36,7 @@
 	$aligns: start, center, end;
 
 	.container {
-		display: flex;
+		display: inline-flex;
 		flex-direction: row;
 		align-items: center;
 		gap: 1ch;

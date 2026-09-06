@@ -7,25 +7,27 @@
 </script>
 
 <div class="container">
-	<div class="content">
+	<span class="content">
 		{@render children()}
-	</div>
-	<div class="meta">
+	</span>
+	<span class="meta">
 		<TextBlock level="subtext">
 			<Datestamp date={createdAt} />
 		</TextBlock>
-	</div>
+	</span>
 </div>
 
 <style lang="scss">
 	@use '@campground/ui' as *;
 
 	.container {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.25rem;
 		grid-column: 1 / 3;
+	}
+	.content {
+		vertical-align: middle;
+	}
+	.meta {
+		vertical-align: bottom;
+		padding-inline-start: 0.5rem;
 	}
 </style>

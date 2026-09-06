@@ -26,24 +26,24 @@
 			<ChatMessageSkeleton {index} />
 		{/each}
 	{:else}
-	{#each textTent.messages as message, i (message.key)}
-		{const previousMessage = $derived(textTent.messages[i + 1])}
-		{const postDifference = $derived(previousMessage ? new Date(message.createdAt).getTime() - new Date(previousMessage.createdAt).getTime() : 0)}
-		{const sameDate = $derived(previousMessage && new Date(previousMessage.createdAt).toDateString() === new Date(message.createdAt).toDateString())}
-		<ChatMessage
-			{message}
-			continuousMessage={sameDate && !message.replyingToCount && postDifference < continuedPostDateDifference}
-			state={message.state}
-			error={message.stateMessage}
-		/>
-		{#if previousMessage && !sameDate}
-			<DateDivider date={new Date(message.createdAt)} />
+		{#each textTent.messages as message, i (message.key ?? message.id)}
+			{const previousMessage = $derived(textTent.messages[i + 1])}
+			{const postDifference = $derived(previousMessage ? new Date(message.createdAt).getTime() - new Date(previousMessage.createdAt).getTime() : 0)}
+			{const sameDate = $derived(previousMessage && new Date(previousMessage.createdAt).toDateString() === new Date(message.createdAt).toDateString())}
+			<ChatMessage
+				{message}
+				continuousMessage={sameDate && !message.replyingToCount && postDifference < continuedPostDateDifference}
+				state={message.state}
+				error={message.stateMessage}
+			/>
+			{#if previousMessage && !sameDate}
+				<DateDivider date={new Date(message.createdAt)} />
+			{/if}
+		{/each}
+		{#if !reachedLastMessages}
+			<ChatMessageSkeleton index={1} />
+			<ChatMessageSkeleton index={2} />
 		{/if}
-	{/each}
-	{#if !reachedLastMessages}
-		<ChatMessageSkeleton index={1} />
-		<ChatMessageSkeleton index={2} />
-	{/if}
 	{/if}
 </Stack>
 {#if !textTent.loadingMessages && reachedLastMessages}

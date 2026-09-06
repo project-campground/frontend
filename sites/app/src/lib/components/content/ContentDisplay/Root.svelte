@@ -10,7 +10,9 @@
 	}: Pick<MessageViewBasic, 'createdBy' | 'content' | 'components'> = $props();
 </script>
 
-<Markdown value={content}></Markdown>
+{#if content}
+	<Markdown value={content}></Markdown>
+{/if}
 {#each components as component, i (i)}
 	<ComponentDisplay
 		{component}

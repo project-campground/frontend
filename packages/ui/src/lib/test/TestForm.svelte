@@ -133,69 +133,9 @@
 
 <Section headerLevel={1}>
 	{#snippet header()}
-		Text Input
-	{/snippet}
-	<Stack>
-		{#each sizes as size}
-			<Section headerLevel={2}>
-				{#snippet header()}
-					{size}
-				{/snippet}
-				{#each [{}, { left: icon }, { right: icon }, { left: icon, right: icon }, { top: icon }, { bottom: icon }, { rows: 4 }] as attr}
-					<Section headerLevel={3}>
-						{#snippet header()}
-							Attr: {JSON.stringify(Object.keys(attr))}
-						{/snippet}
-						<Stack>
-							<TextInput
-								multirow
-								bind:value={inputValue}
-								{size}
-								placeholder={size}
-								{...attr}
-							/>
-							<Group>
-								<TextInput
-									bind:value={inputValue}
-									{size}
-									placeholder={size}
-									{...attr}
-								/>
-								<TextInput
-									bind:value={inputValue}
-									{size}
-									placeholder={size + ` disabled`}
-									disabled
-									{...attr}
-								/>
-								<TextInput
-									bind:value={inputValue}
-									{size}
-									placeholder={size + ` has error`}
-									error
-									{...attr}
-								/>
-								<TextInput
-									bind:value={inputValue}
-									{size}
-									placeholder={size + ` disabled, has error`}
-									disabled
-									error
-									{...attr}
-								/>
-							</Group>
-						</Stack>
-					</Section>
-				{/each}
-			</Section>
-		{/each}
-	</Stack>
-</Section>
-<Section headerLevel={1}>
-	{#snippet header()}
 		Select
 	{/snippet}
-	<Stack>
+	<Group>
 		{#each sizes as size}
 			<Section headerLevel={2}>
 				{#snippet header()}
@@ -227,7 +167,7 @@
 				{/each}
 			</Section>
 		{/each}
-	</Stack>
+	</Group>
 </Section>
 <Section headerLevel={1}>
 	{#snippet header()}

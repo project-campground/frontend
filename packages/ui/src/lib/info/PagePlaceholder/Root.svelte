@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Para } from '$lib/info/index.js';
-	import type PagePlaceholderProps from './props.ts';
+	import type { RootProps } from './props.js';
 
-	const { status, title, icon, class: className, children }: PagePlaceholderProps = $props();
+	const { status, title, icon, class: className, children }: RootProps = $props();
 </script>
 
 <section class={['container', status && 'hasStatus', className]}>
@@ -21,8 +21,8 @@
 			<span class="status">
 				{status}
 			</span>
+			{' '}
 		{/if}
-		{' '}
 		{@render title()}
 	</Para>
 	<div class="body">
@@ -36,6 +36,7 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		overflow: hidden;
 		gap: 0.5rem;
 	}
 	.icon {
@@ -49,6 +50,12 @@
 		color: var(--foreground-subtext);
 	}
 	.body {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		flex: 1;
+		overflow: hidden;
+
 		color: var(--foreground-subheading);
 		text-align: justify;
 	}

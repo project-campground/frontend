@@ -30,7 +30,6 @@
 		Button,
 		FlexCenter,
 		PagePlaceholder,
-		PagePlaceholderIcon,
 		Para,
 		Stack,
 		Alert,
@@ -65,7 +64,7 @@
 </script>
 
 <FlexCenter>
-	<PagePlaceholder icon={PagePlaceholderIcon.Ok}>
+	<PagePlaceholder.Root icon={PagePlaceholder.Icon.Ok}>
 		{#snippet title()}
 			<LocaleMessage {...localeMessages.header} />
 		{/snippet}
@@ -92,5 +91,5 @@
 				</Alert>
 			{/if}
 		</Stack>
-	</PagePlaceholder>
+	</PagePlaceholder.Root>
 </FlexCenter>

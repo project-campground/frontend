@@ -1,9 +1,10 @@
 export * from './Alert/index.ts';
 export * from './Chip/index.ts';
+export * as Code from './Code/index.ts';
 export * from './Divider/index.ts';
 export * from './GradientText/index.ts';
 export * from './Link/index.ts';
-export * from './PagePlaceholder/index.ts';
+export * as PagePlaceholder from './PagePlaceholder/index.ts';
 export * from './Para/index.ts';
 export * from './Section/index.ts';
 export * as Tabs from './Tabs/index.ts';

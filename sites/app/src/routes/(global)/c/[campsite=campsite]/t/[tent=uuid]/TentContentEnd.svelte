@@ -19,26 +19,26 @@
 <script lang="ts">
 	import { LocaleMessage } from '@campground/locale';
 
-	import { Divider, PagePlaceholder, PagePlaceholderIcon, Stack } from '@campground/ui';
+	import { Divider, PagePlaceholder, Stack } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 </script>
 
 <div class="container">
 	<div class="background">
 		<span class="left">
-			{PagePlaceholderIcon.Welcome}
+			{PagePlaceholder.Icon.Welcome}
 		</span>
 		<span class="right">
-			{PagePlaceholderIcon.Appreciation}
+			{PagePlaceholder.Icon.Appreciation}
 		</span>
 	</div>
 	<Stack gap={2}>
-		<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
+		<PagePlaceholder.Root icon={PagePlaceholder.Icon.NoMore}>
 			{#snippet title()}
 				<LocaleMessage {...messages.title} />
 			{/snippet}
 			<LocaleMessage {...messages.desc} />
-		</PagePlaceholder>
+		</PagePlaceholder.Root>
 		<Divider />
 	</Stack>
 </div>

@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import { Stack, Card, PagePlaceholder, PagePlaceholderIcon, FlexCenter } from '@campground/ui';
+	import { Stack, Card, PagePlaceholder, FlexCenter } from '@campground/ui';
 	import AppviewInstance from './AppviewInstance.svelte';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
@@ -42,12 +42,12 @@
 		{/each}
 		{#if !instanceList.length}
 			<FlexCenter>
-				<PagePlaceholder icon={PagePlaceholderIcon.Empty}>
+				<PagePlaceholder.Root icon={PagePlaceholder.Icon.Empty}>
 					{#snippet title()}
 						<LocaleMessage {...messages.emptyTitle} />
 					{/snippet}
 					<LocaleMessage {...messages.emptyDescription} />
-				</PagePlaceholder>
+				</PagePlaceholder.Root>
 			</FlexCenter>
 		{/if}
 	</Stack>

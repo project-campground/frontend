@@ -21,19 +21,17 @@
 		MenuPortal,
 		MenuPortalContainer,
 		Modal,
-		PagePlaceholder,
-		PagePlaceholderIcon,
 		Portals,
 		setMenuPortal,
 		type MenuPortalInstance,
 	} from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { LocaleMessage } from '@campground/locale';
 	import ProfileSetup from './GettingStartedModal.svelte';
 	import { onMount } from 'svelte';
 	import { setAppview } from '$lib/context/api.js';
 	import HTTPBackendClient from '$lib/api/http/HTTPBackendClient.js';
 	import { defaultAppview } from '$lib/api/api.config.js';
+	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
 
 	const { children }: LayoutProps = $props();
 
@@ -68,12 +66,7 @@
 {/snippet}
 
 {#if error}
-	<PagePlaceholder icon={PagePlaceholderIcon.Error}>
-		{#snippet title()}
-			<LocaleMessage {...errors.sessionError} />
-		{/snippet}
-		{error}
-	</PagePlaceholder>
+	<ErrorPlaceholder {error} />
 {:else}
 	<GlobalLayout>
 		{@render children()}

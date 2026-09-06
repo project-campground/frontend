@@ -21,7 +21,7 @@
 <script lang="ts">
 	import { LocaleMessage } from '@campground/locale';
 
-	import { FlexCenter, PagePlaceholder, PagePlaceholderIcon, Para, Stack } from '@campground/ui';
+	import { FlexCenter, PagePlaceholder, Para, Stack } from '@campground/ui';
 	import { Form } from '@campground/form';
 </script>
 
@@ -36,12 +36,12 @@
 			</Para>
 		</Stack>
 		<FlexCenter>
-			<PagePlaceholder icon={PagePlaceholderIcon.WIP}>
+			<PagePlaceholder.Root icon={PagePlaceholder.Icon.WIP}>
 				{#snippet title()}
 					WIP
 				{/snippet}
 				<Para>WIP</Para>
-			</PagePlaceholder>
+			</PagePlaceholder.Root>
 		</FlexCenter>
 	</Form>
 </div>

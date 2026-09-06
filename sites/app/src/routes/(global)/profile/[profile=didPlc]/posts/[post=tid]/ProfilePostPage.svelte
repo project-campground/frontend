@@ -21,7 +21,7 @@
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import HTTPProfilePostRecordManager from '$lib/api/http/profilePostRecord.js';
 	import { ProfilePost } from '$lib/components/index.js';
-	import { PagePlaceholder, PagePlaceholderIcon, Threaded } from '@campground/ui';
+	import { PagePlaceholder, Threaded } from '@campground/ui';
 	import ProfilePostCreator from '../../ProfilePostCreator.svelte';
 	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
@@ -92,12 +92,12 @@
 </Threaded.Root>
 
 <div class="final">
-	<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
+	<PagePlaceholder.Root icon={PagePlaceholder.Icon.NoMore}>
 		{#snippet title()}
 			<LocaleMessage {...messages.finalTitle} />
 		{/snippet}
 		<LocaleMessage {...messages.finalDescription} />
-	</PagePlaceholder>
+	</PagePlaceholder.Root>
 </div>
 
 <style lang="scss">

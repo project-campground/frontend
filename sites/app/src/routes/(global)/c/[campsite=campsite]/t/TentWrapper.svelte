@@ -71,5 +71,6 @@
 		flex-direction: column;
 		flex: 1;
 		overflow: hidden;
+		height: 100%;
 	}
 </style>

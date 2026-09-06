@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PagePlaceholder, PagePlaceholderIcon } from '@campground/ui';
+	import { PagePlaceholder } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 
 	const { status, title, children }: { status: number; title: Snippet; children: Snippet } =
@@ -7,8 +7,8 @@
 </script>
 
 <div class="ErrorPage">
-	<PagePlaceholder
-		icon={PagePlaceholderIcon.Error}
+	<PagePlaceholder.Root
+		icon={PagePlaceholder.Icon.Error}
 		{status}
 		{title}
 		{children}

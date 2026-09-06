@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { PagePlaceholder, PagePlaceholderIcon } from '@campground/ui';
+	import { PagePlaceholder } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
+	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
 
 	const { children }: LayoutProps = $props();
 </script>
@@ -10,19 +11,10 @@
 		{#snippet pending()}
 			<div class="full">...</div>
 		{/snippet}
-		{#snippet failed(err)}
+		{#snippet failed(error)}
 			<div class="full">
-				<PagePlaceholder icon={PagePlaceholderIcon.Error}>
-					{#snippet title()}
-						{#if err instanceof Error}
-							{err.name}
-						{:else}
-							{err}
-						{/if}
-					{/snippet}
-					{err}
-					{console.error(err)}
-				</PagePlaceholder>
+				<ErrorPlaceholder {error} />
+				{console.error(error)}
 			</div>
 		{/snippet}
 		{@render children()}

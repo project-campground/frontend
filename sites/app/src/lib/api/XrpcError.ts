@@ -31,7 +31,7 @@ export default class XrpcError extends Error {
 
 		super(`[${response.status}] ${code}: ${description}`, { cause: response });
 
-		this.name = 'ApiError(XRPC)';
+		this.name = 'XRPCError';
 
 		this.code = code;
 		this.description = description;

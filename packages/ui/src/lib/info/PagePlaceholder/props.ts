@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
 import type { ClassValue } from 'svelte/elements';
 
-export default interface PagePlaceholderProps {
+export interface RootProps {
 	status?: number;
 	icon: PagePlaceholderIcon;
 	title: Snippet;

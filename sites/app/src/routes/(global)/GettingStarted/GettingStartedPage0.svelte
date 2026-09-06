@@ -22,16 +22,16 @@
 <script lang="ts">
 	import { LocaleMessage } from '@campground/locale';
 
-	import { FlexCenter, PagePlaceholder, PagePlaceholderIcon, Para } from '@campground/ui';
+	import { FlexCenter, PagePlaceholder, Para } from '@campground/ui';
 </script>
 
 <FlexCenter>
-	<PagePlaceholder icon={PagePlaceholderIcon.Welcome}>
+	<PagePlaceholder.Root icon={PagePlaceholder.Icon.Welcome}>
 		{#snippet title()}
 			<LocaleMessage {...localeMessages.welcomeHeader} />
 		{/snippet}
 		<Para>
 			<LocaleMessage {...localeMessages.welcomeDescription} />
 		</Para>
-	</PagePlaceholder>
+	</PagePlaceholder.Root>
 </FlexCenter>

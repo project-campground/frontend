@@ -17,6 +17,8 @@
 		Stepper,
 		type LinkProps,
 		Chip,
+		Code,
+		loremIpsum,
 	} from '$lib/index.js';
 	import { IconCheck, IconMessageFilled } from '@tabler/icons-svelte';
 	import { colors, colorsWithNeutral, sizes, statusColors } from './values.ts';
@@ -259,5 +261,47 @@
 				</Group>
 			{/each}
 		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Code
+	{/snippet}
+	<Stack align="stretch">
+		<Code.Block>
+			{#each Array(20) as _, i (i)}
+				<Code.Line index={i + 1}>
+					Example line {i + 1}
+				</Code.Line>
+			{/each}
+		</Code.Block>
+		<Code.Block>
+			{#snippet meta()}
+				<Chip size="sm">JavaScript</Chip>
+			{/snippet}
+			{#each Array(20) as _, i (i)}
+				<Code.Line index={i + 1}>
+					Example line {i + 1}
+				</Code.Line>
+			{/each}
+		</Code.Block>
+		<Code.Block>
+			<Code.Line index="...">
+				Test overflow
+			</Code.Line>
+			{#each Array(20) as _, i (i)}
+			<Code.Line index={i + 1}>
+				{loremIpsum.xl} {i + 1}
+			</Code.Line>
+			{/each}
+			<Code.Line index="">
+				Test overflow
+			</Code.Line>
+			{#each Array(20) as _, i (i)}
+			<Code.Line index={'at'}>
+				Error {i}
+			</Code.Line>
+			{/each}
+		</Code.Block>
 	</Stack>
 </Section>

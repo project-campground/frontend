@@ -25,7 +25,7 @@
 	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
 	import UserBanner from '$lib/components/users/UserBanner.svelte';
 	import { getAppview } from '$lib/context/api.js';
-	import { PagePlaceholder, PagePlaceholderIcon, Para, Tabs } from '@campground/ui';
+	import { PagePlaceholder, Para, Tabs } from '@campground/ui';
 	import { LocaleMessage } from '@campground/locale';
 	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
 	import ProfileFeed from './ProfileFeed.svelte';
@@ -105,12 +105,12 @@
 	<Para level="h2">
 		<LocaleMessage {...messages.social} />
 	</Para>
-	<PagePlaceholder icon={PagePlaceholderIcon.WIP}>
+	<PagePlaceholder.Root icon={PagePlaceholder.Icon.WIP}>
 		{#snippet title()}
 			WIP
 		{/snippet}
 		WIP
-	</PagePlaceholder>
+	</PagePlaceholder.Root>
 </ProfilePageColumn>
 <ProfilePageColumn>
 	{#if did === currentUser.sessionInfo?.did}

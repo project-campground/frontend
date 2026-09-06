@@ -22,7 +22,7 @@
 
 	import { LocaleMessage } from '@campground/locale';
 
-	import { PagePlaceholder, PagePlaceholderIcon, Stack } from '@campground/ui';
+	import { PagePlaceholder, Stack } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import ProfileFeedPost from './ProfileFeedPost.svelte';
 
@@ -50,12 +50,12 @@
 		{#each posts as post (post.uri)}
 			<ProfileFeedPost profilePost={post} />
 		{/each}
-		<PagePlaceholder icon={PagePlaceholderIcon.NoMore}>
+		<PagePlaceholder.Root icon={PagePlaceholder.Icon.NoMore}>
 			{#snippet title()}
 				<LocaleMessage {...messages.finalTitle} />
 			{/snippet}
 			<LocaleMessage {...messages.finalDescription} />
-		</PagePlaceholder>
+		</PagePlaceholder.Root>
 	</Stack>
 </div>
 

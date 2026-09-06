@@ -16,7 +16,8 @@
 	const tent = $derived(await appview.tents.get(tentId));
 
 	$effect(() => {
-		if (campsiteContext.campsiteReference) campsiteContext.setActiveBonfire(tent.bonfireId);
+		if (campsiteContext.campsiteReference && !campsiteContext.openBonfire)
+			campsiteContext.setActiveBonfire(tent.bonfireId);
 	});
 
 	$effect(() => {

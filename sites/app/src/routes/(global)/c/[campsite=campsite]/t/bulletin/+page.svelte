@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Para } from '@campground/ui';
+	import { Card, Para, Skeleton, Avatar, loremIpsum } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentWrapper from '../TentWrapper.svelte';
 	import { IconLayout2Filled } from '@tabler/icons-svelte';
@@ -53,7 +53,31 @@
 				{campsite.description}
 			</Para>
 		{:else}
-			...
+			<Skeleton
+				aspectRatio={7}
+				radius="lg"
+				w="100%"
+			/>
+			<div class="avatar">
+				<ProfileAvatarWrapper>
+					<Skeleton radius="avatar">
+						<Avatar size="xxl"></Avatar>
+					</Skeleton>
+				</ProfileAvatarWrapper>
+			</div>
+			<Para
+				level="h2"
+				mt="sm"
+			>
+				<Skeleton>
+					{loremIpsum.sm}
+				</Skeleton>
+			</Para>
+			<Para mt="sm">
+				<Skeleton>
+					{loremIpsum.sm}
+				</Skeleton>
+			</Para>
 		{/if}
 	</div>
 </TentWrapper>

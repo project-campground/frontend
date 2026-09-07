@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { PagePlaceholder } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
 	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
 

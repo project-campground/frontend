@@ -41,6 +41,7 @@
 </div>
 
 <style lang="scss">
+	@use '../../visual/Avatar/Avatar.scss' as *;
 	@use '../../common.scss' as *;
 	@use 'sass:list';
 
@@ -63,7 +64,7 @@
 						var(--#{$color}-glowFirst),
 						var(--#{$color}-glowSecond)
 					);
-					box-shadow: 0 0 4px var(--#{$color}-glowFirst);
+					box-shadow: var(--glow-md) var(--#{$color}-glowFirst);
 				}
 				.icon {
 					color: var(--#{$color}-glowFore);
@@ -74,7 +75,7 @@
 						var(--#{$color}-glowFirst),
 						var(--#{$color}-glowSecond)
 					);
-					box-shadow: 0 0 4px var(--#{$color}-glowFirst);
+					box-shadow: var(--glow-md) var(--#{$color}-glowFirst);
 				}
 			}
 		}
@@ -141,10 +142,10 @@
 	.icon {
 		position: relative;
 
-		border-radius: var(--Stepper-radius);
-		corner-shape: squircle;
 		width: var(--Stepper-iconSize);
 		height: var(--Stepper-iconSize);
+
+		@extend %Squircle;
 
 		line-height: 0;
 
@@ -153,7 +154,7 @@
 
 		&::before {
 			position: absolute;
-			border-radius: var(--Stepper-radius);
+			@extend %Squircle;
 			content: '';
 			top: 0;
 			bottom: 0;
@@ -187,12 +188,13 @@
 	.progress {
 		position: relative;
 		background-color: var(--neutral-regularBack);
-		border-radius: 0.25rem;
+		border-radius: var(--radius-md);
 		flex: 1;
 
 		// For animation
 		.progressActive {
 			position: absolute;
+			border-radius: var(--radius-md);
 			transition-property: width, height;
 			transition-duration: $transition-time-md;
 			transition-delay: $transition-time-md;

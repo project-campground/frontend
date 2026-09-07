@@ -24,5 +24,8 @@ $radius-map: create-size-map($radius);
 }
 $shadow: create-shadows(0.0625rem, 3px, '');
 $inset-shadow: create-shadows(0, 3px, inset);
+$glow: create-shadows(0, 3px, '');
+
 $shadow-map: create-size-map($shadow);
 $inset-shadow-map: create-size-map($inset-shadow);
+$glow-map: create-size-map($glow);

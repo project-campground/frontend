@@ -15,6 +15,8 @@
 		Para,
 		Chip,
 		Card,
+		Toast,
+		getToastPortal,
 	} from '$lib/index.js';
 	import {
 		hoverAction,
@@ -25,8 +27,10 @@
 	import type { Snippet } from 'svelte';
 	import type { Placement } from '@floating-ui/dom';
 	import { draggable, droppable } from '$lib/attachments/draggable.js';
+	import { colors } from './values.ts';
 
 	const menuPortal = getMenuPortal();
+	const toastPortal = getToastPortal();
 
 	let menuInstance: MenuPortalInstance | null = $state(null);
 
@@ -107,6 +111,32 @@
 		</Dialog.Root>
 	</Modal>
 {/snippet}
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Toast
+	{/snippet}
+	<Stack>
+		{#each colors as color}
+			<Toast.Root {color}>
+				Example toast
+			</Toast.Root>
+		{/each}
+	</Stack>
+</Section>
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Toast Portal
+	{/snippet}
+	<Stack>
+		{#each colors as color}
+			<Button {color} onclick={() => toastPortal.notify(color, 'Example toast')}>
+				{color} toast
+			</Button>
+		{/each}
+	</Stack>
+</Section>
 
 <Section headerLevel={1}>
 	{#snippet header()}

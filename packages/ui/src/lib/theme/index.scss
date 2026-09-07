@@ -31,6 +31,9 @@
 		--inset-shadow-#{$type}: #{$value} var(--shadow-color);
 		--template-inset-shadow-#{$type}: #{$value};
 	}
+	@each $type, $value in $glow-map {
+		--glow-#{$type}: #{$value};
+	}
 }
 %font {
 	--font-body: #{quoted-font($font-body)};

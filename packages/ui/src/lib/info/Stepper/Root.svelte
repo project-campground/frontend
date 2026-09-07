@@ -49,7 +49,6 @@
 		@each $size, $proportions in $input-sizes {
 			&[data-size='#{$size}'] {
 				--Stepper-iconSize: #{$proportions};
-				--Stepper-radius: var(--radius-#{$size});
 			}
 		}
 	}

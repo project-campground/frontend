@@ -16,9 +16,10 @@
 		Para,
 		type ParaLevel,
 		type PositionVertical,
+		Emblem,
 	} from '$lib/index.js';
-	import { IconMoonFilled } from '@tabler/icons-svelte';
-	import { genericColors, sizes, sizesWithNone } from './values.js';
+	import { IconCheckFilled, IconMoonFilled } from '@tabler/icons-svelte';
+	import { genericColors, sizes, sizesWithNone, colors } from './values.js';
 	import type { VisualObjectProps } from '$lib/visual/Image/props.js';
 	import type { Snippet } from 'svelte';
 
@@ -70,6 +71,27 @@
 		</Section>
 	{/each}
 {/snippet}
+<Section headerLevel={1}>
+	{#snippet header()}
+		Emblem
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Section headerLevel={2}>
+				{#snippet header()}
+					{size}
+				{/snippet}
+			</Section>
+			<Group>
+				{#each colors as color}
+					<Emblem {size} {color}>
+						<IconCheckFilled />
+					</Emblem>
+				{/each}
+			</Group>
+		{/each}
+	</Stack>
+</Section>
 <Section headerLevel={1}>
 	{#snippet header()}
 		Image

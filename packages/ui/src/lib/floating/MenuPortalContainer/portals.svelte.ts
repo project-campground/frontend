@@ -8,14 +8,14 @@ export class MenuPortalInstance<T extends Event = Event> extends PortalInstance<
 	constructor(
 		key: string,
 		portal: MenuPortal,
-		invoker: HTMLElement,
+		public invoker: HTMLElement,
 		public snippet: InstanceSnippet<T>,
 		public event?: T,
 	) {
-		super(key, portal, invoker);
+		super(key, portal);
 	}
 }
-export class MenuPortal extends Portal<MenuPortalInstance, InstanceSnippet> {
+export class MenuPortal extends Portal<MenuPortalInstance> {
 	public add(
 		item: InstanceSnippet,
 		invoker: HTMLElement,

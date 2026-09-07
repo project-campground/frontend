@@ -5,7 +5,6 @@ export abstract class PortalInstance<TPortal extends Portal<PortalInstance<TPort
 	constructor(
 		public key: string,
 		public portal: TPortal,
-		public invoker: HTMLElement,
 	) {}
 	public destroy() {
 		return this.portal.remove(this);
@@ -15,14 +14,10 @@ export abstract class PortalInstance<TPortal extends Portal<PortalInstance<TPort
 	}
 }
 
-export abstract class Portal<
-	TInstance extends PortalInstance<Portal<TInstance, TConfig>>,
-	TConfig,
-> {
+export abstract class Portal<TInstance extends PortalInstance<Portal<TInstance>>> {
 	private _outsideClickHandlers: null | ((ev: MouseEvent) => unknown) = null;
 	public items = $state<TInstance[]>([]);
 
-	public abstract add(item: TConfig, invoker: HTMLElement, key?: string, event?: Event): TInstance;
 	public remove(item: TInstance) {
 		return (this.items = this.items.filter((x) => x !== item));
 	}

@@ -76,7 +76,7 @@
 					);
 					color: var(--#{$col}-glowFore);
 					border: none;
-					box-shadow: 0 0 8px var(--#{$col}-glowFirst);
+					box-shadow: var(--glow-lg) var(--#{$col}-glowFirst);
 					&::after {
 						content: '';
 						top: 0;
@@ -100,7 +100,7 @@
 						box-shadow: none;
 					}
 					&:not(:disabled):hover {
-						box-shadow: 0 0 15px var(--#{$col}-glowFirst);
+						box-shadow: var(--glow-xl) var(--#{$col}-glowFirst);
 					}
 					&:not(:disabled):hover::after {
 						opacity: 25%;

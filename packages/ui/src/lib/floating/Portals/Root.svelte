@@ -5,12 +5,19 @@
 	import { MenuPortal, setMenuPortal } from '../MenuPortalContainer/portals.svelte.ts';
 	import PortalsList from './List.svelte';
 	import type { RootProps } from './props.ts';
+	import {
+		setToastPortal,
+		ToastPortal,
+		ToastPortalContainer,
+	} from '../ToastPortalContainer/index.ts';
 
 	const { flex, fullSize, children, ...attributes }: RootProps = $props();
 
 	const menuPortal = new MenuPortal();
+	const toastPortal = new ToastPortal();
 
 	setMenuPortal(menuPortal);
+	setToastPortal(toastPortal);
 
 	const outsideClick: OutsideClick = writable(null);
 
@@ -28,6 +35,7 @@
 	{@render children()}
 	<PortalsList>
 		<MenuPortalContainer portal={menuPortal} />
+		<ToastPortalContainer portal={toastPortal} />
 	</PortalsList>
 </div>
 

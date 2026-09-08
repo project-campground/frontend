@@ -5,6 +5,9 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
 
 export default defineConfig({
+  resolve: {
+    dedupe: ["react", "react-dom", "@mui/joy", "@emotion/react", "@emotion/styled"],
+  },
   plugins: [reactRouter(), tsconfigPaths(), viteStaticCopy({
       targets: [
         {

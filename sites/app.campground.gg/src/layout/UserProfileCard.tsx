@@ -52,7 +52,7 @@ export default function UserProfileCard<T extends ProfileViewEmpty>({ did, user,
 
     return (
         <UserProfileCardWrapper>
-            <UserHeader did={did} isLoading={isLoading} avatar={fetchedUser?.avatar} banner={fetchedUser?.banner} />
+            <UserHeader did={did} isLoading={isLoading} avatar={fetchedUser?.avatar} banner={fetchedUser?.banner} status={fetchedUser?.status} />
             <Box sx={{ px: 1.5, py: 1 }}>
                 <Stack>
                     <Typography level="title-lg" fontWeight={900}>

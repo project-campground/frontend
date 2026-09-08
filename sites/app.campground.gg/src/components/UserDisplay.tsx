@@ -54,7 +54,7 @@ export function UserDisplayNoModal<T extends ProfileViewEmpty>({ onClick,  noUse
         <UserDisplayRoot level="body-md" onClick={onClick}>
             {!noAvatar &&
             <>
-                <UserAvatar withStatus={withStatus} did={user.did} size={avatarSize ?? actualSize} />
+                <UserAvatar withStatus={withStatus} did={user.did} status={(user as ProfileViewBasic)?.status} size={avatarSize ?? actualSize} />
             </>
             }
             {!noUsernameDisplay && <UserDisplayUsername alignItems={align}>

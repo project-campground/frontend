@@ -1,5 +1,6 @@
 import { Avatar, Badge, Skeleton, styled } from "@mui/joy";
 import type { SxProps } from "@mui/joy/styles/types";
+import type { ProfileStatus } from "types/campground/user";
 
 const availableBadgeSizes = ["sm", "md", "lg"];
 
@@ -8,7 +9,7 @@ type Props = {
     did: string;
     withStatus?: boolean;
     avatar?: string | null;
-    status?: string | null;
+    status?: ProfileStatus | null;
     size?: Size;
     sx?: SxProps;
     badgeSx?: SxProps;
@@ -22,6 +23,13 @@ const sizeToPx: Record<Size, number> = {
     xxxl: 128,
 };
 
+const statusToBadgeColor: Record<ProfileStatus, "success" | "danger" | "warning" | "neutral"> = {
+    online: "success",
+    donotdisturb: "danger",
+    idle: "warning",
+    offline: "neutral",
+};
+
 const StyledAvatar = styled(Avatar)<{ size?: Size }>(({ theme, size }) => ({
     width: sizeToPx[size ?? "md"],
     height: sizeToPx[size ?? "md"],
@@ -29,7 +37,7 @@ const StyledAvatar = styled(Avatar)<{ size?: Size }>(({ theme, size }) => ({
     // zIndex: 7,
 }));
 
-export default function UserAvatar({ withStatus, avatar, size, badgeSx, sx }: Props) {
+export default function UserAvatar({ withStatus, avatar, status, size, badgeSx, sx }: Props) {
     const sizePx = sizeToPx[size ?? "md"];
     const badgeSize = sizePx * 0.25;
 
@@ -38,7 +46,7 @@ export default function UserAvatar({ withStatus, avatar, size, badgeSx, sx }: Pr
             slotProps={{ badge: { sx: { width: badgeSize, height: badgeSize, } } }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             badgeInset={badgeSize / 2}
-            color="success"
+            color={status ? statusToBadgeColor[status] : "success"}
             size={
                 size
                 ? availableBadgeSizes.includes(size)

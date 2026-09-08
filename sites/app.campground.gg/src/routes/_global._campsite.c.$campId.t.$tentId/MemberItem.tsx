@@ -127,6 +127,7 @@ export default function MemberItem({
                         size="md"
                         did={member.user.did}
                         avatar={member.user.avatar}
+                        status={member.user.status}
                     />
                 </ListItemDecorator>
                 <ListItemContent>

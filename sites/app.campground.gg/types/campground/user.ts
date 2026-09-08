@@ -9,12 +9,14 @@ export interface CampgroundProfileRecord {
     avatar?: string | null;
     banner?: string | null;
 }
+export type ProfileStatus = "online" | "donotdisturb" | "idle" | "offline";
 export interface ProfileViewEmpty {
     did: string;
     handle: string;
 }
 export interface ProfileViewBasic extends ProfileViewEmpty {
     displayName?: string | null;
+    status?: ProfileStatus | null;
     
     description?: string | null;
     tagline?: string | null;

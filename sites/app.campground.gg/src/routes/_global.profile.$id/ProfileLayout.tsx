@@ -52,7 +52,7 @@ export default class ProfileLayout extends React.Component<Props> {
                         <UserHeaderBanner did={user.did} aspectRatio={8} src={user.banner} borderRadius="md" />
                     </Box>
                     <ProfileLayoutHeader>
-                        <UserAvatar withStatus did={user.did} size="xxxl" badgeSx={{ "--Badge-ringSize": "4px" }} sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level1}` })} />
+                        <UserAvatar withStatus did={user.did} status={user.status} size="xxxl" badgeSx={{ "--Badge-ringSize": "4px" }} sx={(theme) => ({ border: `solid 4px ${theme.vars.palette.background.level1}` })} />
                         <Stack gap={0} alignItems="center">
                             <Group gap={1} alignItems="center">
                                 <Typography level="h2">{user.displayName}</Typography>

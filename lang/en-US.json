@@ -367,6 +367,10 @@
     "description": "Message threads tab in the right sidebar",
     "message": "Threads"
   },
+  "app.threads.empty": {
+    "description": "Empty state shown in the threads tab of the right sidebar",
+    "message": "No threads yet"
+  },
   "app.users.settings": {
     "description": "Header of user settings",
     "message": "User settings"

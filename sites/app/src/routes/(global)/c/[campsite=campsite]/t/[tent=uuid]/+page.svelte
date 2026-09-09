@@ -3,6 +3,7 @@
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import { PermissionsContext, setPermissions } from '../../permissions.svelte.ts';
 	import type { PageProps } from './$types.js';
+	import MemberSidebar from './Members/MemberSidebar.svelte';
 	import TextTent from './Text/TextTent.svelte';
 
 	const { params }: PageProps = $props();
@@ -29,3 +30,5 @@
 {#if tent?.type === 'text'}
 	<TextTent {tent} />
 {/if}
+
+<MemberSidebar {tent} />

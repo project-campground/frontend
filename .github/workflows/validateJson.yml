@@ -9,8 +9,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: json-syntax-check
-        uses: limitusus/json-syntax-check@v2.0.0
-        with:
-          pattern: "\\.json$"
+      - uses: actions/checkout@v4
+      - name: Validate JSON syntax
+        shell: bash
+        run: |
+          while IFS= read -r -d '' file; do
+            node -e 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"))' "$file"
+          done < <(find . -type f -name '*.json' -not -path './.git/*' -print0)

@@ -88,6 +88,7 @@
 		<UserAvatar
 			did={profile.did}
 			src={profile.avatar}
+			status={profile.status}
 			size="xxxl"
 		/>
 	{/snippet}

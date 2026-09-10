@@ -20,7 +20,7 @@ export const rightClickMenu = (
 export const rightClickMenuProps = (
 	instance: MenuPortalInstance<PointerEvent>,
 ): Pick<Menu.RootProps<PointerEvent>, 'placement' | 'instance' | 'virtual'> => ({
-	virtual: instance.event!,
+	virtual: instance.payload!,
 	instance,
 	placement: 'bottom-start',
 });

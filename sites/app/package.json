@@ -40,6 +40,8 @@
 		"@tabler/icons-svelte": "^3.34.1",
 		"@types/mdast": "^4.0.4",
 		"cbor2": "^2.0.1",
+		"hast": "^1.0.0",
+		"hast-util-to-html": "^9.0.5",
 		"highlight.js": "^11.11.1",
 		"isbot": "^5",
 		"mdast-util-find-and-replace": "^3.0.2",

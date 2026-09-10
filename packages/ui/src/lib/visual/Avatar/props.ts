@@ -4,7 +4,7 @@ import type { HTMLImgAttributes } from 'svelte/elements';
 import type { Picture } from '@sveltejs/enhanced-img';
 
 export default interface AvatarProps extends Omit<HTMLImgAttributes, 'src'> {
-	src?: string | Picture;
+	src?: string | null | Picture;
 	size?: ComponentSize | 'xxl' | 'xxxl';
 	color?: GenericColor | 'neutral';
 	children?: Snippet;

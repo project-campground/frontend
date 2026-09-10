@@ -21,7 +21,7 @@
 	import { UserDisplay } from '$lib/components/users/UserDisplay/index.js';
 	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
 	import { IconMessage2Filled, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
-	import Markdown from '../../markdown/Markdown.svelte';
+	import Markdown from '../../markdown/Markdown/Root.svelte';
 	import { ContentOverflow } from '../ContentOverflow/index.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { LocaleMessage } from '@campground/locale';

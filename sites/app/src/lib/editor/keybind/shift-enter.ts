@@ -1,6 +1,7 @@
 import { setSelectionAround } from 'prosekit/core';
 import { type Command } from 'prosekit/pm/state';
 import { chainCommands } from 'prosekit/pm/commands';
+import { editorEnterCodeLine } from './enter.ts';
 
 export const editorShiftEnterInsertParagraph: Command = (state, dispatch) => {
 	// Replaces double hardBreaks with new paragraph instance
@@ -28,5 +29,9 @@ export const editorShiftEnterInsertBreak: Command = (state, dispatch) => {
 };
 
 export function editorShiftEnter() {
-	return chainCommands(editorShiftEnterInsertParagraph, editorShiftEnterInsertBreak);
+	return chainCommands(
+		editorEnterCodeLine,
+		editorShiftEnterInsertParagraph,
+		editorShiftEnterInsertBreak,
+	);
 }

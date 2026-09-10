@@ -12,6 +12,7 @@
 	import type { RootProps } from './props.ts';
 	import { computePosition, offset } from '@floating-ui/dom';
 	import { rem } from '$lib/util/component.js';
+	import { fade, scale } from 'svelte/transition';
 
 	const {
 		children,
@@ -66,7 +67,12 @@
 				middleware: [
 					// Optional stuff that are set by props
 					offsetProp && offset(offsetProp),
-					autoPlacementProp && autoPlacement(autoPlacementProp),
+					autoPlacement({
+						autoAlignment: true,
+						crossAxis: true,
+						alignment: 'end',
+						...autoPlacementProp,
+					}),
 					// Non-optional forced
 					size({
 						apply: ({ availableHeight, availableWidth, elements }) => {
@@ -94,6 +100,8 @@
 	style:--Menu-minHeight={rem(minh) ?? 'auto'}
 	style:--Menu-width={rem(w) ?? 'fit-content'}
 	style:--Menu-height={rem(h) ?? 'auto'}
+	// Transition
+	transition:fade={{ duration: 200 }}
 	// Since this basically is displayed over the whole screen
 	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
 	// < 0, because of column-reverse
@@ -102,6 +110,7 @@
 	<div
 		bind:this={menuFloating}
 		class="floating"
+		in:scale={{ duration: 200 }}
 	>
 		{@render children?.()}
 	</div>
@@ -150,7 +159,6 @@
 		.wrapper {
 			position: relative;
 			height: 100%;
-			background-color: transparent;
 		}
 		.floating {
 			position: absolute;

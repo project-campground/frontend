@@ -2,31 +2,36 @@
 	import rehypeRaw from 'rehype-raw';
 	import remarkBreaks from 'remark-breaks';
 	import rehypeSanitize from 'rehype-sanitize';
-	import rehypeStringify from 'rehype-stringify';
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
 	import { unified } from 'unified';
-	import MarkdownFormatted from './MarkdownFormatted.svelte';
+	import MarkdownFormatted from '../MarkdownFormatted.svelte';
+	import Node from './Node.svelte';
 
 	interface Props {
 		value: string;
 	}
 
 	const { value }: Props = $props();
+
+	const mdAst = $derived(unified().use(remarkParse).parse(value));
 	const htmlFromMarkdown = $derived(
 		await unified()
-			.use(remarkParse)
 			.use(remarkBreaks)
 			.use(remarkRehype, { allowDangerousHtml: false })
 			.use(rehypeRaw)
 			.use(rehypeSanitize)
-			.use(rehypeStringify)
-			.process(value)
-			.then((value) => String(value)),
+			.run(mdAst),
 	);
+
+	$effect(() => {
+		console.log('HTML', htmlFromMarkdown);
+	});
 </script>
 
 <MarkdownFormatted>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html htmlFromMarkdown}
+	{#each htmlFromMarkdown.children as content, i (i)}
+		<Node {content} />
+	{/each}
 </MarkdownFormatted>

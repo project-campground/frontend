@@ -29,7 +29,7 @@
 		'bottom-right',
 		'bottom-left',
 	];
-	const extendedSize = [...sizes, 'xxl'] as const;
+	const extendedSize = [...sizes, 'xxl', 'xxxl'] as const;
 </script>
 
 {#snippet badgeIcon()}

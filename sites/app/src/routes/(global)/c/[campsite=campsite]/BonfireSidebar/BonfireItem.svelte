@@ -28,7 +28,10 @@
 </script>
 
 {#snippet contextMenu(instance: MenuPortalInstance<PointerEvent>)}
-	<Menu.Root {instance}>
+	<Menu.Root
+		{instance}
+		virtual={instance.payload}
+	>
 		<Menu.List>
 			<Menu.Item>
 				<Menu.Button>
@@ -40,7 +43,7 @@
 				<Menu.Button
 					color="danger"
 					onclick={deleteBonfire}
-					disabled={campsiteContext.campsiteReference!.bonfires.length < 2}
+					disabled={(campsiteContext.bonfires?.length ?? 1) < 2}
 				>
 					<IconTrashFilled />
 					<LocaleMessage {...localeStrings.bonfires.delete} />

@@ -1,21 +1,31 @@
 <script lang="ts">
 	import type { BlockProps } from './props.ts';
 
-	const { verticalOverflow, meta, children }: BlockProps = $props();
+	let {
+		verticalOverflow,
+		meta,
+		codeElement: thisCode = $bindable(),
+		containerElement: thisContainer = $bindable(),
+		children,
+	}: BlockProps = $props();
 </script>
 
 <div
 	class="container"
 	data-vertical-overflow={verticalOverflow}
+	bind:this={thisContainer}
 >
 	{#if meta}
 		<div class="meta">
 			{@render meta()}
 		</div>
 	{/if}
-	<samp class="content">
-		{@render children()}
-	</samp>
+	<code
+		class="content"
+		bind:this={thisCode}
+	>
+		{@render children?.()}
+	</code>
 </div>
 
 <style lang="scss">

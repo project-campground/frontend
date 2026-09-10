@@ -19,7 +19,7 @@
 				{did}
 				src={avatar}
 				{status}
-				size="lg"
+				size="xl"
 			/>
 		</div>
 	</div>
@@ -32,7 +32,7 @@
 		display: flex;
 		flex-direction: row;
 		margin-top: -2rem;
-		padding: 0 0.5rem;
+		padding: 0 0.75rem;
 	}
 	.avatarWrapper {
 		background-color: var(--background-content);

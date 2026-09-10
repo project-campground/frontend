@@ -29,6 +29,11 @@
 
 		@extend %MarkdownContent-basic;
 
+		:global([data-node-view-content='true']),
+		:global([data-node-view-root='true']) {
+			display: contents;
+		}
+
 		:global(.prosekit-placeholder) {
 			&::before {
 				position: absolute;

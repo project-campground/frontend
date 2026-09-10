@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ComponentDisplay } from '$lib/components/markdown/index.js';
-	import Markdown from '$lib/components/markdown/Markdown.svelte';
+	import Markdown from '$lib/components/markdown/Markdown/Root.svelte';
 	import type { MessageViewBasic } from '$lib/types/campground/content.js';
 
 	const {

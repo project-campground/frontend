@@ -82,6 +82,7 @@
 	<Group
 		gap={0}
 		align="stretch"
+		wrap="nowrap"
 	>
 		<Group
 			class="MessageEditor buttons left"

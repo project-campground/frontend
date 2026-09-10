@@ -1,6 +1,6 @@
 import { defineBaseCommands, defineBaseKeymap, defineHistory, union } from 'prosekit/core';
 import { defineRoot } from './nodes/root.ts';
-import { defineText } from './nodes/text.ts';
+// import { defineText } from './nodes/text.ts';
 import { defineParagraph } from 'prosekit/extensions/paragraph';
 import { defineBlockquote } from 'prosekit/extensions/blockquote';
 import { definePlaceholder } from 'prosekit/extensions/placeholder';
@@ -10,6 +10,9 @@ import {
 	defineHardBreakKeymap,
 	defineHardBreakSpec,
 } from 'prosekit/extensions/hard-break';
+import { defineText } from 'prosekit/extensions/text';
+import { defineCodeBlock } from './nodes/code-block.ts';
+import { defineCodeLine } from './nodes/code-line.js';
 
 export function definePostExtension(placeholder?: string) {
 	return union(
@@ -44,6 +47,8 @@ export function defineMessageExtension(
 		// Block nodes
 		defineParagraph(),
 		defineBlockquote(),
+		defineCodeBlock(),
+		defineCodeLine(),
 		// Inline nodes
 		defineHardBreakSpec(),
 		defineHardBreakCommands(),

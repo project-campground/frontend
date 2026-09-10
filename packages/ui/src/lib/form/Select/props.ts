@@ -16,6 +16,8 @@ export interface ButtonProps extends Omit<HTMLButtonAttributes, 'size' | 'placeh
 	value?: SelectValue | null;
 	size?: ComponentSize;
 
+	onChange?: (value: SelectValue) => unknown;
+
 	children: Snippet;
 	display: Snippet<[SelectValue | undefined | null]>;
 }

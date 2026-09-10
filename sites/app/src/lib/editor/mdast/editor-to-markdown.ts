@@ -3,6 +3,11 @@ import type { NodeJSON } from 'prosekit/core';
 
 const specialNodes: Record<string, (node: NodeJSON) => Nodes> = {
 	hardBreak: () => ({ type: 'text', value: '\n' }),
+	code: (node) => ({
+		type: 'code',
+		lang: node.attrs?.lang ?? null,
+		value: node.content?.map((x) => x.content?.map((y) => y.text).join('')).join('\n') ?? '',
+	}),
 };
 
 function transformRegularNode({ type, content, text, attrs }: NodeJSON): Nodes {

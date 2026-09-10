@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Menu } from '$lib/index.js';
 	import { IconCaretDownFilled } from '@tabler/icons-svelte';
-	import type { ButtonProps } from './props.ts';
+	import type { ButtonProps, SelectValue } from './props.ts';
 	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
 	import {
 		getMenuPortal,
@@ -12,10 +12,16 @@
 	let {
 		size,
 		disabled,
-		value = $bindable(),
 		class: className,
+
+		// Values
+		value = $bindable(),
+		onChange,
+
+		// Snippets
 		children,
 		display,
+
 		...attributes
 	}: ButtonProps = $props();
 
@@ -34,6 +40,10 @@
 		if (!wasOpen) return (instance = menuPortal.add(_internalMenu, button!));
 	}
 
+	function onValueChange(newValue: SelectValue) {
+		onChange?.((value = newValue));
+	}
+
 	// When it's destroyed
 	$effect(() => {
 		if (instance && !menuPortal.includes(instance)) instance = null;
@@ -45,7 +55,7 @@
 
 {#snippet _internalMenu(menu: MenuPortalInstance)}
 	<SelectMenu
-		onSelect={(newValue) => (value = newValue)}
+		onSelect={onValueChange}
 		instance={menu}
 		offset={8}
 	>

@@ -1,12 +1,15 @@
 <script lang="ts">
 	import type { LineProps } from './props.ts';
 
-	const { index, children }: LineProps = $props();
+	let { index, element = $bindable(), children }: LineProps = $props();
 </script>
 
 <p class="line">
 	<span class="num">{index}</span>
-	<code class="text">{@render children()}</code>
+	<span
+		class="text"
+		bind:this={element}>{@render children?.()}</span
+	>
 </p>
 
 <style lang="scss">

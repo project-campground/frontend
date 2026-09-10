@@ -4,6 +4,7 @@
 	import { computePosition } from '@floating-ui/dom';
 	import { rem } from '$lib/util/component.js';
 	import type { ComputePositionReturn } from '@floating-ui/dom';
+	import { fade, scale } from 'svelte/transition';
 
 	const {
 		children,
@@ -81,6 +82,9 @@
 	// ARIA
 	role="tooltip"
 	id={instance.key}
+	// Transitions
+	in:scale={{ duration: 150 }}
+	out:fade={{ duration: 150 }}
 	// Events
 	onmouseleave={() => instance.destroy()}
 >

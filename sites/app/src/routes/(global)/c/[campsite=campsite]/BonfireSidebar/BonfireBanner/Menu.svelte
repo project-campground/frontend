@@ -42,6 +42,7 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
 	import { localeStrings } from '$lib/locale/index.js';
+	import { fade, fly, scale } from 'svelte/transition';
 
 	const menuPortal = getMenuPortal();
 
@@ -69,56 +70,62 @@
 	</Modal>
 {/snippet}
 
-<div class={['menu', { open }]}>
-	<Menu.List>
-		<Menu.Item>
-			<Menu.Button>
-				<IconCampfireFilled />
-				<LocaleMessage {...localeStrings.bonfires.settings} />
-			</Menu.Button>
-		</Menu.Item>
-		<Menu.Item>
-			<Menu.Button>
-				<IconSettingsFilled />
-				<LocaleMessage {...localeStrings.campsites.settings} />
-			</Menu.Button>
-		</Menu.Item>
-		<Menu.Item>
-			<Menu.Button
-				color="danger"
-				disabled={campsiteRef.userIsOwner}
-				{@attach tooltip(menuPortal, ownerErrorTooltip)}
-			>
-				<IconLogout2 />
-				<LocaleMessage {...messages.leave} />
-			</Menu.Button>
-		</Menu.Item>
-		<Menu.Item
-			size="lg"
-			padding="no-inline"
-		>
-			<Divider />
-		</Menu.Item>
-		{#each campsiteRef.campsite.bonfires as bonfire (bonfire.id)}
-			<BonfireItem
-				{bonfire}
-				onClick={() => onBonfireOpen(bonfire.id)}
-			/>
-		{/each}
-		{#if ((activeBonfire.rolePermissions.general ?? 0) & GeneralPermissionConsts.MANAGE_BONFIRES) === GeneralPermissionConsts.MANAGE_BONFIRES}
+{#if open}
+	<div
+		class={['menu', { open }]}
+		in:fly={{ duration: 200, y: -25 }}
+		out:fade={{ duration: 200 }}
+	>
+		<Menu.List>
 			<Menu.Item>
-				<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
-					<Group>
-						<Avatar size="sm">
-							<IconPlus />
-						</Avatar>
-						<LocaleMessage {...localeStrings.bonfires.create} />
-					</Group>
+				<Menu.Button>
+					<IconCampfireFilled />
+					<LocaleMessage {...localeStrings.bonfires.settings} />
 				</Menu.Button>
 			</Menu.Item>
-		{/if}
-	</Menu.List>
-</div>
+			<Menu.Item>
+				<Menu.Button>
+					<IconSettingsFilled />
+					<LocaleMessage {...localeStrings.campsites.settings} />
+				</Menu.Button>
+			</Menu.Item>
+			<Menu.Item>
+				<Menu.Button
+					color="danger"
+					disabled={campsiteRef.userIsOwner}
+					{@attach tooltip(menuPortal, ownerErrorTooltip)}
+				>
+					<IconLogout2 />
+					<LocaleMessage {...messages.leave} />
+				</Menu.Button>
+			</Menu.Item>
+			<Menu.Item
+				size="lg"
+				padding="no-inline"
+			>
+				<Divider />
+			</Menu.Item>
+			{#each campsiteRef.campsite.bonfires as bonfire (bonfire.id)}
+				<BonfireItem
+					{bonfire}
+					onClick={() => onBonfireOpen(bonfire.id)}
+				/>
+			{/each}
+			{#if ((activeBonfire.rolePermissions.general ?? 0) & GeneralPermissionConsts.MANAGE_BONFIRES) === GeneralPermissionConsts.MANAGE_BONFIRES}
+				<Menu.Item>
+					<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
+						<Group>
+							<Avatar size="sm">
+								<IconPlus />
+							</Avatar>
+							<LocaleMessage {...localeStrings.bonfires.create} />
+						</Group>
+					</Menu.Button>
+				</Menu.Item>
+			{/if}
+		</Menu.List>
+	</div>
+{/if}
 
 <style lang="scss">
 	.menu {
@@ -129,10 +136,5 @@
 		right: 1rem;
 		bottom: 1rem;
 		z-index: 5;
-
-		display: none;
-		&.open {
-			display: block;
-		}
 	}
 </style>

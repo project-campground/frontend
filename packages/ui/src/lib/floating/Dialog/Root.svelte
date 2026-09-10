@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { scale } from 'svelte/transition';
 	import type { RootProps } from './props.ts';
 
 	const { children, class: className, size, ...attributes }: RootProps = $props();
@@ -11,6 +12,7 @@
 	{...attributes}
 	// Prevent outside click from being registered
 	onclick={(ev) => ev.stopPropagation()}
+	in:scale={{ duration: 200 }}
 >
 	{@render children?.()}
 </article>

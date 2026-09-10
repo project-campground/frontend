@@ -39,7 +39,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getAccount } from '$lib/context/account.svelte.js';
-	import { localeStrings } from '$lib/locale/index.ts';
+	import { localeStrings } from '$lib/locale/index.js';
 
 	interface Props {
 		hideButtons?: boolean;
@@ -52,7 +52,7 @@
 	const { hideButtons, user }: Props = $props();
 </script>
 
-<Menu.List>
+<Menu.List size="xl">
 	<div class={['container', { hideButtons }]}>
 		<UserHeader
 			did={user.did}
@@ -82,9 +82,7 @@
 					href={`/profile/${user.did}`}
 				>
 					<Menu.Button>
-						{#snippet left()}
-							<IconUserFilled />
-						{/snippet}
+						<IconUserFilled />
 						<LocaleMessage {...localeMessages.viewProfile} />
 					</Menu.Button>
 				</Link>
@@ -92,34 +90,26 @@
 			{#if currentUserDid === user.did}
 				<Menu.Item>
 					<Menu.Button>
-						{#snippet left()}
-							<IconSettingsFilled />
-						{/snippet}
+						<IconSettingsFilled />
 						<LocaleMessage {...localeMessages.openSettings} />
 					</Menu.Button>
 				</Menu.Item>
-				<Menu.Item color="danger">
-					<Menu.Button>
-						{#snippet left()}
-							<IconLogout2 />
-						{/snippet}
+				<Menu.Item>
+					<Menu.Button color="danger">
+						<IconLogout2 />
 						<LocaleMessage {...localeStrings.session.logout} />
 					</Menu.Button>
 				</Menu.Item>
 			{:else}
 				<Menu.Item>
 					<Menu.Button>
-						{#snippet left()}
-							<IconSettingsFilled />
-						{/snippet}
+						<IconSettingsFilled />
 						<LocaleMessage {...localeMessages.openSettings} />
 					</Menu.Button>
 				</Menu.Item>
-				<Menu.Item color="danger">
-					<Menu.Button>
-						{#snippet left()}
-							<IconShieldFilled />
-						{/snippet}
+				<Menu.Item>
+					<Menu.Button color="danger">
+						<IconShieldFilled />
 						<LocaleMessage {...localeMessages.blockUser} />
 					</Menu.Button>
 				</Menu.Item>
@@ -134,7 +124,7 @@
 	}
 	.buttons {
 		background-color: var(--background-body);
-		border-radius: var(--radius-md);
+		border-radius: var(--radius-xl);
 		margin: 0 0.5rem;
 		padding: 0.25rem;
 		margin-top: 1rem;

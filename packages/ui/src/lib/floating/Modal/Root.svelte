@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import { ModalContext, setModal } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 
@@ -17,6 +18,7 @@
 	class={['wrapper', className]}
 	{...attributes}
 	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
+	transition:fade={{ duration: 200 }}
 >
 	{@render children?.()}
 </div>

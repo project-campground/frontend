@@ -28,7 +28,10 @@
 </script>
 
 {#snippet contextMenu(instance: MenuPortalInstance<PointerEvent>)}
-	<Menu.Root {instance}>
+	<Menu.Root
+		{instance}
+		virtual={instance.payload}
+	>
 		<Menu.List>
 			<Menu.Item>
 				<Menu.Button>

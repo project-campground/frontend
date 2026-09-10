@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { ListProps } from './props.ts';
 
-	const { children, class: className, ...attributes }: ListProps = $props();
+	const { children, class: className, size, ...attributes }: ListProps = $props();
 </script>
 
 <menu
 	class={['list', className]}
+	data-size={size ?? 'md'}
 	{...attributes}
 >
 	<header class="touchPlace">
@@ -33,9 +34,6 @@
 		border-radius: var(--radius-md);
 	}
 	@include desktop-sm-up {
-		.list {
-			border-radius: var(--radius-md);
-		}
 		.touchPlace {
 			display: none;
 		}
@@ -45,9 +43,18 @@
 
 		background-color: var(--background-content);
 		border: solid 1px var(--neutral-border);
-		box-shadow: var(--shadow-md);
-		border-top-left-radius: var(--radius-md);
-		border-top-right-radius: var(--radius-md);
+
+		@each $size in $size-names-with-xl {
+			&[data-size='#{$size}'] {
+				@include desktop-sm-up {
+					border-radius: var(--radius-#{$size});
+				}
+
+				border-top-left-radius: var(--radius-#{$size});
+				border-top-right-radius: var(--radius-#{$size});
+				box-shadow: var(--shadow-#{$size});
+			}
+		}
 
 		padding: 0.5rem;
 		list-style: none;

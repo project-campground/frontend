@@ -77,7 +77,7 @@
 {#snippet actionMenu(instance: MenuPortalInstance<PointerEvent>)}
 	<Menu.Root
 		{instance}
-		virtual={instance.event}
+		virtual={instance.payload}
 	>
 		<ContextMenu
 			messageType={message.type}

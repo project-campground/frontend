@@ -40,7 +40,7 @@
 				<Menu.Button
 					color="danger"
 					onclick={deleteBonfire}
-					disabled={campsiteContext.campsiteReference!.bonfires.length < 2}
+					disabled={(campsiteContext.bonfires?.length ?? 1) < 2}
 				>
 					<IconTrashFilled />
 					<LocaleMessage {...localeStrings.bonfires.delete} />

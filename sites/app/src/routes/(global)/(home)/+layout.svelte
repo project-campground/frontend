@@ -13,6 +13,11 @@
 			defaultMessage: 'My Campsites',
 			description: 'The home page for campsite list',
 		},
+		socials: {
+			id: 'app.home.socials',
+			defaultMessage: 'Socials',
+			description: 'The home page category for socials',
+		},
 	});
 </script>
 
@@ -49,7 +54,7 @@
 						noBackground
 					>
 						{#snippet header()}
-							<LocaleMessage id="site.social" />
+							<LocaleMessage {...messages.socials} />
 						{/snippet}
 						<HomeNavbarButton
 							color="primary"

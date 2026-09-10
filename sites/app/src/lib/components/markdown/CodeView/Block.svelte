@@ -14,7 +14,10 @@
 
 <Code.Block bind:codeElement={code}>
 	{#snippet meta()}
-		<Select.Button onChange={(lang) => setAttrs({ lang: lang === 'plain' ? undefined : lang })}>
+		<Select.Button
+			contenteditable="false"
+			onChange={(lang) => setAttrs({ lang: lang === 'plain' ? undefined : lang })}
+		>
 			{#snippet display(value)}
 				{#if value === 'plain' || !value}
 					(Not formatted)

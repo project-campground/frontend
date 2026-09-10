@@ -13,7 +13,7 @@ const specialNodes: Record<string, (node: NodeJSON) => Nodes> = {
 function transformRegularNode({ type, content, text, attrs }: NodeJSON): Nodes {
 	return {
 		type,
-		children: content?.map((x) => editorNodeToMdast(x)),
+		children: content?.map(editorNodeToMdast),
 		value: text,
 		...attrs,
 	} as unknown as Nodes;

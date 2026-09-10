@@ -13,6 +13,7 @@ import {
 import { defineText } from 'prosekit/extensions/text';
 import { defineCodeBlock } from './nodes/code-block.ts';
 import { defineCodeLine } from './nodes/code-line.js';
+import { defineList } from './nodes/list.ts';
 
 export function definePostExtension(placeholder?: string) {
 	return union(
@@ -49,6 +50,7 @@ export function defineMessageExtension(
 		defineBlockquote(),
 		defineCodeBlock(),
 		defineCodeLine(),
+		defineList(),
 		// Inline nodes
 		defineHardBreakSpec(),
 		defineHardBreakCommands(),

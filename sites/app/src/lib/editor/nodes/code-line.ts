@@ -1,6 +1,5 @@
 import { CodeView } from '$lib/components/markdown/index.js';
 import { defineNodeSpec, union } from '@prosekit/core';
-import type { Command } from 'prosekit/pm/state';
 import { defineSvelteNodeView } from 'prosekit/svelte';
 
 export function defineCodeLine() {

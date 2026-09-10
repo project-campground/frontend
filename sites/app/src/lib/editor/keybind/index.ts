@@ -1,5 +1,5 @@
 import { defineKeymap } from 'prosekit/core';
-import { editorEnter, editorEnterCodeLine } from './enter.ts';
+import { editorEnter, editorEnterCodeLine, editorEnterList } from './enter.ts';
 import { editorShiftEnter } from './shift-enter.ts';
 import { editorBackspace } from './backspace.ts';
 import { chainCommands } from 'prosekit/pm/commands';
@@ -12,7 +12,7 @@ export function definePostKeymap() {
 }
 export function defineMessageKeymap(onSubmit: () => unknown, onCancel?: () => unknown) {
 	return defineKeymap({
-		Enter: chainCommands(editorEnterCodeLine, () => (onSubmit(), true)),
+		Enter: chainCommands(editorEnterCodeLine, editorEnterList, () => (onSubmit(), true)),
 		Escape: () => (onCancel?.(), true),
 	});
 }

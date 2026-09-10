@@ -3,9 +3,9 @@
 	import UserAvatar from './UserAvatar.svelte';
 	import UserBanner from './UserBanner.svelte';
 
-	interface Props extends Pick<ProfileViewBasic, 'did' | 'avatar' | 'banner'> {}
+	interface Props extends Pick<ProfileViewBasic, 'did' | 'avatar' | 'banner' | 'status'> {}
 
-	const { did, avatar, banner }: Props = $props();
+	const { did, avatar, banner, status }: Props = $props();
 </script>
 
 <header class="container">
@@ -18,6 +18,7 @@
 			<UserAvatar
 				{did}
 				src={avatar}
+				{status}
 				size="xl"
 			/>
 		</div>

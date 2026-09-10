@@ -14,6 +14,7 @@
 		<UserAvatar
 			did={user.did}
 			src={user.avatar ?? undefined}
+			status={user.status}
 			{hideStatus}
 			{size}
 		/>

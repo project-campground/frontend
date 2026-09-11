@@ -73,21 +73,32 @@ export class BonfireContext {
 	};
 	private _tentToPermissions: Record<string, PermissionsDictionary> = {};
 	private aggregatedPermissions: AggregatedPermissions = BonfireContext.ownerPermissionsAggregated;
+	public tentOutput: GetTentsOutput;
 
 	constructor(
 		public bonfireId: string,
 		public campsiteReference: CampsiteReference,
-		public tentOutput: GetTentsOutput,
+		tentOutput: GetTentsOutput,
 	) {
-		if (!this.campsiteReference.campsite || this.campsiteReference.userIsOwner) return;
+		this.tentOutput = $state(tentOutput);
 
 		tentOutput.categories.sort((a, b) => a.position - b.position);
+
+		if (!this.campsiteReference.campsite || this.campsiteReference.userIsOwner) return;
 
 		this.aggregatedPermissions = aggregateAllPermissions(
 			this.campsiteReference.campsite.me,
 			this.campsiteReference.campsite.roles,
 			this.tentOutput.permissions,
 		);
+	}
+
+	public addTent(tent: TentViewBasic) {
+		this.tentOutput.tents.push(tent);
+	}
+
+	public addTentCategory(category: TentCategoryView) {
+		this.tentOutput.categories.push(category);
 	}
 
 	// Content of tent list

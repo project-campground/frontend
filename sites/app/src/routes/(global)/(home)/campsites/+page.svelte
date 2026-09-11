@@ -23,13 +23,12 @@
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { LocaleMessage } from '@campground/locale';
-	import { SvelteSet } from 'svelte/reactivity';
 
 	const session = getSession();
-	let instanceList = $state(new SvelteSet(session.preferences.full.instances?.domains ?? []));
+	let instanceList = $state.raw(new Set(session.preferences.full.instances?.domains ?? []));
 
 	session.preferences.onInit(
-		() => (instanceList = new SvelteSet(session.preferences.full.instances?.domains ?? [])),
+		() => (instanceList = new Set(session.preferences.full.instances?.domains ?? [])),
 	);
 </script>
 
@@ -54,4 +53,4 @@
 	</Stack>
 </Card.Root>
 
-<Card.Root level="subtle">{instanceList.length}</Card.Root>
+<Card.Root level="subtle">{instanceList.size}</Card.Root>

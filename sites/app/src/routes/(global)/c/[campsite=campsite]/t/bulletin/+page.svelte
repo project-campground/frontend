@@ -13,7 +13,7 @@
 	const campsite = $derived(campsiteContext.campsiteReference?.campsite);
 
 	$effect(() => {
-		if (campsiteContext.campsiteReference?.campsite.bonfires[0].id)
+		if (campsiteContext.campsiteReference && !campsiteContext.openBonfire)
 			campsiteContext.setActiveBonfire(campsiteContext.campsiteReference?.campsite.bonfires[0].id);
 	});
 </script>

@@ -36,7 +36,7 @@
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
 	const modal = getModal();
-	const campsite = $derived(campsiteContext.campsiteReference);
+	const campsite = $derived(campsiteContext.campsite);
 	const openBonfire = $derived(campsiteContext.openBonfire);
 
 	async function onSubmit({ what, ...content }: Record<string, unknown>) {
@@ -47,9 +47,9 @@
 			:	createTent(content as { name: string; description: string; type: TentType });
 	}
 	async function createCategory(value: { name: string; description: string }) {
-		return appview.categories.create($campsite!.campsiteId, $openBonfire!.bonfireId, {
+		return appview.categories.create(campsite!.id, openBonfire!.bonfireId, {
 			...value,
-			position: ($openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+			position: (openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
 		});
 	}
 	async function createTent({
@@ -60,10 +60,10 @@
 		description: string;
 		type: TentType;
 	}) {
-		return appview.tents.create($campsite!.campsiteId, $openBonfire!.bonfireId, {
+		return appview.tents.create(campsite!.id, openBonfire!.bonfireId, {
 			...value,
 			type: typeToInteger[type],
-			position: ($openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+			position: (openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
 		});
 	}
 </script>

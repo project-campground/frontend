@@ -17,16 +17,16 @@
 
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
-	const campsite = $derived(campsiteContext.campsiteReference);
+	const campsite = $derived(campsiteContext.campsite!);
 	const modal = getModal();
 
 	async function onSubmit(value: Record<string, unknown>) {
 		modal.closeModal();
 		const bonfireContent = value as { name: string; description: string };
 
-		return appview.bonfires.create($campsite!.campsiteId, {
+		return appview.bonfires.create(campsite.id, {
 			...bonfireContent,
-			position: ($campsite?.campsite.bonfires.slice(-1)[0]?.position ?? 0) + 1,
+			position: (campsite!.bonfires.slice(-1)[0]?.position ?? 0) + 1,
 		});
 	}
 </script>

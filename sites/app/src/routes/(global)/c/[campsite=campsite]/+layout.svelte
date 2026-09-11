@@ -13,6 +13,7 @@
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
 	import WSClient from '$lib/api/ws/WSClient.js';
 	import { filter, type Unsubscribable } from 'rxjs';
+	import { handleWebSocket } from './ws.ts';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
@@ -60,6 +61,12 @@
 		fetchCampsite(domain, campsiteId);
 
 		return () => (webSocketUnsubscribe?.unsubscribe(), (webSocketUnsubscribe = null));
+	});
+
+	$effect(() => {
+		if (!campsiteContext.campsiteReference) return;
+
+		return handleWebSocket(campsiteContext);
 	});
 
 	// Since portals would otherwise lack all the campsite context

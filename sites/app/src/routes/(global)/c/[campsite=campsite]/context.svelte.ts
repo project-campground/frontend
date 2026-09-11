@@ -93,14 +93,6 @@ export class BonfireContext {
 		);
 	}
 
-	public addTent(tent: TentViewBasic) {
-		this.tentOutput.tents.push(tent);
-	}
-
-	public addTentCategory(category: TentCategoryView) {
-		this.tentOutput.categories.push(category);
-	}
-
 	// Content of tent list
 	public get campsite(): CampsiteViewDetailed {
 		return this.campsiteReference.campsite!;

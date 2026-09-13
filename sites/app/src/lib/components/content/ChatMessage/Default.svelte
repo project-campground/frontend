@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { UserAvatar } from '$lib/components/users/index.js';
 	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
 	import { GradientText, TextBlock } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 	import { Datestamp } from '../Datestamp/index.ts';
 	import { MessageState } from './types.js';
 	import Info from './Info.svelte';
+	import { User } from '$lib/components/users/index.ts';
 
 	const {
 		createdBy,
@@ -24,7 +24,7 @@
 	} = $props();
 </script>
 
-<UserAvatar
+<User.Avatar
 	hideStatus
 	did={createdBy.user.did}
 	src={createdBy.user.avatar ?? undefined}

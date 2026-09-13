@@ -18,7 +18,6 @@
 
 <script lang="ts">
 	import { Card, Group, Link, Menu, type ComponentSize } from '@campground/ui';
-	import { UserDisplay } from '$lib/components/users/UserDisplay/index.js';
 	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
 	import { IconMessage2Filled, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import Markdown from '../../markdown/Markdown/Root.svelte';
@@ -29,6 +28,7 @@
 	import BasicPostEditor from '$lib/components/editor/BasicPostEditor.svelte';
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import { getAppview } from '$lib/context/api.js';
+	import { User } from '$lib/components/users/index.js';
 
 	const session = getSession();
 	const appview = getAppview();
@@ -79,7 +79,7 @@
 >
 	<Card.Content>
 		<header class="header">
-			<UserDisplay
+			<User.Display
 				displayHandle
 				size={size ?? 'md'}
 				user={profilePost.author}
@@ -138,12 +138,12 @@
 		display: flex;
 		flex-direction: row;
 		gap: 2ch;
-		margin-bottom: -1.5rem;
+		margin-bottom: -1rem;
 	}
 	.post {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		padding-left: calc(3rem + 1ch);
+		padding-left: calc(2.5rem + 1ch);
 	}
 </style>

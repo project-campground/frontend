@@ -1,5 +1,5 @@
 <script lang="ts">
-	import UserDisplay from '$lib/components/users/UserDisplay/UserDisplay.svelte';
+	import { User } from '$lib/components/users/index.js';
 	import type { MessageViewBasic } from '$lib/types/campground/content.js';
 	import { Group } from '@campground/ui';
 
@@ -7,7 +7,7 @@
 </script>
 
 <Group gap={0.5}>
-	<UserDisplay
+	<User.Display
 		hideStatus
 		user={message.createdBy.user}
 		size="xs"

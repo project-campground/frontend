@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type ImageProps } from '@campground/ui';
-	import ProfileBanner from '../pages/ProfileBanner.svelte';
+	import ProfileBanner from '../../pages/ProfileBanner.svelte';
 
 	interface Props extends Omit<ImageProps, 'src' | 'id'> {
 		did: string;

@@ -13,8 +13,7 @@
 
 <script lang="ts">
 	import BasicPostEditor from '$lib/components/editor/BasicPostEditor.svelte';
-
-	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
+	import { User } from '$lib/components/index.js';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { LocaleMessage, getLocale } from '@campground/locale';
 	import { Card, Group } from '@campground/ui';
@@ -39,7 +38,7 @@
 		<Card.Content>
 			<Group wrap="nowrap">
 				<span class="avatar">
-					<UserAvatar
+					<User.Avatar
 						did={currentUser.sessionInfo!.did}
 						src={currentUser.profile?.avatar}
 					/>

@@ -22,8 +22,6 @@
 </script>
 
 <script lang="ts">
-	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
-	import UserBanner from '$lib/components/users/UserBanner.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import { PagePlaceholder, Para, Tabs } from '@campground/ui';
 	import { LocaleMessage } from '@campground/locale';
@@ -36,6 +34,7 @@
 	import ProfileFeedSkeleton from './ProfileFeedSkeleton.svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { localeStrings } from '$lib/locale/index.js';
+	import { User } from '$lib/components/index.ts';
 
 	const appview = getAppview();
 	const currentUser = getAccount();
@@ -78,14 +77,14 @@
 
 <ProfilePageHeader>
 	{#snippet banner()}
-		<UserBanner
+		<User.Banner
 			{did}
 			src={profile.banner}
 			aspectRatio={8}
 		/>
 	{/snippet}
 	{#snippet avatar()}
-		<UserAvatar
+		<User.Avatar
 			did={profile.did}
 			src={profile.avatar}
 			size="xxxl"

@@ -28,7 +28,7 @@
 
 <script lang="ts">
 	import { Link, Menu, Para } from '@campground/ui';
-	import UserHeader from './UserHeader.svelte';
+	import UserHeader from './Header.svelte';
 	import type { ProfileViewBasic } from '$lib/types/campground/user.js';
 	import {
 		IconLogout2,

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { defaultAvatar } from '$lib/api/api.config.js';
-	import UserAvatar from '$lib/components/users/UserAvatar.svelte';
-	import UserCardMenu from '$lib/components/users/UserCardMenu.svelte';
+	import { User } from '$lib/components/index.js';
 	import { getAccount } from '$lib/context/account.svelte';
 	import { getMenuPortal, getOutsideClickBoundary, Menu, MenuPortalInstance } from '@campground/ui';
 
@@ -30,7 +29,7 @@
 		offset={8}
 		w={20}
 	>
-		<UserCardMenu
+		<User.CardMenu
 			user={{
 				did: account.sessionInfo?.did ?? 'did:null',
 				handle: account.sessionInfo?.handle ?? 'handle.invalid',
@@ -45,7 +44,7 @@
 		class={['GlobalNavbarProfile', menuInstance && 'isOpen']}
 		onclick={(ev) => (ev.stopPropagation(), toggleMenuInstance(ev))}
 	>
-		<UserAvatar
+		<User.Avatar
 			did={account.sessionInfo!.did}
 			src={account.profile?.avatar ?? defaultAvatar}
 		/>

@@ -30,10 +30,10 @@
 	} from '@campground/form';
 	import { Section, Group, Para, Stack } from '@campground/ui';
 	import { LocaleMessage, getLocale } from '@campground/locale';
-	import UserCardMenu from '$lib/components/users/UserCardMenu.svelte';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import type { GettingStarted } from './context.svelte.ts';
 	import { localeStrings } from '$lib/locale/index.js';
+	import { User } from '$lib/components/index.ts';
 
 	interface Props {
 		gettingStarted: GettingStarted;
@@ -132,7 +132,7 @@
 		</Section>
 	</Form>
 	<aside>
-		<UserCardMenu
+		<User.CardMenu
 			hideButtons
 			user={{
 				did: account.sessionInfo?.did ?? 'did:null',

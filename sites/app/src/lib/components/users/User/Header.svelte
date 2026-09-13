@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ProfileViewBasic } from '$lib/types/campground/user.js';
-	import UserAvatar from './UserAvatar.svelte';
-	import UserBanner from './UserBanner.svelte';
+	import UserAvatar from './Avatar.svelte';
+	import UserBanner from './Banner.svelte';
 
 	interface Props extends Pick<ProfileViewBasic, 'did' | 'avatar' | 'banner'> {}
 

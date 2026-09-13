@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Avatar, Skeleton, Badge } from '@campground/ui';
 	import type { UserDisplayProps } from './props.ts';
-	import UserDisplayRoot from './UserDisplayRoot.svelte';
+	import UserDisplayRoot from './Root.svelte';
 
 	const { size, hideStatus, ...props }: Omit<UserDisplayProps, 'user'> = $props();
 </script>

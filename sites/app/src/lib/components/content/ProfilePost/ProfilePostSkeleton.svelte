@@ -1,12 +1,12 @@
 <script lang="ts">
+	import { User } from '$lib/components/users/index.js';
 	import { Card, Group, loremIpsum, Skeleton, TextBlock } from '@campground/ui';
-	import { UserDisplaySkeleton } from '$lib/components/users/UserDisplay/index.js';
 </script>
 
 <Card.Root size="md">
 	<Card.Content>
 		<header class="header">
-			<UserDisplaySkeleton
+			<User.DisplaySkeleton
 				displayHandle
 				align="start"
 			/>
@@ -38,12 +38,12 @@
 		display: flex;
 		flex-direction: row;
 		gap: 2ch;
-		margin-bottom: -1.5rem;
+		margin-bottom: -1rem;
 	}
 	.post {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		padding-left: calc(3rem + 1ch);
+		padding-left: calc(2.5rem + 1ch);
 	}
 </style>

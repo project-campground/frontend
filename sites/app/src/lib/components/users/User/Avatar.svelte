@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Badge, type AvatarProps } from '@campground/ui';
 	import { defaultAvatar } from '$lib/api/api.config.js';
-	import ProfileAvatar from '../pages/ProfileAvatar.svelte';
+	import ProfileAvatar from '../../pages/ProfileAvatar.svelte';
 
 	interface Props extends Omit<AvatarProps, 'id' | 'placeholder'> {
 		did: string;

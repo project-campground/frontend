@@ -39,7 +39,10 @@ export default class HTTPTentManager extends HTTPBackendObjectManager {
 
 	move(
 		tent_id: string,
-		body: { bonfireId?: string | null; categoryId?: string | null; position?: number },
+		body:
+			| { bonfireId: string; position: number }
+			| { category_id: string | undefined | null; position: number }
+			| { position: number },
 	) {
 		return this.client.post<TentViewDetailed>({
 			route: 'gg.campground.tent.moveTent',

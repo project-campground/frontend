@@ -22,7 +22,7 @@ export default class HTTPCategoryManager extends HTTPBackendObjectManager {
 		});
 	}
 
-	move(category_id: string, body: { bonfireId?: string; position?: number }) {
+	move(category_id: string, body: { position: number } | { bonfireId: string; position: number }) {
 		return this.client.post<TentCategoryView>({
 			route: 'gg.campground.tent.moveCategory',
 			queries: { category_id },

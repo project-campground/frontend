@@ -1,13 +1,6 @@
-import type HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.ts';
-import type HTTPBackendClient from '$lib/api/http/HTTPBackendClient.ts';
-import type { Session } from '$lib/api/session/Session.svelte.js';
 import WSClient from '$lib/api/ws/WSClient.js';
-import type { AccountInfo } from '$lib/context/account.svelte.js';
 import type { BonfireViewBasic } from '$lib/types/campground/bonfires.js';
-import type {
-	CampsiteViewDetailed,
-	CampsiteViewWithDomain,
-} from '$lib/types/campground/campsites.js';
+import type { CampsiteViewDetailed } from '$lib/types/campground/campsites.js';
 import type {
 	CampsitePermissionViewBasic,
 	PermissionsDictionary,
@@ -71,7 +64,7 @@ export class BonfireContext {
 		categories: {},
 		tents: {},
 	};
-	private _tentToPermissions: Record<string, PermissionsDictionary> = {};
+	public tentToPermissions: Record<string, PermissionsDictionary> = {};
 	private aggregatedPermissions: AggregatedPermissions = BonfireContext.ownerPermissionsAggregated;
 	public tentOutput: GetTentsOutput;
 
@@ -93,41 +86,94 @@ export class BonfireContext {
 		);
 	}
 
-	// Content of tent list
+	/**
+	 * The campsite of the bonfire.
+	 */
 	public get campsite(): CampsiteViewDetailed {
 		return this.campsiteReference.campsite!;
 	}
+	/**
+	 * The bonfire as given by the API.
+	 */
 	public get bonfire(): BonfireViewBasic {
 		return this.campsiteReference.campsite!.bonfires.find((x) => x.id === this.bonfireId)!;
 	}
+	/**
+	 * Whether the bonfire is the bonfire that contains bulletin board and is displayed when viewing the campsite for the first time.
+	 */
 	public get isBonfireDefault(): boolean {
 		return this.campsite.bonfires[0].id === this.bonfire.id;
 	}
+	/**
+	 * The list of categories within the bonfire only.
+	 */
 	public get categories(): TentCategoryView[] {
 		return this.tentOutput.categories;
 	}
+	/**
+	 * Updates the list of categories within the bonfire only.
+	 */
+	public set categories(value: TentCategoryView[]) {
+		this.tentOutput.categories = value;
+	}
+	/**
+	 * The list of tents within bonfire only.
+	 */
 	public get tents(): TentViewBasic[] {
 		return this.tentOutput.tents;
 	}
+	/**
+	 * Updates the list of tents within the bonfire only.
+	 */
+	public set tents(value: TentViewBasic[]) {
+		this.tentOutput.tents = value;
+	}
+	/**
+	 * The list of all tent, category and bonfire permissions within this bonfire.
+	 */
 	public get permissions(): CampsitePermissionViewBasic[] {
 		return this.tentOutput.permissions;
 	}
 
+	/**
+	 * The list of permissions for all categories within this bonfire for this user.
+	 */
 	public get categoryPermissions(): Record<string, PermissionsDictionary> {
 		return this.aggregatedPermissions.categories;
 	}
+	/**
+	 * The list of permissions for this user in this bonfire.
+	 */
 	public get bonfirePermissions(): PermissionsDictionary {
 		return this.aggregatedPermissions.bonfire;
 	}
+	/**
+	 * The list of permission for this user in this bonfire.
+	 */
 	public get rolePermissions(): PermissionsDictionary {
 		return this.aggregatedPermissions.role;
 	}
+	/**
+	 * Gets from cache or calculates the permissions of tent when it is in the given category. When category is not specified, it is calculated based on parent bonfire's permissions.
+	 * @param tentId The ID of the tent
+	 * @param categoryId The ID of the tent's parent category
+	 * @returns Tent's permissions
+	 */
 	public getTentPermission(tentId: string, categoryId?: string | null): PermissionsDictionary {
 		// No need to calculate it; they have all perms
 		if (this.campsiteReference.userIsOwner) return maxPermissions;
 		// Possibly already cached
-		else if (this._tentToPermissions[tentId]) return this._tentToPermissions[tentId];
+		else if (this.tentToPermissions[tentId]) return this.tentToPermissions[tentId];
 
+		return this.recacheTentPermissions(tentId, categoryId);
+	}
+	/**
+	 * Calculates and changes the cached value of the tent's permissions. Useful in WS events.
+	 * @param tentId The ID of the tent
+	 * @param categoryId The ID of the tent's parent category
+	 * @returns Tent's calculated permissions
+	 */
+	public recacheTentPermissions(tentId: string, categoryId?: string | null) {
 		const categoryPerms =
 			categoryId && this.categoryPermissions[categoryId] ?
 				this.categoryPermissions[categoryId]
@@ -140,7 +186,7 @@ export class BonfireContext {
 		if (!tentOverwrittenPerms) return categoryPerms;
 
 		// Category perms < Tent's denied perms < Tent's allowed perms
-		return ((this._tentToPermissions[tentId] as PermissionsDictionary) = {
+		return ((this.tentToPermissions[tentId] as PermissionsDictionary) = {
 			general:
 				(categoryPerms.general & invertGeneralPermission(tentOverwrittenPerms.denied.general))
 				| tentOverwrittenPerms.allowed.general,

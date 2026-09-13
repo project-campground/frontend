@@ -60,10 +60,14 @@
 		description: string;
 		type: TentType;
 	}) {
+		const tentPositionNearby =
+			openBonfire?.tents.filter((x) => !x.categoryId).map((x) => x.position) ?? [];
+		const bottomTentPosition = tentPositionNearby.length ? Math.max(...tentPositionNearby) : -1;
+
 		return appview.tents.create(campsite!.id, openBonfire!.bonfireId, {
 			...value,
 			type: typeToInteger[type],
-			position: (openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
+			position: bottomTentPosition + 1,
 		});
 	}
 </script>

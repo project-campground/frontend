@@ -41,7 +41,7 @@ export default class HTTPTentManager extends HTTPBackendObjectManager {
 		tent_id: string,
 		body:
 			| { bonfireId: string; position: number }
-			| { category_id: string | undefined | null; position: number }
+			| { categoryId: string | undefined | null; position: number }
 			| { position: number },
 	) {
 		return this.client.post<TentViewDetailed>({

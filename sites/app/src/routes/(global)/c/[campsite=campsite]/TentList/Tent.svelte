@@ -13,18 +13,20 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import TentIcon from '$lib/components/tents/TentIcon.svelte';
-	import { getAppview } from '$lib/context/api.js';
 	import type { TentType, TentViewBasic } from '$lib/types/campground/tent.js';
-	import type { PseudoTentType } from '../pseudoTents.ts';
+	import type { PseudoTentType } from '../BonfireSidebar/pseudoTents.ts';
 	import TentListItem from './Item.svelte';
 	import { draggable, droppable } from '@campground/ui';
 
-	const { tent, domain }: { tent: TentItem; domain: string } = $props();
-
-	const appview = getAppview();
-	function onDragged(draggedId: string) {
-		return appview.tents.move(draggedId, { category_id: tent.categoryId, position: tent.position });
-	}
+	const {
+		tent,
+		domain,
+		onMoveTo,
+	}: {
+		tent: TentItem;
+		domain: string;
+		onMoveTo?: (movedTentId: string, movedToTentId: string) => unknown;
+	} = $props();
 
 	const isActive = $derived(tent.id === page.url.pathname.split('/t/')[1]?.split('/')[0]);
 </script>
@@ -32,13 +34,10 @@
 <a
 	href={`/c/${tent.campsiteId}@${domain}/t/${tent.id}`}
 	data-droppable-over="none"
-	{@attach draggable({ id: tent.id, groups: ['tent'] })}
-	{@attach droppable({
-		id: tent.id,
-		acceptGroups: ['tent'],
-		disallowIds: [tent.id],
-		onDrop: onDragged,
-	})}
+	{@attach onMoveTo ? draggable({ id: tent.id, groups: ['tent'] }) : null}
+	{@attach onMoveTo ?
+		droppable({ id: tent.id, acceptGroups: ['tent'], disallowIds: [tent.id], onDrop: onMoveTo })
+	:	null}
 >
 	<TentListItem active={isActive}>
 		<TentIcon

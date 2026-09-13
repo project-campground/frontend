@@ -4,13 +4,13 @@
 	import { toLookup } from '$lib/util/array.js';
 	import { Divider } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
-	import TentCategory from '../TentCategory.svelte';
-	import TentList from '../TentList/Root.svelte';
+	import TentCategory from '../../CategoryList/Category.svelte';
+	import TentList from '../../TentList/Root.svelte';
 	import { psuedoTentList } from '../pseudoTents.ts';
 	import Wrapper from './Wrapper.svelte';
 	import Skeleton from './Skeleton.svelte';
 	import { localeStrings } from '$lib/locale/index.js';
-	import TentMover from '../TentList/TentMover.svelte';
+	import TentMover from '../../TentList/TentMover.svelte';
 	import { getAppview } from '$lib/context/api.js';
 
 	const campsiteContext = getCampsiteContext();

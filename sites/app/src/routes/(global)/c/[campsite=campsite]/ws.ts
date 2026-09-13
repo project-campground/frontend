@@ -99,7 +99,7 @@ const wsMessageHandlers: Partial<{
 		)
 			context.openBonfire.recacheTentPermissions(payload.id, payload.categoryId);
 
-		Object.assign(existingTent, payload);
+		Object.assign(existingTent, { categoryId: null }, payload);
 
 		return (context.openBonfire.tents = makeRoomForItems(payload, context.openBonfire!.tents));
 	},

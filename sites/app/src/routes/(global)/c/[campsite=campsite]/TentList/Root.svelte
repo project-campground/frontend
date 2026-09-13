@@ -16,7 +16,17 @@
 	async function moveTentToBottom(tentId: string) {
 		const position = (bottomTents[0]?.position ?? -1) + 1;
 
-		return appview.tents.move(tentId, { category_id: categoryId, position });
+		return appview.tents.move(tentId, { categoryId: categoryId ?? '', position });
+	}
+
+	async function onMoveTo(movedTentId: string, movedToTentId: string) {
+		const movedToTent = tents.find((x) => x.id === movedToTentId);
+		const isInCategory = tents.findIndex((x) => x.id === movedTentId) >= 0;
+
+		return appview.tents.move(movedTentId, {
+			categoryId: isInCategory ? undefined : (categoryId ?? ''),
+			position: movedToTent?.position ?? 0,
+		});
 	}
 </script>
 
@@ -25,6 +35,7 @@
 		<TentListTent
 			{tent}
 			{domain}
+			{onMoveTo}
 		/>
 	{/each}
 	<TentMover

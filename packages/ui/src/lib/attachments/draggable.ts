@@ -47,7 +47,6 @@ export function droppable<T extends HTMLElement>({
 		let enterTimes = 0;
 
 		const onDragEnter = (ev: DragEvent) => {
-			console.log('Drag enter', id);
 			const [draggableId, groups] = getDraggableData(ev.dataTransfer);
 
 			enterTimes++;
@@ -61,16 +60,12 @@ export function droppable<T extends HTMLElement>({
 		};
 		const onDragLeave = (ev: DragEvent) => {
 			enterTimes--;
-			console.log('Drag leave', id, ev);
 			if (!enterTimes) element.removeAttribute('data-droppable-over');
 		};
 		const onDragOver = (ev: DragEvent) => {
-			console.log('Drag over', id);
 			ev.preventDefault();
 		};
 		const onDropEvent = (ev: DragEvent) => {
-			console.log('Drag drop', id);
-
 			ev.preventDefault();
 			enterTimes = 0;
 			element.removeAttribute('data-droppable-over');

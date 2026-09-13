@@ -72,7 +72,6 @@ export class AccountInfo {
 				(x) => (x as PromiseFulfilledResult<{ campsites: CampsiteViewBasic[]; domain: string }>).value,
 			);
 
-		console.log('Backend resps', backendResps);
 		// Basically warning when certain back-end could not be fetched
 		for (const badResp of backendRespPromises.filter((x) => x.status === 'rejected')) {
 			console.warn('Rejected promise while fetching campsite list', badResp.reason);
@@ -83,8 +82,6 @@ export class AccountInfo {
 				(campsite) => ({ ...campsite, _domain: resp.domain }) as CampsiteViewWithDomain,
 			),
 		);
-
-		console.log('Campsites', campsites);
 
 		this.navbarItems = this.session.preferences.full.nav.items
 			.map((x) => this.getNavbarItem(campsites, x))
@@ -100,7 +97,6 @@ export class AccountInfo {
 		if (navItem.$type !== 'gg.campground.actor.defs#navCampsitePref') return;
 
 		const campsite = campsites.find((y) => y._domain === navItem.domain && y.id === navItem.id);
-		console.log({ campsites, navItem, campsite });
 
 		if (!campsite) return;
 

@@ -205,7 +205,6 @@ export default class HTTPAtprotoClient {
 
 		if (!this._config.auth) return doFetch(undefined);
 
-		console.log('Expired', this.authExpired);
 		const token =
 			this.authExpired ?
 				await this.refreshSession()
@@ -215,8 +214,6 @@ export default class HTTPAtprotoClient {
 
 		return await doFetch(token).catch(async (e) => {
 			if (!(e instanceof XrpcError) || e.code !== 'ExpiredToken') throw e;
-
-			console.log('Expired token', this.authExpired);
 
 			return this.refreshSession().then(async (refresh) => doFetch(refresh!.accessJwt));
 		});

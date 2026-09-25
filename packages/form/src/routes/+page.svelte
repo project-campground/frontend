@@ -6,12 +6,12 @@
 		FormCheck,
 		FormTextField,
 		FormControl,
-		Form,
 		FormErrorLabel,
 		FormSwitch,
 		FormObject,
 		FormArray,
 		FormColor,
+		FormNumberField,
 	} from '$lib/index.js';
 	import { FormImageField } from '$lib/FormImageField/index.js';
 	import {
@@ -21,7 +21,7 @@
 		IconHash,
 	} from '@tabler/icons-svelte';
 	import Tab from './Tab.svelte';
-	import { FormTristate } from '$lib/FormTristate/index.ts';
+	import { FormTristate } from '$lib/FormTristate/index.js';
 </script>
 
 <Tabs.Root>
@@ -49,6 +49,14 @@
 				minlength={5}
 				placeholder="Example placeholder"
 			/>
+		</FormControl>
+		<FormControl id="numField">
+			<FormLabel>Number field (-50...999)</FormLabel>
+			<FormNumberField
+				min={-50}
+				max={999}
+			/>
+			<FormErrorLabel />
 		</FormControl>
 		<FormControl id="textArea1">
 			<FormLabel>Text area field (known value)</FormLabel>

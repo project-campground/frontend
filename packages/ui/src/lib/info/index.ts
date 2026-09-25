@@ -7,6 +7,8 @@ export * from './Link/index.ts';
 export * as PagePlaceholder from './PagePlaceholder/index.ts';
 export * from './Para/index.ts';
 export * from './Section/index.ts';
+export * as Table from './Table/index.ts';
+export * as GridTable from './GridTable/index.ts';
 export * as Tabs from './Tabs/index.ts';
 export * from './TextBlock/index.ts';
 export * as Stepper from './Stepper/index.ts';

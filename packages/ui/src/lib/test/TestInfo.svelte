@@ -46,10 +46,10 @@
 		Paragraphs (Para)
 	{/snippet}
 	<Stack>
-		{#each [500, 600, 700, 800, 900] as const as weight}
-			{#each ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'para', 'sub0', 'sub1'] as ParaLevel[] as level}
+		{#each [500, 600, 700, 800, 900] as const as weight (weight)}
+			{#each ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'para', 'sub0', 'sub1'] as ParaLevel[] as level (level)}
 				<Group>
-					{#each [undefined, ...colors] as color}
+					{#each [undefined, ...colors] as color (color)}
 						<Para
 							{level}
 							{color}
@@ -66,9 +66,9 @@
 		Chip
 	{/snippet}
 	<Stack>
-		{#each sizes as size}
+		{#each sizes as size (size)}
 			<Group>
-				{#each colorsWithNeutral as color}
+				{#each colorsWithNeutral as color (color)}
 					<Chip {size} {color}>
 						{color} {size}
 					</Chip>
@@ -82,13 +82,13 @@
 		Links
 	{/snippet}
 	<Stack>
-		{#each ['always', 'hover', 'never', undefined] as Underlined[] as underlined}
+		{#each ['always', 'hover', 'never', undefined] as Underlined[] as underlined (underlined)}
 			<Section>
 				{#snippet header()}
 					{underlined ?? 'undefined'} underlined
 				{/snippet}
 				<Group>
-					{#each [undefined, ...colorsWithNeutral] as color}
+					{#each [undefined, ...colorsWithNeutral] as color (color)}
 						<Link {underlined} {color}>
 							<IconMessageFilled /> {color ?? 'no color'}
 						</Link>
@@ -114,7 +114,7 @@
 	<span>Example b</span>
 	<span>Example c</span>
 	<Divider {orientation}>Divider</Divider>
-	{#each [...statusColors, 'background', 'neutral'] as (StatusColor | 'background' | 'neutral')[] as color}
+	{#each [...statusColors, 'background', 'neutral'] as (StatusColor | 'background' | 'neutral')[] as color (color)}
 		<Divider
 			{orientation}
 			{color}>{color}</Divider
@@ -145,15 +145,15 @@
 			<Button onclick={() => stepperValue--}>-</Button>
 			<Button onclick={() => stepperValue++}>+</Button>
 		</Group>
-		{#each ['horizontal', 'vertical'] as ComponentOrientation[] as orientation}
+		{#each ['horizontal', 'vertical'] as ComponentOrientation[] as orientation (orientation)}
 			<Stack wrap="wrap" direction={orientation === 'vertical' ? 'row' : 'column'}>
-				{#each sizes as size}
+				{#each sizes as size (size)}
 					<Stepper.Root
 						{orientation}
 						{size}
 						active={stepperValue}
 					>
-						{#each colors as color}
+						{#each colors as color (color)}
 							<Stepper.Step {color}>
 								{#snippet icon()}
 									<IconCheck />
@@ -168,7 +168,7 @@
 					size="md"
 					active={stepperValue}
 				>
-					{#each colors as color, i}
+					{#each colors as color, i (color)}
 						<Stepper.Step {color}>
 							{#snippet icon()}
 								<IconCheck />
@@ -196,10 +196,10 @@
 		style:font-weight="bolder"
 		style:font-size="2.5rem"
 	>
-		{#each gradientMotions as motion}
+		{#each gradientMotions as motion (motion)}
 			<Group>
 				<GradientText {motion}>0 colors {motion}</GradientText>
-				{#each gradientTextColors as colors}
+				{#each gradientTextColors as colors (colors.join(','))}
 					<GradientText
 						{colors}
 						{motion}>{colors.length} colors {motion}</GradientText
@@ -214,10 +214,10 @@
 		Alert
 	{/snippet}
 	<div>
-		{#each sizes as size}
+		{#each sizes as size (size)}
 			<h2>{size}</h2>
 			<Group>
-				{#each colors as color}
+				{#each colors as color (color)}
 					<Alert
 						{icon}
 						{color}
@@ -236,8 +236,8 @@
 		Section
 	{/snippet}
 	<Stack gap={8}>
-		{#each sizes as gap}
-			{#each [1, 2, 3, 4, 5, 6] as const as headerLevel}
+		{#each sizes as gap (gap)}
+			{#each [...Array(7).keys()].slice(1) as [1, 2, 3, 4, 5, 6] as headerLevel (headerLevel)}
 				<Group>
 					<Section
 						{gap}
@@ -269,7 +269,7 @@
 	{/snippet}
 	<Stack align="stretch">
 		<Code.Block>
-			{#each Array(20) as _, i (i)}
+			{#each Array(20).keys() as i (i)}
 				<Code.Line index={i + 1}>
 					Example line {i + 1}
 				</Code.Line>
@@ -279,7 +279,7 @@
 			{#snippet meta()}
 				<Chip size="sm">JavaScript</Chip>
 			{/snippet}
-			{#each Array(20) as _, i (i)}
+			{#each Array(20).keys() as i (i)}
 				<Code.Line index={i + 1}>
 					Example line {i + 1}
 				</Code.Line>
@@ -289,7 +289,7 @@
 			<Code.Line index="...">
 				Test overflow
 			</Code.Line>
-			{#each Array(20) as _, i (i)}
+			{#each Array(20).keys() as i (i)}
 			<Code.Line index={i + 1}>
 				{loremIpsum.xl} {i + 1}
 			</Code.Line>
@@ -297,8 +297,8 @@
 			<Code.Line index="">
 				Test overflow
 			</Code.Line>
-			{#each Array(20) as _, i (i)}
-			<Code.Line index={'at'}>
+			{#each Array(20).keys() as i (i)}
+			<Code.Line index="at">
 				Error {i}
 			</Code.Line>
 			{/each}

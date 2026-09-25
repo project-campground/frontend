@@ -6,4 +6,5 @@ export const appTentMessages = defineMessages({
 	settings: { id: 'app.tents.settings', defaultMessage: 'Tent settings' },
 	text: { id: 'app.tents.text', defaultMessage: 'Text' },
 	bulletin: { id: 'app.tents.bulletin', defaultMessage: 'Bulletin Board' },
+	members: { id: 'app.tents.members', defaultMessage: 'Members' },
 });

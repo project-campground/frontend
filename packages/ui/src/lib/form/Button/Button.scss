@@ -22,5 +22,8 @@ $button-padding: create-size-map((0.125, 0.25, 0.5, 0.75, 1));
 		&[data-padding='equal'][data-size='#{$size}'] {
 			padding: calc($value * 1rem);
 		}
+		&[data-padding='double'][data-size='#{$size}'] {
+			padding: calc($value * 1rem) calc($value * sqrt($value) * 5rem);
+		}
 	}
 }

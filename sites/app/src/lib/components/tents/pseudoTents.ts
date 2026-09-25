@@ -1,6 +1,6 @@
 import type { TentViewBasic } from '$lib/types/campground/tent.js';
 
-export type PseudoTentType = 'bulletin';
+export type PseudoTentType = 'bulletin' | 'members';
 
 export interface PseudoTentViewBasic extends Omit<
 	TentViewBasic,
@@ -8,6 +8,7 @@ export interface PseudoTentViewBasic extends Omit<
 > {
 	type: PseudoTentType;
 }
-export const psuedoTentList: PseudoTentViewBasic[] = [
+export const pseudoTentList: PseudoTentViewBasic[] = [
 	{ id: 'bulletin', type: 'bulletin', viewType: 0, description: '' },
+	{ id: 'members', type: 'members', viewType: 0, description: '' },
 ];

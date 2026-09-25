@@ -6,6 +6,8 @@
 	import TestInfo from '$lib/test/TestInfo.svelte';
 	import TestFloating from '$lib/test/TestFloating.svelte';
 	import TestHierarchy from '$lib/test/TestHierarchy.svelte';
+	import TestTables from '$lib/test/TestTables.svelte';
+	import TestGridTables from '$lib/test/TestGridTables.svelte';
 
 	let lightTheme: boolean = $state(false);
 
@@ -46,6 +48,12 @@
 					<TextBlock>Info</TextBlock>
 				</Tabs.Item>
 				<Tabs.Item>
+					<TextBlock>Tables</TextBlock>
+				</Tabs.Item>
+				<Tabs.Item>
+					<TextBlock>Grid Tables</TextBlock>
+				</Tabs.Item>
+				<Tabs.Item>
 					<TextBlock>Hierarchy</TextBlock>
 				</Tabs.Item>
 				<Tabs.Item>
@@ -71,6 +79,18 @@
 			<Tabs.Tab>
 				<Stack gap={3}>
 					<TestInfo />
+				</Stack>
+			</Tabs.Tab>
+			<!-- Tables -->
+			<Tabs.Tab>
+				<Stack gap={3}>
+					<TestTables />
+				</Stack>
+			</Tabs.Tab>
+			<!-- Grid tables -->
+			<Tabs.Tab>
+				<Stack gap={3}>
+					<TestGridTables />
 				</Stack>
 			</Tabs.Tab>
 			<!-- Hierarchy -->

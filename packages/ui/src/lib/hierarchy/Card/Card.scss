@@ -1,0 +1,22 @@
+@mixin card-appearance() {
+	background-color: var(--background-content);
+	border: solid 1px var(--neutral-border);
+	box-shadow: var(--shadow-md);
+}
+
+%Card {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	position: relative;
+	overflow: hidden;
+
+	@include card-appearance();
+
+	border-radius: var(--Card-radius);
+	gap: var(--Card-gap);
+}
+%Card-subtle {
+	background-color: var(--background-subtle);
+}

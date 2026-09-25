@@ -15,5 +15,5 @@ export default interface ButtonProps extends StackedProps, HTMLButtonAttributes 
 	color?: ComponentColorAll;
 	justify?: JustifyContent;
 
-	padding?: 'default' | 'equal';
+	padding?: 'default' | 'equal' | 'double';
 }

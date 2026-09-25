@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { getLocale } from '@campground/locale';
 	import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
 	import { toLookup } from '$lib/util/array.js';
 	import { Divider } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentCategory from '../../CategoryList/Category.svelte';
 	import TentList from '../../TentList/Root.svelte';
-	import { psuedoTentList } from '../pseudoTents.ts';
 	import Wrapper from './Wrapper.svelte';
 	import Skeleton from './Skeleton.svelte';
-	import { localeStrings } from '$lib/locale/index.js';
 	import TentMover from '../../TentList/TentMover.svelte';
 	import { getAppview } from '$lib/context/api.js';
+	import PseudoTents from './PseudoTents.svelte';
 
 	const campsiteContext = getCampsiteContext();
 	const bonfire = $derived(campsiteContext.openBonfire);
@@ -55,23 +53,12 @@
 	async function onDropCategoryToBottom(categoryId: string, position: number) {
 		return appview.categories.move(categoryId, { position } as { position: number });
 	}
-
-	const intl = getLocale();
 </script>
 
 {#if campsiteReference && bonfire}
 	<Wrapper>
 		{#if isDefaultBonfire}
-			<TentList
-				tents={psuedoTentList.map((tent) => ({
-					...tent,
-					campsiteId: campsiteReference.campsite.id,
-					position: 0,
-					categoryId: null,
-					name: intl.formatMessage(localeStrings.tents[tent.id as 'bulletin']),
-				}))}
-				{domain}
-			/>
+			<PseudoTents />
 			<Divider />
 		{/if}
 		<TentList

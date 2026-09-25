@@ -27,6 +27,8 @@ $padding-sizes: create-size-map(
 
 	@each $size, $values in $padding-sizes {
 		&[data-size='#{$size}'] {
+			--InputField-paddingX: #{list.nth($values, 1)};
+			--InputField-paddingY: #{list.nth($values, 2)};
 			padding: $values;
 			gap: list.nth($values, 1);
 			--InputField-radius: var(--radius-#{$size});

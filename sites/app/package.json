@@ -30,6 +30,7 @@
 	"types": "./dist/index.d.ts",
 	"dependencies": {
 		"@atproto/common-web": "^0.5.9",
+		"@campground/data": "1.0.0",
 		"@campground/form": "1.0.0",
 		"@campground/locale": "1.0.0",
 		"@campground/ui": "1.0.0",

@@ -24,24 +24,14 @@
 	@use 'sass:list';
 	@use '../../common.scss' as *;
 	@use '../Layout.scss' as *;
+	@use './Card.scss' as *;
 
 	$card-padding: create-size-map(
 		(0.25rem 0.375rem, 0.5rem 0.75rem, 0.75rem 1rem, 1rem 1.25rem, 1.25rem 2rem, 2rem 3rem)
 	);
 
 	section {
-		display: flex;
-		flex-direction: column;
-		align-items: stretch;
-
-		position: relative;
-		overflow: hidden;
-
-		background-color: var(--background-content);
-		border: solid 1px var(--neutral-border);
-		border-radius: var(--Card-radius);
-		box-shadow: var(--shadow-md);
-		gap: var(--Card-gap);
+		@extend %Card;
 
 		@extend %InLayout;
 		@extend %Stacked;
@@ -53,7 +43,7 @@
 			overflow: visible;
 		}
 		&[data-level='subtle'] {
-			background-color: var(--background-subtle);
+			@extend %Card-subtle;
 		}
 		@each $size, $values in $card-padding {
 			&[data-size='#{$size}'] {

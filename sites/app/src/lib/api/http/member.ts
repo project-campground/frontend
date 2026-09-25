@@ -17,10 +17,10 @@ export default class HTTPMemberManager extends HTTPBackendObjectManager {
 		});
 	}
 
-	getManyDetailed(campsite_id: string, offset: number) {
+	getManyDetailed(campsite_id: string, total: number, offset?: number) {
 		return this.client.get<GetMembersDetailedOutput>({
 			route: 'gg.campground.membership.getMembersDetailed',
-			queries: { campsite_id, offset },
+			queries: { campsite_id, total, offset },
 		});
 	}
 

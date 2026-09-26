@@ -8,5 +8,10 @@ export const appContentMessages = defineMessages({
 
 	create: { id: 'app.content.create', defaultMessage: 'Create', description: 'Create content' },
 	edit: { id: 'app.content.edit', defaultMessage: 'Edit', description: 'Edit content' },
+	amountMore: {
+		id: 'app.content.amountMore',
+		defaultMessage: `+{amount} more`,
+		description: `Summarizes role list by only showing a few items as well as this text`,
+	},
 	delete: { id: 'app.content.delete', defaultMessage: 'Delete', description: 'Delete content' },
 });

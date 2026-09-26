@@ -2,6 +2,9 @@
 	lang="ts"
 	module
 >
+	import type { MemberViewDetailed } from '$lib/types/campground/membership.js';
+	import { defineMessages } from '@formatjs/svelte-intl';
+
 	const localeMessages = defineMessages({
 		accusative: {
 			id: 'app.members.accusative',
@@ -14,10 +17,14 @@
 			description: 'The nominative case (e.g., `he`) of noun `members`',
 		},
 	});
+
+	interface MemberViewTable extends MemberViewDetailed {
+		id: string;
+	}
 </script>
 
 <script lang="ts">
-	import { Card } from '@campground/ui';
+	import { Button, Card, Group } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentWrapper from '../TentWrapper.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
@@ -25,7 +32,8 @@
 	import { localeStrings } from '$lib/locale/index.js';
 	import { DataTable } from '@campground/data';
 	import { getAppview } from '$lib/context/api.js';
-	import { defineMessages } from '@formatjs/svelte-intl';
+	import { User } from '$lib/components/index.js';
+	import { Role } from '$lib/components/campsite/index.js';
 
 	const campsiteContext = getCampsiteContext();
 
@@ -43,9 +51,34 @@
 			.getManyDetailed(campsiteContext.campsite.id, count, offset)
 			.then((resp) => resp.members.map((x) => ({ ...x, id: x.user.did })));
 	}
+	function removeMemberRole(memberId: string, roleId: string) {
+		return appview.members.removeRole(campsiteContext.campsite!.id, roleId, { memberIds: [memberId] })
+	}
 
 	const locale = getLocale();
 </script>
+
+{#snippet displayUser(item: MemberViewTable)}
+	<User.Display
+		user={item.user}
+		size="xs"
+		hideStatus
+	/>
+{/snippet}
+{#snippet roleDisplay(item: MemberViewTable)}
+	{const roles = $derived(campsiteContext.campsite?.roles.filter((role) => item.roles.includes(role.id)) ?? [])}
+
+	<Group gap={0.5}>
+		{#each roles.slice(0, 5) as role (role.id)}
+			<Role.Display {role} onRemove={() => removeMemberRole(item.user.did, role.id)} />
+		{/each}
+		{#if roles.length > 5}
+			<Button color="neutral" variant="plain">
+				<LocaleMessage {...localeStrings.content.amountMore} values={{ amount: roles.length - 5 }} />
+			</Button>
+		{/if}
+	</Group>
+{/snippet}
 
 <TentWrapper>
 	{#snippet icon()}
@@ -57,8 +90,13 @@
 	<div class="content">
 		<DataTable
 			columns={[
-				{ prop: 'id', header: 'Member', mobile: { columns: { from: 2, to: 4 }, rows: 1 } },
-				{ prop: 'roles', header: 'Roles', mobile: { columns: { from: 1, to: 4 }, rows: 2 } },
+				{
+					prop: 'id',
+					header: 'Member',
+					Component: displayUser,
+					mobile: { columns: { from: 2, to: 4 }, rows: 1 },
+				},
+				{ prop: 'roles', header: 'Roles', Component: roleDisplay, mobile: { columns: { from: 1, to: 4 }, rows: 2 } },
 			]}
 			entryType={{
 				nominative: locale.formatMessage(localeMessages.nominative),

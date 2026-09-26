@@ -9,7 +9,7 @@
 	const atTheEnd = $derived(Boolean(count) && current + 1 >= count!);
 </script>
 
-<Group justify="center">
+<Group>
 	<Button
 		variant="soft"
 		color="neutral"

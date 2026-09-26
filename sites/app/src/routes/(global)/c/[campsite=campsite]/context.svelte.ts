@@ -21,11 +21,15 @@ import {
 import { createContext } from 'svelte';
 
 export class CampsiteReference {
+	public campsite: CampsiteViewDetailed;
+
 	constructor(
 		public domain: string,
-		public campsite: CampsiteViewDetailed,
+		campsite: CampsiteViewDetailed,
 		public webSocket: WSClient,
-	) {}
+	) {
+		this.campsite = $state(campsite);
+	}
 
 	public get userIsOwner() {
 		return this.campsite?.owner === this.campsite?.me.user.did;
@@ -36,20 +40,13 @@ export class CampsiteContext {
 	public campsiteReference: CampsiteReference | null = $state(null);
 	public openBonfire: BonfireContext | null = $state(null);
 
+	public campsite = $derived(this.campsiteReference?.campsite);
+	public bonfires = $derived(this.campsite?.bonfires);
+	public roles = $derived(this.campsite?.roles);
+	public userIsOwner = $derived(this.campsite?.owner === this.campsite?.me.user.did);
+
 	constructor(public setActiveBonfire: (id: string) => unknown) {}
 
-	public get campsite() {
-		return this.campsiteReference?.campsite;
-	}
-	public get bonfires() {
-		return this.campsiteReference?.campsite.bonfires;
-	}
-	public get userIsOwner() {
-		return this.campsiteReference?.campsite.owner === this.campsiteReference?.campsite.me.user.did;
-	}
-	public get roles() {
-		return this.campsiteReference?.campsite.roles;
-	}
 	public get webSocket() {
 		return this.campsiteReference?.webSocket;
 	}

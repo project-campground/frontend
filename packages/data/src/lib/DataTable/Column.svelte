@@ -14,7 +14,7 @@
 		flex-direction: row;
 		align-items: center;
 
-		padding: 0.5rem 0.25rem;
+		padding: 0.5rem;
 		padding-top: 1rem;
 
 		&:first-of-type {

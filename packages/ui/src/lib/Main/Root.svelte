@@ -52,6 +52,10 @@
 		padding: 0;
 		margin: 0;
 	}
+	:global(*) {
+		scrollbar-color: var(--neutral-solidBack) transparent;
+	}
+
 	#main {
 		position: relative;
 		display: flex;

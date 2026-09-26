@@ -19,6 +19,7 @@
 		Chip,
 		Code,
 		loremIpsum,
+		Loading,
 	} from '$lib/index.js';
 	import { IconCheck, IconMessageFilled } from '@tabler/icons-svelte';
 	import { colors, colorsWithNeutral, sizes, statusColors } from './values.ts';
@@ -73,6 +74,18 @@
 						{color} {size}
 					</Chip>
 				{/each}
+			</Group>
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Loading
+	{/snippet}
+	<Stack>
+		{#each sizes as size (size)}
+			<Group>
+				<Loading {size} />
 			</Group>
 		{/each}
 	</Stack>

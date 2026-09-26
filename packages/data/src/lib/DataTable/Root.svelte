@@ -8,6 +8,16 @@
 			defaultMessage: `Search {entries}`,
 			description: 'Search input in data tables.',
 		},
+		showingWithMax: {
+			id: 'data.showing.withMax',
+			defaultMessage: `Showing {amount} out of {max}`,
+			description: 'How many items are being shown with known max amount',
+		},
+		showing: {
+			id: 'data.showing.withMax',
+			defaultMessage: `Showing {amount}`,
+			description: 'How many items are being shown',
+		},
 	});
 </script>
 
@@ -21,9 +31,9 @@
 	import Table from './Table.svelte';
 	import { IconSearch } from '@tabler/icons-svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { getLocale } from '@campground/locale';
+	import { getLocale, LocaleMessage } from '@campground/locale';
 	import { Paginated } from '$lib/index.js';
-	import { DebouncedValue, TextInput } from '@campground/ui';
+	import { DebouncedValue, TextBlock, TextInput } from '@campground/ui';
 
 	let {
 		fetch,
@@ -66,18 +76,41 @@
 		{entryType}
 		{...props}
 	/>
-	<Paginated.List
-		bind:current={page}
-		count={total ? Math.ceil(total / maxItems)
-		: dataTable.items.length < maxItems ? page + 1
-		: undefined}
-	/>
+	<footer class="footer">
+		<!-- TODO: Better handling of amount found by search -->
+		<Paginated.List
+			bind:current={page}
+			count={total && !search.value ? Math.ceil(total / maxItems)
+			: dataTable.items.length < maxItems ? page + 1
+			: undefined}
+		/>
+		<TextBlock level="subtext">
+			{#if total && !search.value}
+				{const offset = $derived(page * maxItems)}
+				<LocaleMessage
+					{...localeMessages.showingWithMax}
+					values={{ amount: `${offset}-${offset + dataTable.items.length}`, max: total }}
+				/>
+			{:else}
+				<LocaleMessage
+					{...localeMessages.showing}
+					values={{ amount: maxItems }}
+				/>
+			{/if}
+		</TextBlock>
+	</footer>
 </article>
 
 <style lang="scss">
 	.header {
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
+	}
+	.footer {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		justify-content: space-between;
 	}
 	.container {

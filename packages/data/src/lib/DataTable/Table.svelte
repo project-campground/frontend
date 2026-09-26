@@ -2,7 +2,7 @@
 	lang="ts"
 	generics="TItem extends { id: TId; }, TId"
 >
-	import { Checkbox } from '@campground/ui';
+	import { Checkbox, Loading } from '@campground/ui';
 
 	import Content from './Content.svelte';
 
@@ -16,9 +16,9 @@
 	const isLoading = $derived(dataTable.state !== DataTableState.Loaded);
 
 	const allSelected = $derived(
-		dataTable.items.length && dataTable.selected.length >= dataTable.items.length,
+		Boolean(dataTable.items.length) && dataTable.selected.length >= dataTable.items.length,
 	);
-	const someSelected = $derived(dataTable.selected.length);
+	const someSelected = $derived(Boolean(dataTable.selected.length));
 </script>
 
 <div
@@ -30,7 +30,7 @@
 			<Checkbox
 				size="sm"
 				checked={allSelected}
-				indeterminate={Boolean(someSelected && !allSelected)}
+				indeterminate={someSelected && !allSelected}
 				onclick={() => (allSelected ? dataTable.deselectAll() : dataTable.selectAll())}
 			/>
 		</Column>
@@ -42,7 +42,9 @@
 	</div>
 	<div class="content">
 		{#if isLoading}
-			...
+			<div class="placeholder">
+				<Loading />
+			</div>
 		{:else}
 			<Content
 				{columns}
@@ -61,7 +63,7 @@
 		gap: 0.5rem;
 		@include desktop-sm-up {
 			display: grid;
-			grid-template-columns: auto repeat(var(--DataTable-columns), 1fr);
+			grid-template-columns: [start] auto repeat(var(--DataTable-columns), 1fr) [end];
 			gap: 0;
 			border-radius: var(--radius-md);
 			overflow: hidden;
@@ -79,6 +81,13 @@
 				@include table-solid-meta();
 			}
 		}
+	}
+	.placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		grid-column: start / end;
+		padding: 5rem 10rem;
 	}
 	.content {
 		display: contents;

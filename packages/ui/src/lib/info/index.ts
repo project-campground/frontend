@@ -4,6 +4,7 @@ export * as Code from './Code/index.ts';
 export * from './Divider/index.ts';
 export * from './GradientText/index.ts';
 export * from './Link/index.ts';
+export * from './Loading/index.ts';
 export * as PagePlaceholder from './PagePlaceholder/index.ts';
 export * from './Para/index.ts';
 export * from './Section/index.ts';

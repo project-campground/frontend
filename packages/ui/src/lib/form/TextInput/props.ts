@@ -29,6 +29,11 @@ export default interface TextInputProps
 	onchange?: OnEventInfer<'onchange'>;
 	onclick?: OnEventInfer<'onclick'>;
 
+	oninput?: OnEventInfer<'oninput'>;
+	onkeypress?: OnEventInfer<'onkeypress'>;
+	onkeyup?: OnEventInfer<'onkeyup'>;
+	onkeydown?: OnEventInfer<'onkeydown'>;
+
 	// Value
 	value?: string;
 	error?: boolean;

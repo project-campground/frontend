@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconCheck } from '@tabler/icons-svelte';
+	import { IconCheck, IconMinus } from '@tabler/icons-svelte';
 	import type CheckboxProps from './props.ts';
 
 	let {
@@ -7,24 +7,32 @@
 		disabled,
 		class: className,
 		icon,
+		iconIndeterminate,
 		checked = $bindable(),
+		indeterminate,
 		...attributes
 	}: CheckboxProps = $props();
 
 	const CheckedComponent = $derived(icon ?? IconCheck);
+	const IndeterminateComponent = $derived(iconIndeterminate ?? IconMinus);
 </script>
 
 <button
-	class={['container', { checked }, className]}
+	class={['container', { checked, indeterminate }, className]}
 	data-size={size ?? 'md'}
 	role="checkbox"
 	data-checked={checked}
 	aria-checked={checked}
+	data-indeterminate={indeterminate}
 	{disabled}
 	onclick={() => (checked = !checked)}
 	{...attributes}
 >
-	<CheckedComponent class="ui-Checkbox icon" />
+	{#if indeterminate}
+		<IndeterminateComponent class="ui-Checkbox icon" />
+	{:else}
+		<CheckedComponent class="ui-Checkbox icon" />
+	{/if}
 </button>
 
 <style lang="scss">
@@ -67,11 +75,8 @@
 			@extend %BooleanField-disabled;
 			cursor: not-allowed;
 		}
+		&.indeterminate,
 		&.checked {
-			&:not(:focus-visible, :disabled) {
-				@extend %BooleanField-checked;
-			}
-
 			--Checkbox-iconRotation: 0deg;
 
 			// For better transitions
@@ -79,14 +84,27 @@
 				opacity: 100%;
 			}
 		}
-		// Hover
-		&.checked:not(:disabled, :focus-visible):hover,
-		&.checked:not(:disabled, :focus-visible):hover:active {
-			@extend %BooleanField-checkedHover;
-		}
-		&:not(:disabled, :focus-visible):hover,
-		&:not(:disabled, :focus-visible):hover:active {
-			@extend %BooleanField-hover;
+		&:not(:focus-visible, :disabled) {
+			&.checked {
+				@extend %BooleanField-checked;
+			}
+			&.indeterminate,
+			&.indeterminate.checked {
+				@extend %BooleanField-indeterminate;
+			}
+
+			&:hover {
+				& {
+					@extend %BooleanField-hover;
+				}
+				&.checked {
+					@extend %BooleanField-checkedHover;
+				}
+				&.indeterminate,
+				&.indeterminate.checked:active {
+					@extend %BooleanField-indeterminateHover;
+				}
+			}
 		}
 		// To not change .icon class throughout the app
 		& > :global(.icon) {

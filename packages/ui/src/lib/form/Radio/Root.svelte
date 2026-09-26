@@ -83,8 +83,7 @@
 		&:checked {
 			&:not(:focus-visible, :disabled) {
 				@extend %BooleanField-checked;
-				&:hover,
-				&:hover:active {
+				&:hover {
 					@extend %BooleanField-checkedHover;
 				}
 			}
@@ -104,8 +103,7 @@
 				transform: scale(1);
 			}
 		}
-		&:not(:disabled):hover,
-		&:not(:disabled):hover:active {
+		&:not(:disabled):hover {
 			@extend %BooleanField-hover;
 		}
 		&:disabled {

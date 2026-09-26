@@ -14,6 +14,11 @@
 
 	const dataTable = getDataTable();
 	const isLoading = $derived(dataTable.state !== DataTableState.Loaded);
+
+	const allSelected = $derived(
+		dataTable.items.length && dataTable.selected.length >= dataTable.items.length,
+	);
+	const someSelected = $derived(dataTable.selected.length);
 </script>
 
 <div
@@ -22,7 +27,12 @@
 >
 	<div class="header">
 		<Column index={-1}>
-			<Checkbox size="sm" />
+			<Checkbox
+				size="sm"
+				checked={allSelected}
+				indeterminate={Boolean(someSelected && !allSelected)}
+				onclick={() => (allSelected ? dataTable.deselectAll() : dataTable.selectAll())}
+			/>
 		</Column>
 		{#each columns as column, index (index)}
 			<Column {index}>

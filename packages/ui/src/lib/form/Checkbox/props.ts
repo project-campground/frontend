@@ -10,6 +10,8 @@ type IconComponent = IconComponentModern | IconComponentDeprecated | undefined |
 
 export default interface CheckboxProps extends Omit<HTMLButtonAttributes, 'size'> {
 	checked?: boolean;
+	indeterminate?: boolean;
 	size?: ComponentSize;
 	icon?: IconComponent;
+	iconIndeterminate?: IconComponent;
 }

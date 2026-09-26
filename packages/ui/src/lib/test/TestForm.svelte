@@ -208,23 +208,31 @@
 		<Group>
 			<Checkbox bind:checked={switchValue} />
 		</Group>
-		{#each [false, true] as disabled}
-			{#each [undefined, IconMoonFilled] as icon}
-				<Group>
-					<Checkbox
-						bind:checked={switchValue}
-						{disabled}
-						{icon}
-					/>
-					{#each sizes as size}
-						<Checkbox
-							{size}
-							bind:checked={switchValue}
-							{disabled}
-							{icon}
-						/>
+		{#each [false, true] as indeterminate}
+			{#each [false, true] as disabled}
+				{#each [undefined, IconMoonFilled] as icon}
+					{#each [undefined, IconSunFilled] as iconIndeterminate}
+						<Group>
+							<Checkbox
+								bind:checked={switchValue}
+								{disabled}
+								{indeterminate}
+								{iconIndeterminate}
+								{icon}
+							/>
+							{#each sizes as size}
+								<Checkbox
+									{size}
+									bind:checked={switchValue}
+									{disabled}
+									{indeterminate}
+									{iconIndeterminate}
+									{icon}
+								/>
+							{/each}
+						</Group>
 					{/each}
-				</Group>
+				{/each}
 			{/each}
 		{/each}
 	</Stack>

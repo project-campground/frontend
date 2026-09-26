@@ -23,10 +23,10 @@
 
 		@include desktop-sm-up {
 			&:first-of-type {
-				padding-left: 2rem;
+				padding-left: 1.5rem;
 			}
 			&:last-of-type {
-				padding-right: 2rem;
+				padding-right: 1.5rem;
 			}
 			padding: 0.5rem 0.25rem;
 		}

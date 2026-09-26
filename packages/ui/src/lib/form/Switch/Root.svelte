@@ -57,16 +57,16 @@
 		padding: 0;
 		border-radius: calc(var(--BooleanField-size) * 3 / 4);
 
-		&:not(:disabled, :focus-visible):hover,
-		&:not(:disabled, :focus-visible):active:hover {
-			@extend %BooleanField-hover;
-		}
-		&.checked:not(:disabled, :focus-visible) {
-			@extend %BooleanField-checked;
-		}
-		&.checked:not(:disabled, :focus-visible):hover,
-		&.checked:not(:disabled, :focus-visible):active:hover {
-			@extend %BooleanField-checkedHover;
+		&:not(:disabled, :focus-visible) {
+			&:hover {
+				@extend %BooleanField-hover;
+			}
+			&.checked {
+				@extend %BooleanField-checked;
+				&:hover {
+					@extend %BooleanField-checkedHover;
+				}
+			}
 		}
 		&:focus-visible,
 		&:focus-visible:hover {

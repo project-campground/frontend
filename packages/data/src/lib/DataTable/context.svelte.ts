@@ -20,11 +20,19 @@ export class DataTableContext<TItem extends Item<TId>, TId> {
 
 	public async fetch(page: number, search: string) {
 		this.state = DataTableState.Loading;
+		this.selected = [];
 
 		const items = await this.fetchItems()(this.fetchCount, page * this.fetchCount, search);
 
 		this.items = items;
 		this.state = DataTableState.Loaded;
+	}
+
+	public selectAll() {
+		this.selected = this.items.map((x) => x.id);
+	}
+	public deselectAll() {
+		this.selected = [];
 	}
 
 	public addSelected(id: TId) {

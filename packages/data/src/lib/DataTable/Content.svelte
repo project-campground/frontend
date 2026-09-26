@@ -17,11 +17,12 @@
 {#each dataTable.items as item (item.id)}
 	<Item id={item.id}>
 		{#if !unselectable}
+			{const checked = $derived(dataTable.selected.includes(item.id))}
 			<Cell
 				index={-1}
-				cardProps={{ columns: { from: 3, to: 4 }, rows: { from: 1, to: 2 } }}
+				cardProps={{ columns: 3, rows: 1 }}
 			>
-				<Checkbox size="sm" />
+				<Checkbox size="sm" {checked} onclick={() => checked ? dataTable.removeSelected(item.id) : dataTable.addSelected(item.id)} />
 			</Cell>
 		{/if}
 		{#each columns as column, index (index)}

@@ -20,10 +20,10 @@
 	import type { RootProps } from './props.ts';
 	import Table from './Table.svelte';
 	import { IconSearch } from '@tabler/icons-svelte';
-	import { Form, FormControl, FormTextField } from '@campground/form';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getLocale } from '@campground/locale';
 	import { Paginated } from '$lib/index.js';
+	import { DebouncedValue, TextInput } from '@campground/ui';
 
 	let {
 		fetch,
@@ -35,12 +35,13 @@
 
 	const dataTable = new DataTableContext<TItem, TId>(() => fetch);
 
-	let search = $state('');
 	let page = $state(0);
+
+	const search = new DebouncedValue<string>('', 500);
 
 	$effect(() => {
 		dataTable.fetchCount = maxItems;
-		dataTable.fetch(page, search);
+		dataTable.fetch(page, search.value);
 	});
 
 	const locale = getLocale();
@@ -49,23 +50,17 @@
 </script>
 
 <article class="container">
-	<Form>
-		<header class="header">
-			<FormControl
-				id="search"
-				bind:value={search}
-			>
-				<FormTextField
-					type="search"
-					placeholder={locale.formatMessage(localeMessages.search, { entries: entryType.accusative })}
-				>
-					{#snippet left()}
-						<IconSearch size="1.5rem" />
-					{/snippet}
-				</FormTextField>
-			</FormControl>
-		</header>
-	</Form>
+	<header class="header">
+		<TextInput
+			type="search"
+			placeholder={locale.formatMessage(localeMessages.search, { entries: entryType.accusative })}
+			oninput={(ev) => search.update(ev.currentTarget.value)}
+		>
+			{#snippet left()}
+				<IconSearch size="1.5rem" />
+			{/snippet}
+		</TextInput>
+	</header>
 	<Table
 		{fetch}
 		{entryType}

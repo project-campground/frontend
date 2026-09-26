@@ -59,7 +59,7 @@
 		type FormProps,
 	} from '@campground/form';
 	import { LocaleMessage, getLocale } from '@campground/locale';
-	import { Group, Section, TextBlock, Accordion, Alert, DebouncedValue, Para } from '@campground/ui';
+	import { Group, Section, TextBlock, Accordion, Alert, Para, Debounced } from '@campground/ui';
 	import { defaultPds } from '../../../lib/api/api.config.js';
 	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
 	import { getSession } from '$lib/api/session/Session.svelte';
@@ -78,14 +78,19 @@
 	const session = getSession();
 
 	let pdsValue: string = $state(defaultPds.url);
+	let describedServer: DescribedServer | Error = $state(new Error('Not done fetching the PDS'));
 
-	let describedServer = new DebouncedValue<DescribedServer | Error, string>(
-		new Error('Not done fetching the PDS'),
+	let describeDebouncer = new Debounced(
+		async () =>
+			(describedServer = await HTTPAtprotoClient.describeServer({ url: pdsValue }).catch(
+				(err) => err as Error,
+			)),
 		1000,
-		(pdsValue) => HTTPAtprotoClient.describeServer({ url: pdsValue }).catch((err) => err as Error),
 	);
 
-	$effect(() => describedServer.derived(pdsValue));
+	$effect(() => {
+		if (pdsValue) describeDebouncer.invoke();
+	});
 
 	const onSubmit: FormProps['onSubmit'] = async (fields: Record<string, string>) => {
 		const { pds, handle, ...details } = fields as {
@@ -95,7 +100,7 @@
 			confirmPassword: string;
 			pds: string;
 		};
-		const description = describedServer.value as DescribedServer;
+		const description = describedServer as DescribedServer;
 		const result = await HTTPAtprotoClient.register(
 			{ handle: handle + description.availableUserDomains[0], ...details },
 			{ url: pds },
@@ -108,7 +113,7 @@
 </script>
 
 <Form {onSubmit}>
-	{#if !(describedServer instanceof Error) && (describedServer.value as DescribedServer).inviteCodeRequired}
+	{#if !(describedServer instanceof Error) && describedServer.inviteCodeRequired}
 		<Section>
 			<FormControl
 				id="inviteCode"
@@ -143,9 +148,9 @@
 				}}
 			>
 				{#snippet right()}
-					{#if describedServer.value && !(describedServer.value instanceof Error)}
+					{#if describedServer && !(describedServer instanceof Error)}
 						<TextBlock level="body">
-							{(describedServer.value as DescribedServer)?.availableUserDomains[0]}
+							{describedServer?.availableUserDomains[0]}
 						</TextBlock>
 					{/if}
 				{/snippet}
@@ -229,14 +234,13 @@
 			</FormTextField>
 			<FormErrorLabel></FormErrorLabel>
 			<!-- Allow users to know if there was error fetching the PDS describe server or whatever -->
-			{#if describedServer.value instanceof XrpcError}
+			{#if describedServer instanceof XrpcError}
 				<Para color="danger">
-					{describedServer.value.code} [{describedServer.value.status}]: {describedServer.value
-						.description}
+					{describedServer.code} [{describedServer.status}]: {describedServer.description}
 				</Para>
-			{:else if describedServer.value instanceof Error}
+			{:else if describedServer instanceof Error}
 				<Para color="danger">
-					{describedServer.value}
+					{describedServer}
 				</Para>
 			{/if}
 			<Alert color="info">
@@ -253,7 +257,7 @@
 			directionMobile="column"
 		>
 			<FormSubmit
-				disabled={describedServer.value instanceof Error || !(describedServer.value as DescribedServer)}
+				disabled={describedServer instanceof Error || !(describedServer as DescribedServer)}
 			/>
 		</Group>
 		{#if error}

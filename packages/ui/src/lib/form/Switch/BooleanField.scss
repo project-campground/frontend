@@ -42,6 +42,14 @@ $input-sizes: create-size-map((1.25rem, 1.5rem, 1.75rem, 2.25rem, 2.75rem));
 	background-color: var(--success-regularBackHover);
 	--BooleanField-glow: var(--success-regularGlowHover);
 }
+%BooleanField-indeterminate {
+	background-color: var(--warning-regularBack);
+	--BooleanField-glow: var(--warning-regularGlow);
+}
+%BooleanField-indeterminateHover {
+	background-color: var(--warning-regularBackHover);
+	--BooleanField-glow: var(--warning-regularGlowHover);
+}
 %BooleanField-disabled {
 	background-color: var(--neutral-regularBackDisabled);
 	--BooleanField-glow: var(--neutral-regularGlowDisabled);

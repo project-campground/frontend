@@ -6,6 +6,7 @@ import type { HTMLAttributes } from 'svelte/elements';
 export type DialogSize = 'auto' | 'max' | 'full';
 
 export interface RootProps extends HTMLAttributes<HTMLElementTagNameMap['article']> {
+	variant?: 'default' | 'dark';
 	size?: DialogSize | null;
 	children?: Snippet;
 }

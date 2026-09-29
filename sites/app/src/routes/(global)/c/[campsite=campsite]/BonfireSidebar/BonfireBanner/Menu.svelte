@@ -42,7 +42,8 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
 	import { localeStrings } from '$lib/locale/index.js';
-	import { fade, fly, scale } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
+	import { CampsiteSettings, Settings } from '$lib/components/settings/index.js';
 
 	const menuPortal = getMenuPortal();
 
@@ -69,6 +70,9 @@
 		<BonfireCreation />
 	</Modal>
 {/snippet}
+{#snippet campsiteSettingsModal(instance: MenuPortalInstance)}
+	<CampsiteSettings {instance} />
+{/snippet}
 
 {#if open}
 	<div
@@ -84,7 +88,7 @@
 				</Menu.Button>
 			</Menu.Item>
 			<Menu.Item>
-				<Menu.Button>
+				<Menu.Button onclick={(ev) => menuPortal.add(campsiteSettingsModal, ev.currentTarget)}>
 					<IconSettingsFilled />
 					<LocaleMessage {...localeStrings.campsites.settings} />
 				</Menu.Button>

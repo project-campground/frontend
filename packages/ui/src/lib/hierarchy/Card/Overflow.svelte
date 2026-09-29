@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { rem } from '$lib/util/component.js';
-	import { cardLayoutItemProps } from './layout.ts';
+	import { stackedProps } from '../layout.ts';
 	import type { OverflowProps } from './props.ts';
 
-	const { children, mt, mb, pt, pb, pl, pr, flex, ...props }: OverflowProps = $props();
+	const { children, mt, mb, pt, pb, pl, pr, flex, gap, ...props }: OverflowProps = $props();
 </script>
 
 <div
@@ -14,7 +14,8 @@
 	style:--CardLayoutItem-paddingLeft={rem(pl)}
 	style:--CardLayoutItem-paddingRight={rem(pr)}
 	style:--Layout-flex={flex}
-	{...cardLayoutItemProps(props)}
+	data-gap={gap}
+	{...stackedProps(props)}
 >
 	{@render children()}
 </div>

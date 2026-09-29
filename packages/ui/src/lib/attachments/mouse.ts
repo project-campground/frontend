@@ -5,6 +5,7 @@ export const rightClickAction: <T extends HTMLElement>(
 ) => Attachment<T> = (onRightClick) => (element: HTMLElement) => {
 	element.addEventListener('contextmenu', (ev) => {
 		ev.preventDefault();
+		ev.stopPropagation();
 		return onRightClick(ev);
 	});
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
 	import { toLookup } from '$lib/util/array.js';
-	import { Divider } from '@campground/ui';
+	import { Divider, Menu, rightClickMenuProps, MenuPortalInstance, Modal, getMenuPortal, rightClickMenu } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentCategory from '../../CategoryList/Category.svelte';
 	import TentList from '../../TentList/Root.svelte';
@@ -10,6 +10,10 @@
 	import TentMover from '../../TentList/TentMover.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import PseudoTents from './PseudoTents.svelte';
+	import { TentCreation } from '../../Modals/TentCreation/index.ts';
+	import { localeStrings } from '$lib/locale/index.js';
+	import { IconPlus } from '@tabler/icons-svelte';
+	import { LocaleMessage } from '@campground/locale';
 
 	const campsiteContext = getCampsiteContext();
 	const bonfire = $derived(campsiteContext.openBonfire);
@@ -53,10 +57,31 @@
 	async function onDropCategoryToBottom(categoryId: string, position: number) {
 		return appview.categories.move(categoryId, { position } as { position: number });
 	}
+
+	const menuPortal = getMenuPortal();
 </script>
 
+{#snippet channelCreationModal(instance: MenuPortalInstance)}
+	<Modal {instance}>
+		<TentCreation />
+	</Modal>
+{/snippet}
+{#snippet emptyPlaceRightClick(instance: MenuPortalInstance<PointerEvent>)}
+	<Menu.Root {...rightClickMenuProps(instance)}>
+		<Menu.List>
+			<Menu.Item onclick={(ev) => menuPortal.add(channelCreationModal, ev.currentTarget)}>
+				<Menu.Button>
+					<IconPlus />
+					<LocaleMessage {...localeStrings.tents.create} />
+				</Menu.Button>
+			</Menu.Item>
+		</Menu.List>
+	</Menu.Root>
+{/snippet}
 {#if campsiteReference && bonfire}
-	<Wrapper>
+	<Wrapper
+		{@attach rightClickMenu(menuPortal, emptyPlaceRightClick)}
+	>
 		{#if isDefaultBonfire}
 			<PseudoTents />
 			<Divider />

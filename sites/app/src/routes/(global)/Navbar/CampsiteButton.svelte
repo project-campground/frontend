@@ -38,7 +38,7 @@
 			<Group gap={0.5}>
 				<IconUserFilled size="0.75rem" />
 				<LocaleMessage
-					{...localeStrings.campsites.members}
+					{...localeStrings.campsites.membersCount}
 					values={{ count: memberCount }}
 				/>
 			</Group>

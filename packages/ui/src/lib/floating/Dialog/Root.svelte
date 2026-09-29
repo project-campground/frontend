@@ -2,12 +2,13 @@
 	import { scale } from 'svelte/transition';
 	import type { RootProps } from './props.ts';
 
-	const { children, class: className, size, ...attributes }: RootProps = $props();
+	const { children, variant, class: className, size, ...attributes }: RootProps = $props();
 </script>
 
 <article
 	class={['dialog', className]}
 	data-size={size ?? 'auto'}
+	data-variant={variant ?? 'default'}
 	role="dialog"
 	{...attributes}
 	// Prevent outside click from being registered
@@ -27,11 +28,17 @@
 
 		box-sizing: border-box;
 
-		background-color: var(--background-subtle);
 		box-shadow: var(--shadow-md);
 		border-radius: var(--radius-lg);
-		border: solid 1px var(--neutral-border);
 		box-sizing: border-box;
+
+		&[data-variant='default'] {
+			background-color: var(--background-subtle);
+			border: solid 1px var(--neutral-border);
+		}
+		&[data-variant='dark'] {
+			background-color: var(--background-body);
+		}
 
 		padding: var(--Dialog-paddingY) var(--Dialog-paddingX);
 		gap: var(--Dialog-gap);

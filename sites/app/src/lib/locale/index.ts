@@ -3,6 +3,8 @@ import { appBonfireMessages } from './bonfire.ts';
 import { appCampsiteMessages } from './campsite.ts';
 import { appCommonMessages } from './common.js';
 import { appContentMessages } from './content.ts';
+import { appMemberBansMessages } from './memberBans.js';
+import { appMembersMessages } from './members.ts';
 import { appMessageMessages } from './message.ts';
 import { appPasswordMessages } from './password.ts';
 import { appSessionMessages } from './session.ts';
@@ -15,10 +17,12 @@ export const localeStrings = {
 	users: appUsersMessages,
 	appearance: appAppearanceMessages,
 	session: appSessionMessages,
-	// Content
 	content: appContentMessages,
+	// Campsites
 	campsites: appCampsiteMessages,
 	tents: appTentMessages,
+	members: appMembersMessages,
+	memberBans: appMemberBansMessages,
 	bonfires: appBonfireMessages,
 	messages: appMessageMessages,
 };

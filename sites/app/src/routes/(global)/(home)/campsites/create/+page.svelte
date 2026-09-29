@@ -95,7 +95,7 @@
 					<FormControl
 						id="name"
 						bind:value={name}
-						required
+						requiredmembersCount
 						flex={1}
 					>
 						<FormLabel>

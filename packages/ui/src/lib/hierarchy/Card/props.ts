@@ -21,8 +21,6 @@ export interface LayoutItemProps extends StackedProps, InFlexLayout {
 	mb?: Size;
 	mt?: Size;
 
-	h?: 'full';
-
 	gap?: ComponentSize;
 	class?: ClassValue;
 }

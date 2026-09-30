@@ -3,13 +3,15 @@
 	import { Settings } from '../index.ts';
 	import ProfilePage from './ProfilePage.svelte';
 	import { localeStrings } from '$lib/locale/index.js';
-	import { IconLayout2Filled, IconShieldFilled } from '@tabler/icons-svelte';
+	import { IconBadgeFilled, IconLayout2Filled, IconShieldFilled } from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
+	import RolesPage from './CampsiteSettingsRole/Page.svelte';
 
-	type SettingsPage = 'profile' | 'memberBans';
+	type SettingsPage = 'profile' | 'memberBans' | 'roles';
 	const pages: Record<SettingsPage, Settings.PageComponent> = {
 		profile: ProfilePage,
 		memberBans: ProfilePage,
+		roles: RolesPage,
 	};
 
 	const campsiteContext = getCampsiteContext();
@@ -41,6 +43,10 @@
 			<Settings.Button page="memberBans">
 				<IconShieldFilled size="1rem" />
 				<LocaleMessage {...localeStrings.memberBans.memberBans} />
+			</Settings.Button>
+			<Settings.Button page="roles">
+				<IconBadgeFilled size="1rem" />
+				<LocaleMessage {...localeStrings.roles.roles} />
 			</Settings.Button>
 		</Settings.Category>
 	{/snippet}

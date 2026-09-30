@@ -11,17 +11,18 @@ import type {
 	TentCategoryView,
 	TentViewBasic,
 } from '$lib/types/campground/tent.js';
+import { maxPermissions } from '$lib/util/constants.js';
 import {
 	aggregateAllPermissions,
 	invertContentPermission,
 	invertGeneralPermission,
-	maxPermissions,
 	type AggregatedPermissions,
 } from '$lib/util/permissions.js';
 import { createContext } from 'svelte';
 
 export class CampsiteReference {
 	public campsite: CampsiteViewDetailed;
+	public userIsOwner: boolean;
 
 	constructor(
 		public domain: string,
@@ -29,10 +30,12 @@ export class CampsiteReference {
 		public webSocket: WSClient,
 	) {
 		this.campsite = $state(campsite);
+		this.userIsOwner = $derived(this.campsite.me.user.did === this.campsite.owner);
 	}
 
-	public get userIsOwner() {
-		return this.campsite?.owner === this.campsite?.me.user.did;
+	public static sortCampsiteItems(campsite: CampsiteViewDetailed) {
+		campsite.roles.sort((a, b) => a.position - b.position);
+		campsite.bonfires.sort((a, b) => a.position - b.position);
 	}
 }
 
@@ -43,6 +46,7 @@ export class CampsiteContext {
 	public campsite = $derived(this.campsiteReference?.campsite);
 	public bonfires = $derived(this.campsite?.bonfires);
 	public roles = $derived(this.campsite?.roles);
+	public me = $derived(this.campsite?.me);
 	public userIsOwner = $derived(this.campsite?.owner === this.campsite?.me.user.did);
 
 	constructor(public setActiveBonfire: (id: string) => unknown) {}

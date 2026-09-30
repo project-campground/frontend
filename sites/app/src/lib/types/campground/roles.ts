@@ -1,5 +1,5 @@
-import type { GradientAnimation } from 'components/GradientTypography';
-import type { PermissionsDictionary } from './permissions';
+import type { GradientMotion } from '@campground/ui';
+import type { PermissionsDictionary } from './permissions.js';
 
 export interface RoleView {
 	id: string;
@@ -17,7 +17,7 @@ export interface RoleView {
 	updatedBy: string;
 	flags: number;
 }
-export type RoleMotion = GradientAnimation;
+export type RoleMotion = GradientMotion;
 export interface GetRolesOutput {
 	roles: RoleView[];
 }

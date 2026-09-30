@@ -33,7 +33,7 @@
 <style lang="scss">
 	.container {
 		display: grid;
-		grid-template-columns: 3fr 15fr;
+		grid-template-columns: 15rem 15rem 15fr;
 		grid-template-rows: 1fr;
 
 		width: 100%;

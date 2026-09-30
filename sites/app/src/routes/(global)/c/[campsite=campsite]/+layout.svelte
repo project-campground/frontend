@@ -13,7 +13,7 @@
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
 	import WSClient from '$lib/api/ws/WSClient.js';
 	import { filter, type Unsubscribable } from 'rxjs';
-	import { handleWebSocket } from './ws.ts';
+	import { handleWebSocket } from './ws/index.ts';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
@@ -42,6 +42,9 @@
 
 	async function fetchCampsite(domain: string, campsiteId: string) {
 		const campsite = await appview.campsites.get(campsiteId);
+		// Do one-time deal to not sort in every place ever
+		CampsiteReference.sortCampsiteItems(campsite);
+
 		const webSocket = new WSClient({
 			httpClient: session.atproto,
 			url: `${domain?.split(':')[0] === 'localhost' ? 'http' : 'https'}://${domain}/ws/v1`,
@@ -58,7 +61,7 @@
 		// Make sure there is nothing trying to find bonfire that does not exist
 		campsiteContext.openBonfire = null;
 		campsiteContext.campsiteReference = null;
-		fetchCampsite(domain, campsiteId);
+		fetchCampsite(domain, campsiteId).catch((e) => console.error(e));
 
 		return () => (webSocketUnsubscribe?.unsubscribe(), (webSocketUnsubscribe = null));
 	});

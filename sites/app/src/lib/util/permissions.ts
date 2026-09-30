@@ -1,8 +1,12 @@
-import type { CampsitePermissionView } from 'campground/permissions.js';
-import type { MemberViewBasic } from 'types/campground/membership.js';
-import type { RoleView } from 'campground/roles.js';
-import type { PermissionsDictionary, PermissionsStateDictionary } from 'campground/permissions.js';
-import { mapLookup, toLookup } from './array';
+import type { CampsitePermissionView } from '../types/campground/permissions.js';
+import type { MemberViewBasic } from '../types/campground/membership.js';
+import type { RoleView } from '../types/campground/roles.js';
+import type {
+	PermissionsDictionary,
+	PermissionsStateDictionary,
+} from '../types/campground/permissions.js';
+import { mapLookup, toLookup } from './array.js';
+import { ContentPermission, GeneralPermission } from './constants.ts';
 
 export const lowestPriority = 0x7fffffff as const;
 export const highestPriority = -0x80000000 as const;
@@ -90,36 +94,6 @@ export const aggregateAllPermissions = (
 
 	return { role: rolePerms, bonfire: bonfirePerms, categories: categoryPerms, tents: tentPerms };
 };
-export const invertContentPermission = (permission: number) =>
-	ContentPermissionConsts.MAX - permission;
-export const invertGeneralPermission = (permission: number) =>
-	ContentPermissionConsts.MAX - permission;
-export const ContentPermissionConsts = {
-	VIEW_CONTENT: 0b1,
-	CREATE_CONTENT: 0b10,
-	PIN_CONTENT: 0b100,
-	MANAGE_CONTENT: 0b1000,
-	MENTION_EVERYONE: 0b10000,
-	CREATE_PRIVATE_CONTENT: 0b100000,
-	MAX: 0b111111,
-} as const;
-export const GeneralPermissionConsts = {
-	MANAGE_CAMPSITE: 0b1,
-	MANAGE_BONFIRES: 0b10,
-	MANAGE_TENTS: 0b100,
-	MANAGE_ROLES: 0b1000,
-	GIVE_ROLES: 0b10000,
-	MUTE_MEMBERS: 0b100000,
-	KICK_MEMBERS: 0b1000000,
-	BAN_MEMBERS: 0b10000000,
-	MANAGE_SELF_IDENTITY: 0b100000000,
-	MANAGE_OTHERS_IDENTITY: 0b1000000000,
-	CREATE_INVITES: 0b10000000000,
-	MANAGE_INVITES: 0b100000000000,
-	MAX: 0b111111111111,
-} as const;
-export const maxPermissions: PermissionsDictionary = {
-	general: GeneralPermissionConsts.MAX,
-	content: ContentPermissionConsts.MAX,
-};
+export const invertContentPermission = (permission: number) => ContentPermission.Max - permission;
+export const invertGeneralPermission = (permission: number) => GeneralPermission.Max - permission;
 export const nullPermissions: PermissionsDictionary = { general: 0, content: 0 };

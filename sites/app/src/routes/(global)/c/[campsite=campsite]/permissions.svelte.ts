@@ -1,5 +1,5 @@
 import type { PermissionsDictionary } from '$lib/types/campground/permissions.js';
-import { maxPermissions } from '$lib/util/permissions.js';
+import { maxPermissions } from '$lib/util/constants.js';
 import { createContext } from 'svelte';
 
 export class PermissionsContext {

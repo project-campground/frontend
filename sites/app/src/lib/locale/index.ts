@@ -7,6 +7,7 @@ import { appMemberBansMessages } from './memberBans.js';
 import { appMembersMessages } from './members.ts';
 import { appMessageMessages } from './message.ts';
 import { appPasswordMessages } from './password.ts';
+import { appRolesMessages } from './roles.ts';
 import { appSessionMessages } from './session.ts';
 import { appTentMessages } from './tent.ts';
 import { appUsersMessages } from './user.ts';
@@ -22,6 +23,7 @@ export const localeStrings = {
 	campsites: appCampsiteMessages,
 	tents: appTentMessages,
 	members: appMembersMessages,
+	roles: appRolesMessages,
 	memberBans: appMemberBansMessages,
 	bonfires: appBonfireMessages,
 	messages: appMessageMessages,

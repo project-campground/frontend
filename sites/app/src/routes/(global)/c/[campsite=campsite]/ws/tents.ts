@@ -1,7 +1,6 @@
-import { filter } from 'rxjs';
-import type { CampsiteContext } from './context.svelte.ts';
-import type { WSMessageTypeToPayload } from '$lib/api/ws/types.js';
+import type { CampsiteContext } from '../context.svelte.ts';
 import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
+import type { WebSocketMessageHandlers } from './types.ts';
 
 function createBonfireItemEventHandler<
 	T extends { id: string; bonfireId: string; position: number },
@@ -30,30 +29,7 @@ function createBonfireItemEventHandler<
 	};
 }
 
-const wsMessageHandlers: Partial<{
-	[K in keyof WSMessageTypeToPayload]: (
-		payload: WSMessageTypeToPayload[K],
-		context: CampsiteContext,
-	) => unknown;
-}> = {
-	BonfireCreated(bonfire, context) {
-		context.bonfires?.push(bonfire);
-	},
-	BonfireUpdated(bonfire, context) {
-		const oldBonfire = context.bonfires?.find((x) => x.id === bonfire.id);
-
-		if (!oldBonfire) return;
-
-		Object.assign(oldBonfire, bonfire);
-	},
-	BonfireDeleted(bonfire, context) {
-		if (bonfire.id === context.openBonfire?.bonfireId)
-			context.setActiveBonfire(context.bonfires!.find((x) => x.id !== bonfire.id)!.id);
-
-		context.campsiteReference!.campsite.bonfires = context.bonfires!.filter(
-			(x) => x.id !== bonfire.id,
-		);
-	},
+export const tentMessageHandlers: Partial<WebSocketMessageHandlers> = {
 	CategoryMoved(payload, context) {
 		const [categoryIndex, existingCategory] = findItemInOutput(context, 'categories', payload.id);
 
@@ -117,14 +93,6 @@ function findItemInOutput<T extends { id: string; bonfireId: string }>(
 		updatedItemIndex < 0 ? null : context.openBonfire![propName][updatedItemIndex]!;
 
 	return [updatedItemIndex, updatedItem as unknown as T | null];
-}
-
-export function handleWebSocket(context: CampsiteContext) {
-	const subscription = context.webSocket?.messages
-		.pipe(filter((value) => value.op === 1))
-		.subscribe((value) => wsMessageHandlers[value.t]?.(value.payload as never, context));
-
-	return () => subscription?.unsubscribe();
 }
 
 /**

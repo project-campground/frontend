@@ -38,8 +38,8 @@
 	const campsiteContext = getCampsiteContext();
 
 	$effect(() => {
-		if (campsiteContext.campsiteReference && !campsiteContext.openBonfire)
-			campsiteContext.setActiveBonfire(campsiteContext.campsiteReference?.campsite.bonfires[0].id);
+		if (campsiteContext.bonfires && !campsiteContext.openBonfire)
+			campsiteContext.setActiveBonfire(campsiteContext.bonfires[0].id);
 	});
 
 	const appview = getAppview();
@@ -66,7 +66,7 @@
 	/>
 {/snippet}
 {#snippet roleDisplay(item: MemberViewTable)}
-	{const roles = $derived(campsiteContext.campsite?.roles.filter((role) => item.roles.includes(role.id)) ?? [])}
+	{const roles = $derived(campsiteContext.roles?.filter((role) => item.roles.includes(role.id)) ?? [])}
 
 	<Group gap={0.5}>
 		{#each roles.slice(0, 5) as role (role.id)}

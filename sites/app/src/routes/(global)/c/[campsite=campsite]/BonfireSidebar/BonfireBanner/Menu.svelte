@@ -38,12 +38,12 @@
 	} from '@tabler/icons-svelte';
 	import { type BonfireContext, type CampsiteReference } from '../../context.svelte.ts';
 	import BonfireItem from '../BonfireItem.svelte';
-	import { GeneralPermissionConsts } from '$lib/util/permissions.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
 	import { localeStrings } from '$lib/locale/index.js';
 	import { fade, fly } from 'svelte/transition';
-	import { CampsiteSettings, Settings } from '$lib/components/settings/index.js';
+	import { CampsiteSettings } from '$lib/components/settings/index.js';
+	import { GeneralPermission } from '$lib/util/constants.js';
 
 	const menuPortal = getMenuPortal();
 
@@ -115,7 +115,7 @@
 					onClick={() => onBonfireOpen(bonfire.id)}
 				/>
 			{/each}
-			{#if ((activeBonfire.rolePermissions.general ?? 0) & GeneralPermissionConsts.MANAGE_BONFIRES) === GeneralPermissionConsts.MANAGE_BONFIRES}
+			{#if ((activeBonfire.rolePermissions.general ?? 0) & GeneralPermission.ManageBonfires) === GeneralPermission.ManageBonfires}
 				<Menu.Item>
 					<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
 						<Group>

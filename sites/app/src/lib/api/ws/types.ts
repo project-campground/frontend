@@ -9,6 +9,7 @@ import type {
 	PermissionsStateDictionary,
 } from '../../types/campground/permissions.ts';
 import type { TentCategoryView, TentViewBasic } from '../../types/campground/tent.ts';
+import type { RoleView } from '$lib/types/campground/roles.js';
 
 export interface PermissionViewPayload {
 	roles: PermissionsDictionary;
@@ -31,6 +32,11 @@ export type WSMessageTypeToPayload = {
 
 	InviteCreated: CampsiteInviteViewBasic;
 	InviteDeleted: CampsiteInviteViewBasic;
+
+	RoleCreated: RoleView;
+	RoleUpdated: RoleView;
+	RoleDeleted: RoleView;
+	RolesMoved: { rolesByPosition: Record<string, number> };
 
 	BonfireCreated: BonfireViewBasic;
 	BonfireUpdated: BonfireViewBasic;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MarkdownFormatted from '$lib/components/markdown/MarkdownFormatted.svelte';
+	import MarkdownFormatted from '$lib/components/markdown/Markdown/Formatted.svelte';
 	import { Avatar, loremIpsum, Skeleton, TextBlock, Threaded } from '@campground/ui';
 	import Wrapper from './Wrapper.svelte';
 	import Container from './Container.svelte';

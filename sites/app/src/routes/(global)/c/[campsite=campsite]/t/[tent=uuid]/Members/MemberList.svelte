@@ -5,14 +5,16 @@
 		getMenuPortal,
 		Menu,
 		Section,
+		Stack,
 		type MenuPortalInstance,
 	} from '@campground/ui';
 	import { GradientText } from '@campground/ui';
-	import UserCardMenu from '$lib/components/users/UserCardMenu.svelte';
 	import type { MemberViewBasic } from '$lib/types/campground/membership.js';
 	import type { RoleView } from '$lib/types/campground/roles.js';
 	import { colorToDecimal } from '$lib/util/color.js';
 	import MemberItem from './MemberItem.svelte';
+	import { v4 as uuid } from 'uuid';
+	import { User } from '$lib/components/index.js';
 
 	const { members, roles }: { members: MemberViewBasic[]; roles: RoleView[] } = $props();
 
@@ -41,29 +43,25 @@
 			.filter((x) => x.members.length);
 	});
 
-	let cardMember: MemberViewBasic | null = $state(null);
 	const menuPortal = getMenuPortal();
 
 	function openMemberCard(
 		ev: MouseEvent & { currentTarget: HTMLButtonElement },
 		member: MemberViewBasic,
 	) {
-		cardMember = member;
-		menuPortal.add(cardMenu, ev.currentTarget);
+		menuPortal.add(cardMenu, ev.currentTarget, uuid(), member);
 	}
 </script>
 
-{#snippet cardMenu(instance: MenuPortalInstance)}
-	{#if cardMember}
-		<Menu.Root
-			{instance}
-			placement="bottom-end"
-			offset={8}
-			w={20}
-		>
-			<UserCardMenu user={cardMember.user} />
-		</Menu.Root>
-	{/if}
+{#snippet cardMenu(instance: MenuPortalInstance<MemberViewBasic>)}
+	<Menu.Root
+		{instance}
+		placement="bottom-end"
+		offset={8}
+		w={20}
+	>
+		<User.CardMenu user={instance.payload!.user} />
+	</Menu.Root>
 {/snippet}
 
 {#each groupRoles as { role, members: roleMembers } (role.id)}
@@ -72,13 +70,15 @@
 		headerLevel={4}
 	>
 		{#snippet header()}
-			<Group gap={8}>
-				<GradientText
-					colors={colorToDecimal(role.colors)}
-					motion={role.motion}
-				>
-					{role.name}
-				</GradientText>
+			<Group>
+				<Stack flex={1}>
+					<GradientText
+						colors={colorToDecimal(role.colors)}
+						motion={role.motion}
+					>
+						{role.name}
+					</GradientText>
+				</Stack>
 				<Chip size="sm">{roleMembers.length}</Chip>
 			</Group>
 		{/snippet}

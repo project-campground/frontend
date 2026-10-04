@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import type { FormattedProps } from './props.ts';
 
-	const { children }: { children?: Snippet } = $props();
+	const { children }: FormattedProps = $props();
 </script>
 
 <div class="container">
@@ -9,7 +9,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../css/markdown.scss' as *;
+	@use '../../../css/markdown.scss' as *;
 
 	.container {
 		text-wrap: wrap;

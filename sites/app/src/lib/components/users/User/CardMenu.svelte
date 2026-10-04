@@ -58,6 +58,7 @@
 			did={user.did}
 			avatar={user.avatar}
 			banner={user.banner}
+			status={user.status}
 		/>
 		<div class="content">
 			<div class="username">

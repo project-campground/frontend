@@ -42,33 +42,23 @@
 			<Card.Root
 				level="subtle"
 				size="xl"
+				padding="md"
 			>
-				<Card.Overflow
-					flex={1}
-					pl={1}
-					pr={1}
-					pb={1}
-					pt={1}
-				>
+				<Card.Content flex={1}>
 					<Para level="h3">
 						<LocaleMessage {...localeStrings.content.topic} />
 					</Para>
 					<Markdown.Render value={tent.description} />
-				</Card.Overflow>
+				</Card.Content>
 			</Card.Root>
 		{/if}
 		<Card.Root
 			level="subtle"
 			size="xl"
+			padding="sm"
 			flex={1}
 		>
-			<Card.Overflow
-				flex={1}
-				pl={0.5}
-				pr={0.5}
-				pt={0.5}
-				pb={0.5}
-			>
+			<Card.Content flex={1}>
 				<Tabs.Root>
 					{#snippet tabs()}
 						<Tabs.Item>
@@ -80,7 +70,11 @@
 							<LocaleMessage {...messages.threads} />
 						</Tabs.Item>
 					{/snippet}
-					<Tabs.AsyncTab alwaysRenderOnceSeen>
+					<Tabs.AsyncTab
+						alwaysRenderOnceSeen
+						padding="md"
+						noInlinePadding
+					>
 						{#snippet skeleton()}
 							{#each Array(6).keys() as i (i)}
 								<User.DisplaySkeleton size="sm" />
@@ -97,7 +91,7 @@
 						<MemberSidebarThreads />
 					</Tabs.AsyncTab>
 				</Tabs.Root>
-			</Card.Overflow>
+			</Card.Content>
 		</Card.Root>
 	</Stack>
 {/if}

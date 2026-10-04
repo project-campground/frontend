@@ -1,5 +1,5 @@
 import type { Snippet } from 'svelte';
-import type { ComponentSize } from '../../types/attributes.ts';
+import type { ComponentSize, ComponentSizeWithNone } from '../../types/attributes.ts';
 import type { ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
 import type { Size } from '$lib/util/component.js';
 import type { InFlexLayout, InGridLayout, StackedProps } from '../layout.ts';
@@ -9,6 +9,7 @@ export interface RootProps extends StackedProps, InGridLayout, InFlexLayout {
 	class?: ClassValue;
 	size?: ComponentSize | 'xxl';
 	gap?: Size;
+	padding?: ComponentSizeWithNone;
 	children: Snippet;
 	overflow?: 'auto' | 'visible' | 'hidden';
 }

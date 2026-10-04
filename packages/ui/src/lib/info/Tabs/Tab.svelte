@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { TabProps } from './props.ts';
 
-	const { children, padding }: TabProps = $props();
+	let { children, padding, noInlinePadding, element = $bindable() }: TabProps = $props();
 </script>
 
 <div
+	bind:this={element}
 	role="tabpanel"
+	data-no-inline-padding={noInlinePadding}
 	data-padding={padding ?? 'none'}
 >
 	{@render children?.()}
@@ -25,6 +27,10 @@
 		grid-row-end: 2;
 		overflow: auto;
 		scroll-snap-align: start;
+
+		&[data-padding][data-no-inline-padding='true'] {
+			padding-inline: 0;
+		}
 
 		@each $size, $value in $padding {
 			&[data-padding='#{$size}'] {

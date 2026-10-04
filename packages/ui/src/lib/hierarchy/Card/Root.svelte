@@ -3,14 +3,25 @@
 	import { stackedProps } from '../layout.ts';
 	import type { RootProps } from './props.ts';
 
-	const { size, level, overflow, children, flex, gap, gridColumn, gridRow, ...props }: RootProps =
-		$props();
+	const {
+		size,
+		padding,
+		level,
+		overflow,
+		children,
+		flex,
+		gap,
+		gridColumn,
+		gridRow,
+		...props
+	}: RootProps = $props();
 </script>
 
 <section
 	data-level={level}
 	data-overflow={overflow}
 	data-size={size ?? 'md'}
+	data-padding={padding ?? size ?? 'md'}
 	style:--Card-gap={rem(gap)}
 	style:--Layout-flex={notInherited(flex)}
 	style:--Layout-gridColumn={notInherited(gridColumn)}
@@ -47,10 +58,12 @@
 		}
 		@each $size, $values in $card-padding {
 			&[data-size='#{$size}'] {
+				--Card-radius: var(--radius-#{$size});
+			}
+			&[data-padding='#{$size}'] {
 				padding: $values;
 				--Card-paddingY: #{list.nth($values, 1)};
 				--Card-paddingX: #{list.nth($values, 2)};
-				--Card-radius: var(--radius-#{$size});
 			}
 		}
 	}

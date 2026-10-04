@@ -5,12 +5,12 @@
 	const messages = defineMessages({
 		title: {
 			id: 'app.tents.end',
-			defaultMessage: 'You have reached tent!',
+			defaultMessage: 'You have reached the end!',
 			description: 'The title of the final section when user is at the end of message list',
 		},
 		desc: {
 			id: 'app.tents.end.desc',
-			defaultMessage: 'This is the beginning of this tent. There are no more content in this tent.',
+			defaultMessage: 'This is the beginning of this tent. There are no more content for you to view!',
 			description: 'The description of the final section when user is at the end of message list',
 		},
 	});

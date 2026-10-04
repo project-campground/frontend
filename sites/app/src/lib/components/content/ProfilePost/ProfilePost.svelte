@@ -20,7 +20,7 @@
 	import { Card, Group, Link, Menu, type ComponentSize } from '@campground/ui';
 	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
 	import { IconMessage2Filled, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
-	import Markdown from '../../markdown/Markdown/Root.svelte';
+	import Markdown from '../../markdown/Markdown/Render.svelte';
 	import { ContentOverflow } from '../ContentOverflow/index.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { LocaleMessage } from '@campground/locale';

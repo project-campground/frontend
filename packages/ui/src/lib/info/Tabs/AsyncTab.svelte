@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { getPickContext } from '$lib/form/Pick/context.svelte.js';
 	import type { AsyncTabProps } from './props.ts';
+	import Tab from './Tab.svelte';
 
-	const { children, skeleton, alwaysRenderOnceSeen }: AsyncTabProps = $props();
+	const { children, skeleton, alwaysRenderOnceSeen, ...props }: AsyncTabProps = $props();
 
-	let tab: HTMLDivElement | null = $state(null);
+	let tab: HTMLDivElement | undefined = $state(undefined);
 	let toRender = $state(false);
 
 	const tabContext = getPickContext();
@@ -20,9 +21,9 @@
 	});
 </script>
 
-<div
-	role="tabpanel"
-	bind:this={tab}
+<Tab
+	bind:element={tab}
+	{...props}
 >
 	<!-- Still render skeleton while loading -->
 	{#if toRender}
@@ -35,14 +36,4 @@
 	{:else}
 		{@render skeleton()}
 	{/if}
-</div>
-
-<style lang="scss">
-	div {
-		width: 100%;
-		height: 100%;
-		overflow: auto;
-		scroll-snap-align: start;
-		flex-basis: 100%;
-	}
-</style>
+</Tab>

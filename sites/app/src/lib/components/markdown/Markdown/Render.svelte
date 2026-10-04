@@ -5,14 +5,11 @@
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
 	import { unified } from 'unified';
-	import MarkdownFormatted from '../MarkdownFormatted.svelte';
+	import MarkdownFormatted from './Formatted.svelte';
 	import Node from './Node.svelte';
+	import type { RenderProps } from './props.ts';
 
-	interface Props {
-		value: string;
-	}
-
-	const { value }: Props = $props();
+	const { value }: RenderProps = $props();
 
 	const mdAst = $derived(unified().use(remarkParse).parse(value));
 	const htmlFromMarkdown = $derived(

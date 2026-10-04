@@ -15,6 +15,7 @@
 </script>
 
 <button
+	type="button"
 	class={[{ fullWidth }, className]}
 	data-size={size ?? 'md'}
 	data-variant={variant ?? 'glow'}

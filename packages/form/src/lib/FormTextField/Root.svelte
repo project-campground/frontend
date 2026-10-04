@@ -2,15 +2,13 @@
 	import { getLocale } from '@campground/locale';
 	import { getMenuPortal, Menu, MenuPortalInstance, Select, TextInput } from '@campground/ui';
 	import type FormTextFieldProps from './props.ts';
-	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { checkStringFormat, textFieldErrors } from './validation.ts';
 
 	const { format, maxrows, minlength, known, ...props }: FormTextFieldProps = $props();
 
 	// Functionality
-	const control: FormControlInstance<string | undefined> = getFormControl() as FormControlInstance<
-		string | undefined
-	>;
+	const control = getFormControl<string | undefined>();
 
 	// Error messages and feedback
 	const intl = getLocale();

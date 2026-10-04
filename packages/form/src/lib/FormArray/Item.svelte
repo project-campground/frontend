@@ -5,17 +5,19 @@
 	import { FormControl } from '$lib/FormControl/index.js';
 	import { Button, Card } from '@campground/ui';
 	import { IconX } from '@tabler/icons-svelte';
-	import type { FormArrayItemProps } from './props.ts';
+	import type { ItemProps } from './props.ts';
+	import { getFormArray } from './context.svelte.ts';
 
-	const { id, value, children, size, level }: FormArrayItemProps<T> = $props();
+	const formArray = getFormArray();
+
+	const { id, value, children }: ItemProps<T> = $props();
 </script>
 
 <li>
 	<Card.Root
 		direction="row"
-		{size}
-		{level}
-		align="center"
+		align="start"
+		justify="start"
 		gap={1}
 	>
 		<Card.Content flex={1}>
@@ -29,13 +31,13 @@
 		</Card.Content>
 		<Card.Content>
 			<Button
-				variant="plain"
-				color="neutral"
+				variant="soft"
+				color="danger"
 				padding="equal"
-				size="sm"
-				type="button"
+				size="md"
+				onclick={() => formArray.removeItem(id)}
 			>
-				<IconX size="1.5rem" />
+				<IconX size="1rem" />
 			</Button>
 		</Card.Content>
 	</Card.Root>

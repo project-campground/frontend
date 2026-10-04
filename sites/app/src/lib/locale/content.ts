@@ -7,6 +7,9 @@ export const appContentMessages = defineMessages({
 	topic: { id: 'app.content.topic', defaultMessage: 'Topic' },
 	profile: { id: 'app.content.profile', defaultMessage: 'Profile' },
 
+	appearance: { id: 'app.content.appearance', defaultMessage: 'Appearance' },
+	settings: { id: 'app.content.settings', defaultMessage: 'Settings' },
+
 	create: { id: 'app.content.create', defaultMessage: 'Create', description: 'Create content' },
 	edit: { id: 'app.content.edit', defaultMessage: 'Edit', description: 'Edit content' },
 	amountMore: {

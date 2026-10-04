@@ -2,14 +2,13 @@
 	lang="ts"
 	generics="T"
 >
-	import type FormArrayProps from './props.ts';
 	import { FormControlInstance, setFormControl } from '$lib/FormControl/context.svelte.js';
 	import { FormInstance, getForm, setForm } from '$lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
 	import { addControlToForm } from '$lib/FormControl/state.js';
-	import Item from './Item.svelte';
-	import { Button } from '@campground/ui';
-	import { IconPlus } from '@tabler/icons-svelte';
+	import { FormArrayContext, setFormArray } from './context.svelte.ts';
+	import type { RootProps } from './props.ts';
+	import { writable } from 'svelte/store';
 
 	let {
 		children,
@@ -22,13 +21,11 @@
 		value = $bindable([]),
 		defaultValue,
 		defaultItemValue,
-		// Item
-		size,
-		level,
+		max,
 		// Attributes
 		class: className,
 		...attributes
-	}: FormArrayProps<T> = $props();
+	}: RootProps<T> = $props();
 
 	const formContext = getForm();
 	const key = $props.id();
@@ -51,19 +48,25 @@
 	// Make sure form is aware of this object, since there is no control to do that
 	onMount(() => addControlToForm(formContext, formControl));
 
-	function addItem() {
-		itemIds.push(Date.now());
-	}
-
 	// For keys to not change around
-	let itemIds: number[] = $state([]);
+	const maxReadable = writable<number | null | undefined>();
 
 	$effect(() => {
-		itemIds = defaultValue?.map((_, i) => Date.now() + i) ?? [];
+		$maxReadable = max;
+	});
+
+	const formArray = new FormArrayContext(
+		() => formControl.value,
+		(newValue) => (formControl.value = newValue as T[]),
+		maxReadable,
+	);
+
+	$effect(() => {
+		formArray.itemIds = defaultValue?.map((_, i) => Date.now() + i) ?? [];
 	});
 
 	$effect(() => {
-		const sortedControlValues = itemIds.map(
+		const sortedControlValues = formArray.itemIds.map(
 			(id) => form.controls.find((control) => control.id === id)?.value ?? defaultItemValue,
 		);
 
@@ -76,33 +79,16 @@
 	$effect(() => {
 		value = formControl.value;
 	});
+	setFormArray(formArray);
 </script>
 
 <form
 	class={['container', className]}
 	{...attributes}
+	autocomplete="off"
 	data-gap={gap}
 >
-	<ul class="list">
-		{#each itemIds as id, i (id)}
-			<Item
-				{id}
-				value={formControl.value[i]}
-				{level}
-				{size}
-			>
-				{@render children()}
-			</Item>
-		{/each}
-	</ul>
-	<Button
-		variant="soft"
-		color="neutral"
-		type="button"
-		onclick={addItem}
-	>
-		<IconPlus />
-	</Button>
+	{@render children()}
 </form>
 
 <style lang="scss">
@@ -113,6 +99,7 @@
 	.container {
 		display: flex;
 		flex-direction: column;
+		align-items: stretch;
 		gap: 1rem;
 		height: 100%;
 		@each $size, $value in $gaps {
@@ -120,15 +107,5 @@
 				gap: $value;
 			}
 		}
-	}
-	.list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		align-items: stretch;
-
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
 	}
 </style>

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { rem } from '$lib/util/component.js';
+	import { rem, notInherited } from '$lib/util/component.js';
 	import { stackedProps } from '../layout.ts';
 	import type { ContentProps } from './props.ts';
 
-	const { children, pt, pl, pr, pb, mt, mb, gap, flex, ...props }: ContentProps = $props();
+	const { children, pt, pl, pr, pb, mt, mb, gap, flex, overflow, ...props }: ContentProps = $props();
 </script>
 
 <div
@@ -13,8 +13,9 @@
 	style:--CardLayoutItem-paddingBottom={rem(pb)}
 	style:--CardLayoutItem-paddingLeft={rem(pl)}
 	style:--CardLayoutItem-paddingRight={rem(pr)}
-	style:--Layout-flex={flex}
+	style:--Layout-flex={notInherited(flex)}
 	data-gap={gap}
+	data-overflow={overflow}
 	{...stackedProps(props)}
 >
 	{@render children()}

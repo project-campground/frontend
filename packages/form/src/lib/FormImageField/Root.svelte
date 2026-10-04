@@ -8,7 +8,7 @@
 	const { children, width, height, aspectRatio, radius }: FormImageFieldProps = $props();
 
 	// Functionality
-	const control = getFormControl() as FormControlInstance<FormImageFieldValue | undefined>;
+	const control = getFormControl<FormImageFieldValue | undefined>();
 
 	// Error messages and feedback
 	const menuPortal = getMenuPortal();

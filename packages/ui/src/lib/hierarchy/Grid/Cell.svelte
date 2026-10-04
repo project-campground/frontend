@@ -6,8 +6,8 @@
 
 <div
 	role="gridcell"
-	data-start={start}
-	data-end={end}
+	style:--GridCell-start={start}
+	style:--GridCell-end={end}
 	aria-colindex={start}
 	aria-colspan={end && start ? end - start : null}
 	{...attributes}
@@ -18,16 +18,9 @@
 <style lang="scss">
 	@use '../../common.scss' as *;
 	@use 'sass:list';
-	@use './Grid.scss' as *;
 
 	div {
-		@for $i from $min-columns through $max-columns {
-			&[data-start='#{i}'] {
-				grid-column-start: #{$i};
-			}
-			&[data-end='#{i}'] {
-				grid-column-end: #{$i};
-			}
-		}
+		grid-column-start: var(--GridCell-start);
+		grid-column-end: var(--GridCell-end);
 	}
 </style>

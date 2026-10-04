@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { TextBlock } from '@campground/ui';
 	import type { Snippet } from 'svelte';
-	import { Datestamp } from '../Datestamp/index.ts';
+	import { Datestamp } from '../../Datestamp/index.ts';
 
 	const { createdAt, children }: { createdAt: string; children: Snippet } = $props();
 </script>

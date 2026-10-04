@@ -1,32 +1,25 @@
 <script lang="ts">
-	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
 	import { getMenuPortal, Menu, MenuPortalInstance, rightClickMenu, Threaded } from '@campground/ui';
-	import { ContentDisplay, MessageState } from '../index.ts';
-	import Default from './Default.svelte';
-	import System from './System.svelte';
+	import { ContentDisplay } from '../index.ts';
+	import Default from './ChatMessageType/Default.svelte';
+	import System from './ChatMessageType/System.svelte';
 	import type { Snippet } from 'svelte';
 	import { getTextTent } from './context.svelte.ts';
 	import MessageEditor from '$lib/components/editor/MessageEditor/Root.svelte';
 	import { getAppview } from '$lib/context/api.js';
-	import ContextMenu from './ContextMenu.svelte';
-	import Toolbar from './Toolbar.svelte';
+	import ContextMenu from './ChatMessageMenu/RightClick.svelte';
+	import Toolbar from './ChatMessageMenu/Toolbar.svelte';
 	import Reply from './Reply.svelte';
-	import Continued from './Continued.svelte';
+	import Continued from './ChatMessageType/Continued.svelte';
 	import { fade } from 'svelte/transition';
+	import Container from './Container.svelte';
+	import Wrapper from './Wrapper.svelte';
+	import type { RootProps } from './props.ts';
+	import { MessageState } from './types.ts';
 
 	const menuPortal = getMenuPortal();
 
-	const {
-		message,
-		state: loadState,
-		error,
-		continuousMessage,
-	}: {
-		message: MessageViewWithReplies;
-		state?: MessageState;
-		error?: Error;
-		continuousMessage?: boolean;
-	} = $props();
+	const { message, state: loadState, error, continuousMessage }: RootProps = $props();
 
 	const appview = getAppview();
 
@@ -103,18 +96,14 @@
 	{/if}
 {/snippet}
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-	class={['container']}
+<Container
 	data-message-id={message.id}
 	data-tent-id={message.tentId}
 	data-campsite-id={message.campsiteId}
 	data-bonfire-id={message.bonfireId}
-	data-load-state={Object.entries(MessageState)
-		.find((x) => x[1] === loadState)?.[0]
-		.toLowerCase() ?? 'loaded'}
-	data-state={beingRepliedTo ? 'replying' : 'default'}
-	data-continuous-message={continuousMessage}
+	state={loadState}
+	{beingRepliedTo}
+	{continuousMessage}
 	// Events
 	onmouseenter={() => (hover = true)}
 	onmouseleave={() => (hover = false)}
@@ -140,7 +129,7 @@
 	{/if}
 	<Threaded.Root direction="to-top">
 		{#snippet parent()}
-			<div class="wrapper">
+			<Wrapper state={loadState}>
 				{#if message.type === 'system'}
 					<System createdAt={message.createdAt}>
 						{@render content()}
@@ -165,7 +154,7 @@
 						{@render content()}
 					</Continued>
 				{/if}
-			</div>
+			</Wrapper>
 		{/snippet}
 		{#each message.replyingTo as reply (reply.id)}
 			<Threaded.Item>
@@ -173,63 +162,16 @@
 			</Threaded.Item>
 		{/each}
 	</Threaded.Root>
-</div>
+</Container>
 
 <style lang="scss">
 	@use '@campground/ui' as *;
 
-	.container {
-		position: relative;
-
-		display: flex;
-		flex-direction: column;
-
-		transition: background $transition-time-md;
-		&:hover {
-			background-color: var(--background-content);
-		}
-		&[data-load-state='creating'],
-		&[data-load-state='failed'] {
-			.wrapper {
-				opacity: 0.5;
-			}
-		}
-		&[data-state='replying'] {
-			background-color: var(--primary-softBack);
-			&:hover {
-				background-color: var(--primary-softBackHover);
-			}
-			&::before {
-				background: linear-gradient(to bottom, var(--primary-glowFirst), var(--primary-glowSecond));
-			}
-		}
-		&::before {
-			position: absolute;
-			content: '';
-			top: 0.5rem;
-			left: 0.5rem;
-			bottom: 0.5rem;
-
-			width: 0.25rem;
-			border-radius: var(--radius-sm);
-		}
-		border-radius: var(--radius-md);
-
-		&:not([data-continuous-message='true']) {
-			margin-top: 1rem;
-		}
-	}
 	.toolbar {
 		position: absolute;
 		top: -1rem;
 		right: 1rem;
 		z-index: 10;
 		transition: opacity $transition-time-md;
-	}
-	.wrapper {
-		display: grid;
-		grid-template-columns: 3rem 1fr;
-		gap: 0.5rem;
-		padding: 0.25rem 1.5rem;
 	}
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Menu } from '@campground/ui';
-	import type { MessageMenuProps } from './props.ts';
+	import type { MessageMenuProps } from '../props.js';
 	import { IconArrowBackUp, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '$lib/locale/index.js';

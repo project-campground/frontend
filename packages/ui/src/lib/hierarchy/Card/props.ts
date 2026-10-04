@@ -10,7 +10,7 @@ export interface RootProps extends StackedProps, InGridLayout, InFlexLayout {
 	size?: ComponentSize | 'xxl';
 	gap?: Size;
 	children: Snippet;
-	overflow?: 'auto' | 'visible';
+	overflow?: 'auto' | 'visible' | 'hidden';
 }
 export interface LayoutItemProps extends StackedProps, InFlexLayout {
 	pt?: Size;
@@ -23,13 +23,12 @@ export interface LayoutItemProps extends StackedProps, InFlexLayout {
 
 	gap?: ComponentSize;
 	class?: ClassValue;
-}
-export interface ContentProps extends LayoutItemProps {
+
+	overflow?: 'auto' | 'visible' | 'hidden';
 	children: Snippet;
 }
-export interface OverflowProps extends LayoutItemProps {
-	children: Snippet;
-}
+export type ContentProps = LayoutItemProps;
+export type OverflowProps = LayoutItemProps;
 export interface ClickProps extends HTMLAnchorAttributes {
 	class?: ClassValue;
 }

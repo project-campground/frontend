@@ -4,9 +4,9 @@ export * from './FormControl/index.ts';
 export * from './FormErrorLabel/index.ts';
 export * from './FormLabel/index.ts';
 
-export * from './FormArray/index.ts';
+export * as FormArray from './FormArray/index.ts';
 export * as FormCheck from './FormCheck/index.ts';
-export * from './FormColor/index.ts';
+export * as FormColor from './FormColor/index.ts';
 export * from './FormImageField/index.ts';
 export * from './FormNumberField/index.ts';
 export * from './FormObject/index.ts';

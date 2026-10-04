@@ -6,6 +6,7 @@
 	import Dialog from './Dialog.svelte';
 	import type { RootProps } from './props.ts';
 	import { setSettings, SettingsContext } from './context.svelte.ts';
+	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
 
 	const { defaultPage, pages, instance, ...attributes }: RootProps<TPage> = $props();
 
@@ -17,6 +18,11 @@
 
 <Modal {instance}>
 	<Dialog {...attributes}>
-		<PageComponent />
+		<svelte:boundary>
+			{#snippet failed(error)}
+				<ErrorPlaceholder {error} />
+			{/snippet}
+			<PageComponent />
+		</svelte:boundary>
 	</Dialog>
 </Modal>

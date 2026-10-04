@@ -1,15 +1,17 @@
 <script lang="ts">
 	import MarkdownFormatted from '$lib/components/markdown/MarkdownFormatted.svelte';
 	import { Avatar, loremIpsum, Skeleton, TextBlock, Threaded } from '@campground/ui';
+	import Wrapper from './Wrapper.svelte';
+	import Container from './Container.svelte';
 
 	const { index }: { index?: number } = $props();
 	const indexWithFallback = $derived(index ?? 0);
 </script>
 
-<div class="container">
+<Container>
 	<Threaded.Root direction="to-top">
 		{#snippet parent()}
-			<div class="wrapper">
+			<Wrapper>
 				<div class="avatar">
 					<Skeleton radius="avatar">
 						<Avatar size="sm" />
@@ -38,19 +40,14 @@
 						</MarkdownFormatted>
 					</div>
 				</div>
-			</div>
+			</Wrapper>
 		{/snippet}
 	</Threaded.Root>
-</div>
+</Container>
 
 <style lang="scss">
 	@use '@campground/ui' as *;
 
-	.container {
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 1rem;
-	}
 	.message {
 		display: flex;
 		flex-direction: column;
@@ -62,11 +59,5 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 1ch;
-	}
-	.wrapper {
-		display: grid;
-		grid-template-columns: 3rem 1fr;
-		gap: 0.5rem;
-		padding: 0.25rem 1.5rem;
 	}
 </style>

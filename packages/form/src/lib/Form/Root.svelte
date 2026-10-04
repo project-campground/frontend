@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type FormProps from './props.ts';
 	import { FormInstance, setForm } from './context.svelte.ts';
+	import { notInherited } from '@campground/ui';
 
 	let {
 		children,
@@ -12,6 +13,8 @@
 		autocomplete,
 		h,
 		flex,
+		gridColumn,
+		gridRow,
 		...attributes
 	}: FormProps = $props();
 
@@ -31,11 +34,14 @@
 	class={[{ hideOverflow, inlineContent }, className]}
 	data-gap={gap}
 	data-height={h ?? 'default'}
-	style:--Form-flex={flex}
+	style:--Layout-flex={notInherited(flex)}
+	style:--Layout-gridColumn={notInherited(gridColumn)}
+	style:--Layout-gridRow={notInherited(gridRow)}
 >
 	<svelte:boundary>
 		{#snippet failed(err)}
 			ERR: {err}
+			{console.error(err)}
 		{/snippet}
 		{@render children?.()}
 	</svelte:boundary>
@@ -50,7 +56,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		flex: var(--Form-flex);
+		@extend %InLayout;
 		&[data-height='full'] {
 			height: 100%;
 		}

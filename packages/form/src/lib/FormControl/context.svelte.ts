@@ -1,7 +1,8 @@
 import type { FormFieldId } from '$lib/Form/props.js';
-import { createContext } from 'svelte';
+import { getContext, setContext } from 'svelte';
 
 export class FormControlInstance<T> {
+	public static contextKey = {};
 	public error: string | null = $state(null);
 	public value: T;
 
@@ -30,9 +31,17 @@ export class FormControlInstance<T> {
 	public get valid() {
 		return this.error === null || this.disabled;
 	}
+	public get changed() {
+		return this.value !== this.defaultValue;
+	}
 
 	public reset() {
 		return (this.value = this.defaultValue);
 	}
 }
-export const [getFormControl, setFormControl] = createContext<FormControlInstance<unknown>>();
+export function setFormControl<T = unknown>(value: FormControlInstance<T>) {
+	return setContext<FormControlInstance<T>>(FormControlInstance.contextKey, value);
+}
+export function getFormControl<T = unknown>() {
+	return getContext<FormControlInstance<T>>(FormControlInstance.contextKey);
+}

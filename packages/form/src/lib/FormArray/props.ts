@@ -3,11 +3,10 @@ import type { Card, ComponentSize } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';
 
-export default interface FormArrayProps<T>
+export interface RootProps<T>
 	extends
 		Omit<HTMLFormAttributes, 'id'>,
-		Pick<FormControlProps<T[]>, 'id' | 'required' | 'disabled' | 'defaultValue'>,
-		Pick<Card.RootProps, 'level' | 'size'> {
+		Pick<FormControlProps<T[]>, 'id' | 'required' | 'disabled' | 'defaultValue'> {
 	class?: ClassValue;
 	gap?: ComponentSize;
 
@@ -18,7 +17,10 @@ export default interface FormArrayProps<T>
 
 	children: Snippet;
 }
-export interface FormArrayItemProps<T> extends Pick<Card.RootProps, 'level' | 'size'> {
+export interface ListProps {
+	children: Snippet;
+}
+export interface ItemProps<T> extends Pick<Card.RootProps, 'level' | 'size'> {
 	id: number;
 
 	value: T;

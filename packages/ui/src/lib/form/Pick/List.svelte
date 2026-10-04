@@ -14,6 +14,7 @@
 	data-item-count={pickContext.itemCount}
 >
 	<form
+		autocomplete="off"
 		class="root"
 		bind:this={pickContext.itemsForm}
 	>

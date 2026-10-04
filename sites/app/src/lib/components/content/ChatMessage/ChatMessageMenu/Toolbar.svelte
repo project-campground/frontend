@@ -6,7 +6,7 @@
 		IconPencilFilled,
 		IconTrashFilled,
 	} from '@tabler/icons-svelte';
-	import type { MessageMenuProps } from './props.ts';
+	import type { MessageMenuProps } from '../props.ts';
 
 	const activeKeys = getActiveKeys();
 	const showExtraKeys = $derived((activeKeys.keys & ActiveKey.Shift) === ActiveKey.Shift);

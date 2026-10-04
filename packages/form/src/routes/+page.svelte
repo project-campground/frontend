@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Para, Select, Tabs, Grid } from '@campground/ui';
+	import { Card, Para, Select, Tabs, Grid, Group } from '@campground/ui';
 	import {
 		FormRadio,
 		FormLabel,
@@ -247,7 +247,22 @@
 		</FormControl>
 		<FormControl id="color">
 			<FormLabel>Colour</FormLabel>
-			<FormColor />
+			<FormColor.Button />
+			<FormErrorLabel />
+		</FormControl>
+		<FormControl id="color2">
+			<FormLabel>Colour 2</FormLabel>
+			<FormColor.Full />
+			<FormErrorLabel />
+		</FormControl>
+		<FormControl id="color3">
+			<FormLabel>Colour 3</FormLabel>
+			<FormColor.Full orientation="horizontal" />
+			<FormErrorLabel />
+		</FormControl>
+		<FormControl id="color2">
+			<FormLabel>Colour 3</FormLabel>
+			<FormColor.Full size="sm" />
 			<FormErrorLabel />
 		</FormControl>
 	</Tab>
@@ -271,8 +286,14 @@
 				</Card.Content>
 			</Card.Root>
 		</FormObject>
-		<FormArray id="exampleArray">
-			<FormTextField />
-		</FormArray>
+		<FormArray.Root id="exampleArray">
+			<Group>
+				<FormLabel flex={1}>Array</FormLabel>
+				<FormArray.Button />
+			</Group>
+			<FormArray.List>
+				<FormTextField />
+			</FormArray.List>
+		</FormArray.Root>
 	</Tab>
 </Tabs.Root>

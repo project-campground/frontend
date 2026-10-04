@@ -1,17 +1,25 @@
 <script lang="ts">
 	import { Button, getMenuPortal, Menu, TextBlock, type MenuPortalInstance } from '@campground/ui';
 	import ColorPicker from './ColorPicker.svelte';
-	import { getFormControl, type FormControlInstance } from '$lib/FormControl/context.svelte.js';
-	import { onMount } from 'svelte';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { onMount, type Snippet } from 'svelte';
+	import type { ButtonProps } from './props.ts';
 
-	const formControl = getFormControl() as FormControlInstance<number>;
+	const formControl = getFormControl<number>();
 
 	const menuPortal = getMenuPortal();
-	let menuInstance: MenuPortalInstance | null = $state(null);
+	let menuInstance: MenuPortalInstance<unknown> | null = $state(null);
+	const id = $props.id();
+
 	function toggleMenu(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		if (menuInstance) return menuInstance.destroy();
 
-		menuInstance = menuPortal.add(colorPickerMenu, ev.currentTarget);
+		menuInstance = menuPortal.add(
+			colorPickerMenu as Snippet<[MenuPortalInstance]>,
+			ev.currentTarget,
+			id,
+			ev as unknown,
+		);
 	}
 
 	const hexValue = $derived(`#${(formControl.value ?? 0).toString(16).padStart(6, '0')}`);
@@ -23,12 +31,17 @@
 	$effect(() => {
 		if (menuInstance && !menuPortal.items.includes(menuInstance)) menuInstance = null;
 	});
+
+	const { size }: ButtonProps = $props();
 </script>
 
-{#snippet colorPickerMenu(instance: MenuPortalInstance)}
+{#snippet colorPickerMenu(instance: MenuPortalInstance<Event>)}
 	<Menu.Root {instance}>
 		<Menu.List>
-			<ColorPicker onChange={(value) => (formControl.value = value)} />
+			<ColorPicker
+				defaultColor={formControl.defaultValue ?? 0}
+				bind:color={formControl.value}
+			/>
 		</Menu.List>
 	</Menu.Root>
 {/snippet}
@@ -37,6 +50,8 @@
 	onclick={toggleMenu}
 	variant="soft"
 	color="neutral"
+	justify="start"
+	{size}
 >
 	<div
 		class="display"

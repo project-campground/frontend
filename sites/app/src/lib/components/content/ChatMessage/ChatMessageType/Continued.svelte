@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { TextBlock } from '@campground/ui';
 	import type { Snippet } from 'svelte';
-	import { Datestamp } from '../Datestamp/index.ts';
-	import { MessageState } from './types.ts';
-	import Info from './Info.svelte';
+	import { Datestamp } from '../../Datestamp/index.ts';
+	import { MessageState } from '../types.ts';
+	import Info from '../Info.svelte';
 
 	const {
 		createdAt,

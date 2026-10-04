@@ -22,9 +22,14 @@
 	style:--Portal-zIndex={zIndex ?? 1000}
 	{...attributes}
 >
-	{#each portal.items as item (item.key)}
-		{@render item.snippet(item)}
-	{/each}
+	<svelte:boundary>
+		{#snippet failed(err)}
+			{console.error('Unhandled error in MenuPortalContainer', err)}
+		{/snippet}
+		{#each portal.items as item (item.key)}
+			{@render item.snippet(item)}
+		{/each}
+	</svelte:boundary>
 </div>
 
 <style lang="scss">

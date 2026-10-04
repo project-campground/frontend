@@ -58,11 +58,11 @@
 			height: max-content;
 		}
 		&[data-size='max'] {
-			width: calc(100% - 8rem);
-			height: calc(100% - 8rem);
+			width: calc(100% - 4rem);
+			height: calc(100% - 4rem);
 			@include tablet-only {
-				width: calc(100% - 4rem);
-				height: calc(100% - 4rem);
+				width: calc(100% - 2rem);
+				height: calc(100% - 2rem);
 			}
 			@include mobile-only {
 				width: calc(100% - 1rem);

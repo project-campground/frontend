@@ -1,7 +1,7 @@
 import type HTTPBackendClient from '$lib/api/http/HTTPBackendClient.ts';
-import { MessageState, type MessageViewInChat } from '$lib/components/index.js';
 import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
 import { createContext } from 'svelte';
+import { MessageState, type MessageViewInChat } from './types.ts';
 
 export class TextTentContext {
 	public messages: MessageViewInChat[] = $state([]);

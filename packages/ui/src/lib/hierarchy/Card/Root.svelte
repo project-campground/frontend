@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { rem } from '$lib/util/component.js';
+	import { notInherited, rem } from '$lib/util/component.js';
 	import { stackedProps } from '../layout.ts';
 	import type { RootProps } from './props.ts';
 
@@ -12,9 +12,9 @@
 	data-overflow={overflow}
 	data-size={size ?? 'md'}
 	style:--Card-gap={rem(gap)}
-	style:--Layout-flex={flex}
-	style:--Layout-gridColumn={gridColumn}
-	style:--Layout-gridRow={gridRow}
+	style:--Layout-flex={notInherited(flex)}
+	style:--Layout-gridColumn={notInherited(gridColumn)}
+	style:--Layout-gridRow={notInherited(gridRow)}
 	{...stackedProps(props)}
 >
 	{@render children()}

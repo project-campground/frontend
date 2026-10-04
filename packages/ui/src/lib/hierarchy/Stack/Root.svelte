@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { rem } from '../../util/component.js';
+	import { notInherited, rem } from '../../util/component.js';
 	import { stackedProps } from '../layout.ts';
 	import type StackProps from './props.ts';
 
@@ -17,9 +17,9 @@
 
 <div
 	style:--Stack-gap={rem(gap ?? 1)}
-	style:--Layout-flex={flex}
-	style:--Layout-gridColumn={gridColumn}
-	style:--Layout-gridRow={gridRow}
+	style:--Layout-flex={notInherited(flex)}
+	style:--Layout-gridColumn={notInherited(gridColumn)}
+	style:--Layout-gridRow={notInherited(gridRow)}
 	class={['Stack', className]}
 	{...stackedProps(attributes)}
 >

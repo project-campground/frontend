@@ -2,7 +2,7 @@
 	import { loremIpsum, Skeleton } from '@campground/ui';
 	import TentWrapper from './TentWrapper.svelte';
 	import TentIcon from '$lib/components/tents/TentIcon.svelte';
-	import { ChatMessageSkeleton } from '$lib/components/index.js';
+	import { ChatMessage } from '$lib/components/index.js';
 </script>
 
 <TentWrapper>
@@ -20,6 +20,6 @@
 		</Skeleton>
 	{/snippet}
 	{#each Array(20).keys() as i (i)}
-		<ChatMessageSkeleton index={i} />
+		<ChatMessage.Skeleton index={i} />
 	{/each}
 </TentWrapper>

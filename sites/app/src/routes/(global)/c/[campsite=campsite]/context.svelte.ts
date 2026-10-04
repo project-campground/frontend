@@ -11,7 +11,7 @@ import type {
 	TentCategoryView,
 	TentViewBasic,
 } from '$lib/types/campground/tent.js';
-import { maxPermissions } from '$lib/util/constants.js';
+import { maxPermissions, RoleFlag } from '$lib/util/constants.js';
 import {
 	aggregateAllPermissions,
 	invertContentPermission,
@@ -46,6 +46,9 @@ export class CampsiteContext {
 	public campsite = $derived(this.campsiteReference?.campsite);
 	public bonfires = $derived(this.campsite?.bonfires);
 	public roles = $derived(this.campsite?.roles);
+	public defaultRole = $derived(
+		this.roles?.find((x) => (x.flags & RoleFlag.Default) === RoleFlag.Default),
+	);
 	public me = $derived(this.campsite?.me);
 	public userIsOwner = $derived(this.campsite?.owner === this.campsite?.me.user.did);
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type TextInputProps from './props.ts';
+	import { rem } from '$lib/util/component.ts';
 
 	let {
 		size,
@@ -12,6 +13,7 @@
 		top,
 		bottom,
 		class: className,
+		maxWidth,
 		multirow,
 		...attributes
 	}: TextInputProps = $props();
@@ -33,6 +35,7 @@
 	class={['container', { focused, hasError, disabled }, className]}
 	data-size={size ?? 'md'}
 	aria-disabled={disabled}
+	style:--TextInput-maxWidth={rem(maxWidth)}
 	onclick={() => input?.focus()}
 >
 	{@render decorator(left)}
@@ -69,6 +72,7 @@
 	.container {
 		@extend %InputField;
 		cursor: text;
+		max-width: var(--TextInput-maxWidth);
 		&:hover:not(.disabled) {
 			@extend %InputField-hover;
 		}

@@ -26,8 +26,7 @@
 	}: FormNumberFieldProps = $props();
 
 	// Functionality
-	const control: FormControlInstance<number | null | undefined> =
-		getFormControl() as FormControlInstance<number | undefined>;
+	const control = getFormControl<number | null | undefined>();
 
 	// Error messages and feedback
 	const intl = getLocale();

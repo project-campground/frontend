@@ -1,13 +1,20 @@
 <script lang="ts">
 	import { localeStrings } from '$lib/locale/index.js';
 	import { LocaleMessage } from '@campground/locale';
-	import { Card, Para, Stack, Group, Button } from '@campground/ui';
+	import { Card, Para, Stack, Group, Button, Tabs } from '@campground/ui';
 	import { getCampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
-	import { IconPlusFilled } from '@tabler/icons-svelte';
+	import {
+		IconBadgeFilled,
+		IconChecklist,
+		IconPlusFilled,
+		IconSettingsFilled,
+	} from '@tabler/icons-svelte';
 	import Role from './Role.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import { RoleSettingsContext, setRoleSettings } from './context.svelte.ts';
 	import { RoleFlag } from '$lib/util/constants.js';
+	import { Form } from '@campground/form';
+	import ProfilePage from './ProfilePage.svelte';
 
 	const campsiteContext = getCampsiteContext();
 	const appview = getAppview();
@@ -15,6 +22,7 @@
 	const context = new RoleSettingsContext(
 		campsiteContext.campsite!.roles.find((x) => (x.flags & RoleFlag.Default) === RoleFlag.Default)!
 			.id,
+		campsiteContext,
 	);
 	setRoleSettings(context);
 
@@ -62,5 +70,35 @@
 	size="lg"
 	level="subtle"
 >
-	<Card.Content>b</Card.Content>
+	<Card.Content
+		flex={1}
+		overflow="hidden"
+	>
+		<Form
+			flex={1}
+			hideOverflow
+		>
+			<Tabs.Root flex={1}>
+				{#snippet tabs()}
+					<Tabs.Item>
+						<IconBadgeFilled />
+						{context.selectedRole?.name}
+					</Tabs.Item>
+					<Tabs.Item>
+						<IconChecklist />
+						<LocaleMessage {...localeStrings.permissions.permissions} />
+					</Tabs.Item>
+					<Tabs.Item>
+						<IconSettingsFilled />
+						<LocaleMessage {...localeStrings.content.settings} />
+					</Tabs.Item>
+				{/snippet}
+				<Tabs.Tab padding="md">
+					<ProfilePage />
+				</Tabs.Tab>
+				<Tabs.Tab>Permissions</Tabs.Tab>
+				<Tabs.Tab>Settings</Tabs.Tab>
+			</Tabs.Root>
+		</Form>
+	</Card.Content>
 </Card.Root>

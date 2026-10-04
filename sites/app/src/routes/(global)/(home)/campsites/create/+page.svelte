@@ -70,145 +70,136 @@
 	}
 </script>
 
-<div class="page">
-	<Card.Root
-		level="subtle"
-		size="xl"
-	>
-		<div class="grid">
-			<Form onSubmit={(values) => createCampsite(values as FormFields)}>
-				<Para level="h2">
-					<LocaleMessage {...localeStrings.campsites.create} />
-				</Para>
-				<Group>
-					<FormControl
-						id="avatar"
-						bind:value={avatar}
-						required
-					>
-						<FormImageField
-							radius="avatar"
-							width="4rem"
-							height="4rem"
-						/>
-					</FormControl>
-					<FormControl
-						id="name"
-						bind:value={name}
-						requiredmembersCount
-						flex={1}
-					>
-						<FormLabel>
-							<LocaleMessage {...localeStrings.content.name} />
-						</FormLabel>
-						<FormTextField
-							minlength={3}
-							maxlength={48}
-						/>
-						<FormErrorLabel />
-					</FormControl>
-				</Group>
-				<FormControl id="description">
+<Card.Root
+	level="subtle"
+	size="xl"
+	gridColumn="2/4"
+>
+	<div class="grid">
+		<Form onSubmit={(values) => createCampsite(values as FormFields)}>
+			<Para level="h2">
+				<LocaleMessage {...localeStrings.campsites.create} />
+			</Para>
+			<Group>
+				<FormControl
+					id="avatar"
+					bind:value={avatar}
+					required
+				>
+					<FormImageField
+						radius="avatar"
+						width="4rem"
+						height="4rem"
+					/>
+				</FormControl>
+				<FormControl
+					id="name"
+					bind:value={name}
+					required
+					flex={1}
+				>
 					<FormLabel>
-						<LocaleMessage {...localeStrings.content.topic} />
+						<LocaleMessage {...localeStrings.content.name} />
 					</FormLabel>
 					<FormTextField
-						multirow
-						maxlength={200}
+						minlength={3}
+						maxlength={48}
 					/>
 					<FormErrorLabel />
 				</FormControl>
-				<Accordion>
-					{#snippet header()}
-						<LocaleMessage {...messages.appview} />
-					{/snippet}
-					<div class="appview">
-						<FormControl
-							id="appview"
-							defaultValue={defaultAppview.url}
-						>
-							<FormTextField>
-								{#snippet known()}
-									<KnownAppviewOptions />
-								{/snippet}
-							</FormTextField>
-							<Alert color="info">
-								{#snippet icon()}
-									<IconInfoCircleFilled />
-								{/snippet}
-								<LocaleMessage {...messages.appviewDesc} />
-							</Alert>
-							<FormErrorLabel />
-						</FormControl>
-					</div>
-				</Accordion>
-				<Group
-					direction="row"
-					directionMobile="column"
-				>
-					<FormSubmit>
-						<LocaleMessage {...localeStrings.content.create} />
-					</FormSubmit>
-				</Group>
-			</Form>
-			<Stack align="stretch">
-				<Card.Root>
-					<Card.Overflow>
-						<div class="campsite">
-							<Stack gap={0}>
-								{#if name}
-									<TextBlock
-										level="subheading"
-										weight={700}
-									>
-										{name || ' '}
-									</TextBlock>
-								{:else}
-									<TextBlock
-										level="background"
-										weight={700}
-									>
-										???
-									</TextBlock>
-								{/if}
+			</Group>
+			<FormControl id="description">
+				<FormLabel>
+					<LocaleMessage {...localeStrings.content.topic} />
+				</FormLabel>
+				<FormTextField
+					multirow
+					maxlength={200}
+				/>
+				<FormErrorLabel />
+			</FormControl>
+			<Accordion>
+				{#snippet header()}
+					<LocaleMessage {...messages.appview} />
+				{/snippet}
+				<div class="appview">
+					<FormControl
+						id="appview"
+						defaultValue={defaultAppview.url}
+					>
+						<FormTextField>
+							{#snippet known()}
+								<KnownAppviewOptions />
+							{/snippet}
+						</FormTextField>
+						<Alert color="info">
+							{#snippet icon()}
+								<IconInfoCircleFilled />
+							{/snippet}
+							<LocaleMessage {...messages.appviewDesc} />
+						</Alert>
+						<FormErrorLabel />
+					</FormControl>
+				</div>
+			</Accordion>
+			<Group
+				direction="row"
+				directionMobile="column"
+			>
+				<FormSubmit>
+					<LocaleMessage {...localeStrings.content.create} />
+				</FormSubmit>
+			</Group>
+		</Form>
+		<Stack align="stretch">
+			<Card.Root>
+				<Card.Overflow>
+					<div class="campsite">
+						<Stack gap={0}>
+							{#if name}
 								<TextBlock
-									level="subtext"
+									level="subheading"
 									weight={700}
-									fontSize={0.9}
 								>
-									<LocaleMessage
-										{...localeStrings.campsites.members}
-										values={{ count: 1 }}
-									/>
+									{name || ' '}
 								</TextBlock>
-							</Stack>
-							<Avatar
-								src={avatar ?? undefined}
-								size="md"
+							{:else}
+								<TextBlock
+									level="background"
+									weight={700}
+								>
+									???
+								</TextBlock>
+							{/if}
+							<TextBlock
+								level="subtext"
+								weight={700}
+								fontSize={0.9}
 							>
-								{name[0]}
-							</Avatar>
-						</div>
-					</Card.Overflow>
-				</Card.Root>
-			</Stack>
-		</div>
-	</Card.Root>
-</div>
+								<LocaleMessage
+									{...localeStrings.campsites.membersCount}
+									values={{ count: 1 }}
+								/>
+							</TextBlock>
+						</Stack>
+						<Avatar
+							src={avatar ?? undefined}
+							size="md"
+						>
+							{name[0]}
+						</Avatar>
+					</div>
+				</Card.Overflow>
+			</Card.Root>
+		</Stack>
+	</div>
+</Card.Root>
 
 <style lang="scss">
 	.grid {
 		display: grid;
 		grid-template-columns: 7fr 4fr;
 		gap: 2rem;
-	}
-	.page {
-		display: flex;
-		flex-direction: column;
-		grid-column: 2 / 4;
-		& > :global(section) {
-			flex: 1;
-		}
 	}
 	.campsite {
 		display: flex;

@@ -28,7 +28,7 @@
 		id={campsite.id}
 		name={campsite.name}
 		avatar={campsite.avatarUri ?? undefined}
-		domain={domain.split('/')[2]}
+		domain={domain}
 		memberCount={campsite.memberCount}
 	>
 		{#snippet additional()}

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { loremIpsum, Skeleton } from '@campground/ui';
+	import { Card, loremIpsum, Skeleton, Stack } from '@campground/ui';
 	import TentWrapper from './TentWrapper.svelte';
 	import TentIcon from '$lib/components/tents/TentIcon.svelte';
-	import { ChatMessage } from '$lib/components/index.js';
+	import { ChatMessage, User } from '$lib/components/index.js';
 </script>
 
 <TentWrapper>
@@ -23,3 +23,15 @@
 		<ChatMessage.Skeleton index={i} />
 	{/each}
 </TentWrapper>
+<!-- TODO: Add proper tabs and roles skeletons -->
+<Card.Root
+	level="subtle"
+	size="xl"
+	padding="sm"
+>
+	<Stack gap={1}>
+		{#each Array(8).keys() as i (i)}
+			<User.DisplaySkeleton size="sm" />
+		{/each}
+	</Stack>
+</Card.Root>

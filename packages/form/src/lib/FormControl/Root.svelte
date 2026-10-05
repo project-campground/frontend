@@ -26,15 +26,26 @@
 		key,
 		() => defaultValue ?? null,
 		() => id,
-		() => required ?? false,
-		() => disabled ?? false,
 	);
+
+	$effect.pre(() => {
+		formControl.disabled = disabled ?? false;
+	});
+	$effect.pre(() => {
+		formControl.required = required ?? false;
+	});
+	$effect.pre(() => {
+		formControl.defaultValue = defaultValue ?? null;
+	});
+	$effect.pre(() => {
+		formControl.id = id;
+	});
 
 	// Make sure form is aware of controls, since it's harder to handle events in this case, such as submission
 	onMount(() => addControlToForm(formContext, formControl));
 
 	// One-way binding for more reactive form
-	$effect(() => {
+	$effect.pre(() => {
 		value = formControl.value;
 	});
 

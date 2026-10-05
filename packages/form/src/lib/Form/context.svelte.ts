@@ -5,6 +5,17 @@ import type { FormFieldId } from './props.ts';
 export class FormInstance {
 	public controls: FormControlInstance<any>[] = $state([]);
 
+	public values: Record<FormFieldId, string | null> = $derived(
+		FormInstance.mapInstance(this.controls, (x) => [x.id, x.value]),
+	);
+	public valid: Record<FormFieldId, boolean> = $derived(
+		FormInstance.mapInstance(this.controls, (x) => [x.id, x.valid]),
+	);
+	public error: Record<FormFieldId, string | null> = $derived(
+		FormInstance.mapInstance(this.controls, (x) => [x.id, x.error]),
+	);
+	public changed: boolean = $derived(this.controls.some((x) => x.changed));
+
 	constructor(
 		private _submit: () =>
 			| undefined
@@ -14,25 +25,21 @@ export class FormInstance {
 			  ) => Promise<unknown> | unknown),
 	) {}
 
-	public get valid(): Record<FormFieldId, boolean> {
-		return this._mapInstance((x) => [x.id, x.valid]);
-	}
-	public get error(): Record<FormFieldId, string | null> {
-		return this._mapInstance((x) => [x.id, x.error]);
-	}
-	public get values(): Record<FormFieldId, string | null> {
-		return this._mapInstance((x) => [x.id, x.value]);
-	}
-
 	public submit(ev?: MouseEvent | undefined) {
 		return this._submit()?.(this.values, ev);
+	}
+	public reset() {
+		return this.controls.map((x) => x.reset());
 	}
 	public getControl(id: FormFieldId): FormControlInstance<any> | null {
 		return this.controls.find((x) => x.id === id) ?? null;
 	}
 
-	private _mapInstance<T>(fn: (instance: FormControlInstance<any>) => [FormFieldId, T]) {
-		return Object.fromEntries(this.controls.map(fn));
+	private static mapInstance<T>(
+		controls: FormControlInstance<unknown>[],
+		fn: (instance: FormControlInstance<any>) => [FormFieldId, T],
+	) {
+		return Object.fromEntries(controls.map(fn));
 	}
 }
 

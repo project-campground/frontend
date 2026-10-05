@@ -38,8 +38,6 @@
 		key,
 		() => defaultValue ?? [],
 		() => id,
-		() => required ?? false,
-		() => disabled ?? false,
 	);
 
 	// For error labels, not really field
@@ -51,7 +49,16 @@
 	// For keys to not change around
 	const maxReadable = writable<number | null | undefined>();
 
-	$effect(() => {
+	$effect.pre(() => {
+		formControl.defaultValue = defaultValue ?? [];
+	});
+	$effect.pre(() => {
+		formControl.required = required ?? false;
+	});
+	$effect.pre(() => {
+		formControl.disabled = disabled ?? false;
+	});
+	$effect.pre(() => {
 		$maxReadable = max;
 	});
 
@@ -61,7 +68,7 @@
 		maxReadable,
 	);
 
-	$effect(() => {
+	$effect.pre(() => {
 		formArray.itemIds = defaultValue?.map((_, i) => Date.now() + i) ?? [];
 	});
 
@@ -76,7 +83,7 @@
 	});
 
 	// One-way binding for more reactive form
-	$effect(() => {
+	$effect.pre(() => {
 		value = formControl.value;
 	});
 	setFormArray(formArray);

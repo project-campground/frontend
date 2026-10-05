@@ -13,6 +13,11 @@ export const appCommonMessages = defineMessages({
 		defaultMessage: 'Cancel',
 		description: 'Cancelling an action in settings, modals and content',
 	},
+	save: {
+		id: 'app.common.save',
+		defaultMessage: 'Save',
+		description: 'Saving some changes in settings, modals and content',
+	},
 
 	// Pages
 	continue: {

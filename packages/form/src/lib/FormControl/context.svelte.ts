@@ -5,34 +5,28 @@ export class FormControlInstance<T> {
 	public static contextKey = {};
 	public error: string | null = $state(null);
 	public value: T;
+	public defaultValue: T;
+	public id: FormFieldId;
+	public required: boolean = $state(false);
+	public disabled: boolean = $state(false);
+	public valid: boolean = $derived(this.error === null || this.disabled);
+	public changed: boolean;
 
 	constructor(
 		public key: string,
-		private getDefaultValue: () => T,
-		private getId: () => FormFieldId,
-		private getRequired: () => boolean,
-		private getDisabled: () => boolean,
+		getDefaultValue: () => T,
+		getId: () => FormFieldId,
 	) {
-		this.value = $state(getDefaultValue());
-	}
-
-	public get id() {
-		return this.getId();
-	}
-	public get required() {
-		return this.getRequired();
-	}
-	public get disabled() {
-		return this.getDisabled();
-	}
-	public get defaultValue() {
-		return this.getDefaultValue();
-	}
-	public get valid() {
-		return this.error === null || this.disabled;
-	}
-	public get changed() {
-		return this.value !== this.defaultValue;
+		const defaultValue = getDefaultValue();
+		this.value = $state(defaultValue);
+		this.id = getId();
+		this.defaultValue = defaultValue;
+		this.changed = $derived(
+			(console.log('Changed fetched', this.id),
+			typeof this.defaultValue === 'object' ?
+				JSON.stringify(this.value) !== JSON.stringify(this.defaultValue)
+			:	this.value !== this.defaultValue),
+		);
 	}
 
 	public reset() {

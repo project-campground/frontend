@@ -75,7 +75,7 @@
 	onclick={() => (roleSettings.selected = role.id)}
 	{@attach rightClickMenu(menuPortal, contextMenu)}
 >
-	<GradientText colors={role.colors.map((x) => x.toString(16).padStart(6, '0'))}>
+	<GradientText colors={role.colors.map((x) => `#${x.toString(16).padStart(6, '0')}`)}>
 		{role.name}
 	</GradientText>
 </Button>

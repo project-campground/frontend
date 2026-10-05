@@ -83,7 +83,8 @@
 			width: max-content;
 			--GradientText-background: linear-gradient(to right in oklch, var(--GradientText-gradient));
 			// oklch just has the best colour interpolation for most colours and might be expected by users
-			background: var(--GradientText-background) text;
+			background: var(--GradientText-background);
+			background-clip: text;
 			animation-duration: var(--GradientText-time);
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;

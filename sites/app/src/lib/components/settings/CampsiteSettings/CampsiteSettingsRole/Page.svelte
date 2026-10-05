@@ -15,9 +15,12 @@
 	import { RoleFlag } from '$lib/util/constants.js';
 	import { Form } from '@campground/form';
 	import ProfilePage from './ProfilePage.svelte';
+	import { getSettings } from '../../Settings/context.svelte.ts';
+	import type { RoleView } from '$lib/types/campground/roles.js';
 
 	const campsiteContext = getCampsiteContext();
 	const appview = getAppview();
+	const settings = getSettings();
 
 	const context = new RoleSettingsContext(
 		campsiteContext.campsite!.roles.find((x) => (x.flags & RoleFlag.Default) === RoleFlag.Default)!
@@ -25,6 +28,14 @@
 		campsiteContext,
 	);
 	setRoleSettings(context);
+
+	let form: Form | null = $state(null);
+
+	$effect(() => {
+		if (!form) return;
+
+		settings.setForm(form.getForm());
+	});
 
 	async function createRole() {
 		return appview.roles.create(campsiteContext.campsite!.id, {
@@ -35,6 +46,12 @@
 			colors: [],
 			motion: 'none',
 		});
+	}
+	async function updateRole(
+		roleId: string,
+		data: Pick<RoleView, 'name' | 'colors' | 'motion' | 'raised' | 'pingable' | 'permissions'>,
+	) {
+		return appview.roles.update(campsiteContext.campsite!.id, roleId, data);
 	}
 </script>
 
@@ -75,14 +92,20 @@
 		overflow="hidden"
 	>
 		<Form
+			bind:this={form}
 			flex={1}
 			hideOverflow
+			onSubmit={(values) =>
+				updateRole(
+					context.selectedRole!.id,
+					values as Pick<RoleView, 'pingable' | 'colors' | 'motion' | 'name' | 'raised' | 'permissions'>,
+				)}
 		>
 			<Tabs.Root flex={1}>
 				{#snippet tabs()}
 					<Tabs.Item>
 						<IconBadgeFilled />
-						{context.selectedRole?.name}
+						<LocaleMessage {...localeStrings.content.display} />
 					</Tabs.Item>
 					<Tabs.Item>
 						<IconChecklist />

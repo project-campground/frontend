@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
-	import { GradientText, TextBlock } from '@campground/ui';
+	import { GradientText, TextBlock, type GradientMotion } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 	import { Datestamp } from '../../Datestamp/index.ts';
 	import { MessageState } from '../types.ts';
@@ -12,12 +12,14 @@
 		createdAt,
 		updatedAt,
 		colors,
+		motion,
 		state,
 		error,
 		children,
 	}: {
 		createdBy: MessageViewWithReplies['createdBy'];
 		colors?: string[] | null;
+		motion?: GradientMotion;
 		updatedAt?: string | null;
 		createdAt: string;
 		state?: MessageState;
@@ -34,7 +36,10 @@
 <div class="wrapper">
 	<div class="header">
 		<TextBlock weight={700}>
-			<GradientText colors={colors ?? ['var(--foreground-heading)']}>
+			<GradientText
+				{motion}
+				colors={colors ?? ['var(--foreground-heading)']}
+			>
 				{createdBy.nickname ?? createdBy.user.displayName ?? createdBy.user.handle}
 			</GradientText>
 		</TextBlock>

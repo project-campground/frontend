@@ -66,7 +66,7 @@
 	}
 </script>
 
-{#snippet leftSideMenu(instance: MenuPortalInstance)}
+{#snippet leftSideMenu(instance: MenuPortalInstance<Event>)}
 	<Menu.Root
 		{instance}
 		placement="top"
@@ -78,52 +78,47 @@
 <Card.Root
 	direction="row"
 	size="xs"
+	gap={0}
+	align="stretch"
+	wrap="nowrap"
 >
 	<Group
-		gap={0}
+		class="MessageEditor buttons left"
 		align="stretch"
+		gap={0.5}
 		wrap="nowrap"
 	>
-		<Group
-			class="MessageEditor buttons left"
-			align="stretch"
-			flex={0}
-			gap={0.5}
-			wrap="nowrap"
+		<Button
+			variant="plain"
+			color="neutral"
+			padding="equal"
+			onclick={(ev) => menu.add(leftSideMenu, ev.currentTarget)}
 		>
+			<IconPlus />
+		</Button>
+		<Divider orientation="vertical" />
+	</Group>
+	<Group flex={1}>
+		<div class="editor">
+			<ProseKit {editor}>
+				<TextEditor></TextEditor>
+			</ProseKit>
+		</div>
+	</Group>
+	<Group
+		class="MessageEditor buttons right"
+		wrap="nowrap"
+	>
+		<span class="mobile-only">
 			<Button
+				onclick={submitMessage}
 				variant="plain"
 				color="neutral"
 				padding="equal"
-				onclick={(ev) => menu.add(leftSideMenu, ev.currentTarget)}
 			>
-				<IconPlus />
+				<IconSend2 />
 			</Button>
-			<Divider orientation="vertical" />
-		</Group>
-		<Group>
-			<div class="editor">
-				<ProseKit {editor}>
-					<TextEditor></TextEditor>
-				</ProseKit>
-			</div>
-		</Group>
-		<Group
-			class="MessageEditor buttons right"
-			flex={0}
-			wrap="nowrap"
-		>
-			<span class="mobile-only">
-				<Button
-					onclick={submitMessage}
-					variant="plain"
-					color="neutral"
-					padding="equal"
-				>
-					<IconSend2 />
-				</Button>
-			</span>
-		</Group>
+		</span>
 	</Group>
 </Card.Root>
 

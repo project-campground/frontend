@@ -15,7 +15,6 @@
 	lang="ts"
 	generics="T"
 >
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { Para } from '@campground/ui';
 	import Item from './Item.svelte';
 	import { getFormArray } from './context.svelte.ts';
@@ -25,17 +24,13 @@
 
 	let { children }: ListProps = $props();
 
-	const formControl = getFormControl<T[]>();
-	const formArray = getFormArray();
+	const formArray = getFormArray<T>();
 </script>
 
-{#if formArray.itemIds.length}
+{#if formArray.controls.length}
 	<ul class="list">
-		{#each formArray.itemIds as id, i (id)}
-			<Item
-				{id}
-				value={formControl.value[i]}
-			>
+		{#each formArray.controls as item (item.id)}
+			<Item {item}>
 				{@render children()}
 			</Item>
 		{/each}

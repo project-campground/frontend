@@ -2,6 +2,7 @@ import type { FormControlProps } from '$lib/FormControl/index.js';
 import type { Card, ComponentSize } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';
+import type { FormArrayItem } from './context.svelte.ts';
 
 export interface RootProps<T>
 	extends
@@ -13,7 +14,7 @@ export interface RootProps<T>
 	max?: number;
 	value?: T[];
 
-	defaultItemValue?: T;
+	defaultItemValue: T;
 
 	children: Snippet;
 }
@@ -21,9 +22,7 @@ export interface ListProps {
 	children: Snippet;
 }
 export interface ItemProps<T> extends Pick<Card.RootProps, 'level' | 'size'> {
-	id: number;
-
-	value: T;
+	item: FormArrayItem<T>;
 
 	children: Snippet;
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Para, Select, Tabs, Grid, Group } from '@campground/ui';
+	import { Card, Para, Select, Tabs, Grid, Group, Button } from '@campground/ui';
 	import {
 		FormRadio,
 		FormLabel,
@@ -286,9 +286,16 @@
 				</Card.Content>
 			</Card.Root>
 		</FormObject>
-		<FormArray.Root id="exampleArray">
+		{let formArray: FormArray.Root<string> | undefined = $state()}
+		<FormArray.Root
+			id="exampleArray"
+			defaultItemValue="abc"
+			defaultValue={['a', 'b', 'c']}
+			bind:this={formArray}
+		>
 			<Group>
 				<FormLabel flex={1}>Array</FormLabel>
+				<Button onclick={() => formArray?.getControl().reset()}>Reset</Button>
 				<FormArray.Button />
 			</Group>
 			<FormArray.List>

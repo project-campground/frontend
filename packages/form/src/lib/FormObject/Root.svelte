@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type FormProps from './props.ts';
-	import { FormControlInstance, setFormControl } from '$lib/FormControl/context.svelte.js';
-	import { FormInstance, getForm, setForm } from '$lib/Form/context.svelte.js';
+	import { setFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getForm, setForm } from '$lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
-	import { addControlToForm } from '$lib/FormControl/state.js';
-	import type { FormObjectValue } from './props.ts';
+	import { FormObjectContext } from './context.svelte.ts';
 
 	let {
 		children,
@@ -14,8 +13,6 @@
 		inlineContent,
 		autocomplete,
 		id,
-		required,
-		disabled,
 		// eslint-disable-next-line no-useless-assignment
 		value = $bindable({}),
 		...attributes
@@ -25,30 +22,16 @@
 	const key = $props.id();
 
 	// Sub-form
-	const form = new FormInstance(() => undefined);
-	setForm(form);
-
-	const formControl = new FormControlInstance<FormObjectValue>(
-		key,
-		() => ({}) as FormObjectValue,
-		() => id,
-		() => required ?? false,
-		() => disabled ?? false,
-	);
-
-	// For error labels, not really field
-	setFormControl(formControl);
+	const formObject = new FormObjectContext(key, formContext.submit.bind(formContext), () => id);
+	setForm(formObject);
+	setFormControl(formObject);
 
 	// Make sure form is aware of this object, since there is no control to do that
-	onMount(() => addControlToForm(formContext, formControl));
+	onMount(() => formContext.addControlToForm(formObject));
 
 	// One-way binding for more reactive form
 	$effect(() => {
-		value = formControl.value;
-	});
-	$effect(() => {
-		formControl.value = Object.fromEntries(form.controls.map((x) => [x.id, x.value]));
-		formControl.error = form.controls.find((x) => x.error !== null)?.error ?? null;
+		value = formObject.value;
 	});
 </script>
 

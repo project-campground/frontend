@@ -2,10 +2,9 @@
 	lang="ts"
 	generics="T"
 >
-	import { FormControlInstance, setFormControl } from '$lib/FormControl/context.svelte.js';
-	import { FormInstance, getForm, setForm } from '$lib/Form/context.svelte.js';
+	import { setFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getForm } from '$lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
-	import { addControlToForm } from '$lib/FormControl/state.js';
 	import { FormArrayContext, setFormArray } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
 	import { writable } from 'svelte/store';
@@ -13,7 +12,6 @@
 	let {
 		children,
 		gap,
-		autocomplete,
 		id,
 		required,
 		disabled,
@@ -28,63 +26,46 @@
 	}: RootProps<T> = $props();
 
 	const formContext = getForm();
-	const key = $props.id();
-
-	// Sub-form
-	const form = new FormInstance(() => undefined);
-	setForm(form);
-
-	const formControl = new FormControlInstance<T[]>(
-		key,
-		() => defaultValue ?? [],
-		() => id,
-	);
-
-	// For error labels, not really field
-	setFormControl(formControl);
-
-	// Make sure form is aware of this object, since there is no control to do that
-	onMount(() => addControlToForm(formContext, formControl));
 
 	// For keys to not change around
 	const maxReadable = writable<number | null | undefined>();
 
+	const key = $props.id();
+	const formArray = new FormArrayContext<T>(
+		key,
+		() => defaultValue ?? [],
+		() => defaultItemValue,
+		() => id,
+		maxReadable,
+	);
+
+	// For error labels, not really field
+	setFormControl(formArray);
+
 	$effect.pre(() => {
-		formControl.defaultValue = defaultValue ?? [];
+		formArray.defaultValue = defaultValue ?? [];
+		formArray.controls = FormArrayContext.createItemsFromDefaultValue(defaultValue ?? []);
 	});
 	$effect.pre(() => {
-		formControl.required = required ?? false;
+		formArray.required = required ?? false;
 	});
 	$effect.pre(() => {
-		formControl.disabled = disabled ?? false;
+		formArray.disabled = disabled ?? false;
 	});
 	$effect.pre(() => {
 		$maxReadable = max;
 	});
 
-	const formArray = new FormArrayContext(
-		() => formControl.value,
-		(newValue) => (formControl.value = newValue as T[]),
-		maxReadable,
-	);
+	// Make sure form is aware of this object, since there is no control to do that
+	onMount(() => formContext.addControlToForm(formArray));
 
-	$effect.pre(() => {
-		formArray.itemIds = defaultValue?.map((_, i) => Date.now() + i) ?? [];
-	});
-
-	$effect(() => {
-		const sortedControlValues = formArray.itemIds.map(
-			(id) => form.controls.find((control) => control.id === id)?.value ?? defaultItemValue,
-		);
-
-		// Map again, just so we don't filter any potential controls with undefined or falsy values
-		formControl.value = sortedControlValues;
-		formControl.error = form.controls.find((x) => x.error !== null)?.error ?? null;
-	});
+	export function getControl() {
+		return formArray;
+	}
 
 	// One-way binding for more reactive form
 	$effect.pre(() => {
-		value = formControl.value;
+		value = formArray.value;
 	});
 	setFormArray(formArray);
 </script>

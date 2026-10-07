@@ -10,7 +10,7 @@
 	import { getLocale } from '@campground/locale';
 	import { Button, Stack, TextInput } from '@campground/ui';
 	import type FormNumberFieldProps from './props.ts';
-	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFormControl } from '$lib/FormControl/context.svelte.js';
 	import { numberFieldErrors } from './validation.ts';
 	import { fieldAssert } from '$lib/util/validation.js';
 	import { IconMinus, IconPlusFilled } from '@tabler/icons-svelte';

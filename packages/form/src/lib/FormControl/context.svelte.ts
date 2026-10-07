@@ -1,7 +1,26 @@
 import type { FormFieldId } from '$lib/Form/props.js';
 import { getContext, setContext } from 'svelte';
 
-export class FormControlInstance<T> {
+/**
+ * Defines common things
+ */
+export interface IFormControl<T> {
+	key: string;
+
+	id: FormFieldId;
+
+	value: T;
+	defaultValue: T;
+	error: string | null;
+
+	required: boolean;
+
+	valid: boolean;
+	changed: boolean;
+
+	reset(): void;
+}
+export class FormControlInstance<T> implements IFormControl<T> {
 	public static contextKey = {};
 	public error: string | null = $state(null);
 	public value: T;
@@ -19,23 +38,22 @@ export class FormControlInstance<T> {
 	) {
 		const defaultValue = getDefaultValue();
 		this.value = $state(defaultValue);
-		this.id = getId();
+		this.id = $state(getId());
 		this.defaultValue = defaultValue;
 		this.changed = $derived(
-			(console.log('Changed fetched', this.id),
 			typeof this.defaultValue === 'object' ?
 				JSON.stringify(this.value) !== JSON.stringify(this.defaultValue)
-			:	this.value !== this.defaultValue),
+			:	this.value !== this.defaultValue,
 		);
 	}
 
 	public reset() {
-		return (this.value = this.defaultValue);
+		this.value = this.defaultValue;
 	}
 }
-export function setFormControl<T = unknown>(value: FormControlInstance<T>) {
-	return setContext<FormControlInstance<T>>(FormControlInstance.contextKey, value);
+export function setFormControl<T = unknown>(value: IFormControl<T>) {
+	return setContext<IFormControl<T>>(FormControlInstance.contextKey, value);
 }
 export function getFormControl<T = unknown>() {
-	return getContext<FormControlInstance<T>>(FormControlInstance.contextKey);
+	return getContext<IFormControl<T>>(FormControlInstance.contextKey);
 }

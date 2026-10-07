@@ -2,15 +2,18 @@
 	lang="ts"
 	generics="T"
 >
-	import { FormControl } from '$lib/FormControl/index.js';
 	import { Button, Card } from '@campground/ui';
 	import { IconX } from '@tabler/icons-svelte';
 	import type { ItemProps } from './props.ts';
 	import { getFormArray } from './context.svelte.ts';
+	import { setFormControl } from '$lib/FormControl/context.svelte.js';
 
 	const formArray = getFormArray();
 
-	const { id, value, children }: ItemProps<T> = $props();
+	const { item, children }: ItemProps<T> = $props();
+
+	// svelte-ignore state_referenced_locally
+	setFormControl(item);
 </script>
 
 <li>
@@ -21,13 +24,7 @@
 		gap={1}
 	>
 		<Card.Content flex={1}>
-			<FormControl
-				{id}
-				defaultValue={value}
-				required
-			>
-				{@render children()}
-			</FormControl>
+			{@render children()}
 		</Card.Content>
 		<Card.Content>
 			<Button
@@ -35,7 +32,7 @@
 				color="danger"
 				padding="equal"
 				size="md"
-				onclick={() => formArray.removeItem(id)}
+				onclick={() => formArray.removeItem(item.key)}
 			>
 				<IconX size="1rem" />
 			</Button>

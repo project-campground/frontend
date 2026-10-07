@@ -1,46 +1,85 @@
-import { createContext } from 'svelte';
-import type { FormControlInstance } from '$lib/FormControl/context.svelte.js';
+import { getContext, setContext } from 'svelte';
+import type { IFormControl } from '$lib/FormControl/context.svelte.js';
 import type { FormFieldId } from './props.ts';
 
-export class FormInstance {
-	public controls: FormControlInstance<any>[] = $state([]);
+export interface IFormInstance<TValue, TControl extends IFormControl<TValue>> {
+	changed: boolean;
+	valid: boolean;
+	controls: TControl[];
 
-	public values: Record<FormFieldId, string | null> = $derived(
+	addControlToForm(instance: TControl): () => void;
+	submit(ev?: MouseEvent): void;
+	reset(): void;
+}
+export abstract class AbstractFormInstance implements IFormInstance<
+	unknown,
+	IFormControl<unknown>
+> {
+	public controls: IFormControl<unknown>[] = $state([]);
+
+	public valid: boolean = $derived(this.controls.every((x) => x.valid));
+	public changed: boolean = $derived(this.controls.some((x) => x.changed));
+
+	public abstract submit(): void;
+
+	public reset() {
+		return this.controls.map((x) => x.reset());
+	}
+
+	public addControlToForm(formControl: IFormControl<unknown>) {
+		this.controls.push(formControl);
+
+		// We don't want to have control exist even after it has unmounted (if it exists conditionally)
+		return () => {
+			const index = this.controls.indexOf(formControl);
+			// For some odd reason form control disappeared and we don't want it to randomly cut off last element (-1 cuts off last element)
+			// Future-proof
+			if (index < 0) return;
+
+			return this.controls.splice(index, 1);
+		};
+	}
+}
+export class FormInstance
+	extends AbstractFormInstance
+	implements IFormInstance<unknown, IFormControl<unknown>>
+{
+	public static contextKey = {};
+
+	public controls: IFormControl<unknown>[] = $state([]);
+	public values: Record<FormFieldId, unknown> = $derived(
 		FormInstance.mapInstance(this.controls, (x) => [x.id, x.value]),
 	);
-	public valid: Record<FormFieldId, boolean> = $derived(
-		FormInstance.mapInstance(this.controls, (x) => [x.id, x.valid]),
-	);
-	public error: Record<FormFieldId, string | null> = $derived(
-		FormInstance.mapInstance(this.controls, (x) => [x.id, x.error]),
-	);
+
+	public valid: boolean = $derived(this.controls.every((x) => x.valid));
 	public changed: boolean = $derived(this.controls.some((x) => x.changed));
 
 	constructor(
 		private _submit: () =>
 			| undefined
 			| ((
-					values: Record<FormFieldId, any>,
+					values: Record<FormFieldId, unknown>,
 					ev?: MouseEvent | undefined,
 			  ) => Promise<unknown> | unknown),
-	) {}
+	) {
+		super();
+	}
 
-	public submit(ev?: MouseEvent | undefined) {
+	public submit(ev?: MouseEvent) {
 		return this._submit()?.(this.values, ev);
 	}
-	public reset() {
-		return this.controls.map((x) => x.reset());
-	}
-	public getControl(id: FormFieldId): FormControlInstance<any> | null {
-		return this.controls.find((x) => x.id === id) ?? null;
-	}
 
-	private static mapInstance<T>(
-		controls: FormControlInstance<unknown>[],
-		fn: (instance: FormControlInstance<any>) => [FormFieldId, T],
+	protected static mapInstance<TAfter, TBefore>(
+		controls: IFormControl<TBefore>[],
+		fn: (instance: IFormControl<TBefore>) => [FormFieldId, TAfter],
 	) {
 		return Object.fromEntries(controls.map(fn));
 	}
 }
 
-export const [getForm, setForm] = createContext<FormInstance>();
+export function getForm<T extends IFormInstance<unknown, IFormControl<unknown>>>() {
+	return getContext<T>(FormInstance.contextKey);
+}
+export function setForm(instance: IFormInstance<unknown, IFormControl<unknown>>) {
+	return setContext(FormInstance.contextKey, instance);
+}

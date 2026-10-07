@@ -14,10 +14,10 @@
 	variant="soft"
 	color="neutral"
 	padding="equal"
-	size="sm"
+	size="xs"
 	onclick={() => formArray.addItem()}
 	{...attributes}
-	disabled={Boolean($max && formArray.itemIds.length >= $max)}
+	disabled={Boolean($max && formArray.controls.length >= $max)}
 >
 	{#if children}
 		{@render children()}

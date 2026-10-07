@@ -6,7 +6,6 @@
 	import { getForm } from '$lib/Form/context.svelte.js';
 	import { FormControlInstance, setFormControl } from './context.svelte.ts';
 	import { onMount } from 'svelte';
-	import { addControlToForm } from './state.ts';
 
 	let {
 		id,
@@ -42,7 +41,7 @@
 	});
 
 	// Make sure form is aware of controls, since it's harder to handle events in this case, such as submission
-	onMount(() => addControlToForm(formContext, formControl));
+	onMount(() => formContext.addControlToForm(formControl));
 
 	// One-way binding for more reactive form
 	$effect.pre(() => {

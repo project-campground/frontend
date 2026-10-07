@@ -19,13 +19,11 @@
 	const { children, disabled, ...props }: FormSubmitProps = $props();
 
 	const formContext = getForm();
-
-	const allValid = $derived(formContext.controls.every((x) => x.valid));
 </script>
 
 <Button
 	{...props}
-	disabled={disabled || !allValid}
+	disabled={formContext.valid || disabled}
 	onclick={(ev) => formContext.submit(ev)}
 >
 	{#if children}

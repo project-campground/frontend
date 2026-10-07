@@ -1,18 +1,13 @@
 <script lang="ts">
 	import type FormTextFieldProps from './props.ts';
 	import { getFormControl } from '$lib/FormControl/context.svelte.js';
-	import { Button, Chip, TextInput } from '@campground/ui';
-	import { IconX, IconXFilled } from '@tabler/icons-svelte';
+	import { Chip, TextInput } from '@campground/ui';
 	import Tag from './Tag.svelte';
 
 	const { minlength = 0, maxlength, max }: FormTextFieldProps = $props();
 
 	// Functionality
 	const control = getFormControl<string[] | undefined>();
-
-	$effect(() => {
-		if (typeof control.value === 'undefined') control.value = [];
-	});
 
 	function onKeyPress(
 		ev: KeyboardEvent & { currentTarget: HTMLInputElement | HTMLTextAreaElement },
@@ -26,7 +21,7 @@
 
 		ev.currentTarget.value = '';
 
-		control.value!.push(value);
+		control.value = [...(control.value ?? []), value];
 	}
 
 	function removeItem(index: number) {

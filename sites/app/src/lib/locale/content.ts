@@ -5,6 +5,7 @@ export const appContentMessages = defineMessages({
 	avatar: { id: 'app.content.icon', defaultMessage: 'Icon' },
 	banner: { id: 'app.content.banner', defaultMessage: 'Banner' },
 	topic: { id: 'app.content.topic', defaultMessage: 'Topic' },
+	tags: { id: 'app.content.tags', defaultMessage: 'Tags' },
 	profile: { id: 'app.content.profile', defaultMessage: 'Profile' },
 
 	display: { id: 'app.content.display', defaultMessage: 'Display' },

@@ -73,6 +73,7 @@
 		@extend %InputField;
 		cursor: text;
 		max-width: var(--TextInput-maxWidth);
+		overflow: hidden;
 		&:hover:not(.disabled) {
 			@extend %InputField-hover;
 		}

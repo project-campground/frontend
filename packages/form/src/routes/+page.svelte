@@ -12,6 +12,7 @@
 		FormArray,
 		FormColor,
 		FormNumberField,
+		FormTags,
 	} from '$lib/index.js';
 	import { FormImageField } from '$lib/FormImageField/index.js';
 	import {
@@ -286,6 +287,20 @@
 				</Card.Content>
 			</Card.Root>
 		</FormObject>
+		<FormControl
+			id="tags1"
+			defaultValue={['a', 'b', 'c']}
+		>
+			<FormLabel>Tags</FormLabel>
+			<FormTags />
+		</FormControl>
+		<FormControl
+			id="tags2"
+			defaultValue={['a', 'b', 'c']}
+		>
+			<FormLabel>Tags</FormLabel>
+			<FormTags minlength={3} maxlength={20} max={20} />
+		</FormControl>
 		{let formArray: FormArray.Root<string> | undefined = $state()}
 		<FormArray.Root
 			id="exampleArray"

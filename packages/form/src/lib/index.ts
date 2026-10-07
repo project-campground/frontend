@@ -14,4 +14,5 @@ export * as FormRadio from './FormRadio/index.ts';
 export * from './FormSimpleField/index.ts';
 export * from './FormSubmit/index.ts';
 export * from './FormSwitch/index.ts';
+export * from './FormTags/index.ts';
 export * from './FormTextField/index.ts';

@@ -89,7 +89,7 @@
 <style lang="scss">
 	.container {
 		display: grid;
-		grid-template-columns: 18rem 18rem 15fr;
+		grid-template-columns: 14rem 12rem 15fr;
 		grid-template-rows: 1fr;
 
 		width: 100%;

@@ -14,11 +14,13 @@
 	import WSClient from '$lib/api/ws/WSClient.js';
 	import { filter, type Unsubscribable } from 'rxjs';
 	import { handleWebSocket } from './ws/index.ts';
+	import { getAccount } from '$lib/context/account.svelte.js';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
 
 	const session = getSession();
+	const account = getAccount();
 
 	const appview = new HTTPBackendClient(session, () => domain);
 	setAppview(appview);
@@ -69,7 +71,7 @@
 	$effect(() => {
 		if (!campsiteContext.campsiteReference) return;
 
-		return handleWebSocket(campsiteContext);
+		return handleWebSocket(campsiteContext, account);
 	});
 
 	// Since portals would otherwise lack all the campsite context

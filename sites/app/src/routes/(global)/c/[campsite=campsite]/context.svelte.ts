@@ -18,7 +18,7 @@ import {
 	invertGeneralPermission,
 	type AggregatedPermissions,
 } from '$lib/util/permissions.js';
-import { createContext } from 'svelte';
+import { createContext, getContext, hasContext, setContext } from 'svelte';
 
 export class CampsiteReference {
 	public campsite: CampsiteViewDetailed;
@@ -40,6 +40,8 @@ export class CampsiteReference {
 }
 
 export class CampsiteContext {
+	public static contextKey = {};
+
 	public campsiteReference: CampsiteReference | null = $state(null);
 	public openBonfire: BonfireContext | null = $state(null);
 
@@ -201,4 +203,12 @@ export class BonfireContext {
 	}
 }
 
-export const [getCampsiteContext, setCampsiteContext] = createContext<CampsiteContext>();
+export function getCampsiteContext() {
+	return getContext<CampsiteContext>(CampsiteContext.contextKey);
+}
+export function hasCampsiteContext() {
+	return hasContext(CampsiteContext.contextKey);
+}
+export function setCampsiteContext(campsiteContext: CampsiteContext) {
+	return setContext<CampsiteContext>(CampsiteContext.contextKey, campsiteContext);
+}

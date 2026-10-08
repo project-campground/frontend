@@ -60,7 +60,10 @@
 		offset={8}
 		w={20}
 	>
-		<User.CardMenu user={instance.payload!.user} />
+		<User.CardMenu
+			user={instance.payload!.user}
+			member={instance.payload!}
+		/>
 	</Menu.Root>
 {/snippet}
 

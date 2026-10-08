@@ -34,6 +34,8 @@
 	import { getAppview } from '$lib/context/api.js';
 	import { User } from '$lib/components/index.js';
 	import { Role } from '$lib/components/campsite/index.js';
+	import { RoleFlag } from '$lib/util/constants.ts';
+	import { toLookup } from '$lib/util/array.ts';
 
 	const campsiteContext = getCampsiteContext();
 
@@ -54,6 +56,9 @@
 	function removeMemberRole(memberId: string, roleId: string) {
 		return appview.members.removeRole(campsiteContext.campsite!.id, roleId, { memberIds: [memberId] })
 	}
+	function addMemberRole(memberId: string, roleId: string) {
+		return appview.members.addRole(campsiteContext.campsite!.id, roleId, { memberIds: [memberId] })
+	}
 
 	const locale = getLocale();
 </script>
@@ -66,17 +71,18 @@
 	/>
 {/snippet}
 {#snippet roleDisplay(item: MemberViewTable)}
-	{const roles = $derived(campsiteContext.roles?.filter((role) => item.roles.includes(role.id)) ?? [])}
+	{const roles = $derived(toLookup(campsiteContext.roles ?? [], (role) => Number(item.roles.includes(role.id))))}
 
 	<Group gap={0.5}>
-		{#each roles.slice(0, 5) as role (role.id)}
-			<Role.Display {role} onRemove={() => removeMemberRole(item.user.did, role.id)} />
+		{#each roles[1].slice(0, 5) as role (role.id)}
+			<Role.Display {role} onRemove={role.flags & RoleFlag.Default ? undefined : () => removeMemberRole(item.user.did, role.id)} />
 		{/each}
-		{#if roles.length > 5}
+		{#if roles[1].length > 5}
 			<Button color="neutral" variant="plain">
-				<LocaleMessage {...localeStrings.content.amountMore} values={{ amount: roles.length - 5 }} />
+				<LocaleMessage {...localeStrings.content.amountMore} values={{ amount: roles[1].length - 5 }} />
 			</Button>
 		{/if}
+		<Role.Adder roles={roles[0]} onAdd={(roleId) => addMemberRole(item.user.did, roleId)} />
 	</Group>
 {/snippet}
 

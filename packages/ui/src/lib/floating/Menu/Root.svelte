@@ -103,9 +103,12 @@
 	// Transition
 	transition:fade={{ duration: 200 }}
 	// Since this basically is displayed over the whole screen
-	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
+	onclick={(ev) => (console.log('On click'), ev.stopPropagation(), instance.destroy())}
 	// < 0, because of column-reverse
-	onscrollend={(ev) => (ev.currentTarget.scrollTop < 0 ? instance.destroy() : null)}
+	onscrollend={(ev) => (
+		console.log('On scroll end', ev.currentTarget.scrollTop),
+		ev.currentTarget.scrollTop < 0 ? instance.destroy() : null
+	)}
 >
 	<div
 		bind:this={menuFloating}
@@ -121,6 +124,7 @@
 	@use '../../common.scss' as *;
 
 	.wrapper {
+		position: absolute;
 		display: flex;
 		flex-direction: column-reverse;
 
@@ -157,12 +161,11 @@
 			display: none;
 		}
 		.wrapper {
-			position: relative;
+			position: absolute;
 			height: 100%;
 		}
 		.floating {
 			position: absolute;
-
 			min-height: var(--Menu-minHeight);
 			min-width: var(--Menu-minWidth);
 			max-height: var(--Menu-maxHeight);

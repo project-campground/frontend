@@ -20,6 +20,7 @@
 	data-size={size ?? 'md'}
 >
 	<button
+		type="button"
 		class="button"
 		aria-expanded={expanded}
 		onclick={() => (expanded = !expanded)}

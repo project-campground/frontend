@@ -27,7 +27,7 @@
 </script>
 
 <script lang="ts">
-	import { Link, Menu, Para } from '@campground/ui';
+	import { Accordion, Group, Link, Menu, Para } from '@campground/ui';
 	import UserHeader from './Header.svelte';
 	import type { ProfileViewBasic } from '$lib/types/campground/user.js';
 	import {
@@ -40,20 +40,50 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getAccount } from '$lib/context/account.svelte.js';
 	import { localeStrings } from '$lib/locale/index.js';
+	import type { MemberViewBasic, MemberViewDetailed } from '$lib/types/campground/membership.js';
+	import {
+		getCampsiteContext,
+		hasCampsiteContext,
+	} from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
+	import { Role } from '$lib/components/campsite/index.js';
+	import { getAppview } from '$lib/context/api.js';
+	import { toLookup } from '$lib/util/array.js';
+	import type { RoleView } from '$lib/types/campground/roles.js';
+	import { RoleFlag } from '$lib/util/constants.ts';
 
 	interface Props {
 		hideButtons?: boolean;
 		user: ProfileViewBasic;
+		member?: Partial<Omit<MemberViewDetailed, 'user'>> & Omit<MemberViewBasic, 'user'>;
+	}
+
+	const appview = getAppview();
+
+	async function removeRole(roleId: string) {
+		if (!campsiteContext?.campsite)
+			return;
+
+		return appview.members.removeRole(campsiteContext.campsite.id, roleId, { memberIds: [user.did] });
+	}
+	async function addRole(roleId: string) {
+		if (!campsiteContext?.campsite)
+			return;
+
+		return appview.members.addRole(campsiteContext.campsite.id, roleId, { memberIds: [user.did] });
 	}
 
 	const session = getAccount();
 	const currentUserDid = session.sessionInfo?.did ?? null;
+	const inCampsiteContext = hasCampsiteContext();
+	const campsiteContext = inCampsiteContext ? getCampsiteContext() : null;
 
-	const { hideButtons, user }: Props = $props();
+	const { hideButtons, user, member }: Props = $props();
 </script>
 
 <Menu.List size="xl">
-	<div class={['container', { hideButtons }]}>
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div class={['container', { hideButtons }]} onclick={(ev) => ev.stopPropagation()}>
 		<UserHeader
 			did={user.did}
 			avatar={user.avatar}
@@ -75,6 +105,25 @@
 				{/if}
 			</div>
 		</div>
+		{#if member && inCampsiteContext}
+		<div class="sections">
+				{const memberRoles = toLookup<RoleView, 0 | 1>(campsiteContext!.roles ?? [], (x) => Number(member.roles.includes(x.id)) as 0 | 1)}
+				<Accordion
+					expanded
+					noBackground
+				>
+					{#snippet header()}
+						<LocaleMessage {...localeStrings.roles.roles} />
+					{/snippet}
+					<Group gap={0.5}>
+						{#each memberRoles[1] as role (role.id)}
+							<Role.Display {role} onRemove={(role.flags & RoleFlag.Default) === RoleFlag.Default ? undefined : removeRole.bind(null, role.id)} />
+						{/each}
+						<Role.Adder roles={memberRoles[0]} onAdd={addRole} />
+					</Group>
+				</Accordion>
+			</div>
+		{/if}
 		<div class="buttons">
 			<Menu.Item>
 				<Link
@@ -132,5 +181,9 @@
 		.hideButtons & {
 			display: none;
 		}
+	}
+	.sections {
+		margin-block: 0.5rem;
+		padding-inline: 0.5rem;
 	}
 </style>

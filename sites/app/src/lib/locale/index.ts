@@ -3,6 +3,7 @@ import { appBonfireMessages } from './bonfire.ts';
 import { appCampsiteMessages } from './campsite.ts';
 import { appCommonMessages } from './common.js';
 import { appContentMessages } from './content.ts';
+import { appInvitesMessages } from './invites.ts';
 import { appMemberBansMessages } from './memberBans.js';
 import { appMembersMessages } from './members.ts';
 import { appMessageMessages } from './message.ts';
@@ -26,6 +27,7 @@ export const localeStrings = {
 	members: appMembersMessages,
 	roles: appRolesMessages,
 	memberBans: appMemberBansMessages,
+	invites: appInvitesMessages,
 	bonfires: appBonfireMessages,
 	permissions: appPermissionsMessages,
 	// Content

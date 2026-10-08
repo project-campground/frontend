@@ -3,14 +3,22 @@
 	import { Settings } from '../index.ts';
 	import ProfilePage from './ProfilePage.svelte';
 	import { localeStrings } from '$lib/locale/index.js';
-	import { IconBadgeFilled, IconLayout2Filled, IconShieldFilled } from '@tabler/icons-svelte';
+	import {
+		IconBadgeFilled,
+		IconLayout2Filled,
+		IconShieldFilled,
+		IconTicketFilled,
+	} from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import RolesPage from './CampsiteSettingsRole/Page.svelte';
+	import InvitesPage from './InvitesPage.svelte';
+	import BansPage from './BansPage.svelte';
 
-	type SettingsPage = 'profile' | 'memberBans' | 'roles';
+	type SettingsPage = 'profile' | 'memberBans' | 'invites' | 'roles';
 	const pages: Record<SettingsPage, Settings.PageComponent> = {
 		profile: ProfilePage,
-		memberBans: ProfilePage,
+		memberBans: BansPage,
+		invites: InvitesPage,
 		roles: RolesPage,
 	};
 
@@ -43,6 +51,10 @@
 			<Settings.Button page="memberBans">
 				<IconShieldFilled size="1rem" />
 				<LocaleMessage {...localeStrings.memberBans.memberBans} />
+			</Settings.Button>
+			<Settings.Button page="invites">
+				<IconTicketFilled size="1rem" />
+				<LocaleMessage {...localeStrings.invites.invites} />
 			</Settings.Button>
 			<Settings.Button page="roles">
 				<IconBadgeFilled size="1rem" />

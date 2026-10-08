@@ -9,7 +9,7 @@
 		FormTextField,
 		type FormImageFieldValue,
 	} from '@campground/form';
-	import { Card, Stack, Section } from '@campground/ui';
+	import { Card, Stack, Section, Para } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '$lib/locale/index.js';
@@ -46,6 +46,12 @@
 	gridColumn="2/4"
 >
 	<Card.Content>
+		<Para
+			level="h2"
+			mb="lg"
+		>
+			<LocaleMessage {...localeStrings.content.profile} />
+		</Para>
 		<Form
 			bind:this={form}
 			onSubmit={(values) => updateCampsite(values as CampsiteProfileForm)}

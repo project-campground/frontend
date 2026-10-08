@@ -12,7 +12,7 @@ export class SettingsContext<TPage extends string> {
 		this.page = $state(defaultPage());
 	}
 
-	public setForm(instance: FormInstance) {
+	public setForm(instance: FormInstance | null) {
 		this.form = instance;
 	}
 

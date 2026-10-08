@@ -1,5 +1,5 @@
-import type { CampsiteViewBasic } from './campsites';
-import type { ProfileViewBasic } from './user';
+import type { CampsiteViewBasic } from './campsites.js';
+import type { ProfileViewBasic } from './user.js';
 
 export interface CampsiteInviteView {
 	id: string;

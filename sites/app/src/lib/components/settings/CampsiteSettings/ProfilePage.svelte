@@ -16,6 +16,7 @@
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import type { CampsiteViewBasic } from '$lib/types/campground/campsites.js';
 	import { getAppview } from '$lib/context/api.js';
+	import { DescriptionLimits, NameLimits } from '$lib/util/limits.js';
 
 	const settings = getSettings();
 	const campsiteContext = getCampsiteContext();
@@ -88,8 +89,8 @@
 							<LocaleMessage {...localeStrings.content.name} />
 						</FormLabel>
 						<FormTextField
-							minlength={3}
-							maxlength={48}
+							minlength={NameLimits.Min}
+							maxlength={NameLimits.Max}
 						/>
 					</FormControl>
 				</Stack>
@@ -104,7 +105,7 @@
 					</FormLabel>
 					<FormTextField
 						multirow
-						maxlength={200}
+						maxlength={DescriptionLimits.Max}
 					/>
 				</FormControl>
 				<FormControl

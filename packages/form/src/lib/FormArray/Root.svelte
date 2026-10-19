@@ -2,7 +2,6 @@
 	lang="ts"
 	generics="T"
 >
-	import { setFormControl } from '$lib/FormControl/context.svelte.js';
 	import { getForm } from '$lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
 	import { FormArrayContext, setFormArray } from './context.svelte.ts';
@@ -13,8 +12,6 @@
 		children,
 		gap,
 		id,
-		required,
-		disabled,
 		// eslint-disable-next-line no-useless-assignment
 		value = $bindable([]),
 		defaultValue,
@@ -39,25 +36,16 @@
 		maxReadable,
 	);
 
-	// For error labels, not really field
-	setFormControl(formArray);
-
 	$effect.pre(() => {
 		formArray.defaultValue = defaultValue ?? [];
 		formArray.controls = FormArrayContext.createItemsFromDefaultValue(defaultValue ?? []);
-	});
-	$effect.pre(() => {
-		formArray.required = required ?? false;
-	});
-	$effect.pre(() => {
-		formArray.disabled = disabled ?? false;
 	});
 	$effect.pre(() => {
 		$maxReadable = max;
 	});
 
 	// Make sure form is aware of this object, since there is no control to do that
-	onMount(() => formContext.addControlToForm(formArray));
+	onMount(() => formContext.addFieldToForm(formArray));
 
 	export function getControl() {
 		return formArray;

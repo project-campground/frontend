@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { FormChecklistProps } from './props.ts';
+	import type { ListProps } from './props.ts';
 	import { Stack } from '@campground/ui';
 	import { setFormControlKey } from '$lib/FormCheck/context.svelte.js';
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { onMount } from 'svelte';
 
-	const { children, ...props }: FormChecklistProps = $props();
+	const { children, ...props }: ListProps = $props();
 
-	const control = getFormControl();
+	const control = getFieldControl();
 	const key = $props.id();
 
 	onMount(() => {

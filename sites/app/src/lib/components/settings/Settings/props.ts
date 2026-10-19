@@ -14,9 +14,11 @@ export interface ButtonProps<TPage extends string> extends Omit<
 > {
 	page: TPage;
 }
-export type PageComponent = Component<{}>;
+export type PageComponent = Component<Record<string, never>>;
 
-export interface RootProps<TPage extends string> extends CommonProps, Pick<ModalProps, 'instance'> {
+export interface RootProps<TPage extends string, TValue = null>
+	extends CommonProps, Pick<ModalProps, 'instance'> {
 	defaultPage: TPage;
 	pages: Record<TPage, PageComponent>;
+	value: TValue;
 }

@@ -4,7 +4,7 @@
 >
 	import type FormControlProps from './props.ts';
 	import { getForm } from '$lib/Form/context.svelte.js';
-	import { FormControlInstance, setFormControl } from './context.svelte.ts';
+	import { FormControlInstance, setFieldControl } from './context.svelte.ts';
 	import { onMount } from 'svelte';
 
 	let {
@@ -41,14 +41,14 @@
 	});
 
 	// Make sure form is aware of controls, since it's harder to handle events in this case, such as submission
-	onMount(() => formContext.addControlToForm(formControl));
+	onMount(() => formContext.addFieldToForm(formControl));
 
 	// One-way binding for more reactive form
 	$effect.pre(() => {
 		value = formControl.value;
 	});
 
-	setFormControl(formControl);
+	setFieldControl(formControl);
 </script>
 
 <div

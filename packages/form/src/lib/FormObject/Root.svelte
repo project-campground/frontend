@@ -1,9 +1,12 @@
-<script lang="ts">
-	import type FormProps from './props.ts';
-	import { setFormControl } from '$lib/FormControl/context.svelte.js';
+<script
+	lang="ts"
+	generics="T = FormObjectValue"
+>
+	import type RootProps from './props.ts';
 	import { getForm, setForm } from '$lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
 	import { FormObjectContext } from './context.svelte.ts';
+	import type { FormObjectValue } from './props.ts';
 
 	let {
 		children,
@@ -13,21 +16,26 @@
 		inlineContent,
 		autocomplete,
 		id,
+		map,
 		// eslint-disable-next-line no-useless-assignment
-		value = $bindable({}),
+		value = $bindable(),
 		...attributes
-	}: FormProps = $props();
+	}: RootProps<T> = $props();
 
 	const formContext = getForm();
 	const key = $props.id();
 
 	// Sub-form
-	const formObject = new FormObjectContext(key, formContext.submit.bind(formContext), () => id);
+	const formObject = new FormObjectContext<T>(
+		key,
+		formContext.submit.bind(formContext),
+		() => id,
+		() => map ?? ((fields) => Object.fromEntries(fields.map((x) => [x.id, x.value])) as unknown as T),
+	);
 	setForm(formObject);
-	setFormControl(formObject);
 
 	// Make sure form is aware of this object, since there is no control to do that
-	onMount(() => formContext.addControlToForm(formObject));
+	onMount(() => formContext.addFieldToForm(formObject));
 
 	// One-way binding for more reactive form
 	$effect(() => {

@@ -1,5 +1,5 @@
 import type { FormFieldId } from '$lib/Form/props.js';
-import type { IFormControl } from '$lib/FormControl/context.svelte.js';
+import type { IFormControl, IFormField } from '$lib/FormControl/context.svelte.js';
 import { getContext, setContext } from 'svelte';
 import type { Readable } from 'svelte/store';
 
@@ -10,6 +10,7 @@ export class FormArrayItem<T> implements IFormControl<T> {
 	public required = true;
 	public valid: boolean = $derived(this.error === null);
 	public changed: boolean;
+
 	constructor(
 		public key: string,
 		public defaultValue: T,
@@ -23,14 +24,12 @@ export class FormArrayItem<T> implements IFormControl<T> {
 		this.value = this.defaultValue;
 	}
 }
-export class FormArrayContext<T> implements IFormControl<T[]> {
+export class FormArrayContext<T> implements IFormField<T[]> {
 	public static contextKey = {};
 
 	public controls: FormArrayItem<T>[] = $state([]);
 
 	public id: FormFieldId;
-	public required: boolean = $state(false);
-	public disabled: boolean = $state(false);
 
 	public valid = $derived(this.controls.every((x) => x.valid));
 	public value = $derived(this.controls.map((x) => x.value));
@@ -38,7 +37,6 @@ export class FormArrayContext<T> implements IFormControl<T[]> {
 	public defaultValue: T[];
 	public defaultItemValue: T;
 	public changed: boolean;
-	public error = $derived(this.controls.find((x) => x.error)?.error ?? null);
 
 	constructor(
 		public key: string,

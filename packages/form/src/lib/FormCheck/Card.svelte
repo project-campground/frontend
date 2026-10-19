@@ -2,13 +2,13 @@
 	import { Card, Checkbox } from '@campground/ui';
 	import type { FormCheckboxProps, FormCheckValue } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
-	import { getFormControl, type FormControlInstance } from '$lib/FormControl/context.svelte.js';
-	import { getFormControlkey } from '$lib/FormCheck/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
+	import { getFormControlKey } from '$lib/FormCheck/context.svelte.js';
 
 	const { value, header, children, ...props }: FormCheckboxProps = $props();
 
-	const control: FormControlInstance<FormCheckValue[]> = getFormControl();
-	const checkId = getFormControlkey();
+	const control = getFieldControl<FormCheckValue[]>();
+	const checkId = getFormControlKey();
 
 	function onInput() {
 		if (checked) {
@@ -20,7 +20,9 @@
 		control.value.push(value);
 	}
 
-	let checked = $derived(control.value?.includes(value) ?? false);
+	let checked = $derived(
+		(console.log('value', control.value), control.value?.includes(value) ?? false),
+	);
 </script>
 
 <Card.Root>

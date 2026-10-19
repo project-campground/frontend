@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { Para } from '@campground/ui';
 	import type FormErrorLabelProps from './props.ts';
 
-	const fieldContext = getFormControl();
+	const fieldContext = getFieldControl();
 
 	const { class: className, ...props }: FormErrorLabelProps = $props();
 </script>

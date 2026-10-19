@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { onMount } from 'svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import type { FullProps } from './props.ts';
 
-	const formControl = getFormControl<number>();
+	const formControl = getFieldControl<number>();
 
 	onMount(() => {
 		formControl.value ??= 0;

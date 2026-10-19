@@ -5,4 +5,4 @@ export enum TristateValue {
 	Pass = 0,
 	Allowed = 1,
 }
-export interface RootProps extends Omit<FormSimpleFieldProps, 'component'> {}
+export type RootProps = Omit<FormSimpleFieldProps, 'component'>;

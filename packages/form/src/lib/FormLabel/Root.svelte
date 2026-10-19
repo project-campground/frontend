@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { notInherited } from '@campground/ui';
 	import type FormLabelProps from './props.ts';
 
-	const fieldContext = getFormControl();
+	const fieldContext = getFieldControl();
 
 	const { children, hideAsterisk, subtle, flex, ...props }: FormLabelProps = $props();
 </script>

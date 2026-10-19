@@ -2,24 +2,64 @@ import type { FormFieldId } from '$lib/Form/props.js';
 import { getContext, setContext } from 'svelte';
 
 /**
- * Defines common things
+ * Defines the properties and functions required for a form field.
  */
-export interface IFormControl<T> {
-	key: string;
-
+export interface IFormField<T> {
+	/**
+	 * Used as a key in form's final value.
+	 */
 	id: FormFieldId;
 
+	/**
+	 * The current value of the form control.
+	 */
 	value: T;
-	defaultValue: T;
-	error: string | null;
 
-	required: boolean;
-
+	/**
+	 * Whether the current form field is valid.
+	 */
 	valid: boolean;
+	/**
+	 * Whether the current form field's value has been changed.
+	 */
 	changed: boolean;
 
+	/**
+	 * Resets the field's value to default value.
+	 */
 	reset(): void;
 }
+/**
+ * Defines the properties and functions required for a form field to use a control.
+ */
+export interface IFieldControl<T> {
+	/**
+	 * Unique identifier for the key used to give control's ID to labels.
+	 */
+	key: string;
+	/**
+	 * The current value of the form control.
+	 */
+	value: T;
+	/**
+	 * The default value provided to the form control.
+	 */
+	defaultValue: T;
+	/**
+	 * The current error that the control has.
+	 * If the error is provided as an empty string, it means that the value of the control is empty in any possible way.
+	 */
+	error: string | null;
+
+	/**
+	 * Gets whether the value has to be changed and not be empty.
+	 */
+	required: boolean;
+}
+/**
+ * Defines common control expected properties.
+ */
+export interface IFormControl<T> extends IFormField<T>, IFieldControl<T> {}
 export class FormControlInstance<T> implements IFormControl<T> {
 	public static contextKey = {};
 	public error: string | null = $state(null);
@@ -47,13 +87,13 @@ export class FormControlInstance<T> implements IFormControl<T> {
 		);
 	}
 
-	public reset() {
+	public reset(): void {
 		this.value = this.defaultValue;
 	}
 }
-export function setFormControl<T = unknown>(value: IFormControl<T>) {
-	return setContext<IFormControl<T>>(FormControlInstance.contextKey, value);
+export function setFieldControl<T = unknown>(value: IFieldControl<T>) {
+	return setContext<IFieldControl<T>>(FormControlInstance.contextKey, value);
 }
-export function getFormControl<T = unknown>() {
-	return getContext<IFormControl<T>>(FormControlInstance.contextKey);
+export function getFieldControl<T = unknown>() {
+	return getContext<IFieldControl<T>>(FormControlInstance.contextKey);
 }

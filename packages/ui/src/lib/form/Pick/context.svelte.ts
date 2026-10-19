@@ -5,14 +5,14 @@ export class PickContext {
 	public itemsForm: HTMLFormElement | null = $state(null);
 
 	public items = $derived(this.itemsForm?.items as RadioNodeList);
-	public activeTab = $derived(this.items?.item(this.activeItemIndex));
+	public activeItem = $derived(this.items?.item(this.activeItemIndex));
 	public itemCount = $derived(this.items?.length);
 
 	public setActiveItem(input: HTMLInputElement) {
-		// console.log('Setting active item', input, this.items);
-		console.log('Active item');
-		console.log('Setting active item', this.itemsForm);
-		this.activeItemIndex = [...(this.items ?? [])].indexOf(input);
+		this.setActiveIndex([...(this.items ?? [])].indexOf(input));
+	}
+	public setActiveIndex(index: number) {
+		this.activeItemIndex = index;
 	}
 }
 

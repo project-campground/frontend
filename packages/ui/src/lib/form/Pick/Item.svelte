@@ -14,7 +14,7 @@
 	role="tab"
 	class={['button', className]}
 	tabindex={-1}
-	data-active={pickContext.activeTab === input}
+	data-active={pickContext.activeItem === input}
 	{...attr}
 >
 	{@render children()}

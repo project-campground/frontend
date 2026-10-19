@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { Badge, getMenuPortal, Image, MenuPortalInstance, Modal, rem } from '@campground/ui';
 	import type { FormImageFieldProps, FormImageFieldValue } from './props.ts';
-	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { FormControlInstance, getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { IconPencilFilled } from '@tabler/icons-svelte';
 	import FormImageDialog from './Dialog.svelte';
 
 	const { children, width, height, aspectRatio, radius }: FormImageFieldProps = $props();
 
 	// Functionality
-	const control = getFormControl<FormImageFieldValue | undefined>();
+	const control = getFieldControl<FormImageFieldValue | undefined>();
 
 	// Error messages and feedback
 	const menuPortal = getMenuPortal();

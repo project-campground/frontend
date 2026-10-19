@@ -2,13 +2,13 @@
 	import { Checkbox } from '@campground/ui';
 	import type { FormCheckboxProps, FormCheckValue } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
-	import { getFormControlkey } from '$lib/FormCheck/context.svelte.js';
-	import { FormControlInstance, getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFormControlKey } from '$lib/FormCheck/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 
 	const { value, header, children, ...props }: FormCheckboxProps = $props();
 
-	const control: FormControlInstance<FormCheckValue[]> = getFormControl();
-	const checkId = getFormControlkey();
+	const control = getFieldControl<FormCheckValue[]>();
+	const checkId = getFormControlKey();
 
 	function onInput() {
 		if (checked) {

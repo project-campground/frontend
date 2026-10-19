@@ -1,6 +1,6 @@
 <script
 	lang="ts"
-	generics="TPage extends string"
+	generics="TPage extends string, TValue"
 >
 	import { Modal } from '@campground/ui';
 	import Dialog from './Dialog.svelte';
@@ -8,10 +8,15 @@
 	import { setSettings, SettingsContext } from './context.svelte.ts';
 	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
 
-	const { defaultPage, pages, instance, ...attributes }: RootProps<TPage> = $props();
+	const { value, defaultPage, pages, instance, ...attributes }: RootProps<TPage, TValue> = $props();
 
-	const context = new SettingsContext<TPage>(() => defaultPage);
+	// svelte-ignore state_referenced_locally
+	const context = new SettingsContext<TPage, TValue>(() => defaultPage, value);
 	setSettings(context);
+
+	$effect(() => {
+		context.value = value;
+	});
 
 	const PageComponent = $derived(pages[context.page]);
 </script>

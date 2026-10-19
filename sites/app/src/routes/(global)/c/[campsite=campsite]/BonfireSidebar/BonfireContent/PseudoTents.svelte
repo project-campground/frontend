@@ -4,7 +4,7 @@
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import { pseudoTentList } from '$lib/components/tents/pseudoTents.js';
 	import { Stack } from '@campground/ui';
-	import TentBase from '../../TentList/TentBase.svelte';
+	import TentListButton from '../../TentList/TentListButton.svelte';
 
     const campsiteContext = getCampsiteContext();
     const campsiteReference = $derived(campsiteContext.campsiteReference!);
@@ -20,7 +20,7 @@
 }))}
 <Stack gap={0.25}>
     {#each pseudoTents as tent (tent.id)}
-        <TentBase
+        <TentListButton
             {tent}
             domain={campsiteReference.domain}
         />

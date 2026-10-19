@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { Button, Stack } from '@campground/ui';
 	import type { FormRadioButtonProps } from './props.ts';
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 
 	let { children, value, class: className, disabled, ...props }: FormRadioButtonProps = $props();
 
 	// Functionality
-	const control = getFormControl();
+	const control = getFieldControl();
 	const checked = $derived(control.value === value);
 </script>
 

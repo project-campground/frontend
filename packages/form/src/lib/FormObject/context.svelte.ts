@@ -1,29 +1,28 @@
-import { AbstractFormInstance, type IFormInstance } from '$lib/Form/context.svelte.js';
+import { AbstractFormInstance } from '$lib/Form/context.svelte.js';
 import type { FormFieldId } from '$lib/Form/props.js';
-import type { IFormControl } from '$lib/FormControl/context.svelte.js';
+import type { IFormControl, IFormField } from '$lib/FormControl/context.svelte.js';
+import type { FormObjectValue } from './props.ts';
 
-export type FormObjectValue = Record<FormFieldId, unknown>;
-
-export class FormObjectContext
-	extends AbstractFormInstance
-	implements IFormInstance<unknown, IFormControl<unknown>>, IFormControl<FormObjectValue>
+export class FormObjectContext<T>
+	extends AbstractFormInstance<IFormControl<unknown>>
+	implements IFormField<unknown>
 {
 	public id: FormFieldId;
 	public required: boolean = $state(false);
 	public disabled: boolean = $state(false);
 
-	public value = $derived(Object.fromEntries(this.controls.map((x) => [x.id, x.value])));
-
+	public value: T;
 	public defaultValue: FormObjectValue = {};
-	public error = $derived(this.controls.find((x) => x.error)?.error ?? null);
 
 	constructor(
 		public key: string,
 		private _submit: () => unknown,
 		getInitialId: () => FormFieldId,
+		private _mapValue: () => (fields: IFormControl<unknown>[]) => T,
 	) {
 		super();
 		this.id = $state(getInitialId());
+		this.value = $derived(this._mapValue()(this.fields));
 	}
 
 	public submit() {

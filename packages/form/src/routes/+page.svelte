@@ -13,6 +13,7 @@
 		FormColor,
 		FormNumberField,
 		FormTags,
+		FormFlags,
 	} from '$lib/index.js';
 	import { FormImageField } from '$lib/FormImageField/index.js';
 	import {
@@ -29,6 +30,7 @@
 	{#snippet tabs()}
 		<Tabs.Item>Text fields</Tabs.Item>
 		<Tabs.Item>Check &amp; Radio</Tabs.Item>
+		<Tabs.Item>Flagged</Tabs.Item>
 		<Tabs.Item>Visual</Tabs.Item>
 		<Tabs.Item>Objects &amp; Arrays</Tabs.Item>
 	{/snippet}
@@ -48,6 +50,12 @@
 			<FormTextField
 				multirow
 				minlength={5}
+				placeholder="Example placeholder"
+			/>
+		</FormControl>
+		<FormControl id="textFieldMapped">
+			<FormLabel>Mapped text field</FormLabel>
+			<FormTextField
 				placeholder="Example placeholder"
 			/>
 		</FormControl>
@@ -229,6 +237,61 @@
 		</FormControl>
 	</Tab>
 	<Tab>
+		<FormControl id="flags">
+			<FormLabel>Flags</FormLabel>
+			<FormFlags.List>
+				<FormFlags.Single value={0}>
+					{#snippet header()}
+						0 value (unusual value)
+					{/snippet}
+				</FormFlags.Single>
+				<FormFlags.Single value={1}>
+					{#snippet header()}
+						1 value
+					{/snippet}
+				</FormFlags.Single>
+				<FormFlags.Single value={2}>
+					{#snippet header()}
+						2 value
+					{/snippet}
+					Description here
+				</FormFlags.Single>
+				<FormFlags.Single value={3}>
+					{#snippet header()}
+						3 value
+					{/snippet}
+				</FormFlags.Single>
+				<FormFlags.Single value={4}>
+					{#snippet header()}
+						4 value
+					{/snippet}
+				</FormFlags.Single>
+				<FormFlags.Single value={8}>
+					{#snippet header()}
+						8 value
+					{/snippet}
+				</FormFlags.Single>
+			</FormFlags.List>
+			<FormErrorLabel />
+		</FormControl>
+		<FormControl id="flagsOdd">
+			<FormLabel>Flags with other features</FormLabel>
+			<FormFlags.List>
+				<FormFlags.Tristate position={0}>
+					{#snippet header()}
+						0 value
+					{/snippet}
+				</FormFlags.Tristate>
+				<FormFlags.Tristate position={1}>
+					{#snippet header()}
+						1 value
+					{/snippet}
+				</FormFlags.Tristate>
+			</FormFlags.List>
+			<FormErrorLabel />
+		</FormControl>
+	</Tab>
+	<Tab>
 		<FormControl id="img">
 			<FormLabel>Image</FormLabel>
 			<FormImageField
@@ -287,6 +350,25 @@
 				</Card.Content>
 			</Card.Root>
 		</FormObject>
+		<FormObject id="mappedObject" map={(fields) => fields.map((x) => x.value)}>
+			<Card.Root>
+				<Card.Content gap="sm">
+					<Para level="h3">Mapped object</Para>
+					<FormControl id="textAreaAndStuff">
+						<FormLabel>Text area field</FormLabel>
+						<FormTextField multirow />
+					</FormControl>
+					<FormControl id="formattedSingleLine">
+						<FormLabel>Text field formatted</FormLabel>
+						<FormTextField
+							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
+							placeholder="Aaa"
+						/>
+						<FormErrorLabel />
+					</FormControl>
+				</Card.Content>
+			</Card.Root>
+		</FormObject>
 		<FormControl
 			id="tags1"
 			defaultValue={['a', 'b', 'c']}
@@ -309,7 +391,7 @@
 			bind:this={formArray}
 		>
 			<Group>
-				<FormLabel flex={1}>Array</FormLabel>
+				<Para>Array</Para>
 				<Button onclick={() => formArray?.getControl().reset()}>Reset</Button>
 				<FormArray.Button />
 			</Group>

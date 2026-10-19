@@ -2,11 +2,11 @@
 	import { Card, Radio } from '@campground/ui';
 	import type { FormRadioItemProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 
 	const { header, children, value, ...props }: FormRadioItemProps = $props();
 
-	const control = getFormControl();
+	const control = getFieldControl();
 </script>
 
 <Card.Root>

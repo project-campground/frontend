@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Button, getMenuPortal, Menu, TextBlock, type MenuPortalInstance } from '@campground/ui';
 	import ColorPicker from './ColorPicker.svelte';
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { onMount, type Snippet } from 'svelte';
 	import type { ButtonProps } from './props.ts';
 
-	const formControl = getFormControl<number>();
+	const formControl = getFieldControl<number>();
 
 	const menuPortal = getMenuPortal();
 	let menuInstance: MenuPortalInstance<unknown> | null = $state(null);

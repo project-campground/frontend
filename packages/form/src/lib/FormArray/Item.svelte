@@ -6,14 +6,14 @@
 	import { IconX } from '@tabler/icons-svelte';
 	import type { ItemProps } from './props.ts';
 	import { getFormArray } from './context.svelte.ts';
-	import { setFormControl } from '$lib/FormControl/context.svelte.js';
+	import { setFieldControl } from '$lib/FormControl/context.svelte.js';
 
 	const formArray = getFormArray();
 
 	const { item, children }: ItemProps<T> = $props();
 
 	// svelte-ignore state_referenced_locally
-	setFormControl(item);
+	setFieldControl(item);
 </script>
 
 <li>

@@ -134,7 +134,6 @@
 		</Grid.Cell>
 	</Grid.Root>
 	<Section>
-		{console.log('Selected role name', roleContext.selectedRole?.name)}
 		<FormControl
 			id="name"
 			defaultValue={roleContext.selectedRole?.name}
@@ -217,6 +216,7 @@
 		<FormArray.Root
 			id="colors"
 			defaultValue={roleContext.selectedRole?.colors}
+			defaultItemValue={0xff0000}
 			max={5}
 			bind:value={colors}
 		>

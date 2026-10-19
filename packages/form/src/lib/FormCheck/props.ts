@@ -5,7 +5,7 @@ import type { AriaAttributes } from 'svelte/elements';
 
 export type FormCheckValue = string | number;
 
-export interface FormChecklistProps extends StackProps {
+export interface ListProps extends StackProps {
 	children?: Snippet;
 }
 

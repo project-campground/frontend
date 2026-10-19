@@ -3,10 +3,14 @@
 	import { IconCheck, IconSlash, IconX } from '@tabler/icons-svelte';
 
 	const pickContext = Pick.getPickContext();
+	const { size, ...props }: Omit<Pick.ListProps, 'children'> = $props();
 </script>
 
 <div style:--Pick-activeIndex={pickContext.activeItemIndex}>
-	<Pick.List size="sm">
+	<Pick.List
+		size={size ?? 'sm'}
+		{...props}
+	>
 		<Pick.Item>
 			<IconX size="1rem" />
 		</Pick.Item>

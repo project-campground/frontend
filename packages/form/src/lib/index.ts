@@ -7,6 +7,7 @@ export * from './FormLabel/index.ts';
 export * as FormArray from './FormArray/index.ts';
 export * as FormCheck from './FormCheck/index.ts';
 export * as FormColor from './FormColor/index.ts';
+export * as FormFlags from './FormFlags/index.ts';
 export * from './FormImageField/index.ts';
 export * from './FormNumberField/index.ts';
 export * from './FormObject/index.ts';

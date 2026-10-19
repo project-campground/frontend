@@ -23,7 +23,7 @@
 
 <Button
 	{...props}
-	disabled={formContext.valid || disabled}
+	disabled={!formContext.valid || disabled}
 	onclick={(ev) => formContext.submit(ev)}
 >
 	{#if children}

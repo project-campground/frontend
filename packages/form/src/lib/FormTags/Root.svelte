@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type FormTextFieldProps from './props.ts';
-	import { getFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
 	import { Chip, TextInput } from '@campground/ui';
 	import Tag from './Tag.svelte';
 
 	const { minlength = 0, maxlength, max }: FormTextFieldProps = $props();
 
 	// Functionality
-	const control = getFormControl<string[] | undefined>();
+	const control = getFieldControl<string[] | undefined>();
 
 	function onKeyPress(
 		ev: KeyboardEvent & { currentTarget: HTMLInputElement | HTMLTextAreaElement },

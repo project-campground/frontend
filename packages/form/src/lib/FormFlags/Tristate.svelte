@@ -10,14 +10,14 @@
 	import { Pick } from '@campground/ui';
 	import type { PairedProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
-	import { getFieldControl, type IFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl, type IFieldControl } from '$lib/FormControl/context.svelte.js';
 	import TristateSelect from '$lib/FormTristate/TristateSelect.svelte';
 	import { FlagsPickContext } from './context.svelte.ts';
 	import { getFlagMask } from '$lib/util/flags.js';
 
 	const { position, header, children, reverse, ...props }: PairedProps = $props();
 
-	const control: IFormControl<number> = getFieldControl();
+	const control: IFieldControl<number> = getFieldControl();
 
 	function valueAtPos(index: number) {
 		return values[index]! << (position * 2);

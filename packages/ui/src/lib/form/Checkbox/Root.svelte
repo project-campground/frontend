@@ -18,6 +18,7 @@
 </script>
 
 <button
+	type="button"
 	class={['container', { checked, indeterminate }, className]}
 	data-size={size ?? 'md'}
 	role="checkbox"

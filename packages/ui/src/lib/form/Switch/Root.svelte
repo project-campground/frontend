@@ -18,6 +18,7 @@
 </script>
 
 <button
+	type="button"
 	class={['input', { checked: value }, className]}
 	data-size={size ?? 'md'}
 	disabled={disabled ?? inputDisabled}

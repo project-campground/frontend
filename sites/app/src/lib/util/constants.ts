@@ -3,15 +3,15 @@ import type { PermissionsDictionary } from '$lib/types/campground/permissions.js
 export const enum ContentPermission {
 	ViewContent = 1,
 	CreateContent = 2 << 0,
-	PinContent = 2 << 1,
+	LabelContent = 2 << 1,
 	ManageContent = 2 << 2,
-	MentionEveryone = 2 << 3,
+	MentionMany = 2 << 3,
 	CreatePrivateContent = 2 << 4,
 	Max = ViewContent
 		| CreateContent
-		| PinContent
+		| LabelContent
 		| ManageContent
-		| MentionEveryone
+		| MentionMany
 		| CreatePrivateContent,
 }
 export const enum GeneralPermission {

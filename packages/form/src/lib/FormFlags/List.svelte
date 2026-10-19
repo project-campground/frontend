@@ -3,14 +3,13 @@
 	import { Stack } from '@campground/ui';
 	import { setFormControlKey } from '$lib/FormCheck/context.svelte.js';
 	import { getFieldControl } from '$lib/FormControl/context.svelte.js';
-	import { onMount } from 'svelte';
 
 	const { children, ...props }: ListProps = $props();
 
 	const control = getFieldControl<number>();
 	const key = $props.id();
 
-	onMount(() => {
+	$effect(() => {
 		control.value = control.defaultValue ?? 0;
 	});
 

@@ -3,11 +3,11 @@
 	import type { SingleProps } from './props.ts';
 	import FormSimpleField from '$lib/FormSimpleField/Root.svelte';
 	import { getFormControlKey } from '$lib/FormCheck/context.svelte.js';
-	import { getFieldControl, type IFormControl } from '$lib/FormControl/context.svelte.js';
+	import { getFieldControl, type IFieldControl } from '$lib/FormControl/context.svelte.js';
 
 	const { value, header, children, reverse, ...props }: SingleProps = $props();
 
-	const control: IFormControl<number> = getFieldControl();
+	const control: IFieldControl<number> = getFieldControl();
 	const checkId = getFormControlKey();
 
 	function onInput() {
@@ -29,7 +29,7 @@
 >
 	{#snippet component(id)}
 		<Checkbox
-			bind:checked
+			{checked}
 			{indeterminate}
 			{id}
 			size="sm"

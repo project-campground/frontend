@@ -17,6 +17,7 @@
 	import ProfilePage from './ProfilePage.svelte';
 	import { getSettings } from '../../Settings/context.svelte.ts';
 	import type { RoleView } from '$lib/types/campground/roles.js';
+	import Permissions from './Permissions.svelte';
 
 	const campsiteContext = getCampsiteContext();
 	const appview = getAppview();
@@ -119,7 +120,9 @@
 				<Tabs.Tab padding="md">
 					<ProfilePage />
 				</Tabs.Tab>
-				<Tabs.Tab>Permissions</Tabs.Tab>
+				<Tabs.Tab>
+					<Permissions />
+				</Tabs.Tab>
 				<Tabs.Tab>Settings</Tabs.Tab>
 			</Tabs.Root>
 		</Form>

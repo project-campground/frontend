@@ -58,7 +58,16 @@
 </script>
 
 <script lang="ts">
-	import { Card, Para, Section, Grid, Stack, Group, type GradientMotion } from '@campground/ui';
+	import {
+		Card,
+		Para,
+		Section,
+		Grid,
+		Stack,
+		Group,
+		type GradientMotion,
+		TextBlock,
+	} from '@campground/ui';
 	import { getRoleSettings } from './context.svelte.ts';
 	import {
 		FormArray,
@@ -221,9 +230,9 @@
 			bind:value={colors}
 		>
 			<Group>
-				<FormLabel flex={1}>
+				<TextBlock>
 					<LocaleMessage {...localeMessages.colors} />
-				</FormLabel>
+				</TextBlock>
 				<FormArray.Button />
 			</Group>
 			<FormArray.List>

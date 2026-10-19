@@ -34,7 +34,7 @@
 		formControl.required = required ?? false;
 	});
 	$effect.pre(() => {
-		formControl.defaultValue = defaultValue ?? null;
+		formControl.value = formControl.defaultValue = defaultValue ?? null;
 	});
 	$effect.pre(() => {
 		formControl.id = id;

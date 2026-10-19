@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { notInherited } from '$lib/util/component.js';
 	import type GradientTextProps from './props.ts';
 
-	const { children, colors, motion }: GradientTextProps = $props();
+	const { children, colors, motion, flex }: GradientTextProps = $props();
 	const percentageOfColor = $derived(50 / (colors?.length ?? 1));
 	const gradient: string[] | undefined | null = $derived(
 		motion === 'linear' ? colors?.concat(colors.slice(0, 1))
@@ -19,6 +20,7 @@
 <span
 	style:--GradientText-gradient={gradient?.join(', ') || 'var(--foreground-heading)'}
 	style:--GradientText-time="{time}s"
+	style:--Layout-flex={notInherited(flex)}
 	class={[colors?.length && 'withColors']}
 	data-motion={motion ?? 'none'}
 >
@@ -26,6 +28,8 @@
 </span>
 
 <style lang="scss">
+	@use '../../hierarchy/Layout.scss' as *;
+
 	@keyframes motion-linear {
 		0% {
 			background-position-x: 0%;
@@ -76,6 +80,8 @@
 	}
 
 	span {
+		@extend %InLayout;
+
 		&.withColors {
 			-webkit-text-fill-color: transparent;
 			color: transparent;

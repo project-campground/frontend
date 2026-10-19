@@ -17,6 +17,7 @@
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { PseudoTentType } from '../../../../../lib/components/tents/pseudoTents.ts';
 	import TentListItem from './Item.svelte';
+	import { ContentMover } from '$lib/components/index.js';
 
 	const {
 		tent,
@@ -28,9 +29,9 @@
 	const isActive = $derived(tent.id === page.url.pathname.split('/t/')[1]?.split('/')[0]);
 </script>
 
-<a
+<ContentMover.Wrapper
+	element="a"
 	href={`/c/${tent.campsiteId}@${domain}/t/${tent.id}`}
-	data-droppable-over="none"
 	{...attrs}
 >
 	<TentListItem active={isActive}>
@@ -40,38 +41,4 @@
 		/>
 		{tent.name}
 	</TentListItem>
-</a>
-
-<style lang="scss">
-	@use '@campground/ui' as *;
-
-	a {
-		position: relative;
-
-		display: flex;
-		flex-direction: column;
-		align-items: stretch;
-		text-decoration: none;
-		box-sizing: border-box;
-
-		&::before {
-			position: absolute;
-			content: '';
-
-			height: 0.25rem;
-
-			left: 0;
-			right: 0;
-			border-radius: var(--radius-md);
-			background: transparent;
-
-			top: -0.25rem;
-
-			transition: background $transition-time-md;
-		}
-
-		&[data-droppable-over]:not([data-droppable-over='none'])::before {
-			background: linear-gradient(to right, var(--primary-glowFirst), var(--primary-glowSecond));
-		}
-	}
-</style>
+</ContentMover.Wrapper>

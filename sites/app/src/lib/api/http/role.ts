@@ -35,11 +35,11 @@ export default class HTTPRoleManager extends HTTPBackendObjectManager {
 		});
 	}
 
-	moveMany(campsite_id: string, body: { rolesByPosition: Record<string, number> }) {
+	move(campsite_id: string, role_id: string, position: number) {
 		return this.client.post<GetRolesOutput>({
-			route: 'gg.campground.role.moveRoles',
-			queries: { campsite_id },
-			body,
+			route: 'gg.campground.role.moveRole',
+			queries: { campsite_id, role_id },
+			body: { position },
 		});
 	}
 

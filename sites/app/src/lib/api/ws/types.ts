@@ -36,7 +36,7 @@ export type WSMessageTypeToPayload = {
 	RoleCreated: RoleView;
 	RoleUpdated: RoleView;
 	RoleDeleted: RoleView;
-	RolesMoved: { rolesByPosition: Record<string, number> };
+	RoleMoved: RoleView;
 
 	BonfireCreated: BonfireViewBasic;
 	BonfireUpdated: BonfireViewBasic;

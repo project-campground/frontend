@@ -7,13 +7,13 @@
 	import TentList from '../../TentList/Root.svelte';
 	import Wrapper from './Wrapper.svelte';
 	import Skeleton from './Skeleton.svelte';
-	import TentMover from '../../TentList/TentMover.svelte';
 	import { getAppview } from '$lib/context/api.js';
 	import PseudoTents from './PseudoTents.svelte';
 	import { TentCreation } from '../../Modals/TentCreation/index.ts';
 	import { localeStrings } from '$lib/locale/index.js';
 	import { IconPlus } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
+	import { ContentMover } from '$lib/components/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const bonfire = $derived(campsiteContext.openBonfire);
@@ -101,7 +101,7 @@
 			</TentCategory>
 		{/each}
 		{const bottomCategories = categorizedTents.slice(-1)}
-		<TentMover
+		<ContentMover.Discrete
 			id="0"
 			disallowIds={bottomCategories.map((x) => x.category.id)}
 			onDrop={async (categoryId) =>

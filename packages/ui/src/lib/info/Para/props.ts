@@ -3,6 +3,7 @@ import type { Snippet } from 'svelte';
 import type { ClassValue } from 'svelte/elements';
 import type { BaseTextProps } from '../props.ts';
 import type { Size } from '$lib/util/component.js';
+import type { InFlexLayout } from '$lib/hierarchy/layout.js';
 
 export type HeaderLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 export type RegularParagraphLevel = 'paragraph';
@@ -10,7 +11,7 @@ export type SubtitleLevel = 'sub0' | 'sub1';
 export type ParaLevel = HeaderLevel | RegularParagraphLevel | SubtitleLevel;
 export type TextAlign = 'left' | 'right' | 'center' | 'justify';
 
-export default interface ParaProps extends BaseTextProps {
+export default interface ParaProps extends BaseTextProps, InFlexLayout {
 	letterSpacing?: Size;
 	lineHeight?: Size;
 	level?: ParaLevel;

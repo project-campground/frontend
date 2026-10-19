@@ -3,11 +3,13 @@ import type { Size } from '$lib/util/component.js';
 export type TextWrap = 'wrap' | 'nowrap' | 'balance' | 'pretty' | 'stable';
 export type TextOverflow = 'clip' | 'ellipsis' | '-';
 export type TextWhitespace = 'pre' | 'pre-wrap' | 'pre-line';
+export type TextAlign = 'left' | 'right' | 'center' | 'justify';
 
 export interface BaseTextProps {
 	fontSize?: Size;
 	weight?: 400 | 500 | 600 | 700 | 800 | 900;
 	textWrap?: TextWrap;
+	textAlign?: TextAlign;
 	whitespace?: TextWhitespace;
 	overflow?: TextOverflow;
 }

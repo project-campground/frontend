@@ -1,5 +1,6 @@
 $whitespaces: pre, pre-wrap, pre-line;
 $text-overflows: clip, ellipsis, '-';
+$text-aligns: left, right, center, justify;
 
 %Text-base {
 	font-size: var(--BaseText-fontSize);
@@ -11,6 +12,11 @@ $text-overflows: clip, ellipsis, '-';
 	@each $overflow in $text-overflows {
 		&[data-text-overflow='#{$overflow}'] {
 			text-overflow: $overflow;
+		}
+	}
+	@each $align in $text-aligns {
+		&[data-text-align='#{$align}'] {
+			text-align: $align;
 		}
 	}
 	@for $i from 5 to 9 {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { em } from '$lib/util/component.ts';
+	import { em, notInherited } from '$lib/util/component.js';
 	import { baseTextProps } from '../props.ts';
 	import type ParaProps from './props.ts';
 
@@ -15,6 +15,8 @@
 		letterSpacing,
 		mt: tMargin,
 		mb: bMargin,
+		flex,
+		textAlign,
 		...props
 	}: ParaProps = $props();
 </script>
@@ -24,6 +26,7 @@
 	class={['Para', className]}
 	data-level={level}
 	data-align={align}
+	data-text-align={textAlign}
 	data-color={color}
 	data-v-margin={vMargin}
 	data-t-margin={tMargin}
@@ -32,6 +35,7 @@
 	style:--BaseText-fontSize={em(fontSize)}
 	style:--Para-lineHeight={em(lineHeight)}
 	style:--Para-letterSpacing={em(letterSpacing)}
+	style:--Layout-flex={notInherited(flex)}
 >
 	{@render children?.()}
 </svelte:element>

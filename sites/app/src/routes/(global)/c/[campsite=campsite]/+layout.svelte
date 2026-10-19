@@ -13,7 +13,7 @@
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
 	import WSClient from '$lib/api/ws/WSClient.js';
 	import { filter, type Unsubscribable } from 'rxjs';
-	import { handleWebSocket } from './ws/index.ts';
+	import { handleWebSocket } from './ws/index.svelte.ts';
 	import { getAccount } from '$lib/context/account.svelte.js';
 
 	const { children, params }: LayoutProps = $props();

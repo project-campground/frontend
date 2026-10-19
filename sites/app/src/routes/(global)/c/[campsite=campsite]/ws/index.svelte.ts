@@ -2,8 +2,9 @@ import { filter } from 'rxjs';
 import type { CampsiteContext } from '../context.svelte.ts';
 import { tentMessageHandlers } from './tents.ts';
 import type { WebSocketMessageHandlers } from './types.ts';
-import { roleMessageHandlers } from './roles.ts';
+import { roleMessageHandlers } from './roles.svelte.ts';
 import { AccountNavbarItemType, type AccountInfo } from '$lib/context/account.svelte.js';
+import { goto } from '$app/navigation';
 
 const wsMessageHandlers: Partial<WebSocketMessageHandlers> = {
 	CampsiteUpdated(payload, context, account) {
@@ -24,6 +25,7 @@ const wsMessageHandlers: Partial<WebSocketMessageHandlers> = {
 	},
 	CampsiteLeft({ id }, context, account) {
 		if (!context.domain) return;
+		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		else if (id === context.campsite!.id) goto('/');
 
 		return account.removeCampsiteFromNavbar(context.domain, id);

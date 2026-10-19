@@ -10,6 +10,7 @@
 		padding,
 		fullWidth,
 		class: className,
+		textAlign,
 		...attributes
 	}: ButtonProps = $props();
 </script>
@@ -21,6 +22,7 @@
 	data-variant={variant ?? 'glow'}
 	data-color={color ?? 'primary'}
 	data-padding={padding}
+	data-text-align={textAlign}
 	{...stackedProps(attributes)}
 >
 	{@render children()}
@@ -31,6 +33,7 @@
 	@use '../../common.scss' as *;
 	@use './Button.scss' as *;
 	@use '../../hierarchy/Layout.scss' as *;
+	@use '../../info/Text.scss' as *;
 
 	$regular-variants: 'plain', 'selected', 'soft';
 
@@ -46,6 +49,12 @@
 		justify-content: center;
 
 		@extend %Stacked;
+
+		@each $align in $text-aligns {
+			&[data-text-align='#{$align}'] {
+				text-align: $align;
+			}
+		}
 
 		font-weight: bold;
 		font-family: var(--font-body);

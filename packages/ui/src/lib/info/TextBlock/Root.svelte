@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { em, toSpacingPx } from '../../util/component.ts';
+	import { em, notInherited, toSpacingPx } from '../../util/component.ts';
 	import { baseTextProps } from '../props.ts';
 	import type TextBlockProps from './props.ts';
 
@@ -13,6 +13,8 @@
 		level,
 		align,
 		fontSize,
+		textAlign,
+		flex,
 		...props
 	}: TextBlockProps = $props();
 </script>
@@ -22,10 +24,12 @@
 	data-float={float}
 	data-align={align}
 	data-level={level}
+	data-text-align={textAlign}
 	{...baseTextProps(props)}
 	style:--BaseText-fontSize={em(fontSize)}
 	style:--TextBlock-paddingLeft={toSpacingPx(pl)}
 	style:--TextBlock-paddingRight={toSpacingPx(pr)}
+	style:--Layout-flex={notInherited(flex)}
 >
 	{@render children?.()}
 </span>
@@ -33,6 +37,7 @@
 <style lang="scss">
 	@use '../../common.scss' as *;
 	@use '../Text.scss' as *;
+	@use '../../hierarchy/Layout.scss' as *;
 
 	$levels: background, subtext, body, subheading, heading;
 	$floats: left, right;
@@ -47,6 +52,7 @@
 		}
 
 		@extend %Text-base;
+		@extend %InLayout;
 
 		@each $level in $levels {
 			&[data-level='#{$level}'] {

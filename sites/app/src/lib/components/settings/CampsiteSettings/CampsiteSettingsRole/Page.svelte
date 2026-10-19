@@ -18,6 +18,7 @@
 	import { getSettings } from '../../Settings/context.svelte.ts';
 	import type { RoleView } from '$lib/types/campground/roles.js';
 	import Permissions from './Permissions.svelte';
+	import { ContentMover } from '$lib/components/content/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const appview = getAppview();
@@ -31,6 +32,7 @@
 	setRoleSettings(context);
 
 	let form: Form | null = $state(null);
+	let roles = $derived(campsiteContext.roles!);
 
 	$effect(() => {
 		if (!form) return;
@@ -53,6 +55,12 @@
 		data: Pick<RoleView, 'name' | 'colors' | 'motion' | 'raised' | 'pingable' | 'permissions'>,
 	) {
 		return appview.roles.update(campsiteContext.campsite!.id, roleId, data);
+	}
+	async function moveRole(
+		roleId: string,
+		position: number,
+	) {
+		return appview.roles.move(campsiteContext.campsite!.id, roleId, position);
 	}
 </script>
 
@@ -77,10 +85,13 @@
 				</Button>
 			</Group>
 		</Para>
+		{const bottomRoles = $derived(roles.slice(-1))}
 		<Stack gap={0.5}>
-			{#each campsiteContext.roles as role (role.id)}
+			{#each roles as role (role.id)}
 				<Role {role} />
 			{/each}
+			<!-- There is always going to be at least member role -->
+			<ContentMover.Discrete id="0" onDrop={async (draggedId) => moveRole(draggedId, (bottomRoles[0]!.position) + 1)} disallowIds={bottomRoles.map((x) => x.id)} acceptGroups={['role']} />
 		</Stack>
 	</Card.Content>
 </Card.Root>

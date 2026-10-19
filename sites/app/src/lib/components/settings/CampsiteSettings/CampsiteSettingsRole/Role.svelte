@@ -15,22 +15,26 @@
 	import type { RoleView } from '$lib/types/campground/roles.js';
 	import {
 		Button,
+		draggable,
+		droppable,
 		getMenuPortal,
 		GradientText,
 		Menu,
 		MenuPortalInstance,
 		rightClickMenu,
 		rightClickMenuProps,
+		TextBlock,
 		Tooltip,
 		tooltip,
 	} from '@campground/ui';
 	import { getRoleSettings } from './context.svelte.ts';
-	import { IconTrashFilled } from '@tabler/icons-svelte';
+	import { IconTrashFilled, IconUserFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '$lib/locale/index.js';
 	import { RoleFlag } from '$lib/util/constants.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getAppview } from '$lib/context/api.js';
+	import { ContentMover } from '$lib/components/content/index.js';
 
 	const roleSettings = getRoleSettings();
 	const menuPortal = getMenuPortal();
@@ -42,6 +46,9 @@
 
 	function deleteRole() {
 		return appview.roles.delete(role.campsiteId, role.id);
+	}
+	function moveRole(draggedId: string) {
+		return appview.roles.move(role.campsiteId, draggedId, role.position);
 	}
 </script>
 
@@ -68,14 +75,34 @@
 	</Menu.Root>
 {/snippet}
 
-<Button
-	justify="start"
-	variant={isActive ? 'selected' : 'plain'}
-	color="neutral"
-	onclick={() => (roleSettings.selected = role.id)}
-	{@attach rightClickMenu(menuPortal, contextMenu)}
+<ContentMover.Wrapper
+	element="div"
+	{@attach isDefault ? undefined : draggable({ id: role.id, groups: ['role'] })}
+	{@attach droppable({
+		id: role.id,
+		onDrop: moveRole,
+		acceptGroups: ['role'],
+		disallowIds: [role.id],
+	})}
 >
-	<GradientText colors={role.colors.map((x) => `#${x.toString(16).padStart(6, '0')}`)}>
-		{role.name}
-	</GradientText>
-</Button>
+	<Button
+		justify="start"
+		variant={isActive ? 'selected' : 'plain'}
+		color="neutral"
+		onclick={() => (roleSettings.selected = role.id)}
+		{@attach rightClickMenu(menuPortal, contextMenu)}
+		textAlign="left"
+	>
+		<GradientText
+			flex={1}
+			colors={role.colors.map((x) => `#${x.toString(16).padStart(6, '0')}`)}
+		>
+			{role.name}
+		</GradientText>
+		{#if isDefault}
+			<TextBlock level="subtext">
+				<IconUserFilled size="1rem" />
+			</TextBlock>
+		{/if}
+	</Button>
+</ContentMover.Wrapper>

@@ -1,4 +1,4 @@
-import type { ComponentSizeWithNone } from '$lib/types/attributes.js';
+import type { ComponentSizeWithNone } from '#lib/types/attributes.js';
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { VisualObjectProps } from '../Image/props.ts';

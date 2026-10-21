@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Section, Stack, Table } from '$lib/index.js';
+	import { Section, Stack, Table } from '#lib/index.js';
 	import { sizes } from './values.ts';
 </script>
 

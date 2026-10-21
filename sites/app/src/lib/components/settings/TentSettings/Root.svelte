@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { LocaleMessage } from '@campground/locale';
 	import { Settings } from '../index.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { IconLayout2Filled, IconShieldFilled } from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import ProfilePage from './ProfilePage.svelte';
-	import type { TentViewBasic } from '$lib/types/campground/tent.js';
+	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 
 	type SettingsPage = 'profile';
 	const pages: Record<SettingsPage, Settings.PageComponent> = { profile: ProfilePage };

@@ -33,7 +33,7 @@
 		IconFlameFilled,
 	} from '@tabler/icons-svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const { children }: LayoutProps = $props();
 </script>

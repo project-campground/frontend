@@ -18,17 +18,17 @@
 
 <script lang="ts">
 	import { Card, Group, Link, Menu, type ComponentSize } from '@campground/ui';
-	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
+	import type { ProfilePostViewBasic } from '#lib/types/campground/user.js';
 	import { IconMessage2Filled, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import Markdown from '../../markdown/Markdown/Render.svelte';
 	import { ContentOverflow } from '../ContentOverflow/index.ts';
-	import { getAccount } from '$lib/context/account.svelte.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
 	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import BasicPostEditor from '$lib/components/editor/BasicPostEditor.svelte';
-	import { getSession } from '$lib/api/session/Session.svelte.js';
-	import { getAppview } from '$lib/context/api.js';
-	import { User } from '$lib/components/users/index.js';
+	import BasicPostEditor from '#lib/components/editor/BasicPostEditor.svelte';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAppview } from '#lib/context/api.js';
+	import { User } from '#lib/components/users/index.js';
 
 	const session = getSession();
 	const appview = getAppview();

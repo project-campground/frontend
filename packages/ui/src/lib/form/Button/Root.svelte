@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { stackedProps } from '$lib/hierarchy/layout.js';
+	import { stackedProps } from '#lib/hierarchy/layout.js';
 	import type ButtonProps from './props.ts';
 
 	const {

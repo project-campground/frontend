@@ -15,7 +15,7 @@
 	import { Link, Svg } from '@campground/ui';
 	import GlobalNavbarButton from './NavbarButton.svelte';
 	import NavbarProfile from './NavbarProfile.svelte';
-	import { getAccount } from '$lib/context/account.svelte.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { LocaleMessage } from '@campground/locale';
 	import NavbarItem from './NavbarItem.svelte';

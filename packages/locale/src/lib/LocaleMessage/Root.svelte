@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { LocaleMessageProps } from './props.ts';
-	import { getLocale } from '$lib/context.svelte.js';
+	import { getLocale } from '#lib/context.svelte.js';
 	import type { DefaultMessageSegment } from './props.ts';
 
 	// Custom reactive context

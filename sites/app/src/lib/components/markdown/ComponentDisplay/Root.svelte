@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ContentComponent, MessageViewWithReplies } from '$lib/types/campground/content.js';
+	import type { ContentComponent, MessageViewWithReplies } from '#lib/types/campground/content.js';
 	import System from './System.svelte';
 
 	const {

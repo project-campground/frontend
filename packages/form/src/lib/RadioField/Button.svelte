@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, Stack } from '@campground/ui';
 	import type { ButtonProps } from './props.ts';
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
 
 	let { children, value, class: className, disabled, ...props }: ButtonProps = $props();
 

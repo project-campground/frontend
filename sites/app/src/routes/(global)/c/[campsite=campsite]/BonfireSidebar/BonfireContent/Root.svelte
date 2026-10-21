@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
-	import { toLookup } from '$lib/util/array.js';
+	import type { TentCategoryView, TentViewBasic } from '#lib/types/campground/tent.js';
+	import { toLookup } from '#lib/util/array.js';
 	import { Divider, Menu, rightClickMenuProps, MenuPortalInstance, Modal, getMenuPortal, rightClickMenu } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentCategory from '../../CategoryList/Category.svelte';
 	import TentList from '../../TentList/Root.svelte';
 	import Wrapper from './Wrapper.svelte';
 	import Skeleton from './Skeleton.svelte';
-	import { getAppview } from '$lib/context/api.js';
+	import { getAppview } from '#lib/context/api.js';
 	import PseudoTents from './PseudoTents.svelte';
 	import { TentCreation } from '../../Modals/TentCreation/index.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { IconPlus } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import { ContentMover } from '$lib/components/index.js';
+	import { ContentMover } from '#lib/components/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const bonfire = $derived(campsiteContext.openBonfire);

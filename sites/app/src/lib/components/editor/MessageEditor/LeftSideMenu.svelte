@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import type { defineMessageExtension } from '$lib/editor/extension.js';
+	import type { defineMessageExtension } from '#lib/editor/extension.js';
 	import { ImageDialog, type ImageFieldValue } from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
 	import { Menu, Modal, MenuPortalInstance, getMenuPortal } from '@campground/ui';

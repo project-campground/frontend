@@ -16,10 +16,10 @@
 	import TextEditor from './TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
 	import { LocaleMessage } from '@campground/locale';
-	import { definePostExtension } from '$lib/editor/extension.js';
-	import { serializeMarkdown } from '$lib/editor/mdast/markdown.js';
-	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { definePostExtension } from '#lib/editor/extension.js';
+	import { serializeMarkdown } from '#lib/editor/mdast/markdown.js';
+	import { editorRootToMdast } from '#lib/editor/mdast/editor-to-markdown.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const { placeholder, submitType, onSubmit, onCancel }: Props = $props();
 

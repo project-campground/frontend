@@ -1,4 +1,4 @@
-import type { TentMessagesOutput, MessageViewBasic } from '$lib/types/campground/content.js';
+import type { TentMessagesOutput, MessageViewBasic } from '#lib/types/campground/content.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPMessageManager extends HTTPBackendObjectManager {

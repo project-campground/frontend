@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { ComponentDisplay } from '$lib/components/markdown/index.js';
-	import Markdown from '$lib/components/markdown/Markdown/Render.svelte';
-	import type { MessageViewBasic } from '$lib/types/campground/content.js';
+	import { ComponentDisplay } from '#lib/components/markdown/index.js';
+	import Markdown from '#lib/components/markdown/Markdown/Render.svelte';
+	import type { MessageViewBasic } from '#lib/types/campground/content.js';
 
 	const {
 		createdBy,

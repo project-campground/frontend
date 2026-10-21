@@ -2,8 +2,8 @@
 	import { Stack } from '@campground/ui';
 	import TentListTent from './Tent.svelte';
 	import TentMover from '../../../../../lib/components/content/ContentMover/Discrete.svelte';
-	import { getAppview } from '$lib/context/api.js';
-	import type { TentViewBasic } from '$lib/types/campground/tent.js';
+	import { getAppview } from '#lib/context/api.js';
+	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 
 	const {
 		categoryId,

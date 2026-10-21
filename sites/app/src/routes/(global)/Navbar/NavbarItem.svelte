@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AccountNavbarItemType, type AccountNavbarCampsite, type AccountNavbarItemAny } from '$lib/context/account.svelte.js';
+	import { AccountNavbarItemType, type AccountNavbarCampsite, type AccountNavbarItemAny } from '#lib/context/account.svelte.js';
 	import { scale } from 'svelte/transition';
 	import CampsiteButton from './CampsiteButton.svelte';
 

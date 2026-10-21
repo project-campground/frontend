@@ -11,15 +11,16 @@
 	"license": "AGPL-3.0-or-later",
 	"scripts": {
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"build": "tsc"
 	},
-	"main": "./src/index.js",
+	"main": "./dist/src/index.js",
+	"types": "./dist/src/index.d.ts",
 	"files": [
 		"dist",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
-	"types": "./index.d.ts",
 	"dependencies": {
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@tsconfig/svelte": "^5.0.8"

@@ -2,7 +2,7 @@
 	import { arrow, autoUpdate, flip, size, type Middleware } from '@floating-ui/dom';
 	import type { TooltipProps } from './props.ts';
 	import { computePosition } from '@floating-ui/dom';
-	import { rem } from '$lib/util/component.js';
+	import { rem } from '#lib/util/component.js';
 	import type { ComputePositionReturn } from '@floating-ui/dom';
 	import { fade, scale } from 'svelte/transition';
 

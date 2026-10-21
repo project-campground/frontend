@@ -17,8 +17,8 @@
 </script>
 
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
-	import type { ProfilePostViewParented } from '$lib/types/campground/user.js';
+	import { getAppview } from '#lib/context/api.js';
+	import type { ProfilePostViewParented } from '#lib/types/campground/user.js';
 
 	import { LocaleMessage } from '@campground/locale';
 

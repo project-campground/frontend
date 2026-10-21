@@ -1,4 +1,4 @@
-import type { Size } from '$lib/util/component.js';
+import type { Size } from '#lib/util/component.js';
 
 export type TextWrap = 'wrap' | 'nowrap' | 'balance' | 'pretty' | 'stable';
 export type TextOverflow = 'clip' | 'ellipsis' | '-';

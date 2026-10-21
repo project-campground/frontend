@@ -1,5 +1,5 @@
 import type { CampsiteContext } from '../context.svelte.ts';
-import type { TentCategoryView, TentViewBasic } from '$lib/types/campground/tent.js';
+import type { TentCategoryView, TentViewBasic } from '#lib/types/campground/tent.js';
 import type { WebSocketMessageHandlers } from './types.ts';
 import { findItemInOutput, makeRoomForItems } from './util.svelte.ts';
 

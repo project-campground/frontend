@@ -1,7 +1,9 @@
 {
     "private": true,
     "scripts": {
-        "build:deps": "npm run -w @campground/ui build && npm run -w @campground/locale build",
+        "prepare": "npm run -w @campground/ui prepare",
+        "build:deps": "npm run -w @campground/svelte-config build",
+        "build:packages": "npm run -w @campground/ui build && npm run -w @campground/locale build && npm run -w @campground/form build && npm run -w @campground/data build",
         "build:locale": "npm run -w @campground/locale build",
         "build:ui": "npm run -w @campground/ui build",
         "build:svelte-config": "npm run -w @campground/ui build",

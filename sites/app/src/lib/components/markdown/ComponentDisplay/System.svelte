@@ -24,11 +24,11 @@
 </script>
 
 <script lang="ts">
-	import { User } from '$lib/components/users/index.js';
+	import { User } from '#lib/components/users/index.js';
 	import type {
 		MessageViewWithReplies,
 		SystemMessageComponent,
-	} from '$lib/types/campground/content.js';
+	} from '#lib/types/campground/content.js';
 	import { LocaleMessage } from '@campground/locale';
 	import { TextBlock } from '@campground/ui';
 	import { defineMessage } from '@formatjs/svelte-intl';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Form } from '$lib/index.js';
+	import { Form } from '#lib/index.js';
 	import { Tabs } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 

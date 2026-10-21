@@ -17,10 +17,10 @@
 		type ParaLevel,
 		type PositionVertical,
 		Emblem,
-	} from '$lib/index.js';
+	} from '#lib/index.js';
 	import { IconCheckFilled, IconMoonFilled } from '@tabler/icons-svelte';
 	import { genericColors, sizes, sizesWithNone, colors } from './values.js';
-	import type { VisualObjectProps } from '$lib/visual/Image/props.js';
+	import type { VisualObjectProps } from '#lib/visual/Image/props.js';
 	import type { Snippet } from 'svelte';
 
 	const positions: `${PositionVertical}-${PositionHorizontal}`[] = [

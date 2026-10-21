@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { loremIpsum, Skeleton } from '@campground/ui';
 	import Item from './Item.svelte';
-	import TentIcon from '$lib/components/tents/TentIcon.svelte';
+	import TentIcon from '#lib/components/tents/TentIcon.svelte';
 </script>
 
 <Item>

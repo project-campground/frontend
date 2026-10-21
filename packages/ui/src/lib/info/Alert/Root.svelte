@@ -2,7 +2,7 @@
 	lang="ts"
 	module
 >
-	import type { ComponentColor } from '$lib/types/attributes.js';
+	import type { ComponentColor } from '#lib/types/attributes.js';
 	import type { AriaRole } from 'svelte/elements';
 
 	const colorToRole: Record<ComponentColor, AriaRole> = {

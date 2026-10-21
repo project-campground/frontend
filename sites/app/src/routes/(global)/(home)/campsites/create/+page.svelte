@@ -19,7 +19,7 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { getSession } from '$lib/api/session/Session.svelte.js';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
 	import {
 		Form,
 		FieldControl,
@@ -32,10 +32,10 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Accordion, Avatar, Card, Group, Para, Stack, TextBlock, Alert } from '@campground/ui';
 	import KnownAppviewOptions from '../../../KnownAppviewOptions.svelte';
-	import { defaultAppview } from '$lib/api/api.config.js';
+	import { defaultAppview } from '#lib/api/api.config.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconInfoCircleFilled } from '@tabler/icons-svelte';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const session = getSession();
 

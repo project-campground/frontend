@@ -3,8 +3,8 @@
 </script>
 
 <script lang="ts">
-	import { getTextTent } from '$lib/components/content/ChatMessage/context.svelte.js';
-	import { ChatMessage } from '$lib/components/index.js';
+	import { getTextTent } from '#lib/components/content/ChatMessage/context.svelte.js';
+	import { ChatMessage } from '#lib/components/index.js';
 	import { Stack } from '@campground/ui';
 	import DateDivider from './DateDivider.svelte';
 	import TentContentEnd from '../TentContentEnd.svelte';

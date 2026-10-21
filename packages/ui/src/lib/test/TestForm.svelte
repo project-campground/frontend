@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ButtonVariant } from '$lib/form/Button/props.js';
+	import type { ButtonVariant } from '#lib/form/Button/props.js';
 	import {
 		Button,
 		Checkbox,
@@ -14,7 +14,7 @@
 		Svg,
 		type ComponentColorAll,
 		Pick,
-	} from '$lib/index.js';
+	} from '#lib/index.js';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
 	import { colors, sizes } from './values.js';
 

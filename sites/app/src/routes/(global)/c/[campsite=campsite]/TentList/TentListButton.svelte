@@ -12,12 +12,12 @@
 
 <script lang="ts">
 	import { page } from '$app/state';
-	import TentIcon from '$lib/components/tents/TentIcon.svelte';
-	import type { TentType, TentViewBasic } from '$lib/types/campground/tent.js';
+	import TentIcon from '#lib/components/tents/TentIcon.svelte';
+	import type { TentType, TentViewBasic } from '#lib/types/campground/tent.js';
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { PseudoTentType } from '../../../../../lib/components/tents/pseudoTents.ts';
 	import TentListItem from './Item.svelte';
-	import { ContentMover } from '$lib/components/index.js';
+	import { ContentMover } from '#lib/components/index.js';
 
 	const {
 		tent,

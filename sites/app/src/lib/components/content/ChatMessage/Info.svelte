@@ -3,7 +3,7 @@
 	import { MessageState } from './types.ts';
 	import { getLocale, LocaleMessage } from '@campground/locale';
 	import { IconExclamationCircleFilled, IconPencilFilled } from '@tabler/icons-svelte';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const menuPortal = getMenuPortal();
 	const locale = getLocale();

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, getMenuPortal, Menu, TextBlock, type MenuPortalInstance } from '@campground/ui';
 	import ColorPicker from './ColorPicker.svelte';
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.js';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { onMount, type Snippet } from 'svelte';
 	import type { ButtonProps } from './props.ts';
 

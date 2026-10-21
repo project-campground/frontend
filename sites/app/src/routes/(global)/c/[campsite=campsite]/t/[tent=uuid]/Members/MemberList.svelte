@@ -9,12 +9,12 @@
 		type MenuPortalInstance,
 	} from '@campground/ui';
 	import { GradientText } from '@campground/ui';
-	import type { MemberViewBasic } from '$lib/types/campground/membership.js';
-	import type { RoleView } from '$lib/types/campground/roles.js';
-	import { colorToDecimal } from '$lib/util/color.js';
+	import type { MemberViewBasic } from '#lib/types/campground/membership.js';
+	import type { RoleView } from '#lib/types/campground/roles.js';
+	import { colorToDecimal } from '#lib/util/color.js';
 	import MemberItem from './MemberItem.svelte';
 	import { v4 as uuid } from 'uuid';
-	import { User } from '$lib/components/index.js';
+	import { User } from '#lib/components/index.js';
 
 	const { members, roles }: { members: MemberViewBasic[]; roles: RoleView[] } = $props();
 

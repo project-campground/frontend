@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { notInherited } from '$lib/util/component.js';
+	import { notInherited } from '#lib/util/component.js';
 	import type GradientTextProps from './props.ts';
 
 	const { children, colors, motion, flex }: GradientTextProps = $props();

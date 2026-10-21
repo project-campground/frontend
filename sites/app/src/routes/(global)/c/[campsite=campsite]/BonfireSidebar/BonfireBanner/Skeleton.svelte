@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Para, Stack, Skeleton, loremIpsum, Avatar } from '@campground/ui';
-	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
+	import ProfileAvatarWrapper from '#lib/components/pages/ProfileAvatarWrapper.svelte';
 	import Layout from './Layout.svelte';
 </script>
 

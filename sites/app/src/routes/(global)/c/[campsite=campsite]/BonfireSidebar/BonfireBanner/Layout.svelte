@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import FadingBox from '$lib/components/content/FadingBox/FadingBox.svelte';
+	import FadingBox from '#lib/components/content/FadingBox/FadingBox.svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { Group } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';

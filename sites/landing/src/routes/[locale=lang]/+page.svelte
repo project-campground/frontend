@@ -132,11 +132,11 @@
 
 <script lang="ts">
 	import { UAParser } from 'ua-parser-js';
-	import BottomSection from '$lib/landing/BottomSection.svelte';
+	import BottomSection from '#lib/landing/BottomSection.svelte';
 
-	import FeatureItem from '$lib/landing/FeatureItem.svelte';
+	import FeatureItem from '#lib/landing/FeatureItem.svelte';
 
-	import FeatureList from '$lib/landing/FeatureList.svelte';
+	import FeatureList from '#lib/landing/FeatureList.svelte';
 
 	import { LocaleMessage, commonLocale, siteLocale } from '@campground/locale';
 
@@ -149,8 +149,8 @@
 		IconPaletteFilled,
 		IconServer2,
 	} from '@tabler/icons-svelte';
-	import FeatureDisplay from '$lib/landing/FeatureDisplay.svelte';
-	import FeatureOpenSource from '$lib/landing/features/FeatureOpenSource.svelte';
+	import FeatureDisplay from '#lib/landing/FeatureDisplay.svelte';
+	import FeatureOpenSource from '#lib/landing/features/FeatureOpenSource.svelte';
 
 	const { os } = UAParser(navigator.userAgent);
 </script>

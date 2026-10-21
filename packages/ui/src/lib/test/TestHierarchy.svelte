@@ -12,7 +12,7 @@
 		GradientText,
 		Threaded,
 		Para,
-	} from '$lib/index.js';
+	} from '#lib/index.js';
 
 	const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 	let pagedIndex = $state(0);

@@ -27,14 +27,14 @@
 	} from '@campground/ui';
 	import TextEditor from '../TextEditor.svelte';
 	import { createEditor } from 'prosekit/core';
-	import { defineMessageExtension } from '$lib/editor/extension.js';
-	import { deserializeMarkdown, serializeMarkdown } from '$lib/editor/mdast/markdown.js';
-	import { editorRootToMdast } from '$lib/editor/mdast/editor-to-markdown.js';
+	import { defineMessageExtension } from '#lib/editor/extension.js';
+	import { deserializeMarkdown, serializeMarkdown } from '#lib/editor/mdast/markdown.js';
+	import { editorRootToMdast } from '#lib/editor/mdast/editor-to-markdown.js';
 	import { IconPlus, IconSend2 } from '@tabler/icons-svelte';
 	import { ProseKit } from 'prosekit/svelte';
 	import { defineMessage } from '@formatjs/svelte-intl';
 	import { getLocale } from '@campground/locale';
-	import { mdastRootToEditor } from '$lib/editor/mdast/markdown-to-editor.js';
+	import { mdastRootToEditor } from '#lib/editor/mdast/markdown-to-editor.js';
 	import LeftSideMenu from './LeftSideMenu.svelte';
 
 	const { tentName: tent, defaultValue, onSubmit, onCancel }: Props = $props();

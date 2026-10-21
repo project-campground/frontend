@@ -62,13 +62,13 @@
 	import { Group, Section, TextBlock, Accordion, Alert, Para, Debounced } from '@campground/ui';
 	import { defaultPds } from '../../../lib/api/api.config.js';
 	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
-	import { getSession } from '$lib/api/session/Session.svelte';
-	import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.js';
-	import type { DescribedServer } from '$lib/types/atproto/server.js';
-	import XrpcError from '$lib/api/XrpcError.js';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import HTTPAtprotoClient from '#lib/api/http/HTTPAtprotoClient.js';
+	import type { DescribedServer } from '#lib/types/atproto/server.js';
+	import XrpcError from '#lib/api/XrpcError.js';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 	import { authMessages } from '../messages.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	let passwordToConfirm = $state('');
 

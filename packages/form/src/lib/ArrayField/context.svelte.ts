@@ -1,5 +1,5 @@
-import type { FormFieldId } from '$lib/Form/props.js';
-import type { IFormControl, IFormField } from '$lib/FieldControl/context.svelte.js';
+import type { FormFieldId } from '#lib/Form/props.js';
+import type { IFormControl, IFormField } from '#lib/FieldControl/context.svelte.js';
 import { getContext, setContext } from 'svelte';
 import type { Readable } from 'svelte/store';
 

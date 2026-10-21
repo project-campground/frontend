@@ -17,13 +17,13 @@
 </script>
 
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
-	import { getAccount } from '$lib/context/account.svelte.js';
-	import HTTPProfilePostRecordManager from '$lib/api/http/profilePostRecord.js';
-	import { ProfilePost } from '$lib/components/index.js';
+	import { getAppview } from '#lib/context/api.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
+	import HTTPProfilePostRecordManager from '#lib/api/http/profilePostRecord.js';
+	import { ProfilePost } from '#lib/components/index.js';
 	import { PagePlaceholder, Threaded } from '@campground/ui';
 	import ProfilePostCreator from '../../ProfilePostCreator.svelte';
-	import type { ProfilePostViewBasic } from '$lib/types/campground/user.js';
+	import type { ProfilePostViewBasic } from '#lib/types/campground/user.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { LocaleMessage } from '@campground/locale';
 

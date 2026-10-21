@@ -1,5 +1,5 @@
-import type { FormFieldId } from '$lib/Form/props.js';
-import type { FieldControlProps, IFormControl } from '$lib/FieldControl/index.ts';
+import type { FormFieldId } from '#lib/Form/props.js';
+import type { FieldControlProps, IFormControl } from '#lib/FieldControl/index.ts';
 import type { ComponentSize } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';

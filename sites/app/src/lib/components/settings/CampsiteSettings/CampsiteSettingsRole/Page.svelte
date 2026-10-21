@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { LocaleMessage } from '@campground/locale';
 	import { Card, Para, Stack, Group, Button, Tabs } from '@campground/ui';
 	import { getCampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
@@ -10,15 +10,15 @@
 		IconSettingsFilled,
 	} from '@tabler/icons-svelte';
 	import Role from './Role.svelte';
-	import { getAppview } from '$lib/context/api.js';
+	import { getAppview } from '#lib/context/api.js';
 	import { RoleSettingsContext, setRoleSettings } from './context.svelte.ts';
-	import { RoleFlag } from '$lib/util/constants.js';
+	import { RoleFlag } from '#lib/util/constants.js';
 	import { Form } from '@campground/form';
 	import ProfilePage from './ProfilePage.svelte';
 	import { getSettings } from '../../Settings/context.svelte.ts';
-	import type { RoleView } from '$lib/types/campground/roles.js';
+	import type { RoleView } from '#lib/types/campground/roles.js';
 	import Permissions from './Permissions.svelte';
-	import { ContentMover } from '$lib/components/content/index.js';
+	import { ContentMover } from '#lib/components/content/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const appview = getAppview();

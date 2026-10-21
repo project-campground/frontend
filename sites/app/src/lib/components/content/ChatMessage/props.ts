@@ -1,4 +1,4 @@
-import type { MessageViewBasic, MessageViewWithReplies } from '$lib/types/campground/content.js';
+import type { MessageViewBasic, MessageViewWithReplies } from '#lib/types/campground/content.js';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { MessageState } from './types.ts';
 

@@ -40,10 +40,10 @@
 	import BonfireItem from '../BonfireItem.svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { fade, fly } from 'svelte/transition';
-	import { CampsiteSettings } from '$lib/components/settings/index.js';
-	import { GeneralPermission } from '$lib/util/constants.js';
+	import { CampsiteSettings } from '#lib/components/settings/index.js';
+	import { GeneralPermission } from '#lib/util/constants.js';
 
 	const menuPortal = getMenuPortal();
 

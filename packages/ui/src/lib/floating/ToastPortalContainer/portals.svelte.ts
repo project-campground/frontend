@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { Portal, PortalInstance } from '$lib/floating/portals.svelte.js';
+import { Portal, PortalInstance } from '#lib/floating/portals.svelte.js';
 import { createContext } from 'svelte';
-import type { ComponentColor } from '$lib/types/attributes.js';
+import type { ComponentColor } from '#lib/types/attributes.js';
 
 type ToastValue = string | number | boolean;
 

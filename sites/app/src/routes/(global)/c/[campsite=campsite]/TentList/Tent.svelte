@@ -11,9 +11,9 @@
 	import TentListButton from './TentListButton.svelte';
 	import { IconSettingsFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
-	import { TentSettings } from '$lib/components/settings/index.js';
-	import type { TentViewBasic } from '$lib/types/campground/tent.js';
+	import { localeStrings } from '#lib/locale/index.js';
+	import { TentSettings } from '#lib/components/settings/index.js';
+	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 
 	const {
 		tent,

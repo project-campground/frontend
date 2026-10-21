@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { User } from '$lib/components/users/index.js';
-	import type { MessageViewBasic } from '$lib/types/campground/content.js';
+	import { User } from '#lib/components/users/index.js';
+	import type { MessageViewBasic } from '#lib/types/campground/content.js';
 	import { Group } from '@campground/ui';
 
 	const { message }: { message: MessageViewBasic } = $props();

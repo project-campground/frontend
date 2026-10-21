@@ -1,4 +1,4 @@
-import type { FieldControlProps } from '$lib/FieldControl/index.js';
+import type { FieldControlProps } from '#lib/FieldControl/index.js';
 import type { Card, ComponentSize } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';

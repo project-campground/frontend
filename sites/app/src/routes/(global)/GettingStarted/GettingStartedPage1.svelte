@@ -23,7 +23,7 @@
 
 	import { Card, loremIpsum, Para, Section, Stack, theme } from '@campground/ui';
 	import { Form, FieldControl, FieldLabel, RadioField } from '@campground/form';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 </script>
 
 {#snippet themePreview()}

@@ -10,7 +10,7 @@ import HTTPPermissionManager from './permission.js';
 import HTTPProfilePostManager from './profilePost.js';
 import HTTPRoleManager from './role.js';
 import HTTPTentManager from './tent.js';
-import type { Me } from '$lib/types/campground/me.js';
+import type { Me } from '#lib/types/campground/me.js';
 import HTTPProfileManager from './profile.js';
 import type { Session } from '../session/Session.svelte.js';
 

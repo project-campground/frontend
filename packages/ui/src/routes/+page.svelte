@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { Group, Tabs, Section, Switch, TextBlock, Stack, theme } from '$lib/index.js';
+	import { Group, Tabs, Section, Switch, TextBlock, Stack, theme } from '#lib/index.js';
 	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
-	import TestVisual from '$lib/test/TestVisual.svelte';
-	import TestForm from '$lib/test/TestForm.svelte';
-	import TestInfo from '$lib/test/TestInfo.svelte';
-	import TestFloating from '$lib/test/TestFloating.svelte';
-	import TestHierarchy from '$lib/test/TestHierarchy.svelte';
-	import TestTables from '$lib/test/TestTables.svelte';
-	import TestGridTables from '$lib/test/TestGridTables.svelte';
+	import TestVisual from '#lib/test/TestVisual.svelte';
+	import TestForm from '#lib/test/TestForm.svelte';
+	import TestInfo from '#lib/test/TestInfo.svelte';
+	import TestFloating from '#lib/test/TestFloating.svelte';
+	import TestHierarchy from '#lib/test/TestHierarchy.svelte';
+	import TestTables from '#lib/test/TestTables.svelte';
+	import TestGridTables from '#lib/test/TestGridTables.svelte';
 
 	let lightTheme: boolean = $state(false);
 

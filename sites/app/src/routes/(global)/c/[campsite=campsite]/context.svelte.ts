@@ -1,23 +1,23 @@
-import WSClient from '$lib/api/ws/WSClient.js';
-import type { BonfireViewBasic } from '$lib/types/campground/bonfires.js';
-import type { CampsiteViewDetailed } from '$lib/types/campground/campsites.js';
+import WSClient from '#lib/api/ws/WSClient.js';
+import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
+import type { CampsiteViewDetailed } from '#lib/types/campground/campsites.js';
 import type {
 	CampsitePermissionViewBasic,
 	PermissionsDictionary,
 	PermissionsStateDictionary,
-} from '$lib/types/campground/permissions.js';
+} from '#lib/types/campground/permissions.js';
 import type {
 	GetTentsOutput,
 	TentCategoryView,
 	TentViewBasic,
-} from '$lib/types/campground/tent.js';
-import { maxPermissions, RoleFlag } from '$lib/util/constants.js';
+} from '#lib/types/campground/tent.js';
+import { maxPermissions, RoleFlag } from '#lib/util/constants.js';
 import {
 	aggregateAllPermissions,
 	invertContentPermission,
 	invertGeneralPermission,
 	type AggregatedPermissions,
-} from '$lib/util/permissions.js';
+} from '#lib/util/permissions.js';
 import { createContext, getContext, hasContext, setContext } from 'svelte';
 
 export class CampsiteReference {

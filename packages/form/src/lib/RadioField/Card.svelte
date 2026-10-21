@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Card, Radio } from '@campground/ui';
 	import type { ItemProps } from './props.ts';
-	import SimpleField from '$lib/SimpleField/Root.svelte';
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.ts';
+	import SimpleField from '#lib/SimpleField/Root.svelte';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
 
 	const { header, children, value, ...props }: ItemProps = $props();
 

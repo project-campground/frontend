@@ -1,4 +1,4 @@
-import type SimpleFieldProps from '$lib/SimpleField/props.ts';
+import type SimpleFieldProps from '#lib/SimpleField/props.ts';
 
 export enum TristateValue {
 	Denied = -1,

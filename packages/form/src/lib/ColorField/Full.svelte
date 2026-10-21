@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.js';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { onMount } from 'svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import type { FullProps } from './props.ts';

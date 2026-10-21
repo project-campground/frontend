@@ -2,7 +2,7 @@
 	lang="ts"
 	generics="T"
 >
-	import { getForm } from '$lib/Form/context.svelte.js';
+	import { getForm } from '#lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
 	import { ArrayFieldContext, setArrayField } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';

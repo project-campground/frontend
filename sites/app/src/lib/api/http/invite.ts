@@ -2,7 +2,7 @@ import type {
 	GetInvitesOutput,
 	CampsiteInviteViewBasic,
 	CampsiteInviteViewDetailed,
-} from '$lib/types/campground/invites.js';
+} from '#lib/types/campground/invites.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPInviteManager extends HTTPBackendObjectManager {

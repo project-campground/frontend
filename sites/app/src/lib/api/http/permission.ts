@@ -1,5 +1,5 @@
-import type { GetPermissionsOutput } from '$lib/types/campground/permissions.js';
-import type { CampsitePermissionView } from '$lib/types/campground/permissions.js';
+import type { GetPermissionsOutput } from '#lib/types/campground/permissions.js';
+import type { CampsitePermissionView } from '#lib/types/campground/permissions.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPPermissionManager extends HTTPBackendObjectManager {

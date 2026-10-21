@@ -19,7 +19,7 @@
 	import { fly } from 'svelte/transition';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const settings = getSettings();
 	const { header, children, sidebar }: DialogProps = $props();

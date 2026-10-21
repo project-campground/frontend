@@ -1,4 +1,4 @@
-import type { PermissionsDictionary } from '$lib/types/campground/permissions.js';
+import type { PermissionsDictionary } from '#lib/types/campground/permissions.js';
 
 export const enum ContentPermission {
 	ViewContent = 1,

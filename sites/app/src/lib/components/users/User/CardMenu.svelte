@@ -29,7 +29,7 @@
 <script lang="ts">
 	import { Accordion, Group, Link, Menu, Para } from '@campground/ui';
 	import UserHeader from './Header.svelte';
-	import type { ProfileViewBasic } from '$lib/types/campground/user.js';
+	import type { ProfileViewBasic } from '#lib/types/campground/user.js';
 	import {
 		IconLogout2,
 		IconSettingsFilled,
@@ -38,18 +38,18 @@
 	} from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { getAccount } from '$lib/context/account.svelte.js';
-	import { localeStrings } from '$lib/locale/index.js';
-	import type { MemberViewBasic, MemberViewDetailed } from '$lib/types/campground/membership.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
+	import { localeStrings } from '#lib/locale/index.js';
+	import type { MemberViewBasic, MemberViewDetailed } from '#lib/types/campground/membership.js';
 	import {
 		getCampsiteContext,
 		hasCampsiteContext,
 	} from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
-	import { Role } from '$lib/components/campsite/index.js';
-	import { getAppview } from '$lib/context/api.js';
-	import { toLookup } from '$lib/util/array.js';
-	import type { RoleView } from '$lib/types/campground/roles.js';
-	import { RoleFlag } from '$lib/util/constants.ts';
+	import { Role } from '#lib/components/campsite/index.js';
+	import { getAppview } from '#lib/context/api.js';
+	import { toLookup } from '#lib/util/array.js';
+	import type { RoleView } from '#lib/types/campground/roles.js';
+	import { RoleFlag } from '#lib/util/constants.ts';
 
 	interface Props {
 		hideButtons?: boolean;

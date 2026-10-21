@@ -2,7 +2,7 @@
 	import { Main, theme } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
 	import { LocaleContext, setLocale } from '@campground/locale';
-	import { Session, setSession } from '$lib/api/session/Session.svelte';
+	import { Session, setSession } from '#lib/api/session/Session.svelte.js';
 	import { onMount } from 'svelte';
 
 	const { children }: LayoutProps = $props();

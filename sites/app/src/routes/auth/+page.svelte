@@ -22,7 +22,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Card, Group, Section, Stack, Divider, TextBlock, Button } from '@campground/ui';
 	import { IconPlus, IconUserFilled, IconUserPlus, IconX } from '@tabler/icons-svelte';
-	import { getSession } from '$lib/api/session/Session.svelte';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
 
 	const session = getSession();
 </script>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TentViewBasic } from '$lib/types/campground/tent.js';
+	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import { IconHash, IconLayout2Filled, IconUserFilled } from '@tabler/icons-svelte';
 	import type { PseudoTentType } from './pseudoTents.ts';
 

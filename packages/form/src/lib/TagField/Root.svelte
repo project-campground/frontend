@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type TagFieldProps from './props.ts';
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
 	import { Chip, TextInput } from '@campground/ui';
 	import Tag from './Tag.svelte';
 

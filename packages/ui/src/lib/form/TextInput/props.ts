@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
 import type { ComponentSize } from '../../types/attributes.ts';
 import type { AriaAttributes, EventHandler, HTMLInputAttributes } from 'svelte/elements';
-import type { Size } from '$lib/util/component.ts';
+import type { Size } from '#lib/util/component.ts';
 
 // Easier use of types; need to see if it significantly interferes with compilation time
 type EventHandlerStripInput<T extends Event> = EventHandler<

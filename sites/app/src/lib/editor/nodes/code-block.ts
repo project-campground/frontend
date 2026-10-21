@@ -1,4 +1,4 @@
-import { CodeView } from '$lib/components/markdown/index.js';
+import { CodeView } from '#lib/components/markdown/index.js';
 import { defineNodeSpec, union } from '@prosekit/core';
 import { defineInputRule } from 'prosekit/extensions/input-rule';
 import { InputRule } from 'prosekit/pm/inputrules';

@@ -1,4 +1,4 @@
-import type SimpleFieldProps from '$lib/SimpleField/props.ts';
+import type SimpleFieldProps from '#lib/SimpleField/props.ts';
 import type { Pick, StackProps, SwitchProps } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { AriaAttributes } from 'svelte/elements';

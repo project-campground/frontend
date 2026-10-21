@@ -13,7 +13,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Button } from '@campground/ui';
 	import type SubmitButtonProps from './props.ts';
-	import { getForm } from '$lib/Form/context.svelte.js';
+	import { getForm } from '#lib/Form/context.svelte.js';
 	import { defineMessage } from '@formatjs/svelte-intl';
 
 	const { children, disabled, ...props }: SubmitButtonProps = $props();

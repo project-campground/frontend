@@ -3,7 +3,7 @@
 	import type { MessageMenuProps } from '../props.js';
 	import { IconArrowBackUp, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const {
 		beingRepliedTo,

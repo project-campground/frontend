@@ -3,7 +3,7 @@
 	generics="T = DictionaryFieldValue"
 >
 	import type RootProps from './props.ts';
-	import { getForm, setForm } from '$lib/Form/context.svelte.js';
+	import { getForm, setForm } from '#lib/Form/context.svelte.js';
 	import { onMount } from 'svelte';
 	import { DictionaryFieldContext } from './context.svelte.ts';
 	import type { DictionaryFieldValue } from './props.ts';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { em } from '$lib/util/component.js';
+	import { em } from '#lib/util/component.js';
 	import type { SkeletonProps } from './props.ts';
 
 	const {

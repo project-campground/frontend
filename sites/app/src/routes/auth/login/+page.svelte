@@ -36,12 +36,12 @@
 	} from '@campground/form';
 	import { LocaleMessage, getLocale } from '@campground/locale';
 	import { Group, Section, Accordion, Alert } from '@campground/ui';
-	import { defaultPds } from '$lib/api/api.config.js';
+	import { defaultPds } from '#lib/api/api.config.js';
 	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
-	import { getSession } from '$lib/api/session/Session.svelte';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 	import { authMessages } from '../messages.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const locale = getLocale();
 

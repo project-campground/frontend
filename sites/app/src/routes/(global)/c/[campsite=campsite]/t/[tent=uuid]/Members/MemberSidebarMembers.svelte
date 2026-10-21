@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
-	import type { MemberViewBasic } from '$lib/types/campground/membership.js';
+	import { getAppview } from '#lib/context/api.js';
+	import type { MemberViewBasic } from '#lib/types/campground/membership.js';
 	import { getCampsiteContext } from '../../../context.svelte.ts';
 	import MemberList from './MemberList.svelte';
 

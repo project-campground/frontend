@@ -30,14 +30,14 @@
 	import { Card, Para, TextBlock } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { getLocale, LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
-	import { getAppview } from '$lib/context/api.js';
+	import { getAppview } from '#lib/context/api.js';
 	import { DataTable } from '@campground/data';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { User } from '$lib/components/users/index.js';
-	import { Datestamp } from '$lib/components/content/index.js';
-	import type { MemberBanView } from '$lib/types/campground/membership.js';
+	import { User } from '#lib/components/users/index.js';
+	import { Datestamp } from '#lib/components/content/index.js';
+	import type { MemberBanView } from '#lib/types/campground/membership.js';
 
 	const settings = getSettings();
 	const locale = getLocale();

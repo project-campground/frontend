@@ -6,7 +6,7 @@
 	import { IconX } from '@tabler/icons-svelte';
 	import type { ItemProps } from './props.ts';
 	import { getArrayField } from './context.svelte.ts';
-	import { setFieldControl } from '$lib/FieldControl/context.svelte.ts';
+	import { setFieldControl } from '#lib/FieldControl/context.svelte.ts';
 
 	const arrayField = getArrayField();
 

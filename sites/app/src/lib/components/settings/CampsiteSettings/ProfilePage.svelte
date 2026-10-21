@@ -12,11 +12,11 @@
 	import { Card, Stack, Section, Para } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
-	import type { CampsiteViewBasic } from '$lib/types/campground/campsites.js';
-	import { getAppview } from '$lib/context/api.js';
-	import { DescriptionLimits, NameLimits } from '$lib/util/limits.js';
+	import type { CampsiteViewBasic } from '#lib/types/campground/campsites.js';
+	import { getAppview } from '#lib/context/api.js';
+	import { DescriptionLimits, NameLimits } from '#lib/util/limits.js';
 
 	const settings = getSettings();
 	const campsiteContext = getCampsiteContext();

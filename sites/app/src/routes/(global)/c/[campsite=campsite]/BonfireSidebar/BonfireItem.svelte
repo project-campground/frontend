@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
-	import type { BonfireViewBasic } from '$lib/types/campground/bonfires.js';
+	import ProfileAvatar from '#lib/components/pages/ProfileAvatar.svelte';
+	import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
 	import {
 		getMenuPortal,
 		Group,
@@ -13,8 +13,8 @@
 	import { getCampsiteContext } from '../context.svelte.ts';
 	import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import { getAppview } from '$lib/context/api.js';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { getAppview } from '#lib/context/api.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	async function deleteBonfire() {
 		return appview.bonfires.delete(bonfire.campsiteId, bonfire.id);

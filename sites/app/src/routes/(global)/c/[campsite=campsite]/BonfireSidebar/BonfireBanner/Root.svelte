@@ -1,9 +1,9 @@
 <script lang="ts">
-	import ProfileBanner from '$lib/components/pages/ProfileBanner.svelte';
+	import ProfileBanner from '#lib/components/pages/ProfileBanner.svelte';
 	import { Para, Stack, Button, getOutsideClickBoundary } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
-	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
-	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
+	import ProfileAvatarWrapper from '#lib/components/pages/ProfileAvatarWrapper.svelte';
+	import ProfileAvatar from '#lib/components/pages/ProfileAvatar.svelte';
 	import { IconDotsFilled } from '@tabler/icons-svelte';
 	import Layout from './Layout.svelte';
 	import Skeleton from './Skeleton.svelte';

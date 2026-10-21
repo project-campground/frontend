@@ -80,9 +80,9 @@
 		SwitchField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
-	import { ChatMessage } from '$lib/components/content/index.js';
-	import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
+	import { localeStrings } from '#lib/locale/index.js';
+	import { ChatMessage } from '#lib/components/content/index.js';
+	import type { MessageViewWithReplies } from '#lib/types/campground/content.js';
 	import { getCampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconAccessPoint, IconRipple, IconWaveSine, IconXFilled } from '@tabler/icons-svelte';

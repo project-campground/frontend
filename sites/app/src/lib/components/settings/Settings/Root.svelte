@@ -6,7 +6,7 @@
 	import Dialog from './Dialog.svelte';
 	import type { RootProps } from './props.ts';
 	import { setSettings, SettingsContext } from './context.svelte.ts';
-	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
+	import ErrorPlaceholder from '#lib/components/ErrorPlaceholder.svelte';
 
 	const { value, defaultPage, pages, instance, ...attributes }: RootProps<TPage, TValue> = $props();
 

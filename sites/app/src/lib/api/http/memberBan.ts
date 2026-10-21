@@ -1,4 +1,4 @@
-import type { MemberBanView, GetBansOutput } from '$lib/types/campground/membership.js';
+import type { MemberBanView, GetBansOutput } from '#lib/types/campground/membership.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPMemberBanManager extends HTTPBackendObjectManager {

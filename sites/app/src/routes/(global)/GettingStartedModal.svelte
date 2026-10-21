@@ -44,7 +44,7 @@
 	import GettingStartedPage3 from './GettingStarted/GettingStartedPage3.svelte';
 	import GettingStartedPage4 from './GettingStarted/GettingStartedPage4.svelte';
 	import { GettingStarted } from './GettingStarted/context.svelte.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	let step: number = $state(0);
 	let maxSteps: number = $state(5);

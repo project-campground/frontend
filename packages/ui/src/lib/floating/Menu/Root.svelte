@@ -11,7 +11,7 @@
 	} from '@floating-ui/dom';
 	import type { RootProps } from './props.ts';
 	import { computePosition, offset } from '@floating-ui/dom';
-	import { rem } from '$lib/util/component.js';
+	import { rem } from '#lib/util/component.js';
 	import { fade, scale } from 'svelte/transition';
 
 	const {

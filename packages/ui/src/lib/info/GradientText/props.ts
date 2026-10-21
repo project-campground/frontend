@@ -1,4 +1,4 @@
-import type { InFlexLayout } from '$lib/hierarchy/layout.js';
+import type { InFlexLayout } from '#lib/hierarchy/layout.js';
 import type { Snippet } from 'svelte';
 import type { BaseTextProps } from '../props.ts';
 

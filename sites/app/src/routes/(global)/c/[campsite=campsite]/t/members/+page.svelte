@@ -2,7 +2,7 @@
 	lang="ts"
 	module
 >
-	import type { MemberViewDetailed } from '$lib/types/campground/membership.js';
+	import type { MemberViewDetailed } from '#lib/types/campground/membership.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
 
 	const localeMessages = defineMessages({
@@ -29,13 +29,13 @@
 	import TentWrapper from '../TentWrapper.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
 	import { getLocale, LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { DataTable } from '@campground/data';
-	import { getAppview } from '$lib/context/api.js';
-	import { User } from '$lib/components/index.js';
-	import { Role } from '$lib/components/campsite/index.js';
-	import { RoleFlag } from '$lib/util/constants.ts';
-	import { toLookup } from '$lib/util/array.ts';
+	import { getAppview } from '#lib/context/api.js';
+	import { User } from '#lib/components/index.js';
+	import { Role } from '#lib/components/campsite/index.js';
+	import { RoleFlag } from '#lib/util/constants.ts';
+	import { toLookup } from '#lib/util/array.ts';
 
 	const campsiteContext = getCampsiteContext();
 

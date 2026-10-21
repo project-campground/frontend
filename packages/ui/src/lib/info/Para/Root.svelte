@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { em, notInherited } from '$lib/util/component.js';
+	import { em, notInherited } from '#lib/util/component.js';
 	import { baseTextProps } from '../props.ts';
 	import type ParaProps from './props.ts';
 

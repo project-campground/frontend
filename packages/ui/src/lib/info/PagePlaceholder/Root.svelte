@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Para } from '$lib/info/index.js';
+	import { Para } from '#lib/info/index.js';
 	import type { RootProps } from './props.js';
 
 	const { status, title, icon, class: className, children }: RootProps = $props();

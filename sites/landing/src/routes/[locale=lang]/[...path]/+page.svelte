@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ErrorPage from '$lib/layout/ErrorPage.svelte';
+	import ErrorPage from '#lib/layout/ErrorPage.svelte';
 	import type { PageProps } from './$types';
 
 	const { params }: PageProps = $props();

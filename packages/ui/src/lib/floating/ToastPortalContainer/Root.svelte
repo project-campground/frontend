@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
+	import { getOutsideClickBoundary } from '#lib/contexts/outside.svelte.js';
 	import { onMount } from 'svelte';
 	import type ToastPortalProps from './props.ts';
 	import { Toast } from '../index.ts';

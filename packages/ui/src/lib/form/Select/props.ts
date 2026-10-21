@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
 import type { ComponentSize } from '../../types/attributes.ts';
 import type { HTMLButtonAttributes } from 'svelte/elements';
-import type { Menu } from '$lib/index.js';
+import type { Menu } from '#lib/index.js';
 
 export type SelectValue = string | number | boolean;
 

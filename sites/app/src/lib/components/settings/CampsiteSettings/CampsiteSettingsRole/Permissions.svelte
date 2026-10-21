@@ -3,10 +3,10 @@
 	import { getCampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import { getRoleSettings } from './context.svelte.ts';
 	import { FieldControl, FlagField, DictionaryField } from '@campground/form';
-	import { ContentPermission, GeneralPermission } from '$lib/util/constants.js';
+	import { ContentPermission, GeneralPermission } from '#lib/util/constants.js';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
-	import type { PermissionsDictionary } from '$lib/types/campground/permissions.js';
+	import { localeStrings } from '#lib/locale/index.js';
+	import type { PermissionsDictionary } from '#lib/types/campground/permissions.js';
 	import {
 		IconLayout2Filled,
 		IconMessage2Filled,

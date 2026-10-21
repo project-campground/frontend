@@ -2,7 +2,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Settings } from '../index.ts';
 	import ProfilePage from './ProfilePage.svelte';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import {
 		IconBadgeFilled,
 		IconLayout2Filled,

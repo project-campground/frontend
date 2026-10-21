@@ -1,4 +1,4 @@
-import type { ComponentOrientation, ComponentSize, StatusColor } from '$lib/types/attributes.js';
+import type { ComponentOrientation, ComponentSize, StatusColor } from '#lib/types/attributes.js';
 import type { Snippet } from 'svelte';
 import type { ClassValue } from 'svelte/elements';
 

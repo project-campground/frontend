@@ -1,9 +1,9 @@
-import type { ComponentColorAll, ComponentSize } from '$lib/types/attributes.js';
+import type { ComponentColorAll, ComponentSize } from '#lib/types/attributes.js';
 import type { Snippet } from 'svelte';
 import type { ClassValue } from 'svelte/elements';
 import type { BaseTextProps } from '../props.ts';
-import type { Size } from '$lib/util/component.js';
-import type { InFlexLayout } from '$lib/hierarchy/layout.js';
+import type { Size } from '#lib/util/component.js';
+import type { InFlexLayout } from '#lib/hierarchy/layout.js';
 
 export type HeaderLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 export type RegularParagraphLevel = 'paragraph';

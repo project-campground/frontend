@@ -1,5 +1,5 @@
-import type { CheckValue } from '$lib/CheckField/props.js';
-import type SimpleFieldProps from '$lib/SimpleField/props.ts';
+import type { CheckValue } from '#lib/CheckField/props.js';
+import type SimpleFieldProps from '#lib/SimpleField/props.ts';
 import type { StackProps, RadioProps } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { AriaAttributes, HTMLInputAttributes } from 'svelte/elements';

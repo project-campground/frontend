@@ -1,6 +1,6 @@
-import { AbstractFormInstance } from '$lib/Form/context.svelte.js';
-import type { FormFieldId } from '$lib/Form/props.js';
-import type { IFormControl, IFormField } from '$lib/FieldControl/context.svelte.ts';
+import { AbstractFormInstance } from '#lib/Form/context.svelte.js';
+import type { FormFieldId } from '#lib/Form/props.js';
+import type { IFormControl, IFormField } from '#lib/FieldControl/context.svelte.ts';
 import type { DictionaryFieldValue } from './props.ts';
 
 export class DictionaryFieldContext<T>

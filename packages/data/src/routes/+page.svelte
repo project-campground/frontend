@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DataTable, type DataTableItem } from '$lib/index.js';
+	import { DataTable, type DataTableItem } from '#lib/index.js';
 	import { Card, Tabs } from '@campground/ui';
 
 	interface Item extends DataTableItem<number> {

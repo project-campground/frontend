@@ -1,3 +1,3 @@
-import { PickContext } from '$lib/form/Pick/context.svelte.js';
+import { PickContext } from '#lib/form/Pick/context.svelte.js';
 
 export class TabsContext extends PickContext {}

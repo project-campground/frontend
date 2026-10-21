@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Badge, type AvatarProps, type StatusColor } from '@campground/ui';
-	import type { ProfileStatus } from '$lib/types/campground/user.js';
-	import { defaultAvatar } from '$lib/api/api.config.js';
+	import type { ProfileStatus } from '#lib/types/campground/user.js';
+	import { defaultAvatar } from '#lib/api/api.config.js';
 	import ProfileAvatar from '../../pages/ProfileAvatar.svelte';
 
 	interface Props extends Omit<AvatarProps, 'id' | 'placeholder'> {

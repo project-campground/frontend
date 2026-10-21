@@ -1,18 +1,18 @@
 import { defaultXrpcPrefix, defaultPds } from '../api.config.js';
 import type { HTTPRefreshLogin } from './HTTPErrorHandler.js';
-import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '$lib/api/session/types.js';
+import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '#lib/api/session/types.js';
 import type {
 	AtprotoRecord,
 	GetRecordListResponse,
 	PutRecordResponse,
-} from '$lib/types/atproto/record.js';
+} from '#lib/types/atproto/record.js';
 import HTTPPreferenceManager from './preference.ts';
-import type { GetSession } from '$lib/types/atproto/session.js';
+import type { GetSession } from '#lib/types/atproto/session.js';
 import HTTPAccountManager from './account.ts';
-import type { DescribedServer } from '$lib/types/atproto/server.js';
+import type { DescribedServer } from '#lib/types/atproto/server.js';
 import HTTPProfilePostRecordManager from './profilePostRecord.js';
 import HTTPBackendClient from './HTTPBackendClient.js';
-import type { CampsiteViewBasic, CreateCampsiteOutput } from '$lib/types/campground/campsites.js';
+import type { CampsiteViewBasic, CreateCampsiteOutput } from '#lib/types/campground/campsites.js';
 import HTTPProfileRecordManager from './profileRecord.js';
 import HTTPInviteGlobalManager from './inviteGlobal.js';
 import XrpcError from '../XrpcError.js';

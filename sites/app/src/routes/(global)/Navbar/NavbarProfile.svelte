@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { defaultAvatar } from '$lib/api/api.config.js';
-	import { User } from '$lib/components/index.js';
-	import { getAccount } from '$lib/context/account.svelte';
+	import { defaultAvatar } from '#lib/api/api.config.js';
+	import { User } from '#lib/components/index.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
 	import { getMenuPortal, getOutsideClickBoundary, Menu, MenuPortalInstance } from '@campground/ui';
 
 	let menuInstance: MenuPortalInstance | null = $state(null);

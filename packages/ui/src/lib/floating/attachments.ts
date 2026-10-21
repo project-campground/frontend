@@ -1,5 +1,5 @@
 import { rightClickAction } from '../attachments/mouse.js';
-import type { Menu, MenuPortal, MenuPortalInstance } from '$lib/floating/index.js';
+import type { Menu, MenuPortal, MenuPortalInstance } from '#lib/floating/index.js';
 import type { Snippet } from 'svelte';
 import type { Attachment } from 'svelte/attachments';
 import { v4 as uuid } from 'uuid';

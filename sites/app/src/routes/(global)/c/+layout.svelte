@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { LayoutProps } from './$types.js';
-	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
+	import ErrorPlaceholder from '#lib/components/ErrorPlaceholder.svelte';
 
 	const { children }: LayoutProps = $props();
 </script>

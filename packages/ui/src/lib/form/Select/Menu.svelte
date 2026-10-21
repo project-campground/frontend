@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Menu } from '$lib/index.js';
+	import { Menu } from '#lib/index.js';
 	import type { MenuProps } from './props.ts';
 	import { setOnSelect } from './context.svelte.ts';
 

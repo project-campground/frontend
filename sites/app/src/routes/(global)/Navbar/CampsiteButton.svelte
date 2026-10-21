@@ -3,8 +3,8 @@
 	import NavbarButton from './NavbarButton.svelte';
 	import { IconUserFilled } from '@tabler/icons-svelte';
 	import type { Snippet } from 'svelte';
-	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
-	import { localeStrings } from '$lib/locale/index.js';
+	import ProfileAvatar from '#lib/components/pages/ProfileAvatar.svelte';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { LocaleMessage } from '@campground/locale';
 
 	interface Props {

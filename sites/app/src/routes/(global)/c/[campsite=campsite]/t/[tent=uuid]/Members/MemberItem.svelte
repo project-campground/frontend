@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { GradientText, TextBlock, Button } from '@campground/ui';
-	import type { MemberViewBasic } from '$lib/types/campground/membership.js';
-	import type { RoleView } from '$lib/types/campground/roles.js';
-	import { colorToDecimal } from '$lib/util/color.js';
-	import { User } from '$lib/components/index.js';
+	import type { MemberViewBasic } from '#lib/types/campground/membership.js';
+	import type { RoleView } from '#lib/types/campground/roles.js';
+	import { colorToDecimal } from '#lib/util/color.js';
+	import { User } from '#lib/components/index.js';
 
 	type ClickEvent = MouseEvent & { currentTarget: HTMLButtonElement };
 

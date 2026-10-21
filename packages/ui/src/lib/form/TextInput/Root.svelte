@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type TextInputProps from './props.ts';
-	import { rem } from '$lib/util/component.ts';
+	import { rem } from '#lib/util/component.ts';
 
 	let {
 		size,

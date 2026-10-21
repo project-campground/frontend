@@ -22,11 +22,11 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Card, Para, Tabs, Stack } from '@campground/ui';
 	import { IconListTree, IconUsers } from '@tabler/icons-svelte';
-	import type { TentViewBasic } from '$lib/types/campground/tent.js';
+	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import { getCampsiteContext } from '../../../context.svelte.ts';
-	import { Markdown } from '$lib/components/markdown/index.js';
-	import { User } from '$lib/components/index.js';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { Markdown } from '#lib/components/markdown/index.js';
+	import { User } from '#lib/components/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import MemberSidebarMembers from './MemberSidebarMembers.svelte';
 	import MemberSidebarThreads from './MemberSidebarThreads.svelte';
 

@@ -1,24 +1,24 @@
 <script lang="ts">
 	import { Threaded } from '@campground/ui';
 	import TentWrapper from '../../TentWrapper.svelte';
-	import type { TentViewBasic } from '$lib/types/campground/tent.js';
+	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
-	import MessageEditor from '$lib/components/editor/MessageEditor/Root.svelte';
-	import { getAppview } from '$lib/context/api.js';
+	import MessageEditor from '#lib/components/editor/MessageEditor/Root.svelte';
+	import { getAppview } from '#lib/context/api.js';
 	import { getCampsiteContext } from '../../../context.svelte.ts';
 	import { filter } from 'rxjs';
-	import type { WSMessageTypeToPayload } from '$lib/api/ws/types.js';
+	import type { WSMessageTypeToPayload } from '#lib/api/ws/types.js';
 	import {
 		MessageState,
 		type MessageViewInChat,
-	} from '$lib/components/content/ChatMessage/types.js';
+	} from '#lib/components/content/ChatMessage/types.js';
 	import { v4 as uuid } from 'uuid';
 	import {
 		setTextTent,
 		TextTentContext,
-	} from '$lib/components/content/ChatMessage/context.svelte.js';
+	} from '#lib/components/content/ChatMessage/context.svelte.js';
 	import TentMessageList from './TentMessageList.svelte';
-	import type { TentMessagesOutput } from '$lib/types/campground/content.js';
+	import type { TentMessagesOutput } from '#lib/types/campground/content.js';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 

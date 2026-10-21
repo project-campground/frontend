@@ -5,8 +5,8 @@
 	import System from './ChatMessageType/System.svelte';
 	import type { Snippet } from 'svelte';
 	import { getTextTent } from './context.svelte.ts';
-	import MessageEditor from '$lib/components/editor/MessageEditor/Root.svelte';
-	import { getAppview } from '$lib/context/api.js';
+	import MessageEditor from '#lib/components/editor/MessageEditor/Root.svelte';
+	import { getAppview } from '#lib/context/api.js';
 	import ContextMenu from './ChatMessageMenu/RightClick.svelte';
 	import Toolbar from './ChatMessageMenu/Toolbar.svelte';
 	import Reply from './Reply.svelte';

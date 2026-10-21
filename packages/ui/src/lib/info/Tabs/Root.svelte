@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { setPickContext } from '$lib/form/Pick/context.svelte.js';
-	import { notInherited } from '$lib/util/component.ts';
+	import { setPickContext } from '#lib/form/Pick/context.svelte.js';
+	import { notInherited } from '#lib/util/component.ts';
 	import TabList from './List.svelte';
 	import { TabsContext } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';

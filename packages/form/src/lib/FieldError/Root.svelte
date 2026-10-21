@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.js';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { Para } from '@campground/ui';
 	import type FieldErrorProps from './props.ts';
 

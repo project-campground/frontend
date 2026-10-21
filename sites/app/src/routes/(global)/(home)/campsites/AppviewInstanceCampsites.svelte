@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getSession } from '$lib/api/session/Session.svelte.js';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
 	import { Button } from '@campground/ui';
 	import CampsiteButton from '../../Navbar/CampsiteButton.svelte';
-	import { AccountNavbarItemType, getAccount } from '$lib/context/account.svelte.js';
+	import { AccountNavbarItemType, getAccount } from '#lib/context/account.svelte.js';
 	import { IconStar, IconStarFilled } from '@tabler/icons-svelte';
-	import type { CampsiteViewBasic } from '$lib/types/campground/campsites.js';
+	import type { CampsiteViewBasic } from '#lib/types/campground/campsites.js';
 
 	const session = getSession();
 	const account = getAccount();

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Para } from '$lib/index.js';
+	import { Para } from '#lib/index.js';
 	import type SectionProps from './props.ts';
 
 	const {

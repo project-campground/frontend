@@ -20,7 +20,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."
 	},
-	"main": "./dist/index.ts",
+	"main": "./dist/index.js",
 	"files": [
 		"dist",
 		"!dist/**/*.test.*",
@@ -64,10 +64,9 @@
 		"@campground/svelte-config": "1.0.0",
 		"@eslint/compat": "^2.0.4",
 		"@eslint/js": "^10.0.1",
-		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/enhanced-img": "^0.11.0",
-		"@sveltejs/kit": "^2.57.0",
-		"@sveltejs/package": "^2.5.7",
+		"@sveltejs/kit": "^3.0.0",
+		"@sveltejs/package": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@types/node": "^24",
 		"autoprefixer": "^10.5.0",
@@ -80,12 +79,16 @@
 		"prettier-plugin-svelte": "^3.5.1",
 		"publint": "^0.3.18",
 		"sass": "^1.99.0",
-		"svelte": "^5.55.2",
-		"svelte-check": "^4.4.6",
+		"svelte": "^5.57.1",
+		"svelte-check": "^4.7.5",
 		"svelte-preprocess": "^6.0.3",
 		"typescript": "^6.0.2",
 		"typescript-eslint": "^8.58.1",
-		"vite": "^8.0.7",
+		"vite": "^8.0.12",
 		"vite-plugin-static-copy": "^2.3.0"
+	},
+	"imports": {
+		"#lib": "./src/lib/index.js",
+		"#lib/*": "./src/lib/*"
 	}
 }

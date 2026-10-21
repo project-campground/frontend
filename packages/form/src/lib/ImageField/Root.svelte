@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Badge, getMenuPortal, Image, MenuPortalInstance, Modal, rem } from '@campground/ui';
 	import type { ImageFieldProps, ImageFieldValue } from './props.ts';
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
 	import { IconPencilFilled } from '@tabler/icons-svelte';
 	import ImageDialog from './Dialog.svelte';
 

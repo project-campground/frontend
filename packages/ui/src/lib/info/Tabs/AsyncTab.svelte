@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPickContext } from '$lib/form/Pick/context.svelte.js';
+	import { getPickContext } from '#lib/form/Pick/context.svelte.js';
 	import type { AsyncTabProps } from './props.ts';
 	import Tab from './Tab.svelte';
 

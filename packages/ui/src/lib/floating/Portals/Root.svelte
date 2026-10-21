@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
+	import { setOutsideClickBoundary, type OutsideClick } from '#lib/contexts/outside.svelte.js';
 	import { writable } from 'svelte/store';
 	import MenuPortalContainer from '../MenuPortalContainer/Root.svelte';
 	import { MenuPortal, setMenuPortal } from '../MenuPortalContainer/portals.svelte.ts';

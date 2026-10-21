@@ -2,7 +2,7 @@ import type {
 	ProfilePostViewBasic,
 	ProfilePostViewDetailed,
 	ProfilePostViewParented,
-} from '$lib/types/campground/user.js';
+} from '#lib/types/campground/user.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPProfilePostManager extends HTTPBackendObjectManager {

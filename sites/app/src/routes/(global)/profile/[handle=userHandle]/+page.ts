@@ -1,4 +1,4 @@
-import HTTPAtprotoClient from '$lib/api/http/HTTPAtprotoClient.js';
+import HTTPAtprotoClient from '#lib/api/http/HTTPAtprotoClient.js';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types.d.ts';
 

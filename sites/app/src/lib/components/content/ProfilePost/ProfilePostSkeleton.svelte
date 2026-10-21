@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { User } from '$lib/components/users/index.js';
+	import { User } from '#lib/components/users/index.js';
 	import { Card, Group, loremIpsum, Skeleton, TextBlock } from '@campground/ui';
 </script>
 

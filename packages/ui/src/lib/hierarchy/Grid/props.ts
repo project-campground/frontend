@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { InFlexLayout, InGridLayout } from '../layout.ts';
-import type { Size } from '$lib/util/component.js';
+import type { Size } from '#lib/util/component.js';
 
 export type GridSizing = 'auto' | 'stretch';
 export interface RootProps

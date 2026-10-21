@@ -1,4 +1,4 @@
-import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
+import type { MessageViewWithReplies } from '#lib/types/campground/content.js';
 
 export enum MessageState {
 	Creating = 1,

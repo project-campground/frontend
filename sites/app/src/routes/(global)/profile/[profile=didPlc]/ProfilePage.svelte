@@ -22,19 +22,19 @@
 </script>
 
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
+	import { getAppview } from '#lib/context/api.js';
 	import { PagePlaceholder, Para, Tabs } from '@campground/ui';
 	import { LocaleMessage } from '@campground/locale';
 	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
 	import ProfileFeed from './ProfileFeed.svelte';
-	import { getAccount } from '$lib/context/account.svelte.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
 	import ProfilePostCreator from './ProfilePostCreator.svelte';
 	import ProfilePageColumn from './ProfilePageColumn.svelte';
 	import ProfilePageHeader from './ProfilePageHeader.svelte';
 	import ProfileFeedSkeleton from './ProfileFeedSkeleton.svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { localeStrings } from '$lib/locale/index.js';
-	import { User } from '$lib/components/index.ts';
+	import { localeStrings } from '#lib/locale/index.js';
+	import { User } from '#lib/components/index.ts';
 
 	const appview = getAppview();
 	const currentUser = getAccount();

@@ -1,4 +1,4 @@
-import type { ComponentSize } from '$lib/types/attributes.js';
+import type { ComponentSize } from '#lib/types/attributes.js';
 import type { Snippet } from 'svelte';
 import type { AriaAttributes, ClassValue } from 'svelte/elements';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Stack } from '$lib/index.js';
+	import { Stack } from '#lib/index.js';
 	import type { FooterProps } from './props.ts';
 
 	const { children, direction, directionMobile, ...attributes }: FooterProps = $props();

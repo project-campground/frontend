@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
+	import { getOutsideClickBoundary } from '#lib/contexts/outside.svelte.js';
 	import { onMount } from 'svelte';
 	import type MenuPortalProps from './props.ts';
 

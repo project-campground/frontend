@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { rem, notInherited } from '$lib/util/component.js';
+	import { rem, notInherited } from '#lib/util/component.js';
 	import { stackedProps } from '../layout.ts';
 	import type { ContentProps } from './props.ts';
 

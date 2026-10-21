@@ -12,7 +12,7 @@
 	lang="ts"
 	generics="T"
 >
-	import XrpcError from '$lib/api/XrpcError.js';
+	import XrpcError from '#lib/api/XrpcError.js';
 
 	import { Chip, Code, PagePlaceholder, Para, Stack } from '@campground/ui';
 

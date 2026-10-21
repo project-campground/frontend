@@ -20,7 +20,7 @@
 		Code,
 		loremIpsum,
 		Loading,
-	} from '$lib/index.js';
+	} from '#lib/index.js';
 	import { IconCheck, IconMessageFilled } from '@tabler/icons-svelte';
 	import { colors, colorsWithNeutral, sizes, statusColors } from './values.ts';
 

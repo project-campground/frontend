@@ -38,7 +38,7 @@
 	} from '@campground/ui';
 	import { IconArrowRight, IconExclamationCircleFilled } from '@tabler/icons-svelte';
 	import type { GettingStarted } from './context.svelte.ts';
-	import { getSession } from '$lib/api/session/Session.svelte.js';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
 
 	const intl = getLocale();
 

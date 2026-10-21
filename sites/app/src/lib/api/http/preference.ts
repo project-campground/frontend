@@ -1,4 +1,4 @@
-import type { BlueskyPreference, CampgroundPreference } from '$lib/types/bluesky/preferences.js';
+import type { BlueskyPreference, CampgroundPreference } from '#lib/types/bluesky/preferences.js';
 import HTTPAtprotoObjectManager from './base-atproto.js';
 
 export default class HTTPPreferenceManager extends HTTPAtprotoObjectManager {

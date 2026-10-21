@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Divider } from '$lib/info/index.js';
+	import { Divider } from '#lib/info/index.js';
 	import type { DividerProps } from './props.ts';
 
 	const { orientation }: DividerProps = $props();

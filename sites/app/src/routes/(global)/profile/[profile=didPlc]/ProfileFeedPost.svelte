@@ -12,8 +12,8 @@
 </script>
 
 <script lang="ts">
-	import { ProfilePost } from '$lib/components/index.js';
-	import type { ProfilePostViewParented } from '$lib/types/campground/user.js';
+	import { ProfilePost } from '#lib/components/index.js';
+	import type { ProfilePostViewParented } from '#lib/types/campground/user.js';
 	import { LocaleMessage } from '@campground/locale';
 	import { Alert, Threaded } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';

@@ -12,10 +12,10 @@
 </script>
 
 <script lang="ts">
-	import { AccountInfo, setAccount } from '$lib/context/account.svelte';
+	import { AccountInfo, setAccount } from '#lib/context/account.svelte.js';
 	import type { LayoutProps } from './$types.js';
 	import GlobalLayout from './GlobalLayout.svelte';
-	import { getSession } from '$lib/api/session/Session.svelte';
+	import { getSession } from '#lib/api/session/Session.svelte.js';
 	import {
 		Dialog,
 		MenuPortal,
@@ -28,10 +28,10 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import ProfileSetup from './GettingStartedModal.svelte';
 	import { onMount } from 'svelte';
-	import { setAppview } from '$lib/context/api.js';
-	import HTTPBackendClient from '$lib/api/http/HTTPBackendClient.js';
-	import { defaultAppview } from '$lib/api/api.config.js';
-	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
+	import { setAppview } from '#lib/context/api.js';
+	import HTTPBackendClient from '#lib/api/http/HTTPBackendClient.js';
+	import { defaultAppview } from '#lib/api/api.config.js';
+	import ErrorPlaceholder from '#lib/components/ErrorPlaceholder.svelte';
 
 	const { children }: LayoutProps = $props();
 

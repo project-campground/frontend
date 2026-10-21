@@ -17,16 +17,16 @@
 		Card,
 		Toast,
 		getToastPortal,
-	} from '$lib/index.js';
+	} from '#lib/index.js';
 	import {
 		hoverAction,
 		rightClickMenu,
 		rightClickMenuProps,
 		tooltip,
-	} from '$lib/floating/attachments.js';
+	} from '#lib/floating/attachments.js';
 	import type { Snippet } from 'svelte';
 	import type { Placement } from '@floating-ui/dom';
-	import { draggable, droppable } from '$lib/attachments/draggable.js';
+	import { draggable, droppable } from '#lib/attachments/draggable.js';
 	import { colors } from './values.ts';
 
 	const menuPortal = getMenuPortal();

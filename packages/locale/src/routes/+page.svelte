@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Everything below is per-component
-	import { LocaleMessage } from '$lib/LocaleMessage/index.js';
-	import { setLocale, LocaleContext } from '$lib/context.svelte.js';
-	import { localeIds, type LocaleId } from '$lib/localeList.js';
+	import { LocaleMessage } from '#lib/LocaleMessage/index.js';
+	import { setLocale, LocaleContext } from '#lib/context.svelte.js';
+	import { localeIds, type LocaleId } from '#lib/localeList.js';
 
 	// Not used in the module to not have it exist outside this library
 	const locale = new LocaleContext();

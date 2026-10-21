@@ -2,9 +2,9 @@
 	import { loremIpsum, Skeleton } from '@campground/ui';
 	import TentSkeleton from './TentSkeleton.svelte';
 	import TentWrapper from './TentWrapper.svelte';
-	import TentIcon from '$lib/components/tents/TentIcon.svelte';
+	import TentIcon from '#lib/components/tents/TentIcon.svelte';
 	import type { LayoutProps } from './$types.js';
-	import ErrorPlaceholder from '$lib/components/ErrorPlaceholder.svelte';
+	import ErrorPlaceholder from '#lib/components/ErrorPlaceholder.svelte';
 
 	const { children }: LayoutProps = $props();
 </script>

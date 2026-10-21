@@ -1,14 +1,14 @@
 import { createContext } from 'svelte';
-import type { GetSession } from '$lib/types/atproto/session.js';
-import type { CampsiteViewBasic, CampsiteViewWithDomain } from '$lib/types/campground/campsites.js';
-import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
-import type { Session } from '$lib/api/session/Session.svelte.js';
-import XrpcError from '$lib/api/XrpcError.js';
+import type { GetSession } from '#lib/types/atproto/session.js';
+import type { CampsiteViewBasic, CampsiteViewWithDomain } from '#lib/types/campground/campsites.js';
+import type { CampgroundProfileRecord } from '#lib/types/campground/user.js';
+import type { Session } from '#lib/api/session/Session.svelte.js';
+import XrpcError from '#lib/api/XrpcError.js';
 import type {
 	PreferenceNavbarItemAny,
 	PreferenceNavCampsite,
-} from '$lib/types/bluesky/preferences.js';
-import { toLookup } from '$lib/util/array.js';
+} from '#lib/types/bluesky/preferences.js';
+import { toLookup } from '#lib/util/array.js';
 
 export enum AccountInfoLoadState {
 	None = 0,

@@ -2,7 +2,7 @@
 	import { Threaded } from '@campground/ui';
 	import type { PageProps } from './$types.js';
 	import ProfilePostPage from './ProfilePostPage.svelte';
-	import { ProfilePostSkeleton } from '$lib/components/index.ts';
+	import { ProfilePostSkeleton } from '#lib/components/index.ts';
 
 	const { params }: PageProps = $props();
 </script>

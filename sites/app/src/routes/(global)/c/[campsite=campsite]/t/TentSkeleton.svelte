@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Card, loremIpsum, Skeleton, Stack } from '@campground/ui';
 	import TentWrapper from './TentWrapper.svelte';
-	import TentIcon from '$lib/components/tents/TentIcon.svelte';
-	import { ChatMessage, User } from '$lib/components/index.js';
+	import TentIcon from '#lib/components/tents/TentIcon.svelte';
+	import { ChatMessage, User } from '#lib/components/index.js';
 </script>
 
 <TentWrapper>

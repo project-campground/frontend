@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Portal, PortalInstance } from '$lib/floating/portals.svelte.js';
+import { Portal, PortalInstance } from '#lib/floating/portals.svelte.js';
 import { createContext, type Snippet } from 'svelte';
 
 type InstanceSnippet<T = unknown> = Snippet<[MenuPortalInstance<T>]>;

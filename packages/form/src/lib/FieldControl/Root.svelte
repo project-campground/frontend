@@ -3,7 +3,7 @@
 	generics="T"
 >
 	import type FieldControlProps from './props.ts';
-	import { getForm } from '$lib/Form/context.svelte.js';
+	import { getForm } from '#lib/Form/context.svelte.js';
 	import { FieldControlInstance, setFieldControl } from './context.svelte.ts';
 	import { onMount } from 'svelte';
 

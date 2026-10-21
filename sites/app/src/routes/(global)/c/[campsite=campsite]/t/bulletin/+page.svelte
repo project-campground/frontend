@@ -4,10 +4,10 @@
 	import TentWrapper from '../TentWrapper.svelte';
 	import { IconLayout2Filled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import ProfileBanner from '$lib/components/pages/ProfileBanner.svelte';
-	import ProfileAvatar from '$lib/components/pages/ProfileAvatar.svelte';
-	import ProfileAvatarWrapper from '$lib/components/pages/ProfileAvatarWrapper.svelte';
-	import { localeStrings } from '$lib/locale/index.js';
+	import ProfileBanner from '#lib/components/pages/ProfileBanner.svelte';
+	import ProfileAvatar from '#lib/components/pages/ProfileAvatar.svelte';
+	import ProfileAvatarWrapper from '#lib/components/pages/ProfileAvatarWrapper.svelte';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const campsite = $derived(campsiteContext.campsiteReference?.campsite);

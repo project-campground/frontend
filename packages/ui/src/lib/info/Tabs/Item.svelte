@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pick } from '$lib/form/index.js';
+	import { Pick } from '#lib/form/index.js';
 	import type { ItemProps } from './props.ts';
 
 	const { children }: ItemProps = $props();

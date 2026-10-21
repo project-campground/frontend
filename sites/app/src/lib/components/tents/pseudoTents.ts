@@ -1,4 +1,4 @@
-import type { TentViewBasic } from '$lib/types/campground/tent.js';
+import type { TentViewBasic } from '#lib/types/campground/tent.js';
 
 export type PseudoTentType = 'bulletin' | 'members';
 

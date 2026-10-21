@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import type { RoleView } from '$lib/types/campground/roles.js';
+	import type { RoleView } from '#lib/types/campground/roles.js';
 	import {
 		Button,
 		draggable,
@@ -30,11 +30,11 @@
 	import { getRoleSettings } from './context.svelte.ts';
 	import { IconTrashFilled, IconUserFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import { localeStrings } from '$lib/locale/index.js';
-	import { RoleFlag } from '$lib/util/constants.js';
+	import { localeStrings } from '#lib/locale/index.js';
+	import { RoleFlag } from '#lib/util/constants.js';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { getAppview } from '$lib/context/api.js';
-	import { ContentMover } from '$lib/components/content/index.js';
+	import { getAppview } from '#lib/context/api.js';
+	import { ContentMover } from '#lib/components/content/index.js';
 
 	const roleSettings = getRoleSettings();
 	const menuPortal = getMenuPortal();

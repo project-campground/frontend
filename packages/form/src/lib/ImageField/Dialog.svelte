@@ -27,18 +27,18 @@
 </script>
 
 <script lang="ts">
-	import { Form } from '$lib/Form/index.js';
-	import { FieldControl } from '$lib/FieldControl/index.js';
-	import FieldLabel from '$lib/FieldLabel/Root.svelte';
-	import { SubmitButton } from '$lib/SubmitButton/index.js';
-	import { TextField } from '$lib/TextField/index.js';
+	import { Form } from '#lib/Form/index.js';
+	import { FieldControl } from '#lib/FieldControl/index.js';
+	import FieldLabel from '#lib/FieldLabel/Root.svelte';
+	import { SubmitButton } from '#lib/SubmitButton/index.js';
+	import { TextField } from '#lib/TextField/index.js';
 
 	import { LocaleMessage, getLocale } from '@campground/locale';
 
 	import { Button, Dialog, getModal } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import type { ImageDialogProps } from './props.ts';
-	import { FieldError } from '$lib/FieldError/index.js';
+	import { FieldError } from '#lib/FieldError/index.js';
 
 	const modal = getModal();
 	const locale = getLocale();

@@ -12,9 +12,9 @@
 </script>
 
 <script lang="ts">
-	import BasicPostEditor from '$lib/components/editor/BasicPostEditor.svelte';
-	import { User } from '$lib/components/index.js';
-	import { getAccount } from '$lib/context/account.svelte.js';
+	import BasicPostEditor from '#lib/components/editor/BasicPostEditor.svelte';
+	import { User } from '#lib/components/index.js';
+	import { getAccount } from '#lib/context/account.svelte.js';
 	import { LocaleMessage, getLocale } from '@campground/locale';
 	import { Card, Group } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';

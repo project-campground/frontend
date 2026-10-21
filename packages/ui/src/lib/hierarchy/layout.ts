@@ -3,7 +3,7 @@ import type {
 	FlexDirection,
 	GridArea,
 	JustifyContent,
-} from '$lib/types/attributes.js';
+} from '#lib/types/attributes.js';
 
 export interface InGridLayout {
 	gridColumn?: GridArea;

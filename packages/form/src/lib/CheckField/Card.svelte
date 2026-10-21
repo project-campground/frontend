@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Card, Checkbox } from '@campground/ui';
 	import type { ItemProps, CheckValue } from './props.ts';
-	import FormSimpleField from '$lib/SimpleField/Root.svelte';
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.ts';
-	import { getFieldControlKey } from '$lib/CheckField/context.svelte.js';
+	import FormSimpleField from '#lib/SimpleField/Root.svelte';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControlKey } from '#lib/CheckField/context.svelte.js';
 
 	const { value, header, children, ...props }: ItemProps = $props();
 

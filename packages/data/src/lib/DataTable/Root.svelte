@@ -32,7 +32,7 @@
 	import { IconSearch } from '@tabler/icons-svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getLocale, LocaleMessage } from '@campground/locale';
-	import { Paginated } from '$lib/index.js';
+	import { Paginated } from '#lib/index.js';
 	import { DebouncedValue, TextBlock, TextInput } from '@campground/ui';
 
 	let {

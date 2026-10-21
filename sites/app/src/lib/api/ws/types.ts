@@ -9,7 +9,7 @@ import type {
 	PermissionsStateDictionary,
 } from '../../types/campground/permissions.ts';
 import type { TentCategoryView, TentViewBasic } from '../../types/campground/tent.ts';
-import type { RoleView } from '$lib/types/campground/roles.js';
+import type { RoleView } from '#lib/types/campground/roles.js';
 
 export interface PermissionViewPayload {
 	roles: PermissionsDictionary;

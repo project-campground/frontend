@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Menu } from '$lib/index.js';
+	import { Menu } from '#lib/index.js';
 	import { IconCaretDownFilled } from '@tabler/icons-svelte';
 	import type { ButtonProps, SelectValue } from './props.ts';
-	import { getOutsideClickBoundary } from '$lib/contexts/outside.svelte.js';
+	import { getOutsideClickBoundary } from '#lib/contexts/outside.svelte.js';
 	import {
 		getMenuPortal,
 		MenuPortalInstance,
-	} from '$lib/floating/MenuPortalContainer/portals.svelte.js';
+	} from '#lib/floating/MenuPortalContainer/portals.svelte.js';
 	import SelectMenu from './Menu.svelte';
 
 	let {

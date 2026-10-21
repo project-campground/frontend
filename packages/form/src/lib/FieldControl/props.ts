@@ -1,4 +1,4 @@
-import type { FormFieldId } from '$lib/Form/props.js';
+import type { FormFieldId } from '#lib/Form/props.js';
 import type { Snippet } from 'svelte';
 import type { AriaAttributes } from 'svelte/elements';
 

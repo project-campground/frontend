@@ -1,5 +1,5 @@
-import type HTTPBackendClient from '$lib/api/http/HTTPBackendClient.ts';
-import type { MessageViewWithReplies } from '$lib/types/campground/content.js';
+import type HTTPBackendClient from '#lib/api/http/HTTPBackendClient.ts';
+import type { MessageViewWithReplies } from '#lib/types/campground/content.js';
 import { createContext } from 'svelte';
 import { MessageState, type MessageViewInChat } from './types.ts';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
+	import { getAppview } from '#lib/context/api.js';
 
 	import {
 		Form,
@@ -13,7 +13,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Dialog, Section, Stack, Group, getModal } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.js';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();

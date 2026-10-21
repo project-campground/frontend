@@ -1,4 +1,4 @@
-import type { CampgroundProfileRecord } from '$lib/types/campground/user.js';
+import type { CampgroundProfileRecord } from '#lib/types/campground/user.js';
 import HTTPAtprotoObjectManager from './base-atproto.js';
 
 export default class HTTPProfileRecordManager extends HTTPAtprotoObjectManager {

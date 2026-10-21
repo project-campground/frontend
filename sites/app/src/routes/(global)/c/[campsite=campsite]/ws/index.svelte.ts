@@ -3,7 +3,7 @@ import type { CampsiteContext } from '../context.svelte.ts';
 import { tentMessageHandlers } from './tents.ts';
 import type { WebSocketMessageHandlers } from './types.ts';
 import { roleMessageHandlers } from './roles.svelte.ts';
-import { AccountNavbarItemType, type AccountInfo } from '$lib/context/account.svelte.js';
+import { AccountNavbarItemType, type AccountInfo } from '#lib/context/account.svelte.js';
 import { goto } from '$app/navigation';
 
 const wsMessageHandlers: Partial<WebSocketMessageHandlers> = {

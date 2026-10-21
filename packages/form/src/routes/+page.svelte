@@ -14,8 +14,8 @@
 		NumberField,
 		TagField,
 		FlagField,
-	} from '$lib/index.js';
-	import { ImageField } from '$lib/ImageField/index.ts';
+	} from '#lib/index.js';
+	import { ImageField } from '#lib/ImageField/index.ts';
 	import {
 		IconCheckbox,
 		IconDeviceSpeakerFilled,
@@ -23,7 +23,7 @@
 		IconHash,
 	} from '@tabler/icons-svelte';
 	import Tab from './Tab.svelte';
-	import { TristateField } from '$lib/TristateField/index.ts';
+	import { TristateField } from '#lib/TristateField/index.ts';
 </script>
 
 <Tabs.Root>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { LayoutProps } from './$types.js';
-	import Navbar from '$lib/layout/Navbar.svelte';
+	import Navbar from '#lib/layout/Navbar.svelte';
 	import { setLocale, LocaleContext, type DefaultMessageSegment } from '@campground/locale';
-	import Footer from '$lib/layout/Footer.svelte';
+	import Footer from '#lib/layout/Footer.svelte';
 	import { createIntl } from '@formatjs/svelte-intl';
 
 	const { children, params, data }: LayoutProps = $props();

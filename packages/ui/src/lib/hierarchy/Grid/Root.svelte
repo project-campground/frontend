@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { rem } from '$lib/util/component.js';
+	import { rem } from '#lib/util/component.js';
 	import type { RootProps } from './props.ts';
 
 	const { children, gap, columns, columnSizing, breakpointReduce, ...attributes }: RootProps =

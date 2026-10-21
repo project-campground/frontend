@@ -9,11 +9,11 @@
 <script lang="ts">
 	import { Pick } from '@campground/ui';
 	import type { PairedProps } from './props.ts';
-	import FormSimpleField from '$lib/SimpleField/Root.svelte';
-	import { getFieldControl, type IFieldControl } from '$lib/FieldControl/context.svelte.ts';
-	import TristateSelect from '$lib/TristateField/TristateSelect.svelte';
+	import FormSimpleField from '#lib/SimpleField/Root.svelte';
+	import { getFieldControl, type IFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import TristateSelect from '#lib/TristateField/TristateSelect.svelte';
 	import { FlagsPickContext } from './context.svelte.ts';
-	import { getFlagMask } from '$lib/util/flags.js';
+	import { getFlagMask } from '#lib/util/flags.js';
 
 	const { position, header, children, reverse, ...props }: PairedProps = $props();
 

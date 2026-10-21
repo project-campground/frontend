@@ -2,7 +2,7 @@ import type {
 	MemberViewDetailed,
 	GetMembersDetailedOutput,
 	GetMembersOutput,
-} from '$lib/types/campground/membership.js';
+} from '#lib/types/campground/membership.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPMemberManager extends HTTPBackendObjectManager {

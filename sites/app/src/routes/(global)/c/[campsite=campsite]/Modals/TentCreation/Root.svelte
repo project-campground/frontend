@@ -13,8 +13,8 @@
 </script>
 
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
-	import type { TentType } from '$lib/types/campground/tent.js';
+	import { getAppview } from '#lib/context/api.js';
+	import type { TentType } from '#lib/types/campground/tent.js';
 
 	import {
 		Form,
@@ -30,7 +30,7 @@
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconHash, IconListDetailsFilled, IconTent } from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../context.svelte.ts';
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 
 	let what: 'tent' | 'category' = $state('tent');
 	const appview = getAppview();

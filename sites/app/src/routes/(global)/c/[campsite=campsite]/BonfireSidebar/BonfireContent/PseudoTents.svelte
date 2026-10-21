@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { localeStrings } from '$lib/locale/index.js';
+	import { localeStrings } from '#lib/locale/index.js';
 	import { getLocale } from '@campground/locale';
 	import { getCampsiteContext } from '../../context.svelte.ts';
-	import { pseudoTentList } from '$lib/components/tents/pseudoTents.js';
+	import { pseudoTentList } from '#lib/components/tents/pseudoTents.js';
 	import { Stack } from '@campground/ui';
 	import TentListButton from '../../TentList/TentListButton.svelte';
 

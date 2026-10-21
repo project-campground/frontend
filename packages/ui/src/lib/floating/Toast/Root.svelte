@@ -7,8 +7,8 @@
 	} from '@tabler/icons-svelte';
 	import type { RootProps } from './props.ts';
 	import { fly, scale } from 'svelte/transition';
-	import { Button } from '$lib/form/index.js';
-	import { Emblem } from '$lib/visual/index.ts';
+	import { Button } from '#lib/form/index.js';
+	import { Emblem } from '#lib/visual/index.ts';
 
 	const { color, children, onClick, onClose, ...attrs }: RootProps = $props();
 </script>

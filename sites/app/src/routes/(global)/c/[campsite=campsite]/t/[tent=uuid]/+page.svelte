@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
+	import { getAppview } from '#lib/context/api.js';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import { PermissionsContext, setPermissions } from '../../permissions.svelte.ts';
 	import type { PageProps } from './$types.js';

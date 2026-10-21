@@ -1,4 +1,4 @@
-import type { Size } from '$lib/util/component.js';
+import type { Size } from '#lib/util/component.js';
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { CommonFloatingProps } from '../common-floating.ts';

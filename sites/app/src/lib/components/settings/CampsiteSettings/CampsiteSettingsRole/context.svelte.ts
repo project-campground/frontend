@@ -1,6 +1,6 @@
 import { createContext } from 'svelte';
 import type { CampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
-import type { RoleView } from '$lib/types/campground/roles.js';
+import type { RoleView } from '#lib/types/campground/roles.js';
 
 export class RoleSettingsContext {
 	public selected: string;

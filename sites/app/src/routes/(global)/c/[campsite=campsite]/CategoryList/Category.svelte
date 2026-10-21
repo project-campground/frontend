@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getAppview } from '$lib/context/api.js';
-	import type { TentCategoryView } from '$lib/types/campground/tent.js';
+	import { getAppview } from '#lib/context/api.js';
+	import type { TentCategoryView } from '#lib/types/campground/tent.js';
 	import { Accordion, Para, draggable, droppable } from '@campground/ui';
 	import type { Snippet } from 'svelte';
 

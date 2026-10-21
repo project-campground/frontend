@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getFieldControl } from '$lib/FieldControl/context.svelte.ts';
-	import { SimpleField } from '$lib/SimpleField/index.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { SimpleField } from '#lib/SimpleField/index.ts';
 	import { Pick } from '@campground/ui';
 	import Select from './TristateSelect.svelte';
 	import type { RootProps } from './props.ts';

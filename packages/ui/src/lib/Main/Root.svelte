@@ -2,9 +2,9 @@
 	import type { Snippet } from 'svelte';
 	import { theme, type Theme } from '../theme/index.ts';
 	import SvgDefs from '../visual/Svg/Defs.svelte';
-	import { setOutsideClickBoundary, type OutsideClick } from '$lib/contexts/outside.svelte.js';
+	import { setOutsideClickBoundary, type OutsideClick } from '#lib/contexts/outside.svelte.js';
 	import { writable } from 'svelte/store';
-	import { ActiveKeyContext, setActiveKeys } from '$lib/contexts/key.svelte.js';
+	import { ActiveKeyContext, setActiveKeys } from '#lib/contexts/key.svelte.js';
 
 	let themeValue = $state<Theme>(null!);
 	theme.subscribe((theme) => (themeValue = theme));

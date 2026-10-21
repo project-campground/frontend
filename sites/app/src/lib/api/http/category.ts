@@ -1,4 +1,4 @@
-import type { TentCategoryView } from '$lib/types/campground/tent.js';
+import type { TentCategoryView } from '#lib/types/campground/tent.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPCategoryManager extends HTTPBackendObjectManager {

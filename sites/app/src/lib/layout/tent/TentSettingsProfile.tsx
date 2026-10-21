@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel } from '@mui/joy';
+import { Box, FieldControl, FieldLabel } from '@mui/joy';
 import Form from '~/components/form/Form';
 import type { SettingsComponentProps } from '../settings';
 import { useMemo } from 'react';
@@ -36,31 +36,31 @@ export default function TentSettingsProfile({
 					onChange={(isValid, values) => onValuesChanged(isValid, oneOfNotDefault(values), values)}
 				>
 					<FormSection>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessage
 									id='app.tents.settings.name'
 									defaultMessage='Tent name'
 									description='The header of the tent name field in settings'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldText
 								required
 								flex={1}
 								id='name'
 								defaultValue={tent.name}
 							/>
-						</FormControl>
-						<FormControl>
-							<FormLabel>
+						</FieldControl>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessageGlobal id='info.topic' />
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldTextArea
 								required
 								id='description'
 								defaultValue={tent.description}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</Form>
 			</Box>

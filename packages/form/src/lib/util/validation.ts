@@ -1,4 +1,4 @@
-import type { IFormControl } from '$lib/FormControl/index.js';
+import type { IFormControl } from '$lib/FieldControl/index.ts';
 import type { LocaleContext } from '@campground/locale';
 import type { MessageDescriptor } from '@formatjs/svelte-intl';
 

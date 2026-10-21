@@ -13,14 +13,14 @@
 
 <script lang="ts">
 	import type { defineMessageExtension } from '$lib/editor/extension.js';
-	import { FormImageDialog, type FormImageFieldValue } from '@campground/form';
+	import { ImageDialog, type ImageFieldValue } from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
 	import { Menu, Modal, MenuPortalInstance, getMenuPortal } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconMountainFilled } from '@tabler/icons-svelte';
 	import type { Editor } from 'prosekit/core';
 
-	function createImage(img: FormImageFieldValue) {
+	function createImage(img: ImageFieldValue) {
 		// TODO: Replace fake Markdown (which won't be rendered anyways) into actual editor image component
 		editor.commands.insertNode({
 			node: editor.schema.nodes.paragraph.create(null, editor.schema.text(img.url ?? 'null')),
@@ -33,7 +33,7 @@
 
 {#snippet imageModal(instance: MenuPortalInstance)}
 	<Modal {instance}>
-		<FormImageDialog onSubmit={createImage} />
+		<ImageDialog onSubmit={createImage} />
 	</Modal>
 {/snippet}
 

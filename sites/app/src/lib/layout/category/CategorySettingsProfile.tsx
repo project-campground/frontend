@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel } from '@mui/joy';
+import { Box, FieldControl, FieldLabel } from '@mui/joy';
 import Form from '~/components/form/Form';
 import type { SettingsComponentProps } from '../settings';
 import { useMemo } from 'react';
@@ -36,31 +36,31 @@ export default function CategorySettingsProfile({
 					onChange={(isValid, values) => onValuesChanged(isValid, oneOfNotDefault(values), values)}
 				>
 					<FormSection>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessage
 									id='app.tentCategories.settings.name'
 									defaultMessage='Category name'
 									description='The header of the category name field in settings'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldText
 								required
 								flex={1}
 								id='name'
 								defaultValue={category.name}
 							/>
-						</FormControl>
-						<FormControl>
-							<FormLabel>
+						</FieldControl>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessageGlobal id='info.topic' />
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldTextArea
 								required
 								id='description'
 								defaultValue={category.description}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</Form>
 			</Box>

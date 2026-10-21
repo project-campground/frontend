@@ -1,4 +1,4 @@
-import { Alert, FormControl, FormLabel } from '@mui/joy';
+import { Alert, FieldControl, FieldLabel } from '@mui/joy';
 import type { SettingsComponentProps } from '../settings';
 import Form from '~/components/form/Form';
 import { IconExclamationCircleFilled, IconTrashFilled } from '@tabler/icons-react';
@@ -6,7 +6,7 @@ import type { BonfireSettingsProps } from './BonfireSettingsModal';
 import { FormattedMessage } from 'react-intl';
 import { FormattedMessageGlobal } from '~/i18n';
 import FormSection from '~/components/form/FormSection';
-import FormSubmit from '~/components/form/FormSubmit';
+import SubmitButton from '~/components/form/SubmitButton';
 import FormFieldText from '~/components/form/FormFieldText';
 import SettingsPageWrapper from '../settings/page';
 
@@ -34,29 +34,29 @@ export default function BonfireSettingsDeletion({
 					</Alert>
 				</FormSection>
 				<FormSection>
-					<FormControl>
-						<FormLabel>
+					<FieldControl>
+						<FieldLabel>
 							<FormattedMessage
 								id='app.bonfires.delete.inputName'
 								description="The header of the input that requires typing out bonfire's name to allow deleting it."
 								defaultMessage='The name of the bonfire'
 							/>
-						</FormLabel>
+						</FieldLabel>
 						<FormFieldText
 							required
 							id='name'
 							placeholder={bonfire.name}
 							allowedValue={bonfire.name}
 						/>
-					</FormControl>
+					</FieldControl>
 				</FormSection>
 				<FormSection>
-					<FormSubmit
+					<SubmitButton
 						color='danger'
 						sx={{ width: 'max-content' }}
 					>
 						<FormattedMessageGlobal id='form.confirmDelete' />
-					</FormSubmit>
+					</SubmitButton>
 				</FormSection>
 			</Form>
 		</SettingsPageWrapper>

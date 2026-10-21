@@ -4,8 +4,8 @@ import {
 	ModalClose,
 	ModalDialog,
 	Stack,
-	FormControl,
-	FormLabel,
+	FieldControl,
+	FieldLabel,
 } from '@mui/joy';
 import { useIntl } from 'react-intl';
 import CopyInput from '~/components/CopyInput';
@@ -53,17 +53,17 @@ export default function InviteCreationModal({ campsiteId }: Props) {
 				/>
 				<Form onChange={(isValid, newValues) => isValid && (values = newValues as FormValue)}>
 					<FormSection>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								{intl.formatMessage(globalIntlDeclarations['app.invites.allowedAmount'])}
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldNumber
 								id='allowedAmount'
 								max={1000}
 								min={1}
 								placeholder={intl.formatMessage(globalIntlDeclarations['common.infinite'])}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</Form>
 			</Stack>

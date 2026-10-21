@@ -1,21 +1,21 @@
 <script lang="ts">
 	import { Card, Para, Select, Tabs, Grid, Group, Button } from '@campground/ui';
 	import {
-		FormRadio,
-		FormLabel,
-		FormCheck,
-		FormTextField,
-		FormControl,
-		FormErrorLabel,
-		FormSwitch,
-		FormObject,
-		FormArray,
-		FormColor,
-		FormNumberField,
-		FormTags,
-		FormFlags,
+		RadioField,
+		FieldLabel,
+		CheckField,
+		TextField,
+		FieldControl,
+		FieldError,
+		SwitchField,
+		DictionaryField,
+		ArrayField,
+		ColorField,
+		NumberField,
+		TagField,
+		FlagField,
 	} from '$lib/index.js';
-	import { FormImageField } from '$lib/FormImageField/index.js';
+	import { ImageField } from '$lib/ImageField/index.ts';
 	import {
 		IconCheckbox,
 		IconDeviceSpeakerFilled,
@@ -23,7 +23,7 @@
 		IconHash,
 	} from '@tabler/icons-svelte';
 	import Tab from './Tab.svelte';
-	import { FormTristate } from '$lib/FormTristate/index.js';
+	import { TristateField } from '$lib/TristateField/index.ts';
 </script>
 
 <Tabs.Root>
@@ -35,41 +35,41 @@
 		<Tabs.Item>Objects &amp; Arrays</Tabs.Item>
 	{/snippet}
 	<Tab>
-		<FormControl
+		<FieldControl
 			id="withLabel"
 			required
 		>
-			<FormLabel>Example label</FormLabel>
-		</FormControl>
-		<FormControl id="withTextInput">
-			<FormLabel>Example label</FormLabel>
-			<FormTextField />
-		</FormControl>
-		<FormControl id="textArea0">
-			<FormLabel>Text area field</FormLabel>
-			<FormTextField
+			<FieldLabel>Example label</FieldLabel>
+		</FieldControl>
+		<FieldControl id="withTextInput">
+			<FieldLabel>Example label</FieldLabel>
+			<TextField />
+		</FieldControl>
+		<FieldControl id="textArea0">
+			<FieldLabel>Text area field</FieldLabel>
+			<TextField
 				multirow
 				minlength={5}
 				placeholder="Example placeholder"
 			/>
-		</FormControl>
-		<FormControl id="textFieldMapped">
-			<FormLabel>Mapped text field</FormLabel>
-			<FormTextField
+		</FieldControl>
+		<FieldControl id="textFieldMapped">
+			<FieldLabel>Mapped text field</FieldLabel>
+			<TextField
 				placeholder="Example placeholder"
 			/>
-		</FormControl>
-		<FormControl id="numField">
-			<FormLabel>Number field (-50...999)</FormLabel>
-			<FormNumberField
+		</FieldControl>
+		<FieldControl id="numField">
+			<FieldLabel>Number field (-50...999)</FieldLabel>
+			<NumberField
 				min={-50}
 				max={999}
 			/>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="textArea1">
-			<FormLabel>Text area field (known value)</FormLabel>
-			<FormTextField
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="textArea1">
+			<FieldLabel>Text area field (known value)</FieldLabel>
+			<TextField
 				multirow
 				maxlength={50}
 			>
@@ -80,324 +80,324 @@
 						color="danger">Example value multiline</Select.Option
 					>
 				{/snippet}
-			</FormTextField>
-		</FormControl>
-		<FormControl id="textArea2">
-			<FormLabel>Text area field</FormLabel>
-			<FormTextField
+			</TextField>
+		</FieldControl>
+		<FieldControl id="textArea2">
+			<FieldLabel>Text area field</FieldLabel>
+			<TextField
 				multirow
 				maxrows={4}
 			/>
-		</FormControl>
-		<FormControl id="textArea3">
-			<FormLabel>Text area field</FormLabel>
-			<FormTextField
+		</FieldControl>
+		<FieldControl id="textArea3">
+			<FieldLabel>Text area field</FieldLabel>
+			<TextField
 				multirow
 				rows={8}
 			/>
-		</FormControl>
-		<FormControl id="textField">
-			<FormLabel>Text field (known values)</FormLabel>
-			<FormTextField>
+		</FieldControl>
+		<FieldControl id="textField">
+			<FieldLabel>Text field (known values)</FieldLabel>
+			<TextField>
 				{#snippet known()}
 					<Select.Option value="example">Example known value</Select.Option>
 					<Select.Option value="example value\n2">Example known value 2</Select.Option>
 				{/snippet}
-			</FormTextField>
-		</FormControl>
-		<FormControl id="formattedMultiLine">
-			<FormLabel>Text area formatted</FormLabel>
-			<FormTextField
+			</TextField>
+		</FieldControl>
+		<FieldControl id="formattedMultiLine">
+			<FieldLabel>Text area formatted</FieldLabel>
+			<TextField
 				multirow
 				format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
 				placeholder="Aaa"
 			/>
-			<FormErrorLabel />
-		</FormControl>
+			<FieldError />
+		</FieldControl>
 	</Tab>
 	<Tab>
 		<Card.Root>
 			<Card.Content>
-				<FormControl id="tristate">
-					<FormLabel>Tristate</FormLabel>
-					<FormTristate>
+				<FieldControl id="tristate">
+					<FieldLabel>Tristate</FieldLabel>
+					<TristateField>
 						{#snippet header()}
 							Example tristate
 						{/snippet}
 						Example description
-					</FormTristate>
-					<FormErrorLabel />
-				</FormControl>
+					</TristateField>
+					<FieldError />
+				</FieldControl>
 			</Card.Content>
 		</Card.Root>
-		<FormControl id="switch">
-			<FormLabel>Switch</FormLabel>
-			<FormSwitch>
+		<FieldControl id="switch">
+			<FieldLabel>Switch</FieldLabel>
+			<SwitchField>
 				{#snippet header()}
 					Example header
 				{/snippet}
 				Example description
-			</FormSwitch>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="checklist">
-			<FormLabel>Checklist</FormLabel>
-			<FormCheck.List>
-				<FormCheck.Item value="first">
+			</SwitchField>
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="checklist">
+			<FieldLabel>Checklist</FieldLabel>
+			<CheckField.List>
+				<CheckField.Item value="first">
 					{#snippet header()}
 						First value
 					{/snippet}
-				</FormCheck.Item>
-				<FormCheck.Card value="second">
+				</CheckField.Item>
+				<CheckField.Card value="second">
 					{#snippet header()}
 						Second value
 					{/snippet}
-				</FormCheck.Card>
-				<FormCheck.Item value={0}>
+				</CheckField.Card>
+				<CheckField.Item value={0}>
 					{#snippet header()}
 						0 value
 					{/snippet}
 					Description here
-				</FormCheck.Item>
-				<FormCheck.Item value={0}>
+				</CheckField.Item>
+				<CheckField.Item value={0}>
 					{#snippet header()}
 						Duplicate 0 value
 					{/snippet}
-				</FormCheck.Item>
-			</FormCheck.List>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="radiolist">
-			<FormLabel>Radio List</FormLabel>
-			<FormRadio.List>
-				<FormRadio.Item value="first">
+				</CheckField.Item>
+			</CheckField.List>
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="radiolist">
+			<FieldLabel>Radio List</FieldLabel>
+			<RadioField.List>
+				<RadioField.Item value="first">
 					{#snippet header()}
 						First value
 					{/snippet}
-				</FormRadio.Item>
-				<FormRadio.Card value="second">
+				</RadioField.Item>
+				<RadioField.Card value="second">
 					{#snippet header()}
 						Second value
 					{/snippet}
-				</FormRadio.Card>
-				<FormRadio.Item value={0}>
+				</RadioField.Card>
+				<RadioField.Item value={0}>
 					{#snippet header()}
 						0 value
 					{/snippet}
 					Description here
-				</FormRadio.Item>
-				<FormRadio.Item value={0}>
+				</RadioField.Item>
+				<RadioField.Item value={0}>
 					{#snippet header()}
 						Duplicate 0 value
 					{/snippet}
-				</FormRadio.Item>
-			</FormRadio.List>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="radiogrid">
-			<FormLabel>Radio Grid</FormLabel>
-			<FormRadio.List>
+				</RadioField.Item>
+			</RadioField.List>
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="radiogrid">
+			<FieldLabel>Radio Grid</FieldLabel>
+			<RadioField.List>
 				<Grid.Root
 					gap={1}
 					columns={3}
 				>
 					<Grid.Cell>
-						<FormRadio.Button value="text">
+						<RadioField.Button value="text">
 							<IconHash />
 							Text
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value="voice">
+						<RadioField.Button value="voice">
 							<IconDeviceSpeakerFilled />
 							Voice
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value="docs">
+						<RadioField.Button value="docs">
 							<IconFileFilled />
 							Docs
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value="list">
+						<RadioField.Button value="list">
 							<IconCheckbox />
 							List
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value="list">
+						<RadioField.Button value="list">
 							<IconCheckbox />
 							List
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 				</Grid.Root>
-			</FormRadio.List>
-			<FormErrorLabel />
-		</FormControl>
+			</RadioField.List>
+			<FieldError />
+		</FieldControl>
 	</Tab>
 	<Tab>
-		<FormControl id="flags">
-			<FormLabel>Flags</FormLabel>
-			<FormFlags.List>
-				<FormFlags.Single value={0}>
+		<FieldControl id="flags">
+			<FieldLabel>Flags</FieldLabel>
+			<FlagField.List>
+				<FlagField.Single value={0}>
 					{#snippet header()}
 						0 value (unusual value)
 					{/snippet}
-				</FormFlags.Single>
-				<FormFlags.Single value={1}>
+				</FlagField.Single>
+				<FlagField.Single value={1}>
 					{#snippet header()}
 						1 value
 					{/snippet}
-				</FormFlags.Single>
-				<FormFlags.Single value={2}>
+				</FlagField.Single>
+				<FlagField.Single value={2}>
 					{#snippet header()}
 						2 value
 					{/snippet}
 					Description here
-				</FormFlags.Single>
-				<FormFlags.Single value={3}>
+				</FlagField.Single>
+				<FlagField.Single value={3}>
 					{#snippet header()}
 						3 value
 					{/snippet}
-				</FormFlags.Single>
-				<FormFlags.Single value={4}>
+				</FlagField.Single>
+				<FlagField.Single value={4}>
 					{#snippet header()}
 						4 value
 					{/snippet}
-				</FormFlags.Single>
-				<FormFlags.Single value={8}>
+				</FlagField.Single>
+				<FlagField.Single value={8}>
 					{#snippet header()}
 						8 value
 					{/snippet}
-				</FormFlags.Single>
-			</FormFlags.List>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="flagsOdd">
-			<FormLabel>Flags with other features</FormLabel>
-			<FormFlags.List>
-				<FormFlags.Tristate position={0}>
+				</FlagField.Single>
+			</FlagField.List>
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="flagsOdd">
+			<FieldLabel>Flags with other features</FieldLabel>
+			<FlagField.List>
+				<FlagField.Tristate position={0}>
 					{#snippet header()}
 						0 value
 					{/snippet}
-				</FormFlags.Tristate>
-				<FormFlags.Tristate position={1}>
+				</FlagField.Tristate>
+				<FlagField.Tristate position={1}>
 					{#snippet header()}
 						1 value
 					{/snippet}
-				</FormFlags.Tristate>
-			</FormFlags.List>
-			<FormErrorLabel />
-		</FormControl>
+				</FlagField.Tristate>
+			</FlagField.List>
+			<FieldError />
+		</FieldControl>
 	</Tab>
 	<Tab>
-		<FormControl id="img">
-			<FormLabel>Image</FormLabel>
-			<FormImageField
+		<FieldControl id="img">
+			<FieldLabel>Image</FieldLabel>
+			<ImageField
 				aspectRatio={8}
 				height={4}
 			/>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="imgAvatar">
-			<FormLabel>Image (Avatar)</FormLabel>
-			<FormImageField
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="imgAvatar">
+			<FieldLabel>Image (Avatar)</FieldLabel>
+			<ImageField
 				radius="avatar"
 				width={4}
 				height={4}
 			/>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="color">
-			<FormLabel>Colour</FormLabel>
-			<FormColor.Button />
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="color2">
-			<FormLabel>Colour 2</FormLabel>
-			<FormColor.Full />
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="color3">
-			<FormLabel>Colour 3</FormLabel>
-			<FormColor.Full orientation="horizontal" />
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl id="color2">
-			<FormLabel>Colour 3</FormLabel>
-			<FormColor.Full size="sm" />
-			<FormErrorLabel />
-		</FormControl>
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="color">
+			<FieldLabel>Colour</FieldLabel>
+			<ColorField.Button />
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="color2">
+			<FieldLabel>Colour 2</FieldLabel>
+			<ColorField.Full />
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="color3">
+			<FieldLabel>Colour 3</FieldLabel>
+			<ColorField.Full orientation="horizontal" />
+			<FieldError />
+		</FieldControl>
+		<FieldControl id="color2">
+			<FieldLabel>Colour 3</FieldLabel>
+			<ColorField.Full size="sm" />
+			<FieldError />
+		</FieldControl>
 	</Tab>
 	<Tab>
-		<FormObject id="exampleObject">
+		<DictionaryField id="exampleObject">
 			<Card.Root>
 				<Card.Content gap="sm">
-					<Para level="h3">Sub-form (FormObject)</Para>
-					<FormControl id="textAreaAndStuff">
-						<FormLabel>Text area field</FormLabel>
-						<FormTextField multirow />
-					</FormControl>
-					<FormControl id="formattedSingleLine">
-						<FormLabel>Text field formatted</FormLabel>
-						<FormTextField
+					<Para level="h3">Sub-form (DictionaryField)</Para>
+					<FieldControl id="textAreaAndStuff">
+						<FieldLabel>Text area field</FieldLabel>
+						<TextField multirow />
+					</FieldControl>
+					<FieldControl id="formattedSingleLine">
+						<FieldLabel>Text field formatted</FieldLabel>
+						<TextField
 							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
 							placeholder="Aaa"
 						/>
-						<FormErrorLabel />
-					</FormControl>
+						<FieldError />
+					</FieldControl>
 				</Card.Content>
 			</Card.Root>
-		</FormObject>
-		<FormObject id="mappedObject" map={(fields) => fields.map((x) => x.value)}>
+		</DictionaryField>
+		<DictionaryField id="mappedObject" map={(fields) => fields.map((x) => x.value)}>
 			<Card.Root>
 				<Card.Content gap="sm">
 					<Para level="h3">Mapped object</Para>
-					<FormControl id="textAreaAndStuff">
-						<FormLabel>Text area field</FormLabel>
-						<FormTextField multirow />
-					</FormControl>
-					<FormControl id="formattedSingleLine">
-						<FormLabel>Text field formatted</FormLabel>
-						<FormTextField
+					<FieldControl id="textAreaAndStuff">
+						<FieldLabel>Text area field</FieldLabel>
+						<TextField multirow />
+					</FieldControl>
+					<FieldControl id="formattedSingleLine">
+						<FieldLabel>Text field formatted</FieldLabel>
+						<TextField
 							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
 							placeholder="Aaa"
 						/>
-						<FormErrorLabel />
-					</FormControl>
+						<FieldError />
+					</FieldControl>
 				</Card.Content>
 			</Card.Root>
-		</FormObject>
-		<FormControl
+		</DictionaryField>
+		<FieldControl
 			id="tags1"
 			defaultValue={['a', 'b', 'c']}
 		>
-			<FormLabel>Tags</FormLabel>
-			<FormTags />
-		</FormControl>
-		<FormControl
+			<FieldLabel>Tags</FieldLabel>
+			<TagField />
+		</FieldControl>
+		<FieldControl
 			id="tags2"
 			defaultValue={['a', 'b', 'c']}
 		>
-			<FormLabel>Tags</FormLabel>
-			<FormTags minlength={3} maxlength={20} max={20} />
-		</FormControl>
-		{let formArray: FormArray.Root<string> | undefined = $state()}
-		<FormArray.Root
+			<FieldLabel>Tags</FieldLabel>
+			<TagField minlength={3} maxlength={20} max={20} />
+		</FieldControl>
+		{let arrayField: ArrayField.Root<string> | undefined = $state()}
+		<ArrayField.Root
 			id="exampleArray"
 			defaultItemValue="abc"
 			defaultValue={['a', 'b', 'c']}
-			bind:this={formArray}
+			bind:this={arrayField}
 		>
 			<Group>
 				<Para>Array</Para>
-				<Button onclick={() => formArray?.getControl().reset()}>Reset</Button>
-				<FormArray.Button />
+				<Button onclick={() => arrayField?.getControl().reset()}>Reset</Button>
+				<ArrayField.Button />
 			</Group>
-			<FormArray.List>
-				<FormTextField />
-			</FormArray.List>
-		</FormArray.Root>
+			<ArrayField.List>
+				<TextField />
+			</ArrayField.List>
+		</ArrayField.Root>
 	</Tab>
 </Tabs.Root>

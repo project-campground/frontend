@@ -22,12 +22,12 @@
 	import { getSession } from '$lib/api/session/Session.svelte.js';
 	import {
 		Form,
-		FormControl,
-		FormErrorLabel,
-		FormImageField,
-		FormLabel,
-		FormSubmit,
-		FormTextField,
+		FieldControl,
+		FieldError,
+		ImageField,
+		FieldLabel,
+		SubmitButton,
+		TextField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
 	import { Accordion, Avatar, Card, Group, Para, Stack, TextBlock, Alert } from '@campground/ui';
@@ -81,74 +81,74 @@
 				<LocaleMessage {...localeStrings.campsites.create} />
 			</Para>
 			<Group>
-				<FormControl
+				<FieldControl
 					id="avatar"
 					bind:value={avatar}
 					required
 				>
-					<FormImageField
+					<ImageField
 						radius="avatar"
 						width="4rem"
 						height="4rem"
 					/>
-				</FormControl>
-				<FormControl
+				</FieldControl>
+				<FieldControl
 					id="name"
 					bind:value={name}
 					required
 					flex={1}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.name} />
-					</FormLabel>
-					<FormTextField
+					</FieldLabel>
+					<TextField
 						minlength={3}
 						maxlength={48}
 					/>
-					<FormErrorLabel />
-				</FormControl>
+					<FieldError />
+				</FieldControl>
 			</Group>
-			<FormControl id="description">
-				<FormLabel>
+			<FieldControl id="description">
+				<FieldLabel>
 					<LocaleMessage {...localeStrings.content.topic} />
-				</FormLabel>
-				<FormTextField
+				</FieldLabel>
+				<TextField
 					multirow
 					maxlength={200}
 				/>
-				<FormErrorLabel />
-			</FormControl>
+				<FieldError />
+			</FieldControl>
 			<Accordion>
 				{#snippet header()}
 					<LocaleMessage {...messages.appview} />
 				{/snippet}
 				<div class="appview">
-					<FormControl
+					<FieldControl
 						id="appview"
 						defaultValue={defaultAppview.url}
 					>
-						<FormTextField>
+						<TextField>
 							{#snippet known()}
 								<KnownAppviewOptions />
 							{/snippet}
-						</FormTextField>
+						</TextField>
 						<Alert color="info">
 							{#snippet icon()}
 								<IconInfoCircleFilled />
 							{/snippet}
 							<LocaleMessage {...messages.appviewDesc} />
 						</Alert>
-						<FormErrorLabel />
-					</FormControl>
+						<FieldError />
+					</FieldControl>
 				</div>
 			</Accordion>
 			<Group
 				direction="row"
 				directionMobile="column"
 			>
-				<FormSubmit>
+				<SubmitButton>
 					<LocaleMessage {...localeStrings.content.create} />
-				</FormSubmit>
+				</SubmitButton>
 			</Group>
 		</Form>
 		<Stack align="stretch">

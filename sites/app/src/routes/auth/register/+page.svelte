@@ -51,11 +51,11 @@
 <script lang="ts">
 	import {
 		Form,
-		FormControl,
-		FormErrorLabel,
-		FormLabel,
-		FormSubmit,
-		FormTextField,
+		FieldControl,
+		FieldError,
+		FieldLabel,
+		SubmitButton,
+		TextField,
 		type FormProps,
 	} from '@campground/form';
 	import { LocaleMessage, getLocale } from '@campground/locale';
@@ -115,32 +115,32 @@
 <Form {onSubmit}>
 	{#if !(describedServer instanceof Error) && describedServer.inviteCodeRequired}
 		<Section>
-			<FormControl
+			<FieldControl
 				id="inviteCode"
 				required
 			>
-				<FormLabel>
+				<FieldLabel>
 					<LocaleMessage {...localeStrings.users.inviteCode} />
-				</FormLabel>
-				<FormTextField
+				</FieldLabel>
+				<TextField
 					format={{
 						regex: /^[A-Za-z0-9]+([-][A-Za-z0-9]+(?:[:][0-9]+)?)+$/,
 						errorMessage: intl.formatMessage(messages.expectedInvite) as string,
 					}}
 				/>
-				<FormErrorLabel></FormErrorLabel>
-			</FormControl>
+				<FieldError></FieldError>
+			</FieldControl>
 		</Section>
 	{/if}
 	<Section>
-		<FormControl
+		<FieldControl
 			id="handle"
 			required
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.users.handle} />
-			</FormLabel>
-			<FormTextField
+			</FieldLabel>
+			<TextField
 				placeholder="example_handle"
 				format={{
 					regex: /^[A-Za-z0-9_+-]{3,}$/,
@@ -154,17 +154,17 @@
 						</TextBlock>
 					{/if}
 				{/snippet}
-			</FormTextField>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
-		<FormControl
+			</TextField>
+			<FieldError></FieldError>
+		</FieldControl>
+		<FieldControl
 			id="email"
 			required
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.users.email} />
-			</FormLabel>
-			<FormTextField
+			</FieldLabel>
+			<TextField
 				type="email"
 				placeholder="example@example.com"
 				format={{
@@ -172,32 +172,32 @@
 					errorMessage: intl.formatMessage(messages.expectedEmail),
 				}}
 			/>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
+			<FieldError></FieldError>
+		</FieldControl>
 	</Section>
 	<Section>
-		<FormControl
+		<FieldControl
 			id="password"
 			bind:value={passwordToConfirm}
 			required
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.password.password} />
-			</FormLabel>
-			<FormTextField
+			</FieldLabel>
+			<TextField
 				type="password"
 				placeholder={intl.formatMessage(messages.passwordPlaceholder)}
 			/>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
-		<FormControl
+			<FieldError></FieldError>
+		</FieldControl>
+		<FieldControl
 			id="confirmPassword"
 			required
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.password.confirmPassword} />
-			</FormLabel>
-			<FormTextField
+			</FieldLabel>
+			<TextField
 				type="password"
 				placeholder={intl.formatMessage(messages.passwordConfirmPlaceholder)}
 				format={{
@@ -205,20 +205,20 @@
 					errorMessage: intl.formatMessage(messages.passwordMismatch),
 				}}
 			/>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
+			<FieldError></FieldError>
+		</FieldControl>
 	</Section>
 	<Accordion>
 		{#snippet header()}
 			<LocaleMessage {...localeStrings.users.pds} />
 		{/snippet}
-		<FormControl
+		<FieldControl
 			id="pds"
 			bind:value={pdsValue}
 			defaultValue={defaultPds.url}
 			required
 		>
-			<FormTextField
+			<TextField
 				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
@@ -231,8 +231,8 @@
 				{#snippet known()}
 					<KnownPdsOptions />
 				{/snippet}
-			</FormTextField>
-			<FormErrorLabel></FormErrorLabel>
+			</TextField>
+			<FieldError></FieldError>
 			<!-- Allow users to know if there was error fetching the PDS describe server or whatever -->
 			{#if describedServer instanceof XrpcError}
 				<Para color="danger">
@@ -249,14 +249,14 @@
 				{/snippet}
 				<LocaleMessage {...messages.pdsNote} />
 			</Alert>
-		</FormControl>
+		</FieldControl>
 	</Accordion>
 	<Section>
 		<Group
 			direction="row-reverse"
 			directionMobile="column"
 		>
-			<FormSubmit
+			<SubmitButton
 				disabled={describedServer instanceof Error || !(describedServer as DescribedServer)}
 			/>
 		</Group>

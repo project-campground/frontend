@@ -2,12 +2,12 @@
 	import {
 		createImageDefaultValue,
 		Form,
-		FormControl,
-		FormImageField,
-		FormLabel,
-		FormTags,
-		FormTextField,
-		type FormImageFieldValue,
+		FieldControl,
+		ImageField,
+		FieldLabel,
+		TagField,
+		TextField,
+		type ImageFieldValue,
 	} from '@campground/form';
 	import { Card, Stack, Section, Para } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
@@ -31,8 +31,8 @@
 	});
 
 	type CampsiteProfileForm = Pick<CampsiteViewBasic, 'description' | 'name' | 'tags'> & {
-		avatar?: FormImageFieldValue;
-		banner?: FormImageFieldValue;
+		avatar?: ImageFieldValue;
+		banner?: ImageFieldValue;
 	};
 
 	async function updateCampsite({ avatar, banner, ...values }: CampsiteProfileForm) {
@@ -58,69 +58,69 @@
 			onSubmit={(values) => updateCampsite(values as CampsiteProfileForm)}
 		>
 			<Section>
-				<FormControl
+				<FieldControl
 					id="banner"
 					defaultValue={createImageDefaultValue(campsiteContext.campsite?.bannerUri)}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.banner} />
-					</FormLabel>
-					<FormImageField
+					</FieldLabel>
+					<ImageField
 						aspectRatio={5}
 						height="8rem"
 					/>
-				</FormControl>
+				</FieldControl>
 				<Stack direction="row">
-					<FormControl
+					<FieldControl
 						id="avatar"
 						defaultValue={createImageDefaultValue(campsiteContext.campsite?.avatarUri)}
 					>
-						<FormImageField
+						<ImageField
 							width="3.5rem"
 							height="3.5rem"
 							radius="avatar"
 						/>
-					</FormControl>
-					<FormControl
+					</FieldControl>
+					<FieldControl
 						id="name"
 						defaultValue={campsiteContext.campsite?.name}
 					>
-						<FormLabel>
+						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.name} />
-						</FormLabel>
-						<FormTextField
+						</FieldLabel>
+						<TextField
 							minlength={NameLimits.Min}
 							maxlength={NameLimits.Max}
 						/>
-					</FormControl>
+					</FieldControl>
 				</Stack>
 			</Section>
 			<Section>
-				<FormControl
+				<FieldControl
 					id="description"
 					defaultValue={campsiteContext.campsite?.description}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.topic} />
-					</FormLabel>
-					<FormTextField
+					</FieldLabel>
+					<TextField
 						multirow
 						maxlength={DescriptionLimits.Max}
 					/>
-				</FormControl>
-				<FormControl
+				</FieldControl>
+				<FieldControl
 					id="tags"
 					defaultValue={campsiteContext.campsite?.tags}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.tags} />
-					</FormLabel>
-					<FormTags
+					</FieldLabel>
+					<TagField
 						minlength={1}
 						maxlength={20}
 						max={10}
 					/>
-				</FormControl>
+				</FieldControl>
 			</Section>
 		</Form>
 	</Card.Content>

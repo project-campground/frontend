@@ -12,7 +12,7 @@ import {
 import FormSection from '~/components/form/FormSection';
 import { FormContext } from '~/components/form/context';
 import TentMessage from '~/components/tents/TentMessage';
-import { Card, FormControl, FormLabel, Stack } from '@mui/joy';
+import { Card, FieldControl, FieldLabel, Stack } from '@mui/joy';
 import { Group } from '@campground/ui';
 import FormFieldText from '~/components/form/FormFieldText';
 import FormFieldArray from '~/components/form/FormFieldArray';
@@ -104,30 +104,30 @@ export default function RolePageDisplay({ role, defaultValues }: RolePageTabProp
 				</FormContext.Consumer>
 			</FormSection>
 			<FormSection>
-				<FormControl>
-					<FormLabel>
+				<FieldControl>
+					<FieldLabel>
 						<FormattedMessage
 							id='app.roles.name'
 							defaultMessage='Role name'
 							description='The name field of the roles settings page'
 						/>
-					</FormLabel>
+					</FieldLabel>
 					<FormFieldText
 						required
 						id='name'
 						defaultValue={defaultValues.name}
 					/>
-				</FormControl>
+				</FieldControl>
 			</FormSection>
 			<FormSection>
-				<FormControl>
-					<FormLabel>
+				<FieldControl>
+					<FieldLabel>
 						<FormattedMessage
 							id='app.roles.colors'
 							defaultMessage='Role colors'
 							description='The colors field of the roles settings page'
 						/>
-					</FormLabel>
+					</FieldLabel>
 					<FormFieldArray
 						id='colors'
 						defaultValue={defaultValues.colors}
@@ -135,17 +135,17 @@ export default function RolePageDisplay({ role, defaultValues }: RolePageTabProp
 						FieldComponent={FormFieldColor}
 						fieldProps={{ defaultValue: 0, required: true, allowAlpha: true }}
 					/>
-				</FormControl>
+				</FieldControl>
 			</FormSection>
 			<FormSection>
-				<FormControl>
-					<FormLabel>
+				<FieldControl>
+					<FieldLabel>
 						<FormattedMessage
 							id='app.roles.colors'
 							defaultMessage='Select the type of gradient color animation'
 							description='The animation field in role settings page'
 						/>
-					</FormLabel>
+					</FieldLabel>
 					<FormFieldRadio
 						required
 						id='motion'
@@ -194,7 +194,7 @@ export default function RolePageDisplay({ role, defaultValues }: RolePageTabProp
 							</FormFieldRadioGridOption>
 						</GridList>
 					</FormFieldRadio>
-				</FormControl>
+				</FieldControl>
 			</FormSection>
 			<FormSection
 				layout='divided'
@@ -206,7 +206,7 @@ export default function RolePageDisplay({ role, defaultValues }: RolePageTabProp
 					/>
 				}
 			>
-				<FormControl>
+				<FieldControl>
 					<FormFieldSwitch
 						required
 						id='raised'
@@ -227,8 +227,8 @@ export default function RolePageDisplay({ role, defaultValues }: RolePageTabProp
 							/>
 						}
 					/>
-				</FormControl>
-				<FormControl>
+				</FieldControl>
+				<FieldControl>
 					<FormFieldSwitch
 						required
 						id='pingable'
@@ -249,7 +249,7 @@ export default function RolePageDisplay({ role, defaultValues }: RolePageTabProp
 						}
 						defaultValue={defaultValues.pingable}
 					/>
-				</FormControl>
+				</FieldControl>
 			</FormSection>
 		</Stack>
 	);

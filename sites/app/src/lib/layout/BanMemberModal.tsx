@@ -3,8 +3,8 @@ import {
 	DialogTitle,
 	ModalClose,
 	ModalDialog,
-	FormControl,
-	FormLabel,
+	FieldControl,
+	FieldLabel,
 	Button,
 } from '@mui/joy';
 import Form from '../components/form/Form';
@@ -13,7 +13,7 @@ import { handleAnyRestErrorWith as handleAnyRestErrorWith } from '~/util/rest';
 import { useSnackbars } from '~/context/snackbar';
 import { FormattedMessage, useIntl } from 'react-intl';
 import FormSection from '~/components/form/FormSection';
-import FormSubmit from '~/components/form/FormSubmit';
+import SubmitButton from '~/components/form/SubmitButton';
 import FormFieldText from '~/components/form/FormFieldText';
 import { FormattedMessageGlobal, globalIntlDeclarations } from '~/i18n';
 import { useCampsiteContext } from '~/routes/_global._campsite/context';
@@ -44,8 +44,10 @@ export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
 			</DialogContent>
 			<Form onSubmit={(_, values) => (onClose(), onSubmit(values.reason))}>
 				<FormSection>
-					<FormControl>
-						<FormLabel>{intl.formatMessage({ ...globalIntlDeclarations['app.bans.reason'] })}</FormLabel>
+					<FieldControl>
+						<FieldLabel>
+							{intl.formatMessage({ ...globalIntlDeclarations['app.bans.reason'] })}
+						</FieldLabel>
 						<FormFieldText
 							id='reason'
 							placeholder={intl.formatMessage({
@@ -54,12 +56,12 @@ export default function BanMemberModal({ campsiteId, member, onClose }: Props) {
 								description: 'Example of a ban reason when banning user',
 							})}
 						/>
-					</FormControl>
+					</FieldControl>
 				</FormSection>
 				<FormSection layout='footer'>
-					<FormSubmit color='danger'>
+					<SubmitButton color='danger'>
 						<FormattedMessageGlobal id='app.members.ban' />
-					</FormSubmit>
+					</SubmitButton>
 					<Button
 						variant='plain'
 						color='neutral'

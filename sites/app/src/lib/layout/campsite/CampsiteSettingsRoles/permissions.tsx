@@ -9,7 +9,7 @@ import { ContentPermissionConsts, GeneralPermissionConsts } from '~/util/permiss
 import FormFieldFlags from '~/components/form/FormFieldFlags';
 import FormSection from '~/components/form/FormSection';
 import FormFieldObject from '~/components/form/FormFieldObject';
-import { FormControl, Divider } from '@mui/joy';
+import { FieldControl, Divider } from '@mui/joy';
 import FormFieldSwitch from '~/components/form/FormFieldSwitch';
 import { FormattedMessageGlobal } from '~/i18n';
 
@@ -29,7 +29,7 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 						startDecorator={<IconCampfireFilled />}
 						header={<FormattedMessageGlobal id='app.permissions.campsites' />}
 					>
-						<FormControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_CAMPSITE}
 								label={<FormattedMessageGlobal id='app.permissions.manageCampsites' />}
@@ -39,8 +39,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_CAMPSITE
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_BONFIRES}
 								label={<FormattedMessageGlobal id='app.permissions.manageBonfires' />}
@@ -50,8 +50,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_BONFIRES
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_TENTS}
 								label={<FormattedMessageGlobal id='app.permissions.manageTents' />}
@@ -61,8 +61,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_TENTS
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_ROLES}
 								label={<FormattedMessageGlobal id='app.permissions.manageRoles' />}
@@ -72,8 +72,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_ROLES
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.GIVE_ROLES}
 								label={<FormattedMessageGlobal id='app.permissions.giveRoles' />}
@@ -83,14 +83,14 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.GIVE_ROLES
 								}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection
 						layout='divided'
 						startDecorator={<IconUserFilled />}
 						header={<FormattedMessageGlobal id='app.permissions.membership' />}
 					>
-						<FormControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MUTE_MEMBERS}
 								label={<FormattedMessageGlobal id='app.permissions.muteMembers' />}
@@ -100,8 +100,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MUTE_MEMBERS
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.KICK_MEMBERS}
 								label={<FormattedMessageGlobal id='app.permissions.kickMembers' />}
@@ -111,8 +111,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.KICK_MEMBERS
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.BAN_MEMBERS}
 								label={<FormattedMessageGlobal id='app.permissions.banMembers' />}
@@ -122,8 +122,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.BAN_MEMBERS
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.CREATE_INVITES}
 								label={<FormattedMessageGlobal id='app.permissions.createInvites' />}
@@ -133,8 +133,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.CREATE_INVITES
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_INVITES}
 								label={<FormattedMessageGlobal id='app.permissions.manageInvites' />}
@@ -144,14 +144,14 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_INVITES
 								}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection
 						layout='divided'
 						startDecorator={<IconPaletteFilled />}
 						header={<FormattedMessageGlobal id='app.permissions.customization' />}
 					>
-						<FormControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_SELF_IDENTITY}
 								label={<FormattedMessageGlobal id='app.permissions.manageSelfIdentity' />}
@@ -161,8 +161,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_SELF_IDENTITY
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY}
 								label={<FormattedMessageGlobal id='app.permissions.manageOthersIdentity' />}
@@ -172,7 +172,7 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== GeneralPermissionConsts.MANAGE_OTHERS_IDENTITY
 								}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</FormFieldFlags>
 			</FormSection>
@@ -189,7 +189,7 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 						startDecorator={<IconHash />}
 						header={<FormattedMessageGlobal id='app.permissions.tent' />}
 					>
-						<FormControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={ContentPermissionConsts.VIEW_CONTENT}
 								label={<FormattedMessageGlobal id='app.permissions.viewContent' />}
@@ -199,8 +199,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== ContentPermissionConsts.VIEW_CONTENT
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={ContentPermissionConsts.CREATE_CONTENT}
 								label={<FormattedMessageGlobal id='app.permissions.createContent' />}
@@ -210,8 +210,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== ContentPermissionConsts.CREATE_CONTENT
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={ContentPermissionConsts.PIN_CONTENT}
 								label={<FormattedMessageGlobal id='app.permissions.pinContent' />}
@@ -221,8 +221,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== ContentPermissionConsts.PIN_CONTENT
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={ContentPermissionConsts.MANAGE_CONTENT}
 								label={<FormattedMessageGlobal id='app.permissions.manageContent' />}
@@ -232,8 +232,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== ContentPermissionConsts.MANAGE_CONTENT
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={ContentPermissionConsts.MENTION_EVERYONE}
 								label={<FormattedMessageGlobal id='app.permissions.mentionEveryone' />}
@@ -243,8 +243,8 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== ContentPermissionConsts.MENTION_EVERYONE
 								}
 							/>
-						</FormControl>
-						<FormControl>
+						</FieldControl>
+						<FieldControl>
 							<FormFieldSwitch
 								id={ContentPermissionConsts.CREATE_PRIVATE_CONTENT}
 								label={<FormattedMessageGlobal id='app.permissions.createPrivateContent' />}
@@ -254,7 +254,7 @@ export default function RolePagePermissions({ defaultValues }: RolePageTabProps)
 									== ContentPermissionConsts.CREATE_PRIVATE_CONTENT
 								}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</FormFieldFlags>
 			</FormSection>

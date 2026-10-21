@@ -26,12 +26,12 @@
 <script lang="ts">
 	import {
 		Form,
-		FormCheck,
-		FormControl,
-		FormErrorLabel,
-		FormLabel,
-		FormSubmit,
-		FormTextField,
+		CheckField,
+		FieldControl,
+		FieldError,
+		FieldLabel,
+		SubmitButton,
+		TextField,
 		type FormProps,
 	} from '@campground/form';
 	import { LocaleMessage, getLocale } from '@campground/locale';
@@ -69,15 +69,15 @@
 
 <Form {onSubmit}>
 	<Section>
-		<FormControl
+		<FieldControl
 			id="identifier"
 			defaultValue={queryValues.get('identifier') ?? ''}
 			required
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.users.handleOrEmail} />
-			</FormLabel>
-			<FormTextField
+			</FieldLabel>
+			<TextField
 				type="email"
 				placeholder={`example_user@example.com`}
 				format={{
@@ -86,41 +86,41 @@
 					errorMessage: locale.formatMessage(messages.expectedIdentifier) as string,
 				}}
 			/>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
-		<FormControl
+			<FieldError></FieldError>
+		</FieldControl>
+		<FieldControl
 			id="password"
 			required
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.password.password} />
-			</FormLabel>
-			<FormTextField
+			</FieldLabel>
+			<TextField
 				type="password"
 				placeholder={locale.formatMessage(localeStrings.password.placeholder) as string}
 			/>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
-		<FormControl id="save">
-			<FormCheck.List>
-				<FormCheck.Item value="confirm">
+			<FieldError></FieldError>
+		</FieldControl>
+		<FieldControl id="save">
+			<CheckField.List>
+				<CheckField.Item value="confirm">
 					{#snippet header()}
 						<LocaleMessage {...messages.rememberAccount} />
 					{/snippet}
-				</FormCheck.Item>
-			</FormCheck.List>
-		</FormControl>
+				</CheckField.Item>
+			</CheckField.List>
+		</FieldControl>
 	</Section>
 	<Accordion>
 		{#snippet header()}
 			<LocaleMessage {...localeStrings.users.pds} />
 		{/snippet}
-		<FormControl
+		<FieldControl
 			id="pds"
 			defaultValue={queryValues.get('server') ?? defaultPds.url}
 			required
 		>
-			<FormTextField
+			<TextField
 				placeholder={defaultPds.url}
 				format={{
 					regex: /^(https?[:]\/\/)(localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
@@ -133,16 +133,16 @@
 				{#snippet known()}
 					<KnownPdsOptions />
 				{/snippet}
-			</FormTextField>
-			<FormErrorLabel></FormErrorLabel>
-		</FormControl>
+			</TextField>
+			<FieldError></FieldError>
+		</FieldControl>
 	</Accordion>
 	<Section>
 		<Group
 			direction="row-reverse"
 			directionMobile="column"
 		>
-			<FormSubmit />
+			<SubmitButton />
 		</Group>
 		{#if error}
 			<Alert color="danger">

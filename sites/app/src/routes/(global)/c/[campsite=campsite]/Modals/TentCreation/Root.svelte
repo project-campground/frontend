@@ -18,12 +18,12 @@
 
 	import {
 		Form,
-		FormControl,
-		FormErrorLabel,
-		FormLabel,
-		FormRadio,
-		FormSubmit,
-		FormTextField,
+		FieldControl,
+		FieldError,
+		FieldLabel,
+		RadioField,
+		SubmitButton,
+		TextField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
 	import { Dialog, Section, Grid, Stack, Modal, getModal } from '@campground/ui';
@@ -80,94 +80,94 @@
 		<Dialog.Content>
 			<Stack gap={2}>
 				<Section>
-					<FormControl
+					<FieldControl
 						id="what"
 						bind:value={what}
 						defaultValue="tent"
 					>
-						<FormRadio.List>
+						<RadioField.List>
 							<Grid.Root
 								columns={2}
 								gap={0.5}
 							>
 								<Grid.Cell>
-									<FormRadio.Card value="tent">
+									<RadioField.Card value="tent">
 										{#snippet header()}
 											<IconTent />
 											Tent
 										{/snippet}
-									</FormRadio.Card>
+									</RadioField.Card>
 								</Grid.Cell>
 								<Grid.Cell>
-									<FormRadio.Card value="category">
+									<RadioField.Card value="category">
 										{#snippet header()}
 											<IconListDetailsFilled />
 											Category
 										{/snippet}
-									</FormRadio.Card>
+									</RadioField.Card>
 								</Grid.Cell>
 							</Grid.Root>
-						</FormRadio.List>
-					</FormControl>
+						</RadioField.List>
+					</FieldControl>
 				</Section>
 				<Section>
-					<FormControl
+					<FieldControl
 						id="name"
 						required
 					>
-						<FormLabel>
+						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.name} />
-						</FormLabel>
-						<FormTextField
+						</FieldLabel>
+						<TextField
 							minlength={3}
 							maxlength={48}
 						/>
-						<FormErrorLabel />
-					</FormControl>
-					<FormControl id="description">
-						<FormLabel>
+						<FieldError />
+					</FieldControl>
+					<FieldControl id="description">
+						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.topic} />
-						</FormLabel>
-						<FormTextField
+						</FieldLabel>
+						<TextField
 							multirow
 							minlength={0}
 							maxlength={200}
 						/>
-						<FormErrorLabel />
-					</FormControl>
+						<FieldError />
+					</FieldControl>
 				</Section>
 				<Section>
 					{#if what === 'tent'}
-						<FormControl
+						<FieldControl
 							id="type"
 							defaultValue="text"
 							required
 						>
-							<FormLabel>
+							<FieldLabel>
 								<LocaleMessage {...messages.type} />
-							</FormLabel>
-							<FormRadio.List>
+							</FieldLabel>
+							<RadioField.List>
 								<Grid.Root
 									columns={3}
 									gap={0.5}
 								>
 									<Grid.Cell>
-										<FormRadio.Button value="text">
+										<RadioField.Button value="text">
 											<IconHash />
 											<LocaleMessage {...localeStrings.tents.text} />
-										</FormRadio.Button>
+										</RadioField.Button>
 									</Grid.Cell>
 								</Grid.Root>
-							</FormRadio.List>
-						</FormControl>
+							</RadioField.List>
+						</FieldControl>
 					{/if}
 				</Section>
 			</Stack>
 		</Dialog.Content>
 		<Dialog.Footer>
-			<FormSubmit>
+			<SubmitButton>
 				<LocaleMessage {...localeStrings.content.create} />
-			</FormSubmit>
+			</SubmitButton>
 		</Dialog.Footer>
 	</Form>
 </Dialog.Root>

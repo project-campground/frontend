@@ -3,12 +3,12 @@
 
 	import {
 		Form,
-		FormControl,
-		FormErrorLabel,
-		FormImageField,
-		FormLabel,
-		FormSubmit,
-		FormTextField,
+		FieldControl,
+		FieldError,
+		ImageField,
+		FieldLabel,
+		SubmitButton,
+		TextField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
 	import { Dialog, Section, Stack, Group, getModal } from '@campground/ui';
@@ -40,51 +40,51 @@
 			<Stack gap={2}>
 				<Section>
 					<Group>
-						<FormControl
+						<FieldControl
 							id="avatarUri"
 							required
 						>
-							<FormImageField
+							<ImageField
 								aspectRatio={1}
 								width="4rem"
 								radius="avatar"
 							/>
-							<FormErrorLabel />
-						</FormControl>
-						<FormControl
+							<FieldError />
+						</FieldControl>
+						<FieldControl
 							id="name"
 							required
 						>
-							<FormLabel>
+							<FieldLabel>
 								<LocaleMessage {...localeStrings.content.name} />
-							</FormLabel>
-							<FormTextField
+							</FieldLabel>
+							<TextField
 								minlength={3}
 								maxlength={48}
 							/>
-							<FormErrorLabel />
-						</FormControl>
+							<FieldError />
+						</FieldControl>
 					</Group>
 				</Section>
 				<Section>
-					<FormControl id="description">
-						<FormLabel>
+					<FieldControl id="description">
+						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.topic} />
-						</FormLabel>
-						<FormTextField
+						</FieldLabel>
+						<TextField
 							multirow
 							minlength={0}
 							maxlength={200}
 						/>
-						<FormErrorLabel />
-					</FormControl>
+						<FieldError />
+					</FieldControl>
 				</Section>
 			</Stack>
 		</Dialog.Content>
 		<Dialog.Footer>
-			<FormSubmit>
+			<SubmitButton>
 				<LocaleMessage {...localeStrings.content.create} />
-			</FormSubmit>
+			</SubmitButton>
 		</Dialog.Footer>
 	</Form>
 </Dialog.Root>

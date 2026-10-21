@@ -2,7 +2,7 @@ import {
 	CircularProgress,
 	Dropdown,
 	IconButton,
-	FormControl,
+	FieldControl,
 	Divider,
 	ListItemContent,
 	ListItemDecorator,
@@ -363,7 +363,7 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 									header={<FormattedMessageGlobal id='app.permissions.campsites' />}
 								>
 									{isBonfire && (
-										<FormControl>
+										<FieldControl>
 											<FormFieldTristate
 												id={GeneralPermissionConsts.MANAGE_BONFIRES}
 												label={<FormattedMessageGlobal id='app.permissions.manageBonfires' />}
@@ -374,9 +374,9 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 													GeneralPermissionConsts.MANAGE_BONFIRES,
 												)}
 											/>
-										</FormControl>
+										</FieldControl>
 									)}
-									<FormControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={GeneralPermissionConsts.MANAGE_TENTS}
 											label={<FormattedMessageGlobal id='app.permissions.manageTents' />}
@@ -387,8 +387,8 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												GeneralPermissionConsts.MANAGE_TENTS,
 											)}
 										/>
-									</FormControl>
-									<FormControl>
+									</FieldControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={GeneralPermissionConsts.MANAGE_ROLES}
 											label={<FormattedMessageGlobal id='app.permissions.managePermissions' />}
@@ -399,14 +399,14 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												GeneralPermissionConsts.MANAGE_ROLES,
 											)}
 										/>
-									</FormControl>
+									</FieldControl>
 								</FormSection>
 								<FormSection
 									layout='divided'
 									startDecorator={<IconUserFilled />}
 									header={<FormattedMessageGlobal id='app.permissions.membership' />}
 								>
-									<FormControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={GeneralPermissionConsts.CREATE_INVITES}
 											label={<FormattedMessageGlobal id='app.permissions.createInvites' />}
@@ -417,7 +417,7 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												GeneralPermissionConsts.CREATE_INVITES,
 											)}
 										/>
-									</FormControl>
+									</FieldControl>
 								</FormSection>
 							</FormFieldTristateFlags>
 						</FormSection>
@@ -440,7 +440,7 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 										/>
 									}
 								>
-									<FormControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={ContentPermissionConsts.VIEW_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.viewContent' />}
@@ -451,8 +451,8 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												ContentPermissionConsts.VIEW_CONTENT,
 											)}
 										/>
-									</FormControl>
-									<FormControl>
+									</FieldControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={ContentPermissionConsts.CREATE_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.createContent' />}
@@ -463,8 +463,8 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												ContentPermissionConsts.CREATE_CONTENT,
 											)}
 										/>
-									</FormControl>
-									<FormControl>
+									</FieldControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={ContentPermissionConsts.PIN_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.pinContent' />}
@@ -475,8 +475,8 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												ContentPermissionConsts.PIN_CONTENT,
 											)}
 										/>
-									</FormControl>
-									<FormControl>
+									</FieldControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={ContentPermissionConsts.MANAGE_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.manageContent' />}
@@ -487,8 +487,8 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												ContentPermissionConsts.MANAGE_CONTENT,
 											)}
 										/>
-									</FormControl>
-									<FormControl>
+									</FieldControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={ContentPermissionConsts.MENTION_EVERYONE}
 											label={<FormattedMessageGlobal id='app.permissions.mentionEveryone' />}
@@ -499,8 +499,8 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												ContentPermissionConsts.MENTION_EVERYONE,
 											)}
 										/>
-									</FormControl>
-									<FormControl>
+									</FieldControl>
+									<FieldControl>
 										<FormFieldTristate
 											id={ContentPermissionConsts.CREATE_PRIVATE_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.createPrivateContent' />}
@@ -511,7 +511,7 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 												ContentPermissionConsts.CREATE_PRIVATE_CONTENT,
 											)}
 										/>
-									</FormControl>
+									</FieldControl>
 								</FormSection>
 							</FormFieldTristateFlags>
 						</FormSection>

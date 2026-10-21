@@ -21,12 +21,12 @@
 <script lang="ts">
 	import {
 		Form,
-		FormControl,
-		FormLabel,
-		FormTextField,
-		FormImageField,
-		FormErrorLabel,
-		type FormImageFieldValue,
+		FieldControl,
+		FieldLabel,
+		TextField,
+		ImageField,
+		FieldError,
+		type ImageFieldValue,
 	} from '@campground/form';
 	import { Section, Group, Para, Stack } from '@campground/ui';
 	import { LocaleMessage, getLocale } from '@campground/locale';
@@ -55,80 +55,79 @@
 			</Para>
 		</Stack>
 		<Section>
-			<FormControl
+			<FieldControl
 				id="banner"
 				flex={0}
 				bind:value={
-					() => null,
-					(value) => (gettingStarted.profile.banner = (value as FormImageFieldValue | null)?.url)
+					() => null, (value) => (gettingStarted.profile.banner = (value as ImageFieldValue | null)?.url)
 				}
 			>
-				<FormLabel>
+				<FieldLabel>
 					<LocaleMessage {...localeStrings.users.banner} />
-				</FormLabel>
-				<FormImageField
+				</FieldLabel>
+				<ImageField
 					radius="lg"
 					aspectRatio={4}
 					height={6}
 				/>
-			</FormControl>
+			</FieldControl>
 		</Section>
 		<Section>
 			<Group align="start">
-				<FormControl
+				<FieldControl
 					id="avatar"
 					flex={0}
 					bind:value={
 						() => null,
-						(value) => (gettingStarted.profile.avatar = (value as FormImageFieldValue | null)?.url)
+						(value) => (gettingStarted.profile.avatar = (value as ImageFieldValue | null)?.url)
 					}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.users.avatar} />
-					</FormLabel>
+					</FieldLabel>
 					<div class="avatarField">
-						<FormImageField
+						<ImageField
 							radius="avatar"
 							width={4}
 							height={4}
 						/>
 					</div>
-				</FormControl>
-				<FormControl
+				</FieldControl>
+				<FieldControl
 					id="displayName"
 					required
 					flex={1}
 					bind:value={() => null, (value) => (gettingStarted.profile.displayName = value)}
 					defaultValue={account.sessionInfo?.handle}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.users.name} />
-					</FormLabel>
-					<FormTextField
+					</FieldLabel>
+					<TextField
 						type="text"
 						placeholder="Example username"
 						maxlength={48}
 						minlength={3}
 					/>
-					<FormErrorLabel />
-				</FormControl>
+					<FieldError />
+				</FieldControl>
 			</Group>
 		</Section>
 		<Section>
-			<FormControl
+			<FieldControl
 				id="description"
 				bind:value={() => null, (value) => (gettingStarted.profile.description = value)}
 				defaultValue=""
 			>
-				<FormLabel>
+				<FieldLabel>
 					<LocaleMessage {...localeStrings.users.aboutYou} />
-				</FormLabel>
-				<FormTextField
+				</FieldLabel>
+				<TextField
 					multirow
 					placeholder={intl.formatMessage(localeStrings.users.aboutYou)}
 					maxlength={200}
 				/>
-			</FormControl>
+			</FieldControl>
 		</Section>
 	</Form>
 	<aside>

@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FormattedMessageGlobal } from '~/i18n';
 import FormSection from '~/components/form/FormSection';
-import { FormControl, FormLabel, FormHelperText } from '@mui/joy';
+import { FieldControl, FieldLabel, FormHelperText } from '@mui/joy';
 import FormFieldImage from '~/components/form/FormFieldImage';
 import FormFieldAvatar from '~/components/form/FormFieldAvatar';
 import FormFieldText from '~/components/form/FormFieldText';
@@ -47,14 +47,14 @@ export default function CampsiteSettingsProfile({
 					onChange={(isValid, values) => onValuesChanged(isValid, oneOfNotDefault(values), values)}
 				>
 					<FormSection>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessage
 									id='global.banner'
 									defaultMessage='Banner'
 									description='The banner of campsites, bonfires and users'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldImage
 								id='bannerUri'
 								borderRadius='md'
@@ -69,14 +69,14 @@ export default function CampsiteSettingsProfile({
 									description="Notifying that campsite's banner shows up in the bulletin board"
 								/>
 							</FormHelperText>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection
 						layout='inline'
 						alignItems='center'
 						gap={2}
 					>
-						<FormControl>
+						<FieldControl>
 							<FormFieldAvatar
 								id='avatarUri'
 								size='lg'
@@ -85,57 +85,57 @@ export default function CampsiteSettingsProfile({
 								defaultValue={defaultValues.avatarUri}
 								placeholder={campsite.name[0]}
 							/>
-						</FormControl>
-						<FormControl>
-							<FormLabel>
+						</FieldControl>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessageGlobal id='app.campsites.name' />
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldText
 								required
 								id='name'
 								defaultValue={campsite.name}
 								flex={1}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection header={<FormattedMessageGlobal id='info.about' />}>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessageGlobal id='info.desc' />
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldTextArea
 								id='description'
 								defaultValue={campsite.description}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection header={<FormattedMessageGlobal id='site.discovery' />}>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessage
 									id='app.campsites.url'
 									defaultMessage='Unique URL'
 									description='The URL that is unique per campsite'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldText
 								id='vanityUrl'
 								defaultValue={campsite.vanityUrl ?? ''}
 							/>
-						</FormControl>
-						<FormControl>
-							<FormLabel>
+						</FieldControl>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessage
 									id='info.tags.plural'
 									defaultMessage='Tags'
 									description='Plural form of campsite tags or other content tags'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldTags
 								id='tags'
 								defaultValue={campsite.tags}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</Form>
 			</Box>

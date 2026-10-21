@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, FormHelperText } from '@mui/joy';
+import { Box, FieldControl, FieldLabel, FormHelperText } from '@mui/joy';
 import Form from '~/components/form/Form';
 import type { SettingsComponentProps } from '../settings';
 import type { BonfireViewBasic } from 'types/campground/bonfires';
@@ -43,14 +43,14 @@ export default function BonfireSettingsProfile({
 					onChange={(isValid, values) => onValuesChanged(isValid, oneOfNotDefault(values), values)}
 				>
 					<FormSection>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessage
 									id='global.banner'
 									defaultMessage='Banner'
 									description='The banner of campsites, bonfires and users'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldImage
 								id='bannerUri'
 								borderRadius='md'
@@ -65,14 +65,14 @@ export default function BonfireSettingsProfile({
 									description="Notifying that bonfire's banner shows up at the top of tent list"
 								/>
 							</FormHelperText>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection
 						layout='inline'
 						alignItems='center'
 						gap={2}
 					>
-						<FormControl>
+						<FieldControl>
 							<FormFieldAvatar
 								id='avatarUri'
 								size='lg'
@@ -81,29 +81,29 @@ export default function BonfireSettingsProfile({
 								defaultValue={defaultValues.avatarUri}
 								placeholder={bonfire.name[0]}
 							/>
-						</FormControl>
-						<FormControl>
-							<FormLabel>
+						</FieldControl>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessageGlobal id='app.bonfires.settings.name' />
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldText
 								required
 								id='name'
 								defaultValue={bonfire.name}
 								flex={1}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 					<FormSection header={<FormattedMessageGlobal id='info' />}>
-						<FormControl>
-							<FormLabel>
+						<FieldControl>
+							<FieldLabel>
 								<FormattedMessageGlobal id='info.desc' />
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldTextArea
 								id='description'
 								defaultValue={bonfire.description}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				</Form>
 			</Box>

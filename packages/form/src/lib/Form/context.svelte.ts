@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte';
-import type { IFormField } from '$lib/FormControl/context.svelte.js';
+import type { IFormField } from '$lib/FieldControl/context.svelte.ts';
 import type { FormFieldId } from './props.ts';
 
 export interface IFormInstance<TValue, TField extends IFormField<TValue>> {

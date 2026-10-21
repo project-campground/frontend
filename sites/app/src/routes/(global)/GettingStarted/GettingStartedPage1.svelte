@@ -22,7 +22,7 @@
 	import { LocaleMessage } from '@campground/locale';
 
 	import { Card, loremIpsum, Para, Section, Stack, theme } from '@campground/ui';
-	import { Form, FormControl, FormLabel, FormRadio } from '@campground/form';
+	import { Form, FieldControl, FieldLabel, RadioField } from '@campground/form';
 	import { localeStrings } from '$lib/locale/index.js';
 </script>
 
@@ -55,34 +55,34 @@
 			</Para>
 		</Stack>
 		<Section>
-			<FormControl
+			<FieldControl
 				id="theme"
 				flex={0}
 				defaultValue={$theme}
 				bind:value={() => $theme, (value) => ($theme = value)}
 			>
-				<FormLabel>
+				<FieldLabel>
 					<LocaleMessage {...localeStrings.appearance.theme} />
-				</FormLabel>
-				<FormRadio.List>
-					<FormRadio.Card value="dark">
+				</FieldLabel>
+				<RadioField.List>
+					<RadioField.Card value="dark">
 						{#snippet header()}
 							<LocaleMessage {...localeStrings.appearance.dark} />
 						{/snippet}
 						<div data-theme="dark">
 							{@render themePreview()}
 						</div>
-					</FormRadio.Card>
-					<FormRadio.Card value="light">
+					</RadioField.Card>
+					<RadioField.Card value="light">
 						{#snippet header()}
 							<LocaleMessage {...localeStrings.appearance.light} />
 						{/snippet}
 						<div data-theme="light">
 							{@render themePreview()}
 						</div>
-					</FormRadio.Card>
-				</FormRadio.List>
-			</FormControl>
+					</RadioField.Card>
+				</RadioField.List>
+			</FieldControl>
 		</Section>
 	</Form>
 </div>

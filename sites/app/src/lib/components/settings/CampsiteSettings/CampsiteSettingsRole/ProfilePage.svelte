@@ -70,14 +70,14 @@
 	} from '@campground/ui';
 	import { getRoleSettings } from './context.svelte.ts';
 	import {
-		FormArray,
-		FormColor,
-		FormControl,
-		FormErrorLabel,
-		FormLabel,
-		FormRadio,
-		FormTextField,
-		FormSwitch,
+		ArrayField,
+		ColorField,
+		FieldControl,
+		FieldError,
+		FieldLabel,
+		RadioField,
+		TextField,
+		SwitchField,
 	} from '@campground/form';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '$lib/locale/index.js';
@@ -143,86 +143,86 @@
 		</Grid.Cell>
 	</Grid.Root>
 	<Section>
-		<FormControl
+		<FieldControl
 			id="name"
 			defaultValue={roleContext.selectedRole?.name}
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.content.name} />
-			</FormLabel>
-			<FormTextField />
-			<FormErrorLabel />
-		</FormControl>
+			</FieldLabel>
+			<TextField />
+			<FieldError />
+		</FieldControl>
 	</Section>
 	<Section>
-		<FormControl
+		<FieldControl
 			id="pingable"
 			defaultValue={roleContext.selectedRole?.pingable}
 		>
-			<FormSwitch>
+			<SwitchField>
 				{#snippet header()}
 					<LocaleMessage {...localeMessages.pingable} />
 				{/snippet}
 				<LocaleMessage {...localeMessages.pingableDesc} />
-			</FormSwitch>
-			<FormErrorLabel />
-		</FormControl>
-		<FormControl
+			</SwitchField>
+			<FieldError />
+		</FieldControl>
+		<FieldControl
 			id="raised"
 			defaultValue={roleContext.selectedRole?.raised}
 		>
-			<FormSwitch>
+			<SwitchField>
 				{#snippet header()}
 					<LocaleMessage {...localeMessages.separate} />
 				{/snippet}
 				<LocaleMessage {...localeMessages.separateDesc} />
-			</FormSwitch>
-			<FormErrorLabel />
-		</FormControl>
+			</SwitchField>
+			<FieldError />
+		</FieldControl>
 	</Section>
 	<Section>
-		<FormControl
+		<FieldControl
 			id="motion"
 			defaultValue={roleContext.selectedRole?.motion}
 			bind:value={motion}
 		>
-			<FormLabel>
+			<FieldLabel>
 				<LocaleMessage {...localeStrings.roles.motion} />
-			</FormLabel>
-			<FormRadio.List>
+			</FieldLabel>
+			<RadioField.List>
 				<Grid.Root
 					columns={3}
 					gap={0.5}
 				>
 					<Grid.Cell>
-						<FormRadio.Button value={'none' satisfies GradientMotion}>
+						<RadioField.Button value={'none' satisfies GradientMotion}>
 							<IconXFilled size="1.5rem" />
 							<LocaleMessage {...localeMessages.motionNone} />
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value={'linear' satisfies GradientMotion}>
+						<RadioField.Button value={'linear' satisfies GradientMotion}>
 							<IconRipple size="1.5rem" />
 							<LocaleMessage {...localeMessages.motionLinear} />
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value={'wave' satisfies GradientMotion}>
+						<RadioField.Button value={'wave' satisfies GradientMotion}>
 							<IconWaveSine size="1.5rem" />
 							<LocaleMessage {...localeMessages.motionWave} />
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 					<Grid.Cell>
-						<FormRadio.Button value={'radial' satisfies GradientMotion}>
+						<RadioField.Button value={'radial' satisfies GradientMotion}>
 							<IconAccessPoint size="1.5rem" />
 							<LocaleMessage {...localeMessages.motionRadial} />
-						</FormRadio.Button>
+						</RadioField.Button>
 					</Grid.Cell>
 				</Grid.Root>
-			</FormRadio.List>
-			<FormErrorLabel />
-		</FormControl>
-		<FormArray.Root
+			</RadioField.List>
+			<FieldError />
+		</FieldControl>
+		<ArrayField.Root
 			id="colors"
 			defaultValue={roleContext.selectedRole?.colors}
 			defaultItemValue={0xff0000}
@@ -233,15 +233,15 @@
 				<TextBlock>
 					<LocaleMessage {...localeMessages.colors} />
 				</TextBlock>
-				<FormArray.Button />
+				<ArrayField.Button />
 			</Group>
-			<FormArray.List>
-				<FormColor.Full
+			<ArrayField.List>
+				<ColorField.Full
 					size="md"
 					orientation="horizontal"
 				/>
-			</FormArray.List>
-		</FormArray.Root>
+			</ArrayField.List>
+		</ArrayField.Root>
 	</Section>
 </Stack>
 

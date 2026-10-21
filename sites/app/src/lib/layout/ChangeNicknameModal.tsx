@@ -5,8 +5,8 @@ import {
 	ModalDialog,
 	Button,
 	Alert,
-	FormControl,
-	FormLabel,
+	FieldControl,
+	FieldLabel,
 } from '@mui/joy';
 import Form from '../components/form/Form';
 import type { MemberViewBasic } from 'types/campground/membership';
@@ -15,7 +15,7 @@ import { handleAnyRestErrorWith as handleAnyRestErrorWith } from '~/util/rest';
 import { useSnackbars } from '~/context/snackbar';
 import { FormattedMessage } from 'react-intl';
 import FormSection from '~/components/form/FormSection';
-import FormSubmit from '~/components/form/FormSubmit';
+import SubmitButton from '~/components/form/SubmitButton';
 import FormFieldText from '~/components/form/FormFieldText';
 import { FormattedMessageGlobal } from '~/i18n';
 import { IconInfoCircleFilled } from '@tabler/icons-react';
@@ -52,25 +52,25 @@ export default function ChangeNicknameModal({ campsiteId, member, onClose }: Pro
 			</DialogContent>
 			<Form onSubmit={(_, values) => (onClose(), onSubmit(values.nickname ?? ''))}>
 				<FormSection>
-					<FormControl>
-						<FormLabel>
+					<FieldControl>
+						<FieldLabel>
 							<FormattedMessage
 								id='app.members.nickname'
 								defaultMessage='Member nickname'
 								description='The title of nickname change field'
 							/>
-						</FormLabel>
+						</FieldLabel>
 						<FormFieldText
 							id='nickname'
 							placeholder={member.user.displayName ?? member.user.handle}
 							defaultValue={member.nickname ?? undefined}
 						/>
-					</FormControl>
+					</FieldControl>
 				</FormSection>
 				<FormSection layout='footer'>
-					<FormSubmit>
+					<SubmitButton>
 						<FormattedMessageGlobal id='app.members.nickname.change' />
-					</FormSubmit>
+					</SubmitButton>
 					<Button
 						variant='plain'
 						color='neutral'

@@ -1,4 +1,4 @@
-import { Alert, FormControl, FormLabel } from '@mui/joy';
+import { Alert, FieldControl, FieldLabel } from '@mui/joy';
 import type { SettingsComponentProps } from '../settings';
 import Form from '~/components/form/Form';
 import { IconExclamationCircleFilled, IconTrashFilled } from '@tabler/icons-react';
@@ -7,7 +7,7 @@ import { useSnackbars } from '~/context/snackbar';
 import { FormattedMessage } from 'react-intl';
 import { FormattedMessageGlobal } from '~/i18n';
 import FormSection from '~/components/form/FormSection';
-import FormSubmit from '~/components/form/FormSubmit';
+import SubmitButton from '~/components/form/SubmitButton';
 import FormFieldText from '~/components/form/FormFieldText';
 import SettingsPageWrapper from '../settings/page';
 import { useAccount } from '~/context/account';
@@ -62,25 +62,25 @@ export default function UserSettingsFreeze({}: SettingsComponentProps<{}>) {
 				</FormSection>
 				{!deactivated && (
 					<FormSection>
-						<FormControl required>
-							<FormLabel>
+						<FieldControl required>
+							<FieldLabel>
 								<FormattedMessage
 									id='app.users.settings.delete.inputName'
 									description="The header of the input that requires typing out account's handle to allow deleting it."
 									defaultMessage='Your handle'
 								/>
-							</FormLabel>
+							</FieldLabel>
 							<FormFieldText
 								required
 								id='handle'
 								placeholder={account?.authenticated ? account.sessionInfo?.handle.split('/')[2] : undefined}
 								allowedValue={account?.authenticated ? account.sessionInfo?.handle.split('/')[2] : null}
 							/>
-						</FormControl>
+						</FieldControl>
 					</FormSection>
 				)}
 				<FormSection>
-					<FormSubmit
+					<SubmitButton
 						color={deactivated ? 'success' : 'danger'}
 						variant='glow'
 						sx={{ width: 'max-content' }}
@@ -88,7 +88,7 @@ export default function UserSettingsFreeze({}: SettingsComponentProps<{}>) {
 						<FormattedMessageGlobal
 							id={deactivated ? 'app.users.settings.reactivate' : 'app.users.settings.deactivate'}
 						/>
-					</FormSubmit>
+					</SubmitButton>
 				</FormSection>
 			</Form>
 		</SettingsPageWrapper>

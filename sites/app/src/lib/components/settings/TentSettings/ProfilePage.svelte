@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		Form,
-		FormControl,
-		FormLabel,
-		FormTextField,
-		type FormImageFieldValue,
-	} from '@campground/form';
+	import { Form, FieldControl, FieldLabel, TextField, type ImageFieldValue } from '@campground/form';
 	import { Card, Section, Para } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { LocaleMessage } from '@campground/locale';
@@ -28,8 +22,8 @@
 	});
 
 	type ProfileForm = Pick<CampsiteViewBasic, 'description' | 'name' | 'tags'> & {
-		avatar?: FormImageFieldValue;
-		banner?: FormImageFieldValue;
+		avatar?: ImageFieldValue;
+		banner?: ImageFieldValue;
 	};
 
 	async function updateProfile(values: ProfileForm) {
@@ -55,30 +49,30 @@
 			onSubmit={(values) => updateProfile(values as ProfileForm)}
 		>
 			<Section>
-				<FormControl
+				<FieldControl
 					id="name"
 					defaultValue={tent.name}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.name} />
-					</FormLabel>
-					<FormTextField
+					</FieldLabel>
+					<TextField
 						minlength={NameLimits.Min}
 						maxlength={NameLimits.Max}
 					/>
-				</FormControl>
-				<FormControl
+				</FieldControl>
+				<FieldControl
 					id="description"
 					defaultValue={tent.description}
 				>
-					<FormLabel>
+					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.topic} />
-					</FormLabel>
-					<FormTextField
+					</FieldLabel>
+					<TextField
 						multirow
 						maxlength={DescriptionLimits.Max}
 					/>
-				</FormControl>
+				</FieldControl>
 			</Section>
 		</Form>
 	</Card.Content>

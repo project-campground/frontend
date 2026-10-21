@@ -1,5 +1,5 @@
-import { makeRoomForItems } from './tents.ts';
 import type { WebSocketMessageHandlers } from './types.ts';
+import { makeRoomForItems } from './util.svelte.ts';
 
 export const roleMessageHandlers: Partial<WebSocketMessageHandlers> = {
 	RoleCreated(payload, context) {
@@ -9,17 +9,11 @@ export const roleMessageHandlers: Partial<WebSocketMessageHandlers> = {
 
 		const insertedStartingIndex = context.roles!.findLastIndex((x) => x.position >= newRolePos);
 
-		console.log('Roles created', [
-			...context.campsiteReference!.campsite.roles.map((x) => $state.snapshot(x)),
-		]);
 		context.campsiteReference!.campsite.roles = [
 			...(context.roles!.slice(0, insertedStartingIndex) ?? []),
 			payload,
 			...(context.roles!.slice(insertedStartingIndex) ?? []),
 		];
-		console.log('Roles created after', [
-			...context.campsiteReference!.campsite.roles.map((x) => $state.snapshot(x)),
-		]);
 	},
 	RoleUpdated(payload, context) {
 		if (!context.campsite) return;
@@ -41,15 +35,9 @@ export const roleMessageHandlers: Partial<WebSocketMessageHandlers> = {
 		const roleIndex = context.campsite.roles.findIndex((x) => x.id === payload.id);
 		const role = context.campsite.roles[roleIndex];
 
-		console.log('Roles moved before', [
-			...context.campsiteReference!.campsite.roles.map((x) => $state.snapshot({ ...x })),
-		]);
 		Object.assign(role, payload);
 
 		context.campsite.roles = makeRoomForItems(payload, context.campsite.roles);
 		context.campsite.roles.sort((a, b) => a.position - b.position);
-		console.log('Roles moved after', [
-			...context.campsiteReference!.campsite.roles.map((x) => $state.snapshot({ ...x })),
-		]);
 	},
 };

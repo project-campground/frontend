@@ -142,5 +142,29 @@
 				}
 			}
 		}
+		// Element interactions
+		:global([data-button-group]) > & {
+			border-radius: var(--radius-xs);
+		}
+		:global([data-button-group][data-direction='vertical']) > & {
+			&:first-of-type {
+				border-top-left-radius: var(--Button-radius);
+				border-top-right-radius: var(--Button-radius);
+			}
+			&:last-of-type {
+				border-bottom-left-radius: var(--Button-radius);
+				border-bottom-right-radius: var(--Button-radius);
+			}
+		}
+		:global([data-button-group][data-direction='horizontal']) > & {
+			&:first-of-type {
+				border-top-left-radius: var(--Button-radius);
+				border-bottom-left-radius: var(--Button-radius);
+			}
+			&:last-of-type {
+				border-bottom-right-radius: var(--Button-radius);
+				border-top-right-radius: var(--Button-radius);
+			}
+		}
 	}
 </style>

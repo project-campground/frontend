@@ -39,6 +39,11 @@
 		}
 	}
 	.list {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+
 		box-sizing: border-box;
 
 		background-color: var(--background-content);

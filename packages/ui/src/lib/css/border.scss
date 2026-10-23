@@ -3,13 +3,13 @@
 @use 'sass:math' as *;
 
 $radius:
-	div(6, 16) * 1rem,
-	div(7, 16) * 1rem,
+	div(5, 16) * 1rem,
 	div(9, 16) * 1rem,
 	div(13, 16) * 1rem,
 	div(2, 2) * 1rem,
 	div(3, 2) * 1rem,
-	div(4, 2) * 1rem;
+	div(4, 2) * 1rem,
+	div(5, 2) * 1rem;
 $radius-map: create-size-map($radius);
 
 @function create-shadows($pixel, $blur, $prefix) {

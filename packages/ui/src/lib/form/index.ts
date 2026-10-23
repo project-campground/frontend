@@ -1,4 +1,5 @@
 export * from './Button/index.ts';
+export * from './ButtonGroup/index.ts';
 export * from './Checkbox/index.ts';
 export * as Pick from './Pick/index.ts';
 export * from './Radio/index.ts';

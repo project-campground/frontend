@@ -2,8 +2,7 @@ import type { MenuPortalInstance } from '#lib/floating/MenuPortalContainer/porta
 import type { Size } from '#lib/util/component.js';
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes, HTMLLiAttributes, HTMLMenuAttributes } from 'svelte/elements';
-import type { CommonFloatingProps, MenuPlacement } from '../common-floating.ts';
-import type NormalButtonProps from '../../form/Button/props.ts';
+import type { CommonFloatingProps } from '../common-floating.ts';
 import type { ComponentSize, ComponentSizeWithNone } from '#lib/types/attributes.js';
 
 export interface RootProps<T extends Event = Event>
@@ -28,4 +27,3 @@ export interface ItemProps extends HTMLLiAttributes {
 	padding?: 'default' | 'no-inline';
 	children?: Snippet;
 }
-export interface ButtonProps extends NormalButtonProps {}

@@ -74,14 +74,14 @@
 						...autoPlacementProp,
 					}),
 					// Non-optional forced
-					size({
-						apply: ({ availableHeight, availableWidth, elements }) => {
-							Object.assign(elements.floating.style, {
-								maxWidth: `${Math.max(0, availableWidth)}px`,
-								maxHeight: `${Math.max(0, availableHeight)}px`,
-							});
-						},
-					}),
+					// size({
+					// 	apply: ({ availableHeight, availableWidth, elements }) => {
+					// 		Object.assign(elements.floating.style, {
+					// 			maxWidth: `${Math.max(0, availableWidth)}px`,
+					// 			maxHeight: `${Math.max(0, availableHeight)}px`,
+					// 		});
+					// 	},
+					// }),
 				].filter((x) => x) as Middleware[],
 			}).then((newPos) => (pos = newPos)),
 		);
@@ -103,12 +103,9 @@
 	// Transition
 	transition:fade={{ duration: 200 }}
 	// Since this basically is displayed over the whole screen
-	onclick={(ev) => (console.log('On click'), ev.stopPropagation(), instance.destroy())}
+	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
 	// < 0, because of column-reverse
-	onscrollend={(ev) => (
-		console.log('On scroll end', ev.currentTarget.scrollTop),
-		ev.currentTarget.scrollTop < 0 ? instance.destroy() : null
-	)}
+	onscrollend={(ev) => (ev.currentTarget.scrollTop < 0 ? instance.destroy() : null)}
 >
 	<div
 		bind:this={menuFloating}
@@ -127,6 +124,7 @@
 		position: absolute;
 		display: flex;
 		flex-direction: column-reverse;
+		align-items: stretch;
 
 		overscroll-behavior-y: none;
 		width: 100%;

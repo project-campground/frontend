@@ -10,6 +10,7 @@
 	wrap={wrap ?? 'wrap'}
 	align={align ?? 'center'}
 	direction={direction ?? 'row'}
+	role="group"
 	{...attributes}
 >
 	{@render children?.()}

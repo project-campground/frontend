@@ -65,28 +65,29 @@
 {#snippet regularMenu(instance: MenuPortalInstance<PointerEvent>)}
 	<Menu.Root {...rightClickMenuProps(instance)}>
 		<Menu.List>
-			<Menu.Item>Example item</Menu.Item>
-			<Menu.Item>
-				<Menu.Button>Example button</Menu.Button>
-			</Menu.Item>
-			<Menu.Item>
+			<Menu.Group direction="horizontal">
+				<Menu.Button>1</Menu.Button>
+				<Menu.Button>2</Menu.Button>
+				<Menu.Button>3</Menu.Button>
+			</Menu.Group>
+			<Menu.Group>
+				<Menu.Button>
+					<Svg.Logo size={2} />
+					Example button
+				</Menu.Button>
 				<Menu.Button color="primary">
 					<Svg.Logo size={2} />
 					Example button
 				</Menu.Button>
-			</Menu.Item>
-			<Menu.Item>
 				<Menu.Button color="primary" variant="selected">
 					<Svg.Logo size={2} />
 					Example button
 				</Menu.Button>
-			</Menu.Item>
-			<Menu.Item>
 				<Menu.Button color="info">
 					<Svg.Logo size={2} />
 					Example button
 				</Menu.Button>
-			</Menu.Item>
+			</Menu.Group>
 		</Menu.List>
 	</Menu.Root>
 {/snippet}

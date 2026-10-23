@@ -10,6 +10,6 @@
 </script>
 
 <Menu.Root
-	class={['ui-SelectMenu', className]}
+	class={['select', className]}
 	{...attributes}
 ></Menu.Root>

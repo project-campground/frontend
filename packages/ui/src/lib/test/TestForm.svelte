@@ -2,6 +2,7 @@
 	import type { ButtonVariant } from '#lib/form/Button/props.js';
 	import {
 		Button,
+		ButtonGroup,
 		Checkbox,
 		Group,
 		Para,
@@ -33,15 +34,17 @@
 	<Svg.Logo size={2} />
 {/snippet}
 {#snippet selectMenu()}
-	<Select.Option value={'firstValue'}>Example #1 (str)</Select.Option>
-	<Select.Option
-		value={0}
-		color="danger">Example #2 (num)</Select.Option
-	>
-	<Select.Option
-		value={true}
-		color="warning">Example #3 (bool)</Select.Option
-	>
+	<Select.Group>
+		<Select.Option value={'firstValue'}>Example #1 (str)</Select.Option>
+		<Select.Option
+			value={0}
+			color="danger">Example #2 (num)</Select.Option
+		>
+		<Select.Option
+			value={true}
+			color="warning">Example #3 (bool)</Select.Option
+		>
+	</Select.Group>
 {/snippet}
 {#snippet selectRenderer(value: Select.Value | null | undefined)}
 	Value: {JSON.stringify({ value })}
@@ -299,4 +302,39 @@
 			</Stack>
 		{/each}
 	</div>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Button Group
+	{/snippet}
+	<Stack gap={2}>
+		{#each ['vertical', 'horizontal'] as const as direction (direction)}
+			{#each Array(5).keys() as i (i)}
+				<ButtonGroup {direction}>
+					{#each Array(i + 1).keys() as j (j)}
+						<Button
+							variant="soft"
+							color="neutral"
+							size="md"
+						>
+							{j}/{i + 1}
+							{direction}
+						</Button>
+					{/each}
+				</ButtonGroup>
+			{/each}
+			<ButtonGroup {direction}>
+				{#each colors as color (color)}
+					<Button
+						variant="soft"
+						{color}
+						size="md"
+					>
+						{direction}
+						{color}
+					</Button>
+				{/each}
+			</ButtonGroup>
+		{/each}
+	</Stack>
 </Section>

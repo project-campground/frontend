@@ -22,11 +22,18 @@
 	);
 
 	div {
+		flex-grow: 1;
+		flex-shrink: 0;
+		flex-basis: 100%;
+		max-width: 100%;
+		min-width: 100%;
+
 		box-sizing: border-box;
-		grid-row-start: 1;
-		grid-row-end: 2;
-		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
+
 		scroll-snap-align: start;
+		scroll-snap-stop: always;
 
 		&[data-padding][data-no-inline-padding='true'] {
 			padding-inline: 0;

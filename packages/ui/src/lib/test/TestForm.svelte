@@ -69,6 +69,13 @@
 					{/each}
 				</Pick.List>
 			</Pick.Root>
+			<Pick.Root>
+				<Pick.List {size}>
+					<Pick.Item>X</Pick.Item>
+					<Pick.Item>/</Pick.Item>
+					<Pick.Item>V</Pick.Item>
+				</Pick.List>
+			</Pick.Root>
 		{/each}
 	</Stack>
 </Section>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { setPickContext } from '#lib/form/Pick/context.svelte.js';
-	import { notInherited } from '#lib/util/component.ts';
+	import { notInherited } from '#lib/util/component.js';
 	import TabList from './List.svelte';
 	import { TabsContext } from './context.svelte.ts';
 	import type { RootProps } from './props.ts';
@@ -36,9 +36,9 @@
 		bind:this={list}
 		class="list"
 		onscrollend={(ev) =>
-			(tabContext.activeItemIndex = Math.round(
-				ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth,
-			))}
+			tabContext.setActiveIndex(
+				Math.trunc(ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth),
+			)}
 	>
 		{@render children()}
 	</div>
@@ -57,19 +57,19 @@
 		@extend %InLayout;
 	}
 	.list {
-		display: grid;
-		scrollbar-color: transparent transparent;
-		scrollbar-width: none;
+		display: flex;
+		flex-direction: row;
+
 		overflow-y: hidden;
 		overflow-x: auto;
+		width: 100%;
+		scrollbar-color: transparent transparent;
+		scrollbar-width: none;
+
+		flex: 1;
 
 		transition: transform $transition-time-md;
 
-		grid-template-columns: repeat(var(--Pick-count), 100%);
-		grid-template-rows: 1fr;
-
-		flex: 1;
-		width: 100%;
 		scroll-snap-type: x mandatory;
 		scroll-snap-stop: always;
 		scroll-behavior: smooth;

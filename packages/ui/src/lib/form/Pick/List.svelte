@@ -5,6 +5,9 @@
 	const { children, size }: ListProps = $props();
 
 	const pickContext = getPickContext();
+	const activeItem = $derived(pickContext.activeItem?.parentElement as HTMLButtonElement | null);
+	const highlightX = $derived(activeItem?.offsetLeft ?? 0);
+	const highlightWidth = $derived(activeItem?.scrollWidth ?? 0);
 </script>
 
 <div
@@ -12,6 +15,8 @@
 	data-size={size ?? 'md'}
 	data-active-item={pickContext.activeItemIndex}
 	data-item-count={pickContext.itemCount}
+	style:--Pick-activeItemWidth={`${highlightWidth}px`}
+	style:--Pick-activeItemX={`${highlightX}px`}
 >
 	<form
 		autocomplete="off"
@@ -54,8 +59,17 @@
 	}
 	.root {
 		position: relative;
+		overflow-x: auto;
 		width: 100%;
-		z-index: 0;
+
+		z-index: 2;
+	}
+	.list {
+		position: relative;
+		min-width: 100%;
+		width: max-content;
+		display: flex;
+		overflow: hidden;
 	}
 	.highlight {
 		position: absolute;
@@ -65,22 +79,12 @@
 		border-radius: var(--radius-sm);
 		box-shadow: var(--shadow-sm);
 
-		width: calc(100% / var(--Pick-count));
+		width: var(--Pick-activeItemWidth);
 		top: 0;
 		bottom: 0;
-		left: calc((100% / var(--Pick-count)) * var(--Pick-activeIndex));
+		left: var(--Pick-activeItemX);
 		height: 100%;
-		transition: left, background;
+		transition: left, width, background;
 		transition-duration: $transition-time-lg;
-	}
-	.list {
-		position: relative;
-		display: flex;
-
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 2;
 	}
 </style>

@@ -68,8 +68,7 @@
 		background-color: transparent;
 
 		gap: 0.5rem;
-		// padding: 0.5rem 0.75rem;
-		padding: 0;
+		padding: 0 1rem;
 		margin: 0;
 
 		font-size: 0.8rem;
@@ -79,9 +78,14 @@
 		transition-duration: $transition-time-md;
 		font-weight: 700;
 		cursor: pointer;
-		flex: 1 1 0;
+		flex-grow: 1;
+		flex-shrink: 0;
+		flex-basis: max-content;
+
 		&[data-active='true'] {
 			color: var(--foreground-heading);
 		}
+
+		z-index: 5;
 	}
 </style>

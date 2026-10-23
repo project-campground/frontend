@@ -6,7 +6,7 @@
 	import { IconX } from '@tabler/icons-svelte';
 	import type { ItemProps } from './props.ts';
 	import { getArrayField } from './context.svelte.ts';
-	import { setFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { setFieldControl } from '#lib/FieldControl/context.svelte.js';
 
 	const arrayField = getArrayField();
 
@@ -32,7 +32,7 @@
 				color="danger"
 				padding="equal"
 				size="md"
-				onclick={() => arrayField.removeItem(item.key)}
+				onclick={() => arrayField.removeItem(item.componentId)}
 			>
 				<IconX size="1rem" />
 			</Button>

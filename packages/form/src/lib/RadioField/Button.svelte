@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, Stack } from '@campground/ui';
 	import type { ButtonProps } from './props.ts';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 
 	let { children, value, class: className, disabled, ...props }: ButtonProps = $props();
 
@@ -32,7 +32,7 @@
 	<input
 		class="input"
 		type="radio"
-		name={control.key}
+		name={control.componentId}
 		bind:group={control.value}
 		{value}
 		{disabled}

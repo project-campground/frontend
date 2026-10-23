@@ -1,12 +1,14 @@
 import adapterNode from '@sveltejs/adapter-node';
 import adapterStatic from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import type { Config } from '@sveltejs/kit';
+import { vitePreprocess, type SvelteConfig } from '@sveltejs/vite-plugin-svelte';
 import path from 'node:path';
 
-const mostTopDir = path.join(import.meta.dirname, '../../..');
+const mostTopDir = path.join(import.meta.dirname, '../../../..');
 
-const createConfig = (packageName: string, type: 'static' | 'lib' | 'node' = 'node'): Config => ({
+const createConfig = (
+	packageName: string,
+	type: 'static' | 'lib' | 'node' = 'node',
+): SvelteConfig & { adapter: unknown } => ({
 	preprocess: vitePreprocess({ style: true, script: false }),
 	compilerOptions: {
 		experimental: { async: true },

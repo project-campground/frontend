@@ -1,13 +1,13 @@
 import { AbstractFormInstance } from '#lib/Form/context.svelte.js';
-import type { FormFieldId } from '#lib/Form/props.js';
-import type { IFormControl, IFormField } from '#lib/FieldControl/context.svelte.ts';
+import type { FormFieldKey } from '#lib/Form/props.js';
+import type { IFormControl, IFormField } from '#lib/FieldControl/context.svelte.js';
 import type { DictionaryFieldValue } from './props.ts';
 
 export class DictionaryFieldContext<T>
 	extends AbstractFormInstance<IFormControl<unknown>>
 	implements IFormField<unknown>
 {
-	public id: FormFieldId;
+	public key: FormFieldKey;
 	public required: boolean = $state(false);
 	public disabled: boolean = $state(false);
 
@@ -15,13 +15,13 @@ export class DictionaryFieldContext<T>
 	public defaultValue: DictionaryFieldValue = {};
 
 	constructor(
-		public key: string,
+		public componentKey: string,
 		private _submit: () => unknown,
-		getInitialId: () => FormFieldId,
+		getInitialId: () => FormFieldKey,
 		private _mapValue: () => (fields: IFormControl<unknown>[]) => T,
 	) {
 		super();
-		this.id = $state(getInitialId());
+		this.key = $state(getInitialId());
 		this.value = $derived(this._mapValue()(this.fields));
 	}
 

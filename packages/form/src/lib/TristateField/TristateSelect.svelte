@@ -28,7 +28,7 @@
 
 	div {
 		--Pick-count: 3;
-		width: 6rem;
+		width: max-content;
 		:global {
 			$i: 0;
 			@each $type in $type-colors {

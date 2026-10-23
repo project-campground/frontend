@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, type ButtonProps } from '@campground/ui';
 	import { IconPlus } from '@tabler/icons-svelte';
-	import { getArrayField } from './context.svelte.ts';
+	import { getArrayField } from './context.svelte.js';
 	import type { Snippet } from 'svelte';
 
 	let { children, ...attributes }: Omit<ButtonProps, 'children'> & { children?: Snippet } = $props();

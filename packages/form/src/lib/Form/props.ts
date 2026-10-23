@@ -2,7 +2,7 @@ import type { ComponentSize, InFlexLayout, InGridLayout } from '@campground/ui';
 import type { Snippet } from 'svelte';
 import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';
 
-export type FormFieldId = string | number;
+export type FormFieldKey = string | number;
 export default interface FormProps extends HTMLFormAttributes, InFlexLayout, InGridLayout {
 	inlineContent?: boolean;
 	hideOverflow?: boolean;
@@ -12,7 +12,7 @@ export default interface FormProps extends HTMLFormAttributes, InFlexLayout, InG
 
 	children: Snippet;
 	onSubmit?: (
-		values: Record<FormFieldId, any>,
+		values: Record<FormFieldKey, any>,
 		ev?: MouseEvent | undefined,
 	) => Promise<unknown> | unknown;
 }

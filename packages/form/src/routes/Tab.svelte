@@ -15,7 +15,7 @@
 	<div>
 		<pre><code
 				>{JSON.stringify(
-					Object.fromEntries(form?.getForm().fields.map((x) => [x.id, x.value]) ?? []),
+					Object.fromEntries(form?.getForm().fields.map((x) => [x.key, x.value]) ?? []),
 					undefined,
 					4,
 				)}</code

@@ -2,7 +2,7 @@
 	import type { ListProps } from './props.ts';
 	import { Stack } from '@campground/ui';
 	import { setFieldControlKey } from '#lib/CheckField/context.svelte.js';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { onMount } from 'svelte';
 
 	const { children, ...props }: ListProps = $props();
@@ -20,6 +20,7 @@
 <Stack
 	class="form-Checklist"
 	{...props}
+	id={`field-${control.componentId}`}
 >
 	{@render children?.()}
 </Stack>

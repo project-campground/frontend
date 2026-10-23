@@ -1,4 +1,4 @@
-import type { FormFieldId } from '#lib/Form/props.js';
+import type { FormFieldKey } from '#lib/Form/props.js';
 import { getContext, setContext } from 'svelte';
 
 /**
@@ -8,7 +8,7 @@ export interface IFormField<T> {
 	/**
 	 * Used as a key in form's final value.
 	 */
-	id: FormFieldId;
+	key: FormFieldKey;
 
 	/**
 	 * The current value of the form control.
@@ -36,7 +36,7 @@ export interface IFieldControl<T> {
 	/**
 	 * Unique identifier for the key used to give control's ID to labels.
 	 */
-	key: string;
+	componentId: string;
 	/**
 	 * The current value of the form control.
 	 */
@@ -52,9 +52,13 @@ export interface IFieldControl<T> {
 	error: string | null;
 
 	/**
-	 * Gets whether the value has to be changed and not be empty.
+	 * Whether the value has to be changed and not be empty.
 	 */
 	required: boolean;
+	/**
+	 * Whether the value cannot be changed.
+	 */
+	disabled: boolean;
 }
 /**
  * Defines common control expected properties.
@@ -65,20 +69,20 @@ export class FieldControlInstance<T> implements IFormControl<T> {
 	public error: string | null = $state(null);
 	public value: T;
 	public defaultValue: T;
-	public id: FormFieldId;
+	public key: FormFieldKey;
 	public required: boolean = $state(false);
 	public disabled: boolean = $state(false);
 	public valid: boolean = $derived(this.error === null || this.disabled);
 	public changed: boolean;
 
 	constructor(
-		public key: string,
+		public componentId: string,
 		getDefaultValue: () => T,
-		getId: () => FormFieldId,
+		getId: () => FormFieldKey,
 	) {
 		const defaultValue = getDefaultValue();
 		this.value = $state(defaultValue);
-		this.id = $state(getId());
+		this.key = $state(getId());
 		this.defaultValue = defaultValue;
 		this.changed = $derived(
 			typeof this.defaultValue === 'object' ?

@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
 import type { IFormField } from '#lib/FieldControl/context.svelte.ts';
-import type { FormFieldId } from './props.ts';
+import type { FormFieldKey } from './props.ts';
 
 export interface IFormInstance<TValue, TField extends IFormField<TValue>> {
 	changed: boolean;
@@ -44,8 +44,8 @@ export class FormInstance extends AbstractFormInstance<IFormField<unknown>> {
 	public static contextKey = {};
 
 	public fields: IFormField<unknown>[] = $state([]);
-	public values: Record<FormFieldId, unknown> = $derived(
-		FormInstance.mapInstance(this.fields, (x) => [x.id, x.value]),
+	public values: Record<FormFieldKey, unknown> = $derived(
+		FormInstance.mapInstance(this.fields, (x) => [x.key, x.value]),
 	);
 
 	public valid: boolean = $derived(this.fields.every((x) => x.valid));
@@ -55,7 +55,7 @@ export class FormInstance extends AbstractFormInstance<IFormField<unknown>> {
 		private _submit: () =>
 			| undefined
 			| ((
-					values: Record<FormFieldId, unknown>,
+					values: Record<FormFieldKey, unknown>,
 					ev?: MouseEvent | undefined,
 			  ) => Promise<unknown> | unknown),
 	) {
@@ -68,7 +68,7 @@ export class FormInstance extends AbstractFormInstance<IFormField<unknown>> {
 
 	protected static mapInstance<TAfter, TBefore>(
 		controls: IFormField<TBefore>[],
-		fn: (instance: IFormField<TBefore>) => [FormFieldId, TAfter],
+		fn: (instance: IFormField<TBefore>) => [FormFieldKey, TAfter],
 	) {
 		return Object.fromEntries(controls.map(fn));
 	}

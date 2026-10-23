@@ -8,16 +8,14 @@
 	const { children, hideAsterisk, subtle, flex, ...props }: FieldLabelProps = $props();
 </script>
 
-<label
+<legend
 	class={['label', { required: fieldControl.required, hideAsterisk, subtle }]}
 	{...props}
 	style:--Layout-flex={notInherited(flex)}
-	id={`label-${fieldControl.key}`}
-	for={`control-${fieldControl.key}`}
 >
 	{@render children()}
 	<span class="asterisk">*</span>
-</label>
+</legend>
 
 <style lang="scss">
 	@use '@campground/ui' as *;
@@ -26,6 +24,8 @@
 		font-size: 0.9em;
 		color: var(--foreground-subheading);
 		font-weight: bold;
+		margin-bottom: 0.5rem;
+
 		@extend %InLayout;
 	}
 	.asterisk {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type TagFieldProps from './props.ts';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { Chip, TextInput } from '@campground/ui';
 	import Tag from './Tag.svelte';
 
@@ -32,7 +32,10 @@
 	const reachedMax = $derived(Boolean(max && (control.value?.length ?? 0) >= max));
 </script>
 
-<div class="container">
+<div
+	class="container"
+	aria-setsize={control.value?.length ?? 0}
+>
 	{#each control.value as value, i (i)}
 		<Tag
 			{value}
@@ -45,6 +48,7 @@
 			size="xs"
 			maxWidth={5}
 			disabled={reachedMax}
+			aria-errormessage={control.error}
 			error={Boolean(minlength && inputValue.length && inputValue.length < minlength)}
 			{maxlength}
 			onkeypress={onKeyPress}

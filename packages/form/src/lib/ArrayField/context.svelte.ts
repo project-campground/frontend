@@ -1,21 +1,22 @@
-import type { FormFieldId } from '#lib/Form/props.js';
+import type { FormFieldKey } from '#lib/Form/props.js';
 import type { IFormControl, IFormField } from '#lib/FieldControl/context.svelte.js';
 import { getContext, setContext } from 'svelte';
 import type { Readable } from 'svelte/store';
 
 export class ArrayFieldItem<T> implements IFormControl<T> {
-	public id: FormFieldId;
+	public key: FormFieldKey;
 	public value: T;
 	public error: string | null = $state(null);
 	public required = true;
+	public disabled = false;
 	public valid: boolean = $derived(this.error === null);
 	public changed: boolean;
 
 	constructor(
-		public key: string,
+		public componentId: string,
 		public defaultValue: T,
 	) {
-		this.id = this.key;
+		this.key = this.componentId;
 		this.value = $state(defaultValue);
 		this.changed = $derived(this.value !== this.defaultValue);
 	}
@@ -29,7 +30,7 @@ export class ArrayFieldContext<T> implements IFormField<T[]> {
 
 	public controls: ArrayFieldItem<T>[] = $state([]);
 
-	public id: FormFieldId;
+	public key: FormFieldKey;
 
 	public valid = $derived(this.controls.every((x) => x.valid));
 	public value = $derived(this.controls.map((x) => x.value));
@@ -39,13 +40,13 @@ export class ArrayFieldContext<T> implements IFormField<T[]> {
 	public changed: boolean;
 
 	constructor(
-		public key: string,
+		public componentId: string,
 		getDefaultValue: () => T[],
 		getDefaultItemValue: () => T,
-		getInitialId: () => FormFieldId,
+		getInitialId: () => FormFieldKey,
 		public max: Readable<number | undefined | null>,
 	) {
-		this.id = $state(getInitialId());
+		this.key = $state(getInitialId());
 		this.defaultValue = $state(getDefaultValue());
 		this.defaultItemValue = $state(getDefaultItemValue());
 		this.changed = $derived(
@@ -67,7 +68,7 @@ export class ArrayFieldContext<T> implements IFormField<T[]> {
 		this.controls.push(new ArrayFieldItem<T>(Date.now().toString(), this.defaultItemValue));
 	}
 	public removeItem(key: string) {
-		const index = this.controls.findIndex((x) => x.key === key);
+		const index = this.controls.findIndex((x) => x.componentId === key);
 
 		if (index < 0) return;
 

@@ -29,7 +29,7 @@
 
 {#if arrayField.controls.length}
 	<ul class="list">
-		{#each arrayField.controls as item (item.id)}
+		{#each arrayField.controls as item (item.key)}
 			<Item {item}>
 				{@render children()}
 			</Item>

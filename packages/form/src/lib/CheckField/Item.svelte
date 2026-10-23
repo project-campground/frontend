@@ -3,7 +3,7 @@
 	import type { ItemProps, CheckValue } from './props.ts';
 	import FormSimpleField from '#lib/SimpleField/Root.svelte';
 	import { getFieldControlKey } from '#lib/CheckField/context.svelte.js';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 
 	const { value, header, children, ...props }: ItemProps = $props();
 

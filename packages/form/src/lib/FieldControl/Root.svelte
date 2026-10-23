@@ -37,7 +37,7 @@
 		fieldControl.value = fieldControl.defaultValue = defaultValue ?? null;
 	});
 	$effect.pre(() => {
-		fieldControl.id = id;
+		fieldControl.key = id;
 	});
 
 	// Make sure form is aware of controls, since it's harder to handle events in this case, such as submission
@@ -51,19 +51,23 @@
 	setFieldControl(fieldControl);
 </script>
 
-<div
+<fieldset
 	class={[{ disabled, required }]}
 	style:--FieldControl-flex={flex}
+	{disabled}
 	{...props}
 >
 	{@render children()}
-</div>
+</fieldset>
 
 <style lang="scss">
-	div {
+	fieldset {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+		margin: 0;
+		padding: 0;
+		border: none;
 		flex: var(--FieldControl-flex);
 	}
 </style>

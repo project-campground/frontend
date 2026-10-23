@@ -2,7 +2,7 @@
 	import { Radio } from '@campground/ui';
 	import type { ItemProps } from './props.ts';
 	import SimpleField from '#lib/SimpleField/Root.svelte';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 
 	const { header, children, value, ...props }: ItemProps = $props();
 

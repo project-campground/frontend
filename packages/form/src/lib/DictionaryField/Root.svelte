@@ -30,7 +30,8 @@
 		key,
 		formContext.submit.bind(formContext),
 		() => id,
-		() => map ?? ((fields) => Object.fromEntries(fields.map((x) => [x.id, x.value])) as unknown as T),
+		() =>
+			map ?? ((fields) => Object.fromEntries(fields.map((x) => [x.key, x.value])) as unknown as T),
 	);
 	setForm(dictionaryField);
 

@@ -10,7 +10,7 @@
 	import { getLocale } from '@campground/locale';
 	import { Button, Stack, TextInput } from '@campground/ui';
 	import type NumberFieldProps from './props.ts';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { numberFieldErrors } from './validation.ts';
 	import { fieldAssert } from '#lib/util/validation.js';
 	import { IconMinus, IconPlusFilled } from '@tabler/icons-svelte';
@@ -84,6 +84,8 @@
 	bind:value={() => textValue ?? '', setNewTextValue}
 	error={!!control.error}
 	aria-errormessage={control.error}
+	aria-valuemin={min}
+	aria-valuemax={max}
 	// Don't want the menu to auto-close on click
 	onclick={(ev) => ev.stopPropagation()}
 	{size}

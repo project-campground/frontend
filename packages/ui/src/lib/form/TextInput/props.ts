@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
 import type { ComponentSize } from '../../types/attributes.ts';
 import type { AriaAttributes, EventHandler, HTMLInputAttributes } from 'svelte/elements';
-import type { Size } from '#lib/util/component.ts';
+import type { Size } from '#lib/util/component.js';
 
 // Easier use of types; need to see if it significantly interferes with compilation time
 type EventHandlerStripInput<T extends Event> = EventHandler<
@@ -18,7 +18,21 @@ type OnEventInfer<T extends keyof HTMLInputAttributes> = OnEventFromInput<HTMLIn
 export default interface TextInputProps
 	extends
 		AriaAttributes,
-		Pick<HTMLInputAttributes, 'tabindex' | 'disabled' | 'class' | 'maxlength' | 'placeholder'> {
+		Pick<
+			HTMLInputAttributes,
+			| 'id'
+			| 'class'
+			| 'tabindex'
+			| 'disabled'
+			| 'class'
+			| 'maxlength'
+			| 'placeholder'
+			| 'autocomplete'
+			| 'autocapitalize'
+			| 'autocorrect'
+			| 'autofocus'
+			| 'readonly'
+		> {
 	type?: 'text' | 'password' | 'search' | 'email';
 
 	top?: Snippet;

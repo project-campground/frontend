@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 
 	let {
-		id,
+		key,
 		required,
 		disabled,
 		defaultValue,
@@ -20,11 +20,11 @@
 	}: FieldControlProps<T> = $props();
 
 	const formContext = getForm();
-	const key = $props.id();
+	const componentId = $props.id();
 	const fieldControl = new FieldControlInstance<T | null>(
-		key,
+		componentId,
 		() => defaultValue ?? null,
-		() => id,
+		() => key,
 	);
 
 	$effect.pre(() => {
@@ -37,7 +37,7 @@
 		fieldControl.value = fieldControl.defaultValue = defaultValue ?? null;
 	});
 	$effect.pre(() => {
-		fieldControl.key = id;
+		fieldControl.key = key;
 	});
 
 	// Make sure form is aware of controls, since it's harder to handle events in this case, such as submission
@@ -52,8 +52,11 @@
 </script>
 
 <fieldset
-	class={[{ disabled, required }]}
 	style:--FieldControl-flex={flex}
+	data-form-key={key}
+	data-disabled={disabled}
+	data-required={required}
+	aria-disabled={disabled}
 	{disabled}
 	{...props}
 >

@@ -59,7 +59,7 @@
 		>
 			<Section>
 				<FieldControl
-					id="banner"
+					key="banner"
 					defaultValue={createImageDefaultValue(campsiteContext.campsite?.bannerUri)}
 				>
 					<FieldLabel>
@@ -72,7 +72,7 @@
 				</FieldControl>
 				<Stack direction="row">
 					<FieldControl
-						id="avatar"
+						key="avatar"
 						defaultValue={createImageDefaultValue(campsiteContext.campsite?.avatarUri)}
 					>
 						<ImageField
@@ -82,7 +82,7 @@
 						/>
 					</FieldControl>
 					<FieldControl
-						id="name"
+						key="name"
 						defaultValue={campsiteContext.campsite?.name}
 					>
 						<FieldLabel>
@@ -97,7 +97,7 @@
 			</Section>
 			<Section>
 				<FieldControl
-					id="description"
+					key="description"
 					defaultValue={campsiteContext.campsite?.description}
 				>
 					<FieldLabel>
@@ -109,7 +109,7 @@
 					/>
 				</FieldControl>
 				<FieldControl
-					id="tags"
+					key="tags"
 					defaultValue={campsiteContext.campsite?.tags}
 				>
 					<FieldLabel>

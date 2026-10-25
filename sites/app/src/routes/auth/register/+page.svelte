@@ -116,7 +116,7 @@
 	{#if !(describedServer instanceof Error) && describedServer.inviteCodeRequired}
 		<Section>
 			<FieldControl
-				id="inviteCode"
+				key="inviteCode"
 				required
 			>
 				<FieldLabel>
@@ -134,7 +134,7 @@
 	{/if}
 	<Section>
 		<FieldControl
-			id="handle"
+			key="handle"
 			required
 		>
 			<FieldLabel>
@@ -158,7 +158,7 @@
 			<FieldError></FieldError>
 		</FieldControl>
 		<FieldControl
-			id="email"
+			key="email"
 			required
 		>
 			<FieldLabel>
@@ -177,7 +177,7 @@
 	</Section>
 	<Section>
 		<FieldControl
-			id="password"
+			key="password"
 			bind:value={passwordToConfirm}
 			required
 		>
@@ -191,7 +191,7 @@
 			<FieldError></FieldError>
 		</FieldControl>
 		<FieldControl
-			id="confirmPassword"
+			key="confirmPassword"
 			required
 		>
 			<FieldLabel>
@@ -213,7 +213,7 @@
 			<LocaleMessage {...localeStrings.users.pds} />
 		{/snippet}
 		<FieldControl
-			id="pds"
+			key="pds"
 			bind:value={pdsValue}
 			defaultValue={defaultPds.url}
 			required

@@ -15,7 +15,7 @@
 		gap,
 		inlineContent,
 		autocomplete,
-		id,
+		key,
 		map,
 		// eslint-disable-next-line no-useless-assignment
 		value = $bindable(),
@@ -23,13 +23,13 @@
 	}: RootProps<T> = $props();
 
 	const formContext = getForm();
-	const key = $props.id();
+	const componentId = $props.id();
 
 	// Sub-form
 	const dictionaryField = new DictionaryFieldContext<T>(
-		key,
+		componentId,
 		formContext.submit.bind(formContext),
-		() => id,
+		() => key,
 		() =>
 			map ?? ((fields) => Object.fromEntries(fields.map((x) => [x.key, x.value])) as unknown as T),
 	);
@@ -49,6 +49,7 @@
 	{...attributes}
 	class={[{ hideOverflow, inlineContent }, className]}
 	data-gap={gap}
+	data-form-key={key}
 >
 	{@render children?.()}
 </form>

@@ -41,7 +41,7 @@
 				<Section>
 					<Group>
 						<FieldControl
-							id="avatarUri"
+							key="avatarUri"
 							required
 						>
 							<ImageField
@@ -52,7 +52,7 @@
 							<FieldError />
 						</FieldControl>
 						<FieldControl
-							id="name"
+							key="name"
 							required
 						>
 							<FieldLabel>
@@ -67,7 +67,7 @@
 					</Group>
 				</Section>
 				<Section>
-					<FieldControl id="description">
+					<FieldControl key="description">
 						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.topic} />
 						</FieldLabel>

@@ -81,7 +81,7 @@
 			<Stack gap={2}>
 				<Section>
 					<FieldControl
-						id="what"
+						key="what"
 						bind:value={what}
 						defaultValue="tent"
 					>
@@ -112,7 +112,7 @@
 				</Section>
 				<Section>
 					<FieldControl
-						id="name"
+						key="name"
 						required
 					>
 						<FieldLabel>
@@ -124,7 +124,7 @@
 						/>
 						<FieldError />
 					</FieldControl>
-					<FieldControl id="description">
+					<FieldControl key="description">
 						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.topic} />
 						</FieldLabel>
@@ -139,7 +139,7 @@
 				<Section>
 					{#if what === 'tent'}
 						<FieldControl
-							id="type"
+							key="type"
 							defaultValue="text"
 							required
 						>

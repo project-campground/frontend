@@ -6,8 +6,8 @@ import type { ArrayFieldItem } from './context.svelte.ts';
 
 export interface RootProps<T>
 	extends
-		Omit<HTMLFormAttributes, 'id'>,
-		Pick<FieldControlProps<T[]>, 'id' | 'required' | 'disabled' | 'defaultValue'> {
+		HTMLFormAttributes,
+		Pick<FieldControlProps<T[]>, 'key' | 'required' | 'disabled' | 'defaultValue'> {
 	class?: ClassValue;
 	gap?: ComponentSize;
 

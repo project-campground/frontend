@@ -56,7 +56,7 @@
 		</Stack>
 		<Section>
 			<FieldControl
-				id="banner"
+				key="banner"
 				flex={0}
 				bind:value={
 					() => null, (value) => (gettingStarted.profile.banner = (value as ImageFieldValue | null)?.url)
@@ -75,7 +75,7 @@
 		<Section>
 			<Group align="start">
 				<FieldControl
-					id="avatar"
+					key="avatar"
 					flex={0}
 					bind:value={
 						() => null,
@@ -94,7 +94,7 @@
 					</div>
 				</FieldControl>
 				<FieldControl
-					id="displayName"
+					key="displayName"
 					required
 					flex={1}
 					bind:value={() => null, (value) => (gettingStarted.profile.displayName = value)}
@@ -115,7 +115,7 @@
 		</Section>
 		<Section>
 			<FieldControl
-				id="description"
+				key="description"
 				bind:value={() => null, (value) => (gettingStarted.profile.description = value)}
 				defaultValue=""
 			>

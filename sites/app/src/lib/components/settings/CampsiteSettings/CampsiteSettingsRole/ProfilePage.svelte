@@ -144,7 +144,7 @@
 	</Grid.Root>
 	<Section>
 		<FieldControl
-			id="name"
+			key="name"
 			defaultValue={roleContext.selectedRole?.name}
 		>
 			<FieldLabel>
@@ -156,7 +156,7 @@
 	</Section>
 	<Section>
 		<FieldControl
-			id="pingable"
+			key="pingable"
 			defaultValue={roleContext.selectedRole?.pingable}
 		>
 			<SwitchField>
@@ -168,7 +168,7 @@
 			<FieldError />
 		</FieldControl>
 		<FieldControl
-			id="raised"
+			key="raised"
 			defaultValue={roleContext.selectedRole?.raised}
 		>
 			<SwitchField>
@@ -182,7 +182,7 @@
 	</Section>
 	<Section>
 		<FieldControl
-			id="motion"
+			key="motion"
 			defaultValue={roleContext.selectedRole?.motion}
 			bind:value={motion}
 		>
@@ -223,7 +223,7 @@
 			<FieldError />
 		</FieldControl>
 		<ArrayField.Root
-			id="colors"
+			key="colors"
 			defaultValue={roleContext.selectedRole?.colors}
 			defaultItemValue={0xff0000}
 			max={5}

@@ -3,7 +3,7 @@ import type { Snippet } from 'svelte';
 import type { AriaAttributes } from 'svelte/elements';
 
 export default interface FieldControlProps<T> extends AriaAttributes {
-	id: FormFieldKey;
+	key: FormFieldKey;
 	children: Snippet;
 
 	// Value

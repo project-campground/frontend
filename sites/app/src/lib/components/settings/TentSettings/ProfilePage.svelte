@@ -50,7 +50,7 @@
 		>
 			<Section>
 				<FieldControl
-					id="name"
+					key="name"
 					defaultValue={tent.name}
 				>
 					<FieldLabel>
@@ -62,7 +62,7 @@
 					/>
 				</FieldControl>
 				<FieldControl
-					id="description"
+					key="description"
 					defaultValue={tent.description}
 				>
 					<FieldLabel>

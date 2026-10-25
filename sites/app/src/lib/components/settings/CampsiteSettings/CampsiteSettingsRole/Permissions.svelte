@@ -17,10 +17,10 @@
 	const roleContext = getRoleSettings();
 </script>
 
-<DictionaryField id="permissions">
+<DictionaryField key="permissions">
 	<Stack gap={4}>
 		<FieldControl
-			id={'general' satisfies keyof PermissionsDictionary}
+			key={'general' satisfies keyof PermissionsDictionary}
 			defaultValue={roleContext.selectedRole?.permissions.general}
 		>
 			<FlagField.List>
@@ -139,7 +139,7 @@
 			</FlagField.List>
 		</FieldControl>
 		<FieldControl
-			id={'content' satisfies keyof PermissionsDictionary}
+			key={'content' satisfies keyof PermissionsDictionary}
 			defaultValue={roleContext.selectedRole?.permissions.content}
 		>
 			<FlagField.List>

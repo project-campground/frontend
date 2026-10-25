@@ -11,7 +11,7 @@
 	let {
 		children,
 		gap,
-		id,
+		key,
 		// eslint-disable-next-line no-useless-assignment
 		value = $bindable([]),
 		defaultValue,
@@ -27,12 +27,12 @@
 	// For keys to not change around
 	const maxReadable = writable<number | null | undefined>();
 
-	const key = $props.id();
+	const componentId = $props.id();
 	const arrayField = new ArrayFieldContext<T>(
-		key,
+		componentId,
 		() => defaultValue ?? [],
 		() => defaultItemValue,
-		() => id,
+		() => key,
 		maxReadable,
 	);
 
@@ -62,6 +62,7 @@
 	class={['container', className]}
 	{...attributes}
 	autocomplete="off"
+	data-form-key={key}
 	data-gap={gap}
 >
 	{@render children()}

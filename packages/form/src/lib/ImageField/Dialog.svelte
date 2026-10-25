@@ -53,7 +53,7 @@
 	<Form onSubmit={(values) => (onSubmit(values), modal.closeModal())}>
 		<Dialog.Content>
 			<FieldControl
-				id="url"
+				key="url"
 				required
 			>
 				<FieldLabel>

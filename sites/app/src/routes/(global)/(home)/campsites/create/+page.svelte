@@ -82,7 +82,7 @@
 			</Para>
 			<Group>
 				<FieldControl
-					id="avatar"
+					key="avatar"
 					bind:value={avatar}
 					required
 				>
@@ -93,7 +93,7 @@
 					/>
 				</FieldControl>
 				<FieldControl
-					id="name"
+					key="name"
 					bind:value={name}
 					required
 					flex={1}
@@ -108,7 +108,7 @@
 					<FieldError />
 				</FieldControl>
 			</Group>
-			<FieldControl id="description">
+			<FieldControl key="description">
 				<FieldLabel>
 					<LocaleMessage {...localeStrings.content.topic} />
 				</FieldLabel>
@@ -124,7 +124,7 @@
 				{/snippet}
 				<div class="appview">
 					<FieldControl
-						id="appview"
+						key="appview"
 						defaultValue={defaultAppview.url}
 					>
 						<TextField>

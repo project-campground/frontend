@@ -15,7 +15,7 @@
 		TagField,
 		FlagField,
 	} from '#lib/index.js';
-	import { ImageField } from '#lib/ImageField/index.ts';
+	import { ImageField } from '#lib/ImageField/index.js';
 	import {
 		IconCheckbox,
 		IconDeviceSpeakerFilled,
@@ -23,7 +23,7 @@
 		IconHash,
 	} from '@tabler/icons-svelte';
 	import Tab from './Tab.svelte';
-	import { TristateField } from '#lib/TristateField/index.ts';
+	import { TristateField } from '#lib/TristateField/index.js';
 </script>
 
 <Tabs.Root>
@@ -36,16 +36,16 @@
 	{/snippet}
 	<Tab>
 		<FieldControl
-			id="withLabel"
+			key="withLabel"
 			required
 		>
 			<FieldLabel>Example label</FieldLabel>
 		</FieldControl>
-		<FieldControl id="withTextInput">
+		<FieldControl key="withTextInput">
 			<FieldLabel>Example label</FieldLabel>
 			<TextField />
 		</FieldControl>
-		<FieldControl id="textArea0">
+		<FieldControl key="textArea0">
 			<FieldLabel>Text area field</FieldLabel>
 			<TextField
 				multirow
@@ -53,13 +53,13 @@
 				placeholder="Example placeholder"
 			/>
 		</FieldControl>
-		<FieldControl id="textFieldMapped">
+		<FieldControl key="textFieldMapped">
 			<FieldLabel>Mapped text field</FieldLabel>
 			<TextField
 				placeholder="Example placeholder"
 			/>
 		</FieldControl>
-		<FieldControl id="numField">
+		<FieldControl key="numField">
 			<FieldLabel>Number field (-50...999)</FieldLabel>
 			<NumberField
 				min={-50}
@@ -67,7 +67,7 @@
 			/>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="textArea1">
+		<FieldControl key="textArea1">
 			<FieldLabel>Text area field (known value)</FieldLabel>
 			<TextField
 				multirow
@@ -82,21 +82,21 @@
 				{/snippet}
 			</TextField>
 		</FieldControl>
-		<FieldControl id="textArea2">
+		<FieldControl key="textArea2">
 			<FieldLabel>Text area field</FieldLabel>
 			<TextField
 				multirow
 				maxrows={4}
 			/>
 		</FieldControl>
-		<FieldControl id="textArea3">
+		<FieldControl key="textArea3">
 			<FieldLabel>Text area field</FieldLabel>
 			<TextField
 				multirow
 				rows={8}
 			/>
 		</FieldControl>
-		<FieldControl id="textField">
+		<FieldControl key="textField">
 			<FieldLabel>Text field (known values)</FieldLabel>
 			<TextField>
 				{#snippet known()}
@@ -105,7 +105,7 @@
 				{/snippet}
 			</TextField>
 		</FieldControl>
-		<FieldControl id="formattedMultiLine">
+		<FieldControl key="formattedMultiLine">
 			<FieldLabel>Text area formatted</FieldLabel>
 			<TextField
 				multirow
@@ -118,7 +118,7 @@
 	<Tab>
 		<Card.Root>
 			<Card.Content>
-				<FieldControl id="tristate">
+				<FieldControl key="tristate">
 					<FieldLabel>Tristate</FieldLabel>
 					<TristateField>
 						{#snippet header()}
@@ -130,7 +130,7 @@
 				</FieldControl>
 			</Card.Content>
 		</Card.Root>
-		<FieldControl id="switch">
+		<FieldControl key="switch">
 			<FieldLabel>Switch</FieldLabel>
 			<SwitchField>
 				{#snippet header()}
@@ -140,7 +140,7 @@
 			</SwitchField>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="checklist">
+		<FieldControl key="checklist">
 			<FieldLabel>Checklist</FieldLabel>
 			<CheckField.List>
 				<CheckField.Item value="first">
@@ -167,7 +167,7 @@
 			</CheckField.List>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="radiolist">
+		<FieldControl key="radiolist">
 			<FieldLabel>Radio List</FieldLabel>
 			<RadioField.List>
 				<RadioField.Item value="first">
@@ -194,7 +194,7 @@
 			</RadioField.List>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="radiogrid">
+		<FieldControl key="radiogrid">
 			<FieldLabel>Radio Grid</FieldLabel>
 			<RadioField.List>
 				<Grid.Root
@@ -237,7 +237,7 @@
 		</FieldControl>
 	</Tab>
 	<Tab>
-		<FieldControl id="flags">
+		<FieldControl key="flags">
 			<FieldLabel>Flags</FieldLabel>
 			<FlagField.List>
 				<FlagField.Single value={0}>
@@ -274,7 +274,7 @@
 			</FlagField.List>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="flagsOdd">
+		<FieldControl key="flagsOdd">
 			<FieldLabel>Flags with other features</FieldLabel>
 			<FlagField.List>
 				<FlagField.Tristate position={0}>
@@ -292,7 +292,7 @@
 		</FieldControl>
 	</Tab>
 	<Tab>
-		<FieldControl id="img">
+		<FieldControl key="img">
 			<FieldLabel>Image</FieldLabel>
 			<ImageField
 				aspectRatio={8}
@@ -300,7 +300,7 @@
 			/>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="imgAvatar">
+		<FieldControl key="imgAvatar">
 			<FieldLabel>Image (Avatar)</FieldLabel>
 			<ImageField
 				radius="avatar"
@@ -309,37 +309,37 @@
 			/>
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="color">
+		<FieldControl key="color">
 			<FieldLabel>Colour</FieldLabel>
 			<ColorField.Button />
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="color2">
+		<FieldControl key="color2">
 			<FieldLabel>Colour 2</FieldLabel>
 			<ColorField.Full />
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="color3">
+		<FieldControl key="color3">
 			<FieldLabel>Colour 3</FieldLabel>
 			<ColorField.Full orientation="horizontal" />
 			<FieldError />
 		</FieldControl>
-		<FieldControl id="color2">
+		<FieldControl key="color2">
 			<FieldLabel>Colour 3</FieldLabel>
 			<ColorField.Full size="sm" />
 			<FieldError />
 		</FieldControl>
 	</Tab>
 	<Tab>
-		<DictionaryField id="exampleObject">
+		<DictionaryField key="exampleObject">
 			<Card.Root>
 				<Card.Content gap="sm">
 					<Para level="h3">Sub-form (DictionaryField)</Para>
-					<FieldControl id="textAreaAndStuff">
+					<FieldControl key="textAreaAndStuff">
 						<FieldLabel>Text area field</FieldLabel>
 						<TextField multirow />
 					</FieldControl>
-					<FieldControl id="formattedSingleLine">
+					<FieldControl key="formattedSingleLine">
 						<FieldLabel>Text field formatted</FieldLabel>
 						<TextField
 							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
@@ -350,15 +350,15 @@
 				</Card.Content>
 			</Card.Root>
 		</DictionaryField>
-		<DictionaryField id="mappedObject" map={(fields) => fields.map((x) => x.value)}>
+		<DictionaryField key="mappedObject" map={(fields) => fields.map((x) => x.value)}>
 			<Card.Root>
 				<Card.Content gap="sm">
 					<Para level="h3">Mapped object</Para>
-					<FieldControl id="textAreaAndStuff">
+					<FieldControl key="textAreaAndStuff">
 						<FieldLabel>Text area field</FieldLabel>
 						<TextField multirow />
 					</FieldControl>
-					<FieldControl id="formattedSingleLine">
+					<FieldControl key="formattedSingleLine">
 						<FieldLabel>Text field formatted</FieldLabel>
 						<TextField
 							format={{ regex: /^[A-Za-z]+$/, errorMessage: 'Example error' }}
@@ -370,14 +370,14 @@
 			</Card.Root>
 		</DictionaryField>
 		<FieldControl
-			id="tags1"
+			key="tags1"
 			defaultValue={['a', 'b', 'c']}
 		>
 			<FieldLabel>Tags</FieldLabel>
 			<TagField />
 		</FieldControl>
 		<FieldControl
-			id="tags2"
+			key="tags2"
 			defaultValue={['a', 'b', 'c']}
 		>
 			<FieldLabel>Tags</FieldLabel>
@@ -385,7 +385,7 @@
 		</FieldControl>
 		{let arrayField: ArrayField.Root<string> | undefined = $state()}
 		<ArrayField.Root
-			id="exampleArray"
+			key="exampleArray"
 			defaultItemValue="abc"
 			defaultValue={['a', 'b', 'c']}
 			bind:this={arrayField}

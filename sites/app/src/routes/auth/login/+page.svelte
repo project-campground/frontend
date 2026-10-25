@@ -70,7 +70,7 @@
 <Form {onSubmit}>
 	<Section>
 		<FieldControl
-			id="identifier"
+			key="identifier"
 			defaultValue={queryValues.get('identifier') ?? ''}
 			required
 		>
@@ -89,7 +89,7 @@
 			<FieldError></FieldError>
 		</FieldControl>
 		<FieldControl
-			id="password"
+			key="password"
 			required
 		>
 			<FieldLabel>
@@ -101,7 +101,7 @@
 			/>
 			<FieldError></FieldError>
 		</FieldControl>
-		<FieldControl id="save">
+		<FieldControl key="save">
 			<CheckField.List>
 				<CheckField.Item value="confirm">
 					{#snippet header()}
@@ -116,7 +116,7 @@
 			<LocaleMessage {...localeStrings.users.pds} />
 		{/snippet}
 		<FieldControl
-			id="pds"
+			key="pds"
 			defaultValue={queryValues.get('server') ?? defaultPds.url}
 			required
 		>

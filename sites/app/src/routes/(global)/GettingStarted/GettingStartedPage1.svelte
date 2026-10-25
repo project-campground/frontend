@@ -56,7 +56,7 @@
 		</Stack>
 		<Section>
 			<FieldControl
-				id="theme"
+				key="theme"
 				flex={0}
 				defaultValue={$theme}
 				bind:value={() => $theme, (value) => ($theme = value)}

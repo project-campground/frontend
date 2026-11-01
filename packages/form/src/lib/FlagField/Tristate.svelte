@@ -2,35 +2,35 @@
 	lang="ts"
 	module
 >
-	const values: number[] = [0b10, 0b00, 0b11];
-	const valueToIndex: Record<number, number> = { [0b10]: 0, [0b00]: 1, [0b11]: 2 };
+	const values: bigint[] = [0b10n, 0b00n, 0b11n];
+	const valueToIndex: Record<string, number> = { [0b10]: 0, [0b00]: 1, [0b11]: 2 };
 </script>
 
 <script lang="ts">
 	import { Pick } from '@campground/ui';
 	import type { PairedProps } from './props.ts';
 	import FormSimpleField from '#lib/SimpleField/Root.svelte';
-	import { getFieldControl, type IFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import TristateSelect from '#lib/TristateField/TristateSelect.svelte';
 	import { FlagsPickContext } from './context.svelte.ts';
 	import { getFlagMask } from '#lib/util/flags.js';
 
 	const { position, header, children, reverse, ...props }: PairedProps = $props();
 
-	const control: IFieldControl<number> = getFieldControl();
+	const control = getFieldControl<bigint>();
 
 	function valueAtPos(index: number) {
-		return values[index]! << (position * 2);
+		return values[index]! << (position * 2n);
 	}
 	function onSetIndex(index: number) {
-		control.value = (control.value & ~getFlagMask(2, position)) | valueAtPos(index);
+		control.value = (control.value & ~getFlagMask(2n, position)) | valueAtPos(index);
 	}
 
 	const pickContext = new FlagsPickContext(onSetIndex);
 
 	$effect(() => {
-		const posValue = (control.value >> (position * 2)) & 0b11;
-		pickContext.activeItemIndex = valueToIndex[posValue] ?? 1;
+		const posValue = (control.value >> (position * 2n)) & 0b11n;
+		pickContext.activeItemIndex = valueToIndex[posValue.toString()] ?? 1;
 	});
 
 	Pick.setPickContext(pickContext);

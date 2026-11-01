@@ -240,33 +240,33 @@
 		<FieldControl key="flags">
 			<FieldLabel>Flags</FieldLabel>
 			<FlagField.List>
-				<FlagField.Single value={0}>
+				<FlagField.Single value={0n}>
 					{#snippet header()}
 						0 value (unusual value)
 					{/snippet}
 				</FlagField.Single>
-				<FlagField.Single value={1}>
+				<FlagField.Single value={1n}>
 					{#snippet header()}
 						1 value
 					{/snippet}
 				</FlagField.Single>
-				<FlagField.Single value={2}>
+				<FlagField.Single value={2n}>
 					{#snippet header()}
 						2 value
 					{/snippet}
 					Description here
 				</FlagField.Single>
-				<FlagField.Single value={3}>
+				<FlagField.Single value={3n}>
 					{#snippet header()}
 						3 value
 					{/snippet}
 				</FlagField.Single>
-				<FlagField.Single value={4}>
+				<FlagField.Single value={4n}>
 					{#snippet header()}
 						4 value
 					{/snippet}
 				</FlagField.Single>
-				<FlagField.Single value={8}>
+				<FlagField.Single value={8n}>
 					{#snippet header()}
 						8 value
 					{/snippet}
@@ -277,12 +277,12 @@
 		<FieldControl key="flagsOdd">
 			<FieldLabel>Flags with other features</FieldLabel>
 			<FlagField.List>
-				<FlagField.Tristate position={0}>
+				<FlagField.Tristate position={0n}>
 					{#snippet header()}
 						0 value
 					{/snippet}
 				</FlagField.Tristate>
-				<FlagField.Tristate position={1}>
+				<FlagField.Tristate position={1n}>
 					{#snippet header()}
 						1 value
 					{/snippet}

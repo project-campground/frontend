@@ -28,6 +28,7 @@
 
 <Settings.Root
 	defaultPage="profile"
+	value={campsiteContext}
 	{pages}
 	{instance}
 >

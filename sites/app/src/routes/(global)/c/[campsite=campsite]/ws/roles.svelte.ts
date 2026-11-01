@@ -11,7 +11,7 @@ export const roleMessageHandlers: Partial<WebSocketMessageHandlers> = {
 
 		context.campsiteReference!.campsite.roles = [
 			...(context.roles!.slice(0, insertedStartingIndex) ?? []),
-			payload,
+			Object.assign(payload, { permissions: BigInt(payload.permissions) }),
 			...(context.roles!.slice(insertedStartingIndex) ?? []),
 		];
 	},
@@ -22,7 +22,7 @@ export const roleMessageHandlers: Partial<WebSocketMessageHandlers> = {
 
 		if (!role) return;
 
-		Object.assign(role, payload);
+		Object.assign(role, payload, { permissions: BigInt(payload.permissions) });
 	},
 	RoleDeleted(payload, context) {
 		if (!context.campsite) return;
@@ -35,7 +35,7 @@ export const roleMessageHandlers: Partial<WebSocketMessageHandlers> = {
 		const roleIndex = context.campsite.roles.findIndex((x) => x.id === payload.id);
 		const role = context.campsite.roles[roleIndex];
 
-		Object.assign(role, payload);
+		Object.assign(role, payload, { permissions: BigInt(payload.permissions) });
 
 		context.campsite.roles = makeRoomForItems(payload, context.campsite.roles);
 		context.campsite.roles.sort((a, b) => a.position - b.position);

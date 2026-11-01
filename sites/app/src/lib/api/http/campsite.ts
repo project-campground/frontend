@@ -1,12 +1,29 @@
 import type { CampsiteViewBasic, CampsiteViewDetailed } from '#lib/types/campground/campsites.js';
+import type { RoleView } from '#lib/types/campground/roles.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
+type CampsiteViewDetailedOutput = Omit<CampsiteViewDetailed, 'roles'> & {
+	roles: Array<RoleView & { permissions: number }>;
+};
+
 export default class HTTPCampsiteManager extends HTTPBackendObjectManager {
+	private static getResponseBody({
+		roles,
+		...view
+	}: CampsiteViewDetailedOutput): CampsiteViewDetailed {
+		return {
+			roles: roles.map(({ permissions, ...role }) => ({ permissions: BigInt(permissions), ...role })),
+			...view,
+		};
+	}
+
 	public get(campsite_id: string) {
-		return this.client.get<CampsiteViewDetailed>({
-			route: 'gg.campground.campsite.getCampsite',
-			queries: { campsite_id },
-		});
+		return this.client
+			.get<CampsiteViewDetailedOutput>({
+				route: 'gg.campground.campsite.getCampsite',
+				queries: { campsite_id },
+			})
+			.then(HTTPCampsiteManager.getResponseBody);
 	}
 
 	public update(

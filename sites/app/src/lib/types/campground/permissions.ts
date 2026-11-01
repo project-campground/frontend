@@ -1,25 +1,20 @@
-export interface PermissionsDictionary {
-	general: number;
-	content: number;
-}
-export interface PermissionsStateDictionary {
-	allowed: PermissionsDictionary;
-	denied: PermissionsDictionary;
-}
+import type { MemberViewAuthor } from './membership.ts';
+import type { RoleView } from './roles.ts';
+
 export interface CampsitePermissionView {
 	bonfireId?: string;
 	categoryId?: string;
 	tentId?: string;
 
+	permissions: bigint;
+}
+export interface CampsitePermissionViewBasic extends CampsitePermissionView {
 	userId?: string;
 	roleId?: string;
-
-	permissions: PermissionsStateDictionary;
 }
-export interface CampsitePermissionViewBasic extends CampsitePermissionView {}
 export interface CampsitePermissionViewDetailed extends CampsitePermissionView {
-	id: string;
-	campsiteId: string;
+	member?: MemberViewAuthor;
+	role?: RoleView;
 
 	createdAt: string;
 	createdBy: string;

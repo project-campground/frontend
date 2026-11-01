@@ -1,5 +1,4 @@
 import type { GradientMotion } from '@campground/ui';
-import type { PermissionsDictionary } from './permissions.js';
 
 export interface RoleView {
 	id: string;
@@ -7,7 +6,7 @@ export interface RoleView {
 	name: string;
 	raised: boolean;
 	pingable: boolean;
-	permissions: PermissionsDictionary;
+	permissions: bigint;
 	position: number;
 	colors: number[];
 	motion: RoleMotion;

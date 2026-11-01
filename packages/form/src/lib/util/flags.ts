@@ -3,8 +3,8 @@
  * @param bits The amount of bits in an integer
  * @returns The max integer in specified N bits
  */
-export function getMaxInteger(bits: number) {
-	return (1 << bits) - 1;
+export function getMaxInteger(bits: bigint) {
+	return (1n << bits) - 1n;
 }
 /**
  * Gets the positive mask (all bits are 1) for a multi-bit flag at the certain position within flagged bits.
@@ -16,6 +16,6 @@ export function getMaxInteger(bits: number) {
  * @param at The position of the flag
  * @returns The positive mask for the flag
  */
-export function getFlagMask(bits: number, at: number) {
+export function getFlagMask(bits: bigint, at: bigint) {
 	return getMaxInteger(bits) << (at * bits);
 }

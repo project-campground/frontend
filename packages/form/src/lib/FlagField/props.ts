@@ -9,9 +9,9 @@ export interface ListProps extends StackProps {
 
 export interface SingleProps
 	extends AriaAttributes, Omit<SwitchProps, 'value'>, Omit<SimpleFieldProps, 'component'> {
-	value: number;
+	value: bigint;
 }
 export interface PairedProps
 	extends AriaAttributes, Omit<Pick.ListProps, 'children'>, Omit<SimpleFieldProps, 'component'> {
-	position: number;
+	position: bigint;
 }

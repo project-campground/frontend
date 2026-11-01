@@ -6,9 +6,13 @@
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import ProfilePage from './ProfilePage.svelte';
 	import type { TentViewBasic } from '#lib/types/campground/tent.js';
+	import PermissionsPage from './PermissionsPage.svelte';
 
-	type SettingsPage = 'profile';
-	const pages: Record<SettingsPage, Settings.PageComponent> = { profile: ProfilePage };
+	type SettingsPage = 'profile' | 'permissions';
+	const pages: Record<SettingsPage, Settings.PageComponent> = {
+		profile: ProfilePage,
+		permissions: PermissionsPage,
+	};
 
 	const campsiteContext = getCampsiteContext();
 	const {

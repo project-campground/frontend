@@ -45,6 +45,14 @@ export const appPermissionsMessages = {
 				'Allows creating, editing, moving and deleting the roles. This also allows changing permissions on tents.',
 		},
 	}),
+	managePermissions: defineMessages({
+		title: { id: 'app.permission.managePermissions', defaultMessage: 'Manage Permissions' },
+		description: {
+			id: 'app.permission.managePermissions.desc',
+			defaultMessage:
+				'Allows editing the permissions of users and roles in bonfires, tent categories and tents.',
+		},
+	}),
 	giveRoles: defineMessages({
 		title: { id: 'app.permission.giveRoles', defaultMessage: 'Give Roles' },
 		description: {

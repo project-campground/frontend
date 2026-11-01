@@ -43,7 +43,7 @@
 	import { localeStrings } from '#lib/locale/index.js';
 	import { fade, fly } from 'svelte/transition';
 	import { CampsiteSettings } from '#lib/components/settings/index.js';
-	import { GeneralPermission } from '#lib/util/constants.js';
+	import { PermissionFlag } from '#lib/util/constants.js';
 
 	const menuPortal = getMenuPortal();
 
@@ -115,7 +115,7 @@
 					onClick={() => onBonfireOpen(bonfire.id)}
 				/>
 			{/each}
-			{#if ((activeBonfire.rolePermissions.general ?? 0) & GeneralPermission.ManageBonfires) === GeneralPermission.ManageBonfires}
+			{#if ((activeBonfire.rolePermissions ?? 0n) & PermissionFlag.ManageBonfires) === PermissionFlag.ManageBonfires}
 				<Menu.Item>
 					<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
 						<Group>

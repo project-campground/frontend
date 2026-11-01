@@ -27,7 +27,7 @@
 		Tooltip,
 		tooltip,
 	} from '@campground/ui';
-	import { getRoleSettings } from './context.svelte.ts';
+	import { getItemListSettings } from '../../CommonSettings/context.svelte.ts';
 	import { IconTrashFilled, IconUserFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
@@ -36,12 +36,12 @@
 	import { getAppview } from '#lib/context/api.js';
 	import { ContentMover } from '#lib/components/content/index.js';
 
-	const roleSettings = getRoleSettings();
+	const roleSettings = getItemListSettings();
 	const menuPortal = getMenuPortal();
 	const appview = getAppview();
 
 	const { role }: { role: RoleView } = $props();
-	const isActive = $derived(roleSettings.selected === role.id);
+	const isActive = $derived(roleSettings.selected === role);
 	const isDefault = $derived((role.flags & RoleFlag.Default) === RoleFlag.Default);
 
 	function deleteRole() {
@@ -89,7 +89,7 @@
 		justify="start"
 		variant={isActive ? 'selected' : 'plain'}
 		color="neutral"
-		onclick={() => (roleSettings.selected = role.id)}
+		onclick={() => (roleSettings.selected = role)}
 		{@attach rightClickMenu(menuPortal, contextMenu)}
 		textAlign="left"
 	>

@@ -37,7 +37,7 @@ type QueryType = string | number | boolean | undefined | null;
 export interface RequestConfig {
 	method: HTTPMethod;
 	route: string;
-	body?: unknown;
+	body?: string | null | object;
 	request?: RequestInit;
 	queries?: Record<string, QueryType | QueryType[]>;
 }
@@ -149,7 +149,12 @@ export default class HTTPAtprotoClient {
 
 		const response = await fetch(resolvedUrl, {
 			method,
-			body: body ? JSON.stringify(body) : null,
+			body:
+				body ?
+					typeof body !== 'object' ?
+						body
+					:	JSON.stringify(body)
+				:	null,
 			mode,
 			headers: { 'Content-Type': 'application/json', ...headers },
 			...request,

@@ -3,11 +3,11 @@
 	import type { SingleProps } from './props.ts';
 	import FormSimpleField from '#lib/SimpleField/Root.svelte';
 	import { getFieldControlKey } from '#lib/CheckField/context.svelte.js';
-	import { getFieldControl, type IFieldControl } from '#lib/FieldControl/context.svelte.js';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 
 	const { value, header, children, reverse, ...props }: SingleProps = $props();
 
-	const control: IFieldControl<number> = getFieldControl();
+	const control = getFieldControl<bigint>();
 	const checkId = getFieldControlKey();
 
 	function onInput() {
@@ -16,9 +16,12 @@
 		control.value = control.value & ~value;
 	}
 
-	let valueOverlap = $derived(control.value & value);
+	let valueOverlap = $derived((control.value ?? 0n) & value);
 	let checked = $derived(Boolean(valueOverlap === value));
-	let indeterminate = $derived(Boolean(valueOverlap) && (control.value & value) !== value);
+	let indeterminate = $derived(Boolean(valueOverlap) && valueOverlap !== value);
+	$effect(() => {
+		console.log({ control, checkId, valueOverlap, checked, indeterminate });
+	});
 </script>
 
 <FormSimpleField

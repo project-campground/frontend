@@ -1,24 +1,19 @@
 import WSClient from '#lib/api/ws/WSClient.js';
 import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
 import type { CampsiteViewDetailed } from '#lib/types/campground/campsites.js';
-import type {
-	CampsitePermissionViewBasic,
-	PermissionsDictionary,
-	PermissionsStateDictionary,
-} from '#lib/types/campground/permissions.js';
+import type { CampsitePermissionViewBasic } from '#lib/types/campground/permissions.js';
 import type {
 	GetTentsOutput,
 	TentCategoryView,
 	TentViewBasic,
 } from '#lib/types/campground/tent.js';
-import { maxPermissions, RoleFlag } from '#lib/util/constants.js';
+import { PermissionMax, RoleFlag } from '#lib/util/constants.js';
 import {
 	aggregateAllPermissions,
-	invertContentPermission,
-	invertGeneralPermission,
+	applyNestedPermissions,
 	type AggregatedPermissions,
 } from '#lib/util/permissions.js';
-import { createContext, getContext, hasContext, setContext } from 'svelte';
+import { getContext, hasContext, setContext } from 'svelte';
 
 export class CampsiteReference {
 	public campsite: CampsiteViewDetailed;
@@ -65,12 +60,12 @@ export class CampsiteContext {
 }
 export class BonfireContext {
 	public static ownerPermissionsAggregated: AggregatedPermissions = {
-		role: maxPermissions,
-		bonfire: maxPermissions,
+		role: PermissionMax,
+		bonfire: PermissionMax,
 		categories: {},
 		tents: {},
 	};
-	public tentToPermissions: Record<string, PermissionsDictionary> = {};
+	public tentToPermissions: Record<string, bigint> = {};
 	private aggregatedPermissions: AggregatedPermissions = BonfireContext.ownerPermissionsAggregated;
 	public tentOutput: GetTentsOutput;
 
@@ -144,19 +139,19 @@ export class BonfireContext {
 	/**
 	 * The list of permissions for all categories within this bonfire for this user.
 	 */
-	public get categoryPermissions(): Record<string, PermissionsDictionary> {
+	public get categoryPermissions(): Record<string, bigint> {
 		return this.aggregatedPermissions.categories;
 	}
 	/**
 	 * The list of permissions for this user in this bonfire.
 	 */
-	public get bonfirePermissions(): PermissionsDictionary {
+	public get bonfirePermissions(): bigint {
 		return this.aggregatedPermissions.bonfire;
 	}
 	/**
 	 * The list of permission for this user in this bonfire.
 	 */
-	public get rolePermissions(): PermissionsDictionary {
+	public get rolePermissions(): bigint {
 		return this.aggregatedPermissions.role;
 	}
 	/**
@@ -165,9 +160,9 @@ export class BonfireContext {
 	 * @param categoryId The ID of the tent's parent category
 	 * @returns Tent's permissions
 	 */
-	public getTentPermission(tentId: string, categoryId?: string | null): PermissionsDictionary {
+	public getTentPermission(tentId: string, categoryId?: string | null): bigint {
 		// No need to calculate it; they have all perms
-		if (this.campsiteReference.userIsOwner) return maxPermissions;
+		if (this.campsiteReference.userIsOwner) return PermissionMax;
 		// Possibly already cached
 		else if (this.tentToPermissions[tentId]) return this.tentToPermissions[tentId];
 
@@ -185,21 +180,16 @@ export class BonfireContext {
 				this.categoryPermissions[categoryId]
 			:	this.bonfirePermissions;
 
-		const tentOverwrittenPerms: PermissionsStateDictionary | undefined =
-			this.aggregatedPermissions.tents[tentId];
+		const tentOverwrittenPerms: bigint | undefined = this.aggregatedPermissions.tents[tentId];
 
 		// Nothing to calculate anyways
 		if (!tentOverwrittenPerms) return categoryPerms;
 
 		// Category perms < Tent's denied perms < Tent's allowed perms
-		return ((this.tentToPermissions[tentId] as PermissionsDictionary) = {
-			general:
-				(categoryPerms.general & invertGeneralPermission(tentOverwrittenPerms.denied.general))
-				| tentOverwrittenPerms.allowed.general,
-			content:
-				(categoryPerms.content & invertContentPermission(tentOverwrittenPerms.denied.content))
-				| tentOverwrittenPerms.allowed.content,
-		});
+		return (this.tentToPermissions[tentId] = applyNestedPermissions(
+			categoryPerms,
+			tentOverwrittenPerms!,
+		));
 	}
 }
 

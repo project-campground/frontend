@@ -25,7 +25,7 @@ import {
 	IconUserFilled,
 } from '@tabler/icons-react';
 import Form from '~/components/form/Form';
-import { GeneralPermissionConsts, ContentPermissionConsts } from '~/util/permissions';
+import { PermissionFlag, PermissionFlag } from '~/util/permissions';
 import { CampsiteContext } from '~/routes/_global._campsite/context';
 import type { SettingsComponentProps } from './settings';
 import PermissionItem from './PermissionItem';
@@ -365,39 +365,31 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 									{isBonfire && (
 										<FieldControl>
 											<FormFieldTristate
-												id={GeneralPermissionConsts.MANAGE_BONFIRES}
+												id={PermissionFlag.MANAGE_BONFIRES}
 												label={<FormattedMessageGlobal id='app.permissions.manageBonfires' />}
 												description={<FormattedMessageGlobal id='app.permissions.manageBonfires.desc' />}
 												defaultValue={getTristateValue(
 													combinedValues,
 													'general',
-													GeneralPermissionConsts.MANAGE_BONFIRES,
+													PermissionFlag.MANAGE_BONFIRES,
 												)}
 											/>
 										</FieldControl>
 									)}
 									<FieldControl>
 										<FormFieldTristate
-											id={GeneralPermissionConsts.MANAGE_TENTS}
+											id={PermissionFlag.MANAGE_TENTS}
 											label={<FormattedMessageGlobal id='app.permissions.manageTents' />}
 											description={<FormattedMessageGlobal id='app.permissions.manageTents.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'general',
-												GeneralPermissionConsts.MANAGE_TENTS,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'general', PermissionFlag.MANAGE_TENTS)}
 										/>
 									</FieldControl>
 									<FieldControl>
 										<FormFieldTristate
-											id={GeneralPermissionConsts.MANAGE_ROLES}
+											id={PermissionFlag.MANAGE_ROLES}
 											label={<FormattedMessageGlobal id='app.permissions.managePermissions' />}
 											description={<FormattedMessageGlobal id='app.permissions.managePermissions.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'general',
-												GeneralPermissionConsts.MANAGE_ROLES,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'general', PermissionFlag.MANAGE_ROLES)}
 										/>
 									</FieldControl>
 								</FormSection>
@@ -408,14 +400,10 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 								>
 									<FieldControl>
 										<FormFieldTristate
-											id={GeneralPermissionConsts.CREATE_INVITES}
+											id={PermissionFlag.CREATE_INVITES}
 											label={<FormattedMessageGlobal id='app.permissions.createInvites' />}
 											description={<FormattedMessageGlobal id='app.permissions.createInvites.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'general',
-												GeneralPermissionConsts.CREATE_INVITES,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'general', PermissionFlag.CREATE_INVITES)}
 										/>
 									</FieldControl>
 								</FormSection>
@@ -442,73 +430,57 @@ function PermissionsPage({ permission, role, onChanged, isBonfire }: Permissions
 								>
 									<FieldControl>
 										<FormFieldTristate
-											id={ContentPermissionConsts.VIEW_CONTENT}
+											id={PermissionFlag.VIEW_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.viewContent' />}
 											description={<FormattedMessageGlobal id='app.permissions.viewContent.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'content',
-												ContentPermissionConsts.VIEW_CONTENT,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'content', PermissionFlag.VIEW_CONTENT)}
 										/>
 									</FieldControl>
 									<FieldControl>
 										<FormFieldTristate
-											id={ContentPermissionConsts.CREATE_CONTENT}
+											id={PermissionFlag.CREATE_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.createContent' />}
 											description={<FormattedMessageGlobal id='app.permissions.createContent.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'content',
-												ContentPermissionConsts.CREATE_CONTENT,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'content', PermissionFlag.CREATE_CONTENT)}
 										/>
 									</FieldControl>
 									<FieldControl>
 										<FormFieldTristate
-											id={ContentPermissionConsts.PIN_CONTENT}
+											id={PermissionFlag.PIN_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.pinContent' />}
 											description={<FormattedMessageGlobal id='app.permissions.pinContent.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'content',
-												ContentPermissionConsts.PIN_CONTENT,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'content', PermissionFlag.PIN_CONTENT)}
 										/>
 									</FieldControl>
 									<FieldControl>
 										<FormFieldTristate
-											id={ContentPermissionConsts.MANAGE_CONTENT}
+											id={PermissionFlag.MANAGE_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.manageContent' />}
 											description={<FormattedMessageGlobal id='app.permissions.manageContent.desc' />}
-											defaultValue={getTristateValue(
-												combinedValues,
-												'content',
-												ContentPermissionConsts.MANAGE_CONTENT,
-											)}
+											defaultValue={getTristateValue(combinedValues, 'content', PermissionFlag.MANAGE_CONTENT)}
 										/>
 									</FieldControl>
 									<FieldControl>
 										<FormFieldTristate
-											id={ContentPermissionConsts.MENTION_EVERYONE}
+											id={PermissionFlag.MENTION_EVERYONE}
 											label={<FormattedMessageGlobal id='app.permissions.mentionEveryone' />}
 											description={<FormattedMessageGlobal id='app.permissions.mentionEveryone.desc' />}
 											defaultValue={getTristateValue(
 												combinedValues,
 												'content',
-												ContentPermissionConsts.MENTION_EVERYONE,
+												PermissionFlag.MENTION_EVERYONE,
 											)}
 										/>
 									</FieldControl>
 									<FieldControl>
 										<FormFieldTristate
-											id={ContentPermissionConsts.CREATE_PRIVATE_CONTENT}
+											id={PermissionFlag.CREATE_PRIVATE_CONTENT}
 											label={<FormattedMessageGlobal id='app.permissions.createPrivateContent' />}
 											description={<FormattedMessageGlobal id='app.permissions.createPrivateContent.desc' />}
 											defaultValue={getTristateValue(
 												combinedValues,
 												'content',
-												ContentPermissionConsts.CREATE_PRIVATE_CONTENT,
+												PermissionFlag.CREATE_PRIVATE_CONTENT,
 											)}
 										/>
 									</FieldControl>

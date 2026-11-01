@@ -68,7 +68,7 @@
 		type GradientMotion,
 		TextBlock,
 	} from '@campground/ui';
-	import { getRoleSettings } from './context.svelte.ts';
+	import { getItemListSettings } from '../../CommonSettings/context.svelte.ts';
 	import {
 		ArrayField,
 		ColorField,
@@ -86,13 +86,14 @@
 	import { getCampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconAccessPoint, IconRipple, IconWaveSine, IconXFilled } from '@tabler/icons-svelte';
+	import type { RoleView } from '#lib/types/campground/roles.js';
 
 	const campsiteContext = getCampsiteContext();
-	const roleContext = getRoleSettings();
+	const roleContext = getItemListSettings<RoleView>();
 
 	const mockAuthor: MessageViewWithReplies['createdBy'] = $derived({
 		isMember: true,
-		roles: [campsiteContext.defaultRole!.id, roleContext.selectedRole!.id],
+		roles: [campsiteContext.defaultRole!.id, roleContext.selected!.id],
 		user: {
 			did: 'did:null:null',
 			handle: 'handle.invalid',
@@ -100,8 +101,8 @@
 		} satisfies MessageViewWithReplies['createdBy']['user'],
 		nickname: null,
 	});
-	let motion: GradientMotion = $derived(roleContext.selectedRole?.motion ?? 'none');
-	let colors: number[] = $derived(roleContext.selectedRole?.colors ?? []);
+	let motion: GradientMotion = $derived(roleContext.selected?.motion ?? 'none');
+	let colors: number[] = $derived(roleContext.selected?.colors ?? []);
 </script>
 
 {#snippet mockMessage()}
@@ -145,7 +146,7 @@
 	<Section>
 		<FieldControl
 			key="name"
-			defaultValue={roleContext.selectedRole?.name}
+			defaultValue={roleContext.selected?.name}
 		>
 			<FieldLabel>
 				<LocaleMessage {...localeStrings.content.name} />
@@ -157,7 +158,7 @@
 	<Section>
 		<FieldControl
 			key="pingable"
-			defaultValue={roleContext.selectedRole?.pingable}
+			defaultValue={roleContext.selected?.pingable}
 		>
 			<SwitchField>
 				{#snippet header()}
@@ -169,7 +170,7 @@
 		</FieldControl>
 		<FieldControl
 			key="raised"
-			defaultValue={roleContext.selectedRole?.raised}
+			defaultValue={roleContext.selected?.raised}
 		>
 			<SwitchField>
 				{#snippet header()}
@@ -183,7 +184,7 @@
 	<Section>
 		<FieldControl
 			key="motion"
-			defaultValue={roleContext.selectedRole?.motion}
+			defaultValue={roleContext.selected?.motion}
 			bind:value={motion}
 		>
 			<FieldLabel>
@@ -224,7 +225,7 @@
 		</FieldControl>
 		<ArrayField.Root
 			key="colors"
-			defaultValue={roleContext.selectedRole?.colors}
+			defaultValue={roleContext.selected?.colors}
 			defaultItemValue={0xff0000}
 			max={5}
 			bind:value={colors}

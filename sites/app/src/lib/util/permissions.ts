@@ -1,12 +1,7 @@
 import type { CampsitePermissionView } from '../types/campground/permissions.js';
 import type { MemberViewBasic } from '../types/campground/membership.js';
 import type { RoleView } from '../types/campground/roles.js';
-import type {
-	PermissionsDictionary,
-	PermissionsStateDictionary,
-} from '../types/campground/permissions.js';
 import { mapLookup, toLookup } from './array.js';
-import { ContentPermission, GeneralPermission } from './constants.ts';
 
 export const lowestPriority = 0x7fffffff as const;
 export const highestPriority = -0x80000000 as const;
@@ -26,41 +21,43 @@ export const getPriorityOfMember = (member: MemberViewBasic, roles: RoleView[]) 
 export const getHighestRole = (member: MemberViewBasic, roles: RoleView[]) =>
 	roles.find((x) => member.roles.includes(x.id));
 
-// To make it easier to edit later if it goes beyond ("allowed" and "denied") or ("campsite" and "tent")
-const permissionStateKeys: (keyof PermissionsStateDictionary)[] = ['allowed', 'denied'];
-const permissionDictionaryKeys: (keyof PermissionsDictionary)[] = ['general', 'content'];
+export const getPermissionState = (value: bigint): [allowed: bigint, denied: bigint] => {
+	let allowed = 0n;
+	let denied = 0n;
 
-export const applyNestedPermissions = (
-	ancestor: PermissionsDictionary,
-	current: PermissionsStateDictionary,
-): PermissionsDictionary => ({
-	general:
-		(ancestor.general & invertGeneralPermission(current.denied.general)) | current.allowed.general,
-	content:
-		(ancestor.content & invertContentPermission(current.denied.content)) | current.allowed.content,
-});
-export const aggregateAnyPermissions = (values: PermissionsDictionary[]) =>
-	values.reduce(
-		(val, perm) => {
-			for (const key of permissionDictionaryKeys) val[key] |= perm[key] as number;
-			return val;
-		},
-		{ content: 0, general: 0 },
-	);
+	let digitCount = value.toString().length;
+
+	for (let i = 0n; i < Math.floor(digitCount / 2); i++) {
+		// Value at position
+		const flag = (value >> (i * 2n)) & 0b11n;
+
+		if (flag === 0b10n) denied += 1n << i;
+		else if (flag === 0b11n) allowed += 1n << i;
+	}
+
+	return [allowed, denied];
+};
+
+export const applyNestedPermissions = (ancestor: bigint, current: bigint): bigint => {
+	const [allowed, denied] = getPermissionState(current);
+
+	return (ancestor & ~denied) | allowed;
+};
+
+export const aggregatePermissions = (values: bigint[]) =>
+	values.reduce((previous, current) => previous | current, 0n);
+
 export const aggregateRolePermissions = (roles: RoleView[]) =>
-	aggregateAnyPermissions(roles.map((x) => x.permissions));
+	aggregatePermissions(roles.map((x) => x.permissions));
+
 export const aggregateCampsitePermissions = (permissions: CampsitePermissionView[]) =>
-	Object.fromEntries(
-		permissionStateKeys.map((state) => [
-			state,
-			aggregateAnyPermissions(permissions.map((perm) => perm.permissions[state])),
-		]),
-	) as unknown as PermissionsStateDictionary;
+	aggregatePermissions(permissions.map((x) => x.permissions));
+
 export type AggregatedPermissions = {
-	role: PermissionsDictionary;
-	bonfire: PermissionsDictionary;
-	categories: Record<string, PermissionsDictionary>;
-	tents: Record<string, PermissionsStateDictionary>;
+	role: bigint;
+	bonfire: bigint;
+	categories: Record<string, bigint>;
+	tents: Record<string, bigint>;
 };
 export const aggregateAllPermissions = (
 	member: MemberViewBasic,
@@ -94,6 +91,3 @@ export const aggregateAllPermissions = (
 
 	return { role: rolePerms, bonfire: bonfirePerms, categories: categoryPerms, tents: tentPerms };
 };
-export const invertContentPermission = (permission: number) => ContentPermission.Max - permission;
-export const invertGeneralPermission = (permission: number) => GeneralPermission.Max - permission;
-export const nullPermissions: PermissionsDictionary = { general: 0, content: 0 };

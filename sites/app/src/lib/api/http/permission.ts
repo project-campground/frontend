@@ -1,28 +1,61 @@
-import type { GetPermissionsOutput } from '#lib/types/campground/permissions.js';
+import type {
+	CampsitePermissionViewBasic,
+	CampsitePermissionViewDetailed,
+	GetPermissionsOutput,
+} from '#lib/types/campground/permissions.js';
 import type { CampsitePermissionView } from '#lib/types/campground/permissions.js';
 import HTTPBackendObjectManager from './base-backend.js';
+import HTTPRoleManager from './role.ts';
+
+type OutputView<T extends CampsitePermissionView> = Omit<T, 'permissions'> & {
+	permissions: string;
+};
+
+export interface PermissionLocationQueries {
+	bonfireId?: string;
+	categoryId?: string;
+	tentId?: string;
+}
+export interface PermissionTargetQueries {
+	actor?: string;
+	roleId?: string;
+}
+export interface PermissionQueries extends PermissionLocationQueries, PermissionTargetQueries {}
 
 export default class HTTPPermissionManager extends HTTPBackendObjectManager {
-	get(
-		queries: ({ tent_id: string } | { category_id: string } | { bonfire_id: string }) & {
-			non_self?: boolean;
-		},
-	) {
-		return this.client.get<GetPermissionsOutput>({
-			route: 'gg.campground.permission.getPermissions',
-			queries,
-		});
+	public static createResponseView<T extends CampsitePermissionView>({
+		permissions,
+		...view
+	}: OutputView<T>): T {
+		return { permissions: BigInt(permissions), ...view } as unknown as T;
+	}
+	private static createQueries(queries: PermissionQueries) {
+		return {
+			bonfire_id: (queries.categoryId ?? queries.tentId) ? undefined : queries.bonfireId,
+			category_id: queries.categoryId,
+			tent_id: queries.tentId,
+			actor: queries.actor,
+			role_id: queries.roleId,
+		};
 	}
 
-	update(
-		queries: ({ tent_id: string } | { category_id: string } | { bonfire_id: string })
-			& ({ role_id: string } | { actor: string }),
-		body: Pick<CampsitePermissionView, 'permissions'>,
-	) {
-		return this.client.post<CampsitePermissionView>({
-			route: 'gg.campground.permission.updatePermission',
-			queries,
-			body,
-		});
+	async get(
+		queries: PermissionLocationQueries & { non_self?: boolean },
+	): Promise<GetPermissionsOutput> {
+		return this.client
+			.get<{
+				permissions: OutputView<CampsitePermissionViewDetailed>[];
+			}>({ route: 'gg.campground.permission.getPermissions', queries: HTTPPermissionManager.createQueries(queries) })
+			.then((resp) => ({
+				permissions: resp.permissions.map(HTTPPermissionManager.createResponseView),
+			}));
+	}
+
+	async update(queries: PermissionQueries, body: Pick<CampsitePermissionView, 'permissions'>) {
+		return this.client
+			.post<
+				OutputView<CampsitePermissionViewBasic>
+			>({ route: 'gg.campground.permission.updatePermission', queries: HTTPPermissionManager.createQueries(queries), body: HTTPRoleManager.createRequestBody(body) })
+			.then(HTTPPermissionManager.createResponseView);
 	}
 }

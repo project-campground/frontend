@@ -11,7 +11,7 @@
 	} from '@tabler/icons-svelte';
 	import Role from './Role.svelte';
 	import { getAppview } from '#lib/context/api.js';
-	import { RoleSettingsContext, setRoleSettings } from './context.svelte.ts';
+	import { ItemListSettingsContext, setItemListSettings } from '../../CommonSettings/context.svelte.ts';
 	import { RoleFlag } from '#lib/util/constants.js';
 	import { Form } from '@campground/form';
 	import ProfilePage from './ProfilePage.svelte';
@@ -24,12 +24,10 @@
 	const appview = getAppview();
 	const settings = getSettings();
 
-	const context = new RoleSettingsContext(
-		campsiteContext.campsite!.roles.find((x) => (x.flags & RoleFlag.Default) === RoleFlag.Default)!
-			.id,
-		campsiteContext,
+	const context = new ItemListSettingsContext<RoleView>(
+		campsiteContext.campsite!.roles.find((x) => (x.flags & RoleFlag.Default) === RoleFlag.Default)!,
 	);
-	setRoleSettings(context);
+	setItemListSettings(context);
 
 	let form: Form | null = $state(null);
 	let roles = $derived(campsiteContext.roles!);
@@ -43,7 +41,7 @@
 	async function createRole() {
 		return appview.roles.create(campsiteContext.campsite!.id, {
 			name: 'New role',
-			permissions: { general: 0, content: 0 },
+			permissions: 0n,
 			pingable: false,
 			raised: false,
 			colors: [],
@@ -109,7 +107,7 @@
 			hideOverflow
 			onSubmit={(values) =>
 				updateRole(
-					context.selectedRole!.id,
+					context.selected!.id,
 					values as Pick<RoleView, 'pingable' | 'colors' | 'motion' | 'name' | 'raised' | 'permissions'>,
 				)}
 		>

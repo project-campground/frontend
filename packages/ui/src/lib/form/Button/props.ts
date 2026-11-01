@@ -4,7 +4,7 @@ import type { HTMLButtonAttributes } from 'svelte/elements';
 import type { StackedProps } from '#lib/hierarchy/layout.js';
 import type { BaseTextProps } from '#lib/info/props.js';
 
-export type ButtonVariant = 'glow' | 'soft' | 'plain' | 'selected';
+export type ButtonVariant = 'glow' | 'menu' | 'soft' | 'plain' | 'selected';
 
 export default interface ButtonProps
 	extends StackedProps, HTMLButtonAttributes, Pick<BaseTextProps, 'textAlign'> {

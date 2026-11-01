@@ -7,7 +7,7 @@
 <Button
 	class={['menu', className]}
 	justify={justify ?? 'start'}
-	variant={variant ?? 'soft'}
+	variant={variant ?? 'menu'}
 	color={color ?? 'neutral'}
 	fullWidth
 	role="menuitem"

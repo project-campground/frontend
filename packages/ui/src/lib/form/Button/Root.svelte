@@ -121,6 +121,39 @@
 						background-color: #000;
 					}
 				}
+				&[data-variant='menu'] {
+					border: none;
+					background: var(--#{$col}-softBack);
+					color: var(--#{$col}-softFore);
+					&:not(:disabled):hover {
+						color: var(--#{$col}-softForeHover);
+						background: var(--#{$col}-softBackHover);
+					}
+					&:not(:disabled):active {
+						color: var(--#{$col}-softForeActive);
+						background: var(--#{$col}-softBackActive);
+					}
+					&:disabled {
+						background: var(--#{$col}-softBackDisabled);
+						color: var(--#{$col}-softForeDisabled);
+					}
+					@include desktop-sm-up {
+						background: var(--#{$col}-plainBack);
+						color: var(--#{$col}-plainFore);
+						&:not(:disabled):hover {
+							color: var(--#{$col}-plainForeHover);
+							background: var(--#{$col}-plainBackHover);
+						}
+						&:not(:disabled):active {
+							color: var(--#{$col}-plainForeActive);
+							background: var(--#{$col}-plainBackActive);
+						}
+						&:disabled {
+							background: var(--#{$col}-plainBackDisabled);
+							color: var(--#{$col}-plainForeDisabled);
+						}
+					}
+				}
 				@each $variant in $regular-variants {
 					&[data-variant='#{$variant}'] {
 						border: none;

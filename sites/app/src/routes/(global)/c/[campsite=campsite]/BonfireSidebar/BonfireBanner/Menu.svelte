@@ -81,19 +81,15 @@
 		out:fade={{ duration: 200 }}
 	>
 		<Menu.List>
-			<Menu.Item>
+			<Menu.Group>
 				<Menu.Button>
 					<IconCampfireFilled />
 					<LocaleMessage {...localeStrings.bonfires.settings} />
 				</Menu.Button>
-			</Menu.Item>
-			<Menu.Item>
 				<Menu.Button onclick={(ev) => menuPortal.add(campsiteSettingsModal, ev.currentTarget)}>
 					<IconSettingsFilled />
 					<LocaleMessage {...localeStrings.campsites.settings} />
 				</Menu.Button>
-			</Menu.Item>
-			<Menu.Item>
 				<Menu.Button
 					color="danger"
 					disabled={campsiteRef.userIsOwner}
@@ -102,21 +98,18 @@
 					<IconLogout2 />
 					<LocaleMessage {...messages.leave} />
 				</Menu.Button>
-			</Menu.Item>
-			<Menu.Item
-				size="lg"
-				padding="no-inline"
-			>
-				<Divider />
-			</Menu.Item>
-			{#each campsiteRef.campsite.bonfires as bonfire (bonfire.id)}
-				<BonfireItem
-					{bonfire}
-					onClick={() => onBonfireOpen(bonfire.id)}
-				/>
-			{/each}
-			{#if ((activeBonfire.rolePermissions ?? 0n) & PermissionFlag.ManageBonfires) === PermissionFlag.ManageBonfires}
-				<Menu.Item>
+			</Menu.Group>
+			<Divider />
+			<Menu.Group>
+				{#each campsiteRef.campsite.bonfires as bonfire (bonfire.id)}
+					<BonfireItem
+						{bonfire}
+						onClick={() => onBonfireOpen(bonfire.id)}
+					/>
+				{/each}
+			</Menu.Group>
+			<Menu.Group>
+				{#if ((activeBonfire.rolePermissions ?? 0n) & PermissionFlag.ManageBonfires) === PermissionFlag.ManageBonfires}
 					<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
 						<Group>
 							<Avatar size="sm">
@@ -125,8 +118,8 @@
 							<LocaleMessage {...localeStrings.bonfires.create} />
 						</Group>
 					</Menu.Button>
-				</Menu.Item>
-			{/if}
+				{/if}
+			</Menu.Group>
 		</Menu.List>
 	</div>
 {/if}

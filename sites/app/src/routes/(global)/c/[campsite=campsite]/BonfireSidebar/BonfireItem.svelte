@@ -53,28 +53,26 @@
 	</Menu.Root>
 {/snippet}
 
-<Menu.Item>
-	<Menu.Button
-		onclick={onClick}
-		{@attach rightClickMenu(menuPortal, contextMenu)}
-	>
-		<Group>
-			<ProfileAvatar
-				size="sm"
-				src={bonfire.avatarUri ?? undefined}
-				id={bonfire.id.slice(-1)}
-			>
-				{bonfire.name[0].toUpperCase()}
-			</ProfileAvatar>
-			<Stack
-				align="start"
-				gap={0}
-			>
-				<Para level="h4">{bonfire.name}</Para>
-				{#if bonfire.description}
-					<Para level="sub0">{bonfire.description}</Para>
-				{/if}
-			</Stack>
-		</Group>
-	</Menu.Button>
-</Menu.Item>
+<Menu.Button
+	onclick={onClick}
+	{@attach rightClickMenu(menuPortal, contextMenu)}
+>
+	<Group>
+		<ProfileAvatar
+			size="sm"
+			src={bonfire.avatarUri ?? undefined}
+			id={bonfire.id.slice(-1)}
+		>
+			{bonfire.name[0].toUpperCase()}
+		</ProfileAvatar>
+		<Stack
+			align="start"
+			gap={0}
+		>
+			<Para level="h4">{bonfire.name}</Para>
+			{#if bonfire.description}
+				<Para level="sub0">{bonfire.description}</Para>
+			{/if}
+		</Stack>
+	</Group>
+</Menu.Button>

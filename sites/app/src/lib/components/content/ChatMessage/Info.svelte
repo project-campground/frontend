@@ -15,16 +15,11 @@
 </script>
 
 {#if updatedAt}
-	{#snippet editTooltip(instance: MenuPortalInstance)}
-		<Tooltip {instance}>
-			{new Date(updatedAt).toLocaleString(locale.id)}
-		</Tooltip>
-	{/snippet}
 	<span class="hasTooltip">
 		<TextBlock
 			level="subtext"
 			fontSize={0.9}
-			{@attach tooltip(menuPortal, editTooltip)}
+			{@attach tooltip(menuPortal, new Date(updatedAt).toLocaleString(locale.id))}
 		>
 			<IconPencilFilled />
 			<LocaleMessage {...localeStrings.messages.edited} />
@@ -32,14 +27,9 @@
 	</span>
 {/if}
 {#if state === MessageState.Failed}
-	{#snippet stateTooltip(instance: MenuPortalInstance)}
-		<Tooltip {instance}>
-			{error}
-		</Tooltip>
-	{/snippet}
 	<span
 		class="info"
-		{@attach tooltip(menuPortal, stateTooltip)}
+		{@attach tooltip(menuPortal, (error ?? '').toString())}
 	>
 		<IconExclamationCircleFilled size="1rem" />
 	</span>

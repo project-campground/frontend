@@ -23,6 +23,7 @@
 		rightClickMenu,
 		rightClickMenuProps,
 		tooltip,
+		tooltipFromSnippet,
 	} from '#lib/floating/attachments.js';
 	import type { Snippet } from 'svelte';
 	import type { Placement } from '@floating-ui/dom';
@@ -210,7 +211,8 @@
 			<Button {@attach hoverAction((ev) => console.log('Hovered', ev.currentTarget))}
 				>Hover and see console</Button
 			>
-			<Button {@attach tooltip(menuPortal, regularTooltip)}>Hover to open tooltip</Button>
+			<Button {@attach tooltip(menuPortal, 'Example')}>Hover to open string tooltip</Button>
+			<Button {@attach tooltipFromSnippet(menuPortal, regularTooltip)}>Hover to open tooltip</Button>
 		</Group>
 	</Stack>
 </Section>

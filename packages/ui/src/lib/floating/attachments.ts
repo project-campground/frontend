@@ -1,6 +1,12 @@
 import { rightClickAction } from '../attachments/mouse.js';
-import type { Menu, MenuPortal, MenuPortalInstance } from '#lib/floating/index.js';
-import type { Snippet } from 'svelte';
+import {
+	Tooltip,
+	type Menu,
+	type MenuPortal,
+	type MenuPortalInstance,
+	type TooltipProps,
+} from '#lib/floating/index.js';
+import { createRawSnippet, type ComponentInternals, type Snippet } from 'svelte';
 import type { Attachment } from 'svelte/attachments';
 import { v4 as uuid } from 'uuid';
 
@@ -56,6 +62,24 @@ export function hoverAction<TElement extends HTMLElement>(
 }
 
 export function tooltip<TElement extends HTMLElement>(
+	menuPortal: MenuPortal,
+	value: string,
+): Attachment<TElement> {
+	return tooltipFromSnippet(menuPortal, ((
+		$$anchor: ComponentInternals,
+		instance: () => MenuPortalInstance,
+	) => {
+		Tooltip($$anchor, {
+			get instance() {
+				return instance();
+			},
+			children: createRawSnippet(() => ({ render: () => new Option(value).innerHTML })),
+			$$slots: { default: true },
+		} as unknown as TooltipProps);
+	}) as unknown as Snippet<[MenuPortalInstance]>);
+}
+
+export function tooltipFromSnippet<TElement extends HTMLElement>(
 	menuPortal: MenuPortal,
 	tooltip: Snippet<[MenuPortalInstance]>,
 ): Attachment<TElement> {

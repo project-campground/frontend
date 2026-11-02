@@ -115,7 +115,8 @@
 
 		top: var(--Tooltip-y);
 		left: var(--Tooltip-x);
-		filter: drop-shadow(var(--shadow-md));
+		filter: drop-shadow(0 0 1px var(--border-tooltip)) drop-shadow(0 0 1px var(--border-tooltip))
+			drop-shadow(var(--shadow-md));
 
 		&[data-placement='bottom'] {
 			padding-top: 0.25rem;
@@ -146,47 +147,36 @@
 		width: var(--Tooltip-width);
 
 		background-color: var(--background-tooltip);
-		border: solid 2px var(--border-tooltip);
 
 		border-radius: var(--radius-md);
-		padding: 0.5rem 1rem;
+		padding: 0.75rem 1rem;
 		box-sizing: border-box;
 	}
 	.content {
-		z-index: 3;
+		z-index: 7;
 		font-size: 0.9rem;
 	}
 	.arrow {
+		z-index: 4;
 		margin-top: var(--Tooltip-arrowY);
 		margin-left: var(--Tooltip-arrowX);
-
 		background-color: var(--background-tooltip);
-		border-color: var(--border-tooltip);
-		border-width: 2px;
 
 		width: 1rem;
 		height: 1rem;
 		transform: rotate(45deg);
 
 		.container[data-placement='bottom'] & {
-			margin-bottom: calc(-0.5rem - 1px);
-			border-top-style: solid;
-			border-left-style: solid;
+			margin-bottom: calc(-0.5rem - 0.125rem);
 		}
 		.container[data-placement='top'] & {
-			margin-top: calc(-0.5rem - 1px);
-			border-bottom-style: solid;
-			border-right-style: solid;
+			margin-top: calc(-0.5rem - 0.125rem);
 		}
 		.container[data-placement='left'] & {
-			margin-left: calc(-0.5rem - 1px);
-			border-right-style: solid;
-			border-top-style: solid;
+			margin-left: calc(-0.5rem - 0.125rem);
 		}
 		.container[data-placement='right'] & {
-			margin-right: calc(-0.5rem - 1px);
-			border-left-style: solid;
-			border-bottom-style: solid;
+			margin-right: calc(-0.5rem - 0.125rem);
 		}
 	}
 </style>

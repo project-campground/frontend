@@ -67,6 +67,7 @@
 		Group,
 		type GradientMotion,
 		TextBlock,
+		tooltip,
 	} from '@campground/ui';
 	import { getItemListSettings } from '../../CommonSettings/context.svelte.ts';
 	import {

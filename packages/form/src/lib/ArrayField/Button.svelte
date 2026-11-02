@@ -1,13 +1,37 @@
+<script
+	lang="ts"
+	module
+>
+	const tooltipMessages = defineMessages({
+		info: { id: `form.array.button.info`, defaultMessage: `Adds another {entry}` },
+		max: {
+			id: `form.array.button.maxError`,
+			defaultMessage: `The field has reached the max capacity of {entries}`,
+		},
+	});
+</script>
+
 <script lang="ts">
-	import { Button, type ButtonProps } from '@campground/ui';
+	import { Button, getMenuPortal, tooltip, type ButtonProps } from '@campground/ui';
 	import { IconPlus } from '@tabler/icons-svelte';
 	import { getArrayField } from './context.svelte.js';
 	import type { Snippet } from 'svelte';
+	import { defineMessages } from '@formatjs/svelte-intl';
+	import { getLocale } from '@campground/locale';
 
-	let { children, ...attributes }: Omit<ButtonProps, 'children'> & { children?: Snippet } = $props();
+	let {
+		children,
+		entry,
+		entries,
+		...attributes
+	}: Omit<ButtonProps, 'children'> & { entry: string; entries: string; children?: Snippet } =
+		$props();
 
+	const menuPortal = getMenuPortal();
 	const arrayField = getArrayField();
 	const max = $derived(arrayField.max);
+	const isOverMax = $derived(Boolean($max && arrayField.controls.length >= $max));
+	const locale = getLocale();
 </script>
 
 <Button
@@ -16,8 +40,14 @@
 	padding="equal"
 	size="xs"
 	onclick={() => arrayField.addItem()}
+	{@attach tooltip(
+		menuPortal,
+		isOverMax ?
+			locale.formatMessage(tooltipMessages.max, { entries })
+		:	locale.formatMessage(tooltipMessages.info, { entry }),
+	)}
+	disabled={isOverMax}
 	{...attributes}
-	disabled={Boolean($max && arrayField.controls.length >= $max)}
 >
 	{#if children}
 		{@render children()}

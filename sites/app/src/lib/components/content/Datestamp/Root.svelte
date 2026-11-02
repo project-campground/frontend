@@ -106,17 +106,7 @@
 	const dateShown = $derived(dateUsed.toLocaleString(locale.id));
 </script>
 
-{#snippet dateTooltip(instance: MenuPortalInstance)}
-	<Tooltip {instance}>
-		{#if type === 'date-first'}
-			{timeShown}
-		{:else}
-			{dateShown}
-		{/if}
-	</Tooltip>
-{/snippet}
-
-<span {@attach tooltip(menuPortal, dateTooltip)}>
+<span {@attach tooltip(menuPortal, type === 'date-first' ? timeShown : dateShown)}>
 	{#if type === 'date-first'}
 		{dateShown}
 	{:else}

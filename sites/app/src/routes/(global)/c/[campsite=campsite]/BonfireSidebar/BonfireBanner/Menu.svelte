@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import { LocaleMessage } from '@campground/locale';
+	import { getLocale, LocaleMessage } from '@campground/locale';
 	import {
 		Avatar,
 		Divider,
@@ -58,13 +58,10 @@
 		open: boolean;
 		onBonfireOpen: (bonfireId: string) => unknown;
 	} = $props();
+
+	const locale = getLocale();
 </script>
 
-{#snippet ownerErrorTooltip(instance: MenuPortalInstance)}
-	<Tooltip {instance}>
-		<LocaleMessage {...messages.leaveOwnerError} />
-	</Tooltip>
-{/snippet}
 {#snippet bonfireCreationModal(instance: MenuPortalInstance)}
 	<Modal {instance}>
 		<BonfireCreation />
@@ -93,7 +90,7 @@
 				<Menu.Button
 					color="danger"
 					disabled={campsiteRef.userIsOwner}
-					{@attach tooltip(menuPortal, ownerErrorTooltip)}
+					{@attach tooltip(menuPortal, locale.formatMessage(messages.leaveOwnerError))}
 				>
 					<IconLogout2 />
 					<LocaleMessage {...messages.leave} />

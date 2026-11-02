@@ -104,6 +104,7 @@
 	transition:fade={{ duration: 200 }}
 	// Since this basically is displayed over the whole screen
 	onclick={(ev) => (ev.stopPropagation(), instance.destroy())}
+	oncontextmenu={(ev) => (ev.stopPropagation(), ev.preventDefault(), instance.destroy())}
 	// < 0, because of column-reverse
 	onscrollend={(ev) => (ev.currentTarget.scrollTop < 0 ? instance.destroy() : null)}
 >

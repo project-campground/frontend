@@ -17,5 +17,6 @@
 		flex-direction: column;
 		gap: 1rem;
 		padding: 1rem;
+		flex: 1;
 	}
 </style>

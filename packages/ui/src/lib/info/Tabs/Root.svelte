@@ -37,7 +37,7 @@
 		class="list"
 		onscrollend={(ev) =>
 			tabContext.setActiveIndex(
-				Math.trunc(ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth),
+				Math.round(ev.currentTarget.scrollLeft / ev.currentTarget.clientWidth),
 			)}
 	>
 		{@render children()}

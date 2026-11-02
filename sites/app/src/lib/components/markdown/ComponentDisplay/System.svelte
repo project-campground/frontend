@@ -13,7 +13,7 @@
 		}),
 		tentNameUpdated: defineMessage({
 			id: 'app.content.system.tentNameUpdated',
-			defaultMessage: '{executor} has renamed the tent from {oldValue} to {newValue}.',
+			defaultMessage: '{executor} has renamed the tent from {previousName} to {newName}.',
 			description: 'The message that automatically appears when someone renames a tent.',
 		}),
 	};
@@ -60,7 +60,7 @@
 	<TextBlock>
 		<LocaleMessage
 			{...messageTranslation[systemMessageType]}
-			values={{ executor }}
+			values={{ executor, ...component }}
 		/>
 	</TextBlock>
 </span>

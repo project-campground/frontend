@@ -37,6 +37,9 @@
 		fieldControl.value = fieldControl.defaultValue = defaultValue ?? null;
 	});
 	$effect.pre(() => {
+		fieldControl.defaultValue = defaultValue ?? null;
+	});
+	$effect.pre(() => {
 		fieldControl.key = key;
 	});
 

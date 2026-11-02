@@ -14,6 +14,11 @@
 			name="text-scale"
 			content="scale"
 		/>
+		<script>
+			BigInt.prototype.toJSON = function () {
+				return JSON.rawJSON(this.toString());
+			};
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

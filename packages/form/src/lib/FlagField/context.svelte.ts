@@ -1,6 +1,8 @@
 import { Pick } from '@campground/ui';
 
 export class FlagsPickContext extends Pick.PickContext {
+	public activeItemIndex: number = $state(1);
+
 	constructor(private _setIndex: (value: number) => unknown) {
 		super();
 	}

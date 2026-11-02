@@ -6,7 +6,10 @@
 	const { size, ...props }: Omit<Pick.ListProps, 'children'> = $props();
 </script>
 
-<div style:--Pick-activeIndex={pickContext.activeItemIndex}>
+<div
+	style:--Pick-activeIndex={pickContext.activeItemIndex}
+	style:--Pick-count={pickContext.itemCount}
+>
 	<Pick.List
 		size={size ?? 'sm'}
 		{...props}

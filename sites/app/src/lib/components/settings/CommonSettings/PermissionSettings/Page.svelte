@@ -61,6 +61,8 @@
 	});
 
 	async function updatePermission(data: Pick<CampsitePermissionView, 'permissions'>) {
+		Object.assign(context.selected, data);
+
 		return appview.permissions.update(
 			{
 				...locationQueries,

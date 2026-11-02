@@ -19,9 +19,6 @@
 	let valueOverlap = $derived((control.value ?? 0n) & value);
 	let checked = $derived(Boolean(valueOverlap === value));
 	let indeterminate = $derived(Boolean(valueOverlap) && valueOverlap !== value);
-	$effect(() => {
-		console.log({ control, checkId, valueOverlap, checked, indeterminate });
-	});
 </script>
 
 <FormSimpleField

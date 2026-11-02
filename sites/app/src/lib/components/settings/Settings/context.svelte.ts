@@ -17,7 +17,7 @@ export class SettingsContext<TPage extends string, TValue> {
 		this.form = instance;
 	}
 
-	public reset = () => this.form?.controls.map((x) => x.reset());
+	public reset = () => this.form?.fields.map((x) => x.reset());
 	public save = (ev?: MouseEvent) => ((this.hasChanged = false), this.form?.submit(ev));
 
 	public openPage(page: TPage) {

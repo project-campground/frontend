@@ -68,7 +68,6 @@
 		background-color: transparent;
 
 		gap: 0.5rem;
-		padding: 0 1rem;
 		margin: 0;
 
 		font-size: 0.8rem;
@@ -87,5 +86,11 @@
 		}
 
 		z-index: 5;
+		padding: 0 1rem;
+		@each $size, $value in $pick-sizes {
+			:global(.list[data-size='#{$size}']) > & {
+				padding: 0 $value;
+			}
+		}
 	}
 </style>

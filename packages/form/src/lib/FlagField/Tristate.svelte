@@ -28,8 +28,12 @@
 
 	const pickContext = new FlagsPickContext(onSetIndex);
 
+	const positionBitwise = $derived(position * 2n);
+
 	$effect(() => {
-		const posValue = (control.value >> (position * 2n)) & 0b11n;
+		if (typeof control.value === 'undefined') return;
+
+		const posValue = (control.value >> positionBitwise) & 0b11n;
 		pickContext.activeItemIndex = valueToIndex[posValue.toString()] ?? 1;
 	});
 

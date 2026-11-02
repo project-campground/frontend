@@ -5,7 +5,7 @@
 	const { children, size }: ListProps = $props();
 
 	const pickContext = getPickContext();
-	const activeItem = $derived(pickContext.activeItem?.parentElement as HTMLButtonElement | null);
+	const activeItem = $derived(pickContext.activeItem?.parentElement);
 	const highlightX = $derived(activeItem?.offsetLeft ?? 0);
 	const highlightWidth = $derived(activeItem?.scrollWidth ?? 0);
 </script>
@@ -24,7 +24,10 @@
 		bind:this={pickContext.itemsForm}
 	>
 		<div class="highlight"></div>
-		<div class="list">
+		<div
+			class="list"
+			data-size={size ?? 'md'}
+		>
 			{@render children()}
 		</div>
 	</form>

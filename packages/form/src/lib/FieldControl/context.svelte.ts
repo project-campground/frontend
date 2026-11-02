@@ -83,7 +83,7 @@ export class FieldControlInstance<T> implements IFormControl<T> {
 		const defaultValue = getDefaultValue();
 		this.value = $state(defaultValue);
 		this.key = $state(getId());
-		this.defaultValue = defaultValue;
+		this.defaultValue = $state(defaultValue);
 		this.changed = $derived(
 			typeof this.defaultValue === 'object' ?
 				JSON.stringify(this.value) !== JSON.stringify(this.defaultValue)

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
-	import { SimpleField } from '#lib/SimpleField/index.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
+	import { SimpleField } from '#lib/SimpleField/index.js';
 	import { Pick } from '@campground/ui';
 	import Select from './TristateSelect.svelte';
 	import type { RootProps } from './props.ts';
@@ -12,7 +12,7 @@
 		if (!pickContext.itemsForm) return;
 
 		pickContext.items.item(1).checked = true;
-		pickContext.activeItemIndex = 1;
+		pickContext.setActiveIndex(1);
 	});
 	$effect(() => {
 		fieldControl.value = pickContext.activeItemIndex - 1;

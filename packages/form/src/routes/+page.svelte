@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Para, Select, Tabs, Grid, Group, Button } from '@campground/ui';
+	import { Card, Para, Select, Tabs, Grid, Group, Button, Stack, Section } from '@campground/ui';
 	import {
 		RadioField,
 		FieldLabel,
@@ -274,19 +274,29 @@
 			</FlagField.List>
 			<FieldError />
 		</FieldControl>
-		<FieldControl key="flagsOdd">
+		<FieldControl key="flagsOdd" defaultValue={0b11n << 2n}>
 			<FieldLabel>Flags with other features</FieldLabel>
 			<FlagField.List>
-				<FlagField.Tristate position={0n}>
-					{#snippet header()}
-						0 value
-					{/snippet}
-				</FlagField.Tristate>
-				<FlagField.Tristate position={1n}>
-					{#snippet header()}
-						1 value
-					{/snippet}
-				</FlagField.Tristate>
+				<Stack>
+					<Section>
+						{#snippet header()}
+							Tristate
+						{/snippet}
+					</Section>
+					<Stack>
+
+						<FlagField.Tristate position={0n}>
+							{#snippet header()}
+							0 value
+							{/snippet}
+						</FlagField.Tristate>
+						<FlagField.Tristate position={1n}>
+							{#snippet header()}
+							1 value
+							{/snippet}
+						</FlagField.Tristate>
+					</Stack>
+				</Stack>
 			</FlagField.List>
 			<FieldError />
 		</FieldControl>

@@ -3,7 +3,6 @@
 	import { Settings } from '../index.ts';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { IconLayout2Filled, IconShieldFilled, IconTrashFilled } from '@tabler/icons-svelte';
-	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import ProfilePage from './ProfilePage.svelte';
 	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import PermissionsPage from './PermissionsPage.svelte';
@@ -16,7 +15,6 @@
 		permissions: PermissionsPage,
 	};
 
-	const campsiteContext = getCampsiteContext();
 	const {
 		instance,
 		tent,
@@ -39,7 +37,7 @@
 	{#snippet sidebar()}
 		<Settings.Category>
 			{#snippet header()}
-				{campsiteContext.campsite?.name}
+				{tent.name}
 			{/snippet}
 			<Settings.Button page="profile">
 				<IconLayout2Filled size="1rem" />

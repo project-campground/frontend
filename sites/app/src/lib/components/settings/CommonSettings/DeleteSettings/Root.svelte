@@ -89,7 +89,10 @@
 						required
 					>
 						<FieldLabel>
-							<LocaleMessage {...messages.confirmLabel} />
+							<LocaleMessage
+								{...messages.confirmLabel}
+								values={{ name }}
+							/>
 						</FieldLabel>
 						<TextField
 							placeholder={name}

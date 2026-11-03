@@ -15,17 +15,22 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { getAppview } from '#lib/context/api.js';
 	import { localeStrings } from '#lib/locale/index.js';
-
-	async function deleteBonfire() {
-		return appview.bonfires.delete(bonfire.campsiteId, bonfire.id);
-	}
+	import { BonfireSettings } from '#lib/components/settings/index.js';
+	import { v4 } from 'uuid';
 
 	const { bonfire, onClick }: { bonfire: BonfireViewBasic; onClick?: () => unknown } = $props();
 
 	const menuPortal = getMenuPortal();
-	const appview = getAppview();
 	const campsiteContext = getCampsiteContext();
 </script>
+
+{#snippet settings(instance: MenuPortalInstance<'delete'>)}
+	<BonfireSettings
+		defaultPage={instance.payload}
+		{instance}
+		{bonfire}
+	/>
+{/snippet}
 
 {#snippet contextMenu(instance: MenuPortalInstance<PointerEvent>)}
 	<Menu.Root
@@ -33,22 +38,20 @@
 		virtual={instance.payload}
 	>
 		<Menu.List>
-			<Menu.Item>
-				<Menu.Button>
+			<Menu.Group>
+				<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>
 					<IconSettingsFilled />
 					<LocaleMessage {...localeStrings.bonfires.settings} />
 				</Menu.Button>
-			</Menu.Item>
-			<Menu.Item>
 				<Menu.Button
 					color="danger"
-					onclick={deleteBonfire}
+					onclick={(ev) => menuPortal.add(settings, ev.currentTarget, v4(), 'delete')}
 					disabled={(campsiteContext.bonfires?.length ?? 1) < 2}
 				>
 					<IconTrashFilled />
 					<LocaleMessage {...localeStrings.bonfires.delete} />
 				</Menu.Button>
-			</Menu.Item>
+			</Menu.Group>
 		</Menu.List>
 	</Menu.Root>
 {/snippet}

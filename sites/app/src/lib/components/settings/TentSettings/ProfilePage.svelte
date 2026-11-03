@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { Form, FieldControl, FieldLabel, TextField, type ImageFieldValue } from '@campground/form';
+	import { Form, FieldControl, FieldLabel, TextField } from '@campground/form';
 	import { Card, Section, Para } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
-	import type { CampsiteViewBasic } from '#lib/types/campground/campsites.js';
 	import { getAppview } from '#lib/context/api.js';
 	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import { DescriptionLimits, NameLimits } from '#lib/util/limits.js';
@@ -21,10 +20,7 @@
 		settings.setForm(form.getForm());
 	});
 
-	type ProfileForm = Pick<CampsiteViewBasic, 'description' | 'name' | 'tags'> & {
-		avatar?: ImageFieldValue;
-		banner?: ImageFieldValue;
-	};
+	type ProfileForm = Pick<TentViewBasic, 'description' | 'name'>;
 
 	async function updateProfile(values: ProfileForm) {
 		return appview.tents.update(settings.value.id, values);

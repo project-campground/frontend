@@ -12,6 +12,7 @@ import { appPermissionsMessages } from './permissions.ts';
 import { appRolesMessages } from './roles.ts';
 import { appSessionMessages } from './session.ts';
 import { appTentMessages } from './tent.ts';
+import { appTentCategoryMessages } from './tentCategory.ts';
 import { appUsersMessages } from './user.ts';
 
 export const localeStrings = {
@@ -24,6 +25,7 @@ export const localeStrings = {
 	// Campsites
 	campsites: appCampsiteMessages,
 	tents: appTentMessages,
+	tentCategories: appTentCategoryMessages,
 	members: appMembersMessages,
 	roles: appRolesMessages,
 	memberBans: appMemberBansMessages,

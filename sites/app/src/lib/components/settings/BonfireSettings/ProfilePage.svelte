@@ -1,19 +1,25 @@
 <script lang="ts">
-	import { Form, FieldControl, FieldLabel, TextField } from '@campground/form';
-	import { Card, Section, Para } from '@campground/ui';
+	import {
+		Form,
+		FieldControl,
+		FieldLabel,
+		TextField,
+		createImageDefaultValue,
+		ImageField,
+	} from '@campground/form';
+	import { Card, Section, Para, Stack } from '@campground/ui';
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { getAppview } from '#lib/context/api.js';
-	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import { DescriptionLimits, NameLimits } from '#lib/util/limits.js';
 	import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
 
-	const settings = getSettings<TentViewBasic>();
+	const settings = getSettings<BonfireViewBasic>();
 	const appview = getAppview();
 
 	let form: Form | null = $state(null);
-	let tent: TentViewBasic = $derived(settings.value);
+	let bonfire: BonfireViewBasic = $derived(settings.value);
 
 	$effect(() => {
 		if (!form) return;
@@ -21,10 +27,10 @@
 		settings.setForm(form.getForm());
 	});
 
-	type ProfileForm = Pick<BonfireViewBasic, 'description' | 'name'>;
+	type ProfileForm = Pick<BonfireViewBasic, 'avatarUri' | 'bannerUri' | 'description' | 'name'>;
 
-	async function updateProfile(values: ProfileForm) {
-		return appview.tents.update(settings.value.id, values);
+	async function updateProfile({ avatarUri, bannerUri, ...values }: ProfileForm) {
+		return appview.bonfires.update(settings.value.campsiteId, settings.value.id, values);
 	}
 </script>
 
@@ -47,20 +53,46 @@
 		>
 			<Section>
 				<FieldControl
-					key="name"
-					defaultValue={tent.name}
+					key="banner"
+					defaultValue={createImageDefaultValue(bonfire?.bannerUri)}
 				>
 					<FieldLabel>
-						<LocaleMessage {...localeStrings.content.name} />
+						<LocaleMessage {...localeStrings.content.banner} />
 					</FieldLabel>
-					<TextField
-						minlength={NameLimits.Min}
-						maxlength={NameLimits.Max}
+					<ImageField
+						aspectRatio={5}
+						height="8rem"
 					/>
 				</FieldControl>
+				<Stack direction="row">
+					<FieldControl
+						key="avatar"
+						defaultValue={createImageDefaultValue(bonfire?.avatarUri)}
+					>
+						<ImageField
+							width="3.5rem"
+							height="3.5rem"
+							radius="avatar"
+						/>
+					</FieldControl>
+					<FieldControl
+						key="name"
+						defaultValue={bonfire?.name}
+					>
+						<FieldLabel>
+							<LocaleMessage {...localeStrings.content.name} />
+						</FieldLabel>
+						<TextField
+							minlength={NameLimits.Min}
+							maxlength={NameLimits.Max}
+						/>
+					</FieldControl>
+				</Stack>
+			</Section>
+			<Section>
 				<FieldControl
 					key="description"
-					defaultValue={tent.description}
+					defaultValue={bonfire?.description}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.topic} />

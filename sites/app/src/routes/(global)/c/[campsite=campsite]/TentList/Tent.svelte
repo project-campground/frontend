@@ -9,11 +9,12 @@
 		rightClickMenuProps,
 	} from '@campground/ui';
 	import TentListButton from './TentListButton.svelte';
-	import { IconSettingsFilled } from '@tabler/icons-svelte';
+	import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { TentSettings } from '#lib/components/settings/index.js';
 	import type { TentViewBasic } from '#lib/types/campground/tent.js';
+	import { v4 } from 'uuid';
 
 	const {
 		tent,
@@ -28,8 +29,9 @@
 	const menuPortal = getMenuPortal();
 </script>
 
-{#snippet settings(instance: MenuPortalInstance)}
+{#snippet settings(instance: MenuPortalInstance<'delete'>)}
 	<TentSettings
+		defaultPage={instance.payload}
 		{instance}
 		{tent}
 	/>
@@ -38,12 +40,19 @@
 {#snippet contextMenu(instance: MenuPortalInstance<PointerEvent>)}
 	<Menu.Root {...rightClickMenuProps(instance)}>
 		<Menu.List>
-			<Menu.Item>
+			<Menu.Group>
 				<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>
 					<IconSettingsFilled />
 					<LocaleMessage {...localeStrings.tents.settings} />
 				</Menu.Button>
-			</Menu.Item>
+				<Menu.Button
+					color="danger"
+					onclick={(ev) => menuPortal.add(settings, ev.currentTarget, v4(), 'delete')}
+				>
+					<IconTrashFilled />
+					<LocaleMessage {...localeStrings.tents.delete} />
+				</Menu.Button>
+			</Menu.Group>
 		</Menu.List>
 	</Menu.Root>
 {/snippet}

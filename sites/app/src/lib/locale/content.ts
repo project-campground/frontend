@@ -26,4 +26,9 @@ export const appContentMessages = defineMessages({
 		description: `Summarizes role list by only showing a few items as well as this text`,
 	},
 	delete: { id: 'app.content.delete', defaultMessage: 'Delete', description: 'Delete content' },
+	confirmDelete: {
+		id: 'app.content.confirmDelete',
+		defaultMessage: 'Confirm deletion',
+		description: 'Confirm deletion for content',
+	},
 });

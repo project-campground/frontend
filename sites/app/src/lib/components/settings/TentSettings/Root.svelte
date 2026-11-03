@@ -2,14 +2,16 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { Settings } from '../index.ts';
 	import { localeStrings } from '#lib/locale/index.js';
-	import { IconLayout2Filled, IconShieldFilled } from '@tabler/icons-svelte';
+	import { IconLayout2Filled, IconShieldFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 	import ProfilePage from './ProfilePage.svelte';
 	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import PermissionsPage from './PermissionsPage.svelte';
+	import DeletePage from './DeletePage.svelte';
 
-	type SettingsPage = 'profile' | 'permissions';
+	type SettingsPage = 'profile' | 'permissions' | 'delete';
 	const pages: Record<SettingsPage, Settings.PageComponent> = {
+		delete: DeletePage,
 		profile: ProfilePage,
 		permissions: PermissionsPage,
 	};
@@ -18,11 +20,15 @@
 	const {
 		instance,
 		tent,
-	}: Pick<Settings.RootProps<SettingsPage>, 'instance'> & { tent: TentViewBasic } = $props();
+		defaultPage,
+	}: Pick<Settings.RootProps<SettingsPage>, 'instance'> & {
+		defaultPage?: SettingsPage;
+		tent: TentViewBasic;
+	} = $props();
 </script>
 
 <Settings.Root
-	defaultPage="profile"
+	defaultPage={defaultPage ?? 'profile'}
 	value={tent}
 	{pages}
 	{instance}
@@ -38,6 +44,13 @@
 			<Settings.Button page="profile">
 				<IconLayout2Filled size="1rem" />
 				<LocaleMessage {...localeStrings.content.profile} />
+			</Settings.Button>
+			<Settings.Button
+				page="delete"
+				color="danger"
+			>
+				<IconTrashFilled size="1rem" />
+				<LocaleMessage {...localeStrings.tents.delete} />
 			</Settings.Button>
 		</Settings.Category>
 		<Settings.Category>

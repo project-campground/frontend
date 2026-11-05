@@ -32,7 +32,7 @@
 			{const sameDate = $derived(previousMessage && new Date(previousMessage.createdAt).toDateString() === new Date(message.createdAt).toDateString())}
 			<ChatMessage.Display
 				{message}
-				continuousMessage={sameDate && !message.replyingToCount && postDifference < continuedPostDateDifference}
+				continuousMessage={sameDate && !message.replyingToCount && postDifference < continuedPostDateDifference && previousMessage.type !== 'system'}
 				state={message.state}
 				error={message.stateMessage}
 			/>

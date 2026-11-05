@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { Button, TextBlock } from '@campground/ui';
-	import type { CampsitePermissionViewDetailed } from '#lib/types/campground/permissions.js';
 	import { getItemListSettings } from '../context.svelte.ts';
+	import type { PermissionViewSettings } from './context.svelte.ts';
 
-	const permissionSettings = getItemListSettings<CampsitePermissionViewDetailed>();
-	const { permission }: { permission: CampsitePermissionViewDetailed } = $props();
+	const permissionSettings = getItemListSettings<PermissionViewSettings>();
+	const { permission }: { permission: PermissionViewSettings } = $props();
 	const isActive = $derived(
-		permissionSettings.selected.role?.id === permission.role?.id
-			|| permissionSettings.selected.member?.user.did === permission.member?.user.did,
+		(permissionSettings.selected.role && permissionSettings.selected.role?.id === permission.role?.id)
+			|| (permissionSettings.selected.member
+				&& permissionSettings.selected.member?.user.did === permission.member?.user.did),
 	);
 </script>
 

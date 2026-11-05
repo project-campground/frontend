@@ -1,13 +1,19 @@
 <script lang="ts">
 	import { useEditor } from 'prosekit/svelte';
 
+	let element: HTMLDivElement | null = $state(null);
 	const editor = useEditor();
+
+	$effect(() => {
+		element?.focus({ preventScroll: false });
+	});
 </script>
 
 <div
 	class="container"
 	{@attach $editor.mount}
 	spellcheck="true"
+	bind:this={element}
 ></div>
 
 <style lang="scss">

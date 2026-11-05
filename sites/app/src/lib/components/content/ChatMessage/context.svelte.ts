@@ -7,11 +7,15 @@ export class TextTentContext {
 	public messages: MessageViewInChat[] = $state([]);
 	public loadingMessages: boolean = $state(true);
 
+	public nonSystemMessages: MessageViewInChat[] = $derived(
+		this.messages.filter((x) => x.type !== 'system'),
+	);
+
 	public replyingTo: MessageViewWithReplies[] = $state([]);
 
 	private editingMessageIndex: number = $state(-1);
 	public editingMessage: MessageViewInChat | undefined = $derived(
-		this.messages[this.editingMessageIndex],
+		this.nonSystemMessages[this.editingMessageIndex],
 	);
 
 	constructor(public appview: HTTPBackendClient) {}
@@ -26,7 +30,11 @@ export class TextTentContext {
 		else if (this.messages[loadedMessage]?.state === MessageState.Failed)
 			return this.messages.splice(loadedMessage, 1);
 
-		return this.appview.messages.delete(tentId, messageId);
+		const beingEdited = this.editingMessage?.id;
+		return this.appview.messages.delete(tentId, messageId).then(() => {
+			// Because it can allow editing system messages
+			if (beingEdited) this.clearEditingMessage();
+		});
 	}
 
 	public addReplyingTo(message: MessageViewWithReplies) {
@@ -43,16 +51,20 @@ export class TextTentContext {
 	}
 
 	public setEditingMessage(messageId: string) {
-		this.editingMessageIndex = this.messages.findIndex((x) => x.id === messageId);
+		this.editingMessageIndex = this.nonSystemMessages.findIndex((x) => x.id === messageId);
 	}
 	public clearEditingMessage() {
 		return (this.editingMessageIndex = -1);
 	}
 	// Since the messages are listed newest first
 	public setEditingPreviousMessage() {
+		if (this.editingMessageIndex >= this.nonSystemMessages.length - 1) return;
+
 		return this.editingMessageIndex++;
 	}
 	public setEditingNextMessage() {
+		if (this.editingMessageIndex < 0) return;
+
 		return this.editingMessageIndex--;
 	}
 }

@@ -39,6 +39,8 @@ export function definePostExtension(placeholder?: string) {
 export function defineMessageExtension(
 	onSubmit: () => unknown,
 	onCancel: (() => unknown) | undefined,
+	onUp?: () => unknown,
+	onDown?: () => unknown,
 	placeholder?: string,
 ) {
 	return union(
@@ -57,7 +59,7 @@ export function defineMessageExtension(
 		defineText(),
 		// Key maps
 		defineBlockKeymap(),
-		defineMessageKeymap(onSubmit, onCancel),
+		defineMessageKeymap(onSubmit, onCancel, onUp, onDown),
 		defineBaseKeymap(),
 		// Additional
 		defineBaseCommands(),

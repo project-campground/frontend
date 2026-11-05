@@ -2,12 +2,6 @@
 	lang="ts"
 	module
 >
-	interface Props {
-		tentName?: string;
-		defaultValue?: string;
-		onCancel?: () => unknown;
-		onSubmit?: (content: string) => unknown;
-	}
 	const placeholder = defineMessage({
 		id: 'app.tents.text.placeholder',
 		defaultMessage: 'Message #{tent}',
@@ -36,15 +30,20 @@
 	import { getLocale } from '@campground/locale';
 	import { mdastRootToEditor } from '#lib/editor/mdast/markdown-to-editor.js';
 	import LeftSideMenu from './LeftSideMenu.svelte';
+	import { getTextTent } from '#lib/components/content/ChatMessage/context.svelte.js';
+	import type { RootProps } from './props.ts';
 
-	const { tentName: tent, defaultValue, onSubmit, onCancel }: Props = $props();
+	const { tentName: tent, defaultValue, onSubmit, onCancel }: RootProps = $props();
 
 	const intl = getLocale();
 	const menu = getMenuPortal();
+	const textTent = getTextTent();
 	const extension = $derived(
 		defineMessageExtension(
 			submitMessage,
 			onCancel,
+			() => textTent.setEditingPreviousMessage(),
+			() => textTent.setEditingNextMessage(),
 			tent ? (intl.formatMessage(placeholder, { tent }) as string) : '',
 		),
 	);

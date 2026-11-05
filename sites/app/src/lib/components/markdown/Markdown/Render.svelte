@@ -20,10 +20,6 @@
 			.use(rehypeSanitize)
 			.run(mdAst),
 	);
-
-	$effect(() => {
-		console.log('HTML', htmlFromMarkdown);
-	});
 </script>
 
 <MarkdownFormatted>

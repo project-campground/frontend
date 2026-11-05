@@ -3,7 +3,6 @@
 	import TentWrapper from '../../TentWrapper.svelte';
 	import type { TentViewBasic } from '#lib/types/campground/tent.js';
 	import { IconHash } from '@tabler/icons-svelte';
-	import MessageEditor from '#lib/components/editor/MessageEditor/Root.svelte';
 	import { getAppview } from '#lib/context/api.js';
 	import { getCampsiteContext } from '../../../context.svelte.ts';
 	import { filter } from 'rxjs';
@@ -19,6 +18,7 @@
 	} from '#lib/components/content/ChatMessage/context.svelte.js';
 	import TentMessageList from './TentMessageList.svelte';
 	import type { TentMessagesOutput } from '#lib/types/campground/content.js';
+	import { MessageEditor } from '#lib/components/index.js';
 
 	const { tent }: { tent: TentViewBasic } = $props();
 
@@ -171,14 +171,17 @@
 			size="sm"
 		>
 			{#snippet parent()}
-				<MessageEditor
+				<MessageEditor.Root
 					onSubmit={createMessage}
 					tentName={tent.name}
 				/>
 			{/snippet}
 			{#each textTent.replyingTo as reply (reply.id)}
 				<Threaded.Item>
-					{reply.id}
+					<MessageEditor.Reply
+						message={reply}
+						onRemove={() => textTent.removeReplyingTo(reply.id)}
+					/>
 				</Threaded.Item>
 			{/each}
 		</Threaded.Root>

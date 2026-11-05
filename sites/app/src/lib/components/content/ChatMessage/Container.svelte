@@ -2,7 +2,13 @@
 	import { MessageState } from './index.ts';
 	import type { ContainerProps } from './props.ts';
 
-	const { children, beingRepliedTo, state: loadState, continuousMessage }: ContainerProps = $props();
+	const {
+		children,
+		beingRepliedTo,
+		state: loadState,
+		continuousMessage,
+		...attributes
+	}: ContainerProps = $props();
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -13,6 +19,7 @@
 		.toLowerCase() ?? 'loaded'}
 	data-state={beingRepliedTo ? 'replying' : 'default'}
 	data-continuous-message={continuousMessage}
+	{...attributes}
 >
 	{@render children?.()}
 </div>

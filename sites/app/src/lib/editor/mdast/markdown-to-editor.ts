@@ -10,7 +10,8 @@ const specialNodes: Partial<TransformerMap> = {
 		node.value
 			.split('\n')
 			.flatMap((x) => [{ type: 'text', text: x }, { type: 'hardBreak' }])
-			.slice(0, -1),
+			.slice(0, -1)
+			.filter((x) => x.type !== 'text' || x.text),
 };
 
 function transformRegularNode({ type, ...node }: Nodes): NodeJSON {
@@ -27,11 +28,12 @@ function transformRegularNode({ type, ...node }: Nodes): NodeJSON {
 
 export function mdastNodeToEditor(editorNode: Nodes): NodeJSON[] {
 	const specialCase = specialNodes[editorNode.type as keyof RootContentMap] as
-		| ((node: Nodes) => NodeJSON[])
-		| undefined;
+		((node: Nodes) => NodeJSON[]) | undefined;
 
 	return specialCase?.(editorNode) ?? [transformRegularNode(editorNode)];
 }
 export function mdastRootToEditor(editorNode: Root): NodeJSON {
-	return { type: 'root', content: editorNode.children.flatMap(mdastNodeToEditor) };
+	const value = { type: 'root', content: editorNode.children.flatMap(mdastNodeToEditor) };
+	console.log('Converted', value, editorNode);
+	return value;
 }

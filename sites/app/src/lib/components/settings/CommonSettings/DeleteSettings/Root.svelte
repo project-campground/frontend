@@ -28,7 +28,7 @@
 
 <script lang="ts">
 	import { getSettings } from '../../Settings/context.svelte.ts';
-	import { Card, Para, Stack } from '@campground/ui';
+	import { Card, getModal, Para, Stack } from '@campground/ui';
 	import type { PageProps } from './props.ts';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { getLocale, LocaleMessage } from '@campground/locale';
@@ -43,12 +43,18 @@
 	import { localeStrings } from '#lib/locale/index.js';
 
 	const settings = getSettings();
+	const modal = getModal();
 	const locale = getLocale();
 
 	$effect(() => {
 		settings.setForm(null);
 	});
 	const { accusative, name, requiresConfirmation, onDelete }: PageProps = $props();
+
+	function doDelete() {
+		modal.closeModal();
+		return onDelete();
+	}
 </script>
 
 <Card.Root
@@ -82,7 +88,7 @@
 					/>
 				</Para>
 			</Stack>
-			<Form onSubmit={onDelete}>
+			<Form onSubmit={doDelete}>
 				{#if requiresConfirmation}
 					<FieldControl
 						key="name"

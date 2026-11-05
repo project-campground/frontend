@@ -1,6 +1,5 @@
 import { defineBaseCommands, defineBaseKeymap, defineHistory, union } from 'prosekit/core';
 import { defineRoot } from './nodes/root.ts';
-// import { defineText } from './nodes/text.ts';
 import { defineParagraph } from 'prosekit/extensions/paragraph';
 import { defineBlockquote } from 'prosekit/extensions/blockquote';
 import { definePlaceholder } from 'prosekit/extensions/placeholder';

@@ -7,13 +7,18 @@
 		icon,
 		title,
 		buttons,
-	}: { children: Snippet; icon?: Snippet; title: Snippet; buttons?: Snippet } = $props();
+		gridColumn,
+	}: { children: Snippet; icon?: Snippet; title: Snippet; buttons?: Snippet } & Pick<
+		Card.RootProps,
+		'gridColumn'
+	> = $props();
 </script>
 
 <Card.Root
 	level="subtle"
 	size="xl"
 	overflow="visible"
+	{gridColumn}
 >
 	<Card.Overflow flex={1}>
 		<header class="header">

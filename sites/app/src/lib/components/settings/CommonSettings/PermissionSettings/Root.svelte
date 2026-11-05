@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Loading } from '@campground/ui';
+	import { Card, Loading } from '@campground/ui';
 	import Page from './Page.svelte';
 	import type { QueryProps } from './props.ts';
 	import ErrorPlaceholder from '#lib/components/ErrorPlaceholder.svelte';
@@ -9,7 +9,24 @@
 
 <svelte:boundary>
 	{#snippet pending()}
-		<Loading />
+		<Card.Root level="subtle">
+			<Card.Content
+				flex={1}
+				align="center"
+				justify="center"
+			>
+				<Loading />
+			</Card.Content>
+		</Card.Root>
+		<Card.Root level="subtle">
+			<Card.Content
+				flex={1}
+				align="center"
+				justify="center"
+			>
+				<Loading />
+			</Card.Content>
+		</Card.Root>
 	{/snippet}
 	{#snippet failed(error)}
 		<ErrorPlaceholder {error} />

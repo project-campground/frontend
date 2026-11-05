@@ -29,6 +29,10 @@
 		grid-template-rows: 100%;
 		padding: 0.5rem;
 		gap: 0.5rem;
+		box-sizing: border-box;
+		max-width: 100%;
+		width: 100%;
+		min-width: 100%;
 	}
 	.full {
 		grid-column: 1 / 4;

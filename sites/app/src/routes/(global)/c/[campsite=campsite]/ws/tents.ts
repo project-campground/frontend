@@ -24,7 +24,7 @@ function createBonfireItemEventHandler<
 			if (!context.openBonfire) return;
 
 			context.openBonfire[propName] = (context.openBonfire?.[propName].filter(
-				(x) => x.id === payload.id,
+				(x) => x.id !== payload.id,
 			) ?? []) as TentViewBasic[] & TentCategoryView[];
 		},
 	};

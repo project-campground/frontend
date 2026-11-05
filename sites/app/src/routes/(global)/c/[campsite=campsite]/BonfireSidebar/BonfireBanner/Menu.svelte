@@ -42,7 +42,7 @@
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { fade, fly } from 'svelte/transition';
-	import { CampsiteSettings } from '#lib/components/settings/index.js';
+	import { BonfireSettings, CampsiteSettings } from '#lib/components/settings/index.js';
 	import { PermissionFlag } from '#lib/util/constants.js';
 
 	const menuPortal = getMenuPortal();
@@ -70,6 +70,12 @@
 {#snippet campsiteSettingsModal(instance: MenuPortalInstance)}
 	<CampsiteSettings {instance} />
 {/snippet}
+{#snippet bonfireSettingsModal(instance: MenuPortalInstance)}
+	<BonfireSettings
+		{instance}
+		bonfire={activeBonfire.bonfire}
+	/>
+{/snippet}
 
 {#if open}
 	<div
@@ -79,13 +85,13 @@
 	>
 		<Menu.List>
 			<Menu.Group>
-				<Menu.Button>
-					<IconCampfireFilled />
-					<LocaleMessage {...localeStrings.bonfires.settings} />
-				</Menu.Button>
 				<Menu.Button onclick={(ev) => menuPortal.add(campsiteSettingsModal, ev.currentTarget)}>
 					<IconSettingsFilled />
 					<LocaleMessage {...localeStrings.campsites.settings} />
+				</Menu.Button>
+				<Menu.Button onclick={(ev) => menuPortal.add(bonfireSettingsModal, ev.currentTarget)}>
+					<IconCampfireFilled />
+					<LocaleMessage {...localeStrings.bonfires.settings} />
 				</Menu.Button>
 				<Menu.Button
 					color="danger"

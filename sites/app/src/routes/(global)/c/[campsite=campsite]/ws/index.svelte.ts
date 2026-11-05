@@ -41,10 +41,12 @@ const wsMessageHandlers: Partial<WebSocketMessageHandlers> = {
 		Object.assign(oldBonfire, bonfire);
 	},
 	BonfireDeleted(bonfire, context) {
-		if (bonfire.id === context.openBonfire?.bonfireId)
-			context.setActiveBonfire(context.bonfires!.find((x) => x.id !== bonfire.id)!.id);
-
 		context.campsite!.bonfires = context.bonfires!.filter((x) => x.id !== bonfire.id);
+
+		if (bonfire.id !== context.openBonfire?.bonfireId) return;
+
+		context.openBonfire = null;
+		context.setActiveBonfire(context.bonfires!.find((x) => x.id !== bonfire.id)!.id);
 	},
 	...tentMessageHandlers,
 	...roleMessageHandlers,

@@ -16,7 +16,7 @@
 
 	import { Chip, Code, PagePlaceholder, Para, Stack } from '@campground/ui';
 
-	const { error }: { error: T } = $props();
+	const { error }: Omit<PagePlaceholder.RootProps, 'icon' | 'title' | 'children' | 'status'> & { error: T } = $props();
 </script>
 
 {#snippet errorStack(message: string, error: Error)}

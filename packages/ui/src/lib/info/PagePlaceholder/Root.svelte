@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { Para } from '#lib/info/index.js';
+	import { notInherited } from '#lib/util/component.js';
 	import type { RootProps } from './props.js';
 
-	const { status, title, icon, class: className, children }: RootProps = $props();
+	const { status, title, icon, class: className, fullHeight, flex, children }: RootProps = $props();
 </script>
 
-<section class={['container', status && 'hasStatus', className]}>
+<section
+	data-status={status}
+	data-full-height={fullHeight}
+	style:--Layout-flex={notInherited(flex)}
+	class={['container', className]}
+>
 	<div
 		class="icon"
 		aria-hidden="true"
@@ -31,6 +37,8 @@
 </section>
 
 <style lang="scss">
+	@use '../../hierarchy/Layout.scss' as *;
+
 	.container {
 		display: flex;
 		align-items: center;
@@ -38,6 +46,12 @@
 		flex-direction: column;
 		overflow: hidden;
 		gap: 0.5rem;
+
+		&[data-full-height='true'] {
+			height: 100%;
+		}
+
+		@extend %InLayout;
 	}
 	.icon {
 		font-size: 2em;
@@ -55,6 +69,7 @@
 		align-items: stretch;
 		flex: 1;
 		overflow: hidden;
+		max-width: 100%;
 
 		color: var(--foreground-subheading);
 		text-align: justify;

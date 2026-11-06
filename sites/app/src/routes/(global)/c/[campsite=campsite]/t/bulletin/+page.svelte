@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { Card, Para, Skeleton, Avatar, loremIpsum } from '@campground/ui';
+	import { Card } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentWrapper from '../TentWrapper.svelte';
 	import { IconLayout2Filled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import ProfileBanner from '#lib/components/pages/ProfileBanner.svelte';
-	import ProfileAvatar from '#lib/components/pages/ProfileAvatar.svelte';
-	import ProfileAvatarWrapper from '#lib/components/pages/ProfileAvatarWrapper.svelte';
 	import { localeStrings } from '#lib/locale/index.js';
+	import { CampsiteCard } from '#lib/components/pages/index.js';
 
 	const campsiteContext = getCampsiteContext();
 	const campsite = $derived(campsiteContext.campsiteReference?.campsite);
@@ -27,57 +25,12 @@
 	{/snippet}
 	<div class="content">
 		{#if campsite}
-			<ProfileBanner
-				id={campsite.id.slice(-1)}
-				src={campsite.bannerUri}
-				aspectRatio={7}
+			<CampsiteCard.Root
+				{campsite}
+				size="xxl"
 			/>
-			<div class="avatar">
-				<ProfileAvatarWrapper>
-					<ProfileAvatar
-						id={campsite.id.slice(-1)}
-						src={campsite.avatarUri ?? undefined}
-						size="xxl"
-					>
-						{campsite.name[0].toUpperCase()}
-					</ProfileAvatar>
-				</ProfileAvatarWrapper>
-			</div>
-			<Para
-				level="h2"
-				mt="sm"
-			>
-				{campsite.name}
-			</Para>
-			<Para mt="sm">
-				{campsite.description}
-			</Para>
 		{:else}
-			<Skeleton
-				aspectRatio={7}
-				radius="lg"
-				w="100%"
-			/>
-			<div class="avatar">
-				<ProfileAvatarWrapper>
-					<Skeleton radius="avatar">
-						<Avatar size="xxl"></Avatar>
-					</Skeleton>
-				</ProfileAvatarWrapper>
-			</div>
-			<Para
-				level="h2"
-				mt="sm"
-			>
-				<Skeleton>
-					{loremIpsum.sm}
-				</Skeleton>
-			</Para>
-			<Para mt="sm">
-				<Skeleton>
-					{loremIpsum.sm}
-				</Skeleton>
-			</Para>
+			<CampsiteCard.Skeleton size="xxl" />
 		{/if}
 	</div>
 </TentWrapper>
@@ -90,13 +43,7 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: stretch;
 		padding: 1rem;
-	}
-	.avatar {
-		width: fit-content;
-		height: fit-content;
-		box-sizing: border-box;
-		margin-top: -3rem;
 	}
 </style>

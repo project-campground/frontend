@@ -27,7 +27,6 @@
 			.subscribe((messageUntyped) => {
 				const message = messageUntyped as WSFrameWithPayload<TentViewBasic>;
 
-				console.log('Message payload', message.payload.id, tentId, message.payload.id === tentId);
 				// Tent deleted, go elsewhere
 				if (message.payload.id === tentId)
 					goto(`/c/${campsiteContext.campsite!.id}@${campsiteContext.domain}/t/bulletin`);

@@ -53,6 +53,9 @@
 		&[data-overflow='visible'] {
 			overflow: visible;
 		}
+		&[data-overflow='hidden'] {
+			overflow: hidden;
+		}
 		&[data-level='subtle'] {
 			@extend %Card-subtle;
 		}

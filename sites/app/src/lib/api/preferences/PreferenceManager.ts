@@ -139,4 +139,17 @@ export default class PreferenceManager {
 
 		return this._http.preference.update(preferenceList);
 	}
+
+	public async addInstance(domain: string) {
+		const currentDomains = this.full.instances?.domains ?? [];
+		const newSet = [...new Set([...currentDomains, domain])];
+
+		return this.updateGlobal({ instances: { domains: newSet } });
+	}
+	public async removeInstance(domain: string) {
+		const currentDomains = this.full.instances?.domains ?? [];
+		const newSet = currentDomains.filter((x) => x !== domain);
+
+		return this.updateGlobal({ instances: { domains: newSet } });
+	}
 }

@@ -3,7 +3,7 @@
 $directions: column, column-reverse, row, row-reverse;
 $aligns: start, stretch, center, end;
 $wraps: wrap, nowrap, wrap-reverse;
-$justifies: start, baseline, center, end;
+$justifies: start, baseline, center, end, stretch, space-between;
 
 %Stacked {
 	@each $direction in $directions {

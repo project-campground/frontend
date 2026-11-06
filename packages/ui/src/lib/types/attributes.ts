@@ -13,6 +13,6 @@ export type PositionHorizontal = 'left' | 'right';
 // Flex
 export type FlexAlignItem = 'start' | 'stretch' | 'center' | 'end';
 export type FlexDirection = 'column' | 'column-reverse' | 'row' | 'row-reverse';
-export type JustifyContent = 'center' | 'start' | 'end';
+export type JustifyContent = 'center' | 'start' | 'end' | 'stretch' | 'space-between';
 // Grid
 export type GridArea = number | `${number}/${number}`;

@@ -6,8 +6,23 @@ export const appCommonMessages = defineMessages({
 		defaultMessage: 'Copy',
 		description: 'Text of button for copying text',
 	},
+	copied: {
+		id: 'app.common.copied',
+		defaultMessage: 'Copied',
+		description: 'Text of button when something is copied',
+	},
 
 	// Content manipulation
+	accept: {
+		id: 'app.common.accept',
+		defaultMessage: 'Accept',
+		description: 'Accepting an invite or other things',
+	},
+	deny: {
+		id: 'app.common.deny',
+		defaultMessage: 'Deny',
+		description: 'Denying an invite or other things',
+	},
 	cancel: {
 		id: 'app.common.cancel',
 		defaultMessage: 'Cancel',

@@ -28,14 +28,14 @@
 					</div>
 					<div class="content">
 						<MarkdownFormatted>
-							<p><Skeleton>{indexWithFallback % 2 === 1 ? loremIpsum.sm : loremIpsum.md}</Skeleton></p>
+							<p><Skeleton>{indexWithFallback % 2 === 1 ? loremIpsum.md : loremIpsum.lg}</Skeleton></p>
 							{#if indexWithFallback % 5 < 3}
 								<p>
 									<Skeleton>{loremIpsum.lg}</Skeleton>
 								</p>
 							{/if}
 							{#if indexWithFallback % 7 > 2}
-								<p><Skeleton>{indexWithFallback % 2 === 1 ? loremIpsum.lg : loremIpsum.md}</Skeleton></p>
+								<p><Skeleton>{indexWithFallback % 2 === 1 ? loremIpsum.xl : loremIpsum.lg}</Skeleton></p>
 							{/if}
 						</MarkdownFormatted>
 					</div>

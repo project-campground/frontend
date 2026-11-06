@@ -35,6 +35,7 @@
 		IconLogout2,
 		IconPlus,
 		IconSettingsFilled,
+		IconTicketFilled,
 	} from '@tabler/icons-svelte';
 	import { type BonfireContext, type CampsiteReference } from '../../context.svelte.ts';
 	import BonfireItem from '../BonfireItem.svelte';
@@ -44,6 +45,8 @@
 	import { fade, fly } from 'svelte/transition';
 	import { BonfireSettings, CampsiteSettings } from '#lib/components/settings/index.js';
 	import { PermissionFlag } from '#lib/util/constants.js';
+	import { InviteCreation } from '../../Modals/InviteCreation/index.ts';
+	import LeaveCampsite from '../../Modals/LeaveCampsite.svelte';
 
 	const menuPortal = getMenuPortal();
 
@@ -62,6 +65,16 @@
 	const locale = getLocale();
 </script>
 
+{#snippet leaveCampsite(instance: MenuPortalInstance)}
+	<Modal {instance}>
+		<LeaveCampsite />
+	</Modal>
+{/snippet}
+{#snippet inviteCreationModal(instance: MenuPortalInstance)}
+	<Modal {instance}>
+		<InviteCreation />
+	</Modal>
+{/snippet}
 {#snippet bonfireCreationModal(instance: MenuPortalInstance)}
 	<Modal {instance}>
 		<BonfireCreation />
@@ -93,9 +106,14 @@
 					<IconCampfireFilled />
 					<LocaleMessage {...localeStrings.bonfires.settings} />
 				</Menu.Button>
+				<Menu.Button onclick={(ev) => menuPortal.add(inviteCreationModal, ev.currentTarget)}>
+					<IconTicketFilled />
+					<LocaleMessage {...localeStrings.invites.create} />
+				</Menu.Button>
 				<Menu.Button
 					color="danger"
 					disabled={campsiteRef.userIsOwner}
+					onclick={(ev) => menuPortal.add(leaveCampsite, ev.currentTarget)}
 					{@attach tooltip(menuPortal, locale.formatMessage(messages.leaveOwnerError))}
 				>
 					<IconLogout2 />

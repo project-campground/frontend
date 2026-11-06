@@ -33,7 +33,7 @@
 				{loremIpsum.sm}
 			</Para>
 			<Para>
-				{loremIpsum.md}
+				{loremIpsum.lg}
 			</Para>
 			<Card.Root>
 				<Para>

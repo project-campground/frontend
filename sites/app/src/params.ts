@@ -1,11 +1,19 @@
 import { defineParams } from '@sveltejs/kit/params';
 
-const matchCampsite = (
-	param: string,
-): param is `${string}@localhost:${number}` | `${string}@${string}` => {
-	return /^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}@(?:localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/.test(
-		param,
-	);
+type Domain = `localhost:${number}` | `${string}.${string}`;
+
+const matchDomain = (param: string): param is Domain => {
+	return /^(?:localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/.test(param);
+};
+
+const matchTid = (param: string): param is string => {
+	return /^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}$/.test(param);
+};
+
+const matchCampsite = (param: string): param is `${string}@${Domain}` => {
+	const [tid, domain, ...rest] = param.split('@');
+
+	return !rest.length && matchTid(tid) && matchDomain(domain);
 };
 
 const plcPrefix = 'did:plc:';
@@ -15,10 +23,6 @@ const matchDidPlc = (param: string): param is `did:plc:${string}` => {
 		param.startsWith(plcPrefix) // Taken from ATProto docs
 		&& /^[a-zA-Z0-9]{10,30}$/.test(param.slice(plcPrefix.length))
 	);
-};
-
-const matchTid = (param: string): param is string => {
-	return /^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}$/.test(param);
 };
 
 const matchUserHandle = (param: string): param is `@${string}` => {
@@ -41,9 +45,17 @@ const matchUuid = (param: string): param is `${string}-${string}-${string}-${str
 		&& /^[0-9A-F]{8}-[0-9A-F]{4}-[1-5][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(param)
 	);
 };
+const matchInvite = (
+	param: string,
+): param is `${string}-${string}-${string}-${string}-${string}@${Domain}` => {
+	const [id, domain, ...rest] = param.split('@');
+
+	return !rest.length && matchUuid(id) && matchDomain(domain);
+};
 
 export const params = defineParams({
 	campsite: (param) => (matchCampsite(param) ? param : undefined),
+	invite: (param) => (matchInvite(param) ? param : undefined),
 	didPlc: (param) => (matchDidPlc(param) ? param : undefined),
 	tid: (param) => (matchTid(param) ? param : undefined),
 	userHandle: (param) => (matchUserHandle(param) ? param : undefined),

@@ -19,6 +19,11 @@ export const appContentMessages = defineMessages({
 
 	// Actions
 	create: { id: 'app.content.create', defaultMessage: 'Create', description: 'Create content' },
+	leave: {
+		id: 'app.content.leave',
+		defaultMessage: 'Leave',
+		description: 'Leave campsite or similar',
+	},
 	edit: { id: 'app.content.edit', defaultMessage: 'Edit', description: 'Edit content' },
 	amountMore: {
 		id: 'app.content.amountMore',

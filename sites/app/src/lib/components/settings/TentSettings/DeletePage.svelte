@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TentViewBasic } from '#lib/types/campground/tent.js';
+	import type { TentView } from '#lib/types/campground/tent.js';
 	import { getLocale } from '@campground/locale';
 	import { DeleteSettings } from '../CommonSettings/index.ts';
 	import { getSettings } from '../Settings/context.svelte.ts';
@@ -8,7 +8,7 @@
 
 	const locale = getLocale();
 	const appview = getAppview();
-	const { value } = getSettings<TentViewBasic>();
+	const { value } = getSettings<TentView>();
 
 	async function doDelete() {
 		return appview.tents.delete(value.id);

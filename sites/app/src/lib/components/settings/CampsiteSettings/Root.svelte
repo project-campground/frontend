@@ -13,6 +13,8 @@
 	import RolesPage from './CampsiteSettingsRole/Page.svelte';
 	import InvitesPage from './InvitesPage.svelte';
 	import BansPage from './BansPage.svelte';
+	import { PermissionFlag } from '#lib/util/constants.js';
+	import { hasAnyPermission, hasPermission } from '#lib/util/permissions.js';
 
 	type SettingsPage = 'profile' | 'memberBans' | 'invites' | 'roles';
 	const pages: Record<SettingsPage, Settings.PageComponent> = {
@@ -24,6 +26,7 @@
 
 	const campsiteContext = getCampsiteContext();
 	const { instance }: Pick<Settings.RootProps<SettingsPage>, 'instance'> = $props();
+	const campsitePermissions = $derived(campsiteContext.permissions);
 </script>
 
 <Settings.Root
@@ -45,22 +48,30 @@
 				<LocaleMessage {...localeStrings.content.profile} />
 			</Settings.Button>
 		</Settings.Category>
-		<Settings.Category>
-			{#snippet header()}
-				<LocaleMessage {...localeStrings.members.members} />
-			{/snippet}
-			<Settings.Button page="memberBans">
-				<IconShieldFilled size="1rem" />
-				<LocaleMessage {...localeStrings.memberBans.memberBans} />
-			</Settings.Button>
-			<Settings.Button page="invites">
-				<IconTicketFilled size="1rem" />
-				<LocaleMessage {...localeStrings.invites.invites} />
-			</Settings.Button>
-			<Settings.Button page="roles">
-				<IconBadgeFilled size="1rem" />
-				<LocaleMessage {...localeStrings.roles.roles} />
-			</Settings.Button>
-		</Settings.Category>
+		{#if hasAnyPermission(campsitePermissions, PermissionFlag.BanMembers | PermissionFlag.ManageInvites | PermissionFlag.ManageRoles)}
+			<Settings.Category>
+				{#snippet header()}
+					<LocaleMessage {...localeStrings.members.members} />
+				{/snippet}
+				{#if hasPermission(campsitePermissions, PermissionFlag.BanMembers)}
+					<Settings.Button page="memberBans">
+						<IconShieldFilled size="1rem" />
+						<LocaleMessage {...localeStrings.memberBans.memberBans} />
+					</Settings.Button>
+				{/if}
+				{#if hasPermission(campsitePermissions, PermissionFlag.ManageInvites)}
+					<Settings.Button page="invites">
+						<IconTicketFilled size="1rem" />
+						<LocaleMessage {...localeStrings.invites.invites} />
+					</Settings.Button>
+				{/if}
+				{#if hasPermission(campsitePermissions, PermissionFlag.ManageRoles)}
+					<Settings.Button page="roles">
+						<IconBadgeFilled size="1rem" />
+						<LocaleMessage {...localeStrings.roles.roles} />
+					</Settings.Button>
+				{/if}
+			</Settings.Category>
+		{/if}
 	{/snippet}
 </Settings.Root>

@@ -1,15 +1,13 @@
 import type {
-	CampsitePermissionViewBasic,
-	CampsitePermissionViewDetailed,
+	PermissionViewBasic,
+	PermissionViewDetailed,
 	GetPermissionsOutput,
 } from '#lib/types/campground/permissions.js';
-import type { CampsitePermissionView } from '#lib/types/campground/permissions.js';
+import type { PermissionView } from '#lib/types/campground/permissions.js';
 import HTTPBackendObjectManager from './base-backend.js';
 import HTTPRoleManager from './role.ts';
 
-type OutputView<T extends CampsitePermissionView> = Omit<T, 'permissions'> & {
-	permissions: string;
-};
+type OutputView<T extends PermissionView> = Omit<T, 'permissions'> & { permissions: string };
 
 export interface PermissionLocationQueries {
 	bonfireId?: string;
@@ -23,7 +21,7 @@ export interface PermissionTargetQueries {
 export interface PermissionQueries extends PermissionLocationQueries, PermissionTargetQueries {}
 
 export default class HTTPPermissionManager extends HTTPBackendObjectManager {
-	public static createResponseView<T extends CampsitePermissionView>({
+	public static createResponseView<T extends PermissionView>({
 		permissions,
 		...view
 	}: OutputView<T>): T {
@@ -43,19 +41,22 @@ export default class HTTPPermissionManager extends HTTPBackendObjectManager {
 		queries: PermissionLocationQueries & { non_self?: boolean },
 	): Promise<GetPermissionsOutput> {
 		return this.client
-			.get<{
-				permissions: OutputView<CampsitePermissionViewDetailed>[];
-			}>({ route: 'gg.campground.permission.getPermissions', queries: HTTPPermissionManager.createQueries(queries) })
+			.get<{ permissions: OutputView<PermissionViewDetailed>[] }>({
+				route: 'gg.campground.permission.getPermissions',
+				queries: HTTPPermissionManager.createQueries(queries),
+			})
 			.then((resp) => ({
 				permissions: resp.permissions.map(HTTPPermissionManager.createResponseView),
 			}));
 	}
 
-	async update(queries: PermissionQueries, body: Pick<CampsitePermissionView, 'permissions'>) {
+	async update(queries: PermissionQueries, body: Pick<PermissionView, 'permissions'>) {
 		return this.client
-			.post<
-				OutputView<CampsitePermissionViewBasic>
-			>({ route: 'gg.campground.permission.updatePermission', queries: HTTPPermissionManager.createQueries(queries), body: HTTPRoleManager.createRequestBody(body) })
+			.post<OutputView<PermissionViewBasic>>({
+				route: 'gg.campground.permission.updatePermission',
+				queries: HTTPPermissionManager.createQueries(queries),
+				body: HTTPRoleManager.createRequestBody(body),
+			})
 			.then(HTTPPermissionManager.createResponseView);
 	}
 }

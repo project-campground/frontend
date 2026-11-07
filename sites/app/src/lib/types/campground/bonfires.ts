@@ -1,8 +1,7 @@
-import type { TentCategoryView, TentViewBasic } from './tent';
+import type { HasPermissionsEmbedded } from './permissions.ts';
 
 export interface BonfireView {
 	id: string;
-	campsiteId: string;
 	name: string;
 	description: string;
 	avatarUri: string | null | undefined;
@@ -10,12 +9,12 @@ export interface BonfireView {
 	position: number;
 	home: boolean;
 }
-export interface BonfireViewBasic extends BonfireView {}
+export interface BonfireViewInList extends BonfireView, HasPermissionsEmbedded {}
 export interface BonfireViewDetailed extends BonfireView {
+	campsiteId: string;
+
 	createdBy: string;
 	createdAt: string;
 	updatedBy: string;
 	updatedAt: string;
-	categories: TentCategoryView[];
-	tents: TentViewBasic[];
 }

@@ -4,14 +4,16 @@
 	import { getSettings } from '../Settings/context.svelte.ts';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { getAppview } from '#lib/context/api.js';
-	import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
+	import type { BonfireViewInList } from '#lib/types/campground/bonfires.js';
+	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
 
+	const campsiteContext = getCampsiteContext();
 	const locale = getLocale();
 	const appview = getAppview();
-	const { value } = getSettings<BonfireViewBasic>();
+	const { value } = getSettings<BonfireViewInList>();
 
 	async function doDelete() {
-		return appview.bonfires.delete(value.campsiteId, value.id);
+		return appview.bonfires.delete(campsiteContext.campsite!.id, value.id);
 	}
 </script>
 

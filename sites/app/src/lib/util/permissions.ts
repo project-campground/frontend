@@ -1,7 +1,6 @@
-import type { CampsitePermissionView } from '../types/campground/permissions.js';
+import type { HasPermissionsEmbedded } from '#lib/types/campground/permissions.js';
 import type { MemberViewBasic } from '../types/campground/membership.js';
 import type { RoleView } from '../types/campground/roles.js';
-import { mapLookup, toLookup } from './array.js';
 
 export const lowestPriority = 0x7fffffff as const;
 export const highestPriority = -0x80000000 as const;
@@ -16,6 +15,7 @@ export const isAboveUser = (
 	&& against.user.did !== owner
 	&& (asker.user.did === owner
 		|| getPriorityOfMember(asker, roles) > getPriorityOfMember(against, roles));
+
 export const getPriorityOfMember = (member: MemberViewBasic, roles: RoleView[]) =>
 	getHighestRole(member, roles)?.position ?? lowestPriority;
 export const getHighestRole = (member: MemberViewBasic, roles: RoleView[]) =>
@@ -38,56 +38,36 @@ export const getPermissionState = (value: bigint): [allowed: bigint, denied: big
 	return [allowed, denied];
 };
 
+export const getPermissions = <T extends HasPermissionsEmbedded>(
+	ancestor: bigint,
+	item: T,
+): bigint => {
+	return applyNestedPermissions(ancestor, aggregatePermissions(item.permissions));
+};
+
 export const applyNestedPermissions = (ancestor: bigint, current: bigint): bigint => {
 	const [allowed, denied] = getPermissionState(current);
 
 	return (ancestor & ~denied) | allowed;
 };
 
-export const aggregatePermissions = (values: bigint[]) =>
-	values.reduce((previous, current) => previous | current, 0n);
+export function aggregatePermissions<T extends { permissions: bigint }>(items: T[]) {
+	return items.reduce((previous, current) => previous | current.permissions, 0n);
+}
 
-export const aggregateRolePermissions = (roles: RoleView[]) =>
-	aggregatePermissions(roles.map((x) => x.permissions));
-
-export const aggregateCampsitePermissions = (permissions: CampsitePermissionView[]) =>
-	aggregatePermissions(permissions.map((x) => x.permissions));
-
-export type AggregatedPermissions = {
-	role: bigint;
-	bonfire: bigint;
-	categories: Record<string, bigint>;
-	tents: Record<string, bigint>;
-};
-export const aggregateAllPermissions = (
-	member: MemberViewBasic,
-	roles: RoleView[],
-	permissions: CampsitePermissionView[],
-): AggregatedPermissions => {
-	const rolePerms = aggregateRolePermissions(roles.filter((x) => member.roles.includes(x.id)));
-
-	const filteredPerms = permissions.filter(
-		(x) => x.userId || (x.roleId && member.roles.includes(x.roleId)),
-	);
-	const bonfirePermsAggregated = aggregateCampsitePermissions(
-		filteredPerms.filter((x) => (x.categoryId ?? x.tentId ?? null) === null),
-	);
-	const bonfirePerms = applyNestedPermissions(rolePerms, bonfirePermsAggregated);
-
-	const categoryPerms = mapLookup(
-		toLookup(
-			filteredPerms.filter((x) => x.categoryId),
-			(perm) => perm.categoryId!,
-		),
-		(_, value) => applyNestedPermissions(bonfirePerms, aggregateCampsitePermissions(value)),
-	);
-	const tentPerms = mapLookup(
-		toLookup(
-			filteredPerms.filter((x) => x.tentId),
-			(perm) => perm.tentId!,
-		),
-		(_, value) => aggregateCampsitePermissions(value),
-	);
-
-	return { role: rolePerms, bonfire: bonfirePerms, categories: categoryPerms, tents: tentPerms };
-};
+/**
+ * More readable way of checking if all permission flags exist in permissions. Would be more performant if compile-time/inline functions existed.
+ * @param permissions The permissions to check
+ * @param flags The permission flags to check
+ * @returns Whether all permission flags exist in permissions
+ */
+export const hasPermission = (permissions: bigint, flags: bigint): boolean =>
+	(permissions & flags) === flags;
+/**
+ * More readable way of checking if ANY permission flag at all exists in permissions. Would be more performant if compile-time/inline functions existed.
+ * @param permissions The permissions to check
+ * @param flags The permission flags to check
+ * @returns Whether any of permission flags exist within permissions
+ */
+export const hasAnyPermission = (permissions: bigint, flags: bigint): boolean =>
+	(permissions & flags) !== 0n;

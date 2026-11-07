@@ -38,14 +38,14 @@
 	import { Group, Section, Accordion, Alert } from '@campground/ui';
 	import { defaultPds } from '#lib/api/api.config.js';
 	import { IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
 	import KnownPdsOptions from '../KnownPdsOptions.svelte';
 	import { authMessages } from '../messages.ts';
 	import { localeStrings } from '#lib/locale/index.js';
 
 	const locale = getLocale();
 
-	const session = getSession();
+	const session = getAuth();
 
 	let error: Error | null = $state(null);
 

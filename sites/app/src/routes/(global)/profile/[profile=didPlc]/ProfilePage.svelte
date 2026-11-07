@@ -27,7 +27,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { IconArrowBack, IconFlameFilled } from '@tabler/icons-svelte';
 	import ProfileFeed from './ProfileFeed.svelte';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
 	import ProfilePostCreator from './ProfilePostCreator.svelte';
 	import ProfilePageColumn from './ProfilePageColumn.svelte';
 	import ProfilePageHeader from './ProfilePageHeader.svelte';
@@ -37,7 +37,7 @@
 	import { User } from '#lib/components/index.ts';
 
 	const appview = getAppview();
-	const currentUser = getAccount();
+	const currentUser = getSession();
 
 	let mainProfileFeed: ProfileFeed | null = $state(null);
 

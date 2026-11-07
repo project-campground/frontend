@@ -1,10 +1,9 @@
-import type { CampsitePermissionViewBasic } from './permissions';
+import type { HasPermissionsEmbedded, PermissionViewEmbedded } from './permissions.ts';
 
 export interface TentView {
 	id: string;
-	campsiteId: string;
-	bonfireId: string;
 	categoryId: string | null | undefined;
+
 	name: string;
 	description: string;
 	type: TentType;
@@ -13,14 +12,26 @@ export interface TentView {
 	position: number;
 }
 export type TentType = 'text';
-export interface TentViewBasic extends TentView {}
-export interface TentViewDetailed extends TentView {
+export interface TentViewBasic extends TentView {
+	campsiteId: string;
+	bonfireId: string;
+}
+export interface TentViewInList extends TentView, HasPermissionsEmbedded {}
+export interface TentViewDetailed extends TentViewBasic {
 	createdBy: string;
 	createdAt: string;
 	updatedBy: string;
 	updatedAt: string;
 }
 export interface TentCategoryView {
+	id: string;
+	name: string;
+	description: string;
+
+	position: number;
+}
+export interface TentCategoryViewInList extends TentCategoryView, HasPermissionsEmbedded {}
+export interface TentCategoryViewDetailed extends TentCategoryView {
 	id: string;
 	campsiteId: string;
 	bonfireId: string;
@@ -36,7 +47,6 @@ export interface TentCategoryView {
 }
 
 export interface GetTentsOutput {
-	tents: TentViewBasic[];
-	categories: TentCategoryView[];
-	permissions: CampsitePermissionViewBasic[];
+	tents: TentViewInList[];
+	categories: TentCategoryViewInList[];
 }

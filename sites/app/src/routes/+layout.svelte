@@ -2,12 +2,12 @@
 	import { Main, theme } from '@campground/ui';
 	import type { LayoutProps } from './$types.js';
 	import { LocaleContext, setLocale } from '@campground/locale';
-	import { Session, setSession } from '#lib/api/session/Session.svelte.js';
+	import { AuthContext, setAuth } from '#lib/context/auth/context.svelte.ts';
 	import { onMount } from 'svelte';
 
 	const { children }: LayoutProps = $props();
 
-	const session = new Session();
+	const session = new AuthContext();
 	const locale = new LocaleContext();
 
 	onMount(() =>
@@ -21,7 +21,7 @@
 	});
 
 	setLocale(locale);
-	setSession(session);
+	setAuth(session);
 
 	onMount(async () => session.preferences.init());
 </script>

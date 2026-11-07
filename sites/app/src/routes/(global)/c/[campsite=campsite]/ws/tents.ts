@@ -1,5 +1,5 @@
 import type { CampsiteContext } from '../context.svelte.ts';
-import type { TentCategoryView, TentViewBasic } from '#lib/types/campground/tent.js';
+import type { TentCategoryViewDetailed, TentViewBasic } from '#lib/types/campground/tent.js';
 import type { WebSocketMessageHandlers } from './types.ts';
 import { findItemInOutput, makeRoomForItems } from './util.svelte.ts';
 
@@ -11,7 +11,9 @@ function createBonfireItemEventHandler<
 			// To not wrongfully populate bonfire
 			if (payload.bonfireId !== context.openBonfire?.bonfireId) return;
 
-			context.openBonfire?.[propName].push(payload as unknown as TentCategoryView & TentViewBasic);
+			context.openBonfire?.[propName].push(
+				payload as unknown as TentCategoryViewDetailed & TentViewBasic,
+			);
 		},
 		[`${name}Updated`](payload: T, context: CampsiteContext) {
 			const updatedTent = context.openBonfire?.[propName].find((x) => x.id === payload.id);
@@ -25,7 +27,7 @@ function createBonfireItemEventHandler<
 
 			context.openBonfire[propName] = (context.openBonfire?.[propName].filter(
 				(x) => x.id !== payload.id,
-			) ?? []) as TentViewBasic[] & TentCategoryView[];
+			) ?? []) as TentViewBasic[] & TentCategoryViewDetailed[];
 		},
 	};
 }

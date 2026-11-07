@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TentCategoryView, TentViewBasic } from '#lib/types/campground/tent.js';
+	import type { TentCategoryViewDetailed, TentCategoryViewInList, TentViewBasic, TentViewInList } from '#lib/types/campground/tent.js';
 	import { toLookup } from '#lib/util/array.js';
 	import { Divider, Menu, rightClickMenuProps, MenuPortalInstance, Modal, getMenuPortal, rightClickMenu } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
@@ -46,11 +46,11 @@
 			.filter((x) => x.category)
 			.concat(emptyCategories)
 			.sort((a, b) => a.category!.position - b.category!.position) as {
-			category: TentCategoryView;
-			tents: TentViewBasic[];
+			category: TentCategoryViewInList;
+			tents: TentViewInList[];
 		}[],
 	);
-	const isDefaultBonfire = $derived(bonfire?.isBonfireDefault ?? false);
+	const isDefaultBonfire = $derived(bonfire?.bonfire.home ?? false);
 
 	const appview = getAppview();
 

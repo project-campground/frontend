@@ -22,15 +22,15 @@
 	import { IconMessage2Filled, IconPencilFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import Markdown from '../../markdown/Markdown/Render.svelte';
 	import { ContentOverflow } from '../ContentOverflow/index.ts';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.js';
 	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import BasicPostEditor from '#lib/components/editor/BasicPostEditor.svelte';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { User } from '#lib/components/users/index.js';
 
-	const session = getSession();
+	const session = getAuth();
 	const appview = getAppview();
 
 	function updatePost(content: string) {
@@ -65,7 +65,7 @@
 	}: { profilePost: ProfilePostViewBasic; hideReplyCount?: boolean; size?: ComponentSize } =
 		$props();
 
-	const account = getAccount();
+	const account = getSession();
 	const authorIsCurrentUser = $derived(profilePost.author.did === account.sessionInfo?.did);
 
 	const id = $derived(profilePost.uri.split('/').slice(-1)[0]);

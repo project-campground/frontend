@@ -13,7 +13,7 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { TentSettings } from '#lib/components/settings/index.js';
-	import type { TentViewBasic } from '#lib/types/campground/tent.js';
+	import type { TentViewInList } from '#lib/types/campground/tent.js';
 	import { v4 } from 'uuid';
 
 	const {
@@ -21,7 +21,7 @@
 		domain,
 		onMoveTo,
 	}: {
-		tent: TentViewBasic;
+		tent: TentViewInList;
 		domain: string;
 		onMoveTo?: (movedTentId: string, movedToTentId: string) => unknown;
 	} = $props();

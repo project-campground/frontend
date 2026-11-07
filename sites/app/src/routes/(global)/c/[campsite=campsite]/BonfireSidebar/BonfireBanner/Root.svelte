@@ -13,9 +13,7 @@
 	const campsiteRef = $derived(campsiteContext.campsiteReference);
 	const activeBonfire = $derived(campsiteContext.openBonfire);
 	const lastBonfireChar = $derived(
-		activeBonfire?.bonfireId.slice(-1)
-			?? campsiteContext.campsite?.bonfires[0].name.slice(-1)[0]
-			?? 'a',
+		activeBonfire?.id.slice(-1) ?? campsiteContext.bonfires[0]?.name.slice(-1)[0] ?? 'a',
 	);
 
 	let menuOpen = $state(false);
@@ -67,8 +65,6 @@
 		</Button>
 	</Layout>
 	<BonfireList
-		campsite={campsiteRef}
-		{activeBonfire}
 		open={menuOpen}
 		onBonfireOpen={setBonfire}
 	/>

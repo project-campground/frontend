@@ -12,7 +12,7 @@ import HTTPRoleManager from './role.js';
 import HTTPTentManager from './tent.js';
 import type { Me } from '#lib/types/campground/me.js';
 import HTTPProfileManager from './profile.js';
-import type { Session } from '../session/Session.svelte.js';
+import type { AuthContext } from '../../context/auth/context.svelte.ts';
 
 export default class HTTPBackendClient {
 	public profiles = new HTTPProfileManager(this);
@@ -33,7 +33,7 @@ export default class HTTPBackendClient {
 	public messages = new HTTPMessageManager(this);
 
 	constructor(
-		public session: Session,
+		public session: AuthContext,
 		private _getBackendDomain: () => string,
 	) {}
 

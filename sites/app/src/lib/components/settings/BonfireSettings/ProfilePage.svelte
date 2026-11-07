@@ -13,13 +13,17 @@
 	import { localeStrings } from '#lib/locale/index.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { DescriptionLimits, NameLimits } from '#lib/util/limits.js';
-	import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
+	import type { BonfireViewInList } from '#lib/types/campground/bonfires.js';
+	import { getCampsiteContext } from '../../../../routes/(global)/c/[campsite=campsite]/context.svelte.ts';
+	import { getPermissions } from '#lib/util/permissions.js';
+	import { PermissionFlag, PermissionMax } from '#lib/util/constants.js';
 
-	const settings = getSettings<BonfireViewBasic>();
+	const campsiteContext = getCampsiteContext();
+	const settings = getSettings<BonfireViewInList>();
 	const appview = getAppview();
 
 	let form: Form | null = $state(null);
-	let bonfire: BonfireViewBasic = $derived(settings.value);
+	let bonfire: BonfireViewInList = $derived(settings.value);
 
 	$effect(() => {
 		if (!form) return;
@@ -27,10 +31,15 @@
 		settings.setForm(form.getForm());
 	});
 
-	type ProfileForm = Pick<BonfireViewBasic, 'avatarUri' | 'bannerUri' | 'description' | 'name'>;
+	type ProfileForm = Pick<BonfireViewInList, 'avatarUri' | 'bannerUri' | 'description' | 'name'>;
+
+	const permissions = $derived(
+		campsiteContext.ownerPermissions ?? getPermissions(campsiteContext.permissions, bonfire),
+	);
+	const cannotManage = $derived((permissions & PermissionFlag.ManageBonfires) === 0n);
 
 	async function updateProfile({ avatarUri, bannerUri, ...values }: ProfileForm) {
-		return appview.bonfires.update(settings.value.campsiteId, settings.value.id, values);
+		return appview.bonfires.update(campsiteContext.campsite!.id, settings.value.id, values);
 	}
 </script>
 
@@ -55,6 +64,7 @@
 				<FieldControl
 					key="banner"
 					defaultValue={createImageDefaultValue(bonfire?.bannerUri)}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.banner} />
@@ -68,6 +78,7 @@
 					<FieldControl
 						key="avatar"
 						defaultValue={createImageDefaultValue(bonfire?.avatarUri)}
+						disabled={cannotManage}
 					>
 						<ImageField
 							width="3.5rem"
@@ -78,6 +89,7 @@
 					<FieldControl
 						key="name"
 						defaultValue={bonfire?.name}
+						disabled={cannotManage}
 					>
 						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.name} />
@@ -93,6 +105,7 @@
 				<FieldControl
 					key="description"
 					defaultValue={bonfire?.description}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.topic} />

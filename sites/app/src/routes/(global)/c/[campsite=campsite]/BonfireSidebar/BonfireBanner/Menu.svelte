@@ -25,7 +25,6 @@
 		getMenuPortal,
 		Group,
 		Menu,
-		Tooltip,
 		tooltip,
 		MenuPortalInstance,
 		Modal,
@@ -37,7 +36,7 @@
 		IconSettingsFilled,
 		IconTicketFilled,
 	} from '@tabler/icons-svelte';
-	import { type BonfireContext, type CampsiteReference } from '../../context.svelte.ts';
+	import { getCampsiteContext } from '../../context.svelte.ts';
 	import BonfireItem from '../BonfireItem.svelte';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { BonfireCreation } from '../../Modals/BonfireCreation/index.ts';
@@ -47,20 +46,17 @@
 	import { PermissionFlag } from '#lib/util/constants.js';
 	import { InviteCreation } from '../../Modals/InviteCreation/index.ts';
 	import LeaveCampsite from '../../Modals/LeaveCampsite.svelte';
+	import { hasAnyPermission, hasPermission } from '#lib/util/permissions.js';
 
 	const menuPortal = getMenuPortal();
+	const campsiteContext = getCampsiteContext();
+	const activeBonfire = $derived(campsiteContext.openBonfire);
+	const isOwner = $derived(campsiteContext.userIsOwner);
+	const campsitePermissions = $derived(campsiteContext.permissions);
+	const bonfirePermissions = $derived(activeBonfire?.permissions ?? campsitePermissions);
 
-	const {
-		open,
-		onBonfireOpen,
-		campsite: campsiteRef,
-		activeBonfire,
-	}: {
-		campsite: CampsiteReference;
-		activeBonfire: BonfireContext;
-		open: boolean;
-		onBonfireOpen: (bonfireId: string) => unknown;
-	} = $props();
+	const { open, onBonfireOpen }: { open: boolean; onBonfireOpen: (bonfireId: string) => unknown } =
+		$props();
 
 	const locale = getLocale();
 </script>
@@ -86,7 +82,7 @@
 {#snippet bonfireSettingsModal(instance: MenuPortalInstance)}
 	<BonfireSettings
 		{instance}
-		bonfire={activeBonfire.bonfire}
+		bonfire={activeBonfire!.bonfire}
 	/>
 {/snippet}
 
@@ -98,21 +94,27 @@
 	>
 		<Menu.List>
 			<Menu.Group>
-				<Menu.Button onclick={(ev) => menuPortal.add(campsiteSettingsModal, ev.currentTarget)}>
-					<IconSettingsFilled />
-					<LocaleMessage {...localeStrings.campsites.settings} />
-				</Menu.Button>
-				<Menu.Button onclick={(ev) => menuPortal.add(bonfireSettingsModal, ev.currentTarget)}>
-					<IconCampfireFilled />
-					<LocaleMessage {...localeStrings.bonfires.settings} />
-				</Menu.Button>
-				<Menu.Button onclick={(ev) => menuPortal.add(inviteCreationModal, ev.currentTarget)}>
-					<IconTicketFilled />
-					<LocaleMessage {...localeStrings.invites.create} />
-				</Menu.Button>
+				{#if isOwner || hasAnyPermission(campsitePermissions, PermissionFlag.ManageRoles | PermissionFlag.ManageCampsite | PermissionFlag.BanMembers)}
+					<Menu.Button onclick={(ev) => menuPortal.add(campsiteSettingsModal, ev.currentTarget)}>
+						<IconSettingsFilled />
+						<LocaleMessage {...localeStrings.campsites.settings} />
+					</Menu.Button>
+				{/if}
+				{#if isOwner || hasAnyPermission(bonfirePermissions, PermissionFlag.ManageRoles | PermissionFlag.ManageBonfires)}
+					<Menu.Button onclick={(ev) => menuPortal.add(bonfireSettingsModal, ev.currentTarget)}>
+						<IconCampfireFilled />
+						<LocaleMessage {...localeStrings.bonfires.settings} />
+					</Menu.Button>
+				{/if}
+				{#if isOwner || hasPermission(campsitePermissions, PermissionFlag.CreateInvites)}
+					<Menu.Button onclick={(ev) => menuPortal.add(inviteCreationModal, ev.currentTarget)}>
+						<IconTicketFilled />
+						<LocaleMessage {...localeStrings.invites.create} />
+					</Menu.Button>
+				{/if}
 				<Menu.Button
 					color="danger"
-					disabled={campsiteRef.userIsOwner}
+					disabled={isOwner}
 					onclick={(ev) => menuPortal.add(leaveCampsite, ev.currentTarget)}
 					{@attach tooltip(menuPortal, locale.formatMessage(messages.leaveOwnerError))}
 				>
@@ -122,15 +124,15 @@
 			</Menu.Group>
 			<Divider />
 			<Menu.Group>
-				{#each campsiteRef.campsite.bonfires as bonfire (bonfire.id)}
+				{#each campsiteContext.bonfires as bonfire (bonfire.id)}
 					<BonfireItem
 						{bonfire}
 						onClick={() => onBonfireOpen(bonfire.id)}
 					/>
 				{/each}
 			</Menu.Group>
-			<Menu.Group>
-				{#if ((activeBonfire.rolePermissions ?? 0n) & PermissionFlag.ManageBonfires) === PermissionFlag.ManageBonfires}
+			{#if isOwner || hasAnyPermission(campsitePermissions, PermissionFlag.ManageBonfires)}
+				<Menu.Group>
 					<Menu.Button onclick={(ev) => menuPortal.add(bonfireCreationModal, ev.currentTarget)}>
 						<Group>
 							<Avatar size="sm">
@@ -139,8 +141,8 @@
 							<LocaleMessage {...localeStrings.bonfires.create} />
 						</Group>
 					</Menu.Button>
-				{/if}
-			</Menu.Group>
+				</Menu.Group>
+			{/if}
 		</Menu.List>
 	</div>
 {/if}

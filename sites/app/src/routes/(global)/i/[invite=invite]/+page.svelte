@@ -4,14 +4,14 @@
 	import ErrorPlaceholder from '#lib/components/ErrorPlaceholder.svelte';
 	import InvitePage from './InvitePage.svelte';
 	import HTTPBackendClient from '#lib/api/http/HTTPBackendClient.js';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
 	import { setAppview } from '#lib/context/api.js';
 	import InvitePageSkeleton from './InvitePageSkeleton.svelte';
 
 	const { params }: PageProps = $props();
 	const [id, domain] = $derived(params.invite.split('@'));
 
-	const session = getSession();
+	const session = getAuth();
 	const appview = new HTTPBackendClient(session, () => domain);
 
 	setAppview(appview);

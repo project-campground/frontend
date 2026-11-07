@@ -4,7 +4,7 @@
 >
 	export interface TentItem extends Pick<
 		TentViewBasic,
-		'id' | 'name' | 'viewType' | 'campsiteId' | 'position' | 'categoryId'
+		'id' | 'name' | 'viewType' | 'position' | 'categoryId'
 	> {
 		type: PseudoTentType | TentType;
 	}
@@ -18,7 +18,9 @@
 	import type { PseudoTentType } from '../../../../../lib/components/tents/pseudoTents.ts';
 	import TentListItem from './Item.svelte';
 	import { ContentMover } from '#lib/components/index.js';
+	import { getCampsiteContext } from '../context.svelte.ts';
 
+	const campsiteContext = getCampsiteContext();
 	const {
 		tent,
 		domain,
@@ -31,7 +33,7 @@
 
 <ContentMover.Wrapper
 	element="a"
-	href={`/c/${tent.campsiteId}@${domain}/t/${tent.id}`}
+	href={`/c/${campsiteContext.campsite!.id}@${domain}/t/${tent.id}`}
 	{...attrs}
 >
 	<TentListItem active={isActive}>

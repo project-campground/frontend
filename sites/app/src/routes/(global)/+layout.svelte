@@ -12,10 +12,10 @@
 </script>
 
 <script lang="ts">
-	import { AccountInfo, setAccount } from '#lib/context/account.svelte.js';
+	import { Session, setSession } from '#lib/context/session/context.svelte.js';
 	import type { LayoutProps } from './$types.js';
 	import GlobalLayout from './GlobalLayout.svelte';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.js';
 	import {
 		Dialog,
 		MenuPortal,
@@ -35,12 +35,12 @@
 
 	const { children }: LayoutProps = $props();
 
-	const session = getSession();
-	const accountContext = new AccountInfo(session);
+	const auth = getAuth();
+	const session = new Session(auth);
 	let error: Error | null = $state(null);
 
 	onMount(() => {
-		accountContext
+		session
 			.init()
 			.then((accountInfo) => {
 				if (accountInfo.profile === null)
@@ -52,8 +52,8 @@
 	const menuPortal = new MenuPortal();
 	const defaultAppviewDomain = defaultAppview.url.split('//')[1];
 
-	setAppview(new HTTPBackendClient(session, () => defaultAppviewDomain));
-	setAccount(accountContext);
+	setAppview(new HTTPBackendClient(auth, () => defaultAppviewDomain));
+	setSession(session);
 	setMenuPortal(menuPortal);
 </script>
 

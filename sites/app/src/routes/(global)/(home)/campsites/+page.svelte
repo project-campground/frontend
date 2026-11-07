@@ -30,12 +30,12 @@
 <script lang="ts">
 	import { Stack, Card, PagePlaceholder, FlexCenter, Para } from '@campground/ui';
 	import AppviewInstance from './AppviewInstance.svelte';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.ts';
 
-	const session = getSession();
+	const session = getAuth();
 	let instanceList = $state.raw(new Set(session.preferences.full.instances?.domains ?? []));
 
 	session.preferences.onInit(

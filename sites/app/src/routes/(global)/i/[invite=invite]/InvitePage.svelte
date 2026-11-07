@@ -17,7 +17,7 @@
 </script>
 
 <script lang="ts">
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
 	import { CampsiteCard } from '#lib/components/pages/index.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { localeStrings } from '#lib/locale/index.js';
@@ -29,7 +29,7 @@
 
 	const { id, domain }: { id: string; domain: string } = $props();
 
-	const session = getSession();
+	const session = getAuth();
 	const appview = getAppview();
 	const invite = $derived(await appview.invites.get(id));
 	const campsite = $derived(invite.campsite);

@@ -1,7 +1,6 @@
 import type { TentViewBasic } from './tent.js';
 import type { RoleView } from './roles.js';
 import type { MemberViewBasic } from './membership.js';
-import type { BonfireViewBasic } from './bonfires.js';
 
 export interface CampsiteView {
 	id: string;
@@ -16,14 +15,13 @@ export interface CampsiteView {
 }
 export type CampsiteViewBasic = CampsiteView;
 export interface CampsiteViewWithDomain extends CampsiteViewBasic {
-	_domain: string;
+	domain: string;
 }
 export interface CampsiteViewDetailed extends CampsiteView {
 	createdBy: string;
 	createdAt: string;
 	updatedBy: string;
 	updatedAt: string;
-	bonfires: BonfireViewBasic[];
 	roles: RoleView[];
 	me: MemberViewBasic;
 }

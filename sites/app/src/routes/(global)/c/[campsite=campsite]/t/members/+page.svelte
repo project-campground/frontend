@@ -34,14 +34,14 @@
 	import { getAppview } from '#lib/context/api.js';
 	import { User } from '#lib/components/index.js';
 	import { Role } from '#lib/components/campsite/index.js';
-	import { RoleFlag } from '#lib/util/constants.ts';
-	import { toLookup } from '#lib/util/array.ts';
+	import { RoleFlag } from '#lib/util/constants.js';
+	import { toLookup } from '#lib/util/array.js';
 
 	const campsiteContext = getCampsiteContext();
 
 	$effect(() => {
-		if (campsiteContext.bonfires && !campsiteContext.openBonfire)
-			campsiteContext.setActiveBonfire(campsiteContext.bonfires[0].id);
+		if (campsiteContext.homeBonfire && !campsiteContext.openBonfire)
+			campsiteContext.setActiveBonfire(campsiteContext.homeBonfire.id);
 	});
 
 	const appview = getAppview();

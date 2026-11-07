@@ -1,36 +1,59 @@
 import WSClient from '#lib/api/ws/WSClient.js';
-import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
 import type { CampsiteViewDetailed } from '#lib/types/campground/campsites.js';
-import type { CampsitePermissionViewBasic } from '#lib/types/campground/permissions.js';
-import type {
-	GetTentsOutput,
-	TentCategoryView,
-	TentViewBasic,
-} from '#lib/types/campground/tent.js';
 import { PermissionMax, RoleFlag } from '#lib/util/constants.js';
-import {
-	aggregateAllPermissions,
-	applyNestedPermissions,
-	type AggregatedPermissions,
-} from '#lib/util/permissions.js';
 import { getContext, hasContext, setContext } from 'svelte';
+import type { BonfireContext } from './bonfires.svelte.ts';
+import type HTTPBackendClient from '#lib/api/http/HTTPBackendClient.ts';
+import type { AuthContext } from '#lib/context/auth/context.svelte.js';
+import { filter, type Unsubscribable } from 'rxjs';
+import type { BonfireViewInList } from '#lib/types/campground/bonfires.js';
 
 export class CampsiteReference {
 	public campsite: CampsiteViewDetailed;
-	public userIsOwner: boolean;
+	public bonfires: BonfireViewInList[];
 
 	constructor(
 		public domain: string,
 		campsite: CampsiteViewDetailed,
+		bonfires: BonfireViewInList[],
 		public webSocket: WSClient,
+		private _webSocketSubscription: Unsubscribable,
 	) {
 		this.campsite = $state(campsite);
-		this.userIsOwner = $derived(this.campsite.me.user.did === this.campsite.owner);
+		this.bonfires = $state(bonfires);
 	}
 
 	public static sortCampsiteItems(campsite: CampsiteViewDetailed) {
 		campsite.roles.sort((a, b) => a.position - b.position);
-		campsite.bonfires.sort((a, b) => a.position - b.position);
+	}
+
+	public dispose() {
+		return this._webSocketSubscription.unsubscribe();
+	}
+
+	public static async initialize(
+		session: AuthContext,
+		appview: HTTPBackendClient,
+		domain: string,
+		campsiteId: string,
+	) {
+		const [campsite, bonfires] = await Promise.all([
+			appview.campsites.get(campsiteId),
+			appview.bonfires.getMany(campsiteId),
+		]);
+		// Do one-time deal to not sort in every place ever
+		CampsiteReference.sortCampsiteItems(campsite);
+
+		const webSocket = new WSClient({
+			httpClient: session.atproto,
+			url: `${domain?.split(':')[0] === 'localhost' ? 'http' : 'https'}://${domain}/ws/v1`,
+		});
+
+		const webSocketUnsubscribe = webSocket?.messages
+			.pipe(filter((value) => value.op === 0 && value.t === 'open'))
+			.subscribe(() => webSocket.setCampsite(campsiteId));
+
+		return new CampsiteReference(domain, campsite, bonfires, webSocket, webSocketUnsubscribe);
 	}
 }
 
@@ -38,16 +61,32 @@ export class CampsiteContext {
 	public static contextKey = {};
 
 	public campsiteReference: CampsiteReference | null = $state(null);
-	public openBonfire: BonfireContext | null = $state(null);
-
 	public campsite = $derived(this.campsiteReference?.campsite);
-	public bonfires = $derived(this.campsite?.bonfires);
 	public roles = $derived(this.campsite?.roles);
 	public defaultRole = $derived(
 		this.roles?.find((x) => (x.flags & RoleFlag.Default) === RoleFlag.Default),
 	);
+
 	public me = $derived(this.campsite?.me);
 	public userIsOwner = $derived(this.campsite?.owner === this.campsite?.me.user.did);
+	/**
+	 * Shortens the permission checking by giving max permission or null depending on whether user is the owner of the campsite.
+	 */
+	public ownerPermissions = $derived(this.userIsOwner ? PermissionMax : null);
+	/**
+	 * Gets the permissions of this user in this campsite.
+	 */
+	public permissions = $derived(
+		this.ownerPermissions
+			?? this.roles
+				?.filter((x) => this.me?.roles.includes(x.id))
+				.reduce((initial, role) => initial | role.permissions, 0n)
+			?? PermissionMax,
+	);
+
+	public bonfires = $derived(this.campsiteReference?.bonfires ?? []);
+	public homeBonfire = $derived(this.bonfires.find((x) => x.home));
+	public openBonfire: BonfireContext | null = $state(null);
 
 	constructor(public setActiveBonfire: (id: string) => unknown) {}
 
@@ -56,140 +95,6 @@ export class CampsiteContext {
 	}
 	public get domain() {
 		return this.campsiteReference?.domain;
-	}
-}
-export class BonfireContext {
-	public static ownerPermissionsAggregated: AggregatedPermissions = {
-		role: PermissionMax,
-		bonfire: PermissionMax,
-		categories: {},
-		tents: {},
-	};
-	public tentToPermissions: Record<string, bigint> = {};
-	private aggregatedPermissions: AggregatedPermissions = BonfireContext.ownerPermissionsAggregated;
-	public tentOutput: GetTentsOutput;
-
-	constructor(
-		public bonfireId: string,
-		public campsiteReference: CampsiteReference,
-		tentOutput: GetTentsOutput,
-	) {
-		this.tentOutput = $state(tentOutput);
-
-		tentOutput.categories.sort((a, b) => a.position - b.position);
-
-		if (!this.campsiteReference.campsite || this.campsiteReference.userIsOwner) return;
-
-		this.aggregatedPermissions = aggregateAllPermissions(
-			this.campsiteReference.campsite.me,
-			this.campsiteReference.campsite.roles,
-			this.tentOutput.permissions,
-		);
-	}
-
-	/**
-	 * The campsite of the bonfire.
-	 */
-	public get campsite(): CampsiteViewDetailed {
-		return this.campsiteReference.campsite!;
-	}
-	/**
-	 * The bonfire as given by the API.
-	 */
-	public get bonfire(): BonfireViewBasic {
-		return this.campsiteReference.campsite!.bonfires.find((x) => x.id === this.bonfireId)!;
-	}
-	/**
-	 * Whether the bonfire is the bonfire that contains bulletin board and is displayed when viewing the campsite for the first time.
-	 */
-	public get isBonfireDefault(): boolean {
-		return this.campsite.bonfires[0].id === this.bonfire.id;
-	}
-	/**
-	 * The list of categories within the bonfire only.
-	 */
-	public get categories(): TentCategoryView[] {
-		return this.tentOutput.categories;
-	}
-	/**
-	 * Updates the list of categories within the bonfire only.
-	 */
-	public set categories(value: TentCategoryView[]) {
-		this.tentOutput.categories = value;
-	}
-	/**
-	 * The list of tents within bonfire only.
-	 */
-	public get tents(): TentViewBasic[] {
-		return this.tentOutput.tents;
-	}
-	/**
-	 * Updates the list of tents within the bonfire only.
-	 */
-	public set tents(value: TentViewBasic[]) {
-		this.tentOutput.tents = value;
-	}
-	/**
-	 * The list of all tent, category and bonfire permissions within this bonfire.
-	 */
-	public get permissions(): CampsitePermissionViewBasic[] {
-		return this.tentOutput.permissions;
-	}
-
-	/**
-	 * The list of permissions for all categories within this bonfire for this user.
-	 */
-	public get categoryPermissions(): Record<string, bigint> {
-		return this.aggregatedPermissions.categories;
-	}
-	/**
-	 * The list of permissions for this user in this bonfire.
-	 */
-	public get bonfirePermissions(): bigint {
-		return this.aggregatedPermissions.bonfire;
-	}
-	/**
-	 * The list of permission for this user in this bonfire.
-	 */
-	public get rolePermissions(): bigint {
-		return this.aggregatedPermissions.role;
-	}
-	/**
-	 * Gets from cache or calculates the permissions of tent when it is in the given category. When category is not specified, it is calculated based on parent bonfire's permissions.
-	 * @param tentId The ID of the tent
-	 * @param categoryId The ID of the tent's parent category
-	 * @returns Tent's permissions
-	 */
-	public getTentPermission(tentId: string, categoryId?: string | null): bigint {
-		// No need to calculate it; they have all perms
-		if (this.campsiteReference.userIsOwner) return PermissionMax;
-		// Possibly already cached
-		else if (this.tentToPermissions[tentId]) return this.tentToPermissions[tentId];
-
-		return this.recacheTentPermissions(tentId, categoryId);
-	}
-	/**
-	 * Calculates and changes the cached value of the tent's permissions. Useful in WS events.
-	 * @param tentId The ID of the tent
-	 * @param categoryId The ID of the tent's parent category
-	 * @returns Tent's calculated permissions
-	 */
-	public recacheTentPermissions(tentId: string, categoryId?: string | null) {
-		const categoryPerms =
-			categoryId && this.categoryPermissions[categoryId] ?
-				this.categoryPermissions[categoryId]
-			:	this.bonfirePermissions;
-
-		const tentOverwrittenPerms: bigint | undefined = this.aggregatedPermissions.tents[tentId];
-
-		// Nothing to calculate anyways
-		if (!tentOverwrittenPerms) return categoryPerms;
-
-		// Category perms < Tent's denied perms < Tent's allowed perms
-		return (this.tentToPermissions[tentId] = applyNestedPermissions(
-			categoryPerms,
-			tentOverwrittenPerms!,
-		));
 	}
 }
 

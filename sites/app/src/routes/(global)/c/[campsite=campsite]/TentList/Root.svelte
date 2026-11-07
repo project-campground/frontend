@@ -3,13 +3,13 @@
 	import TentListTent from './Tent.svelte';
 	import TentMover from '../../../../../lib/components/content/ContentMover/Discrete.svelte';
 	import { getAppview } from '#lib/context/api.js';
-	import type { TentViewBasic } from '#lib/types/campground/tent.js';
+	import type { TentViewInList } from '#lib/types/campground/tent.js';
 
 	const {
 		categoryId,
 		tents,
 		domain,
-	}: { categoryId?: string | null; tents: TentViewBasic[]; domain: string } = $props();
+	}: { categoryId?: string | null; tents: TentViewInList[]; domain: string } = $props();
 
 	const bottomTents = $derived(tents.slice(-1));
 	const appview = getAppview();

@@ -5,4 +5,4 @@ export class PermissionsContext {
 	public permissions: bigint = $state.raw(PermissionMax);
 }
 
-export const [getPermissions, setPermissions] = createContext<PermissionsContext>();
+export const [getPermissionContext, setPermissionsContext] = createContext<PermissionsContext>();

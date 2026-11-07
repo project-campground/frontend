@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TentCategoryView } from '#lib/types/campground/tent.js';
+	import type { TentCategoryViewDetailed } from '#lib/types/campground/tent.js';
 	import { getLocale } from '@campground/locale';
 	import { DeleteSettings } from '../CommonSettings/index.ts';
 	import { getSettings } from '../Settings/context.svelte.ts';
@@ -8,7 +8,7 @@
 
 	const locale = getLocale();
 	const appview = getAppview();
-	const { value } = getSettings<TentCategoryView>();
+	const { value } = getSettings<TentCategoryViewDetailed>();
 
 	async function doDelete() {
 		return appview.categories.delete(value.id);

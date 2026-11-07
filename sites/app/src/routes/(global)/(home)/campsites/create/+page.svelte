@@ -19,7 +19,7 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
 	import {
 		Form,
 		FieldControl,
@@ -37,7 +37,7 @@
 	import { IconInfoCircleFilled } from '@tabler/icons-svelte';
 	import { localeStrings } from '#lib/locale/index.js';
 
-	const session = getSession();
+	const session = getAuth();
 
 	interface FormFields {
 		name: string;

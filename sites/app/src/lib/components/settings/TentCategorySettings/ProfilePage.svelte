@@ -5,14 +5,20 @@
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { getAppview } from '#lib/context/api.js';
-	import type { TentCategoryView } from '#lib/types/campground/tent.js';
+	import type { TentCategoryViewInList } from '#lib/types/campground/tent.js';
 	import { DescriptionLimits, NameLimits } from '#lib/util/limits.js';
+	import { PermissionFlag } from '#lib/util/constants.js';
+	import { getPermissionContext } from '../../../../routes/(global)/c/[campsite=campsite]/permissions.svelte.ts';
 
-	const settings = getSettings<TentCategoryView>();
+	const settings = getSettings<TentCategoryViewInList>();
+	const permissionsContext = getPermissionContext();
 	const appview = getAppview();
+	const cannotManage = $derived(
+		(permissionsContext.permissions & PermissionFlag.ManageTents) === 0n,
+	);
 
 	let form: Form | null = $state(null);
-	let tentCategory: TentCategoryView = $derived(settings.value);
+	const tentCategory = $derived(settings.value);
 
 	$effect(() => {
 		if (!form) return;
@@ -20,7 +26,7 @@
 		settings.setForm(form.getForm());
 	});
 
-	type ProfileForm = Pick<TentCategoryView, 'description' | 'name'>;
+	type ProfileForm = Pick<TentCategoryViewInList, 'description' | 'name'>;
 
 	async function updateProfile(values: ProfileForm) {
 		return appview.categories.update(settings.value.id, values);
@@ -48,6 +54,7 @@
 				<FieldControl
 					key="name"
 					defaultValue={tentCategory.name}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.name} />
@@ -60,6 +67,7 @@
 				<FieldControl
 					key="description"
 					defaultValue={tentCategory.description}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.topic} />

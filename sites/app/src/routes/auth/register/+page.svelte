@@ -62,7 +62,7 @@
 	import { Group, Section, TextBlock, Accordion, Alert, Para, Debounced } from '@campground/ui';
 	import { defaultPds } from '../../../lib/api/api.config.js';
 	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
 	import HTTPAtprotoClient from '#lib/api/http/HTTPAtprotoClient.js';
 	import type { DescribedServer } from '#lib/types/atproto/server.js';
 	import XrpcError from '#lib/api/XrpcError.js';
@@ -75,7 +75,7 @@
 	const intl = getLocale();
 	let error: Error | null = $state(null);
 
-	const session = getSession();
+	const session = getAuth();
 
 	let pdsValue: string = $state(defaultPds.url);
 	let describedServer: DescribedServer | Error = $state(new Error('Not done fetching the PDS'));

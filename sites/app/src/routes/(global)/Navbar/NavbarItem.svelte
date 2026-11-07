@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { AccountNavbarItemType, type AccountNavbarCampsite, type AccountNavbarItemAny } from '#lib/context/account.svelte.js';
+	import { NavigationItemType, type NavigationCampsite, type NavigationItemAny } from '#lib/context/session/index.ts';
 	import { scale } from 'svelte/transition';
 	import CampsiteButton from './CampsiteButton.svelte';
 
-	const { item }: { item: AccountNavbarItemAny } = $props();
+	const { item }: { item: NavigationItemAny } = $props();
 </script>
 
 <div transition:scale={{ duration: 300, opacity: 1 }}>
-    {#if item.type === AccountNavbarItemType.Campsite}
-        {const { campsite } = item as AccountNavbarCampsite}
+    {#if item.type === NavigationItemType.Campsite}
+        {const { campsite } = item as NavigationCampsite}
         <CampsiteButton
             id={campsite.id}
-            domain={campsite._domain}
+            domain={campsite.domain}
             name={campsite.name}
             memberCount={campsite.memberCount}
             avatar={campsite.avatarUri ?? undefined}

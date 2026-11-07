@@ -1,12 +1,12 @@
 import type {
-	CampsitePermissionViewDetailed,
+	PermissionViewDetailed,
 	GetPermissionsOutput,
 } from '#lib/types/campground/permissions.js';
 import type { RoleView } from '#lib/types/campground/roles.js';
 import { ItemListSettingsContext } from '../context.svelte.ts';
 
 export type PermissionViewSettings = Omit<
-	CampsitePermissionViewDetailed,
+	PermissionViewDetailed,
 	'tentId' | 'bonfireId' | 'categoryId' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'
 >;
 

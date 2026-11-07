@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ProfileAvatar from '#lib/components/pages/ProfileAvatar.svelte';
-	import type { BonfireViewBasic } from '#lib/types/campground/bonfires.js';
+	import type { BonfireViewInList } from '#lib/types/campground/bonfires.js';
 	import {
 		getMenuPortal,
 		Group,
@@ -13,15 +13,21 @@
 	import { getCampsiteContext } from '../context.svelte.ts';
 	import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
-	import { getAppview } from '#lib/context/api.js';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { BonfireSettings } from '#lib/components/settings/index.js';
 	import { v4 } from 'uuid';
+	import { getPermissions, hasPermission } from '#lib/util/permissions.js';
+	import { PermissionFlag, PermissionMax } from '#lib/util/constants.js';
 
-	const { bonfire, onClick }: { bonfire: BonfireViewBasic; onClick?: () => unknown } = $props();
+	const { bonfire, onClick }: { bonfire: BonfireViewInList; onClick?: () => unknown } = $props();
 
 	const menuPortal = getMenuPortal();
 	const campsiteContext = getCampsiteContext();
+	const permissions = $derived(
+		campsiteContext.userIsOwner ? PermissionMax : (
+			getPermissions(campsiteContext.permissions, bonfire)
+		),
+	);
 </script>
 
 {#snippet settings(instance: MenuPortalInstance<'delete'>)}
@@ -38,20 +44,22 @@
 		virtual={instance.payload}
 	>
 		<Menu.List>
-			<Menu.Group>
-				<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>
-					<IconSettingsFilled />
-					<LocaleMessage {...localeStrings.bonfires.settings} />
-				</Menu.Button>
-				<Menu.Button
-					color="danger"
-					onclick={(ev) => menuPortal.add(settings, ev.currentTarget, v4(), 'delete')}
-					disabled={(campsiteContext.bonfires?.length ?? 1) < 2}
-				>
-					<IconTrashFilled />
-					<LocaleMessage {...localeStrings.bonfires.delete} />
-				</Menu.Button>
-			</Menu.Group>
+			{#if hasPermission(permissions, PermissionFlag.ManageBonfires)}
+				<Menu.Group>
+					<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>
+						<IconSettingsFilled />
+						<LocaleMessage {...localeStrings.bonfires.settings} />
+					</Menu.Button>
+					<Menu.Button
+						color="danger"
+						onclick={(ev) => menuPortal.add(settings, ev.currentTarget, v4(), 'delete')}
+						disabled={(campsiteContext.bonfires?.length ?? 1) < 2}
+					>
+						<IconTrashFilled />
+						<LocaleMessage {...localeStrings.bonfires.delete} />
+					</Menu.Button>
+				</Menu.Group>
+			{/if}
 		</Menu.List>
 	</Menu.Root>
 {/snippet}

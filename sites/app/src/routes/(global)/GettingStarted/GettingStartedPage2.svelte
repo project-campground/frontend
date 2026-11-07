@@ -30,7 +30,7 @@
 	} from '@campground/form';
 	import { Section, Group, Para, Stack } from '@campground/ui';
 	import { LocaleMessage, getLocale } from '@campground/locale';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
 	import type { GettingStarted } from './context.svelte.ts';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { User } from '#lib/components/index.ts';
@@ -41,7 +41,7 @@
 	const { gettingStarted }: Props = $props();
 
 	const intl = getLocale();
-	const account = getAccount();
+	const account = getSession();
 </script>
 
 <div class="page">

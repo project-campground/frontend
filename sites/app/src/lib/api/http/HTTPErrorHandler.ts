@@ -1,3 +1,3 @@
-import type { SessionAuthRefresh } from '../session/types.js';
+import type { AuthResultRefresh } from '../../context/auth/types.ts';
 
-export type HTTPRefreshLogin = (refresh: SessionAuthRefresh) => void;
+export type HTTPRefreshLogin = (refresh: AuthResultRefresh) => void;

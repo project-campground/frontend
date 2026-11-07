@@ -2,7 +2,7 @@
 	import { TentCategorySettings } from '#lib/components/settings/index.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { localeStrings } from '#lib/locale/index.js';
-	import type { TentCategoryView } from '#lib/types/campground/tent.js';
+	import type { TentCategoryViewDetailed } from '#lib/types/campground/tent.js';
 	import { LocaleMessage } from '@campground/locale';
 	import {
 		Accordion,
@@ -26,7 +26,7 @@
 		return appview.categories.move(draggedId, { position: category.position });
 	}
 
-	const { category, children }: { category: TentCategoryView; children: Snippet } = $props();
+	const { category, children }: { category: TentCategoryViewDetailed; children: Snippet } = $props();
 </script>
 
 {#snippet settings(instance: MenuPortalInstance<'delete'>)}

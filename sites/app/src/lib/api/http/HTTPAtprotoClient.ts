@@ -1,6 +1,10 @@
 import { defaultXrpcPrefix, defaultPds } from '../api.config.js';
 import type { HTTPRefreshLogin } from './HTTPErrorHandler.js';
-import type { SessionAuthRefresh, SessionAuthUser, SessionBasic } from '#lib/api/session/types.js';
+import type {
+	AuthResultRefresh,
+	AuthResultLogin,
+	AuthResultRegister,
+} from '#lib/context/auth/types.js';
 import type {
 	AtprotoRecord,
 	GetRecordListResponse,
@@ -12,7 +16,11 @@ import HTTPAccountManager from './account.ts';
 import type { DescribedServer } from '#lib/types/atproto/server.js';
 import HTTPProfilePostRecordManager from './profilePostRecord.js';
 import HTTPBackendClient from './HTTPBackendClient.js';
-import type { CampsiteViewBasic, CreateCampsiteOutput } from '#lib/types/campground/campsites.js';
+import type {
+	CampsiteViewBasic,
+	CampsiteViewWithDomain,
+	CreateCampsiteOutput,
+} from '#lib/types/campground/campsites.js';
 import HTTPProfileRecordManager from './profileRecord.js';
 import HTTPInviteGlobalManager from './inviteGlobal.js';
 import XrpcError from '../XrpcError.js';
@@ -85,7 +93,7 @@ export default class HTTPAtprotoClient {
 		{ authFactorToken, ...auth }: { identifier: string; authFactorToken?: string; password: string },
 		requestConfig: Partial<RequestPrefixed> = {},
 	) {
-		return HTTPAtprotoClient.atprotoFetch<SessionAuthUser>({
+		return HTTPAtprotoClient.atprotoFetch<AuthResultLogin>({
 			method: 'POST',
 			route: 'com.atproto.server.createSession',
 			body: { ...auth, authFactorToken: authFactorToken ?? '', allowTakenDown: true },
@@ -114,7 +122,7 @@ export default class HTTPAtprotoClient {
 		},
 		requestConfig: Partial<RequestPrefixed> = {},
 	) {
-		return HTTPAtprotoClient.atprotoFetch<SessionBasic & { didDoc: unknown }>({
+		return HTTPAtprotoClient.atprotoFetch<AuthResultRegister>({
 			method: 'POST',
 			route: `com.atproto.server.createAccount`,
 			body: props,
@@ -170,7 +178,7 @@ export default class HTTPAtprotoClient {
 	}
 
 	public async refreshSession(requestConfig: Partial<RequestPrefixed> = {}) {
-		const resp = await HTTPAtprotoClient.atprotoFetch<SessionAuthRefresh>({
+		const resp = await HTTPAtprotoClient.atprotoFetch<AuthResultRefresh>({
 			method: 'POST',
 			route: 'com.atproto.server.refreshSession',
 			headers: { Authorization: `Bearer ${this._config.refreshAuth}` },
@@ -303,12 +311,15 @@ export default class HTTPAtprotoClient {
 		});
 	}
 
-	public getBackendJoinedCampsites(domain: string, campsites?: string[]) {
-		return this.fetchProxied<{ campsites: CampsiteViewBasic[] }>(domain, {
+	public async getBackendJoinedCampsites(
+		domain: string,
+		campsites?: string[],
+	): Promise<CampsiteViewWithDomain[]> {
+		return this.fetchProxied<CampsiteViewBasic[]>(domain, {
 			method: 'GET',
 			route: `gg.campground.campsite.getActorCampsites`,
 			queries: { campsites },
-		}).then((resp) => ({ ...resp, domain }) as { campsites: CampsiteViewBasic[]; domain: string });
+		}).then((resp) => resp.map((campsite) => ({ ...campsite, domain })));
 	}
 	public createCampsiteInBackend(
 		domain: string,

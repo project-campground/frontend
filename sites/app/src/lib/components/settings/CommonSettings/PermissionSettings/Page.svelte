@@ -7,7 +7,7 @@
 	import { Form } from '@campground/form';
 	import { getSettings } from '../../Settings/context.svelte.js';
 	import PermissionItem from './PermissionButton.svelte';
-	import type { CampsitePermissionView } from '#lib/types/campground/permissions.js';
+	import type { PermissionView } from '#lib/types/campground/permissions.js';
 	import type { PageProps } from './props.ts';
 	import { setItemListSettings } from '../context.svelte.ts';
 	import Permissions from './Permissions.svelte';
@@ -41,7 +41,7 @@
 		settings.setForm(form.getForm());
 	});
 
-	async function updatePermission(data: Pick<CampsitePermissionView, 'permissions'>) {
+	async function updatePermission(data: Pick<PermissionView, 'permissions'>) {
 		Object.assign(context.selected, data);
 
 		return appview.permissions.update(

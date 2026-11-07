@@ -2,48 +2,30 @@ import { createContext } from 'svelte';
 import type { GetSession } from '#lib/types/atproto/session.js';
 import type { CampsiteViewBasic, CampsiteViewWithDomain } from '#lib/types/campground/campsites.js';
 import type { CampgroundProfileRecord } from '#lib/types/campground/user.js';
-import type { Session } from '#lib/api/session/Session.svelte.js';
+import type { AuthContext } from '#lib/context/auth/context.svelte.js';
 import XrpcError from '#lib/api/XrpcError.js';
 import type {
 	PreferenceNavbarItemAny,
 	PreferenceNavCampsite,
 } from '#lib/types/bluesky/preferences.js';
 import { toLookup } from '#lib/util/array.js';
+import {
+	AccountInfoLoadState,
+	NavigationItemType,
+	type NavigationCampsite,
+	type NavigationItemAny,
+} from './types.ts';
+import type { AtprotoRecord } from '#lib/types/atproto/record.js';
 
-export enum AccountInfoLoadState {
-	None = 0,
-	Started = 1,
-	Campsites = 2,
-	All = 3,
-	AllUnsigned = 4,
-}
-export enum AccountNavbarItemType {
-	Campsite = 0,
-}
-
-export interface AccountNavbarItem<T extends AccountNavbarItemType> {
-	type: T;
-	id: string;
-}
-export interface AccountNavbarCampsite extends AccountNavbarItem<AccountNavbarItemType.Campsite> {
-	campsite: CampsiteViewWithDomain;
-}
-export type AccountNavbarItemAny = AccountNavbarCampsite;
-
-export class AccountInfo {
+export class Session {
 	public loadState: AccountInfoLoadState = $state(AccountInfoLoadState.None);
 	public profile: CampgroundProfileRecord | null = $state(null);
-	public navbarItems: AccountNavbarItemAny[] = $state([]);
+	public navbarItems: NavigationItemAny[] = $state([]);
 	public sessionInfo: GetSession | null = $state(null);
-	public userSettingsOpen = $state(false);
 
-	constructor(private session: Session) {}
+	constructor(private session: AuthContext) {}
 
-	public openUserSettings() {
-		return (this.userSettingsOpen = true);
-	}
-
-	private async onPreferencesInit() {
+	private async _onPreferencesInit() {
 		if (!this.session.preferences.full?.nav?.items)
 			return (this.loadState = AccountInfoLoadState.Campsites);
 
@@ -57,7 +39,7 @@ export class AccountInfo {
 			(item) => item.domain,
 		);
 
-		const backendRespPromises = await Promise.allSettled(
+		const instancesToCampsites = await Promise.allSettled(
 			Object.entries(backendDomains).map(([domain, items]) =>
 				this.session.atproto.getBackendJoinedCampsites(
 					domain,
@@ -66,26 +48,20 @@ export class AccountInfo {
 			),
 		);
 
-		const backendResps = backendRespPromises
+		const validInstanceFetches = instancesToCampsites
 			.filter((x) => x.status === 'fulfilled')
-			.map(
-				(x) => (x as PromiseFulfilledResult<{ campsites: CampsiteViewBasic[]; domain: string }>).value,
-			);
+			.map((x) => (x as PromiseFulfilledResult<CampsiteViewWithDomain[]>).value);
 
 		// Basically warning when certain back-end could not be fetched
-		for (const badResp of backendRespPromises.filter((x) => x.status === 'rejected')) {
-			console.warn('Rejected promise while fetching campsite list', badResp.reason);
+		for (const invalid of instancesToCampsites.filter((x) => x.status === 'rejected')) {
+			console.warn('Rejected promise while fetching campsite list', invalid.reason);
 		}
 
-		const campsites = backendResps.flatMap((resp) =>
-			resp.campsites.map(
-				(campsite) => ({ ...campsite, _domain: resp.domain }) as CampsiteViewWithDomain,
-			),
-		);
+		const campsites = validInstanceFetches.flatMap((campsites) => campsites);
 
 		this.navbarItems = this.session.preferences.full.nav.items
 			.map((x) => this.getNavbarItem(campsites, x))
-			.filter((x) => x) as unknown as AccountNavbarItemAny[];
+			.filter((x) => x) as unknown as NavigationItemAny[];
 
 		return (this.loadState = AccountInfoLoadState.Campsites);
 	}
@@ -93,32 +69,32 @@ export class AccountInfo {
 	private getNavbarItem(
 		campsites: CampsiteViewWithDomain[],
 		navItem: PreferenceNavbarItemAny,
-	): AccountNavbarItemAny | void {
+	): NavigationItemAny | void {
 		if (navItem.$type !== 'gg.campground.actor.defs#navCampsitePref') return;
 
-		const campsite = campsites.find((y) => y._domain === navItem.domain && y.id === navItem.id);
+		const campsite = campsites.find((y) => y.domain === navItem.domain && y.id === navItem.id);
 
 		if (!campsite) return;
 
 		return {
-			type: AccountNavbarItemType.Campsite,
-			id: `${navItem.id}@${navItem.domain}`,
+			type: NavigationItemType.Campsite,
+			id: `${navItem.id}@${campsite.domain}`,
 			campsite,
-		} as AccountNavbarCampsite;
+		} as NavigationCampsite;
 	}
 
 	public async addCampsiteToNavbar(domain: string, campsite: CampsiteViewBasic) {
 		this.navbarItems.push({
-			type: AccountNavbarItemType.Campsite,
+			type: NavigationItemType.Campsite,
 			id: `${campsite.id}@${domain}`,
-			campsite: { ...campsite, _domain: domain },
+			campsite: { ...campsite, domain },
 		});
 		return this.session.preferences.addCampsiteToListGlobally(domain, campsite.id);
 	}
 
 	public async removeCampsiteFromNavbar(domain: string, campsiteId: string) {
 		const index = this.navbarItems.findIndex(
-			(x) => x.campsite.id === campsiteId && x.campsite._domain === domain,
+			(x) => x.campsite.id === campsiteId && x.campsite.domain === domain,
 		);
 
 		if (index < 0) return;
@@ -128,28 +104,37 @@ export class AccountInfo {
 		return this.session.preferences.removeCampsiteFromListGlobally(domain, campsiteId);
 	}
 
-	private async initUnsigned() {
-		this.loadState = AccountInfoLoadState.AllUnsigned;
-		return this;
-	}
-
 	public async init() {
-		if (!this.session.auth.authenticated) return this.initUnsigned();
+		if (!this.session.auth.authenticated) return this._initUnsigned();
+		// Ensure it isn't spammed for whatever reason
 		else if (this.loadState !== AccountInfoLoadState.None) return this;
 
 		this.loadState = AccountInfoLoadState.Started;
 
-		this.session.preferences.onInit(async () => this.onPreferencesInit());
+		// Know preferences being initialized ASAP
+		this.session.preferences.onInit(async () => this._onPreferencesInit());
 
 		const [sessionInfo, profile] = await Promise.allSettled([
 			this.session.atproto.getSession(),
 			this.session.atproto.profileRecords.get(this.session.auth.user.did),
-			this.session.preferences.loaded && this.onPreferencesInit(),
+			// FIXME It could have already been initialized
+			this.session.preferences.loaded && this._onPreferencesInit(),
 		]);
 
-		if (sessionInfo.status === 'rejected') throw sessionInfo.reason;
+		return this._postFetch(sessionInfo, profile);
+	}
 
-		if (
+	private async _initUnsigned() {
+		this.loadState = AccountInfoLoadState.AllUnsigned;
+		return this;
+	}
+
+	private async _postFetch(
+		sessionInfo: PromiseSettledResult<GetSession>,
+		profile: PromiseSettledResult<AtprotoRecord<CampgroundProfileRecord>>,
+	) {
+		if (sessionInfo.status === 'rejected') throw sessionInfo.reason;
+		else if (
 			profile.status === 'rejected'
 			&& (!(profile.reason instanceof XrpcError) || profile.reason.code !== 'RecordNotFound')
 		)
@@ -172,4 +157,4 @@ export class AccountInfo {
 	}
 }
 
-export const [getAccount, setAccount] = createContext<AccountInfo>();
+export const [getSession, setSession] = createContext<Session>();

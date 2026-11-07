@@ -1,62 +1,48 @@
 <script lang="ts">
 	import HTTPBackendClient from '#lib/api/http/HTTPBackendClient.js';
-	import { getSession } from '#lib/api/session/Session.svelte.js';
+	import { getAuth } from '#lib/context/auth/context.svelte.js';
 	import { setAppview } from '#lib/context/api.js';
 	import { MenuPortal, MenuPortalContainer, Portals, setMenuPortal } from '@campground/ui';
 	import type { LayoutProps } from './$types.ts';
-	import {
-		BonfireContext,
-		CampsiteContext,
-		CampsiteReference,
-		setCampsiteContext,
-	} from './context.svelte.ts';
+	import { CampsiteContext, CampsiteReference, setCampsiteContext } from './context.svelte.ts';
 	import Sidebar from './BonfireSidebar/Sidebar.svelte';
-	import WSClient from '#lib/api/ws/WSClient.js';
-	import { filter, type Unsubscribable } from 'rxjs';
+	import { type Unsubscribable } from 'rxjs';
 	import { handleWebSocket } from './ws/index.svelte.ts';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.js';
+	import { BonfireContext } from './bonfires.svelte.ts';
 
 	const { children, params }: LayoutProps = $props();
 	const [campsiteId, domain] = $derived(params.campsite.split('@'));
 
+	const auth = getAuth();
 	const session = getSession();
-	const account = getAccount();
 
-	const appview = new HTTPBackendClient(session, () => domain);
+	const appview = new HTTPBackendClient(auth, () => domain);
 	setAppview(appview);
 
 	const campsiteContext = new CampsiteContext(setBonfire);
 	setCampsiteContext(campsiteContext);
 
 	async function setBonfire(bonfireId: string) {
-		if (campsiteContext.openBonfire?.bonfireId === bonfireId || !campsiteContext.campsiteReference)
-			return;
+		if (campsiteContext.openBonfire?.id === bonfireId || !campsiteContext.campsiteReference) return;
 
-		const tents = await appview.tents.getMany(campsiteId, bonfireId);
-		campsiteContext.openBonfire = new BonfireContext(
+		campsiteContext.openBonfire = await BonfireContext.initialize(
+			campsiteId,
 			bonfireId,
-			campsiteContext.campsiteReference,
-			tents,
+			campsiteContext,
+			appview,
 		);
 	}
 
 	let webSocketUnsubscribe: Unsubscribable | null = null;
 
 	async function fetchCampsite(domain: string, campsiteId: string) {
-		const campsite = await appview.campsites.get(campsiteId);
-		// Do one-time deal to not sort in every place ever
-		CampsiteReference.sortCampsiteItems(campsite);
-
-		const webSocket = new WSClient({
-			httpClient: session.atproto,
-			url: `${domain?.split(':')[0] === 'localhost' ? 'http' : 'https'}://${domain}/ws/v1`,
-		});
-
-		webSocketUnsubscribe = webSocket?.messages
-			.pipe(filter((value) => value.op === 0 && value.t === 'open'))
-			.subscribe(() => webSocket.setCampsite(campsiteId));
-
-		campsiteContext.campsiteReference = new CampsiteReference(domain, campsite, webSocket);
+		campsiteContext.campsiteReference = await CampsiteReference.initialize(
+			auth,
+			appview,
+			domain,
+			campsiteId,
+		);
 	}
 
 	$effect(() => {
@@ -71,7 +57,7 @@
 	$effect(() => {
 		if (!campsiteContext.campsiteReference) return;
 
-		return handleWebSocket(campsiteContext, account);
+		return handleWebSocket(campsiteContext, session);
 	});
 
 	// Since portals would otherwise lack all the campsite context

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { defaultAvatar } from '#lib/api/api.config.js';
 	import { User } from '#lib/components/index.js';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
 	import { getMenuPortal, getOutsideClickBoundary, Menu, MenuPortalInstance } from '@campground/ui';
 
 	let menuInstance: MenuPortalInstance | null = $state(null);
@@ -9,7 +9,7 @@
 	const menuPortal = getMenuPortal();
 	const clickAway = getOutsideClickBoundary();
 
-	const account = getAccount();
+	const account = getSession();
 
 	function toggleMenuInstance(ev: MouseEvent & { currentTarget: HTMLElement }) {
 		$clickAway = ev;

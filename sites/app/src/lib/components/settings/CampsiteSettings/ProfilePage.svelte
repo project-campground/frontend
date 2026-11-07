@@ -17,10 +17,14 @@
 	import type { CampsiteViewBasic } from '#lib/types/campground/campsites.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { DescriptionLimits, NameLimits } from '#lib/util/limits.js';
+	import { PermissionFlag } from '#lib/util/constants.js';
 
 	const settings = getSettings();
 	const campsiteContext = getCampsiteContext();
 	const appview = getAppview();
+	const cannotManage = $derived(
+		(campsiteContext.permissions & PermissionFlag.ManageCampsite) === 0n,
+	);
 
 	let form: Form | null = $state(null);
 
@@ -61,6 +65,7 @@
 				<FieldControl
 					key="banner"
 					defaultValue={createImageDefaultValue(campsiteContext.campsite?.bannerUri)}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.banner} />
@@ -74,6 +79,7 @@
 					<FieldControl
 						key="avatar"
 						defaultValue={createImageDefaultValue(campsiteContext.campsite?.avatarUri)}
+						disabled={cannotManage}
 					>
 						<ImageField
 							width="3.5rem"
@@ -84,6 +90,7 @@
 					<FieldControl
 						key="name"
 						defaultValue={campsiteContext.campsite?.name}
+						disabled={cannotManage}
 					>
 						<FieldLabel>
 							<LocaleMessage {...localeStrings.content.name} />
@@ -99,6 +106,7 @@
 				<FieldControl
 					key="description"
 					defaultValue={campsiteContext.campsite?.description}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.topic} />
@@ -111,6 +119,7 @@
 				<FieldControl
 					key="tags"
 					defaultValue={campsiteContext.campsite?.tags}
+					disabled={cannotManage}
 				>
 					<FieldLabel>
 						<LocaleMessage {...localeStrings.content.tags} />

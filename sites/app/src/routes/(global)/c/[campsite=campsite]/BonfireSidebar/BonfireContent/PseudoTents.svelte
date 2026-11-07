@@ -5,13 +5,14 @@
 	import { pseudoTentList } from '#lib/components/tents/pseudoTents.js';
 	import { Stack } from '@campground/ui';
 	import TentListButton from '../../TentList/TentListButton.svelte';
+	import { hasAnyPermission } from '#lib/util/permissions.js';
 
     const campsiteContext = getCampsiteContext();
     const campsiteReference = $derived(campsiteContext.campsiteReference!);
     const intl = getLocale();
 </script>
 
-{const pseudoTents = pseudoTentList.map((tent) => ({
+{const pseudoTents = pseudoTentList.filter((tent) => !tent.requiresAnyPermission || campsiteContext.userIsOwner || hasAnyPermission(campsiteContext.permissions, tent.requiresAnyPermission)).map((tent) => ({
     ...tent,
     campsiteId: campsiteReference.campsite.id,
     position: 0,

@@ -6,11 +6,11 @@
 	import { localeStrings } from '#lib/locale/index.js';
 	import { IconLayout2Filled, IconMessage2Filled } from '@tabler/icons-svelte';
 	import { getItemListSettings } from '../context.svelte.ts';
-	import type { CampsitePermissionViewBasic } from '#lib/types/campground/permissions.js';
+	import type { PermissionViewBasic } from '#lib/types/campground/permissions.js';
 	import type { QueryProps } from './props.ts';
 
 	const { queries }: { queries: QueryProps } = $props();
-	const settings = getItemListSettings<CampsitePermissionViewBasic>();
+	const settings = getItemListSettings<PermissionViewBasic>();
 	const permission = $derived(settings.selected);
 </script>
 

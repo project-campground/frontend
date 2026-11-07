@@ -38,7 +38,7 @@
 	} from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { defineMessages } from '@formatjs/svelte-intl';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.js';
 	import { localeStrings } from '#lib/locale/index.js';
 	import type { MemberViewBasic, MemberViewDetailed } from '#lib/types/campground/membership.js';
 	import {
@@ -49,7 +49,8 @@
 	import { getAppview } from '#lib/context/api.js';
 	import { toLookup } from '#lib/util/array.js';
 	import type { RoleView } from '#lib/types/campground/roles.js';
-	import { RoleFlag } from '#lib/util/constants.ts';
+	import { PermissionFlag, PermissionMax, RoleFlag } from '#lib/util/constants.js';
+	import { hasPermission } from '#lib/util/permissions.js';
 
 	interface Props {
 		hideButtons?: boolean;
@@ -72,10 +73,11 @@
 		return appview.members.addRole(campsiteContext.campsite.id, roleId, { memberIds: [user.did] });
 	}
 
-	const session = getAccount();
+	const session = getSession();
 	const currentUserDid = session.sessionInfo?.did ?? null;
 	const inCampsiteContext = hasCampsiteContext();
 	const campsiteContext = inCampsiteContext ? getCampsiteContext() : null;
+	const permissions = $derived(campsiteContext?.permissions ?? PermissionMax);
 
 	const { hideButtons, user, member }: Props = $props();
 </script>
@@ -106,8 +108,9 @@
 			</div>
 		</div>
 		{#if member && inCampsiteContext}
-		<div class="sections">
+			<div class="sections">
 				{const memberRoles = toLookup<RoleView, 0 | 1>(campsiteContext!.roles ?? [], (x) => Number(member.roles.includes(x.id)) as 0 | 1)}
+				{const manageRoles = $derived(hasPermission(permissions, PermissionFlag.GiveRoles))}
 				<Accordion
 					expanded
 					noBackground
@@ -117,9 +120,11 @@
 					{/snippet}
 					<Group gap={0.5}>
 						{#each memberRoles[1] as role (role.id)}
-							<Role.Display {role} onRemove={(role.flags & RoleFlag.Default) === RoleFlag.Default ? undefined : removeRole.bind(null, role.id)} />
+							<Role.Display {role} onRemove={(role.flags & RoleFlag.Default) === RoleFlag.Default && manageRoles ? undefined : removeRole.bind(null, role.id)} />
 						{/each}
-						<Role.Adder roles={memberRoles[0]} onAdd={addRole} />
+						{#if manageRoles}
+							<Role.Adder roles={memberRoles[0]} onAdd={addRole} />
+						{/if}
 					</Group>
 				</Accordion>
 			</div>
@@ -176,7 +181,7 @@
 		background-color: var(--background-body);
 		border-radius: var(--radius-xl);
 		margin: 0 0.5rem;
-		padding: 0.25rem;
+		padding: 0.5rem;
 		margin-top: 1rem;
 		.hideButtons & {
 			display: none;

@@ -1,4 +1,4 @@
-import type { Session } from '#lib/api/session/Session.svelte.js';
+import type { AuthContext } from '#lib/context/auth/context.svelte.ts';
 import type {
 	CampgroundPreference,
 	CampgroundPreferenceAppearance,
@@ -19,7 +19,7 @@ export interface CampgroundPreferences {
 const preferenceStorageKey = 'preference';
 
 export default class PreferenceManager {
-	private session: Session;
+	private session: AuthContext;
 
 	public global: Partial<CampgroundPreferences> = {};
 	public local: Partial<CampgroundPreferences> = {};
@@ -30,7 +30,7 @@ export default class PreferenceManager {
 	private static CAMPGROUND_PREFERENCE_PREFIX = 'app.bsky.actor.defs#' + 'gg.campground.actor.defs.';
 	private _onInit?: Array<() => Promise<unknown> | unknown> = [];
 
-	constructor(session: Session) {
+	constructor(session: AuthContext) {
 		this.session = session;
 	}
 

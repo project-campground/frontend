@@ -14,14 +14,14 @@
 <script lang="ts">
 	import BasicPostEditor from '#lib/components/editor/BasicPostEditor.svelte';
 	import { User } from '#lib/components/index.js';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
 	import { LocaleMessage, getLocale } from '@campground/locale';
 	import { Card, Group } from '@campground/ui';
 	import { defineMessages } from '@formatjs/svelte-intl';
 	import { IconPencilFilled } from '@tabler/icons-svelte';
 
 	let open = $state(false);
-	const currentUser = getAccount();
+	const currentUser = getSession();
 	const intl = getLocale();
 
 	const { onSubmit }: { onSubmit: (value: string) => unknown } = $props();

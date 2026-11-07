@@ -1,4 +1,4 @@
-import type { TentCategoryView } from '#lib/types/campground/tent.js';
+import type { TentCategoryViewDetailed } from '#lib/types/campground/tent.js';
 import HTTPBackendObjectManager from './base-backend.js';
 
 export default class HTTPCategoryManager extends HTTPBackendObjectManager {
@@ -7,7 +7,7 @@ export default class HTTPCategoryManager extends HTTPBackendObjectManager {
 		bonfire_id: string,
 		body: { name: string; description: string; position: number },
 	) {
-		return this.client.post<TentCategoryView>({
+		return this.client.post<TentCategoryViewDetailed>({
 			route: 'gg.campground.tent.createCategory',
 			queries: { campsite_id, bonfire_id },
 			body,
@@ -15,7 +15,7 @@ export default class HTTPCategoryManager extends HTTPBackendObjectManager {
 	}
 
 	update(category_id: string, body: { name?: string; description?: string }) {
-		return this.client.post<TentCategoryView>({
+		return this.client.post<TentCategoryViewDetailed>({
 			route: 'gg.campground.tent.updateCategory',
 			queries: { category_id },
 			body,
@@ -23,7 +23,7 @@ export default class HTTPCategoryManager extends HTTPBackendObjectManager {
 	}
 
 	move(category_id: string, body: { position: number } | { bonfireId: string; position: number }) {
-		return this.client.post<TentCategoryView>({
+		return this.client.post<TentCategoryViewDetailed>({
 			route: 'gg.campground.tent.moveCategory',
 			queries: { category_id },
 			body,
@@ -31,7 +31,7 @@ export default class HTTPCategoryManager extends HTTPBackendObjectManager {
 	}
 
 	delete(category_id: string) {
-		return this.client.post<TentCategoryView>({
+		return this.client.post<TentCategoryViewDetailed>({
 			route: 'gg.campground.tent.deleteCategory',
 			queries: { category_id },
 		});

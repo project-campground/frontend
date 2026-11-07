@@ -18,7 +18,7 @@
 
 <script lang="ts">
 	import { getAppview } from '#lib/context/api.js';
-	import { getAccount } from '#lib/context/account.svelte.js';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
 	import HTTPProfilePostRecordManager from '#lib/api/http/profilePostRecord.js';
 	import { ProfilePost } from '#lib/components/index.js';
 	import { PagePlaceholder, Threaded } from '@campground/ui';
@@ -28,7 +28,7 @@
 	import { LocaleMessage } from '@campground/locale';
 
 	const appview = getAppview();
-	const currentUser = getAccount();
+	const currentUser = getSession();
 
 	function onReplyCreate(content: string) {
 		const createdAt = new Date().toISOString();

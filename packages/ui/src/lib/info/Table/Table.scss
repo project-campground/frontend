@@ -1,0 +1,19 @@
+@mixin table-solid() {
+	border: solid thin var(--neutral-border);
+}
+@mixin table-solid-meta() {
+	background-color: var(--background-body);
+}
+@mixin table-solid-even-row() {
+	background-color: var(--neutral-softBack);
+}
+
+%Table-solid {
+	@include table-solid();
+}
+%Table-solidMeta {
+	@include table-solid-meta();
+}
+%Table-solidEvenRow {
+	@include table-solid-even-row();
+}

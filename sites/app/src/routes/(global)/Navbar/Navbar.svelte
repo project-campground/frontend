@@ -1,0 +1,101 @@
+<script
+	lang="ts"
+	module
+>
+	const messages = defineMessages({
+		emptyCampsiteList: {
+			id: 'app.navbar.emptyList',
+			defaultMessage: 'Join campsites to fill this list!',
+			description: 'Link to discover campsites when the campsite list is empty',
+		},
+	});
+</script>
+
+<script lang="ts">
+	import { Link, Svg } from '@campground/ui';
+	import GlobalNavbarButton from './NavbarButton.svelte';
+	import NavbarProfile from './NavbarProfile.svelte';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
+	import { defineMessages } from '@formatjs/svelte-intl';
+	import { LocaleMessage } from '@campground/locale';
+	import NavbarItem from './NavbarItem.svelte';
+
+	const account = getSession();
+</script>
+
+<div class="GlobalNavbar container">
+	<div class="GlobalNavbar stack">
+		<GlobalNavbarButton
+			href="/"
+			activeExcept={['/c/', '/profile/']}
+		>
+			<Svg.Logo size={2} />
+		</GlobalNavbarButton>
+	</div>
+	<div class="GlobalNavbar divider"></div>
+	<div class="GlobalNavbar campsites stack">
+		{#if !account.navbarItems.length}
+			<Link
+				color="neutral"
+				href="/discover"
+			>
+				<LocaleMessage {...messages.emptyCampsiteList} />
+			</Link>
+		{/if}
+		{#each account.navbarItems as item (item.id)}
+			<NavbarItem {item} />
+		{/each}
+	</div>
+	<div class="GlobalNavbar divider"></div>
+	<div class="GlobalNavbar stack">
+		<NavbarProfile />
+	</div>
+</div>
+
+<style lang="scss">
+	@use '@campground/ui' as *;
+
+	.divider {
+		width: 2px;
+		height: calc(100% - 1rem);
+		background-color: var(--neutral-border);
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		scroll-snap-align: start;
+
+		gap: 1rem;
+
+		@include tablet-up {
+			padding: 0 0.5rem;
+			width: calc(100vw - 1rem);
+			align-items: center;
+			flex-direction: row;
+		}
+	}
+	.campsites {
+		flex: 1;
+		overflow-x: hidden;
+		overflow-y: auto;
+		@include tablet-up {
+			overflow-y: hidden;
+			overflow-x: auto;
+			align-items: center;
+			flex-direction: row;
+		}
+	}
+	.stack {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0.5rem;
+		@include tablet-up {
+			align-items: center;
+			flex-direction: row;
+		}
+	}
+</style>

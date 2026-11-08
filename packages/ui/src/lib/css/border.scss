@@ -1,0 +1,31 @@
+@use 'sass:list';
+@use './util.scss' as *;
+@use 'sass:math' as *;
+
+$radius:
+	div(5, 16) * 1rem,
+	div(9, 16) * 1rem,
+	div(13, 16) * 1rem,
+	div(2, 2) * 1rem,
+	div(3, 2) * 1rem,
+	div(4, 2) * 1rem,
+	div(5, 2) * 1rem;
+$radius-map: create-size-map($radius);
+
+@function create-shadows($pixel, $blur, $prefix) {
+	$sizes: 2, 2.5, 3, 4, 5;
+	$shadow-list: ();
+
+	@each $size in $sizes {
+		$shadow-list: list.append($shadow-list, #{$prefix} 0 calc($pixel * $size) calc($blur * $size));
+	}
+
+	@return $shadow-list;
+}
+$shadow: create-shadows(0.0625rem, 3px, '');
+$inset-shadow: create-shadows(0, 3px, inset);
+$glow: create-shadows(0, 3px, '');
+
+$shadow-map: create-size-map($shadow);
+$inset-shadow-map: create-size-map($inset-shadow);
+$glow-map: create-size-map($glow);

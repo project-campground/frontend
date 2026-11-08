@@ -1,0 +1,28 @@
+%MarkdownContent-basic {
+	:global(p),
+	:global(blockquote) {
+		&:first-of-type {
+			margin-block-start: 0;
+		}
+		&:last-of-type {
+			margin-block-end: 0;
+		}
+	}
+	:global(blockquote) {
+		position: relative;
+		margin-inline: 0;
+		padding-inline-start: 2rem;
+
+		&::before {
+			position: absolute;
+			content: '';
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: 0.25rem;
+			border-radius: var(--radius-sm);
+
+			background-color: var(--neutral-solidBack);
+		}
+	}
+}

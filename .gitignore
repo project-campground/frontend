@@ -4,8 +4,25 @@
 .vscode
 .idea/
 
+# Yarn and NPM
+**/yarn.lock
+**/package-lock.json
+
+# Vite and Svelte
+**/.vite/**/*
+**/.svelte-kit
+**/.svelte-kit/**/*
+**/dist/**/*
+**/build/**/*
+**/dist
+**/build
+sites/*/.svelte-kit/**/*
+sites/*/.svelte-kit
+
 # dependencies
 /node_modules
+**/node_modules
+**/node_modules/**/*
 /.pnp
 .pnp.js
 .yarn/install-state.gz

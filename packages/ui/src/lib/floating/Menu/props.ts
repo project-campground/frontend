@@ -1,0 +1,28 @@
+import type { MenuPortalInstance } from '#lib/floating/MenuPortalContainer/portals.svelte.js';
+import type { Size } from '#lib/util/component.js';
+import type { Snippet } from 'svelte';
+import type { HTMLAttributes, HTMLLiAttributes, HTMLMenuAttributes } from 'svelte/elements';
+import type { CommonFloatingProps } from '../common-floating.ts';
+import type { ComponentSize, ComponentSizeWithNone } from '#lib/types/attributes.js';
+
+export interface RootProps extends HTMLAttributes<HTMLDivElement>, CommonFloatingProps {
+	children?: Snippet;
+	instance: MenuPortalInstance<any>;
+	virtual?: { x: number; y: number; width?: number; height?: number };
+
+	w?: Size;
+	h?: Size;
+	maxw?: Size;
+	maxh?: Size;
+	minw?: Size;
+	minh?: Size;
+}
+export interface ListProps extends HTMLMenuAttributes {
+	children?: Snippet;
+	size?: ComponentSize;
+}
+export interface ItemProps extends HTMLLiAttributes {
+	size?: ComponentSizeWithNone;
+	padding?: 'default' | 'no-inline';
+	children?: Snippet;
+}

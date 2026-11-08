@@ -1,0 +1,272 @@
+<script
+	lang="ts"
+	module
+>
+	import { defineMessages } from '@formatjs/svelte-intl';
+
+	const messages = defineMessages({
+		rememberAccount: {
+			id: `app.auth.remember`,
+			defaultMessage: `Remember your account locally?`,
+			description: `Checkbox to remember account of the user in their local account list.`,
+		},
+		expectedInvite: {
+			id: `info.inviteCode.error`,
+			defaultMessage: `Expected a PDS invite code`,
+			description: `Error when the submitted PDS invite code has bad formatting`,
+		},
+		expectedHandle: {
+			id: `info.handle.error`,
+			defaultMessage: `Expected a user handle`,
+			description: `Error when the submitted handle has bad formatting`,
+		},
+		expectedEmail: {
+			id: `info.email.error`,
+			defaultMessage: `Expected a valid email address`,
+			description: `Error when the submitted email has bad formatting`,
+		},
+		passwordMismatch: {
+			id: `info.passwprd.confirm.error`,
+			defaultMessage: `Expected passwords to match`,
+			description: `Error when the submitted confirmed password is not the exact same as regular password.`,
+		},
+		passwordPlaceholder: {
+			id: `info.password.placeholder.register`,
+			defaultMessage: `New password here`,
+			description: `The placeholder for the password`,
+		},
+		passwordConfirmPlaceholder: {
+			id: `info.password.confirm.placeholder.register`,
+			defaultMessage: `Re-enter password here`,
+			description: `The placeholder for the confirm password`,
+		},
+		pdsNote: {
+			id: `info.pds.note`,
+			defaultMessage: `You always have the ability to change PDS (personal data server) and you always have the ability to contact or interact with people from other PDS (unless the PDS is chosen to be blocked by the user).`,
+			description: `A note for the user that PDS (personal server) can always be changed and they can interact with people from other PDS`,
+		},
+	});
+</script>
+
+<script lang="ts">
+	import {
+		Form,
+		FieldControl,
+		FieldError,
+		FieldLabel,
+		SubmitButton,
+		TextField,
+		type FormProps,
+	} from '@campground/form';
+	import { LocaleMessage, getLocale } from '@campground/locale';
+	import { Group, Section, TextBlock, Accordion, Alert, Para, Debounced } from '@campground/ui';
+	import { defaultPds } from '../../../lib/api/api.config.js';
+	import { IconInfoCircleFilled, IconWorldFilled, IconXFilled } from '@tabler/icons-svelte';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
+	import HTTPAtprotoClient from '#lib/api/http/HTTPAtprotoClient.js';
+	import type { DescribedServer } from '#lib/types/atproto/server.js';
+	import XrpcError from '#lib/api/XrpcError.js';
+	import KnownPdsOptions from '../KnownPdsOptions.svelte';
+	import { authMessages } from '../messages.ts';
+	import { localeStrings } from '#lib/locale/index.js';
+
+	let passwordToConfirm = $state('');
+
+	const intl = getLocale();
+	let error: Error | null = $state(null);
+
+	const session = getAuth();
+
+	let pdsValue: string = $state(defaultPds.url);
+	let describedServer: DescribedServer | Error = $state(new Error('Not done fetching the PDS'));
+
+	let describeDebouncer = new Debounced(
+		async () =>
+			(describedServer = await HTTPAtprotoClient.describeServer({ url: pdsValue }).catch(
+				(err) => err as Error,
+			)),
+		1000,
+	);
+
+	$effect(() => {
+		if (pdsValue) describeDebouncer.invoke();
+	});
+
+	const onSubmit: FormProps['onSubmit'] = async (fields: Record<string, string>) => {
+		const { pds, handle, ...details } = fields as {
+			handle: string;
+			email: string;
+			password: string;
+			confirmPassword: string;
+			pds: string;
+		};
+		const description = describedServer as DescribedServer;
+		const result = await HTTPAtprotoClient.register(
+			{ handle: handle + description.availableUserDomains[0], ...details },
+			{ url: pds },
+		);
+
+		session.saveAccount({ handle: result.handle, email: details.email, server: pds });
+
+		return navigation.navigate('/auth');
+	};
+</script>
+
+<Form {onSubmit}>
+	{#if !(describedServer instanceof Error) && describedServer.inviteCodeRequired}
+		<Section>
+			<FieldControl
+				key="inviteCode"
+				required
+			>
+				<FieldLabel>
+					<LocaleMessage {...localeStrings.users.inviteCode} />
+				</FieldLabel>
+				<TextField
+					format={{
+						regex: /^[A-Za-z0-9]+([-][A-Za-z0-9]+(?:[:][0-9]+)?)+$/,
+						errorMessage: intl.formatMessage(messages.expectedInvite) as string,
+					}}
+				/>
+				<FieldError></FieldError>
+			</FieldControl>
+		</Section>
+	{/if}
+	<Section>
+		<FieldControl
+			key="handle"
+			required
+		>
+			<FieldLabel>
+				<LocaleMessage {...localeStrings.users.handle} />
+			</FieldLabel>
+			<TextField
+				placeholder="example_handle"
+				format={{
+					regex: /^[A-Za-z0-9_+-]{3,}$/,
+					errorMessage: intl.formatMessage(messages.expectedHandle),
+				}}
+			>
+				{#snippet right()}
+					{#if describedServer && !(describedServer instanceof Error)}
+						<TextBlock level="body">
+							{describedServer?.availableUserDomains[0]}
+						</TextBlock>
+					{/if}
+				{/snippet}
+			</TextField>
+			<FieldError></FieldError>
+		</FieldControl>
+		<FieldControl
+			key="email"
+			required
+		>
+			<FieldLabel>
+				<LocaleMessage {...localeStrings.users.email} />
+			</FieldLabel>
+			<TextField
+				type="email"
+				placeholder="example@example.com"
+				format={{
+					regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+					errorMessage: intl.formatMessage(messages.expectedEmail),
+				}}
+			/>
+			<FieldError></FieldError>
+		</FieldControl>
+	</Section>
+	<Section>
+		<FieldControl
+			key="password"
+			bind:value={passwordToConfirm}
+			required
+		>
+			<FieldLabel>
+				<LocaleMessage {...localeStrings.password.password} />
+			</FieldLabel>
+			<TextField
+				type="password"
+				placeholder={intl.formatMessage(messages.passwordPlaceholder)}
+			/>
+			<FieldError></FieldError>
+		</FieldControl>
+		<FieldControl
+			key="confirmPassword"
+			required
+		>
+			<FieldLabel>
+				<LocaleMessage {...localeStrings.password.confirmPassword} />
+			</FieldLabel>
+			<TextField
+				type="password"
+				placeholder={intl.formatMessage(messages.passwordConfirmPlaceholder)}
+				format={{
+					value: passwordToConfirm,
+					errorMessage: intl.formatMessage(messages.passwordMismatch),
+				}}
+			/>
+			<FieldError></FieldError>
+		</FieldControl>
+	</Section>
+	<Accordion>
+		{#snippet header()}
+			<LocaleMessage {...localeStrings.users.pds} />
+		{/snippet}
+		<FieldControl
+			key="pds"
+			bind:value={pdsValue}
+			defaultValue={defaultPds.url}
+			required
+		>
+			<TextField
+				placeholder={defaultPds.url}
+				format={{
+					regex: /^(https?[:]\/\/)(localhost[:][0-9]{2,}|([A-Za-z0-9_+-]+[.])+([A-Za-z0-9_+-]{2,}))$/,
+					errorMessage: intl.formatMessage(authMessages.expectedPds),
+				}}
+			>
+				{#snippet left()}
+					<IconWorldFilled />
+				{/snippet}
+				{#snippet known()}
+					<KnownPdsOptions />
+				{/snippet}
+			</TextField>
+			<FieldError></FieldError>
+			<!-- Allow users to know if there was error fetching the PDS describe server or whatever -->
+			{#if describedServer instanceof XrpcError}
+				<Para color="danger">
+					{describedServer.code} [{describedServer.status}]: {describedServer.description}
+				</Para>
+			{:else if describedServer instanceof Error}
+				<Para color="danger">
+					{describedServer}
+				</Para>
+			{/if}
+			<Alert color="info">
+				{#snippet icon()}
+					<IconInfoCircleFilled />
+				{/snippet}
+				<LocaleMessage {...messages.pdsNote} />
+			</Alert>
+		</FieldControl>
+	</Accordion>
+	<Section>
+		<Group
+			direction="row-reverse"
+			directionMobile="column"
+		>
+			<SubmitButton
+				disabled={describedServer instanceof Error || !(describedServer as DescribedServer)}
+			/>
+		</Group>
+		{#if error}
+			<Alert color="danger">
+				{#snippet icon()}
+					<IconXFilled />
+				{/snippet}
+				{error}
+			</Alert>
+		{/if}
+	</Section>
+</Form>

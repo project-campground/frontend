@@ -1,0 +1,203 @@
+<script lang="ts">
+	import { stackedProps } from '#lib/hierarchy/layout.js';
+	import type ButtonProps from './props.ts';
+
+	const {
+		children,
+		size,
+		variant,
+		color,
+		padding,
+		fullWidth,
+		class: className,
+		textAlign,
+		...attributes
+	}: ButtonProps = $props();
+</script>
+
+<button
+	type="button"
+	class={[{ fullWidth }, className]}
+	data-size={size ?? 'md'}
+	data-variant={variant ?? 'glow'}
+	data-color={color ?? 'primary'}
+	data-padding={padding}
+	data-text-align={textAlign}
+	{...stackedProps(attributes)}
+>
+	{@render children()}
+</button>
+
+<style lang="scss">
+	@use 'sass:list';
+	@use '../../common.scss' as *;
+	@use './Button.scss' as *;
+	@use '../../hierarchy/Layout.scss' as *;
+	@use '../../info/Text.scss' as *;
+
+	$regular-variants: 'plain', 'selected', 'soft';
+
+	button {
+		position: relative;
+		gap: 0.5rem;
+		outline: none;
+		border-radius: var(--Button-radius);
+
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+
+		@extend %Stacked;
+
+		@each $align in $text-aligns {
+			&[data-text-align='#{$align}'] {
+				text-align: $align;
+			}
+		}
+
+		font-weight: bold;
+		font-family: var(--font-body);
+
+		cursor: pointer;
+
+		&:disabled {
+			cursor: not-allowed;
+		}
+		&:focus-visible {
+			transform: scale(1.15);
+		}
+
+		@extend %Button-transform;
+		@extend %Button-sizing;
+		@extend %Button-sizingWithTypes;
+
+		&.fullWidth {
+			width: 100%;
+		}
+
+		@each $col in $color-types-all {
+			&[data-color='#{$col}'] {
+				&[data-variant='glow'] {
+					background: linear-gradient(
+						to bottom right,
+						var(--#{$col}-glowFirst),
+						var(--#{$col}-glowSecond)
+					);
+					color: var(--#{$col}-glowFore);
+					border: none;
+					box-shadow: var(--glow-lg) var(--#{$col}-glowFirst);
+					&::after {
+						content: '';
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						position: absolute;
+						background-color: #fff;
+						opacity: 0;
+						border-radius: var(--Button-radius);
+						transition:
+							opacity 0.2s,
+							background-color 0.2s;
+					}
+					&:disabled {
+						background: linear-gradient(
+							to bottom right,
+							var(--#{$col}-glowFirstDisabled),
+							var(--#{$col}-glowSecondDisabled)
+						);
+						box-shadow: none;
+					}
+					&:not(:disabled):hover {
+						box-shadow: var(--glow-xl) var(--#{$col}-glowFirst);
+					}
+					&:not(:disabled):hover::after {
+						opacity: 25%;
+					}
+					&:not(:disabled):hover:active::after,
+					&:not(:disabled):active::after {
+						opacity: 25%;
+						background-color: #000;
+					}
+				}
+				&[data-variant='menu'] {
+					border: none;
+					background: var(--#{$col}-softBack);
+					color: var(--#{$col}-softFore);
+					&:not(:disabled):hover {
+						color: var(--#{$col}-softForeHover);
+						background: var(--#{$col}-softBackHover);
+					}
+					&:not(:disabled):active {
+						color: var(--#{$col}-softForeActive);
+						background: var(--#{$col}-softBackActive);
+					}
+					&:disabled {
+						background: var(--#{$col}-softBackDisabled);
+						color: var(--#{$col}-softForeDisabled);
+					}
+					@include desktop-sm-up {
+						background: var(--#{$col}-plainBack);
+						color: var(--#{$col}-plainFore);
+						&:not(:disabled):hover {
+							color: var(--#{$col}-plainForeHover);
+							background: var(--#{$col}-plainBackHover);
+						}
+						&:not(:disabled):active {
+							color: var(--#{$col}-plainForeActive);
+							background: var(--#{$col}-plainBackActive);
+						}
+						&:disabled {
+							background: var(--#{$col}-plainBackDisabled);
+							color: var(--#{$col}-plainForeDisabled);
+						}
+					}
+				}
+				@each $variant in $regular-variants {
+					&[data-variant='#{$variant}'] {
+						border: none;
+						background: var(--#{$col}-#{$variant}Back);
+						color: var(--#{$col}-#{$variant}Fore);
+						&:not(:disabled):hover {
+							color: var(--#{$col}-#{$variant}ForeHover);
+							background: var(--#{$col}-#{$variant}BackHover);
+						}
+						&:not(:disabled):active {
+							color: var(--#{$col}-#{$variant}ForeActive);
+							background: var(--#{$col}-#{$variant}BackActive);
+						}
+						&:disabled {
+							background: var(--#{$col}-#{$variant}BackDisabled);
+							color: var(--#{$col}-#{$variant}ForeDisabled);
+						}
+					}
+				}
+			}
+		}
+		// Element interactions
+		:global([data-button-group]) > & {
+			border-radius: var(--radius-xs);
+		}
+		:global([data-button-group][data-direction='vertical']) > & {
+			&:first-of-type {
+				border-top-left-radius: var(--Button-radius);
+				border-top-right-radius: var(--Button-radius);
+			}
+			&:last-of-type {
+				border-bottom-left-radius: var(--Button-radius);
+				border-bottom-right-radius: var(--Button-radius);
+			}
+		}
+		:global([data-button-group][data-direction='horizontal']) > & {
+			&:first-of-type {
+				border-top-left-radius: var(--Button-radius);
+				border-bottom-left-radius: var(--Button-radius);
+			}
+			&:last-of-type {
+				border-bottom-right-radius: var(--Button-radius);
+				border-top-right-radius: var(--Button-radius);
+			}
+		}
+	}
+</style>

@@ -1,0 +1,66 @@
+<script lang="ts">
+	import type FormSimpleFieldProps from './props.ts';
+
+	const key = $props.id();
+
+	const {
+		header,
+		children,
+		component,
+		reverse,
+		class: className,
+		...props
+	}: FormSimpleFieldProps = $props();
+</script>
+
+<div
+	class={['container', { reverse }, className]}
+	{...props}
+>
+	<header class="header">
+		{@render component(key)}
+		{#if header}
+			<label
+				class="title"
+				for={key}
+			>
+				{@render header()}
+			</label>
+		{/if}
+	</header>
+	{#if children}
+		<section class="description">
+			{@render children()}
+		</section>
+	{/if}
+</div>
+
+<style lang="scss">
+	.container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	.header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 1ch;
+	}
+	.title {
+		font-weight: 700;
+		color: var(--foreground-subheading);
+	}
+	.reverse > .header {
+		flex-direction: row-reverse;
+	}
+	.description {
+		color: var(--foreground-subtext);
+	}
+	.header > :global(.title) {
+		display: flex;
+		flex-direction: row;
+		gap: 1ch;
+		flex: 1;
+	}
+</style>

@@ -1,0 +1,76 @@
+<script lang="ts">
+	import type FormProps from './props.ts';
+	import { FormInstance, setForm } from './context.svelte.ts';
+	import { notInherited } from '@campground/ui';
+
+	let {
+		children,
+		class: className,
+		hideOverflow,
+		gap,
+		inlineContent,
+		onSubmit,
+		autocomplete,
+		h,
+		flex,
+		gridColumn,
+		gridRow,
+		...attributes
+	}: FormProps = $props();
+
+	const form = new FormInstance(() => onSubmit);
+
+	export function getForm() {
+		return form;
+	}
+
+	// Basically main functionality of form: the context
+	setForm(form);
+</script>
+
+<form
+	autocomplete={autocomplete ?? 'off'}
+	{...attributes}
+	class={[{ hideOverflow, inlineContent }, className]}
+	data-gap={gap}
+	data-height={h ?? 'default'}
+	style:--Layout-flex={notInherited(flex)}
+	style:--Layout-gridColumn={notInherited(gridColumn)}
+	style:--Layout-gridRow={notInherited(gridRow)}
+>
+	<svelte:boundary>
+		{#snippet failed(err)}
+			ERR: {err}
+			{console.error(err)}
+		{/snippet}
+		{@render children?.()}
+	</svelte:boundary>
+</form>
+
+<style lang="scss">
+	@use '@campground/ui' as *;
+
+	$gaps: create-size-map((0.5rem, 1rem, 1.5rem, 2rem, 3rem));
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		@extend %InLayout;
+		&[data-height='full'] {
+			height: 100%;
+		}
+		@each $size, $value in $gaps {
+			&[data-gap='#{$size}'] {
+				gap: $value;
+			}
+		}
+	}
+	.inlineContent {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	.hideOverflow {
+		overflow: hidden;
+	}
+</style>

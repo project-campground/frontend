@@ -1,0 +1,24 @@
+@use 'sass:list';
+@use './transition.scss' as *;
+
+$size-names: 'xs', 'sm', 'md', 'lg';
+$size-names-with-none: list.join(('none'), $size-names);
+$size-names-with-xl: list.append($size-names, 'xl');
+
+$color-types: 'primary', 'secondary', 'success', 'danger', 'warning', 'info';
+$status-color-types: mention, dnd, away, idle, online, offline, notification;
+$generic-color-types: 'red', 'yellow', 'green', 'teal', 'blue', 'purple', 'grey';
+$color-types-all: list.join($color-types, ('neutral'));
+
+$position-horizontal: left, right;
+$position-vertical: top, bottom;
+$positions: list.join($position-horizontal, $position-vertical);
+
+@mixin button-transform($hover: 1.025, $active: 0.925) {
+	transition-duration: $transition-time-sm;
+	transition-property: background, color, transform, opacity, border-color, box-shadow;
+	transition-timing-function: ease-out;
+	&:not(:disabled):active {
+		transform: scale(#{$active});
+	}
+}

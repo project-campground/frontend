@@ -1,0 +1,28 @@
+<script lang="ts">
+	import UserAvatar from './Avatar.svelte';
+	import type { UserDisplayProps } from './props.ts';
+	import UserDisplayRoot from './Root.svelte';
+
+	const { user, size, hideStatus, ...props }: UserDisplayProps = $props();
+</script>
+
+<UserDisplayRoot
+	{size}
+	{...props}
+>
+	{#snippet avatar()}
+		<UserAvatar
+			did={user.did}
+			src={user.avatar ?? undefined}
+			status={user.status}
+			{hideStatus}
+			{size}
+		/>
+	{/snippet}
+	{#snippet displayName()}
+		{user.displayName ?? user.handle}
+	{/snippet}
+	{#snippet handle()}
+		@{user.handle}
+	{/snippet}
+</UserDisplayRoot>

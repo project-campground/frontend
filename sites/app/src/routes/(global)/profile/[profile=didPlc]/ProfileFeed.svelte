@@ -1,0 +1,67 @@
+<script
+	lang="ts"
+	module
+>
+	const messages = defineMessages({
+		finalTitle: {
+			id: 'app.profile.end.title',
+			defaultMessage: 'No more posts',
+			description: 'The title of the info at the bottom that there are no more posts',
+		},
+		finalDescription: {
+			id: 'app.profile.end.desc',
+			defaultMessage: 'There are no more posts by this user in this section.',
+			description: 'The description of the info at the bottom that there are no more posts',
+		},
+	});
+</script>
+
+<script lang="ts">
+	import { getAppview } from '#lib/context/api.js';
+	import type { ProfilePostViewParented } from '#lib/types/campground/user.js';
+
+	import { LocaleMessage } from '@campground/locale';
+
+	import { PagePlaceholder, Stack } from '@campground/ui';
+	import { defineMessages } from '@formatjs/svelte-intl';
+	import ProfileFeedPost from './ProfileFeedPost.svelte';
+
+	interface Props {
+		did: string;
+		withReplies?: boolean;
+	}
+
+	export function onAddPost(post: ProfilePostViewParented) {
+		posts = [post, ...posts];
+	}
+
+	const appview = getAppview();
+	const { did, withReplies }: Props = $props();
+
+	let posts = $derived(
+		did ?
+			await appview.profilePosts.getMany(did, withReplies ?? false).then((value) => value.posts)
+		:	[],
+	);
+</script>
+
+<div class="padding">
+	<Stack gap={1}>
+		{#each posts as post (post.uri)}
+			<ProfileFeedPost profilePost={post} />
+		{/each}
+		<PagePlaceholder.Root icon={PagePlaceholder.Icon.NoMore}>
+			{#snippet title()}
+				<LocaleMessage {...messages.finalTitle} />
+			{/snippet}
+			<LocaleMessage {...messages.finalDescription} />
+		</PagePlaceholder.Root>
+	</Stack>
+</div>
+
+<style lang="scss">
+	.padding {
+		padding-top: 1rem;
+		padding-bottom: 8rem;
+	}
+</style>

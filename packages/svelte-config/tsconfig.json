@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"rewriteRelativeImportExtensions": true,
+		"allowJs": true,
+		"checkJs": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"verbatimModuleSyntax": true,
+		"noUncheckedIndexedAccess": true,
+		"isolatedModules": true,
+		"erasableSyntaxOnly": true,
+		"outDir": "./dist",
+		"rootDir": ".",
+		"sourceRoot": "./src",
+		"declaration": true
+	},
+	"files": ["./src/index.ts"]
+}

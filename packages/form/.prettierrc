@@ -1,0 +1,44 @@
+{
+	"tabWidth": 1,
+	"useTabs": true,
+	"printWidth": 100,
+	"endOfLine": "lf",
+
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"semi": true,
+
+	"objectWrap": "collapse",
+	"singleAttributePerLine": true,
+	"experimentalTernaries": true,
+	"experimentalOperatorPosition": "start",
+
+	"trailingComma": "all",
+
+	"plugins": ["prettier-plugin-svelte"],
+	"overrides": [
+		{
+			"files": "*.svelte",
+			"options": {
+				"tabWidth": 1,
+				"useTabs": true,
+				"printWidth": 100,
+				"endOfLine": "lf",
+
+				"singleQuote": true,
+				"jsxSingleQuote": true,
+				"semi": true,
+
+				"objectWrap": "collapse",
+				"singleAttributePerLine": true,
+				"experimentalTernaries": true,
+				"experimentalOperatorPosition": "start",
+
+				"trailingComma": "all",
+
+				"svelteIndentScriptAndStyle": true,
+				"svelteBracketNewLine": true
+			}
+		}
+	]
+}

@@ -1,0 +1,45 @@
+{
+	"name": "@campground/svelte-config",
+	"type": "module",
+	"version": "1.0.0",
+	"private": true,
+	"keywords": [
+		"campground"
+	],
+	"description": "Campground UI components that are shared between all of Campground's websites.",
+	"author": "Team Campground",
+	"license": "AGPL-3.0-or-later",
+	"scripts": {
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"build": "tsc"
+	},
+	"main": "./dist/src/index.js",
+	"types": "./dist/src/index.d.ts",
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"dependencies": {
+		"@sveltejs/adapter-static": "^3.0.10",
+		"@tsconfig/svelte": "^5.0.8"
+	},
+	"devDependencies": {
+		"@eslint/compat": "^2.0.4",
+		"@eslint/js": "^10.0.1",
+		"@sveltejs/adapter-node": "^5.5.7",
+		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"@types/node": "^24",
+		"eslint": "^10.2.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.17.0",
+		"globals": "^17.4.0",
+		"jiti": "^2.6.1",
+		"prettier": "^3.8.1",
+		"prettier-plugin-svelte": "^3.5.1",
+		"publint": "^0.3.18",
+		"typescript": "^6.0.2",
+		"typescript-eslint": "^8.58.1"
+	}
+}

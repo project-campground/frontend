@@ -1,0 +1,27 @@
+<script lang="ts">
+	import type { CellProps } from './props.ts';
+
+	const { index, children }: CellProps = $props();
+</script>
+
+<span data-table-column={index}>
+	{@render children()}
+</span>
+
+<style lang="scss">
+	span {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		padding: 0.5rem;
+		padding-top: 1rem;
+
+		&:first-of-type {
+			padding-left: 1.5rem;
+		}
+		&:last-of-type {
+			padding-right: 1.5rem;
+		}
+	}
+</style>

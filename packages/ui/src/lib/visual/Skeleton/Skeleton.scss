@@ -1,0 +1,25 @@
+%Skeleton-pulse {
+	@keyframes skeleton-pulse {
+		0% {
+			background-position-x: 0%;
+		}
+		100% {
+			background-position-x: 100%;
+		}
+	}
+
+	background: linear-gradient(
+		to right,
+		var(--background-skeleton) 0%,
+		var(--background-skeleton) 40%,
+		var(--background-skeletonPulse) 50%,
+		var(--background-skeleton) 60%,
+		var(--background-skeleton) 100%
+	);
+
+	animation-name: skeleton-pulse;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	background-size: 1000%;
+}

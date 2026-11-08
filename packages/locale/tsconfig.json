@@ -1,0 +1,13 @@
+{
+	"extends": "$app/tsconfig",
+	"compilerOptions": {
+		"rewriteRelativeImportExtensions": true,
+		"sourceMap": true,
+		"strict": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"noUncheckedIndexedAccess": true,
+		"erasableSyntaxOnly": true
+	},
+	"include": ["src", "vite.config.ts"]
+}

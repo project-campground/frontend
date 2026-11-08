@@ -1,8 +1,20 @@
 {
-  "scripts": {
-    "extract": "formatjs extract 'sites/*campground.gg/src/**/*.ts*' --ignore='**/*.d.ts' --out-file lang/en-US.json --format='crowdin' --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
-  },
-  "devDependencies": {
-    "@formatjs/cli": "^6.14.1"
-  }
+    "private": true,
+    "scripts": {
+        "prepare": "npm run -w @campground/ui prepare",
+        "build:deps": "npm run -w @campground/svelte-config build",
+        "build:packages": "npm run -w @campground/ui build && npm run -w @campground/locale build && npm run -w @campground/form build && npm run -w @campground/data build",
+        "build:locale": "npm run -w @campground/locale build",
+        "build:ui": "npm run -w @campground/ui build",
+        "build:svelte-config": "npm run -w @campground/ui build",
+        "dev:landing": "npm run -w @campground/landing dev",
+        "extract": "formatjs extract '{sites,packages}/*/src/**/*.{ts,svelte,js}' --ignore='**/*.d.ts' --ignore '**/node_modules/**/*' --out-file lang/en-US.json --format='crowdin' --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
+    },
+    "devDependencies": {
+        "@formatjs/cli": "^6.16.6"
+    },
+    "workspaces": [
+        "packages/*",
+        "sites/*"
+    ]
 }

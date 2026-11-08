@@ -1,0 +1,75 @@
+<script lang="ts">
+	import { defaultAvatar } from '#lib/api/api.config.js';
+	import { User } from '#lib/components/index.js';
+	import { getSession } from '#lib/context/session/context.svelte.ts';
+	import { getMenuPortal, getOutsideClickBoundary, Menu, MenuPortalInstance } from '@campground/ui';
+
+	let menuInstance: MenuPortalInstance | null = $state(null);
+
+	const menuPortal = getMenuPortal();
+	const clickAway = getOutsideClickBoundary();
+
+	const account = getSession();
+
+	function toggleMenuInstance(ev: MouseEvent & { currentTarget: HTMLElement }) {
+		$clickAway = ev;
+
+		menuInstance = menuPortal.add(profileMenu, ev.currentTarget);
+	}
+
+	$effect(() => {
+		if (menuInstance && !menuPortal.items.includes(menuInstance)) menuInstance = null;
+	});
+</script>
+
+{#snippet profileMenu(instance: MenuPortalInstance)}
+	<Menu.Root
+		{instance}
+		placement="bottom-end"
+		offset={8}
+		w={20}
+	>
+		<User.CardMenu
+			user={{
+				did: account.sessionInfo?.did ?? 'did:null',
+				handle: account.sessionInfo?.handle ?? 'handle.invalid',
+				...(account.profile ?? {}),
+			}}
+		/>
+	</Menu.Root>
+{/snippet}
+
+{#if account.sessionInfo}
+	<button
+		class={['GlobalNavbarProfile', menuInstance && 'isOpen']}
+		onclick={(ev) => (ev.stopPropagation(), toggleMenuInstance(ev))}
+	>
+		<User.Avatar
+			did={account.sessionInfo!.did}
+			src={account.profile?.avatar ?? defaultAvatar}
+		/>
+	</button>
+{/if}
+
+<style lang="scss">
+	@use '@campground/ui' as *;
+
+	.GlobalNavbarProfile {
+		@include button-transform();
+
+		display: flex;
+		flex-direction: row;
+		gap: 2ch;
+
+		font-size: 1rem;
+		font-family: var(--font-body);
+		outline: none;
+
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		border-radius: 0;
+		cursor: pointer;
+		position: relative;
+	}
+</style>

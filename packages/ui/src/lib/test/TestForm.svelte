@@ -1,0 +1,347 @@
+<script lang="ts">
+	import type { ButtonVariant } from '#lib/form/Button/props.js';
+	import {
+		Button,
+		ButtonGroup,
+		Checkbox,
+		Group,
+		Para,
+		Radio,
+		Section,
+		Select,
+		Stack,
+		Switch,
+		TextInput,
+		Svg,
+		type ComponentColorAll,
+		Pick,
+	} from '#lib/index.js';
+	import { IconMoonFilled, IconSunFilled } from '@tabler/icons-svelte';
+	import { colors, sizes } from './values.js';
+
+	const variants: ButtonVariant[] = ['glow', 'soft', 'plain', 'selected'];
+
+	let switchValue = $state(false);
+
+	let pickValue: number = $state(0);
+	let inputValue = $state('');
+	let selectValue = $state<Select.Value | undefined | null>(null);
+
+	let radioGroup = $state('default');
+</script>
+
+{#snippet icon()}
+	<Svg.Logo size={2} />
+{/snippet}
+{#snippet selectMenu()}
+	<Select.Group>
+		<Select.Option value={'firstValue'}>Example #1 (str)</Select.Option>
+		<Select.Option
+			value={0}
+			color="danger">Example #2 (num)</Select.Option
+		>
+		<Select.Option
+			value={true}
+			color="warning">Example #3 (bool)</Select.Option
+		>
+	</Select.Group>
+{/snippet}
+{#snippet selectRenderer(value: Select.Value | null | undefined)}
+	Value: {JSON.stringify({ value })}
+{/snippet}
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Pick
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Pick.Root
+				bind:value={pickValue}
+				onChange={(value) => (pickValue = value)}
+			>
+				<Pick.List {size}>
+					{#each Array(5) as _, i (i)}
+						<Pick.Item>
+							{i}
+							{size}
+						</Pick.Item>
+					{/each}
+				</Pick.List>
+			</Pick.Root>
+			<Pick.Root>
+				<Pick.List {size}>
+					<Pick.Item>X</Pick.Item>
+					<Pick.Item>/</Pick.Item>
+					<Pick.Item>V</Pick.Item>
+				</Pick.List>
+			</Pick.Root>
+		{/each}
+	</Stack>
+</Section>
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Text Input
+	{/snippet}
+	<Stack>
+		{#each sizes as size}
+			<Section headerLevel={2}>
+				{#snippet header()}
+					{size}
+				{/snippet}
+				{#each [{}, { left: icon }, { right: icon }, { left: icon, right: icon }, { top: icon }, { bottom: icon }, { rows: 4 }] as attr}
+					<Section headerLevel={3}>
+						{#snippet header()}
+							Attr: {JSON.stringify(Object.keys(attr))}
+						{/snippet}
+						<Stack>
+							<TextInput
+								multirow
+								bind:value={inputValue}
+								{size}
+								placeholder={size}
+								{...attr}
+							/>
+							<Group>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size}
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` disabled`}
+									disabled
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` has error`}
+									error
+									{...attr}
+								/>
+								<TextInput
+									bind:value={inputValue}
+									{size}
+									placeholder={size + ` disabled, has error`}
+									disabled
+									error
+									{...attr}
+								/>
+							</Group>
+						</Stack>
+					</Section>
+				{/each}
+			</Section>
+		{/each}
+	</Stack>
+</Section>
+
+<Section headerLevel={1}>
+	{#snippet header()}
+		Select
+	{/snippet}
+	<Group>
+		{#each sizes as size}
+			<Section headerLevel={2}>
+				{#snippet header()}
+					{size}
+				{/snippet}
+				{#each [{}, { startDecorator: icon }, { endDecorator: icon }, { startDecorator: icon, endDecorator: icon }] as attr}
+					<Section headerLevel={3}>
+						{#snippet header()}
+							Attr: {JSON.stringify(Object.keys(attr))}
+						{/snippet}
+						<Group>
+							<Select.Button
+								bind:value={selectValue}
+								children={selectMenu}
+								display={selectRenderer}
+								{size}
+								{...attr}
+							/>
+							<Select.Button
+								bind:value={selectValue}
+								children={selectMenu}
+								display={selectRenderer}
+								{size}
+								disabled
+								{...attr}
+							/>
+						</Group>
+					</Section>
+				{/each}
+			</Section>
+		{/each}
+	</Group>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Switch
+	{/snippet}
+	<Stack gap={1}>
+		<Group>
+			<Switch bind:value={switchValue} />
+		</Group>
+		{#each [false, true] as disabled}
+			{#each [[], [IconMoonFilled], [undefined, IconSunFilled], [IconMoonFilled, IconSunFilled]] as iconSet}
+				<Group>
+					<Switch
+						bind:value={switchValue}
+						checkedIcon={iconSet[1]}
+						uncheckedIcon={iconSet[0]}
+						{disabled}
+					/>
+					{#each sizes as size}
+						<Switch
+							{size}
+							bind:value={switchValue}
+							checkedIcon={iconSet[1]}
+							uncheckedIcon={iconSet[0]}
+							{disabled}
+						/>
+					{/each}
+				</Group>
+			{/each}
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Checkbox
+	{/snippet}
+	<Stack gap={1}>
+		<Group>
+			<Checkbox bind:checked={switchValue} />
+		</Group>
+		{#each [false, true] as indeterminate}
+			{#each [false, true] as disabled}
+				{#each [undefined, IconMoonFilled] as icon}
+					{#each [undefined, IconSunFilled] as iconIndeterminate}
+						<Group>
+							<Checkbox
+								bind:checked={switchValue}
+								{disabled}
+								{indeterminate}
+								{iconIndeterminate}
+								{icon}
+							/>
+							{#each sizes as size}
+								<Checkbox
+									{size}
+									bind:checked={switchValue}
+									{disabled}
+									{indeterminate}
+									{iconIndeterminate}
+									{icon}
+								/>
+							{/each}
+						</Group>
+					{/each}
+				{/each}
+			{/each}
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Radio
+	{/snippet}
+	<Stack gap={1}>
+		<Para>Radio value: {radioGroup}</Para>
+		<Group>
+			<Radio
+				name="example-2"
+				value=""
+				bind:group={radioGroup}
+			/>
+		</Group>
+		{#each [false, true] as disabled}
+			<Group>
+				<Radio
+					name="example-2"
+					value={`default${disabled ? `-disabled` : ``}`}
+					bind:group={radioGroup}
+					{disabled}
+				/>
+				{#each sizes as size}
+					<Radio
+						name="example-2"
+						{size}
+						{disabled}
+						value={`${size}${disabled ? `-disabled` : ``}`}
+						bind:group={radioGroup}
+					/>
+				{/each}
+			</Group>
+		{/each}
+	</Stack>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Button
+	{/snippet}
+	<div>
+		{#each sizes as size}
+			<h2>{size}</h2>
+			<Stack gap={2}>
+				{#each variants as variant}
+					<Group gap={1}>
+						{#each [...colors, 'neutral'] as ComponentColorAll[] as color}
+							<Button
+								{variant}
+								{color}
+								{size}>{variant} {color} {size}</Button
+							>
+							<Button
+								{variant}
+								{color}
+								{size}
+								disabled>{variant} {color} {size} disabled</Button
+							>
+						{/each}
+					</Group>
+				{/each}
+			</Stack>
+		{/each}
+	</div>
+</Section>
+<Section headerLevel={1}>
+	{#snippet header()}
+		Button Group
+	{/snippet}
+	<Stack gap={2}>
+		{#each ['vertical', 'horizontal'] as const as direction (direction)}
+			{#each Array(5).keys() as i (i)}
+				<ButtonGroup {direction}>
+					{#each Array(i + 1).keys() as j (j)}
+						<Button
+							variant="soft"
+							color="neutral"
+							size="md"
+						>
+							{j}/{i + 1}
+							{direction}
+						</Button>
+					{/each}
+				</ButtonGroup>
+			{/each}
+			<ButtonGroup {direction}>
+				{#each colors as color (color)}
+					<Button
+						variant="soft"
+						{color}
+						size="md"
+					>
+						{direction}
+						{color}
+					</Button>
+				{/each}
+			</ButtonGroup>
+		{/each}
+	</Stack>
+</Section>

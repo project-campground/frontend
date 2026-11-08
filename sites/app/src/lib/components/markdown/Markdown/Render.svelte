@@ -1,0 +1,30 @@
+<script lang="ts">
+	import rehypeRaw from 'rehype-raw';
+	import remarkBreaks from 'remark-breaks';
+	import rehypeSanitize from 'rehype-sanitize';
+	import remarkParse from 'remark-parse';
+	import remarkRehype from 'remark-rehype';
+	import { unified } from 'unified';
+	import MarkdownFormatted from './Formatted.svelte';
+	import Node from './Node.svelte';
+	import type { RenderProps } from './props.ts';
+
+	const { value }: RenderProps = $props();
+
+	const mdAst = $derived(unified().use(remarkParse).parse(value));
+	const htmlFromMarkdown = $derived(
+		await unified()
+			.use(remarkBreaks)
+			.use(remarkRehype, { allowDangerousHtml: false })
+			.use(rehypeRaw)
+			.use(rehypeSanitize)
+			.run(mdAst),
+	);
+</script>
+
+<MarkdownFormatted>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{#each htmlFromMarkdown.children as content, i (i)}
+		<Node {content} />
+	{/each}
+</MarkdownFormatted>

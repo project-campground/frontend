@@ -1,0 +1,215 @@
+<script
+	lang="ts"
+	module
+>
+	const messages = defineMessages({
+		appview: {
+			id: 'app.campsites.appview',
+			defaultMessage: "Campsite's Platform Instance",
+			description: 'The title of the appview field in campsite creation',
+		},
+		appviewDesc: {
+			id: 'app.campsites.appview.desc',
+			defaultMessage:
+				'This sets where the campsite will be made. It is recommended to keep it as it is if you have no idea what it does. This does not mean that you have to host anything yourself, but you can choose to do so.',
+			description: 'The description of appview when creating a campsite',
+		},
+	});
+</script>
+
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { getAuth } from '#lib/context/auth/context.svelte.ts';
+	import {
+		Form,
+		FieldControl,
+		FieldError,
+		ImageField,
+		FieldLabel,
+		SubmitButton,
+		TextField,
+	} from '@campground/form';
+	import { LocaleMessage } from '@campground/locale';
+	import { Accordion, Avatar, Card, Group, Para, Stack, TextBlock, Alert } from '@campground/ui';
+	import KnownAppviewOptions from '../../../KnownAppviewOptions.svelte';
+	import { defaultAppview } from '#lib/api/api.config.js';
+	import { defineMessages } from '@formatjs/svelte-intl';
+	import { IconInfoCircleFilled } from '@tabler/icons-svelte';
+	import { localeStrings } from '#lib/locale/index.js';
+
+	const session = getAuth();
+
+	interface FormFields {
+		name: string;
+		description: string;
+		avatar?: string;
+		vanityUrl?: string | null;
+		tags: string[];
+		appview: string;
+	}
+
+	let name: string = $state('');
+	let avatar: string | undefined | null = $state(null);
+
+	async function createCampsite({ appview, ...props }: FormFields) {
+		const appviewDomain = appview.split('/')[2];
+
+		const createdCampsite = await session.atproto.createCampsiteInBackend(appviewDomain, props);
+
+		return await Promise.all([
+			session.preferences.addCampsiteToListGlobally(appview, createdCampsite.campsite.id),
+			appview
+				&& session.preferences.updateGlobal({
+					instances: {
+						domains: [appviewDomain, ...(session.preferences.global.instances?.domains ?? [])],
+					},
+				}),
+		])
+			.catch((err) => console.error('Error dealing with created campsite', err))
+			.finally(() => goto(`/c/${createdCampsite.campsite.id}/t/${createdCampsite.defaultTent.id}`));
+	}
+</script>
+
+<Card.Root
+	level="subtle"
+	size="xl"
+	gridColumn="2/4"
+>
+	<div class="grid">
+		<Form onSubmit={(values) => createCampsite(values as FormFields)}>
+			<Para level="h2">
+				<LocaleMessage {...localeStrings.campsites.create} />
+			</Para>
+			<Group>
+				<FieldControl
+					key="avatar"
+					bind:value={avatar}
+					required
+				>
+					<ImageField
+						radius="avatar"
+						width="4rem"
+						height="4rem"
+					/>
+				</FieldControl>
+				<FieldControl
+					key="name"
+					bind:value={name}
+					required
+					flex={1}
+				>
+					<FieldLabel>
+						<LocaleMessage {...localeStrings.content.name} />
+					</FieldLabel>
+					<TextField
+						minlength={3}
+						maxlength={48}
+					/>
+					<FieldError />
+				</FieldControl>
+			</Group>
+			<FieldControl key="description">
+				<FieldLabel>
+					<LocaleMessage {...localeStrings.content.topic} />
+				</FieldLabel>
+				<TextField
+					multirow
+					maxlength={200}
+				/>
+				<FieldError />
+			</FieldControl>
+			<Accordion>
+				{#snippet header()}
+					<LocaleMessage {...messages.appview} />
+				{/snippet}
+				<div class="appview">
+					<FieldControl
+						key="appview"
+						defaultValue={defaultAppview.url}
+					>
+						<TextField>
+							{#snippet known()}
+								<KnownAppviewOptions />
+							{/snippet}
+						</TextField>
+						<Alert color="info">
+							{#snippet icon()}
+								<IconInfoCircleFilled />
+							{/snippet}
+							<LocaleMessage {...messages.appviewDesc} />
+						</Alert>
+						<FieldError />
+					</FieldControl>
+				</div>
+			</Accordion>
+			<Group
+				direction="row"
+				directionMobile="column"
+			>
+				<SubmitButton>
+					<LocaleMessage {...localeStrings.content.create} />
+				</SubmitButton>
+			</Group>
+		</Form>
+		<Stack align="stretch">
+			<Card.Root>
+				<Card.Overflow>
+					<div class="campsite">
+						<Stack gap={0}>
+							{#if name}
+								<TextBlock
+									level="subheading"
+									weight={700}
+								>
+									{name || ' '}
+								</TextBlock>
+							{:else}
+								<TextBlock
+									level="background"
+									weight={700}
+								>
+									???
+								</TextBlock>
+							{/if}
+							<TextBlock
+								level="subtext"
+								weight={700}
+								fontSize={0.9}
+							>
+								<LocaleMessage
+									{...localeStrings.campsites.membersCount}
+									values={{ count: 1 }}
+								/>
+							</TextBlock>
+						</Stack>
+						<Avatar
+							src={avatar ?? undefined}
+							size="md"
+						>
+							{name[0]}
+						</Avatar>
+					</div>
+				</Card.Overflow>
+			</Card.Root>
+		</Stack>
+	</div>
+</Card.Root>
+
+<style lang="scss">
+	.grid {
+		display: grid;
+		grid-template-columns: 7fr 4fr;
+		gap: 2rem;
+	}
+	.campsite {
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: start;
+		align-items: center;
+		padding: 0.5rem 1rem;
+		gap: 1ch;
+	}
+	.appview {
+		padding: 0.5rem 1rem;
+	}
+</style>

@@ -1,0 +1,30 @@
+@use '../../common.scss' as *;
+@use '../Layout.scss' as *;
+
+$gap-sizes: create-size-map((0.25rem, 0.5rem, 1rem, 1.5rem, 2rem));
+$overflows: auto, hidden, visible;
+
+%CardLayoutItem {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	overflow: hidden;
+
+	@extend %InLayout;
+	@extend %Stacked;
+
+	padding-block: var(--CardLayoutItem-paddingTop) var(--CardLayoutItem-paddingBottom);
+	padding-inline: var(--CardLayoutItem-paddingLeft) var(--CardLayoutItem-paddingRight);
+	margin-block: var(--CardLayoutItem-marginTop) var(--CardLayoutItem-marginBottom);
+
+	@each $size, $value in $gap-sizes {
+		&[data-gap='#{$size}'] {
+			gap: $value;
+		}
+	}
+	@each $overflow in $overflows {
+		&[data-overflow='#{$overflow}'] {
+			overflow: $overflow;
+		}
+	}
+}

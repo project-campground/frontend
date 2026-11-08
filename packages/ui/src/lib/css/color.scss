@@ -1,0 +1,54 @@
+@use 'sass:color';
+@use 'sass:map';
+
+$shades-dark: (
+	// Background
+	1000: #020207,
+	900: #090613,
+	800: #100a1c,
+	700: #190f26,
+	600: #261634,
+	500: #351e44,
+	// Foreground
+	400: #543868,
+	300: #725189,
+	200: #b8a0d5,
+	100: #ccbee4,
+	0: #dcd0ec
+);
+$shades-light: (
+	// Background
+	1000: #f8f8fc,
+	900: #f3f0f9,
+	800: #ece6f6,
+	700: #dcd0ec,
+	600: #ccbee4,
+	500: #b8a0d5,
+	// Foreground
+	400: #725189,
+	300: #543868,
+	200: #351e44,
+	100: #261634,
+	0: #100a1c
+);
+$colors: (
+	primary: #ff5a26 #ff2661,
+	'cg-red': #fe1c56 #fe1c40,
+	'cg-yellow': #ffab03 #ea7d1e,
+	'cg-green': #05ee34 #00e495,
+	'cg-teal': #00e7cc #00c2e8,
+	'cg-blue': #6026ff #a526ff,
+	'cg-purple': #ca1cfe #fe1cba,
+	'cg-grey': #9d95a4 #bab5bf,
+	'cg-lead': #bc63dd #7a5ad3,
+);
+$code-colors: (
+	markdown: #fe603f,
+	keyword: #fe603f,
+	string: #ff538b,
+	number: #c998f9,
+	template: #ea16b0,
+	class: #74a6f8,
+	function: #ffb95e,
+	attribute: #bcec6a,
+);

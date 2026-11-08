@@ -1,0 +1,115 @@
+<script lang="ts">
+	import { notInherited } from '#lib/util/component.js';
+	import type GradientTextProps from './props.ts';
+
+	const { children, colors, motion, flex }: GradientTextProps = $props();
+	const percentageOfColor = $derived(50 / (colors?.length ?? 1));
+	const gradient: string[] | undefined | null = $derived(
+		motion === 'linear' ? colors?.concat(colors.slice(0, 1))
+		: motion === 'wave' ?
+			colors
+				?.concat(colors)
+				.concat(colors.slice(0, 1))
+				.map((x, i) => `${x} ${percentageOfColor * i}%`)
+		: motion === 'radial' ? colors?.concat(colors)
+		: colors,
+	);
+	const time: number = $derived((motion === 'radial' ? 10 : 2.5) * (colors?.length ?? 0));
+</script>
+
+<span
+	style:--GradientText-gradient={gradient?.join(', ') || 'var(--foreground-heading)'}
+	style:--GradientText-time="{time}s"
+	style:--Layout-flex={notInherited(flex)}
+	class={[colors?.length && 'withColors']}
+	data-motion={motion ?? 'none'}
+>
+	{@render children()}
+</span>
+
+<style lang="scss">
+	@use '../../hierarchy/Layout.scss' as *;
+
+	@keyframes motion-linear {
+		0% {
+			background-position-x: 0%;
+		}
+		100% {
+			background-position-x: 100%;
+		}
+	}
+	@keyframes motion-wave {
+		0% {
+			background-position-x: 0%;
+		}
+		100% {
+			background-position-x: 100%;
+		}
+	}
+	@keyframes motion-radial {
+		0% {
+			background-position-y: 0%;
+			background-position-x: 0%;
+		}
+		12.5% {
+			background-position-y: 50%;
+		}
+		37.5% {
+			background-position-y: 110%;
+		}
+		37.501% {
+			background-position-y: 0%;
+		}
+		50% {
+			background-position-y: 50%;
+			background-position-x: 100%;
+		}
+		62.5% {
+			background-position-y: 110%;
+		}
+		62.501% {
+			background-position-y: 0%;
+		}
+		75% {
+			background-position-y: 50%;
+		}
+		100% {
+			background-position-y: 110%;
+			background-position-x: 0%;
+		}
+	}
+
+	span {
+		@extend %InLayout;
+
+		&.withColors {
+			-webkit-text-fill-color: transparent;
+			color: transparent;
+			background-clip: text;
+			width: max-content;
+			--GradientText-background: linear-gradient(to right in oklch, var(--GradientText-gradient));
+			// oklch just has the best colour interpolation for most colours and might be expected by users
+			background: var(--GradientText-background);
+			background-clip: text;
+			animation-duration: var(--GradientText-time);
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+		&[data-motion='linear'] {
+			animation-name: motion-linear;
+			background-size: 8000%;
+		}
+		&[data-motion='wave'] {
+			animation-name: motion-wave;
+			background-size: 200%;
+		}
+		&[data-motion='radial'] {
+			animation-name: motion-radial;
+			--GradientText-background: radial-gradient(
+				circle at center in oklch,
+				var(--GradientText-gradient)
+			);
+			background-size: 200% 1000%;
+		}
+	}
+</style>

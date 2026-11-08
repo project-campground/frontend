@@ -1,0 +1,93 @@
+<script lang="ts">
+	import { getPickContext } from './context.svelte.ts';
+	import type { ListProps } from './props.js';
+
+	const { children, size }: ListProps = $props();
+
+	const pickContext = getPickContext();
+	const activeItem = $derived(pickContext.activeItem?.parentElement);
+	const highlightX = $derived(activeItem?.offsetLeft ?? 0);
+	const highlightWidth = $derived(activeItem?.scrollWidth ?? 0);
+</script>
+
+<div
+	class={['container']}
+	data-size={size ?? 'md'}
+	data-active-item={pickContext.activeItemIndex}
+	data-item-count={pickContext.itemCount}
+	style:--Pick-activeItemWidth={`${highlightWidth}px`}
+	style:--Pick-activeItemX={`${highlightX}px`}
+>
+	<form
+		autocomplete="off"
+		class="root"
+		bind:this={pickContext.itemsForm}
+	>
+		<div class="highlight"></div>
+		<div
+			class="list"
+			data-size={size ?? 'md'}
+		>
+			{@render children()}
+		</div>
+	</form>
+</div>
+
+<style lang="scss">
+	@use '../../common.scss' as *;
+
+	$pick-sizes: create-size-map((1.5rem, 1.8rem, 2.25rem, 2.75rem, 3.5rem));
+
+	.container {
+		padding: 0.25rem 0.5rem;
+		border-radius: var(--radius-sm);
+		background-color: var(--background-body);
+		transition: background $transition-time-lg;
+		box-sizing: border-box;
+
+		@each $size, $value in $pick-sizes {
+			&[data-size='#{$size}'] {
+				padding: calc($value * 0.125) calc($value * 0.25);
+				border-radius: var(--radius-#{$size});
+				box-shadow: var(--inset-shadow-#{$size});
+				.highlight {
+					border-radius: var(--radius-#{$size});
+					box-shadow: var(--shadow-#{$size});
+				}
+				.list {
+					height: $value;
+				}
+			}
+		}
+	}
+	.root {
+		position: relative;
+		overflow-x: auto;
+		width: 100%;
+
+		z-index: 2;
+	}
+	.list {
+		position: relative;
+		min-width: 100%;
+		width: max-content;
+		display: flex;
+		overflow: hidden;
+	}
+	.highlight {
+		position: absolute;
+		z-index: 1;
+
+		background-color: var(--background-content);
+		border-radius: var(--radius-sm);
+		box-shadow: var(--shadow-sm);
+
+		width: var(--Pick-activeItemWidth);
+		top: 0;
+		bottom: 0;
+		left: var(--Pick-activeItemX);
+		height: 100%;
+		transition: left, width, background;
+		transition-duration: $transition-time-lg;
+	}
+</style>

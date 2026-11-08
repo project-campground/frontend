@@ -25,14 +25,16 @@ export const getPermissionState = (value: bigint): [allowed: bigint, denied: big
 	let allowed = 0n;
 	let denied = 0n;
 
-	let digitCount = value.toString().length;
+	let digitCount = value.toString(2).length;
+	console.log({ digitCount });
 
 	for (let i = 0n; i < Math.floor(digitCount / 2); i++) {
 		// Value at position
 		const flag = (value >> (i * 2n)) & 0b11n;
+		console.log({ i, flag, value, valueShifted: value >> (i * 2n) });
 
-		if (flag === 0b10n) denied += 1n << i;
-		else if (flag === 0b11n) allowed += 1n << i;
+		if (flag === 0b10n) denied |= 1n << i;
+		else if (flag === 0b11n) allowed |= 1n << i;
 	}
 
 	return [allowed, denied];
@@ -47,6 +49,7 @@ export const getPermissions = <T extends HasPermissionsEmbedded>(
 
 export const applyNestedPermissions = (ancestor: bigint, current: bigint): bigint => {
 	const [allowed, denied] = getPermissionState(current);
+	console.log({ allowed, denied, ancestor, current });
 
 	return (ancestor & ~denied) | allowed;
 };

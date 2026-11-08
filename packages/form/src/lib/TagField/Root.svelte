@@ -42,18 +42,20 @@
 			removeItem={removeItem.bind(null, i)}
 		/>
 	{/each}
-	<Chip color="neutral">
-		<TextInput
-			bind:value={inputValue}
-			size="xs"
-			maxWidth={5}
-			disabled={reachedMax}
-			aria-errormessage={control.error}
-			error={Boolean(minlength && inputValue.length && inputValue.length < minlength)}
-			{maxlength}
-			onkeypress={onKeyPress}
-		/>
-	</Chip>
+	{#if !control.disabled}
+		<Chip color="neutral">
+			<TextInput
+				bind:value={inputValue}
+				size="xs"
+				maxWidth={5}
+				disabled={reachedMax}
+				aria-errormessage={control.error}
+				error={Boolean(minlength && inputValue.length && inputValue.length < minlength)}
+				{maxlength}
+				onkeypress={onKeyPress}
+			/>
+		</Chip>
+	{/if}
 </div>
 
 <style lang="scss">

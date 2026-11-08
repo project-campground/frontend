@@ -86,6 +86,7 @@
 	aria-errormessage={control.error}
 	aria-valuemin={min}
 	aria-valuemax={max}
+	disabled={control.disabled}
 	// Don't want the menu to auto-close on click
 	onclick={(ev) => ev.stopPropagation()}
 	{size}
@@ -98,6 +99,7 @@
 				<Button
 					color="neutral"
 					variant="plain"
+					disabled={control.disabled}
 					{size}
 					onclick={() => increment(1)}
 				>
@@ -106,6 +108,7 @@
 				<Button
 					color="neutral"
 					variant="plain"
+					disabled={control.disabled}
 					{size}
 					onclick={() => increment(-1)}
 				>

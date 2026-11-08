@@ -25,9 +25,6 @@ export interface PermissionViewDetailed extends PermissionView {
 	updatedAt: string;
 	updatedBy: string;
 }
-export interface GetPermissionsOutput {
-	permissions: PermissionViewDetailed[];
-}
 export interface HasPermissionsEmbedded {
 	permissions: PermissionViewEmbedded[];
 }

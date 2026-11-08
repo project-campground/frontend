@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { localeStrings } from '#lib/locale/index.js';
-	import { LocaleMessage } from '@campground/locale';
-	import { Card, Para, Stack, Group, Button } from '@campground/ui';
+	import { Card, Para, Stack } from '@campground/ui';
 	import { getCampsiteContext } from '../../../../../routes/(global)/c/[campsite=campsite]/context.svelte.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { Form } from '@campground/form';
@@ -11,7 +9,6 @@
 	import type { PageProps } from './props.ts';
 	import { setItemListSettings } from '../context.svelte.ts';
 	import Permissions from './Permissions.svelte';
-	import { IconPlusFilled } from '@tabler/icons-svelte';
 	import { PermissionSettingsContext } from './context.svelte.ts';
 	import Header from './Header.svelte';
 

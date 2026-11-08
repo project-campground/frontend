@@ -2,7 +2,7 @@
 	import { getLocale } from '@campground/locale';
 	import { getMenuPortal, Menu, MenuPortalInstance, Select, TextInput } from '@campground/ui';
 	import type TextFieldProps from './props.ts';
-	import { getFieldControl } from '#lib/FieldControl/context.svelte.ts';
+	import { getFieldControl } from '#lib/FieldControl/context.svelte.js';
 	import { checkStringFormat, textFieldErrors } from './validation.ts';
 
 	const { format, maxrows, minlength, known, ...props }: TextFieldProps = $props();
@@ -63,6 +63,7 @@
 		bind:value={control.value}
 		error={!!control.error}
 		aria-errormessage={control.error}
+		disabled={control.disabled}
 		onfocus={onFocus}
 		// Don't want the menu to auto-close on click
 		onclick={(ev) => ev.stopPropagation()}

@@ -1,7 +1,6 @@
 import type {
 	PermissionViewBasic,
 	PermissionViewDetailed,
-	GetPermissionsOutput,
 } from '#lib/types/campground/permissions.js';
 import type { PermissionView } from '#lib/types/campground/permissions.js';
 import HTTPBackendObjectManager from './base-backend.js';
@@ -39,15 +38,13 @@ export default class HTTPPermissionManager extends HTTPBackendObjectManager {
 
 	async get(
 		queries: PermissionLocationQueries & { non_self?: boolean },
-	): Promise<GetPermissionsOutput> {
+	): Promise<PermissionViewDetailed[]> {
 		return this.client
-			.get<{ permissions: OutputView<PermissionViewDetailed>[] }>({
+			.get<OutputView<PermissionViewDetailed>[]>({
 				route: 'gg.campground.permission.getPermissions',
 				queries: HTTPPermissionManager.createQueries(queries),
 			})
-			.then((resp) => ({
-				permissions: resp.permissions.map(HTTPPermissionManager.createResponseView),
-			}));
+			.then((permissions) => permissions.map(HTTPPermissionManager.createResponseView));
 	}
 
 	async update(queries: PermissionQueries, body: Pick<PermissionView, 'permissions'>) {

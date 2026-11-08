@@ -122,8 +122,11 @@
 
 		background-color: var(--neutral-solidBack);
 
-		.button:hover & {
+		.button:not(:disabled):hover & {
 			background-color: var(--neutral-solidBackHover);
+		}
+		.button:disabled & {
+			background-color: var(--neutral-solidBackDisabled);
 		}
 	}
 </style>

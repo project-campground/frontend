@@ -5,10 +5,9 @@ import type { HTMLAttributes, HTMLLiAttributes, HTMLMenuAttributes } from 'svelt
 import type { CommonFloatingProps } from '../common-floating.ts';
 import type { ComponentSize, ComponentSizeWithNone } from '#lib/types/attributes.js';
 
-export interface RootProps<T extends Event = Event>
-	extends HTMLAttributes<HTMLDivElement>, CommonFloatingProps {
+export interface RootProps extends HTMLAttributes<HTMLDivElement>, CommonFloatingProps {
 	children?: Snippet;
-	instance: MenuPortalInstance<T>;
+	instance: MenuPortalInstance<any>;
 	virtual?: { x: number; y: number; width?: number; height?: number };
 
 	w?: Size;

@@ -4,5 +4,5 @@ import type { HTMLAttributes } from 'svelte/elements';
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
 	children?: Snippet;
-	instance: MenuPortalInstance;
+	instance: MenuPortalInstance<any>;
 }

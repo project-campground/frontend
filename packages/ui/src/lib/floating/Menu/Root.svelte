@@ -1,11 +1,7 @@
-<script
-	lang="ts"
-	generics="T extends Event = Event"
->
+<script lang="ts">
 	import {
 		autoPlacement,
 		autoUpdate,
-		size,
 		type Middleware,
 		type ReferenceElement,
 	} from '@floating-ui/dom';
@@ -33,7 +29,7 @@
 		minh,
 		// Rest
 		...attributes
-	}: RootProps<T> = $props();
+	}: RootProps = $props();
 
 	let menuFloating: HTMLElement | null = $state(null);
 	let pos: { x: number; y: number } = $state.raw({ x: 0, y: 0 });
@@ -73,15 +69,6 @@
 						alignment: 'end',
 						...autoPlacementProp,
 					}),
-					// Non-optional forced
-					// size({
-					// 	apply: ({ availableHeight, availableWidth, elements }) => {
-					// 		Object.assign(elements.floating.style, {
-					// 			maxWidth: `${Math.max(0, availableWidth)}px`,
-					// 			maxHeight: `${Math.max(0, availableHeight)}px`,
-					// 		});
-					// 	},
-					// }),
 				].filter((x) => x) as Middleware[],
 			}).then((newPos) => (pos = newPos)),
 		);

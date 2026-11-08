@@ -7,6 +7,7 @@ import type HTTPBackendClient from '#lib/api/http/HTTPBackendClient.ts';
 import type { AuthContext } from '#lib/context/auth/context.svelte.js';
 import { filter, type Unsubscribable } from 'rxjs';
 import type { BonfireViewInList } from '#lib/types/campground/bonfires.js';
+import { sortPositioned } from '#lib/util/item.js';
 
 export class CampsiteReference {
 	public campsite: CampsiteViewDetailed;
@@ -23,8 +24,9 @@ export class CampsiteReference {
 		this.bonfires = $state(bonfires);
 	}
 
-	public static sortCampsiteItems(campsite: CampsiteViewDetailed) {
-		campsite.roles.sort((a, b) => a.position - b.position);
+	public static sortCampsiteItems(campsite: CampsiteViewDetailed, bonfires: BonfireViewInList[]) {
+		sortPositioned(campsite.roles);
+		sortPositioned(bonfires);
 	}
 
 	public dispose() {
@@ -42,7 +44,7 @@ export class CampsiteReference {
 			appview.bonfires.getMany(campsiteId),
 		]);
 		// Do one-time deal to not sort in every place ever
-		CampsiteReference.sortCampsiteItems(campsite);
+		CampsiteReference.sortCampsiteItems(campsite, bonfires);
 
 		const webSocket = new WSClient({
 			httpClient: session.atproto,

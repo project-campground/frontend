@@ -2,7 +2,7 @@
 	import { TentCategorySettings } from '#lib/components/settings/index.js';
 	import { getAppview } from '#lib/context/api.js';
 	import { localeStrings } from '#lib/locale/index.js';
-	import type { TentCategoryViewDetailed } from '#lib/types/campground/tent.js';
+	import type { TentCategoryViewInList } from '#lib/types/campground/tent.js';
 	import { LocaleMessage } from '@campground/locale';
 	import {
 		Accordion,
@@ -15,18 +15,27 @@
 		getMenuPortal,
 		rightClickMenu,
 	} from '@campground/ui';
-	import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
+	import { IconClipboardFilled, IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import type { Snippet } from 'svelte';
 	import { v4 } from 'uuid';
+	import { getCampsiteContext } from '../context.svelte.ts';
+	import { getPermissions, hasPermission } from '#lib/util/permissions.js';
+	import { PermissionFlag } from '#lib/util/constants.ts';
 
 	const appview = getAppview();
 	const menuPortal = getMenuPortal();
+	const campsiteContext = getCampsiteContext();
 
 	function onDrop(draggedId: string) {
 		return appview.categories.move(draggedId, { position: category.position });
 	}
 
-	const { category, children }: { category: TentCategoryViewDetailed; children: Snippet } = $props();
+	const { category, children }: { category: TentCategoryViewInList; children: Snippet } = $props();
+
+	const bonfirePerms = $derived(
+		campsiteContext.openBonfire?.permissions ?? campsiteContext.permissions,
+	);
+	const categoryPerms = $derived(getPermissions(bonfirePerms, category));
 </script>
 
 {#snippet settings(instance: MenuPortalInstance<'delete'>)}
@@ -40,18 +49,26 @@
 	<Menu.Root {...rightClickMenuProps(instance)}>
 		<Menu.List>
 			<Menu.Group>
-				<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>
-					<IconSettingsFilled />
-					<LocaleMessage {...localeStrings.tentCategories.settings} />
-				</Menu.Button>
-				<Menu.Button
-					color="danger"
-					onclick={(ev) => menuPortal.add(settings, ev.currentTarget, v4(), 'delete')}
-				>
-					<IconTrashFilled />
-					<LocaleMessage {...localeStrings.tentCategories.delete} />
+				<Menu.Button onclick={() => window.navigator.clipboard.writeText(category.id)}>
+					<IconClipboardFilled />
+					<LocaleMessage {...localeStrings.content.copyId} />
 				</Menu.Button>
 			</Menu.Group>
+			{#if hasPermission(categoryPerms, PermissionFlag.ManageTents)}
+				<Menu.Group>
+					<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>
+						<IconSettingsFilled />
+						<LocaleMessage {...localeStrings.tentCategories.settings} />
+					</Menu.Button>
+					<Menu.Button
+						color="danger"
+						onclick={(ev) => menuPortal.add(settings, ev.currentTarget, v4(), 'delete')}
+					>
+						<IconTrashFilled />
+						<LocaleMessage {...localeStrings.tentCategories.delete} />
+					</Menu.Button>
+				</Menu.Group>
+			{/if}
 		</Menu.List>
 	</Menu.Root>
 {/snippet}

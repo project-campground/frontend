@@ -11,7 +11,7 @@
 		MenuPortalInstance,
 	} from '@campground/ui';
 	import { getCampsiteContext } from '../context.svelte.ts';
-	import { IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
+	import { IconClipboardFilled, IconSettingsFilled, IconTrashFilled } from '@tabler/icons-svelte';
 	import { LocaleMessage } from '@campground/locale';
 	import { localeStrings } from '#lib/locale/index.js';
 	import { BonfireSettings } from '#lib/components/settings/index.js';
@@ -44,6 +44,12 @@
 		virtual={instance.payload}
 	>
 		<Menu.List>
+			<Menu.Group>
+				<Menu.Button onclick={() => window.navigator.clipboard.writeText(bonfire.id)}>
+					<IconClipboardFilled />
+					<LocaleMessage {...localeStrings.content.copyId} />
+				</Menu.Button>
+			</Menu.Group>
 			{#if hasPermission(permissions, PermissionFlag.ManageBonfires)}
 				<Menu.Group>
 					<Menu.Button onclick={(ev) => menuPortal.add(settings, ev.currentTarget)}>

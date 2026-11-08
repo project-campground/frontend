@@ -47,7 +47,7 @@
 			:	createTent(content as { name: string; description: string; type: TentType });
 	}
 	async function createCategory(value: { name: string; description: string }) {
-		return appview.categories.create(campsite!.id, openBonfire!.bonfireId, {
+		return appview.categories.create(campsite!.id, openBonfire!.id, {
 			...value,
 			position: (openBonfire!.categories.slice(-1)[0]?.position ?? 0) + 1,
 		});
@@ -64,7 +64,7 @@
 			openBonfire?.tents.filter((x) => !x.categoryId).map((x) => x.position) ?? [];
 		const bottomTentPosition = tentPositionNearby.length ? Math.max(...tentPositionNearby) : -1;
 
-		return appview.tents.create(campsite!.id, openBonfire!.bonfireId, {
+		return appview.tents.create(campsite!.id, openBonfire!.id, {
 			...value,
 			type: typeToInteger[type],
 			position: bottomTentPosition + 1,

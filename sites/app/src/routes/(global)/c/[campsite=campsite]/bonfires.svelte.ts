@@ -5,6 +5,7 @@ import type {
 	TentCategoryViewInList,
 	TentViewInList,
 } from '#lib/types/campground/tent.js';
+import { sortPositioned } from '#lib/util/item.js';
 import { aggregatePermissions, applyNestedPermissions } from '#lib/util/permissions.js';
 import type { CampsiteContext } from './context.svelte.ts';
 
@@ -25,7 +26,8 @@ export class BonfireContext {
 		public campsiteContext: CampsiteContext,
 		private _output: GetTentsOutput,
 	) {
-		this._output.categories.sort((a, b) => a.position - b.position);
+		sortPositioned(this._output.categories);
+		sortPositioned(this._output.tents);
 
 		this.tents = $state(this._output.tents);
 		this.categories = $state(this._output.categories);

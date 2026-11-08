@@ -1,6 +1,7 @@
-import type { HasPermissionsEmbedded, PermissionViewEmbedded } from './permissions.ts';
+import type { HasPosition } from './interfaces.ts';
+import type { HasPermissionsEmbedded } from './permissions.ts';
 
-export interface TentView {
+export interface TentView extends HasPosition {
 	id: string;
 	categoryId: string | null | undefined;
 
@@ -8,8 +9,6 @@ export interface TentView {
 	description: string;
 	type: TentType;
 	viewType: number;
-
-	position: number;
 }
 export type TentType = 'text';
 export interface TentViewBasic extends TentView {
@@ -23,12 +22,10 @@ export interface TentViewDetailed extends TentViewBasic {
 	updatedBy: string;
 	updatedAt: string;
 }
-export interface TentCategoryView {
+export interface TentCategoryView extends HasPosition {
 	id: string;
 	name: string;
 	description: string;
-
-	position: number;
 }
 export interface TentCategoryViewInList extends TentCategoryView, HasPermissionsEmbedded {}
 export interface TentCategoryViewDetailed extends TentCategoryView {

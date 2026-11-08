@@ -19,6 +19,7 @@
 	import TentListItem from './Item.svelte';
 	import { ContentMover } from '#lib/components/index.js';
 	import { getCampsiteContext } from '../context.svelte.ts';
+	import { tentUrl } from '#lib/util/url.ts';
 
 	const campsiteContext = getCampsiteContext();
 	const {
@@ -33,7 +34,7 @@
 
 <ContentMover.Wrapper
 	element="a"
-	href={`/c/${campsiteContext.campsite!.id}@${domain}/t/${tent.id}`}
+	href={tentUrl(domain, campsiteContext.campsite!.id, tent.id)}
 	{...attrs}
 >
 	<TentListItem active={isActive}>

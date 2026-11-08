@@ -1,6 +1,7 @@
 import type { GradientMotion } from '@campground/ui';
+import type { HasPosition } from './interfaces.js';
 
-export interface RoleView {
+export interface RoleView extends HasPosition {
 	id: string;
 	campsiteId: string;
 	name: string;

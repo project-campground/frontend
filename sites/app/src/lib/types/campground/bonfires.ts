@@ -1,12 +1,12 @@
+import type { HasPosition } from './interfaces.ts';
 import type { HasPermissionsEmbedded } from './permissions.ts';
 
-export interface BonfireView {
+export interface BonfireView extends HasPosition {
 	id: string;
 	name: string;
 	description: string;
 	avatarUri: string | null | undefined;
 	bannerUri: string | null | undefined;
-	position: number;
 	home: boolean;
 }
 export interface BonfireViewInList extends BonfireView, HasPermissionsEmbedded {}

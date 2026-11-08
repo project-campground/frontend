@@ -26,7 +26,7 @@
 
 		return appview.bonfires.create(campsite.id, {
 			...bonfireContent,
-			position: (campsite!.bonfires.slice(-1)[0]?.position ?? 0) + 1,
+			position: (campsiteContext.bonfires.slice(-1)[0]?.position ?? 0) + 1,
 		});
 	}
 </script>

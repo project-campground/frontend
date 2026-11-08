@@ -36,4 +36,14 @@ export const appContentMessages = defineMessages({
 		defaultMessage: 'Confirm deletion',
 		description: 'Confirm deletion for content',
 	},
+	copyLink: {
+		id: 'app.content.copyLink',
+		defaultMessage: 'Copy link',
+		description: "Copy tent's link",
+	},
+	copyId: {
+		id: 'app.content.copyId',
+		defaultMessage: 'Copy ID',
+		description: "Copy tent's, bonfire's or category's ID",
+	},
 });

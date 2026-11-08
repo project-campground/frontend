@@ -115,7 +115,7 @@
 </TentWrapper>
 <Card.Root
 	level="subtle"
-	size="xl">Abcd</Card.Root
+	size="xl">...</Card.Root
 >
 
 <style lang="scss">

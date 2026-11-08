@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card } from '@campground/ui';
+	import { Card, Para } from '@campground/ui';
 	import { getCampsiteContext } from '../../context.svelte.ts';
 	import TentWrapper from '../TentWrapper.svelte';
 	import { IconLayout2Filled } from '@tabler/icons-svelte';
@@ -35,9 +35,11 @@
 	</div>
 </TentWrapper>
 <Card.Root
+	size="xl"
 	level="subtle"
-	size="xl">Abcd</Card.Root
 >
+	<Card.Content>...</Card.Content>
+</Card.Root>
 
 <style lang="scss">
 	.content {
